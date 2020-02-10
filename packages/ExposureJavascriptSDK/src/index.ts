@@ -3,6 +3,7 @@ import { ServiceOptions } from "./services/base-service";
 import { LocationService } from "./services/location-service";
 import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
+import { CustomerConfigService } from "./services/customer-config-service";
 
 /* Models */
 export { AssetModel } from "./models/Asset";
@@ -22,4 +23,5 @@ export class ExposureApi {
   public location = new LocationService(this.options);
   public tag = new TagService(this.options);
   public entitlements = new EntitlementService(this.options);
+  public config = new CustomerConfigService(this.options);
 }
