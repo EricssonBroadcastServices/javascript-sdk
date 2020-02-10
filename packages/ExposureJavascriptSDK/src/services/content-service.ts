@@ -99,7 +99,8 @@ export class ContentService extends BaseService {
       pageSize: pageSize || 500,
       pageNumber: pageNumber || 1
     };
-    const formattedDate = epgDateFormatter(date || new Date());
+    date = date || new Date();
+    const formattedDate = epgDateFormatter(date);
     return this.get(
       `/v2/customer/${customer}/businessunit/${businessUnit}/epg/${channelId}/date/${formattedDate}?${querystring.stringify(
         requestQuery
