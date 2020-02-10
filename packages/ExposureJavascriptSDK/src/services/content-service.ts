@@ -1,7 +1,11 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
 import { deserialize } from "../decorators/property-mapper";
-import { AssetResponseModel, AssetModel, EpisodesResponse } from "../models/asset";
+import {
+  AssetResponseModel,
+  AssetModel,
+  EpisodesResponse
+} from "../models/asset";
 import { epgDateFormatter } from "../utils/date";
 import { Bookmark } from "../models/Bookmark";
 import { SeasonResponse } from "../models/Season";
@@ -136,7 +140,10 @@ export class ContentService extends BaseService {
     );
   }
 
-  public getRecentlyWatched({ customer, businessUnit } : CustomerAndBusinessUnitOptions) {
+  public getRecentlyWatched({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       pageSize: 24,
       fieldSet: "ALL"
@@ -150,7 +157,10 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponseModel, data));
   }
 
-  public getContinueWatching({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getContinueWatching({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       limit: 10
     };
@@ -162,31 +172,46 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponseModel, data));
   }
 
-  public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getRecommended({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/user`,
       this.options.authHeader()
     ).then(data => deserialize(AssetResponseModel, data));
   }
 
-  public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getBookmarks({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/userplayhistory/lastviewedoffset`,
       this.options.authHeader()
     ).then(data => data.map(b => deserialize(Bookmark, b)));
   }
 
-  public getSeasonsForSeries({ customer, businessUnit, assetId }: GetAssetByIdV1Options) {
-    return this.get(`/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season`).then(
-      data => {
-        const seriesResponse = deserialize(SeasonResponse, data.response);
-        seriesResponse.series = assetId;
-        return seriesResponse;
-      }
-    );
+  public getSeasonsForSeries({
+    customer,
+    businessUnit,
+    assetId
+  }: GetAssetByIdV1Options) {
+    return this.get(
+      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season`
+    ).then(data => {
+      const seriesResponse = deserialize(SeasonResponse, data.response);
+      seriesResponse.series = assetId;
+      return seriesResponse;
+    });
   }
 
-  public getEpisodesForSeason({ customer, businessUnit, assetId, seasonNumber }: GetEpisodesForSeasonOptions) {
+  public getEpisodesForSeason({
+    customer,
+    businessUnit,
+    assetId,
+    seasonNumber
+  }: GetEpisodesForSeasonOptions) {
     const requestQuery = {
       fieldSet: "ALL",
       onlyPublished: true
