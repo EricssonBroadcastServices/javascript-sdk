@@ -5,7 +5,9 @@ This sdk provides methods for interacting with Red Bee Medias exposure api.
 import { ExposureApi } from "placeholder-package-name";
 
 const api = new ExposureApi({
-  baseUrl: "https://exposureapi.emp.ebsd.ericsson.net"
+  baseUrl: "https://exposureapi.emp.ebsd.ericsson.net",
+  // method for creating a auth header. Used for authenticated requests
+  authHeader: () => ({ Authorization: `Bearer ${localStorage.getItem("sessionToken")}`}) 
 });
 
 // get assets 

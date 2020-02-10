@@ -5,7 +5,8 @@ import axios from "axios";
 
 describe("Location service", () => {
   const serviceOptions: ServiceOptions = {
-    baseUrl: "testBaseUrl"
+    baseUrl: "testBaseUrl",
+    authHeader: () => ({ Authorization: "" })
   };
   const locationService = new LocationService(serviceOptions);
   it("should fetch location", async () => {

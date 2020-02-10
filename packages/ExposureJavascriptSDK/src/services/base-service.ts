@@ -25,6 +25,7 @@ export interface CustomerAndBusinessUnitOptions extends BaseRequestOptions {
 
 export interface ServiceOptions {
   baseUrl?: string;
+  authHeader: () => AuthHeaders;
 }
 
 const errorMapper = err => {

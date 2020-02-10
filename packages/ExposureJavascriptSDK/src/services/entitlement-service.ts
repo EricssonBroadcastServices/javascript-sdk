@@ -1,24 +1,40 @@
 import {
   BaseService,
-  CustomerAndBusinessUnitOptions,
-  AuthHeaders
+  CustomerAndBusinessUnitOptions
 } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
 import { ProductResponse } from "../models/Product";
 
-interface GetUserEntitlementsOptions extends CustomerAndBusinessUnitOptions {
-  headers: AuthHeaders;
+interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
+  assetId: string;
 }
 
 export class EntitlementService extends BaseService {
+  public getEntitlementForAsset({
+    customer,
+    businessUnit,
+    headers,
+    assetId
+  }: GetEntitlementForAssetOptions) {
+    return this.get(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/entitlement/${assetId}/entitle`,
+      {
+        ...headers,
+        ...this.options.authHeader()
+      }
+    );
+  }
   public getUserEntitlements({
     customer,
     businessUnit,
     headers
-  }: GetUserEntitlementsOptions) {
+  }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v2/customer/${customer}/businessunit/${businessUnit}/entitlement/accountproduct`,
-      headers
+      {
+        ...headers,
+        ...this.options.authHeader()
+      }
     ).then(data => deserialize(ProductResponse, data));
   }
 }

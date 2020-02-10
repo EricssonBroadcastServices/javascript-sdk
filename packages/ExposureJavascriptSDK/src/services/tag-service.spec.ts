@@ -6,7 +6,8 @@ import { mocks } from "../../test-utils/mocks";
 
 describe("Tag service", () => {
   const serviceOptions: ServiceOptions = {
-    baseUrl: "testBaseUrl"
+    baseUrl: "testBaseUrl",
+    authHeader: () => ({ Authorization: "" })
   };
   const tagService = new TagService(serviceOptions);
   it("should fetch tag by id", async () => {
