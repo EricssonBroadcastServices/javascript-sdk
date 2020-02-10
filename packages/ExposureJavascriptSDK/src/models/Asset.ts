@@ -1,7 +1,6 @@
 import { jsonProperty } from "../decorators/json-property";
 import { TagCollection } from "./Tags";
 import { UserLocation } from "./UserLocation";
-import { EntitlementsUtils } from "./EntitlementsUtils";
 
 enum Orientation {
   LANDSCAPE = "LANDSCAPE",
@@ -90,7 +89,7 @@ export enum AssetType {
   LIVE_EVENT = "LIVE_EVENT"
 }
 
-export class Asset extends EntitlementsUtils {
+export class AssetModel {
   @jsonProperty()
   public assetId: string;
   @jsonProperty()
@@ -279,7 +278,7 @@ export class Asset extends EntitlementsUtils {
   };
 }
 
-export class AssetResponse {
+export class AssetResponseModel {
   @jsonProperty()
   public pageSize: number;
   @jsonProperty()
@@ -287,9 +286,9 @@ export class AssetResponse {
   @jsonProperty()
   public totalCount: number;
   @jsonProperty({
-    type: Asset
+    type: AssetModel
   })
-  public items: Asset[] = [];
+  public items: AssetModel[] = [];
   public numberOfPages = () => {
     return Math.ceil(this.totalCount / this.pageSize);
   };
@@ -310,7 +309,7 @@ export class AssetResponse {
   };
 }
 
-export class EpisodesResponse extends AssetResponse {
+export class EpisodesResponse extends AssetResponseModel {
   public seriesId: string;
   public seasonNumber: number;
 }

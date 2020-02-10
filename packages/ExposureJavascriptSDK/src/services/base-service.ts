@@ -39,25 +39,25 @@ export class BaseService {
   constructor(public options: ServiceOptions) {}
   public get(url: string, headers?: Headers) {
     return axios
-      .get(this.options.baseUrl + url, { ...(headers || {}) })
+      .get(this.options.baseUrl + url, { headers })
       .then(response => response.data)
       .catch(errorMapper);
   }
   public delete(url: string, headers?: Headers) {
     return axios
-      .delete(this.options.baseUrl + url, { ...(headers || {}) })
+      .delete(this.options.baseUrl + url, { headers })
       .then(response => response.data)
       .catch(errorMapper);
   }
   public put(url: string, data: any, headers?: Headers) {
     return axios
-      .put(this.options.baseUrl + url, data, { ...(headers || {}) })
+      .put(this.options.baseUrl + url, data, { headers })
       .then(response => response.data)
       .catch(errorMapper);
   }
   public post(url: string, data: any, headers?: Headers) {
     return axios
-      .post(this.options.baseUrl + url, data, { ...(headers || {}) })
+      .post(this.options.baseUrl + url, data, { headers })
       .then(response => response.data)
       .catch(errorMapper);
   }

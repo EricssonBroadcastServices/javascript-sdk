@@ -5,7 +5,7 @@ import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
 
 /* Models */
-export { Asset } from "./models/Asset";
+export { AssetModel } from "./models/Asset";
 export { UserLocation } from "./models/UserLocation";
 export { Product, ProductResponse } from "./models/Product";
 
