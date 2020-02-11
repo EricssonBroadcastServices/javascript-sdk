@@ -30,10 +30,29 @@ interface LoginV2Options extends CustomerAndBusinessUnitOptions {
   };
 }
 
+interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
+  body: {
+    deviceId: string;
+    device: {
+      height: number;
+      width: number;
+      type: "WEB";
+      name: string;
+      deviceId: string;
+    };
+  };
+}
+
 export class AuthenticationService extends BaseService {
   public loginV2({ customer, businessUnit, body }: LoginV2Options) {
     return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`, body).then(data =>
       deserialize(LoginResponse, data)
     );
+  }
+
+  public loginAnonymous({ customer, businessUnit, body }: LoginAnonymousOptions) {
+    return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/auth/anonymous`, body).then(data => {
+      return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
+    });
   }
 }
