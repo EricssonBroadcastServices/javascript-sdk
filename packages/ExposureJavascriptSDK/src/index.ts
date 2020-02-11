@@ -4,6 +4,7 @@ import { LocationService } from "./services/location-service";
 import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
 import { CustomerConfigService } from "./services/customer-config-service";
+import { AuthenticationService } from "./services/authentication-service";
 
 /* Models */
 export { AssetModel } from "./models/Asset";
@@ -18,7 +19,8 @@ export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
 
 export class ExposureApi {
-  constructor(public options: ServiceOptions) {}
+  constructor(public options: ServiceOptions) { }
+  public authentication = new AuthenticationService(this.options);
   public content = new ContentService(this.options);
   public location = new LocationService(this.options);
   public tag = new TagService(this.options);

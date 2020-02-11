@@ -200,7 +200,7 @@ export class ContentService extends BaseService {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season`
     ).then(data => {
-      const seriesResponse = deserialize(SeasonResponse, data.response);
+      const seriesResponse = deserialize(SeasonResponse, data);
       seriesResponse.series = assetId;
       return seriesResponse;
     });
@@ -220,7 +220,7 @@ export class ContentService extends BaseService {
       `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season/${seasonNumber}/episode?` +
         querystring.stringify(requestQuery)
     ).then(data => {
-      const seriesResponse = deserialize(EpisodesResponse, data.response);
+      const seriesResponse = deserialize(EpisodesResponse, data);
       seriesResponse.seriesId = assetId;
       seriesResponse.seasonNumber = seasonNumber;
       return seriesResponse;
