@@ -7,6 +7,7 @@ import { CustomerConfigService } from "./services/customer-config-service";
 import { AuthenticationService } from "./services/authentication-service";
 import { DocumentService } from "./services/document-service";
 import { SearchService } from "./services/search-service";
+import { UserService } from "./services/user-service";
 
 /* Models */
 export { AssetModel } from "./models/Asset";
@@ -30,4 +31,5 @@ export class ExposureApi {
   public entitlements = new EntitlementService(this.options);
   public config = new CustomerConfigService(this.options);
   public search = new SearchService(this.options);
+  public user = new UserService(this.options);
 }
