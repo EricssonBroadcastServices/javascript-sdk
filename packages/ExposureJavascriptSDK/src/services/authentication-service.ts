@@ -2,7 +2,15 @@ import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
 import { LoginResponse } from "../models/LoginResponse";
 
-interface PasswordTuple {
+export interface DeviceInfo {
+  height: number;
+  width: number;
+  type: "WEB";
+  name: string;
+  deviceId: string;
+}
+
+export interface PasswordTuple {
   algorithm: {
     algorithmName: string;
     pbkdf2Iterations?: number;
@@ -20,26 +28,14 @@ interface LoginV2Options extends CustomerAndBusinessUnitOptions {
       passwordTuples: PasswordTuple[];
     };
     deviceId: string;
-    device: {
-      height: number;
-      width: number;
-      type: "WEB";
-      name: string;
-      deviceId: string;
-    };
+    device: DeviceInfo;
   };
 }
 
 interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
   body: {
     deviceId: string;
-    device: {
-      height: number;
-      width: number;
-      type: "WEB";
-      name: string;
-      deviceId: string;
-    };
+    device: DeviceInfo;
   };
 }
 
