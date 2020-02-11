@@ -22,7 +22,7 @@ export interface Credentials {
   passwordTuples: PasswordTuple[];
 }
 
-interface LoginV2Options extends CustomerAndBusinessUnitOptions {
+export interface LoginV2Options extends CustomerAndBusinessUnitOptions {
   body: {
     credentials: {
       passwordTuples: PasswordTuple[];
@@ -32,7 +32,7 @@ interface LoginV2Options extends CustomerAndBusinessUnitOptions {
   };
 }
 
-interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
+export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
   body: {
     deviceId: string;
     device: DeviceInfo;
