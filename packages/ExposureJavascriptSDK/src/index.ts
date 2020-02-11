@@ -6,6 +6,7 @@ import { TagService } from "./services/tag-service";
 import { CustomerConfigService } from "./services/customer-config-service";
 import { AuthenticationService } from "./services/authentication-service";
 import { DocumentService } from "./services/document-service";
+import { SearchService } from "./services/search-service";
 
 /* Models */
 export { AssetModel } from "./models/Asset";
@@ -28,4 +29,5 @@ export class ExposureApi {
   public tag = new TagService(this.options);
   public entitlements = new EntitlementService(this.options);
   public config = new CustomerConfigService(this.options);
+  public search = new SearchService(this.options);
 }
