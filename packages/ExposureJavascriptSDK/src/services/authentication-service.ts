@@ -1,6 +1,7 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
 import { LoginResponse } from "../models/LoginResponse";
+import { SessionResponse } from "../models/SessionResponse";
 
 export interface DeviceInfo {
   height: number;
@@ -51,5 +52,16 @@ export class AuthenticationService extends BaseService {
     return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/auth/anonymous`, body).then(data => {
       return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
     });
+  }
+  public logout({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+    // TODO: not used. Check why we get error.
+    return this.delete(`/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`, this.options.authHeader());
+  }
+
+  public validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+    return this.get(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/auth/session`,
+      this.options.authHeader()
+    ).then(data => deserialize(SessionResponse, data));
   }
 }
