@@ -24,6 +24,7 @@ export interface Credentials {
 
 export interface LoginV2Options extends CustomerAndBusinessUnitOptions {
   body: {
+    username: string;
     credentials: {
       passwordTuples: PasswordTuple[];
     };
