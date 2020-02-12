@@ -2,6 +2,7 @@ import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { PasswordTuple, DeviceInfo, Credentials } from "./authentication-service";
 import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/SignupResponse";
+import { UserDetailsResponse } from "../models/UserDetailsResponse";
 
 interface SignupOptions extends CustomerAndBusinessUnitOptions {
   body: {
@@ -41,5 +42,11 @@ export class UserService extends BaseService {
   }
   public setNewPassword({ customer, businessUnit, body, token }: SetNewPasswordOptions) {
     return this.put(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup/password/${token}`, body);
+  }
+  public getUserDetails({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+    return this.get(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/user/details`,
+      this.options.authHeader()
+    ).then(data => deserialize(UserDetailsResponse, data));
   }
 }
