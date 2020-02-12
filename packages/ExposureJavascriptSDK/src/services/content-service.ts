@@ -5,6 +5,7 @@ import { AssetResponseModel, AssetModel, EpisodesResponse } from "../models/asse
 import { epgDateFormatter } from "../utils/date";
 import { Bookmark } from "../models/Bookmark";
 import { SeasonResponse } from "../models/Season";
+import { EpgResponse } from "../models/Programs";
 
 export interface PageinatedRequest {
   pageSize?: number;
@@ -98,7 +99,7 @@ export class ContentService extends BaseService {
       `/v2/customer/${customer}/businessunit/${businessUnit}/epg/${channelId}/date/${formattedDate}?${querystring.stringify(
         requestQuery
       )}`
-    );
+    ).then(data => deserialize(EpgResponse, data));
   }
   public getLiveEventsV2({
     daysBackward,
@@ -122,7 +123,16 @@ export class ContentService extends BaseService {
       `/v2/customer/${customer}/businessunit/${businessUnit}/event/date/${formattedDate}?${querystring.stringify(
         requestQuery
       )}`
-    );
+    ).then(data => {
+      const items = data.items.map(item => {
+        return {
+          startTime: item.startTime,
+          endTime: item.endTime,
+          ...item.asset
+        };
+      });
+      return deserialize(AssetResponseModel, { items });
+    });
   }
 
   public getRecentlyWatched({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
