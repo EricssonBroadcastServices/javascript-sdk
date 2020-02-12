@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { Asset } from "./Asset";
+import { AssetModel } from "./Asset";
 
 export class Program {
   @jsonProperty()
@@ -11,9 +11,9 @@ export class Program {
   @jsonProperty()
   public programId: string;
   @jsonProperty({
-    type: Asset
+    type: AssetModel
   })
-  public asset: Asset;
+  public asset: AssetModel;
 }
 
 export class EpgResponse {
