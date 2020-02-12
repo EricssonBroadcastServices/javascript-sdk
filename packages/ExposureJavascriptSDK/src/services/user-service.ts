@@ -56,6 +56,10 @@ export interface ChangePasswordOptions extends CustomerAndBusinessUnitOptions {
   };
 }
 
+export interface ConfirmActivationCodeOptions extends CustomerAndBusinessUnitOptions {
+  code: string;
+}
+
 export class UserService extends BaseService {
   public signup({ customer, businessUnit, body }: SignupOptions) {
     return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup`, body, {
@@ -108,5 +112,13 @@ export class UserService extends BaseService {
       body,
       this.options.authHeader()
     ).then(data => deserialize(LoginResponse, data.loginResponse));
+  }
+
+  public confirmActivationCode({ customer, businessUnit, code }: ConfirmActivationCodeOptions) {
+    return this.put(
+      `/v1/customer/${customer}/businessunit/${businessUnit}/user/activation/confirm/${code}`,
+      null,
+      this.options.authHeader()
+    );
   }
 }
