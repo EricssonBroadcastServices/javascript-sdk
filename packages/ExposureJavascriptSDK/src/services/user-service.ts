@@ -48,6 +48,14 @@ export interface DeleteUserOptions extends CustomerAndBusinessUnitOptions {
   credentials: Credentials;
 }
 
+export interface ChangePasswordOptions extends CustomerAndBusinessUnitOptions {
+  body: {
+    newCredentials: Credentials;
+    oldCredentials: Credentials;
+    device: DeviceInfo;
+  };
+}
+
 export class UserService extends BaseService {
   public signup({ customer, businessUnit, body }: SignupOptions) {
     return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup`, body, {
@@ -92,5 +100,13 @@ export class UserService extends BaseService {
       credentials,
       this.options.authHeader()
     );
+  }
+
+  public changePassword({ customer, businessUnit, body }: ChangePasswordOptions) {
+    return this.put(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/user/changePassword`,
+      body,
+      this.options.authHeader()
+    ).then(data => deserialize(LoginResponse, data.loginResponse));
   }
 }
