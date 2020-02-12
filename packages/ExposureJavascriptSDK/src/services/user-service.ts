@@ -3,6 +3,7 @@ import { PasswordTuple, DeviceInfo, Credentials } from "./authentication-service
 import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/SignupResponse";
 import { UserDetailsResponse } from "../models/UserDetailsResponse";
+import { LoginResponse } from "../models/LoginResponse";
 
 interface SignupOptions extends CustomerAndBusinessUnitOptions {
   body: {
@@ -38,6 +39,15 @@ export interface UpdateUserDetailsOptions extends CustomerAndBusinessUnitOptions
   };
 }
 
+export interface ConfirmSignupOptions extends CustomerAndBusinessUnitOptions {
+  token: string;
+  deviceId: string;
+}
+
+export interface DeleteUserOptions extends CustomerAndBusinessUnitOptions {
+  credentials: Credentials;
+}
+
 export class UserService extends BaseService {
   public signup({ customer, businessUnit, body }: SignupOptions) {
     return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup`, body, {
@@ -64,6 +74,22 @@ export class UserService extends BaseService {
     return this.put(
       `/v1/customer/${customer}/businessunit/${businessUnit}/user/details`,
       body,
+      this.options.authHeader()
+    );
+  }
+
+  public confirmSignup({ customer, businessUnit, token, deviceId }: ConfirmSignupOptions) {
+    return this.put(`/v1/customer/${customer}/businessunit/${businessUnit}/user/signup/confirm/${token}`, {
+      deviceRegistration: {
+        deviceId
+      }
+    }).then(data => deserialize(LoginResponse, data.loginResponse));
+  }
+
+  public deleteUser({ customer, businessUnit, credentials }: DeleteUserOptions) {
+    return this.post(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/user/delete`,
+      credentials,
       this.options.authHeader()
     );
   }
