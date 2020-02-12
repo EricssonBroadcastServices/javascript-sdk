@@ -1,9 +1,9 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { ProductOffering } from "../models/ProductOfferingsResponse";
-import { CardPaymentResponse } from "../models/CardPaymentResponse";
-import { TransactionsWithProductOffering } from "../models/Transaction";
-import { PurchaseResponse } from "../models/PurchaseResponse";
+import { ProductOffering } from "../models/product-offering-model";
+import { CardPaymentResponse } from "../models/card-payment-response-model";
+import { TransactionsWithProductOffering } from "../models/transaction-model";
+import { PurchaseResponse } from "../models/purchase-model";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;

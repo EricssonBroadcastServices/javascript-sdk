@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { ProductOffering } from "./ProductOfferingsResponse";
+import { ProductOffering } from "./product-offering-model";
 
 export class Transaction {
   @jsonProperty()

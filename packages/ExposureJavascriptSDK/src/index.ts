@@ -11,9 +11,9 @@ import { UserService } from "./services/user-service";
 import { PaymentService } from "./services/payment-service";
 
 /* Models */
-export { AssetModel } from "./models/Asset";
-export { UserLocation } from "./models/UserLocation";
-export { Product, ProductResponse } from "./models/Product";
+export { AssetModel } from "./models/asset-model";
+export { UserLocation } from "./models/user-location-model";
+export { Product, ProductResponse } from "./models/product-model";
 
 /* Services */
 export { ContentService, LocationService, TagService, EntitlementService };

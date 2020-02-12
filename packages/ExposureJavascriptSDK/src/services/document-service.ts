@@ -1,7 +1,7 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
 import { deserialize } from "../decorators/property-mapper";
-import { DocumentModel } from "../models/Document";
+import { DocumentModel } from "../models/document-model";
 
 export interface GetDocumentOptions extends CustomerAndBusinessUnitOptions {
   documentId: string;

@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { TagResponse } from "../models/TagResponse";
+import { TagResponse } from "../models/tag-response-model";
 
 interface TagOptions extends CustomerAndBusinessUnitOptions {
   tagId: string;

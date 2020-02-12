@@ -1,9 +1,9 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { PasswordTuple, DeviceInfo, Credentials } from "./authentication-service";
 import { deserialize } from "../decorators/property-mapper";
-import { SignupResponse } from "../models/SignupResponse";
-import { UserDetailsResponse } from "../models/UserDetailsResponse";
-import { LoginResponse } from "../models/LoginResponse";
+import { SignupResponse } from "../models/signup-response-model";
+import { UserDetailsResponse } from "../models/user-detail-response-model";
+import { LoginResponse } from "../models/login-response-model";
 
 interface SignupOptions extends CustomerAndBusinessUnitOptions {
   body: {

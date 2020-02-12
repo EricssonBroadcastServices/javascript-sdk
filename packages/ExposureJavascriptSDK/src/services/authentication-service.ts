@@ -1,7 +1,7 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { LoginResponse } from "../models/LoginResponse";
-import { SessionResponse } from "../models/SessionResponse";
+import { LoginResponse } from "../models/login-response-model";
+import { SessionResponse } from "../models/session-model";
 
 export interface DeviceInfo {
   height: number;

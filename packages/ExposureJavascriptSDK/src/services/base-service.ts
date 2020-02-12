@@ -1,6 +1,6 @@
 import axios from "axios";
 import { deserialize } from "../decorators/property-mapper";
-import { ApiError } from "../models/ApiError";
+import { ApiError } from "../models/api-error-model";
 
 interface Headers {
   [key: string]: string;

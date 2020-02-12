@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { CustomerConfigFile } from "../models/CustomerConfigFile";
+import { CustomerConfigFile } from "../models/customer-config-file-model";
 
 interface GetConfigFileByOriginOptions {
   origin: string;

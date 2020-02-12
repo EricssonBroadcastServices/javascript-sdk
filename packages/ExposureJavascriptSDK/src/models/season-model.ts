@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { Localized } from "./Asset";
+import { Localized } from "./asset-model";
 
 export class Season {
   @jsonProperty({ type: Localized })

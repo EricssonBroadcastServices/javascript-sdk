@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { AssetModel } from "./Asset";
+import { AssetModel } from "./asset-model";
 
 export class Program {
   @jsonProperty()

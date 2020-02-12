@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { LoginResponse } from "./LoginResponse";
+import { LoginResponse } from "./login-response-model";
 
 export class SignupResponse {
   @jsonProperty()

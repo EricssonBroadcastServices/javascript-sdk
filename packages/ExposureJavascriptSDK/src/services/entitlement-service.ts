@@ -3,7 +3,7 @@ import {
   CustomerAndBusinessUnitOptions
 } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { ProductResponse } from "../models/Product";
+import { ProductResponse } from "../models/product-model";
 
 interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;

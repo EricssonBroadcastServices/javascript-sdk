@@ -1,11 +1,11 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
 import { deserialize } from "../decorators/property-mapper";
-import { AssetResponseModel, AssetModel, EpisodesResponse } from "../models/asset";
+import { AssetResponseModel, AssetModel, EpisodesResponse } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
-import { Bookmark } from "../models/Bookmark";
-import { SeasonResponse } from "../models/Season";
-import { EpgResponse } from "../models/Programs";
+import { Bookmark } from "../models/bookmark-model";
+import { SeasonResponse } from "../models/season-model";
+import { EpgResponse } from "../models/program-model";
 
 export interface PageinatedRequest {
   pageSize?: number;

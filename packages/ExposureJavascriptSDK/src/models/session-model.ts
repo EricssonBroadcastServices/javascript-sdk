@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { ConfigReloadQueryParameter } from "./LoginResponse";
+import { ConfigReloadQueryParameter } from "./login-response-model";
 
 export class SessionResponse {
   @jsonProperty()

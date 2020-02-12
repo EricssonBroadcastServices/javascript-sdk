@@ -1,6 +1,6 @@
 import { jsonProperty } from "../decorators/json-property";
-import { TagCollection } from "./Tags";
-import { UserLocation } from "./UserLocation";
+import { TagCollection } from "./tag-model";
+import { UserLocation } from "./user-location-model";
 
 enum Orientation {
   LANDSCAPE = "LANDSCAPE",

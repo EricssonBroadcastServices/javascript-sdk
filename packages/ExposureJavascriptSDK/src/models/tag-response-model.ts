@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { LocalizedTitle } from "./LocalizedText";
+import { LocalizedTitle } from "./localized-text-model";
 
 export class TagResponse {
   @jsonProperty({

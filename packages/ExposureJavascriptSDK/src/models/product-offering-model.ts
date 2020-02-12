@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { Purchase } from "./PurchaseResponse";
+import { Purchase } from "./purchase-model";
 
 class Vat {
   @jsonProperty()
