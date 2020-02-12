@@ -1,11 +1,7 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
 import { deserialize } from "../decorators/property-mapper";
-import {
-  AssetResponseModel,
-  AssetModel,
-  EpisodesResponse
-} from "../models/asset";
+import { AssetResponseModel, AssetModel, EpisodesResponse } from "../models/asset";
 import { epgDateFormatter } from "../utils/date";
 import { Bookmark } from "../models/Bookmark";
 import { SeasonResponse } from "../models/Season";
@@ -15,15 +11,15 @@ export interface PageinatedRequest {
   pageNumber: number;
 }
 
-export interface GetAssetByIdV1Options extends CustomerAndBusinessUnitOptions {
+export interface GetAssetByIdOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
 }
 
-export interface GetEpisodesForSeasonOptions extends GetAssetByIdV1Options {
+export interface GetEpisodesForSeasonOptions extends GetAssetByIdOptions {
   seasonNumber: number;
 }
 
-export interface GetAssetsV1Options extends CustomerAndBusinessUnitOptions {
+export interface GetAssetsOptions extends CustomerAndBusinessUnitOptions {
   query?: string;
   sort?: string;
   pageSize?: number;
@@ -31,30 +27,21 @@ export interface GetAssetsV1Options extends CustomerAndBusinessUnitOptions {
   allowedCountry?: string | null;
 }
 
-export interface GetEpgV2Options
-  extends CustomerAndBusinessUnitOptions,
-    PageinatedRequest {
+export interface GetEpgOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
   channelId: string;
   date?: Date;
   daysForward?: number;
   daysBackward?: number;
 }
 
-export interface GetLiveEventsV2Options
-  extends CustomerAndBusinessUnitOptions,
-    PageinatedRequest {
+export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
   date?: Date;
   daysBackward: number;
   daysForward: number;
 }
 
 export class ContentService extends BaseService {
-  public getAssetByIdV1({
-    customer,
-    businessUnit,
-    assetId,
-    headers
-  }: GetAssetByIdV1Options) {
+  public getAssetById({ customer, businessUnit, assetId, headers }: GetAssetByIdOptions) {
     const requestQuery = {
       fieldSet: "ALL"
     };
@@ -65,7 +52,7 @@ export class ContentService extends BaseService {
       headers
     ).then(data => deserialize(AssetModel, data));
   }
-  public getAssetsV1({
+  public getAssets({
     customer,
     businessUnit,
     query,
@@ -74,7 +61,7 @@ export class ContentService extends BaseService {
     pageSize,
     allowedCountry,
     headers
-  }: GetAssetsV1Options) {
+  }: GetAssetsOptions) {
     const requestQuery = {
       query,
       sort,
@@ -85,13 +72,11 @@ export class ContentService extends BaseService {
       allowedCountry
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${querystring.stringify(
-        requestQuery
-      )}`,
+      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${querystring.stringify(requestQuery)}`,
       headers
     ).then(data => deserialize(AssetResponseModel, data));
   }
-  public getEpgV2({
+  public getEpg({
     daysForward,
     daysBackward,
     pageNumber,
@@ -100,7 +85,7 @@ export class ContentService extends BaseService {
     customer,
     businessUnit,
     date
-  }: GetEpgV2Options) {
+  }: GetEpgOptions) {
     const requestQuery = {
       daysBackward: daysBackward || 1,
       daysForward: daysForward || 1,
@@ -123,7 +108,7 @@ export class ContentService extends BaseService {
     pageSize,
     pageNumber,
     date
-  }: GetLiveEventsV2Options) {
+  }: GetLiveEventsOptions) {
     const requestQuery = {
       daysBackward,
       daysForward,
@@ -140,10 +125,7 @@ export class ContentService extends BaseService {
     );
   }
 
-  public getRecentlyWatched({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getRecentlyWatched({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       pageSize: 24,
       fieldSet: "ALL"
@@ -157,61 +139,41 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponseModel, data));
   }
 
-  public getContinueWatching({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getContinueWatching({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       limit: 10
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/continue?${querystring.stringify(
-        requestQuery
-      )}`,
+      `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/continue?${querystring.stringify(requestQuery)}`,
       this.options.authHeader()
     ).then(data => deserialize(AssetResponseModel, data));
   }
 
-  public getRecommended({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/user`,
       this.options.authHeader()
     ).then(data => deserialize(AssetResponseModel, data));
   }
 
-  public getBookmarks({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/userplayhistory/lastviewedoffset`,
       this.options.authHeader()
     ).then(data => data.map(b => deserialize(Bookmark, b)));
   }
 
-  public getSeasonsForSeries({
-    customer,
-    businessUnit,
-    assetId
-  }: GetAssetByIdV1Options) {
-    return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season`
-    ).then(data => {
-      const seriesResponse = deserialize(SeasonResponse, data);
-      seriesResponse.series = assetId;
-      return seriesResponse;
-    });
+  public getSeasonsForSeries({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
+    return this.get(`/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season`).then(
+      data => {
+        const seriesResponse = deserialize(SeasonResponse, data);
+        seriesResponse.series = assetId;
+        return seriesResponse;
+      }
+    );
   }
 
-  public getEpisodesForSeason({
-    customer,
-    businessUnit,
-    assetId,
-    seasonNumber
-  }: GetEpisodesForSeasonOptions) {
+  public getEpisodesForSeason({ customer, businessUnit, assetId, seasonNumber }: GetEpisodesForSeasonOptions) {
     const requestQuery = {
       fieldSet: "ALL",
       onlyPublished: true

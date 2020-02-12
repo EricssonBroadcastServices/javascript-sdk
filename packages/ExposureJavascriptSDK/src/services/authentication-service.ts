@@ -23,7 +23,7 @@ export interface Credentials {
   passwordTuples: PasswordTuple[];
 }
 
-export interface LoginV2Options extends CustomerAndBusinessUnitOptions {
+export interface LoginOptions extends CustomerAndBusinessUnitOptions {
   body: {
     username: string;
     credentials: {
@@ -42,7 +42,7 @@ export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export class AuthenticationService extends BaseService {
-  public loginV2({ customer, businessUnit, body }: LoginV2Options) {
+  public login({ customer, businessUnit, body }: LoginOptions) {
     return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`, body).then(data =>
       deserialize(LoginResponse, data)
     );
