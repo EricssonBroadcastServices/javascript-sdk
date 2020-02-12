@@ -30,6 +30,14 @@ export interface SetNewPasswordOptions extends CustomerAndBusinessUnitOptions {
   };
 }
 
+export interface UpdateUserDetailsOptions extends CustomerAndBusinessUnitOptions {
+  body: {
+    displayName: string | null;
+    newPassword: string | null;
+    language: string | null;
+  };
+}
+
 export class UserService extends BaseService {
   public signup({ customer, businessUnit, body }: SignupOptions) {
     return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup`, body, {
@@ -40,13 +48,23 @@ export class UserService extends BaseService {
   public reset({ customer, businessUnit, username }: ResetOptions) {
     return this.get(`/v1/customer/${customer}/businessunit/${businessUnit}/user/password/reset/${username}`);
   }
+
   public setNewPassword({ customer, businessUnit, body, token }: SetNewPasswordOptions) {
     return this.put(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup/password/${token}`, body);
   }
+
   public getUserDetails({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v2/customer/${customer}/businessunit/${businessUnit}/user/details`,
       this.options.authHeader()
     ).then(data => deserialize(UserDetailsResponse, data));
+  }
+
+  public updateUserDetails({ customer, businessUnit, body }: UpdateUserDetailsOptions) {
+    return this.put(
+      `/v1/customer/${customer}/businessunit/${businessUnit}/user/details`,
+      body,
+      this.options.authHeader()
+    );
   }
 }
