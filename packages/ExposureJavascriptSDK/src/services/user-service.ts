@@ -17,10 +17,18 @@ interface SignupOptions extends CustomerAndBusinessUnitOptions {
   };
 }
 
+export interface ResetOptions extends CustomerAndBusinessUnitOptions {
+  username: string;
+}
+
 export class UserService extends BaseService {
   public signup({ customer, businessUnit, body }: SignupOptions) {
     return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup`, body, {
       "Content-Type": "application/json"
     }).then(data => deserialize(SignupResponse, data));
+  }
+
+  public reset({ customer, businessUnit, username }: ResetOptions) {
+    return this.get(`/v1/customer/${customer}/businessunit/${businessUnit}/user/password/reset/${username}`);
   }
 }
