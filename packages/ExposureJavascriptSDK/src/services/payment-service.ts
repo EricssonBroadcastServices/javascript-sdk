@@ -2,6 +2,8 @@ import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
 import { ProductOffering } from "../models/ProductOfferingsResponse";
 import { CardPaymentResponse } from "../models/CardPaymentResponse";
+import { TransactionsWithProductOffering } from "../models/Transaction";
+import { PurchaseResponse } from "../models/PurchaseResponse";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
@@ -88,5 +90,25 @@ export class PaymentService extends BaseService {
       body,
       this.options.authHeader()
     ).then(data => deserialize(CardPaymentResponse, { ...data, purchaseId: purchaseId }));
+  }
+
+  public getTransactions({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+    // DEPRECATED : not officially in exposure.
+    return this.get(
+      `/v1/whitelabel/customer/${customer}/businessunit/${businessUnit}/store/account/transactions/offerings`,
+      this.options.authHeader()
+    ).then(data => {
+      const transactions: TransactionsWithProductOffering[] = data.transactionsProductOfferingPairs.map(t => {
+        return deserialize(TransactionsWithProductOffering, t);
+      });
+      return transactions;
+    });
+  }
+
+  public getPurchases({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+    return this.get(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/store/purchase`,
+      this.options.authHeader()
+    ).then(data => deserialize(PurchaseResponse, data));
   }
 }
