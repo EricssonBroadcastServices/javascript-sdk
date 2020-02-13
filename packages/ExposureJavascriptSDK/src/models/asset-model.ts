@@ -89,7 +89,7 @@ export enum AssetType {
   LIVE_EVENT = "LIVE_EVENT"
 }
 
-export class AssetModel {
+export class Asset {
   @jsonProperty()
   public assetId: string;
   @jsonProperty()
@@ -278,7 +278,7 @@ export class AssetModel {
   };
 }
 
-export class AssetResponseModel {
+export class AssetResponse {
   @jsonProperty()
   public pageSize: number;
   @jsonProperty()
@@ -286,9 +286,9 @@ export class AssetResponseModel {
   @jsonProperty()
   public totalCount: number;
   @jsonProperty({
-    type: AssetModel
+    type: Asset
   })
-  public items: AssetModel[] = [];
+  public items: Asset[] = [];
   public numberOfPages = () => {
     return Math.ceil(this.totalCount / this.pageSize);
   };
@@ -309,7 +309,7 @@ export class AssetResponseModel {
   };
 }
 
-export class EpisodesResponse extends AssetResponseModel {
+export class EpisodesResponse extends AssetResponse {
   public seriesId: string;
   public seasonNumber: number;
 }

@@ -1,7 +1,7 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
 import { deserialize } from "../decorators/property-mapper";
-import { AssetResponseModel, AssetModel, EpisodesResponse } from "../models/asset-model";
+import { AssetResponse, Asset, EpisodesResponse } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
 import { Bookmark } from "../models/bookmark-model";
 import { SeasonResponse } from "../models/season-model";
@@ -51,7 +51,7 @@ export class ContentService extends BaseService {
         requestQuery
       )}`,
       headers
-    ).then(data => deserialize(AssetModel, data));
+    ).then(data => deserialize(Asset, data));
   }
   public getAssets({
     customer,
@@ -75,7 +75,7 @@ export class ContentService extends BaseService {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${querystring.stringify(requestQuery)}`,
       headers
-    ).then(data => deserialize(AssetResponseModel, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
   public getEpg({
     daysForward,
@@ -131,7 +131,7 @@ export class ContentService extends BaseService {
           ...item.asset
         };
       });
-      return deserialize(AssetResponseModel, { items });
+      return deserialize(AssetResponse, { items });
     });
   }
 
@@ -146,7 +146,7 @@ export class ContentService extends BaseService {
         requestQuery
       )}`,
       headers
-    ).then(data => deserialize(AssetResponseModel, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
 
   public getContinueWatching({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
@@ -156,14 +156,14 @@ export class ContentService extends BaseService {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/continue?${querystring.stringify(requestQuery)}`,
       this.options.authHeader()
-    ).then(data => deserialize(AssetResponseModel, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
 
   public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/user`,
       this.options.authHeader()
-    ).then(data => deserialize(AssetResponseModel, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
 
   public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
