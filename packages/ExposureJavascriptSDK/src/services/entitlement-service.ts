@@ -1,7 +1,4 @@
-import {
-  BaseService,
-  CustomerAndBusinessUnitOptions
-} from "./base-service";
+import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
 import { ProductResponse } from "../models/product-model";
 

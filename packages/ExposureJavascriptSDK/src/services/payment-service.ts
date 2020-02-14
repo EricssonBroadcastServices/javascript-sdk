@@ -5,7 +5,8 @@ import { CardPaymentResponse } from "../models/card-payment-response-model";
 import { TransactionsWithProductOffering } from "../models/transaction-model";
 import { PurchaseResponse } from "../models/purchase-model";
 
-export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
+export interface GetProductOfferingsByCountryOptions
+  extends CustomerAndBusinessUnitOptions {
   countryCode: string;
 }
 
@@ -17,7 +18,8 @@ export interface CardPaymentDetails {
   holderName: string;
 }
 
-export interface BuyProductOfferingOptions extends CustomerAndBusinessUnitOptions {
+export interface BuyProductOfferingOptions
+  extends CustomerAndBusinessUnitOptions {
   productOfferingId: string;
   body: {
     adyenCardPurchase: {
@@ -42,7 +44,11 @@ export interface BuyProductOfferingOptions extends CustomerAndBusinessUnitOption
         origin: string;
         languageCode: string;
         threeDS2RequestData: {
-          challengeIndicator: "noPreference" | " requestNoChallenge" | "requestChallenge" | "requestChallengeAsMandate";
+          challengeIndicator:
+            | "noPreference"
+            | " requestNoChallenge"
+            | "requestChallenge"
+            | "requestChallengeAsMandate";
           deviceChannel: string;
           messageVersion: string;
           threeDSRequestorURL: string;
@@ -67,16 +73,27 @@ export interface VerifyPurchaseOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export class PaymentService extends BaseService {
-  public getProductOfferingsByCountry({ customer, businessUnit, countryCode }: GetProductOfferingsByCountryOptions) {
+  public getProductOfferingsByCountry({
+    customer,
+    businessUnit,
+    countryCode
+  }: GetProductOfferingsByCountryOptions) {
     return this.get(
       `/v2/customer/${customer}/businessunit/${businessUnit}/store/productoffering/country/${countryCode}`
     ).then(data => {
-      const productofferings: ProductOffering[] = data.productOfferings.map(p => deserialize(ProductOffering, p));
+      const productofferings: ProductOffering[] = data.productOfferings.map(p =>
+        deserialize(ProductOffering, p)
+      );
       return productofferings;
     });
   }
 
-  public buyProductOffering({ customer, businessUnit, productOfferingId, body }: BuyProductOfferingOptions) {
+  public buyProductOffering({
+    customer,
+    businessUnit,
+    productOfferingId,
+    body
+  }: BuyProductOfferingOptions) {
     return this.post(
       `/v2/customer/${customer}/businessunit/${businessUnit}/store/purchase/${productOfferingId}`,
       body,
@@ -84,28 +101,43 @@ export class PaymentService extends BaseService {
     ).then(data => deserialize(CardPaymentResponse, data));
   }
 
-  public verifyPurchase({ customer, businessUnit, body, purchaseId }: VerifyPurchaseOptions) {
+  public verifyPurchase({
+    customer,
+    businessUnit,
+    body,
+    purchaseId
+  }: VerifyPurchaseOptions) {
     return this.post(
       `/v2/customer/${customer}/businessunit/${businessUnit}/store/purchase/${purchaseId}/verify`,
       body,
       this.options.authHeader()
-    ).then(data => deserialize(CardPaymentResponse, { ...data, purchaseId: purchaseId }));
+    ).then(data =>
+      deserialize(CardPaymentResponse, { ...data, purchaseId: purchaseId })
+    );
   }
 
-  public getTransactions({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getTransactions({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     // DEPRECATED : not officially in exposure.
     return this.get(
       `/v1/whitelabel/customer/${customer}/businessunit/${businessUnit}/store/account/transactions/offerings`,
       this.options.authHeader()
     ).then(data => {
-      const transactions: TransactionsWithProductOffering[] = data.transactionsProductOfferingPairs.map(t => {
-        return deserialize(TransactionsWithProductOffering, t);
-      });
+      const transactions: TransactionsWithProductOffering[] = data.transactionsProductOfferingPairs.map(
+        t => {
+          return deserialize(TransactionsWithProductOffering, t);
+        }
+      );
       return transactions;
     });
   }
 
-  public getPurchases({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getPurchases({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v2/customer/${customer}/businessunit/${businessUnit}/store/purchase`,
       this.options.authHeader()

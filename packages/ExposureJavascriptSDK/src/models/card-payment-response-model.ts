@@ -43,5 +43,7 @@ export class CardPaymentResponse {
     );
   };
   public status = () =>
-    this.isEmpty() ? PaymentStatus.EMPTY : this.apiAdyenCardPurchaseResponse.purchase.apiAdyenPurchaseStatus;
+    this.isEmpty()
+      ? PaymentStatus.EMPTY
+      : this.apiAdyenCardPurchaseResponse.purchase.apiAdyenPurchaseStatus;
 }

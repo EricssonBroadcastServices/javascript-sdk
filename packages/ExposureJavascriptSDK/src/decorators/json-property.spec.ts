@@ -1,7 +1,6 @@
 import { jsonProperty } from "./json-property";
 import { deserialize, serialize } from "./property-mapper";
 
-
 class Bar {
   @jsonProperty()
   public date: Date;
@@ -118,7 +117,9 @@ describe("deserialize()", function() {
 
     expect(obj).toBeInstanceOf(Foo);
     expect(obj.complex).toEqual({ ...json.complex, date: new Date("2018") });
-    expect(obj.complexArr).toEqual(json.complexArr.map(item => deserialize(Bar, item)));
+    expect(obj.complexArr).toEqual(
+      json.complexArr.map(item => deserialize(Bar, item))
+    );
   });
 
   it("should deserialize extended class", () => {

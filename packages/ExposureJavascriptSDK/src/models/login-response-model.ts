@@ -14,7 +14,9 @@ export class LoginResponse {
   public sessionToken: string;
   public isLoggedIn = () => this.hasSession() && !this.isAnonymous;
   public hasSession = () =>
-    this.sessionToken && this.sessionToken !== "" && Date.parse(this.expirationDateTime) > Date.now();
+    this.sessionToken &&
+    this.sessionToken !== "" &&
+    Date.parse(this.expirationDateTime) > Date.now();
   @jsonProperty()
   public informationCollectionConsentGiven: Date;
   @jsonProperty()

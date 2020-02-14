@@ -23,7 +23,9 @@ export class DocumentService extends BaseService {
       preferredLanguage
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/document?${querystring.stringify(requestQuery)}`
+      `/v1/customer/${customer}/businessunit/${businessUnit}/document?${querystring.stringify(
+        requestQuery
+      )}`
     ).then(data => deserialize(DocumentModel, data));
   }
 }

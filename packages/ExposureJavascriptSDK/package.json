@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint --ext .ts --fix ./src/"
   },
   "keywords": [],
   "author": "",

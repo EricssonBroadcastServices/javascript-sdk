@@ -43,22 +43,39 @@ export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
 
 export class AuthenticationService extends BaseService {
   public login({ customer, businessUnit, body }: LoginOptions) {
-    return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`, body).then(data =>
-      deserialize(LoginResponse, data)
-    );
+    return this.post(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`,
+      body
+    ).then(data => deserialize(LoginResponse, data));
   }
 
-  public loginAnonymous({ customer, businessUnit, body }: LoginAnonymousOptions) {
-    return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/auth/anonymous`, body).then(data => {
-      return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
+  public loginAnonymous({
+    customer,
+    businessUnit,
+    body
+  }: LoginAnonymousOptions) {
+    return this.post(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/auth/anonymous`,
+      body
+    ).then(data => {
+      return deserialize(
+        LoginResponse,
+        Object.assign({}, data, { isAnonymous: true })
+      );
     });
   }
   public logout({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     // TODO: not used. Check why we get error.
-    return this.delete(`/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`, this.options.authHeader());
+    return this.delete(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`,
+      this.options.authHeader()
+    );
   }
 
-  public validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public validateSession({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v2/customer/${customer}/businessunit/${businessUnit}/auth/session`,
       this.options.authHeader()

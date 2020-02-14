@@ -1,5 +1,9 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { PasswordTuple, DeviceInfo, Credentials } from "./authentication-service";
+import {
+  PasswordTuple,
+  DeviceInfo,
+  Credentials
+} from "./authentication-service";
 import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/signup-response-model";
 import { UserDetailsResponse } from "../models/user-detail-response-model";
@@ -31,7 +35,8 @@ export interface SetNewPasswordOptions extends CustomerAndBusinessUnitOptions {
   };
 }
 
-export interface UpdateUserDetailsOptions extends CustomerAndBusinessUnitOptions {
+export interface UpdateUserDetailsOptions
+  extends CustomerAndBusinessUnitOptions {
   body: {
     displayName: string | null;
     newPassword: string | null;
@@ -56,33 +61,55 @@ export interface ChangePasswordOptions extends CustomerAndBusinessUnitOptions {
   };
 }
 
-export interface ConfirmActivationCodeOptions extends CustomerAndBusinessUnitOptions {
+export interface ConfirmActivationCodeOptions
+  extends CustomerAndBusinessUnitOptions {
   code: string;
 }
 
 export class UserService extends BaseService {
   public signup({ customer, businessUnit, body }: SignupOptions) {
-    return this.post(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup`, body, {
-      "Content-Type": "application/json"
-    }).then(data => deserialize(SignupResponse, data));
+    return this.post(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/user/signup`,
+      body,
+      {
+        "Content-Type": "application/json"
+      }
+    ).then(data => deserialize(SignupResponse, data));
   }
 
   public reset({ customer, businessUnit, username }: ResetOptions) {
-    return this.get(`/v1/customer/${customer}/businessunit/${businessUnit}/user/password/reset/${username}`);
+    return this.get(
+      `/v1/customer/${customer}/businessunit/${businessUnit}/user/password/reset/${username}`
+    );
   }
 
-  public setNewPassword({ customer, businessUnit, body, token }: SetNewPasswordOptions) {
-    return this.put(`/v2/customer/${customer}/businessunit/${businessUnit}/user/signup/password/${token}`, body);
+  public setNewPassword({
+    customer,
+    businessUnit,
+    body,
+    token
+  }: SetNewPasswordOptions) {
+    return this.put(
+      `/v2/customer/${customer}/businessunit/${businessUnit}/user/signup/password/${token}`,
+      body
+    );
   }
 
-  public getUserDetails({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getUserDetails({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v2/customer/${customer}/businessunit/${businessUnit}/user/details`,
       this.options.authHeader()
     ).then(data => deserialize(UserDetailsResponse, data));
   }
 
-  public updateUserDetails({ customer, businessUnit, body }: UpdateUserDetailsOptions) {
+  public updateUserDetails({
+    customer,
+    businessUnit,
+    body
+  }: UpdateUserDetailsOptions) {
     return this.put(
       `/v1/customer/${customer}/businessunit/${businessUnit}/user/details`,
       body,
@@ -90,15 +117,27 @@ export class UserService extends BaseService {
     );
   }
 
-  public confirmSignup({ customer, businessUnit, token, deviceId }: ConfirmSignupOptions) {
-    return this.put(`/v1/customer/${customer}/businessunit/${businessUnit}/user/signup/confirm/${token}`, {
-      deviceRegistration: {
-        deviceId
+  public confirmSignup({
+    customer,
+    businessUnit,
+    token,
+    deviceId
+  }: ConfirmSignupOptions) {
+    return this.put(
+      `/v1/customer/${customer}/businessunit/${businessUnit}/user/signup/confirm/${token}`,
+      {
+        deviceRegistration: {
+          deviceId
+        }
       }
-    }).then(data => deserialize(LoginResponse, data.loginResponse));
+    ).then(data => deserialize(LoginResponse, data.loginResponse));
   }
 
-  public deleteUser({ customer, businessUnit, credentials }: DeleteUserOptions) {
+  public deleteUser({
+    customer,
+    businessUnit,
+    credentials
+  }: DeleteUserOptions) {
     return this.post(
       `/v2/customer/${customer}/businessunit/${businessUnit}/user/delete`,
       credentials,
@@ -106,7 +145,11 @@ export class UserService extends BaseService {
     );
   }
 
-  public changePassword({ customer, businessUnit, body }: ChangePasswordOptions) {
+  public changePassword({
+    customer,
+    businessUnit,
+    body
+  }: ChangePasswordOptions) {
     return this.put(
       `/v2/customer/${customer}/businessunit/${businessUnit}/user/changePassword`,
       body,
@@ -114,7 +157,11 @@ export class UserService extends BaseService {
     ).then(data => deserialize(LoginResponse, data.loginResponse));
   }
 
-  public confirmActivationCode({ customer, businessUnit, code }: ConfirmActivationCodeOptions) {
+  public confirmActivationCode({
+    customer,
+    businessUnit,
+    code
+  }: ConfirmActivationCodeOptions) {
     return this.put(
       `/v1/customer/${customer}/businessunit/${businessUnit}/user/activation/confirm/${code}`,
       null,

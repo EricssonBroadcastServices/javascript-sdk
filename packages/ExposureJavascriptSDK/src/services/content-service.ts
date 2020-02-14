@@ -28,21 +28,30 @@ export interface GetAssetsOptions extends CustomerAndBusinessUnitOptions {
   allowedCountry?: string | null;
 }
 
-export interface GetEpgOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
+export interface GetEpgOptions
+  extends CustomerAndBusinessUnitOptions,
+    PageinatedRequest {
   channelId: string;
   date?: Date;
   daysForward?: number;
   daysBackward?: number;
 }
 
-export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
+export interface GetLiveEventsOptions
+  extends CustomerAndBusinessUnitOptions,
+    PageinatedRequest {
   date?: Date;
   daysBackward: number;
   daysForward: number;
 }
 
 export class ContentService extends BaseService {
-  public getAssetById({ customer, businessUnit, assetId, headers }: GetAssetByIdOptions) {
+  public getAssetById({
+    customer,
+    businessUnit,
+    assetId,
+    headers
+  }: GetAssetByIdOptions) {
     const requestQuery = {
       fieldSet: "ALL"
     };
@@ -73,7 +82,9 @@ export class ContentService extends BaseService {
       allowedCountry
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${querystring.stringify(requestQuery)}`,
+      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${querystring.stringify(
+        requestQuery
+      )}`,
       headers
     ).then(data => deserialize(AssetResponse, data));
   }
@@ -135,7 +146,10 @@ export class ContentService extends BaseService {
     });
   }
 
-  public getRecentlyWatched({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getRecentlyWatched({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       pageSize: 24,
       fieldSet: "ALL"
@@ -149,41 +163,61 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponse, data));
   }
 
-  public getContinueWatching({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getContinueWatching({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       limit: 10
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/continue?${querystring.stringify(requestQuery)}`,
+      `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/continue?${querystring.stringify(
+        requestQuery
+      )}`,
       this.options.authHeader()
     ).then(data => deserialize(AssetResponse, data));
   }
 
-  public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getRecommended({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/user`,
       this.options.authHeader()
     ).then(data => deserialize(AssetResponse, data));
   }
 
-  public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getBookmarks({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `/v1/customer/${customer}/businessunit/${businessUnit}/userplayhistory/lastviewedoffset`,
       this.options.authHeader()
     ).then(data => data.map(b => deserialize(Bookmark, b)));
   }
 
-  public getSeasonsForSeries({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
-    return this.get(`/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season`).then(
-      data => {
-        const seriesResponse = deserialize(SeasonResponse, data);
-        seriesResponse.series = assetId;
-        return seriesResponse;
-      }
-    );
+  public getSeasonsForSeries({
+    customer,
+    businessUnit,
+    assetId
+  }: GetAssetByIdOptions) {
+    return this.get(
+      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season`
+    ).then(data => {
+      const seriesResponse = deserialize(SeasonResponse, data);
+      seriesResponse.series = assetId;
+      return seriesResponse;
+    });
   }
 
-  public getEpisodesForSeason({ customer, businessUnit, assetId, seasonNumber }: GetEpisodesForSeasonOptions) {
+  public getEpisodesForSeason({
+    customer,
+    businessUnit,
+    assetId,
+    seasonNumber
+  }: GetEpisodesForSeasonOptions) {
     const requestQuery = {
       fieldSet: "ALL",
       onlyPublished: true

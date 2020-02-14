@@ -13,17 +13,25 @@ interface GetConfigFileOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export class CustomerConfigService extends BaseService {
-  public getConfigFileByOrigin({ origin, queryParams }: GetConfigFileByOriginOptions) {
+  public getConfigFileByOrigin({
+    origin,
+    queryParams
+  }: GetConfigFileByOriginOptions) {
     let queryString = "";
     if (queryParams) {
       queryString = `${queryParams.name}=${queryParams.value}`;
     }
-    return this.get(`/v1/config/appConfig.json/origin/${origin}?${queryString}`).then(data =>
-      deserialize(CustomerConfigFile, data)
-    );
+    return this.get(
+      `/v1/config/appConfig.json/origin/${origin}?${queryString}`
+    ).then(data => deserialize(CustomerConfigFile, data));
   }
 
-  public getConfigFile({ customer, businessUnit, queryParams, fileId }: GetConfigFileOptions) {
+  public getConfigFile({
+    customer,
+    businessUnit,
+    queryParams,
+    fileId
+  }: GetConfigFileOptions) {
     let queryString = "";
     if (queryParams) {
       queryString = `${queryParams.name}=${queryParams.value}`;
