@@ -9,7 +9,11 @@ interface TagOptions extends CustomerAndBusinessUnitOptions {
 export class TagService extends BaseService {
   public getTag({ customer, businessUnit, tagId }: TagOptions) {
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/tag/${tagId}`
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/tag/${tagId}`
     ).then(data => deserialize(TagResponse, data));
   }
 }

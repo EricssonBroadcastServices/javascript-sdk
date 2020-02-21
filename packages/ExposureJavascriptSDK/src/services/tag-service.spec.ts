@@ -10,26 +10,50 @@ describe("Tag service", () => {
     authHeader: () => ({ Authorization: "" })
   };
   const tagService = new TagService(serviceOptions);
-  it("should fetch tag by id", async () => {
-    const mockTagResponse = {
-      localized: [
-        {
-          title: "test",
-          locale: "en"
-        }
-      ],
-      scheme: "other"
-    };
-    const mockReturnValue = {
-      data: mockTagResponse
-    };
+  const mockTagResponse = {
+    localized: [
+      {
+        title: "test",
+        locale: "en"
+      }
+    ],
+    scheme: "other"
+  };
+  const mockReturnValue = {
+    data: mockTagResponse
+  };
+  beforeEach(() => {
     spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
-    const userLocationResponse = await tagService.getTag({
+  });
+  it("should fetch tag by id", async () => {
+    const tagResponse = await tagService.getTag({
       customer: mocks.customer,
       businessUnit: mocks.businessUnit,
       tagId: mocks.tagId1
     });
-    expect(userLocationResponse instanceof TagResponse).toBeTruthy();
+    expect(tagResponse instanceof TagResponse).toBeTruthy();
+    expect(axios.get).toHaveBeenCalledWith(
+      `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/tag/${mocks.tagId1}`,
+      {}
+    );
+  });
+  it("should throw when missing customer argument", () => {
+    expect(() => {
+      tagService.getTag({
+        tagId: mocks.tagId1
+      });
+    }).toThrow();
+  });
+  it("should fetch tag when customer is provided from service options", async () => {
+    tagService.setOptions({
+      ...tagService.options,
+      customer: mocks.customer,
+      businessUnit: mocks.businessUnit
+    });
+    const tagResponse = await tagService.getTag({
+      tagId: mocks.tagId1
+    });
+    expect(tagResponse instanceof TagResponse).toBeTruthy();
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/tag/${mocks.tagId1}`,
       {}

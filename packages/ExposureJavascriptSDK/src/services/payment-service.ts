@@ -79,7 +79,11 @@ export class PaymentService extends BaseService {
     countryCode
   }: GetProductOfferingsByCountryOptions) {
     return this.get(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/store/productoffering/country/${countryCode}`
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/store/productoffering/country/${countryCode}`
     ).then(data => {
       const productofferings: ProductOffering[] = data.productOfferings.map(p =>
         deserialize(ProductOffering, p)
@@ -95,7 +99,11 @@ export class PaymentService extends BaseService {
     body
   }: BuyProductOfferingOptions) {
     return this.post(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/store/purchase/${productOfferingId}`,
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/store/purchase/${productOfferingId}`,
       body,
       this.options.authHeader()
     ).then(data => deserialize(CardPaymentResponse, data));
@@ -108,7 +116,11 @@ export class PaymentService extends BaseService {
     purchaseId
   }: VerifyPurchaseOptions) {
     return this.post(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/store/purchase/${purchaseId}/verify`,
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/store/purchase/${purchaseId}/verify`,
       body,
       this.options.authHeader()
     ).then(data =>
@@ -122,7 +134,11 @@ export class PaymentService extends BaseService {
   }: CustomerAndBusinessUnitOptions) {
     // DEPRECATED : not officially in exposure.
     return this.get(
-      `/v1/whitelabel/customer/${customer}/businessunit/${businessUnit}/store/account/transactions/offerings`,
+      `${this.cuBuUrl({
+        apiVersion: "v1/whitelabel",
+        customer,
+        businessUnit
+      })}/store/account/transactions/offerings`,
       this.options.authHeader()
     ).then(data => {
       const transactions: TransactionsWithProductOffering[] = data.transactionsProductOfferingPairs.map(
@@ -139,7 +155,11 @@ export class PaymentService extends BaseService {
     businessUnit
   }: CustomerAndBusinessUnitOptions) {
     return this.get(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/store/purchase`,
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/store/purchase`,
       this.options.authHeader()
     ).then(data => deserialize(PurchaseResponse, data));
   }

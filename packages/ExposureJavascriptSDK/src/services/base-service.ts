@@ -19,13 +19,19 @@ export interface AuthenticatedRequestOptions {
 }
 
 export interface CustomerAndBusinessUnitOptions extends BaseRequestOptions {
-  customer: string;
-  businessUnit: string;
+  customer?: string;
+  businessUnit?: string;
 }
 
 export interface ServiceOptions {
   baseUrl?: string;
   authHeader: () => AuthHeaders | undefined;
+  customer?: string;
+  businessUnit?: string;
+}
+
+interface CuBuUrlOptions extends CustomerAndBusinessUnitOptions {
+  apiVersion: "v1" | "v2" | "v1/whitelabel";
 }
 
 const errorMapper = err => {
@@ -37,6 +43,15 @@ const errorMapper = err => {
 
 export class BaseService {
   constructor(public options: ServiceOptions) {}
+  public setOptions(options: ServiceOptions) {
+    this.options = options;
+  }
+  public cuBuUrl({ customer, businessUnit, apiVersion }: CuBuUrlOptions) {
+    const cu = customer || this.options.customer;
+    const bu = businessUnit || this.options.businessUnit;
+    if (!cu || !bu) throw new Error("Missing customer or businessUnit");
+    return `/${apiVersion}/customer/${cu}/businessunit/${bu}`;
+  }
   public get(url: string, headers?: Headers) {
     return axios
       .get(this.options.baseUrl + url, { headers })

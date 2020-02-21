@@ -16,9 +16,11 @@ export class SearchService extends BaseService {
       types: "MOVIE,TV_SHOW,EPISODE,CLIP,TV_CHANNEL"
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/content/search/query/${query}?${querystring.stringify(
-        requestQuery
-      )}`
+      `${this.cuBuUrl({
+        apiVersion: "v1",
+        customer,
+        businessUnit
+      })}/content/search/query/${query}?${querystring.stringify(requestQuery)}`
     ).then(data => {
       return deserialize(AssetResponse, {
         ...data,

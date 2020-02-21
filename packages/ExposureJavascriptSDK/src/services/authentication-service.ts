@@ -44,7 +44,11 @@ export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
 export class AuthenticationService extends BaseService {
   public login({ customer, businessUnit, body }: LoginOptions) {
     return this.post(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v2"
+      })}/auth/login`,
       body
     ).then(data => deserialize(LoginResponse, data));
   }
@@ -55,7 +59,11 @@ export class AuthenticationService extends BaseService {
     body
   }: LoginAnonymousOptions) {
     return this.post(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/auth/anonymous`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v2"
+      })}/auth/anonymous`,
       body
     ).then(data => {
       return deserialize(
@@ -67,7 +75,11 @@ export class AuthenticationService extends BaseService {
   public logout({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     // TODO: not used. Check why we get error.
     return this.delete(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/auth/login`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v2"
+      })}/auth/login`,
       this.options.authHeader()
     );
   }
@@ -77,7 +89,11 @@ export class AuthenticationService extends BaseService {
     businessUnit
   }: CustomerAndBusinessUnitOptions) {
     return this.get(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/auth/session`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v2"
+      })}/auth/session`,
       this.options.authHeader()
     ).then(data => deserialize(SessionResponse, data));
   }

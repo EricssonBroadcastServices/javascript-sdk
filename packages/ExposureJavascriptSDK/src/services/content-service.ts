@@ -56,9 +56,11 @@ export class ContentService extends BaseService {
       fieldSet: "ALL"
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}?${querystring.stringify(
-        requestQuery
-      )}`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/content/asset/${assetId}?${querystring.stringify(requestQuery)}`,
       headers
     ).then(data => deserialize(Asset, data));
   }
@@ -82,9 +84,11 @@ export class ContentService extends BaseService {
       allowedCountry
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${querystring.stringify(
-        requestQuery
-      )}`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/content/asset?${querystring.stringify(requestQuery)}`,
       headers
     ).then(data => deserialize(AssetResponse, data));
   }
@@ -107,7 +111,11 @@ export class ContentService extends BaseService {
     date = date || new Date();
     const formattedDate = epgDateFormatter(date);
     return this.get(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/epg/${channelId}/date/${formattedDate}?${querystring.stringify(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v2"
+      })}/epg/${channelId}/date/${formattedDate}?${querystring.stringify(
         requestQuery
       )}`
     ).then(data => deserialize(EpgResponse, data));
@@ -131,9 +139,11 @@ export class ContentService extends BaseService {
     date = date || new Date();
     const formattedDate = epgDateFormatter(date);
     return this.get(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/event/date/${formattedDate}?${querystring.stringify(
-        requestQuery
-      )}`
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/event/date/${formattedDate}?${querystring.stringify(requestQuery)}`
     ).then(data => {
       const items = data.items.map(item => {
         return {
@@ -156,9 +166,11 @@ export class ContentService extends BaseService {
     };
     const headers = this.options.authHeader();
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/userplayhistory/lastviewed?${querystring.stringify(
-        requestQuery
-      )}`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/userplayhistory/lastviewed?${querystring.stringify(requestQuery)}`,
       headers
     ).then(data => deserialize(AssetResponse, data));
   }
@@ -171,9 +183,11 @@ export class ContentService extends BaseService {
       limit: 10
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/continue?${querystring.stringify(
-        requestQuery
-      )}`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/recommend/continue?${querystring.stringify(requestQuery)}`,
       this.options.authHeader()
     ).then(data => deserialize(AssetResponse, data));
   }
@@ -183,7 +197,11 @@ export class ContentService extends BaseService {
     businessUnit
   }: CustomerAndBusinessUnitOptions) {
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/recommend/user`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/recommend/user`,
       this.options.authHeader()
     ).then(data => deserialize(AssetResponse, data));
   }
@@ -193,7 +211,11 @@ export class ContentService extends BaseService {
     businessUnit
   }: CustomerAndBusinessUnitOptions) {
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/userplayhistory/lastviewedoffset`,
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/userplayhistory/lastviewedoffset`,
       this.options.authHeader()
     ).then(data => data.map(b => deserialize(Bookmark, b)));
   }
@@ -204,7 +226,11 @@ export class ContentService extends BaseService {
     assetId
   }: GetAssetByIdOptions) {
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season`
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/content/asset/${assetId}/season`
     ).then(data => {
       const seriesResponse = deserialize(SeasonResponse, data);
       seriesResponse.series = assetId;
@@ -223,7 +249,11 @@ export class ContentService extends BaseService {
       onlyPublished: true
     };
     return this.get(
-      `/v1/customer/${customer}/businessunit/${businessUnit}/content/asset/${assetId}/season/${seasonNumber}/episode?` +
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/content/asset/${assetId}/season/${seasonNumber}/episode?` +
         querystring.stringify(requestQuery)
     ).then(data => {
       const seriesResponse = deserialize(EpisodesResponse, data);

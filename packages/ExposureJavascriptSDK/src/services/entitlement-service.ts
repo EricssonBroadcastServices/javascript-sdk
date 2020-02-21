@@ -14,7 +14,11 @@ export class EntitlementService extends BaseService {
     assetId
   }: GetEntitlementForAssetOptions) {
     return this.get(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/entitlement/${assetId}/entitle`,
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/entitlement/${assetId}/entitle`,
       {
         ...headers,
         ...this.options.authHeader()
@@ -27,7 +31,11 @@ export class EntitlementService extends BaseService {
     headers
   }: CustomerAndBusinessUnitOptions) {
     return this.get(
-      `/v2/customer/${customer}/businessunit/${businessUnit}/entitlement/accountproduct`,
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/entitlement/accountproduct`,
       {
         ...headers,
         ...this.options.authHeader()
