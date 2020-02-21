@@ -1,7 +1,7 @@
 import { TagService } from "./tag-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
-import { TagResponse } from "../models/TagResponse";
+import { TagResponse } from "../models/tag-response-model";
 import { mocks } from "../../test-utils/mocks";
 
 describe("Tag service", () => {

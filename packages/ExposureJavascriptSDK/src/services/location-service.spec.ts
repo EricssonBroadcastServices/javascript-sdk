@@ -1,6 +1,6 @@
 import { LocationService } from "./location-service";
 import { ServiceOptions } from "./base-service";
-import { UserLocation } from "../models/UserLocation";
+import { UserLocation } from "../models/user-location-model";
 import axios from "axios";
 
 describe("Location service", () => {
