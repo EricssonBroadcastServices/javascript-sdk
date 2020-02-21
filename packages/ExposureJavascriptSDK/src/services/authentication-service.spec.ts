@@ -3,42 +3,72 @@ import { ServiceOptions } from "./base-service";
 import axios from "axios";
 import { LoginResponse } from "../models/login-response-model";
 import { mocks } from "../../test-utils/mocks";
+import { SessionResponse } from "../models/session-model";
 
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "testBaseUrl",
-    authHeader: () => ({ Authorization: "" })
+    authHeader: () => ({ Authorization: "sessionToken" })
   };
   const authService = new AuthenticationService(serviceOptions);
-  it("should login", async () => {
+  beforeEach(() => {
     const mockReturnValue = {
       data: {}
     };
     spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
+    spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
+  });
+  it("should login", async () => {
     const body = {
       username: "user",
       credentials: {
         passwordTuples: []
       },
-      device: {
-        height: 0,
-        width: 0,
-        type: "WEB" as "WEB",
-        name: "name",
-        deviceId: "123"
-      },
+      device: mocks.device,
       deviceId: "123"
     };
-    const userLocationResponse = await authService.login({
+    const loginResponse = await authService.login({
       customer: mocks.customer,
       businessUnit: mocks.businessUnit,
       body: body
     });
-    expect(userLocationResponse instanceof LoginResponse).toBeTruthy();
+    expect(loginResponse instanceof LoginResponse).toBeTruthy();
+    expect(loginResponse.isAnonymous).toBeFalsy();
     expect(axios.post).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/login`,
       expect.objectContaining(body),
       expect.any(Object)
+    );
+  });
+  it("should login anon", async () => {
+    const body = {
+      device: mocks.device,
+      deviceId: "123"
+    };
+    const loginResponse = await authService.loginAnonymous({
+      customer: mocks.customer,
+      businessUnit: mocks.businessUnit,
+      body: body
+    });
+    expect(loginResponse instanceof LoginResponse).toBeTruthy();
+    expect(loginResponse.isAnonymous).toBe(true);
+    expect(axios.post).toHaveBeenCalledWith(
+      `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/anonymous`,
+      expect.objectContaining(body),
+      expect.any(Object)
+    );
+  });
+  it("should validate session", async () => {
+    const sessionResponse = await authService.validateSession({
+      customer: mocks.customer,
+      businessUnit: mocks.businessUnit
+    });
+    expect(sessionResponse instanceof SessionResponse).toBeTruthy();
+    expect(
+      axios.get
+    ).toHaveBeenCalledWith(
+      `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/session`,
+      { headers: serviceOptions.authHeader() }
     );
   });
 });
