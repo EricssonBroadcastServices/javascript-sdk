@@ -36,7 +36,7 @@ interface CuBuUrlOptions extends CustomerAndBusinessUnitOptions {
 
 const errorMapper = err => {
   throw deserialize(ApiError, {
-    httpCode: err.response.status,
+    httpCode: err.response ? err.response.status : 500,
     message: err.message
   });
 };

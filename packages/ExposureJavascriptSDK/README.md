@@ -7,14 +7,19 @@ import { ExposureApi } from "placeholder-package-name";
 const api = new ExposureApi({
   baseUrl: "https://exposureapi.emp.ebsd.ericsson.net",
   // method for creating a auth header. Used for authenticated requests
-  authHeader: () => ({ Authorization: `Bearer ${localStorage.getItem("sessionToken")}`}) 
+  authHeader: () => ({ Authorization: `Bearer ${localStorage.getItem("sessionToken")}`})
+  /* 
+    optional parameters:
+        customer: string;
+        businessUnits: string;
+  */
 });
 
 // get assets 
 async function getAssets() {
     const assets = await api.content.getAssetsV1({
-        customer,
-        businessUnit
+        customer, // needed if customer is not set globally
+        businessUnit // needed if customer is not set globally
         /*
             optional parameters:
                 query: string; // e.g type:MOVIE
