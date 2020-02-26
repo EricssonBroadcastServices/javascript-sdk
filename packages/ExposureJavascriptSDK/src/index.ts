@@ -52,6 +52,12 @@ export {
   TransactionsWithProductOffering
 } from "./models/transaction-model";
 export { UserDetailsResponse } from "./models/user-detail-response-model";
+export {
+  SystemConfig,
+  PasswordAlgorithm,
+  PasswordHashConfig
+} from "./models/system-config-model";
+export { PasswordPolicy } from "./models/password-policy-model";
 
 /* Services */
 export {
