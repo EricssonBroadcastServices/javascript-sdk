@@ -19,6 +19,8 @@ import {
 } from "./services/payment-service";
 
 /* Models */
+import { SystemConfig } from "./models/system-config-model";
+
 export {
   Asset,
   AssetResponse,
@@ -53,11 +55,12 @@ export {
 } from "./models/transaction-model";
 export { UserDetailsResponse } from "./models/user-detail-response-model";
 export {
-  SystemConfig,
   PasswordAlgorithm,
   PasswordHashConfig
 } from "./models/system-config-model";
 export { PasswordPolicy } from "./models/password-policy-model";
+
+export { SystemConfig };
 
 /* Services */
 export {
