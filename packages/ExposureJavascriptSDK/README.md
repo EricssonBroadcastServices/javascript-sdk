@@ -15,7 +15,7 @@ const api = new ExposureApi({
   */
 });
 
-// get assets 
+// get assets  
 async function getAssets() {
     const assets = await api.content.getAssetsV1({
         customer, // needed if customer is not set globally
