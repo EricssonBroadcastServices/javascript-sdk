@@ -32,7 +32,7 @@ describe("Auth service", () => {
       businessUnit: mocks.businessUnit,
       body: body
     });
-    expect(loginResponse instanceof LoginResponse).toBeTruthy();
+    expect(loginResponse).toBeInstanceOf(LoginResponse);
     expect(loginResponse.isAnonymous).toBeFalsy();
     expect(axios.post).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/login`,
@@ -50,7 +50,7 @@ describe("Auth service", () => {
       businessUnit: mocks.businessUnit,
       body: body
     });
-    expect(loginResponse instanceof LoginResponse).toBeTruthy();
+    expect(loginResponse).toBeInstanceOf(LoginResponse);
     expect(loginResponse.isAnonymous).toBe(true);
     expect(axios.post).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/anonymous`,
@@ -63,7 +63,7 @@ describe("Auth service", () => {
       customer: mocks.customer,
       businessUnit: mocks.businessUnit
     });
-    expect(sessionResponse instanceof SessionResponse).toBeTruthy();
+    expect(sessionResponse).toBeInstanceOf(SessionResponse);
     expect(
       axios.get
     ).toHaveBeenCalledWith(

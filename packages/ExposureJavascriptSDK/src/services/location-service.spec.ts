@@ -18,7 +18,7 @@ describe("Location service", () => {
     };
     spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
     const userLocationResponse = await locationService.getLocation();
-    expect(userLocationResponse instanceof UserLocation).toBeTruthy();
+    expect(userLocationResponse).toBeInstanceOf(UserLocation);
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/location`,
       {}

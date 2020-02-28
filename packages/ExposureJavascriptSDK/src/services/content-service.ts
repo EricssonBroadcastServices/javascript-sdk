@@ -9,7 +9,7 @@ import { EpgResponse } from "../models/program-model";
 
 export interface PageinatedRequest {
   pageSize?: number;
-  pageNumber: number;
+  pageNumber?: number;
 }
 
 export interface GetAssetByIdOptions extends CustomerAndBusinessUnitOptions {
@@ -120,7 +120,7 @@ export class ContentService extends BaseService {
       )}`
     ).then(data => deserialize(EpgResponse, data));
   }
-  public getLiveEventsV2({
+  public getLiveEvents({
     daysBackward,
     daysForward,
     customer,

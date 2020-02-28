@@ -31,7 +31,7 @@ describe("Tag service", () => {
       businessUnit: mocks.businessUnit,
       tagId: mocks.tagId1
     });
-    expect(tagResponse instanceof TagResponse).toBeTruthy();
+    expect(tagResponse).toBeInstanceOf(TagResponse);
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/tag/${mocks.tagId1}`,
       {}
@@ -53,7 +53,7 @@ describe("Tag service", () => {
     const tagResponse = await tagService.getTag({
       tagId: mocks.tagId1
     });
-    expect(tagResponse instanceof TagResponse).toBeTruthy();
+    expect(tagResponse).toBeInstanceOf(TagResponse);
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/tag/${mocks.tagId1}`,
       {}
