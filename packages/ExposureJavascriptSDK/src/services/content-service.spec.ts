@@ -20,7 +20,7 @@ describe("Content service", () => {
   beforeEach(() => {
     const mockReturnValue = {
       data: {
-        items: []
+        items: [{}]
       }
     };
     spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
@@ -93,13 +93,13 @@ describe("Content service", () => {
       pageSize: 1,
       daysBackward: 3,
       daysForward: 2,
-      date: new Date(1582884240013)
+      date: new Date(1577836800000)
     });
     expect(epg).toBeInstanceOf(EpgResponse);
     expect(
       axios.get
     ).toHaveBeenCalledWith(
-      "testBaseUrl/v2/customer/CU/businessunit/BU/epg/123/date/2020-02-28?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1",
+      "testBaseUrl/v2/customer/CU/businessunit/BU/epg/123/date/2020-01-01?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1",
       { headers: undefined }
     );
   });
@@ -127,13 +127,13 @@ describe("Content service", () => {
       pageSize: 1,
       daysBackward: 3,
       daysForward: 2,
-      date: new Date(1582884240013)
+      date: new Date(1603843200000)
     });
     expect(liveEvents).toBeInstanceOf(AssetResponse);
     expect(
       axios.get
     ).toHaveBeenCalledWith(
-      "testBaseUrl/v2/customer/CU/businessunit/BU/event/date/2020-02-28?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1&sort=startTime",
+      "testBaseUrl/v2/customer/CU/businessunit/BU/event/date/2020-10-28?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1&sort=startTime",
       { headers: undefined }
     );
   });

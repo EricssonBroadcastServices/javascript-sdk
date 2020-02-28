@@ -17,6 +17,7 @@ describe("Auth service", () => {
     };
     spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
     spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
+    spyOn(axios, "delete").and.returnValue(Promise.resolve(mockReturnValue));
   });
   it("should login", async () => {
     const body = {
@@ -68,6 +69,18 @@ describe("Auth service", () => {
       axios.get
     ).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/session`,
+      { headers: serviceOptions.authHeader() }
+    );
+  });
+  it("should logout", async () => {
+    await authService.logout({
+      customer: mocks.customer,
+      businessUnit: mocks.businessUnit
+    });
+    expect(
+      axios.delete
+    ).toHaveBeenCalledWith(
+      "testBaseUrl/v2/customer/CU/businessunit/BU/auth/login",
       { headers: serviceOptions.authHeader() }
     );
   });

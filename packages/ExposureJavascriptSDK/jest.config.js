@@ -7,5 +7,5 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   collectCoverage: true,
   coverageReporters: ["text", "text-summary", "html"],
-  collectCoverageFrom: ["**/*.ts", "!**/node_modules/**"]
+  collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"]
 };

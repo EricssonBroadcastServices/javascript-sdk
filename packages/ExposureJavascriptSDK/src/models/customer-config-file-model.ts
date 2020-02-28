@@ -1,4 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
+import { SystemConfig } from "./system-config-model";
 
 export class CustomerConfigFile {
   @jsonProperty()
@@ -10,5 +11,5 @@ export class CustomerConfigFile {
   @jsonProperty()
   public config: any;
   @jsonProperty()
-  public systemConfig: any;
+  public systemConfig: SystemConfig;
 }

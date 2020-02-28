@@ -1,5 +1,6 @@
-import { BaseService } from "./base-service";
+import { BaseService, errorMapper } from "./base-service";
 import { mocks } from "../../test-utils/mocks";
+import { ApiError } from "../models/api-error-model";
 
 describe("base service", () => {
   const baseService = new BaseService({
@@ -42,5 +43,15 @@ describe("base service", () => {
         apiVersion: "v1"
       })
     ).toBe(`/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}`);
+  });
+  it("should map error", () => {
+    expect(() => errorMapper(undefined)).toThrow(ApiError);
+    expect(() => errorMapper(1)).toThrow(ApiError);
+    expect(() => errorMapper("error")).toThrow(ApiError);
+    expect(() =>
+      errorMapper({
+        message: "something went wrong"
+      })
+    ).toThrow(ApiError);
   });
 });

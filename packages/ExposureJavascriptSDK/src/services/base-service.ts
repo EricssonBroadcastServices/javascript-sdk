@@ -34,7 +34,11 @@ interface CuBuUrlOptions extends CustomerAndBusinessUnitOptions {
   apiVersion: "v1" | "v2" | "v1/whitelabel";
 }
 
-const errorMapper = err => {
+export const errorMapper = err => {
+  if (!err)
+    throw deserialize(ApiError, { message: "Unknown error", httpCode: 500 });
+  if (typeof err === "string")
+    throw deserialize(ApiError, { message: err, httpCode: 500 });
   throw deserialize(ApiError, {
     httpCode: err.response ? err.response.status : 500,
     message: err.message
