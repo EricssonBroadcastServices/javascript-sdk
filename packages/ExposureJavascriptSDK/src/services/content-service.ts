@@ -142,7 +142,7 @@ export class ContentService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1"
+        apiVersion: "v2"
       })}/event/date/${formattedDate}?${querystring.stringify(requestQuery)}`
     ).then(data => {
       const items = data.items.map(item => {
