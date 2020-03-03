@@ -218,20 +218,20 @@ export class Asset {
 
   public getTitle = (locale: string) => this.getLocalizedValue("title", locale);
 
-  public maxLenght = (aString: string, maxLenght: number | null) => {
-    if (maxLenght === null) {
+  public maxLength = (aString: string, maxLength: number | null) => {
+    if (maxLength === null) {
       return aString;
     }
-    if (aString.split("").length < maxLenght || aString === "") {
+    if (aString.split("").length < maxLength || aString === "") {
       return aString;
     }
-    return aString.slice(0, maxLenght) + "...";
+    return aString.slice(0, maxLength) + "...";
   };
   public getShortDescription = (
     locale: string,
     maxLength: number | null = null
   ) => {
-    return this.maxLenght(
+    return this.maxLength(
       this.getLocalizedValue("shortDescription", locale),
       maxLength || 50
     );
@@ -240,13 +240,13 @@ export class Asset {
     this.getLocalizedValue("description", locale);
   public getLongDescription = (locale: string) =>
     this.getLocalizedValue("longDescription", locale);
-  public getDescription = (locale: string, maxLenght: number | null = null) => {
+  public getDescription = (locale: string, maxLength: number | null = null) => {
     if (this.getLongDescription(locale)) {
-      return this.maxLenght(this.getLongDescription(locale), maxLenght);
+      return this.maxLength(this.getLongDescription(locale), maxLength);
     } else if (this.getMediumDescription(locale)) {
-      return this.maxLenght(this.getMediumDescription(locale), maxLenght);
+      return this.maxLength(this.getMediumDescription(locale), maxLength);
     } else if (this.getShortDescription(locale)) {
-      return this.maxLenght(this.getShortDescription(locale), maxLenght);
+      return this.maxLength(this.getShortDescription(locale), maxLength);
     }
     return "";
   };
