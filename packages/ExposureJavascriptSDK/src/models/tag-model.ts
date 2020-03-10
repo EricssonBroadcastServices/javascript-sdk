@@ -2,7 +2,7 @@ import { jsonProperty } from "../decorators/json-property";
 
 export class Tag {
   @jsonProperty()
-  public tagId = "";
+  public tagId: string;
 }
 
 export class TagCollection {
