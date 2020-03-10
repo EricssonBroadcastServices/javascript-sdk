@@ -217,7 +217,7 @@ export class ContentService extends BaseService {
         apiVersion: "v1"
       })}/userplayhistory/lastviewedoffset`,
       this.options.authHeader()
-    ).then(data => data.map(b => deserialize(Bookmark, b)));
+    ).then(data => data.items.map(b => deserialize(Bookmark, b)));
   }
 
   public getSeasonsForSeries({
