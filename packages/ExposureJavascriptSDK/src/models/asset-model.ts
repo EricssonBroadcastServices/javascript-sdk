@@ -210,13 +210,15 @@ export class Asset {
       }
       return this.getLocalizedValue(property, this.localized[0].locale);
     }
-    if (this.episode && this.season) {
-      return `S${this.season}E${this.episode} ` + localeItem[property] || "";
-    }
     return localeItem[property] || "";
   };
 
-  public getTitle = (locale: string) => this.getLocalizedValue("title", locale);
+  public getTitle = (locale: string) => {
+    if (this.episode && this.season) {
+      return `S${this.season}E${this.episode} ` + this.getLocalizedValue("title", locale);
+    }
+    return this.getLocalizedValue("title", locale);
+  };
 
   public maxLength = (aString: string, maxLength: number | null) => {
     if (maxLength === null) {
