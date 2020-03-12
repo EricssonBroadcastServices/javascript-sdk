@@ -6,6 +6,7 @@ export enum ErrorContext {
 }
 
 export interface AppError {
+  httpCode: number;
   message: string;
   context?: ErrorContext;
   getFriendlyMessage: () => string;
