@@ -6,7 +6,8 @@
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint --ext .ts --fix ./src/"
+    "lint": "eslint --ext .ts --fix ./src/",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",
