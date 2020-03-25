@@ -32,6 +32,8 @@ export class SystemConfig {
   @jsonProperty({ type: String })
   public displayLocales: string[];
   @jsonProperty()
+  public defaultLocale: string;
+  @jsonProperty()
   public production: boolean;
   @jsonProperty()
   public adyenContext: string;
