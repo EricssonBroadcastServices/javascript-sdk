@@ -13,7 +13,7 @@ import { PaymentService, CardPaymentDetails, VerifyPurchasePayload } from "./ser
 /* Models */
 import { SystemConfig } from "./models/system-config-model";
 
-export { Asset, AssetResponse, AssetType, ImageModel, Localized, Participants, Publication } from "./models/asset-model";
+export { Asset, AssetResponse, AssetType, ImageModel, Localized, Participants, Publication, ExternalReferences } from "./models/asset-model";
 export { UserLocation } from "./models/user-location-model";
 export { Product, ProductResponse } from "./models/product-model";
 export { ProductOffering, ProductOfferingsResponse, OfferingPrice, Price } from "./models/product-offering-model";
