@@ -38,7 +38,7 @@ class Medias {
   public durationMillis: number;
 }
 
-class Publication {
+export class Publication {
   @jsonProperty({ type: Date })
   public fromDate: Date;
   @jsonProperty({ type: String })
