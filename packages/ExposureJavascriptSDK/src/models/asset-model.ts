@@ -24,7 +24,7 @@ export class ImageModel {
   public type: string;
 
   @jsonProperty()
-  public orientation: string;
+  public orientation: string = Orientation.LANDSCAPE;
 
   @jsonProperty()
   public height: number;
