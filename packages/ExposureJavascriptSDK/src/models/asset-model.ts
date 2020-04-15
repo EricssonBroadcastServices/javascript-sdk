@@ -1,11 +1,8 @@
 import { jsonProperty } from "../decorators/json-property";
 import { TagCollection } from "./tag-model";
 import { UserLocation } from "./user-location-model";
-
-enum Orientation {
-  LANDSCAPE = "LANDSCAPE",
-  PORTRAIT = "PORTRAIT"
-}
+import { Season } from "./season-model";
+import { WithLocalized } from "./localized-model";
 
 export enum mediumResBoundaries {
   lower = 500,
@@ -14,23 +11,6 @@ export enum mediumResBoundaries {
 
 export enum lowResBoundaries {
   upper = 499
-}
-
-export class ImageModel {
-  @jsonProperty()
-  public url: string;
-
-  @jsonProperty()
-  public type: string;
-
-  @jsonProperty()
-  public orientation: string = Orientation.LANDSCAPE;
-
-  @jsonProperty()
-  public height: number;
-
-  @jsonProperty()
-  public width: number;
 }
 
 class Medias {
@@ -61,23 +41,6 @@ export class Participants {
   public name: string;
 }
 
-export class Localized {
-  @jsonProperty({
-    type: ImageModel
-  })
-  public images: ImageModel[] = [];
-  @jsonProperty()
-  public locale: string;
-  @jsonProperty()
-  public title: string;
-  @jsonProperty()
-  public shortDescription: string;
-  @jsonProperty()
-  public description: string;
-  @jsonProperty()
-  public longDescription: string;
-}
-
 export enum AssetType {
   MOVIE = "MOVIE",
   PROGRAM = "PROGRAM",
@@ -89,15 +52,11 @@ export enum AssetType {
   LIVE_EVENT = "LIVE_EVENT"
 }
 
-export class Asset {
+export class Asset extends WithLocalized {
   @jsonProperty()
   public assetId: string;
   @jsonProperty()
   public type: AssetType;
-  @jsonProperty({
-    type: Localized
-  })
-  public localized: Localized[] = [];
   @jsonProperty({
     type: Medias
   })
@@ -128,6 +87,8 @@ export class Asset {
   public participants: Participants[] = [];
   @jsonProperty()
   public duration: number;
+  @jsonProperty({ type: Season })
+  public seasons?: Season[];
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
@@ -160,98 +121,7 @@ export class Asset {
       : this.publications[0].fromDate;
   };
 
-  public getLocaleItem = (prefferedLocale: string) =>
-    this.localized.find(l => l.locale === prefferedLocale) || this.localized[0];
-
-  public getImage = (orientation = "LANDSCAPE", locale: string) => {
-    if (!this.localized.length) {
-      return "";
-    }
-    const sortByResolution = (a: ImageModel, b: ImageModel) => {
-      return b.width - a.width;
-    };
-    const allImages =
-      this.getLocaleItem(locale).images.length > 0
-        ? this.getLocaleItem(locale).images.sort(sortByResolution)
-        : this.localized[0].images.sort(sortByResolution);
-    const imagesByCorrectOrientation = allImages.filter(
-      i => i.orientation === orientation.toUpperCase()
-    );
-    const imagesByCorrectType = imagesByCorrectOrientation.filter(i => {
-      if (orientation === Orientation.LANDSCAPE) {
-        return i.type === "cover";
-      } else if (orientation === Orientation.PORTRAIT) {
-        return i.type === "poster";
-      }
-      return false;
-    });
-    if (imagesByCorrectType.length > 0) {
-      return imagesByCorrectType[0].url;
-    }
-    if (imagesByCorrectOrientation.length > 0) {
-      return imagesByCorrectOrientation[0].url;
-    }
-    if (allImages.length > 0) {
-      return allImages[0].url;
-    }
-    return "";
-  };
-
-  public getLocalizedValue = (property: string, locale: string) => {
-    if (!this.localized || this.localized.length === 0) {
-      return "";
-    }
-    const localeItem = this.localized.find(
-      localizedItem => localizedItem.locale === locale
-    );
-    if (!localeItem || !localeItem[property]) {
-      if (locale === this.localized[0].locale) {
-        return "";
-      }
-      return this.getLocalizedValue(property, this.localized[0].locale);
-    }
-    return localeItem[property] || "";
-  };
-
-  public getTitle = (locale: string) => {
-    if (this.episode && this.season) {
-      return `S${this.season}E${this.episode} ` + this.getLocalizedValue("title", locale);
-    }
-    return this.getLocalizedValue("title", locale);
-  };
-
-  public maxLength = (aString: string, maxLength: number | null) => {
-    if (maxLength === null) {
-      return aString;
-    }
-    if (aString.split("").length < maxLength || aString === "") {
-      return aString;
-    }
-    return aString.slice(0, maxLength) + "...";
-  };
-  public getShortDescription = (
-    locale: string,
-    maxLength: number | null = null
-  ) => {
-    return this.maxLength(
-      this.getLocalizedValue("shortDescription", locale),
-      maxLength || 50
-    );
-  };
-  public getMediumDescription = (locale: string) =>
-    this.getLocalizedValue("description", locale);
-  public getLongDescription = (locale: string) =>
-    this.getLocalizedValue("longDescription", locale);
-  public getDescription = (locale: string, maxLength: number | null = null) => {
-    if (this.getLongDescription(locale)) {
-      return this.maxLength(this.getLongDescription(locale), maxLength);
-    } else if (this.getMediumDescription(locale)) {
-      return this.maxLength(this.getMediumDescription(locale), maxLength);
-    } else if (this.getShortDescription(locale)) {
-      return this.maxLength(this.getShortDescription(locale), maxLength);
-    }
-    return "";
-  };
+  
   public getYear = () => {
     return this.productionYear;
   };
@@ -277,6 +147,13 @@ export class Asset {
       type: "video/emp",
       title: this.getTitle(locale)
     };
+  };
+
+  public getTitle = (locale: string) => {
+    if (this.episode && this.season) {
+      return `S${this.season}E${this.episode} ` + this.getLocalizedValue("title", locale);
+    }
+    return this.getLocalizedValue("title", locale);
   };
 }
 

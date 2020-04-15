@@ -1,26 +1,16 @@
 import { jsonProperty } from "../decorators/json-property";
-import { Localized } from "./asset-model";
+import { Asset } from "./asset-model";
+import { WithLocalized } from "./localized-model";
 
-export class Season {
-  @jsonProperty({ type: Localized })
-  public localized: Localized[];
+export class Season extends WithLocalized {
   @jsonProperty()
   public season: number;
   @jsonProperty()
   public seasonId: string;
   @jsonProperty()
   public episodeCount: number;
-
-  public getTitle = (locale: string) => {
-    if (this.localized.length === 0) {
-      return "";
-    }
-    const localeItem =
-      this.localized.find(localizedItem => localizedItem.locale === locale) ||
-      this.localized[0];
-
-    return localeItem.title || "";
-  };
+  @jsonProperty({ type: Asset })
+  public episodes?: Asset[];
 }
 
 export class SeasonResponse {
