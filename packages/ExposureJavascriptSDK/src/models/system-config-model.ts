@@ -53,6 +53,8 @@ export class SystemConfig {
   public passwordHashConfig: PasswordHashConfig;
   @jsonProperty()
   public externalPaymentUrl: string;
+  @jsonProperty()
+  public vouchers: boolean;
   public paymentsIsEnabled = () => {
     return (this.paymentType === "adyen" || this.paymentType === "external");
   };

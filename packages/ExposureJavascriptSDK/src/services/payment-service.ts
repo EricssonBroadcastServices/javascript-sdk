@@ -58,6 +58,11 @@ export interface BuyProductOfferingOptions
   };
 }
 
+export interface BuyWithVoucherCodeOptions extends CustomerAndBusinessUnitOptions {
+  productOfferingId: string;
+  code: string;
+}
+
 export interface VerifyPurchasePayload {
   md?: string;
   paRes?: string;
@@ -72,7 +77,31 @@ export interface VerifyPurchaseOptions extends CustomerAndBusinessUnitOptions {
   };
 }
 
+export interface GetProductOfferingsByVoucherOptions
+  extends CustomerAndBusinessUnitOptions {
+  code: string;
+}
+
 export class PaymentService extends BaseService {
+  public getProductOfferingsByVoucherCode({
+    customer,
+    businessUnit,
+    code
+  }: GetProductOfferingsByVoucherOptions) {
+    return this.get(
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/store/productofferings/voucher/${code}`,
+      this.options.authHeader()
+    ).then(data => {
+      const productofferings: ProductOffering[] = data.map(p =>
+        deserialize(ProductOffering, p)
+      );
+      return productofferings;
+    });
+  }
   public getProductOfferingsByCountry({
     customer,
     businessUnit,
@@ -105,6 +134,25 @@ export class PaymentService extends BaseService {
         businessUnit
       })}/store/purchase/${productOfferingId}`,
       body,
+      this.options.authHeader()
+    ).then(data => deserialize(CardPaymentResponse, data));
+  }
+
+  public buyWithVoucherCode({
+    customer,
+    businessUnit,
+    code,
+    productOfferingId
+  }: BuyWithVoucherCodeOptions) {
+    return this.post(
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/store/purchase/${productOfferingId}`,
+      {
+        voucherCode: code
+      },
       this.options.authHeader()
     ).then(data => deserialize(CardPaymentResponse, data));
   }
