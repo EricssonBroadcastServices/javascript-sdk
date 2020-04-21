@@ -18,6 +18,9 @@ export class Price {
   public getPrice = () => {
     const arr = this.amount.toString().split("");
     arr.splice(arr.length - this.fractionDigits, 0, ".");
+    if (arr[0] === ".") {
+      arr.unshift("0");
+    }
     return arr.join("");
   };
   public getPriceWithCurrency = () => {
@@ -86,12 +89,16 @@ export class ProductOfferingsResponse {
   public productOfferings: ProductOffering[] = [];
 }
 
+class PromotionDiscount {
+  @jsonProperty()
+  public discountedOfferingPrice: OfferingPrice;
+}
 
 export class Promotion {
   @jsonProperty()
   public id: string;
   @jsonProperty()
-  public discount: OfferingPrice;
+  public discount: PromotionDiscount;
   @jsonProperty()
   public fullDiscountVoucher: boolean;
 }
