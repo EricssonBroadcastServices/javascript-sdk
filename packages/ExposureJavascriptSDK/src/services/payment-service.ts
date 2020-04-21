@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { ProductOffering } from "../models/product-offering-model";
+import { ProductOffering, PromotionResponse } from "../models/product-offering-model";
 import { CardPaymentResponse } from "../models/card-payment-response-model";
 import { TransactionsWithProductOffering } from "../models/transaction-model";
 import { PurchaseResponse } from "../models/purchase-model";
@@ -96,10 +96,7 @@ export class PaymentService extends BaseService {
       })}/store/productofferings/voucher/${code}`,
       this.options.authHeader()
     ).then(data => {
-      const productofferings: ProductOffering[] = data.map(p =>
-        deserialize(ProductOffering, p)
-      );
-      return productofferings;
+      return deserialize(PromotionResponse, data);
     });
   }
   public getProductOfferingsByCountry({

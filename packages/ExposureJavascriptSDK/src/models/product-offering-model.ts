@@ -85,3 +85,20 @@ export class ProductOfferingsResponse {
   @jsonProperty({ type: ProductOffering })
   public productOfferings: ProductOffering[] = [];
 }
+
+
+export class Promotion {
+  @jsonProperty()
+  public id: string;
+  @jsonProperty()
+  public discount: OfferingPrice;
+  @jsonProperty()
+  public fullDiscountVoucher: boolean;
+}
+
+export class PromotionResponse {
+  @jsonProperty({ type: ProductOffering })
+  public productOfferings: ProductOffering[];
+  @jsonProperty()
+  public promotion: Promotion;
+}

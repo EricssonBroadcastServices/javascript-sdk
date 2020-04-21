@@ -17,7 +17,14 @@ export { Localized, ImageModel } from "./models/localized-model";
 export { Asset, AssetResponse, AssetType, Participants, Publication, ExternalReferences } from "./models/asset-model";
 export { UserLocation } from "./models/user-location-model";
 export { Product, ProductResponse } from "./models/product-model";
-export { ProductOffering, ProductOfferingsResponse, OfferingPrice, Price } from "./models/product-offering-model";
+export {
+  ProductOffering,
+  ProductOfferingsResponse,
+  OfferingPrice,
+  Price,
+  Promotion,
+  PromotionResponse
+} from "./models/product-offering-model";
 export { LoginResponse } from "./models/login-response-model";
 export { CardPaymentResponse, PaymentStatus } from "./models/card-payment-response-model";
 export { Season, SeasonResponse } from "./models/season-model";
