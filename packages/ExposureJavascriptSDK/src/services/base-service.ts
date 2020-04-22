@@ -41,7 +41,7 @@ export const errorMapper = err => {
     throw deserialize(ApiError, { message: err, httpCode: 500 });
   throw deserialize(ApiError, {
     httpCode: err.response ? err.response.status : 500,
-    message: err.message
+    message: err.response?.data?.message ? err.response?.data?.message : err.message
   });
 };
 
