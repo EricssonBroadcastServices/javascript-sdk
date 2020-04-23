@@ -4,6 +4,8 @@ import { PasswordPolicy } from "./password-policy-model";
 class FrontEndFeatures {
   @jsonProperty()
   public shouldAlwaysUseAnonymousLogin: boolean;
+  @jsonProperty()
+  public customLandingPageUrl?: string;
 }
 
 export class PasswordAlgorithm {
