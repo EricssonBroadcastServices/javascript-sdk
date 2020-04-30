@@ -10,16 +10,16 @@ export class ImageModel {
   public url: string;
 
   @jsonProperty()
-  public type: string;
+  public type?: string;
 
   @jsonProperty()
   public orientation: string = Orientation.LANDSCAPE;
 
   @jsonProperty()
-  public height: number;
+  public height = 0;
 
   @jsonProperty()
-  public width: number;
+  public width = 0;
 }
 
 export class Localized {
@@ -59,9 +59,7 @@ export class WithLocalized {
       this.getLocaleItem(locale).images.length > 0
         ? this.getLocaleItem(locale).images.sort(sortByResolution)
         : this.localized[0].images.sort(sortByResolution);
-    const imagesByCorrectOrientation = allImages.filter(
-      i => i.orientation === orientation.toUpperCase()
-    );
+    const imagesByCorrectOrientation = allImages.filter(i => i.orientation === orientation.toUpperCase());
     const imagesByCorrectType = imagesByCorrectOrientation.filter(i => {
       if (orientation === Orientation.LANDSCAPE) {
         return i.type === "cover";
@@ -86,9 +84,7 @@ export class WithLocalized {
     if (!this.localized || this.localized.length === 0) {
       return "";
     }
-    const localeItem = this.localized.find(
-      localizedItem => localizedItem.locale === locale
-    );
+    const localeItem = this.localized.find(localizedItem => localizedItem.locale === locale);
     if (!localeItem || !localeItem[property]) {
       if (locale === this.localized[0].locale) {
         return "";
@@ -111,19 +107,11 @@ export class WithLocalized {
     }
     return aString.slice(0, maxLength) + "...";
   };
-  public getShortDescription = (
-    locale: string,
-    maxLength: number | null = null
-  ) => {
-    return this.maxLength(
-      this.getLocalizedValue("shortDescription", locale),
-      maxLength || 50
-    );
+  public getShortDescription = (locale: string, maxLength: number | null = null) => {
+    return this.maxLength(this.getLocalizedValue("shortDescription", locale), maxLength || 50);
   };
-  public getMediumDescription = (locale: string) =>
-    this.getLocalizedValue("description", locale);
-  public getLongDescription = (locale: string) =>
-    this.getLocalizedValue("longDescription", locale);
+  public getMediumDescription = (locale: string) => this.getLocalizedValue("description", locale);
+  public getLongDescription = (locale: string) => this.getLocalizedValue("longDescription", locale);
   public getDescription = (locale: string, maxLength: number | null = null) => {
     if (this.getLongDescription(locale)) {
       return this.maxLength(this.getLongDescription(locale), maxLength);
