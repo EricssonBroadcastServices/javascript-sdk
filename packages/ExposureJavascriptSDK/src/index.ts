@@ -11,7 +11,7 @@ import { UserService } from "./services/user-service";
 import { PaymentService, CardPaymentDetails, VerifyPurchasePayload } from "./services/payment-service";
 
 /* Models */
-import { SystemConfig } from "./models/system-config-model";
+import { SystemConfig, PaymentType } from "./models/system-config-model";
 
 export { Localized, ImageModel } from "./models/localized-model";
 export { Asset, AssetResponse, AssetType, Participants, Publication, ExternalReferences } from "./models/asset-model";
@@ -39,7 +39,7 @@ export { UserDetailsResponse } from "./models/user-detail-response-model";
 export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
 export { PasswordPolicy } from "./models/password-policy-model";
 
-export { SystemConfig };
+export { SystemConfig, PaymentType };
 
 /* Services */
 export {

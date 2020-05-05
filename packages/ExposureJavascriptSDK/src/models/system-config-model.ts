@@ -1,6 +1,13 @@
 import { jsonProperty } from "../decorators/json-property";
 import { PasswordPolicy } from "./password-policy-model";
 
+export enum PaymentType {
+  ADYEN = "adyen",
+  STRIPE = "stripe",
+  EXTERNAL = "external",
+  DENY = "deny"
+}
+
 class FrontEndFeatures {
   @jsonProperty()
   public shouldAlwaysUseAnonymousLogin: boolean;
@@ -57,6 +64,8 @@ export class SystemConfig {
   public externalPaymentUrl: string;
   @jsonProperty()
   public vouchers: boolean;
+  @jsonProperty()
+  public stripePublicKey: string;
   public paymentsIsEnabled = () => {
     return (this.paymentType === "adyen" || this.paymentType === "external");
   };
