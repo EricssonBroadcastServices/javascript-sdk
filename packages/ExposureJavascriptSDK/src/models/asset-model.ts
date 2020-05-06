@@ -36,9 +36,25 @@ export class ExternalReferences {
 
 export class Participants {
   @jsonProperty()
-  public function: string;
+  public function?: string;
   @jsonProperty()
   public name: string;
+}
+
+export class PlayHistory {
+  @jsonProperty()
+  public channelId?: string;
+  @jsonProperty()
+  public lastViewedOffset?: number;
+  @jsonProperty()
+  public lastViewedTime?: number;
+  @jsonProperty()
+  public programId?: string;
+}
+
+export class UserData {
+  @jsonProperty()
+  public playHistory?: PlayHistory;
 }
 
 export enum AssetType {
@@ -89,6 +105,8 @@ export class Asset extends WithLocalized {
   public duration: number;
   @jsonProperty({ type: Season })
   public seasons?: Season[];
+  @jsonProperty()
+  public userData?: UserData;
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
