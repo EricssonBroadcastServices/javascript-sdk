@@ -31,7 +31,7 @@ export class PasswordHashConfig {
 
 export class SystemConfig {
   @jsonProperty()
-  public paymentType: string;
+  public paymentType: PaymentType;
   @jsonProperty()
   public accountConfirmationRequired: boolean;
   @jsonProperty()
@@ -67,6 +67,6 @@ export class SystemConfig {
   @jsonProperty()
   public stripePublicKey: string;
   public paymentsIsEnabled = () => {
-    return (this.paymentType === "adyen" || this.paymentType === "external");
+    return [PaymentType.ADYEN, PaymentType.EXTERNAL, PaymentType.STRIPE].includes(this.paymentType);
   };
 }

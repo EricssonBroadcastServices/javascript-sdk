@@ -26,7 +26,7 @@ export {
   PromotionResponse
 } from "./models/product-offering-model";
 export { LoginResponse } from "./models/login-response-model";
-export { CardPaymentResponse, PaymentStatus } from "./models/card-payment-response-model";
+export { CardPaymentResponse, AdyenPaymentStatus, PurchaseStatus } from "./models/card-payment-response-model";
 export { Season, SeasonResponse } from "./models/season-model";
 export { Tag, TagCollection } from "./models/tag-model";
 export { TagResponse } from "./models/tag-response-model";

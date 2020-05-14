@@ -22,7 +22,7 @@ export interface BuyProductOfferingOptions
   extends CustomerAndBusinessUnitOptions {
   productOfferingId: string;
   body: {
-    adyenCardPurchase: {
+    adyenCardPurchase?: {
       cardPaymentDetails: CardPaymentDetails;
       browserInfo: {
         userAgent: string;
@@ -55,6 +55,9 @@ export interface BuyProductOfferingOptions
         };
       };
     };
+    stripePurchase?: {
+      storeCardDetails: boolean;
+    };
     voucherCode?: string;
   };
 }
@@ -74,7 +77,7 @@ export interface VerifyPurchasePayload {
 export interface VerifyPurchaseOptions extends CustomerAndBusinessUnitOptions {
   purchaseId: string;
   body: {
-    adyenCardPurchaseVerificationRequest: VerifyPurchasePayload;
+    adyenCardPurchaseVerificationRequest?: VerifyPurchasePayload;
   };
 }
 
