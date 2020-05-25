@@ -11,7 +11,7 @@ export interface IWLReference {
   id: string;
   authorized: boolean;
   type: string;
-  presentation: {
+  presentation?: {
     imageOrientation: Orientation;
     layout: CarouselLayout;
   };
