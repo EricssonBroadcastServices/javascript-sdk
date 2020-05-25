@@ -9,6 +9,7 @@ export interface IWLSystemConfig extends SystemConfig {
 export interface IAppConfig {
   chromeCastAppId?: string;
   appStoreId?: string;
+  googleAnalyticsId?: string;
   search: {
     internalUrl: string;
   };
