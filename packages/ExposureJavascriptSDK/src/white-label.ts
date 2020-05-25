@@ -1,7 +1,11 @@
+export { Orientation } from "./interfaces/orientation";
+export { DeviceGroup } from "./interfaces/device-group";
+export { IWLCarouselItem, IWLSeason, IWLAssetTag } from "./interfaces/wl-carousel-item";
 export { IWLReference, CarouselImageOrientation, CarouselLayout } from "./interfaces/wl-reference";
-export { IWLAction } from "./interfaces/wl-action";
+export { IWLAction, WLActionType, WLInternalActionType } from "./interfaces/wl-action";
 export { IWLHeroBanner, IWLHeroBannerItem } from "./interfaces/wl-herobanner";
 export { IWLConfig } from "./interfaces/wl-config";
 export { IWLMenuItem } from "./interfaces/wl-menu";
-
+export { WLComponentType } from "./interfaces/wl-component";
+export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
 export { Theme } from "./models/wl-theme";
