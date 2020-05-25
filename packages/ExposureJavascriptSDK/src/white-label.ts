@@ -4,7 +4,7 @@ export { IWLCarouselItem, IWLSeason, IWLAssetTag } from "./interfaces/wl-carouse
 export { IWLReference, CarouselImageOrientation, CarouselLayout } from "./interfaces/wl-reference";
 export { IWLAction, WLActionType, WLInternalActionType } from "./interfaces/wl-action";
 export { IWLHeroBanner, IWLHeroBannerItem } from "./interfaces/wl-herobanner";
-export { IWLConfig } from "./interfaces/wl-config";
+export { IWLConfig, IWLSystemConfig, IAppConfig } from "./interfaces/wl-config";
 export { IWLMenuItem } from "./interfaces/wl-menu";
 export { WLComponentType } from "./interfaces/wl-component";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";

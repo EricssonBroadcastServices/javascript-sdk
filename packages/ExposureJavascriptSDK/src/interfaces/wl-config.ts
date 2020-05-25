@@ -2,11 +2,11 @@ import { SystemConfig } from "../models/system-config-model";
 import { Theme } from "../models/wl-theme";
 import { IWLMenuItem } from "./wl-menu";
 
-interface ISystemConfig extends SystemConfig {
+export interface IWLSystemConfig extends SystemConfig {
   displayLocales: any;
 }
 
-interface IAppConfig {
+export interface IAppConfig {
   chromeCastAppId?: string;
   appStoreId?: string;
   search: {
@@ -24,7 +24,7 @@ export interface IWLConfig {
   title: string;
   menu: IWLMenuItem[];
   logo: string;
-  systemConfig: ISystemConfig;
+  systemConfig: IWLSystemConfig;
   theme: Theme;
   appConfig: IAppConfig;
 }

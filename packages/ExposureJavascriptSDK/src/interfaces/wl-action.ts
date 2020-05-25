@@ -1,5 +1,12 @@
 import { IWLReference } from "./wl-reference";
 
+export enum WLActionTypes {
+  NavigateToPage = "NavigateToPage",
+  ExternalLink = "ExternalLink",
+  PlayAsset = "PlayAsset",
+  NavigateToDetails = "NavigateToDetails"
+}
+
 export interface IWLAction {
   type: WLActionType;
   target: string;
