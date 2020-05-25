@@ -1,12 +1,9 @@
+import { Orientation } from "./orientation";
+
 export enum CarouselLayout {
   CAROUSEL = "carousel",
   GRID = "grid",
   LIST = "list"
-}
-
-export enum CarouselImageOrientation {
-  LANDSCAPE = "landscape",
-  PORTRAIT = "portrait"
 }
 
 export interface IWLReference {
@@ -15,7 +12,7 @@ export interface IWLReference {
   authorized: boolean;
   type: string;
   presentation: {
-    imageOrientation: CarouselImageOrientation;
+    imageOrientation: Orientation;
     layout: CarouselLayout;
   };
 }

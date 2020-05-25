@@ -84,7 +84,7 @@ export class UserService extends BaseService {
   public reset({ customer, businessUnit, username }: ResetOptions) {
     return this.get(
       `${this.cuBuUrl({
-        apiVersion: "v1",
+        apiVersion: "v2",
         customer,
         businessUnit
       })}/user/password/reset/${username}`

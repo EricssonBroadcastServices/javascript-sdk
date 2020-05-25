@@ -1,7 +1,7 @@
 export { Orientation } from "./interfaces/orientation";
 export { DeviceGroup } from "./interfaces/device-group";
 export { IWLCarouselItem, IWLSeason, IWLAssetTag } from "./interfaces/wl-carousel-item";
-export { IWLReference, CarouselImageOrientation, CarouselLayout } from "./interfaces/wl-reference";
+export { IWLReference, CarouselLayout } from "./interfaces/wl-reference";
 export { IWLAction, WLActionType, WLInternalActionType } from "./interfaces/wl-action";
 export { IWLHeroBanner, IWLHeroBannerItem } from "./interfaces/wl-herobanner";
 export { IWLConfig, IWLSystemConfig, IAppConfig } from "./interfaces/wl-config";
