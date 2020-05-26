@@ -13,6 +13,10 @@ class FrontEndFeatures {
   public shouldAlwaysUseAnonymousLogin: boolean;
   @jsonProperty()
   public customLandingPageUrl?: string;
+  @jsonProperty()
+  public customAccountPageUrl?: string;
+  @jsonProperty()
+  public customSignupPageUrl?: string;
 }
 
 export class PasswordAlgorithm {
