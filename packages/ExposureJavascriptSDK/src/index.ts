@@ -38,6 +38,7 @@ export { Transaction, TransactionsWithProductOffering } from "./models/transacti
 export { UserDetailsResponse } from "./models/user-detail-response-model";
 export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
 export { PasswordPolicy } from "./models/password-policy-model";
+export { AspectRatio } from "./interfaces/apsect-ratio";
 
 export { SystemConfig, PaymentType };
 

@@ -1,4 +1,5 @@
 import { Orientation } from "./orientation";
+import { AspectRatio } from "./apsect-ratio";
 
 export enum CarouselLayout {
   CAROUSEL = "carousel",
@@ -14,5 +15,6 @@ export interface IWLReference {
   presentation?: {
     imageOrientation: Orientation;
     layout: CarouselLayout;
+    imageAspectRatio: AspectRatio;
   };
 }
