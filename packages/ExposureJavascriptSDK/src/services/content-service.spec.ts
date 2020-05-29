@@ -177,7 +177,7 @@ describe("Content service", () => {
     );
   });
   it("should get bookmarks", async () => {
-    getSpy.and.returnValue(Promise.resolve({ data: [{}] }));
+    getSpy.and.returnValue(Promise.resolve({ data: { items: [{}] } }));
     const assets = await contentService.getBookmarks({
       customer,
       businessUnit
