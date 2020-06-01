@@ -11,6 +11,7 @@ export interface IWLReference {
   internalUrl: string;
   id: string;
   authorized: boolean;
+  reloadInterval?: number;
   type: string;
   presentation?: {
     imageOrientation: Orientation;
