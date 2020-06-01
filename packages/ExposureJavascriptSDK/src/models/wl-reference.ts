@@ -21,6 +21,8 @@ export class WLReference implements IWLReference {
   @jsonProperty()
   public authorized: boolean;
   @jsonProperty()
+  public reloadInterval?: number;
+  @jsonProperty()
   public type: WLComponentType;
   @jsonProperty()
   public presentation: WLReferencePresentation = {
