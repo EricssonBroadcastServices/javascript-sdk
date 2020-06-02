@@ -20,6 +20,9 @@ export class ImageModel {
 
   @jsonProperty()
   public width = 0;
+
+  @jsonProperty({ type: String })
+  public tags: string[];
 }
 
 export class Localized {

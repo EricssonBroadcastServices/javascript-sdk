@@ -24,7 +24,8 @@ export interface IWLConfig {
   };
   title: string;
   menu: IWLMenuItem[];
-  logo: string;
+  logo?: string;
+  backgroundImage?: string;
   systemConfig: IWLSystemConfig;
   theme: Theme;
   appConfig: IAppConfig;
