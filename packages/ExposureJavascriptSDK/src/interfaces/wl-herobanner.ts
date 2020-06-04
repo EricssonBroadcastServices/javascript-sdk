@@ -7,7 +7,13 @@ export interface IWLHeroBanner {
   items: IWLHeroBannerItem[];
 }
 
+export enum WLHeroBannerItemType {
+  HEROBANNER_ITEM = "herobanner_item",
+  VIDEO_HEROBANNER_ITEM = "video_herobanner_item"
+}
+
 export interface IWLHeroBannerItem {
+  type: WLHeroBannerItemType;
   assetId?: string;
   action: IWLAction | undefined;
   title?: string;
