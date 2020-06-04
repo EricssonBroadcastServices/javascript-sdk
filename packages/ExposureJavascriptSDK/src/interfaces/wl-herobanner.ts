@@ -13,4 +13,5 @@ export interface IWLHeroBannerItem {
   title?: string;
   images?: ImageModel[];
   description?: string;
+  trailerAssetId?: string;
 }

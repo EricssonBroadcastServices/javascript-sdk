@@ -29,7 +29,7 @@ export class WLCarousel extends WLComponent {
       return Array.isArray(e) ? deserialize(WLAsset, e[0]) : e;
     });
     return carousel;
-  }
+  };
 
   public getInitialSlide() {
     switch (this.subType) {
@@ -42,12 +42,14 @@ export class WLCarousel extends WLComponent {
 }
 
 export class WLHerobannerItem {
-  @jsonProperty({ type: ImageModel})
+  @jsonProperty({ type: ImageModel })
   public images: ImageModel[];
   @jsonProperty()
   public title: string;
   @jsonProperty()
   public description: string;
+  @jsonProperty()
+  public trailerAssetId?: string;
   @jsonProperty({ type: WLAction })
   public action: WLAction;
 
@@ -59,5 +61,5 @@ export class WLHerobannerItem {
 
 export class WLHerobanner extends WLComponent {
   @jsonProperty({ type: WLHerobannerItem })
-  public items: WLHerobannerItem[]
+  public items: WLHerobannerItem[];
 }
