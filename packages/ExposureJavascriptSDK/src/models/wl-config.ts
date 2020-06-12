@@ -21,6 +21,7 @@ export const breakpoints = {
 };
 
 export const paddings = {
+  half: "1rem",
   basic: "2rem",
   double: "4rem",
   mobile: "0.5rem"
