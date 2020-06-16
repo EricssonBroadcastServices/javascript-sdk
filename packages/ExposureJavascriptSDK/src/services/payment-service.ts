@@ -86,6 +86,10 @@ export interface GetProductOfferingsByVoucherOptions
   code: string;
 }
 
+export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOptions {
+  purchaseId: string;
+}
+
 export class PaymentService extends BaseService {
   public getProductOfferingsByVoucherCode({
     customer,
@@ -211,5 +215,16 @@ export class PaymentService extends BaseService {
       })}/store/purchase`,
       this.options.authHeader()
     ).then(data => deserialize(PurchaseResponse, data));
+  }
+
+  public cancelSubscription({ customer, businessUnit, purchaseId}: CancelSubscriptionOptions) {
+    return this.delete(
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/store/purchase/subscriptions/${purchaseId}`,
+      this.options.authHeader()
+    )
   }
 }
