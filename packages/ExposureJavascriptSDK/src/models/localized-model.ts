@@ -42,6 +42,10 @@ export class Localized {
   public longDescription: string;
 }
 
+const sortByResolution = (a: ImageModel, b: ImageModel) => {
+  return b.width - a.width;
+};
+
 export class WithLocalized {
   @jsonProperty({
     type: Localized
@@ -51,17 +55,33 @@ export class WithLocalized {
   public getLocaleItem = (prefferedLocale: string) =>
     this.localized.find(l => l.locale === prefferedLocale) || this.localized[0];
 
-  public getImage = (orientation = "LANDSCAPE", locale: string) => {
+  public getLocalizedValue = (property: string, locale: string, defaultLocale?: string) => {
+    if (!this.localized || this.localized.length === 0) {
+      return "";
+    }
+    const localeItem = this.localized.find(localizedItem => localizedItem.locale === locale);
+    if (!localeItem || !localeItem[property] || (Array.isArray(localeItem[property]) && !localeItem[property].length)) {
+      if (defaultLocale) {
+        return this.getLocalizedValue(property, defaultLocale);
+      }
+      if (locale === this.localized[0].locale) {
+        return "";
+      }
+      return this.getLocalizedValue(property, this.localized[0].locale);
+    }
+    return localeItem[property] || "";
+  };
+
+  public getImage = (orientation = "LANDSCAPE", locale: string, defaultLocale?: string) => {
     if (!this.localized.length) {
       return "";
     }
-    const sortByResolution = (a: ImageModel, b: ImageModel) => {
-      return b.width - a.width;
-    };
-    const allImages =
-      this.getLocaleItem(locale).images.length > 0
-        ? this.getLocaleItem(locale).images.sort(sortByResolution)
-        : this.localized[0].images.sort(sortByResolution);
+
+    const allImages = (this.getLocalizedValue("images", locale, defaultLocale) || []).sort(sortByResolution);
+    if (!allImages || !allImages.length) {
+      return "";
+    }
+
     const imagesByCorrectOrientation = allImages.filter(i => i.orientation === orientation.toUpperCase());
     const imagesByCorrectType = imagesByCorrectOrientation.filter(i => {
       if (orientation === Orientation.LANDSCAPE) {
@@ -83,22 +103,8 @@ export class WithLocalized {
     return "";
   };
 
-  public getLocalizedValue = (property: string, locale: string) => {
-    if (!this.localized || this.localized.length === 0) {
-      return "";
-    }
-    const localeItem = this.localized.find(localizedItem => localizedItem.locale === locale);
-    if (!localeItem || !localeItem[property]) {
-      if (locale === this.localized[0].locale) {
-        return "";
-      }
-      return this.getLocalizedValue(property, this.localized[0].locale);
-    }
-    return localeItem[property] || "";
-  };
-
-  public getTitle = (locale: string) => {
-    return this.getLocalizedValue("title", locale);
+  public getTitle = (locale: string, defaultLocale?: string) => {
+    return this.getLocalizedValue("title", locale, defaultLocale);
   };
 
   public maxLength = (aString: string, maxLength: number | null) => {
@@ -110,18 +116,20 @@ export class WithLocalized {
     }
     return aString.slice(0, maxLength) + "...";
   };
-  public getShortDescription = (locale: string, maxLength: number | null = null) => {
-    return this.maxLength(this.getLocalizedValue("shortDescription", locale), maxLength || 50);
+  public getShortDescription = (locale: string, maxLength: number | null = null, defaultLocale?: string) => {
+    return this.maxLength(this.getLocalizedValue("shortDescription", locale, defaultLocale), maxLength || 50);
   };
-  public getMediumDescription = (locale: string) => this.getLocalizedValue("description", locale);
-  public getLongDescription = (locale: string) => this.getLocalizedValue("longDescription", locale);
-  public getDescription = (locale: string, maxLength: number | null = null) => {
-    if (this.getLongDescription(locale)) {
-      return this.maxLength(this.getLongDescription(locale), maxLength);
-    } else if (this.getMediumDescription(locale)) {
-      return this.maxLength(this.getMediumDescription(locale), maxLength);
-    } else if (this.getShortDescription(locale)) {
-      return this.maxLength(this.getShortDescription(locale), maxLength);
+  public getMediumDescription = (locale: string, defaultLocale?: string) =>
+    this.getLocalizedValue("description", locale, defaultLocale);
+  public getLongDescription = (locale: string, defaultLocale?: string) =>
+    this.getLocalizedValue("longDescription", locale, defaultLocale);
+  public getDescription = (locale: string, maxLength: number | null = null, defaultLocale?: string) => {
+    if (this.getLongDescription(locale, defaultLocale)) {
+      return this.maxLength(this.getLongDescription(locale, defaultLocale), maxLength);
+    } else if (this.getMediumDescription(locale, defaultLocale)) {
+      return this.maxLength(this.getMediumDescription(locale, defaultLocale), maxLength);
+    } else if (this.getShortDescription(locale, null, defaultLocale)) {
+      return this.maxLength(this.getShortDescription(locale, null, defaultLocale), maxLength);
     }
     return "";
   };

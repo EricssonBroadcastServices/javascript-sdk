@@ -167,11 +167,11 @@ export class Asset extends WithLocalized {
     };
   };
 
-  public getTitle = (locale: string) => {
+  public getTitle = (locale: string, defaultLocale?: string) => {
     if (this.episode && this.season) {
-      return `S${this.season}E${this.episode} ` + this.getLocalizedValue("title", locale);
+      return `S${this.season}E${this.episode} ` + this.getLocalizedValue("title", locale, defaultLocale);
     }
-    return this.getLocalizedValue("title", locale);
+    return this.getLocalizedValue("title", locale, defaultLocale);
   };
 }
 
