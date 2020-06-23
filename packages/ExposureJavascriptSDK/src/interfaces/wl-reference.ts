@@ -15,7 +15,7 @@ export interface IWLReference {
   type: string;
   presentation?: {
     imageOrientation: Orientation;
-    layout: CarouselLayout;
+    layout?: CarouselLayout;
     imageAspectRatio: AspectRatio;
   };
 }
