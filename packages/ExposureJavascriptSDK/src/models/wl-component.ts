@@ -6,18 +6,23 @@ import { deserialize } from "../decorators/property-mapper";
 import { ImageModel } from "./localized-model";
 import { WLAction } from "./wl-config";
 
+export enum CarouselSubType {
+  EPG = "epg",
+  PROGRESS = "progress"
+}
+
 export class WLComponent {
   @jsonProperty()
   public id: string;
   @jsonProperty()
   public type: string;
-  @jsonProperty()
-  public subType?: string;
 }
 
 export class WLCarousel extends WLComponent {
   @jsonProperty()
   public title: string;
+  @jsonProperty()
+  public subType?: CarouselSubType;
   @jsonProperty({ type: WLAsset })
   public assets: WLAsset[];
 
@@ -33,7 +38,7 @@ export class WLCarousel extends WLComponent {
 
   public getInitialSlide() {
     switch (this.subType) {
-      case "epg": // replce with enum from sdk ??
+      case CarouselSubType.EPG:
         return this.assets.map((a, i) => ({ ...a, index: i })).find(a => a.isLive())?.index || 0;
       default:
         return 0;
