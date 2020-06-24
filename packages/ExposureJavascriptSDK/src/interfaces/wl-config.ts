@@ -15,6 +15,12 @@ export interface IAppConfig {
   };
 }
 
+export interface IApiConfig {
+  search: {
+    internalUrl: string;
+  };
+}
+
 export interface IWLConfig {
   customer: string;
   businessUnit: string;
@@ -29,4 +35,5 @@ export interface IWLConfig {
   systemConfig: IWLSystemConfig;
   theme: Theme;
   appConfig: IAppConfig;
+  apiConfig: IApiConfig;
 }

@@ -4,7 +4,7 @@ import { jsonProperty } from "../decorators/json-property";
 import { Theme } from "./wl-theme";
 import { IWLMenuItem } from "../interfaces/wl-menu";
 import { SystemConfig } from "./system-config-model";
-import { IWLSystemConfig, IWLConfig, IAppConfig } from "../interfaces/wl-config";
+import { IWLSystemConfig, IWLConfig, IAppConfig, IApiConfig } from "../interfaces/wl-config";
 
 export class ThemeModel extends Theme {
   public breakpoints = breakpoints;
@@ -106,7 +106,9 @@ export class WLConfig implements IWLConfig {
 	@jsonProperty()
 	public appStoreId: string;
 	@jsonProperty()
-	public logoUrl: string;
+  public logoUrl: string;
+  @jsonProperty()
+  public apiConfig: IApiConfig;
 
   public getShouldUseFreeForAll = () => this.systemConfig.frontendFeatures.shouldAlwaysUseAnonymousLogin;
 }
