@@ -6,7 +6,14 @@ export interface IWLSystemConfig extends SystemConfig {
   displayLocales: any;
 }
 
+export interface IContactInformation {
+  email?: string;
+  phone?: string;
+  website?: string;
+}
+
 export interface IAppConfig {
+  __DEPRECATED__WILL__BE_REMOVED__?: boolean;
   chromeCastAppId?: string;
   appStoreId?: string;
   googleAnalyticsId?: string;
@@ -21,6 +28,12 @@ export interface IApiConfig {
   };
 }
 
+export interface IParameters {
+  chromecastAppId?: string;
+  appStoreId?: string;
+  googleAnalyticsId?: string;
+}
+
 export interface IWLConfig {
   customer: string;
   businessUnit: string;
@@ -33,7 +46,9 @@ export interface IWLConfig {
   logo?: string;
   backgroundImage?: string;
   systemConfig: IWLSystemConfig;
+  parameters: IParameters;
   theme: Theme;
   appConfig: IAppConfig;
   apiConfig: IApiConfig;
+  contactInformation: IContactInformation;
 }

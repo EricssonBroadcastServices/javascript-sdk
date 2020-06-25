@@ -4,12 +4,14 @@ import { jsonProperty } from "../decorators/json-property";
 import { Theme } from "./wl-theme";
 import { IWLMenuItem } from "../interfaces/wl-menu";
 import { SystemConfig } from "./system-config-model";
-import { IWLSystemConfig, IWLConfig, IAppConfig, IApiConfig } from "../interfaces/wl-config";
-
-export class ThemeModel extends Theme {
-  public breakpoints = breakpoints;
-  public padding = paddings;
-}
+import {
+  IWLSystemConfig,
+  IWLConfig,
+  IAppConfig,
+  IApiConfig,
+  IContactInformation,
+  IParameters
+} from "../interfaces/wl-config";
 
 export const breakpoints = {
   mobile: "600px",
@@ -27,6 +29,10 @@ export const paddings = {
   mobile: "0.5rem"
 };
 
+export class ThemeModel extends Theme {
+  public breakpoints = breakpoints;
+  public padding = paddings;
+}
 
 export class WLAction implements IWLAction {
   @jsonProperty()
@@ -92,7 +98,7 @@ export class WLConfig implements IWLConfig {
   @jsonProperty()
   public description: string;
   @jsonProperty({ type: WLMenuItem })
-  public menu: WLMenuItem[]
+  public menu: WLMenuItem[];
   @jsonProperty()
   public logo: string;
   @jsonProperty()
@@ -103,12 +109,16 @@ export class WLConfig implements IWLConfig {
   public theme: ThemeModel = new ThemeModel();
   @jsonProperty()
   public appConfig: IAppConfig;
-	@jsonProperty()
-	public appStoreId: string;
-	@jsonProperty()
+  @jsonProperty()
+  public appStoreId: string;
+  @jsonProperty()
   public logoUrl: string;
   @jsonProperty()
   public apiConfig: IApiConfig;
+  @jsonProperty()
+  public contactInformation: IContactInformation;
+  @jsonProperty()
+  public parameters: IParameters;
 
   public getShouldUseFreeForAll = () => this.systemConfig.frontendFeatures.shouldAlwaysUseAnonymousLogin;
 }
