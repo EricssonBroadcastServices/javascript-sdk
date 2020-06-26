@@ -2,10 +2,20 @@ import { SystemConfig } from "../models/system-config-model";
 import { Theme } from "../models/wl-theme";
 import { IWLMenuItem } from "./wl-menu";
 
+/**
+ * @typedef {SystemConfig} IWLSystemConfig
+ * @property {object} displayLocales
+ */
 export interface IWLSystemConfig extends SystemConfig {
   displayLocales: any;
 }
 
+/**
+ * @typedef IContactInformation
+ * @property {string} email - optional
+ * @property {string} phone - optional
+ * @property {string} website - optional
+ */
 export interface IContactInformation {
   email?: string;
   phone?: string;
@@ -22,17 +32,54 @@ export interface IAppConfig {
   };
 }
 
+/**
+ * @typedef IApiConfigSearch
+ * @property {string} internalUrl
+ */
+/**
+ * @typedef IApiConfig
+ * @property {IApiConfigSearch} search
+ */
 export interface IApiConfig {
   search: {
     internalUrl: string;
   };
 }
 
+/**
+ * @typedef IParameters
+ * @property {string} chromecastAppId - optional
+ * @property {string} appStoreId - optional
+ * @property {string} googleAnalyticsId - optional
+ */
+
 export interface IParameters {
   chromecastAppId?: string;
   appStoreId?: string;
   googleAnalyticsId?: string;
 }
+
+/**
+ * @typedef IConfigHomePage
+ * @property {string} id
+ * @property {string} internalUrl - relative URL with the same baseUrl as the current request
+ */
+
+/**
+ * @typedef WLConfig
+ * @property {string} customer
+ * @property {string} businessUnit
+ * @property {IConfigHomePage} homePage
+ * @property {string} title
+ * @property {WLMenuItem[]} menu
+ * @property {string} logo - optional
+ * @property {string} backgroundImage - optional
+ * @property {WLSystemConfig} systemConfig
+ * @property {IParameters} parameters,
+ * @property {Theme} theme
+ * @property {ApiConfig} apiConfig
+ * @property {ContactInformation} contactInformation
+ */
 
 export interface IWLConfig {
   customer: string;
