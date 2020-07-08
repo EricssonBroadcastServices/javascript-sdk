@@ -91,6 +91,7 @@ export interface IWLConfig {
   title: string;
   menu: IWLMenuItem[];
   logo?: string;
+  favicon?: string;
   backgroundImage?: string;
   systemConfig: IWLSystemConfig;
   parameters: IParameters;
