@@ -19,3 +19,4 @@ export { IExternalResponse, IExternalResponseOptions } from "./interfaces/extern
 export { Theme } from "./models/wl-theme";
 export { WLConfig, WLAction, WLLanguage, WLMenuItem, WLSystemConfig, ThemeModel } from "./models/wl-config";
 export { WLReference, WLReferencePresentation } from "./models/wl-reference";
+export { WhiteLabelService } from "./services/white-label-service";
