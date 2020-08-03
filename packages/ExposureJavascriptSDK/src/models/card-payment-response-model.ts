@@ -22,6 +22,11 @@ class AdyenPaymentRedirect {
   public url: string;
 }
 
+export enum StripePaymentType {
+  CARD = "card",
+  IDEAL = "ideal",
+}
+
 class StripePurchaseResponse {
   @jsonProperty()
   public clientSecret: string;
@@ -29,6 +34,8 @@ class StripePurchaseResponse {
   public stripeCustomerId: string;
   @jsonProperty()
   public status: string;
+  @jsonProperty({ type: String })
+  public paymentMethodTypes: StripePaymentType[];
 }
 
 export enum PurchaseStatus {
