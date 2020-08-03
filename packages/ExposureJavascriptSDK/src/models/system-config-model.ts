@@ -70,6 +70,8 @@ export class SystemConfig {
   public vouchers: boolean;
   @jsonProperty()
   public stripePublicKey: string;
+  @jsonProperty()
+  public signupMinimumAge: number;
   public paymentsIsEnabled = () => {
     return [PaymentType.ADYEN, PaymentType.EXTERNAL, PaymentType.STRIPE].includes(this.paymentType);
   };
