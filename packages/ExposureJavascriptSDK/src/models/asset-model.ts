@@ -139,7 +139,7 @@ export class Asset extends WithLocalized {
       : this.publications[0].fromDate;
   };
 
-  
+
   public getYear = () => {
     return this.productionYear;
   };
@@ -209,4 +209,15 @@ export class AssetResponse {
 export class EpisodesResponse extends AssetResponse {
   public seriesId: string;
   public seasonNumber: number;
+}
+
+export class PreferenceListItem {
+  @jsonProperty()
+  public assetId: string;
+  @jsonProperty()
+  public lastUpdated: Date;
+  @jsonProperty()
+  public order: number;
+  @jsonProperty()
+  public asset: Asset;
 }

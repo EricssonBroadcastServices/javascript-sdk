@@ -12,6 +12,7 @@ import { PaymentService, CardPaymentDetails, VerifyPurchasePayload } from "./ser
 
 /* Models */
 import { SystemConfig, PaymentType } from "./models/system-config-model";
+import { PreferencesService } from "./services/preferences-service";
 
 export { Localized, ImageModel } from "./models/localized-model";
 export { Asset, AssetResponse, AssetType, Participants, Publication, ExternalReferences } from "./models/asset-model";
@@ -77,4 +78,5 @@ export class ExposureApi {
   public search = new SearchService(this.options);
   public user = new UserService(this.options);
   public payment = new PaymentService(this.options);
+  public preferences = new PreferencesService(this.options);
 }
