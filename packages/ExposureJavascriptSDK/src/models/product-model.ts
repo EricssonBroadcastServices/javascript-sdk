@@ -19,3 +19,10 @@ export class ProductResponse {
   @jsonProperty({ type: Product })
   public notEntitled: Product[] = [];
 }
+
+export class AvailabilityKeysResponse {
+  @jsonProperty()
+  public expiryDate: Date;
+  @jsonProperty({ type: String })
+  public availabilityKeys: string[];
+}

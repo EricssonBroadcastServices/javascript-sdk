@@ -25,6 +25,8 @@ export class Publication {
   public countries: string[] = [];
   @jsonProperty({ type: String })
   public products: string[] = [];
+  @jsonProperty({ type: String })
+  public availabilityKeys: string[];
 }
 
 export class ExternalReferences {

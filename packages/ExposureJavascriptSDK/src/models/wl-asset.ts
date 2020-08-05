@@ -157,6 +157,17 @@ ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
       this.publications.map(pub => pub.products)
     );
   };
+
+  public getAvailabilityKeys = (): string[] => {
+    /* eslint-disable @typescript-eslint/ban-ts-ignore */
+    /* eslint-disable prefer-spread */
+    return [].concat.apply(
+      [],
+      // @ts-ignore
+      this.publications.map(pub => pub.availabilityKeys)
+    );
+  };
+
   public getHasProperProduct = (userEntitlements: Product[]) => {
     const isEntitled = userEntitlements.filter(ut => this.requiredProducts().includes(ut.id));
     return isEntitled.length > 0;
