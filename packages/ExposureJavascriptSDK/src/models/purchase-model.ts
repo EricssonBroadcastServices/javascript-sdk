@@ -17,9 +17,15 @@ export class Purchase {
   public renewAt: Date;
   @jsonProperty()
   public status: string;
+  @jsonProperty()
+  public assetId?: string;
 }
 
 export class PurchaseResponse {
   @jsonProperty({ type: Purchase })
   public purchases: Purchase[] = [];
+
+  public getTvods = () => {
+    return this.purchases.filter(p => p.assetId);
+  }
 }

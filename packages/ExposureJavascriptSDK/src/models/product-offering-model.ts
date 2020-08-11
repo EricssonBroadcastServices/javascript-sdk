@@ -55,6 +55,8 @@ export class ProductOffering {
   public recurrence?: string;
   @jsonProperty({ type: LocalizedMetadata })
   public localizedMetadata: LocalizedMetadata[];
+  @jsonProperty()
+  public productRequiresSelectAsset: boolean;
   @jsonProperty({ type: String })
   public productIds: string[];
   @jsonProperty({ type: OfferingPrice })

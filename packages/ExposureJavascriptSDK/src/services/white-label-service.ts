@@ -57,6 +57,11 @@ export class WhiteLabelService extends BaseService {
       .then(data => deserialize(WLAsset, data));
   }
 
+  public getAssetsByIds({ customer, businessUnit, assetIds, locale }: { customer: string; businessUnit: string; assetIds: string[]; locale: string }): Promise<WLAsset[]> {
+    return this.get(`/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?deviceGroup=${this.deviceGroup}&locale=${locale}&includeSeasons=true&fieldSet=ALL&includeEpisodes=true&${assetIds.map(a => `assetIds=${a}`).join("&")}`)
+      .then(data => data.items.map(a => deserialize(WLAsset, a)));
+  }
+
   public search({ url, searchTerm }: { url: string; searchTerm: string }): Promise<WLAsset[]> {
     return this.get(url.replace("{query}", searchTerm))
       .then(data => {

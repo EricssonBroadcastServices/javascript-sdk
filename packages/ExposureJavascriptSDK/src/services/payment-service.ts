@@ -8,6 +8,7 @@ import { PurchaseResponse } from "../models/purchase-model";
 export interface GetProductOfferingsByCountryOptions
   extends CustomerAndBusinessUnitOptions {
   countryCode: string;
+  includeSelectAssetProducts?: boolean;
 }
 
 export interface CardPaymentDetails {
@@ -22,6 +23,7 @@ export interface BuyProductOfferingOptions
   extends CustomerAndBusinessUnitOptions {
   productOfferingId: string;
   body: {
+    assetId?: string;
     adyenCardPurchase?: {
       cardPaymentDetails: CardPaymentDetails;
       browserInfo: {
@@ -64,6 +66,7 @@ export interface BuyProductOfferingOptions
 
 export interface BuyWithVoucherCodeOptions extends CustomerAndBusinessUnitOptions {
   productOfferingId: string;
+  assetId?: string;
   code: string;
 }
 
@@ -110,14 +113,15 @@ export class PaymentService extends BaseService {
   public getProductOfferingsByCountry({
     customer,
     businessUnit,
-    countryCode
+    countryCode,
+    includeSelectAssetProducts = true
   }: GetProductOfferingsByCountryOptions) {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
         businessUnit
-      })}/store/productoffering/country/${countryCode}`
+      })}/store/productoffering/country/${countryCode}?includeSelectAssetProducts=${includeSelectAssetProducts}`
     ).then(data => {
       const productofferings: ProductOffering[] = data.productOfferings.map(p =>
         deserialize(ProductOffering, p)
@@ -147,6 +151,7 @@ export class PaymentService extends BaseService {
     customer,
     businessUnit,
     code,
+    assetId,
     productOfferingId
   }: BuyWithVoucherCodeOptions) {
     return this.post(
@@ -156,6 +161,7 @@ export class PaymentService extends BaseService {
         businessUnit
       })}/store/purchase/${productOfferingId}`,
       {
+        assetId,
         voucherCode: code
       },
       this.options.authHeader()

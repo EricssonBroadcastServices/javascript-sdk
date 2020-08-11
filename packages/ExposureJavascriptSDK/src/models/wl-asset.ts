@@ -100,16 +100,16 @@ ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
     return this.publications[0].fromDate.getTime() > Date.now();
   };
 
-  public getIsEntitled = (userEntitlements: Product[]) => {
-    return this.getHasProperProduct(userEntitlements) && !this.getIsBlackedOut(userEntitlements) && !this.inFuture();
+  public getIsEntitled = (availabilityKeys: string[]) => {
+    return this.getHasProperProduct(availabilityKeys) && !this.inFuture();
   };
 
-  public getActionLink = (userEntitlements: Product[]): string => {
+  public getActionLink = (userEntitlements: Product[], availabilityKeys: string[]): string => {
     switch (this.action?.type) {
       case "NavigateToDetails":
         return this.getBrowseLink();
       case "PlayAsset":
-        return this.getPlayLink(userEntitlements);
+        return this.getPlayLink(userEntitlements, availabilityKeys);
     }
     return "";
   };
@@ -123,12 +123,12 @@ ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
     }
   };
 
-  public getPlayLink = (userEntitlements: Product[]) => {
+  public getPlayLink = (userEntitlements: Product[], availabilityKeys: string[]) => {
     switch (this.type) {
       case AssetType.TV_SHOW:
         return `/asset/${this.assetId}`;
       case AssetType.EPISODE:
-        return this.getIsEntitled(userEntitlements)
+        return this.getIsEntitled(availabilityKeys)
           ? `/play/${this.assetId}?playlist=season`
           : `/asset/${this.assetId}`;
       default:
@@ -138,14 +138,14 @@ ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
             : `/asset/${this.assetId}`;
         } */
         if (this.tvShowId && this.season) {
-          return this.getIsEntitled(userEntitlements)
+          return this.getIsEntitled(availabilityKeys)
             ? `/play/${this.assetId}?playlist=season`
             : `/asset/${this.assetId}`;
         }
         if (this.anonymousIsAllowed(userEntitlements)) {
           return `/play/anonymous/${this.assetId}`;
         }
-        return this.getIsEntitled(userEntitlements) ? `/play/${this.assetId}` : `/asset/${this.assetId}`;
+        return this.getIsEntitled(availabilityKeys) ? `/play/${this.assetId}` : `/asset/${this.assetId}`;
     }
   };
   public requiredProducts = (): string[] => {
@@ -168,8 +168,8 @@ ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
     );
   };
 
-  public getHasProperProduct = (userEntitlements: Product[]) => {
-    const isEntitled = userEntitlements.filter(ut => this.requiredProducts().includes(ut.id));
+  public getHasProperProduct = (userAvailabilityKeys: string[]) => {
+    const isEntitled = userAvailabilityKeys.filter(key => this.getAvailabilityKeys().includes(key));
     return isEntitled.length > 0;
   };
   public getBuyableProductOfferings = (availableProductOfferings: WLProductOffering[]) => {
@@ -182,10 +182,6 @@ ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
       )
       .filter(p => this.requiredProducts().includes(p));
     return availableProductOfferings.filter(po => po.productIds.filter(pId => buyable.includes(pId)).length > 0);
-  };
-  public getIsBlackedOut = (userEntitlements: Product[]) => {
-    const blockedProducts = userEntitlements.filter(ut => ut.blocked);
-    return this.requiredProducts().filter(p => blockedProducts.map(bp => bp.id).includes(p)).length > 0;
   };
 
   public getAnonymousProducts = (userEntitlements: Product[]) => {
