@@ -2,7 +2,8 @@ import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import {
   PasswordTuple,
   DeviceInfo,
-  Credentials
+  Credentials,
+  DeviceType
 } from "./authentication-service";
 import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/signup-response-model";
@@ -64,6 +65,16 @@ export interface ChangePasswordOptions extends CustomerAndBusinessUnitOptions {
 export interface ConfirmActivationCodeOptions
   extends CustomerAndBusinessUnitOptions {
   code: string;
+}
+
+export interface ConsumeActivationCodeOptions 
+  extends CustomerAndBusinessUnitOptions {
+  code: string;
+  device: {
+    deviceId: string;
+    name: string;
+    type: DeviceType;
+  };
 }
 
 export class UserService extends BaseService {
@@ -196,12 +207,42 @@ export class UserService extends BaseService {
   }: ConfirmActivationCodeOptions) {
     return this.put(
       `${this.cuBuUrl({
-        apiVersion: "v1",
+        apiVersion: "v2",
         customer,
         businessUnit
       })}/user/activation/confirm/${code}`,
       null,
       this.options.authHeader()
     );
+  }
+
+  public getActivationCode({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions): Promise<{ code: string; expires: Date }> {
+    return this.get(
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/userActivation/activationCode`
+    ).then(data => ({
+      ...data,
+      expires: new Date(data.expires)
+    }));
+  }
+
+  public consumeActivationCode({ code, device, customer, businessUnit }: ConsumeActivationCodeOptions) {
+    return this.post(
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/userActivation/consume`,
+      {
+        activationCode: code,
+        device
+      }
+    ).then(data => deserialize(LoginResponse, data));
   }
 }

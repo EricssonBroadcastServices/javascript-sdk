@@ -1,3 +1,5 @@
+import { DeviceType } from "../src/services/authentication-service";
+
 export const mocks = {
   customer: "CU",
   businessUnit: "BU",
@@ -5,7 +7,7 @@ export const mocks = {
   device: {
     height: 0,
     width: 0,
-    type: "WEB" as "WEB",
+    type: "WEB" as DeviceType,
     name: "name",
     deviceId: "123"
   }

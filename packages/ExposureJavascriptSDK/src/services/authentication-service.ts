@@ -3,10 +3,15 @@ import { deserialize } from "../decorators/property-mapper";
 import { LoginResponse } from "../models/login-response-model";
 import { SessionResponse } from "../models/session-model";
 
+export enum DeviceType {
+  WEB = "WEB",
+  SMART_TV = "SMART_TV"
+}
+
 export interface DeviceInfo {
   height: number;
   width: number;
-  type: "WEB";
+  type: DeviceType;
   name: string;
   deviceId: string;
 }
