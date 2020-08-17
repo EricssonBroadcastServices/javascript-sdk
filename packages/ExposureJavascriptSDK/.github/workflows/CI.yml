@@ -17,8 +17,10 @@ jobs:
       uses: actions/setup-node@v1.4.3
       with:
         node-version: 12
+        registry-url: https://npm.pkg.github.com/
+        scope: '@EricssonBroadcastServices'
     - name: install
-      run: npm install
+      run: npm ci
     - name: build
       run: npm run build
     - name: test
