@@ -1,6 +1,6 @@
 {
   "name": "@EricssonBroadcastServices/exposure-javascript-sdk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "scripts": {
     "build": "tsc",
@@ -15,7 +15,9 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -40,5 +42,7 @@
     "query-string": "^6.10.1",
     "reflect-metadata": "^0.1.13"
   },
-  "browserslist": ["defaults"]
+  "browserslist": [
+    "defaults"
+  ]
 }
