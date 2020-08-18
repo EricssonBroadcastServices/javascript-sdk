@@ -3,7 +3,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "sourceRoot": "/src",
-    "target": "es5",
+    "target": "es3",
     "jsx": "react",
     "module": "commonjs",
     "moduleResolution": "node",
