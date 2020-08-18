@@ -15,9 +15,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -41,5 +39,6 @@
     "moment": "^2.26.0",
     "query-string": "^6.10.1",
     "reflect-metadata": "^0.1.13"
-  }
+  },
+  "browserslist": ["defaults"]
 }
