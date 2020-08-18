@@ -2,7 +2,7 @@ import { WLReference } from "./wl-reference";
 import { IWLAction, WLActionType } from "../interfaces/wl-action";
 import { jsonProperty } from "../decorators/json-property";
 import { Theme } from "./wl-theme";
-import { IWLMenuItem } from "../interfaces/wl-menu";
+import { IWLMenuItem, IWLFooter, IWLSocialMediaLink } from "../interfaces/wl-menu";
 import { SystemConfig } from "./system-config-model";
 import {
   IWLSystemConfig,
@@ -58,7 +58,7 @@ export class WLAction implements IWLAction {
       default:
         return "";
     }
-  }
+  };
 }
 
 export class WLMenuItem implements IWLMenuItem {
@@ -69,7 +69,18 @@ export class WLMenuItem implements IWLMenuItem {
 
   public getLink = () => {
     return this.action.getLink();
-  }
+  };
+}
+
+export class WLSocialMediaLink implements IWLSocialMediaLink {
+  @jsonProperty()
+  public icon: string;
+  @jsonProperty()
+  public action: WLAction;
+
+  public getLink = () => {
+    return this.action.getLink();
+  };
 }
 
 export class WLLanguage {
@@ -84,6 +95,13 @@ export class WLLanguage {
 export class WLSystemConfig extends SystemConfig implements IWLSystemConfig {
   @jsonProperty({ externalName: "displayLocales", type: WLLanguage })
   public locales: WLLanguage[];
+}
+
+export class WLFooter implements IWLFooter {
+  @jsonProperty({ type: WLMenuItem })
+  public menuItems: WLMenuItem[];
+  @jsonProperty({ type: WLSocialMediaLink })
+  public socialMediaLinks: WLSocialMediaLink[];
 }
 
 export class WLConfig implements IWLConfig {
@@ -121,6 +139,8 @@ export class WLConfig implements IWLConfig {
   public contactInformation: IContactInformation;
   @jsonProperty()
   public parameters: IParameters;
+  @jsonProperty()
+  public footer: WLFooter;
 
   public getShouldUseFreeForAll = () => this.systemConfig.frontendFeatures.shouldAlwaysUseAnonymousLogin;
 }

@@ -1,6 +1,6 @@
 import { SystemConfig } from "../models/system-config-model";
 import { Theme } from "../models/wl-theme";
-import { IWLMenuItem } from "./wl-menu";
+import { IWLMenuItem, IWLFooter } from "./wl-menu";
 
 /**
  * @typedef {SystemConfig} IWLSystemConfig
@@ -99,4 +99,5 @@ export interface IWLConfig {
   appConfig: IAppConfig;
   apiConfig: IApiConfig;
   contactInformation: IContactInformation;
+  footer: IWLFooter;
 }

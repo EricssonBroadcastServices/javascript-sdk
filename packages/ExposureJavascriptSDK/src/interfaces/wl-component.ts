@@ -4,5 +4,6 @@ export enum WLComponentType {
   ASSET_DISPLAY = "asset_display",
   MENU = "menu",
   PAGE = "page",
-  ASSET_PAGE = "asset_page"
+  ASSET_PAGE = "asset_page",
+  FOOTER = "footer"
 }
