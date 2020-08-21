@@ -1,5 +1,4 @@
-import { Purchase, PurchaseResponse } from "../src";
-
+import { Purchase, PurchaseResponse } from "@EricssonBroadcastServices/exposure-sdk";
 
 const mockPurchase = new Purchase();
 mockPurchase.from = new Date(Date.now() - 100000);
@@ -10,6 +9,4 @@ mockPurchase.transactionId = "123";
 mockPurchase.id = "mockPurchase";
 
 export const mockPurchaseResponse = new PurchaseResponse();
-mockPurchaseResponse.purchases = [
-  mockPurchase
-];
+mockPurchaseResponse.purchases = [mockPurchase];

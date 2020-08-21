@@ -4,7 +4,7 @@ import { LocationService } from "./services/location-service";
 import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
 import { CustomerConfigService } from "./services/customer-config-service";
-import { AuthenticationService, Credentials, PasswordTuple } from "./services/authentication-service";
+import { AuthenticationService, Credentials, PasswordTuple, DeviceType } from "./services/authentication-service";
 import { DocumentService } from "./services/document-service";
 import { SearchService } from "./services/search-service";
 import { UserService } from "./services/user-service";
@@ -59,7 +59,7 @@ export {
 };
 
 /* InterFaces */
-export { Credentials, CardPaymentDetails, VerifyPurchasePayload, PasswordTuple };
+export { Credentials, CardPaymentDetails, VerifyPurchasePayload, PasswordTuple, DeviceType };
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";

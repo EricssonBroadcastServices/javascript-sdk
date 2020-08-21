@@ -1,4 +1,4 @@
-import { DeviceType } from "../src/services/authentication-service";
+import { DeviceType } from "@EricssonBroadcastServices/exposure-sdk";
 
 export const mocks = {
   customer: "CU",

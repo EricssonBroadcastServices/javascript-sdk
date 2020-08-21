@@ -1,5 +1,5 @@
+import { Price } from "@EricssonBroadcastServices/exposure-sdk";
 import { WLOfferingPrice, WLProductOffering } from "../src/models/wl-productoffering";
-import { Price } from "../src";
 import { mockPurchaseResponse } from "./mock-purchase-response";
 import { mockProduct } from "./mock-product";
 
@@ -35,19 +35,23 @@ mockProductOffering.offeringPrice = mockOfferingPrice;
 mockProductOffering.rentalLength = "PT1M";
 
 mockProductOffering.activePurchase = mockPurchaseResponse.purchases[0];
-mockProductOffering.localizedMetadata = [{
-  locale: "en",
-  name: "test",
-  description: "123"
-}];
+mockProductOffering.localizedMetadata = [
+  {
+    locale: "en",
+    name: "test",
+    description: "123"
+  }
+];
 mockProductOffering.productIds = [mockProduct.id];
 
 export const mockProductOfferingWithoutPurchase = new WLProductOffering();
 mockProductOfferingWithoutPurchase.id = "456";
 mockProductOfferingWithoutPurchase.offeringPrice = mockOfferingPriceWithVAT;
 
-mockProductOfferingWithoutPurchase.localizedMetadata = [{
-  locale: "en",
-  name: "test",
-  description: "123"
-}];
+mockProductOfferingWithoutPurchase.localizedMetadata = [
+  {
+    locale: "en",
+    name: "test",
+    description: "123"
+  }
+];

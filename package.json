@@ -2,7 +2,10 @@
   "name": "javascript-sdk",
   "private": true,
   "scripts": {
-    "postinstall": "lerna bootstrap"
+    "postinstall": "lerna bootstrap",
+    "lerna:version": "lerna version",
+    "publish": "lerna publish -y --no-verify-access from-package",
+    "test": "lerna run test"
   },
   "devDependencies": {
     "lerna": "^3.22.1",

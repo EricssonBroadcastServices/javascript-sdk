@@ -1,4 +1,4 @@
-import { Translations } from "../src/white-label";
+import { Translations } from "../src/index";
 
 const englishTranslations = {
   PLAY: "Watch now",
