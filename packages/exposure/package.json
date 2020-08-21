@@ -1,10 +1,10 @@
 {
   "name": "@EricssonBroadcastServices/exposure-sdk",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "scripts": {
     "prepare": "tsc",
-		"watch": "tsc --watch",
+    "watch": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint --ext .ts --fix ./src/"
