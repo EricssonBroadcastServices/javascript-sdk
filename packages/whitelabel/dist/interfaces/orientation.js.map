@@ -1,0 +1,1 @@
+{"version":3,"file":"orientation.js","sourceRoot":"/src/","sources":["interfaces/orientation.ts"],"names":[],"mappings":";;;AAAA,IAAY,WAGX;AAHD,WAAY,WAAW;IACrB,sCAAuB,CAAA;IACvB,oCAAqB,CAAA;AACvB,CAAC,EAHW,WAAW,GAAX,mBAAW,KAAX,mBAAW,QAGtB","sourcesContent":["export enum Orientation {\n  LANDSCAPE = \"landscape\",\n  PORTRAIT = \"portrait\"\n}\n"]}
