@@ -1,6 +1,7 @@
 import { BaseService, deserialize } from "../index";
 import { WLConfig, WLPageModel, WLComponent, WLAsset, DeviceGroup } from "../white-label";
-import {ServiceOptions} from "./base-service";
+import { ServiceOptions } from "./base-service";
+import querystring from "query-string";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup,
@@ -58,7 +59,22 @@ export class WhiteLabelService extends BaseService {
   }
 
   public getAssetsByIds({ customer, businessUnit, assetIds, locale }: { customer: string; businessUnit: string; assetIds: string[]; locale: string }): Promise<WLAsset[]> {
-    return this.get(`/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?deviceGroup=${this.deviceGroup}&locale=${locale}&includeSeasons=true&fieldSet=ALL&includeEpisodes=true&${assetIds.map(a => `assetIds=${a}`).join("&")}`)
+    return this.getAssets({ customer, businessUnit, assetIds, locale })
+  }
+
+  public getAssets({ customer, businessUnit, locale, assetIds, sortOrder = "-created", products, type }: { type?: string; customer: string; businessUnit: string; assetIds?: string[]; locale: string; sortOrder?: string; products?: string[] }): Promise<WLAsset[]> {
+    const queryString = querystring.stringify({
+      locale,
+      deviceGroup: this.deviceGroup,
+      includeSeasons: true,
+      fieldSet: "ALL",
+      includeEpisodes: true,
+      assetIds,
+      sort: sortOrder,
+      products,
+      assetType: type
+    });
+    return this.get(`/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${queryString}`)
       .then(data => data.items.map(a => deserialize(WLAsset, a)));
   }
 
