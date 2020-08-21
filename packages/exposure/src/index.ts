@@ -18,7 +18,7 @@ export { Localized, ImageModel } from "./models/localized-model";
 export { Asset, AssetResponse, AssetType, Participants, Publication, ExternalReferences } from "./models/asset-model";
 export { Event, EventResponse } from "./models/event-model";
 export { UserLocation } from "./models/user-location-model";
-export { Product, ProductResponse } from "./models/product-model";
+export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";
 export {
   ProductOffering,
   ProductOfferingsResponse,

@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
+    "build": "lerna run prepare",
+    "watch": "lerna run watch --parallel",
     "lerna:version": "lerna version",
     "publish": "lerna publish -y --no-verify-access from-package",
     "test": "lerna run test"

@@ -1,0 +1,24 @@
+name: Publish
+on: 
+  push:
+    branches: ["master"]
+
+jobs:
+  publish:
+    if: "contains(github.event.head_commit.message, 'chore(release): publish')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+      - name: publish
+        run: |
+          npm install
+          npm run publish
+        env:
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
