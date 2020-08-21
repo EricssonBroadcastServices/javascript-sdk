@@ -1,4 +1,3 @@
-import * as moment from "moment";
 import { ImageScaler } from "../utils/image-scaler";
 import { jsonProperty } from "../decorators/json-property";
 import { IWLCarouselItem } from "../interfaces/wl-carousel-item";
@@ -9,6 +8,8 @@ import { Product } from "./product-model";
 import { Translations } from "./wl-translations";
 import { UserLocation } from "./user-location-model";
 import { WLProductOffering } from "./wl-productoffering";
+import { getTimeString, getDurationLocalized } from "../utils/time";
+import { getDayLocalized } from "../utils/date";
 
 export class WLTag {
   @jsonProperty()
@@ -65,15 +66,8 @@ export class WLAsset implements IWLCarouselItem {
   public getDurationString = () => {
     const assetDuration = this.duration;
     if (!assetDuration) return;
-    const duration = moment.duration(assetDuration);
-    const hours = duration.hours();
-    const minutes = duration.minutes();
-    const seconds = duration.seconds();
-    return `\
-${hours > 0 ? hours + "h " : ""}\
-${minutes > 0 ? minutes + "min " : ""}\
-${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
-`;
+
+    return getDurationLocalized(assetDuration);
   };
 
   public getScaledImage(orientation: string, width: number) {
@@ -181,6 +175,7 @@ ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
         availableProductOfferings.map(po => po.productIds)
       )
       .filter(p => this.requiredProducts().includes(p));
+    // @ts-ignore
     return availableProductOfferings.filter(po => po.productIds.filter(pId => buyable.includes(pId)).length > 0);
   };
 
@@ -194,20 +189,13 @@ ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
 
   public getLocalAssetStartTimeString = () => {
     if (this.getStartTime()) {
-      return moment(this.startTime).format("HH:mm");
+      return getTimeString(this.startTime);
     }
     return null;
   };
   public getLocalStartDayString = (translations: Translations) => {
     if (this.startTime) {
-      return moment(this.startTime).calendar("", {
-        sameDay: `[${translations.getText(["DATES", "TODAY"])}]`,
-        nextDay: `[${translations.getText(["DATES", "TOMORROW"])}]`,
-        lastDay: `[${translations.getText(["DATES", "YESTERDAY"])}]`,
-        nextWeek: "DD/MM/YYYY",
-        lastWeek: "DD/MM/YYYY",
-        sameElse: "DD/MM/YYYY"
-      });
+      return getDayLocalized(this.startTime, translations);
     }
     return null;
   };

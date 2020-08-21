@@ -38,7 +38,8 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "moment": "^2.26.0",
+    "date-fns": "^2.15.0",
+    "iso8601-duration": "^1.2.0",
     "query-string": "^6.13.1",
     "reflect-metadata": "^0.1.13"
   },
