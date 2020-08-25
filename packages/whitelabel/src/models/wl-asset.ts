@@ -14,7 +14,7 @@ import {
   Participants,
   Product,
   UserLocation
-} from "@ericssonbroadcastservices/exposure-sdk";
+} from "@EricssonBroadcastServices/exposure-sdk";
 
 export class WLTag {
   @jsonProperty()
