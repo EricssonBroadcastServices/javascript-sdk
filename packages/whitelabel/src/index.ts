@@ -2,7 +2,7 @@ export { WLPageModel } from "./models/wl-page";
 export { Translations } from "./models/wl-translations";
 export { ImageScaler, ImageSizes } from "./utils/image-scaler";
 export { WLSeason } from "./models/wl-season";
-export { WLCarousel, WLComponent, WLHerobanner, WLHerobannerItem } from "./models/wl-component";
+export { WLCarousel, WLComponent, WLHerobanner, WLHerobannerItem, CarouselSubType } from "./models/wl-component";
 export { WLAsset, WLTag } from "./models/wl-asset";
 export { WLProductOffering, WLOfferingPrice } from "./models/wl-productoffering";
 export { Orientation } from "./interfaces/orientation";
