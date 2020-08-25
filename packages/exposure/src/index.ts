@@ -41,6 +41,7 @@ export { UserDetailsResponse } from "./models/user-detail-response-model";
 export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
 export { PasswordPolicy } from "./models/password-policy-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
+export { ErrorContext, ApiError, AppError } from "./models/api-error-model";
 
 export { SystemConfig, PaymentType };
 
