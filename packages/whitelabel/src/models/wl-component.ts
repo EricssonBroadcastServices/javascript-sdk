@@ -1,4 +1,4 @@
-import { jsonProperty, deserialize, ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
+import { jsonProperty, deserialize, ImageModel } from "@EricssonBroadcastServices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { ImageScaler } from "../utils/image-scaler";
 import { WLSeason } from "./wl-season";

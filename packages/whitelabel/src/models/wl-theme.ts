@@ -1,4 +1,4 @@
-import {jsonProperty} from "@ericssonbroadcastservices/exposure-sdk";
+import { jsonProperty } from "@EricssonBroadcastServices/exposure-sdk";
 
 export class Theme {
   @jsonProperty()

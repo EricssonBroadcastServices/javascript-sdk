@@ -10,7 +10,7 @@ import {
   IContactInformation,
   IParameters
 } from "../interfaces/wl-config";
-import {jsonProperty, SystemConfig} from "@ericssonbroadcastservices/exposure-sdk";
+import {jsonProperty, SystemConfig} from "@EricssonBroadcastServices/exposure-sdk";
 
 export const breakpoints = {
   mobile: "600px",

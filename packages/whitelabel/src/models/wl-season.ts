@@ -1,4 +1,4 @@
-import { ImageModel, jsonProperty } from "@ericssonbroadcastservices/exposure-sdk";
+import { ImageModel, jsonProperty } from "@EricssonBroadcastServices/exposure-sdk";
 import { IWLSeason } from "../interfaces/wl-carousel-item";
 import { WLAsset } from "./wl-asset";
 

@@ -1,4 +1,4 @@
-import { BaseService, ServiceOptions, deserialize } from "@EricssonBroadcastServices/exposure-sdk";
+import { BaseService, ServiceOptions, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLConfig, WLPageModel, WLComponent, WLAsset, DeviceGroup } from "../index";
 import querystring from "query-string";
 

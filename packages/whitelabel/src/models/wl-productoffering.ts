@@ -1,6 +1,6 @@
 import { Translations } from "./wl-translations";
 import { parseISOStringToDuration } from "../utils/time";
-import { jsonProperty, OfferingPrice, ProductOffering } from "@ericssonbroadcastservices/exposure-sdk";
+import { jsonProperty, OfferingPrice, ProductOffering } from "@EricssonBroadcastServices/exposure-sdk";
 
 export class WLOfferingPrice extends OfferingPrice {
   public getPriceWithVAT = (translations: Translations) => {

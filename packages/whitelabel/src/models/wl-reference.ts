@@ -1,7 +1,7 @@
 import { Orientation } from "../interfaces/orientation";
 import { CarouselLayout, IWLReference } from "../interfaces/wl-reference";
 import { WLComponentType } from "../interfaces/wl-component";
-import {AspectRatio, jsonProperty} from "@ericssonbroadcastservices/exposure-sdk";
+import { AspectRatio, jsonProperty } from "@EricssonBroadcastServices/exposure-sdk";
 
 export class WLReferencePresentation {
   @jsonProperty()
