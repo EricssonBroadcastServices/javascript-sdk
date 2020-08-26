@@ -17,6 +17,6 @@ export { WLComponentType } from "./interfaces/wl-component";
 export { IWLCarousel } from "./interfaces/wl-carousel";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
 export { Theme } from "./models/wl-theme";
-export { WLConfig, WLAction, WLLanguage, WLMenuItem, WLSystemConfig, ThemeModel } from "./models/wl-config";
+export { WLConfig, WLAction, WLLanguage, WLMenuItem, WLSocialMediaLink, WLSystemConfig, ThemeModel } from "./models/wl-config";
 export { WLReference, WLReferencePresentation } from "./models/wl-reference";
 export { WhiteLabelService } from "./services/white-label-service";
