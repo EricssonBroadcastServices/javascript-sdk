@@ -73,7 +73,7 @@ export class WLHerobanner extends WLComponent implements IWLHeroBanner {
   public items: WLHerobannerItem[];
 }
 
-export class WLImageComponent implements IWLImageComponent {
+export class WLImageComponent extends WLComponent implements IWLImageComponent {
   @jsonProperty()
   public type: WLComponentType;
   @jsonProperty()
