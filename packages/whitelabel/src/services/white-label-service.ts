@@ -1,6 +1,6 @@
 import { BaseService, ServiceOptions, deserialize } from "@EricssonBroadcastServices/exposure-sdk";
 import { WLConfig, WLPageModel, WLComponent, WLAsset, DeviceGroup } from "../index";
-import querystring from "query-string";
+import * as querystring from "query-string";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup,
