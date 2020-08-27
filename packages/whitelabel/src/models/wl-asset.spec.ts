@@ -18,4 +18,17 @@ describe("wl asset", () => {
       expect(asset.getIsEntitled(["1", "5"])).toBe(false);
     })
   });
+  describe("metadata", () => {
+    it("should render duration string", () => {
+      const asset = new WLAsset();
+      asset.duration = 60000;
+      expect(asset.getDurationString()).toEqual("1min ");
+      asset.duration = 60000 * 61;
+      expect(asset.getDurationString()).toEqual("1h 1min ");
+      asset.duration = 60000 * 61 + 1000;
+      expect(asset.getDurationString()).toEqual("1h 1min 1sec");
+      asset.duration = 500;
+      expect(asset.getDurationString()).toEqual("");
+    })
+  })
 });

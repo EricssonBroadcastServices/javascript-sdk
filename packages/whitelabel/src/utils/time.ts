@@ -52,15 +52,15 @@ export const getTimeString = (date: Date) => {
 };
 
 // TODO localize this
-export const getDurationLocalized = (input: number) => {
-  const duration = parseSecondsToDuration(input);
+export const getDurationLocalized = (milliseconds: number) => {
+  const duration = parseSecondsToDuration(milliseconds / 1000);
   const hours = duration.hours;
   const minutes = duration.minutes;
   const seconds = duration.seconds;
 
   return `\
-  ${hours > 0 ? hours + "h " : ""}\
-  ${minutes > 0 ? minutes + "min " : ""}\
-  ${minutes < 1 && seconds > 0 ? seconds + "sec" : ""}\
-  `;
+${hours > 0 ? hours + "h " : ""}\
+${minutes > 0 ? minutes + "min " : ""}\
+${minutes <= 1 && seconds > 0 ? seconds + "sec" : ""}\
+`;
 };
