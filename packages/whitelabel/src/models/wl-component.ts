@@ -3,6 +3,10 @@ import { WLAsset } from "./wl-asset";
 import { ImageScaler } from "../utils/image-scaler";
 import { WLSeason } from "./wl-season";
 import { WLAction } from "./wl-config";
+import { IWLCarousel } from "../interfaces/wl-carousel";
+import { IWLHeroBannerItem, WLHeroBannerItemType, IWLHeroBanner } from "../interfaces/wl-herobanner";
+import { IWLImageComponent } from "../interfaces/wl-image-component";
+import { WLComponentType } from "../interfaces/wl-component";
 
 export enum CarouselSubType {
   EPG = "epg",
@@ -16,11 +20,11 @@ export class WLComponent {
   public type: string;
 }
 
-export class WLCarousel extends WLComponent {
+export class WLCarousel extends WLComponent implements IWLCarousel  {
   @jsonProperty()
   public title: string;
   @jsonProperty()
-  public subType?: CarouselSubType;
+  public subType: CarouselSubType | null;
   @jsonProperty({ type: WLAsset })
   public assets: WLAsset[];
 
@@ -44,9 +48,11 @@ export class WLCarousel extends WLComponent {
   }
 }
 
-export class WLHerobannerItem {
+export class WLHerobannerItem implements IWLHeroBannerItem {
   @jsonProperty({ type: ImageModel })
   public images: ImageModel[];
+  @jsonProperty()
+  public type: WLHeroBannerItemType;
   @jsonProperty()
   public title: string;
   @jsonProperty()
@@ -62,7 +68,22 @@ export class WLHerobannerItem {
   }
 }
 
-export class WLHerobanner extends WLComponent {
+export class WLHerobanner extends WLComponent implements IWLHeroBanner {
   @jsonProperty({ type: WLHerobannerItem })
   public items: WLHerobannerItem[];
+}
+
+export class WLImageComponent extends WLComponent implements IWLImageComponent {
+  @jsonProperty()
+  public type: WLComponentType;
+  @jsonProperty()
+  public id: string;
+  @jsonProperty()
+  public title?: string;
+  @jsonProperty()
+  public description?: string;
+  @jsonProperty()
+  public images: ImageModel[];
+  @jsonProperty()
+  public action?: WLAction;
 }
