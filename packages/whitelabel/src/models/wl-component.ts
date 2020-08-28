@@ -82,7 +82,7 @@ export class WLImageComponent extends WLComponent implements IWLImageComponent {
   public title?: string;
   @jsonProperty()
   public description?: string;
-  @jsonProperty()
+  @jsonProperty({ type: ImageModel })
   public images: ImageModel[];
   @jsonProperty()
   public action?: WLAction;
