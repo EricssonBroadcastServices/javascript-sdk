@@ -1,4 +1,4 @@
-import { BaseService, ServiceOptions, deserialize, CustomerAndBusinessUnitOptions } from "@EricssonBroadcastServices/exposure-sdk";
+import { BaseService, ServiceOptions, deserialize } from "@EricssonBroadcastServices/exposure-sdk";
 import { WLConfig, WLPageModel, WLComponent, WLAsset, DeviceGroup } from "../index";
 import * as querystring from "query-string";
 
@@ -89,7 +89,7 @@ export class WhiteLabelService extends BaseService {
     count,
     customer,
     businessUnit
-  }: CustomerAndBusinessUnitOptions & { count?: number; locale: string; }) {
+  }: { count?: number; locale: string; customer: string; businessUnit: string }) {
     const queryString = querystring.stringify({
       locale,
       deviceGroup: this.deviceGroup,
@@ -109,7 +109,7 @@ export class WhiteLabelService extends BaseService {
     date,
     daysBackward,
     daysForward
-  }: CustomerAndBusinessUnitOptions & { locale: string; date: string; daysForward?: number; daysBackward?: number; }) {
+  }: { locale: string; date: string; daysForward?: number; daysBackward?: number; customer: string; businessUnit: string }) {
     const queryString = querystring.stringify({
       locale,
       deviceGroup: this.deviceGroup,
