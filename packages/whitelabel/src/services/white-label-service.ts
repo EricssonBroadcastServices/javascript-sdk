@@ -83,4 +83,43 @@ export class WhiteLabelService extends BaseService {
         return data.items.map(item => deserialize(WLAsset, item));
       });
   }
+
+  public getChannelPicker({
+    locale,
+    count,
+    customer,
+    businessUnit
+  }: { count?: number; locale: string; customer: string; businessUnit: string }) {
+    const queryString = querystring.stringify({
+      locale,
+      deviceGroup: this.deviceGroup,
+      count
+    });
+    return this.get(`/api/internal/customer/${customer}/businessunit/${businessUnit}/channelpicker?${queryString}`)
+      .then(data => ({
+        channels: data.channels.map(
+          c => ({ channel: deserialize(WLAsset, c.channel), programs: c.programs.map(p => deserialize(WLAsset, p)) }))
+      }))
+  }
+
+  public getEpgs({
+    customer,
+    businessUnit,
+    locale,
+    date,
+    daysBackward,
+    daysForward
+  }: { locale: string; date: string; daysForward?: number; daysBackward?: number; customer: string; businessUnit: string }) {
+    const queryString = querystring.stringify({
+      locale,
+      deviceGroup: this.deviceGroup,
+      daysForward,
+      daysBackward
+    });
+    return this.get(`/api/internal/customer/${customer}/businessunit/${businessUnit}/epgs/${date}?${queryString}`)
+      .then(data => ({
+        channels: data.channels.map(
+          c => ({ channel: deserialize(WLAsset, c.channel), programs: c.programs.map(p => deserialize(WLAsset, p)) }))
+      }))
+  }
 }
