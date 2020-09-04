@@ -77,6 +77,11 @@ export interface ConsumeActivationCodeOptions
   };
 }
 
+export interface ChangeEmailOptions extends CustomerAndBusinessUnitOptions {
+  email: string;
+  credentials: Credentials;
+}
+
 export class UserService extends BaseService {
   public signup({ customer, businessUnit, body }: SignupOptions) {
     return this.post(
@@ -244,5 +249,20 @@ export class UserService extends BaseService {
         device
       }
     ).then(data => deserialize(LoginResponse, data));
+  }
+
+  public changeEmail({ email, customer, businessUnit, credentials }: ChangeEmailOptions) {
+    return this.put(
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/user/changeEmail`,
+      {
+        credentials,
+        newEmailAddress: email
+      },
+      this.options.authHeader()
+    );
   }
 }
