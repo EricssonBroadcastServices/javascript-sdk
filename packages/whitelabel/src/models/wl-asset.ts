@@ -131,11 +131,6 @@ export class WLAsset implements IWLCarouselItem {
           ? `/play/${this.assetId}?playlist=season`
           : `/asset/${this.assetId}`;
       default:
-        /* if (this.materialType === "LOW_LATENCY_CHANNEL") {
-          return this.getIsEntitled(userEntitlements)
-            ? `/play/ll/${this.assetId}`
-            : `/asset/${this.assetId}`;
-        } */
         if (this.tvShowId && this.season) {
           return this.getIsEntitled(availabilityKeys)
             ? `/play/${this.assetId}?playlist=season`
@@ -147,6 +142,12 @@ export class WLAsset implements IWLCarouselItem {
         return this.getIsEntitled(availabilityKeys) ? `/play/${this.assetId}` : `/asset/${this.assetId}`;
     }
   };
+
+  public getTrailerAssetId = (): string | null => {
+    const trailer = Array.isArray(this.externalReferences) ? this.externalReferences.find(ref => ref.type === "trailer") : null; 
+    return trailer?.locator ?? null;
+  }
+
   public requiredProducts = (): string[] => {
     /* eslint-disable @typescript-eslint/ban-ts-ignore */
     /* eslint-disable prefer-spread */
