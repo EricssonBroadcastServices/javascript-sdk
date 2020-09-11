@@ -1,4 +1,4 @@
-import { parseISOStringToDuration, Duration, parseSecondsToDuration } from "./time";
+import { parseISOStringToDuration, Duration, parseSecondsToDuration, getTimeString } from "./time";
 
 const baseDuration: Duration = {
   years: 0,
@@ -12,6 +12,9 @@ const baseDuration: Duration = {
 
 describe("util/time", () => {
   describe("parseISOStringToDuration", () => {
+    it("undefined", () => {
+      expect(parseISOStringToDuration(undefined)).toEqual({ years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
+    })
     it("PT2M", () => {
       const expectedDuration = Object.assign({}, baseDuration, { minutes: 2 });
       expect(parseISOStringToDuration("PT2M")).toEqual(expectedDuration);
@@ -38,4 +41,7 @@ describe("util/time", () => {
       expect(parseSecondsToDuration(7392)).toEqual(expectedDuration);
     });
   });
+  describe("format", () => {
+    expect(getTimeString(new Date("2020-01-01"))).toBe("01:00");
+  })
 });
