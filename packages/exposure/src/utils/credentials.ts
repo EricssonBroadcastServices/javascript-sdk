@@ -1,5 +1,5 @@
-import pbkdf2 from "pbkdf2";
-import crypto from "crypto";
+import * as pbkdf2 from "pbkdf2";
+import * as crypto from "crypto";
 import { PasswordAlgorithm, PasswordHashConfig } from "../models/system-config-model";
 import { Credentials, PasswordTuple } from "../services/authentication-service";
 
