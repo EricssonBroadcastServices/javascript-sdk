@@ -13,8 +13,10 @@ import {
   ExternalReferences,
   Participants,
   Product,
-  UserLocation
+  UserLocation,
+  LoginResponse
 } from "@EricssonBroadcastServices/exposure-sdk";
+import { EntitlementCases } from "../interfaces/entitlement-cases";
 
 export class WLTag {
   @jsonProperty()
@@ -227,4 +229,43 @@ export class WLAsset implements IWLCarouselItem {
     });
     return isBlocked;
   };
+
+  public getEntitlementCase= ({
+    availabilityKeys,
+    userEntitlements,
+    paymentIsEnabled,
+    availableProductOfferings,
+    login
+  }: {
+      userEntitlements: Product[];
+      login: LoginResponse;
+      availableProductOfferings: WLProductOffering[];
+      availabilityKeys: string[];
+      paymentIsEnabled: boolean;
+    }) => {
+    if (this.inFuture() && this.getStartTime()) {
+      if(!this.getHasProperProduct(availabilityKeys) &&
+      this.getBuyableProductOfferings(availableProductOfferings).length > 0 &&
+        paymentIsEnabled) {
+        return EntitlementCases.IN_FUTURE_NEED_PURCHASE;
+      }
+      return EntitlementCases.IN_FUTURE;
+    } else if (!login.hasSession() ||login.isAnonymous) {
+      if (this.anonymousIsAllowed(userEntitlements)) {
+        return EntitlementCases.IS_ENTITLED_ANON;
+      } else {
+        return EntitlementCases.NOT_LOGGED_IN;
+      }
+    } else if (
+      !this.getHasProperProduct(availabilityKeys) &&
+      this.getBuyableProductOfferings(availableProductOfferings).length > 0 &&
+      paymentIsEnabled) {
+      return EntitlementCases.NEED_PURCHASE;
+    } else if (this.getIsEntitled(availabilityKeys)) {
+      return EntitlementCases.IS_ENTITLED;
+    }
+    else {
+      return EntitlementCases.NOT_ENTITLED;
+    }
+  }
 }
