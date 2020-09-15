@@ -22,4 +22,4 @@ export { WLReference, WLReferencePresentation } from "./models/wl-reference";
 export { WhiteLabelService } from "./services/white-label-service";
 export { IWLImageComponent } from "./interfaces/wl-image-component";
 export { EntitlementCases } from "./interfaces/entitlement-cases";
-export * as TimeUtils from "./utils/time";
+export { parseISOStringToDuration, parseSecondsToDuration, getDurationLocalized, getTimeString } from "./utils/time";
