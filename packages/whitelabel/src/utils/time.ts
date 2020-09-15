@@ -11,20 +11,24 @@ export interface Duration {
   seconds: number;
 }
 
+const oneMinuteSec = 60;
+const oneHourSec = oneMinuteSec * 60;
+const oneDaySec = oneHourSec * 24;
 /**
  * parseSecondsToDuration
  * parse seconds to duration, only parses to hours, minutes & seconds
  */
 export const parseSecondsToDuration = (input: number): Duration => {
-  const hours = Math.floor(input / 3600);
-  const minutes = Math.floor((input - hours * 3600) / 60);
-  const seconds = Math.floor(input - hours * 3600 - minutes * 60);
+  const days = Math.floor(input / oneDaySec);
+  const hours = Math.floor((input - days * oneDaySec) / oneHourSec);
+  const minutes = Math.floor((input - days * oneDaySec - hours * oneHourSec) / oneMinuteSec);
+  const seconds = Math.floor(input - days * oneDaySec - hours * oneHourSec - minutes * 60);
 
   return {
     years: 0,
     months: 0,
     weeks: 0,
-    days: 0,
+    days,
     hours,
     minutes,
     seconds
