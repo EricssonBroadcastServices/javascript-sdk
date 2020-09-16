@@ -212,6 +212,13 @@ export class WLAsset implements IWLCarouselItem {
     return this.startTime ? new Date(this.startTime) : this.publications[0].fromDate;
   };
 
+  public getTimeSlot() {
+    if (this.startTime && this.endTime) {
+      return `${getTimeString(this.startTime)} - ${getTimeString(this.endTime)}`;
+    }
+    return null;
+  }
+
   public isGeoBlocked = (location?: UserLocation) => {
     if (!location) {
       return false; // if we do not know, let the backend handle things
