@@ -21,3 +21,5 @@ export { WLConfig, WLAction, WLLanguage, WLMenuItem, WLSocialMediaLink, WLSystem
 export { WLReference, WLReferencePresentation } from "./models/wl-reference";
 export { WhiteLabelService } from "./services/white-label-service";
 export { IWLImageComponent } from "./interfaces/wl-image-component";
+export { EntitlementCase } from "./interfaces/entitlement-cases";
+export { parseISOStringToDuration, parseSecondsToDuration, getDurationLocalized, getTimeString } from "./utils/time";

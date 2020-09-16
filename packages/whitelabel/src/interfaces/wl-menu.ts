@@ -8,6 +8,7 @@ export interface IWLMenuItem {
 export interface IWLSocialMediaLink {
   action: IWLAction;
   icon: string;
+  iconUrl: string;
 }
 
 export interface IWLFooter {

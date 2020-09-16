@@ -7,4 +7,8 @@ export class UserDetailsResponse {
   public language: string;
   @jsonProperty()
   public defaultLanguage: string;
+  @jsonProperty()
+  public username: string;
+  @jsonProperty()
+  public email: string;
 }

@@ -75,6 +75,8 @@ export class WLSocialMediaLink implements IWLSocialMediaLink {
   @jsonProperty()
   public icon: string;
   @jsonProperty()
+  public iconUrl: string;
+  @jsonProperty()
   public action: WLAction;
 
   public getLink = () => {

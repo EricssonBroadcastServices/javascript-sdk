@@ -28,7 +28,12 @@ export {
   PromotionResponse
 } from "./models/product-offering-model";
 export { LoginResponse } from "./models/login-response-model";
-export { CardPaymentResponse, AdyenPaymentStatus, PurchaseStatus, StripePaymentType } from "./models/card-payment-response-model";
+export {
+  CardPaymentResponse,
+  AdyenPaymentStatus,
+  PurchaseStatus,
+  StripePaymentType
+} from "./models/card-payment-response-model";
 export { Season, SeasonResponse } from "./models/season-model";
 export { Tag, TagCollection } from "./models/tag-model";
 export { TagResponse } from "./models/tag-response-model";
@@ -66,6 +71,7 @@ export { Credentials, CardPaymentDetails, VerifyPurchasePayload, PasswordTuple, 
 export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
 export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
+export { getCredentials } from "./utils/credentials";
 
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
