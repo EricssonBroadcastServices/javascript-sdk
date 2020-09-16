@@ -10,4 +10,7 @@ describe("Image scaler", () => {
   it("should return empty string when no url", () => {
     expect(ImageScaler.fitToWidth(undefined, 400)).toBe("");
   });
+  it("should fit to height", () => {
+    expect(ImageScaler.fitToHeight("imageUrl/image.png", 300)).toBe("imageUrl/image.png?h=300")
+  })
 });

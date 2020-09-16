@@ -9,14 +9,20 @@ export enum ImageSizes {
 }
 
 export class Scaler {
-  public fitToWidth(imageUrl: string | undefined, width: number) {
+  private fit(imageUrl: string | undefined, value: number, param: "w" | "h") {
     if (!imageUrl) {
       return "";
     }
     if (imageUrl.includes("?")) {
-      return imageUrl + "&w=" + width;
+      return imageUrl + `&${param}=${value}`;
     }
-    return `${imageUrl}?w=${width}`;
+    return `${imageUrl}?${param}=${value}`;
+  }
+  public fitToWidth(imageUrl: string | undefined, width: number) {
+    return this.fit(imageUrl, width, "w");
+  }
+  public fitToHeight(imageUrl: string | undefined, height: number) {
+    return this.fit(imageUrl, height, "h");
   }
 }
 
