@@ -3,7 +3,8 @@ export enum EntitlementCase {
   IS_ENTITLED = "IS_ENTITLED",
   /**
    * indicates that the user can view the content with an anonymous session.
-   * anonymous login has to be performed before logging in
+   * anonymous login has to be performed before playing an asset
+   * TODO: should be deprecated in the future, once the apps can handle playback without it.
   */
   IS_ENTITLED_ANON = "IS_ENTITLED_ANON",
   /* indicated that the user has to log in before viewing content */
