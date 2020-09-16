@@ -1,7 +1,7 @@
 import {Publication, LoginResponse} from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { mockProduct, mockProductAnonymous } from "../../test-utils/mock-product";
-import { EntitlementCases } from "../interfaces/entitlement-cases";
+import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { mockProductOffering } from "../../test-utils/mock-wl-productoffering";
 import { mockTranslations } from "../../test-utils/mock-translations";
 
@@ -72,7 +72,7 @@ describe("wl asset", () => {
         paymentIsEnabled: true,
         login: mockLogin,
         availableProductOfferings: []
-      })).toBe(EntitlementCases.NOT_LOGGED_IN);
+      })).toBe(EntitlementCase.NOT_LOGGED_IN);
     });
     it("should return IS_ENTITLED", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
@@ -83,7 +83,7 @@ describe("wl asset", () => {
         paymentIsEnabled: true,
         login: mockLogin,
         availableProductOfferings: []
-      })).toBe(EntitlementCases.IS_ENTITLED);
+      })).toBe(EntitlementCase.IS_ENTITLED);
     });
     it("should return IN_FUTIRE", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
@@ -95,7 +95,7 @@ describe("wl asset", () => {
         paymentIsEnabled: true,
         login: mockLogin,
         availableProductOfferings: []
-      })).toBe(EntitlementCases.IN_FUTURE);
+      })).toBe(EntitlementCase.IN_FUTURE);
     });
     it("should return IN_FUTIRE_NEED_PURCHASE", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
@@ -107,7 +107,7 @@ describe("wl asset", () => {
         paymentIsEnabled: true,
         login: mockLogin,
         availableProductOfferings: [mockProductOffering]
-      })).toBe(EntitlementCases.IN_FUTURE_NEED_PURCHASE);
+      })).toBe(EntitlementCase.IN_FUTURE_NEED_PURCHASE);
     });
     it("should return IS_ENTITLED_ANON", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
@@ -124,7 +124,7 @@ describe("wl asset", () => {
         paymentIsEnabled: true,
         login: mockLogin,
         availableProductOfferings: [mockProductOffering]
-      })).toBe(EntitlementCases.IS_ENTITLED_ANON);
+      })).toBe(EntitlementCase.IS_ENTITLED_ANON);
     });
     it("should return NEED_PURCHASE", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
@@ -135,7 +135,7 @@ describe("wl asset", () => {
         paymentIsEnabled: true,
         login: mockLogin,
         availableProductOfferings: [mockProductOffering]
-      })).toBe(EntitlementCases.NEED_PURCHASE);
+      })).toBe(EntitlementCase.NEED_PURCHASE);
     });
     it("should return NOT_ENTITLED", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
@@ -146,7 +146,7 @@ describe("wl asset", () => {
         paymentIsEnabled: true,
         login: mockLogin,
         availableProductOfferings: []
-      })).toBe(EntitlementCases.NOT_ENTITLED);
+      })).toBe(EntitlementCase.NOT_ENTITLED);
     });
   });
 });
