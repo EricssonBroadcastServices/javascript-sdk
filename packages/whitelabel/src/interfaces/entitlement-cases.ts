@@ -1,4 +1,4 @@
-export enum EntitlementCases {
+export enum EntitlementCase {
   /* indicates that the user can view the content without any further action */
   IS_ENTITLED = "IS_ENTITLED",
   /**
