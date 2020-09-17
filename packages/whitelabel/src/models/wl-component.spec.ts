@@ -1,7 +1,7 @@
 import { WLCarousel, CarouselSubType, WLHerobannerItem } from "./wl-component";
 import { WLAsset } from "./wl-asset";
 import { deserialize, ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
-import { Orientation } from "../interfaces/orientation";
+import { Orientation } from "../interfaces/image-fields";
 
 describe("WL component", () => {
   describe("WL carousel", () => {

@@ -1,3 +1,4 @@
+// TODO move this to WL SDK
 export enum AspectRatio {
   THREE_BY_FOUR = "4:3",
   SIXTEEN_BY_NINE = "16:9",
