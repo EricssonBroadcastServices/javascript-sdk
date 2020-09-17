@@ -1,5 +1,5 @@
 import { AspectRatio } from "@EricssonBroadcastServices/exposure-sdk";
-import { Orientation } from "./orientation";
+import { Orientation } from "./image-fields";
 
 export enum CarouselLayout {
   CAROUSEL = "carousel",
