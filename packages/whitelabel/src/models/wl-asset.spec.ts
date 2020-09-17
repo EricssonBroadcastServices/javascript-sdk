@@ -1,4 +1,4 @@
-import {Publication, LoginResponse} from "@ericssonbroadcastservices/exposure-sdk";
+import { Publication, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { mockProduct, mockProductAnonymous } from "../../test-utils/mock-product";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
@@ -7,7 +7,7 @@ import { mockTranslations } from "../../test-utils/mock-translations";
 
 describe("wl asset", () => {
   describe("entitlement", () => {
-    const asset = new WLAsset()
+    const asset = new WLAsset();
     asset.publications = [{ availabilityKeys: ["1", "2", "3"] } as Publication];
     it("should be entitled", () => {
       spyOn(asset, "inFuture").and.returnValue(false);
@@ -20,7 +20,7 @@ describe("wl asset", () => {
     it("should not be entitled when in future", () => {
       spyOn(asset, "inFuture").and.returnValue(true);
       expect(asset.getIsEntitled(["1", "5"])).toBe(false);
-    })
+    });
   });
   describe("metadata", () => {
     it("should render duration string", () => {
@@ -83,7 +83,7 @@ describe("wl asset", () => {
 
       it("Returns a valid when there has been some progress", () => {
         const asset = new WLAsset();
-        const mockNow = new Date("2020-04-20 18:45:00")
+        const mockNow = new Date("2020-04-20 18:45:00");
         const mockStartTime = new Date("2020-04-20 18:30:00");
         const mockEndTime = new Date("2020-04-20 19:30:00");
 
@@ -123,48 +123,56 @@ describe("wl asset", () => {
     const mockLogin = new LoginResponse();
     it("should return NOT_LOGGED_IN", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
-      expect(asset.getEntitlementCase({
-        availabilityKeys: ["1"],
-        userEntitlements: [mockProduct],
-        paymentIsEnabled: true,
-        login: mockLogin,
-        availableProductOfferings: []
-      })).toBe(EntitlementCase.NOT_LOGGED_IN);
+      expect(
+        asset.getEntitlementCase({
+          availabilityKeys: ["1"],
+          userEntitlements: [mockProduct],
+          paymentIsEnabled: true,
+          login: mockLogin,
+          availableProductOfferings: []
+        })
+      ).toBe(EntitlementCase.NOT_LOGGED_IN);
     });
     it("should return IS_ENTITLED", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
       spyOn(mockLogin, "hasSession").and.returnValue(true);
-      expect(asset.getEntitlementCase({
-        availabilityKeys: ["1"],
-        userEntitlements: [mockProduct],
-        paymentIsEnabled: true,
-        login: mockLogin,
-        availableProductOfferings: []
-      })).toBe(EntitlementCase.IS_ENTITLED);
+      expect(
+        asset.getEntitlementCase({
+          availabilityKeys: ["1"],
+          userEntitlements: [mockProduct],
+          paymentIsEnabled: true,
+          login: mockLogin,
+          availableProductOfferings: []
+        })
+      ).toBe(EntitlementCase.IS_ENTITLED);
     });
     it("should return IN_FUTIRE", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
       spyOn(mockLogin, "hasSession").and.returnValue(true);
       asset.publications[0].fromDate = new Date(Date.now() + 60000);
-      expect(asset.getEntitlementCase({
-        availabilityKeys: ["1"],
-        userEntitlements: [mockProduct],
-        paymentIsEnabled: true,
-        login: mockLogin,
-        availableProductOfferings: []
-      })).toBe(EntitlementCase.IN_FUTURE);
+      expect(
+        asset.getEntitlementCase({
+          availabilityKeys: ["1"],
+          userEntitlements: [mockProduct],
+          paymentIsEnabled: true,
+          login: mockLogin,
+          availableProductOfferings: []
+        })
+      ).toBe(EntitlementCase.IN_FUTURE);
     });
     it("should return IN_FUTIRE_NEED_PURCHASE", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
       spyOn(mockLogin, "hasSession").and.returnValue(true);
       asset.publications[0].fromDate = new Date(Date.now() + 60000);
-      expect(asset.getEntitlementCase({
-        availabilityKeys: [],
-        userEntitlements: [],
-        paymentIsEnabled: true,
-        login: mockLogin,
-        availableProductOfferings: [mockProductOffering]
-      })).toBe(EntitlementCase.IN_FUTURE_NEED_PURCHASE);
+      expect(
+        asset.getEntitlementCase({
+          availabilityKeys: [],
+          userEntitlements: [],
+          paymentIsEnabled: true,
+          login: mockLogin,
+          availableProductOfferings: [mockProductOffering]
+        })
+      ).toBe(EntitlementCase.IN_FUTURE_NEED_PURCHASE);
     });
     it("should return IS_ENTITLED_ANON", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
@@ -174,36 +182,42 @@ describe("wl asset", () => {
         countries: [],
         products: [mockProductAnonymous.id],
         availabilityKeys: [mockProductAnonymous.id]
-      })
-      expect(asset.getEntitlementCase({
-        availabilityKeys: [],
-        userEntitlements: [mockProductAnonymous],
-        paymentIsEnabled: true,
-        login: mockLogin,
-        availableProductOfferings: [mockProductOffering]
-      })).toBe(EntitlementCase.IS_ENTITLED_ANON);
+      });
+      expect(
+        asset.getEntitlementCase({
+          availabilityKeys: [],
+          userEntitlements: [mockProductAnonymous],
+          paymentIsEnabled: true,
+          login: mockLogin,
+          availableProductOfferings: [mockProductOffering]
+        })
+      ).toBe(EntitlementCase.IS_ENTITLED_ANON);
     });
     it("should return NEED_PURCHASE", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
       spyOn(mockLogin, "hasSession").and.returnValue(true);
-      expect(asset.getEntitlementCase({
-        availabilityKeys: [],
-        userEntitlements: [],
-        paymentIsEnabled: true,
-        login: mockLogin,
-        availableProductOfferings: [mockProductOffering]
-      })).toBe(EntitlementCase.NEED_PURCHASE);
+      expect(
+        asset.getEntitlementCase({
+          availabilityKeys: [],
+          userEntitlements: [],
+          paymentIsEnabled: true,
+          login: mockLogin,
+          availableProductOfferings: [mockProductOffering]
+        })
+      ).toBe(EntitlementCase.NEED_PURCHASE);
     });
     it("should return NOT_ENTITLED", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
       spyOn(mockLogin, "hasSession").and.returnValue(true);
-      expect(asset.getEntitlementCase({
-        availabilityKeys: [],
-        userEntitlements: [],
-        paymentIsEnabled: true,
-        login: mockLogin,
-        availableProductOfferings: []
-      })).toBe(EntitlementCase.NOT_ENTITLED);
+      expect(
+        asset.getEntitlementCase({
+          availabilityKeys: [],
+          userEntitlements: [],
+          paymentIsEnabled: true,
+          login: mockLogin,
+          availableProductOfferings: []
+        })
+      ).toBe(EntitlementCase.NOT_ENTITLED);
     });
   });
 });

@@ -262,22 +262,24 @@ export class WLAsset implements IWLCarouselItem {
     availableProductOfferings,
     login
   }: {
-      userEntitlements: Product[];
-      login: LoginResponse;
-      availableProductOfferings: WLProductOffering[];
-      availabilityKeys: string[];
-      paymentIsEnabled: boolean;
-    }) => {
-    if (!login.hasSession() ||login.isAnonymous) {
+    userEntitlements: Product[];
+    login: LoginResponse;
+    availableProductOfferings: WLProductOffering[];
+    availabilityKeys: string[];
+    paymentIsEnabled: boolean;
+  }) => {
+    if (!login.hasSession() || login.isAnonymous) {
       if (this.anonymousIsAllowed(userEntitlements)) {
         return EntitlementCase.IS_ENTITLED_ANON;
       } else {
         return EntitlementCase.NOT_LOGGED_IN;
       }
     } else if (this.inFuture() && this.getStartTime()) {
-      if (!this.getHasProperProduct(availabilityKeys) &&
+      if (
+        !this.getHasProperProduct(availabilityKeys) &&
         this.getBuyableProductOfferings(availableProductOfferings).length > 0 &&
-        paymentIsEnabled) {
+        paymentIsEnabled
+      ) {
         return EntitlementCase.IN_FUTURE_NEED_PURCHASE;
       }
       return EntitlementCase.IN_FUTURE;
