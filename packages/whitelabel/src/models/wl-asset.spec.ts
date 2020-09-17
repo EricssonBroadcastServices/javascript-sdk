@@ -50,6 +50,63 @@ describe("wl asset", () => {
       expect(asset.getLocalStartDayString(mockTranslations)).toBe("Tomorrow");
     });
   });
+  describe("epg", () => {
+    describe("getTimeSlot()", () => {
+      it("Returns HH:mm", () => {
+        const asset = new WLAsset();
+        const mockStartTime = new Date();
+        const mockEndTime = new Date();
+        asset.startTime = mockStartTime;
+        asset.endTime = mockEndTime;
+
+        mockStartTime.setHours(14);
+        mockStartTime.setMinutes(15);
+        mockEndTime.setHours(15);
+        mockEndTime.setMinutes(45);
+
+        expect(asset.getTimeSlot()).toBe("14:15 - 15:45");
+      });
+    });
+    describe("getEPGProgress()", () => {
+      it("Returns 0 when program hasn't started", () => {
+        const asset = new WLAsset();
+        const mockStartTime = new Date();
+        const mockEndTime = new Date();
+        asset.startTime = mockStartTime;
+        asset.endTime = mockEndTime;
+
+        mockStartTime.setHours(mockStartTime.getHours() + 1);
+        mockEndTime.setHours(mockEndTime.getHours() + 2);
+
+        expect(asset.getEPGProgress()).toBe(0);
+      });
+
+      it("Returns a valid when there has been some progress", () => {
+        const asset = new WLAsset();
+        const mockNow = new Date("2020-04-20 18:45:00")
+        const mockStartTime = new Date("2020-04-20 18:30:00");
+        const mockEndTime = new Date("2020-04-20 19:30:00");
+
+        asset.startTime = mockStartTime;
+        asset.endTime = mockEndTime;
+
+        expect(asset.getEPGProgress(mockNow.getTime())).toBe(25);
+      });
+
+      it("Returns 100 when program is ended", () => {
+        const asset = new WLAsset();
+        const mockStartTime = new Date();
+        const mockEndTime = new Date();
+        asset.startTime = mockStartTime;
+        asset.endTime = mockEndTime;
+
+        mockStartTime.setHours(mockStartTime.getHours() - 2);
+        mockEndTime.setHours(mockEndTime.getHours() - 1);
+
+        expect(asset.getEPGProgress()).toBe(100);
+      });
+    });
+  });
   describe("entitlement", () => {
     let asset: WLAsset;
     beforeEach(() => {
