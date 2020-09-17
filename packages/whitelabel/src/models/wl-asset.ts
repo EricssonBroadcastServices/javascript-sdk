@@ -17,6 +17,7 @@ import {
   LoginResponse
 } from "@EricssonBroadcastServices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
+import { ImageType } from "../interfaces/image-fields";
 
 export class WLTag {
   @jsonProperty()
@@ -76,6 +77,11 @@ export class WLAsset implements IWLCarouselItem {
 
     return getDurationLocalized(assetDuration);
   };
+
+  public getScaledLogo(width: number) {
+    const imageUrl = this.images.find(image => image.type === ImageType.LOGO)?.url;
+    return ImageScaler.fitToWidth(imageUrl, width);
+  }
 
   public getScaledImage(orientation: string, width: number) {
     const imageUrl = this.images.find(image => image.orientation.toUpperCase() === orientation.toUpperCase())?.url;
