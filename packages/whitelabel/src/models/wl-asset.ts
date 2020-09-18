@@ -258,6 +258,9 @@ export class WLAsset implements IWLCarouselItem {
     }) => {
     if (!login.hasSession() ||login.isAnonymous) {
       if (this.anonymousIsAllowed(userEntitlements)) {
+        if (this.inFuture()) {
+          return EntitlementCase.IN_FUTURE;
+        }
         return EntitlementCase.IS_ENTITLED_ANON;
       } else {
         return EntitlementCase.NOT_LOGGED_IN;

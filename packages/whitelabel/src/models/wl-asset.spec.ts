@@ -52,6 +52,7 @@ describe("wl asset", () => {
   });
   describe("entitlement", () => {
     let asset: WLAsset;
+    let mockLogin: LoginResponse;
     beforeEach(() => {
       asset = new WLAsset();
       asset.publications = [
@@ -62,8 +63,8 @@ describe("wl asset", () => {
           countries: []
         }
       ];
+      mockLogin = new LoginResponse();
     });
-    const mockLogin = new LoginResponse();
     it("should return NOT_LOGGED_IN", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
       expect(asset.getEntitlementCase({
@@ -147,6 +148,23 @@ describe("wl asset", () => {
         login: mockLogin,
         availableProductOfferings: []
       })).toBe(EntitlementCase.NOT_ENTITLED);
+    });
+    it("should be IN_FUTURE when entitled anon and in future", () => {
+      spyOn(mockLogin, "hasSession").and.returnValue(false);
+      spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
+      asset.publications = [{
+        fromDate: new Date(Date.now() + 60000),
+        countries: [],
+        products: [mockProductAnonymous.id],
+        availabilityKeys: [mockProductAnonymous.id]
+      }]
+      expect(asset.getEntitlementCase({
+        login: mockLogin,
+        availabilityKeys: [mockProductAnonymous.id],
+        userEntitlements: [mockProductAnonymous],
+        paymentIsEnabled: true,
+        availableProductOfferings: []
+      })).toBe(EntitlementCase.IN_FUTURE);
     });
   });
 });
