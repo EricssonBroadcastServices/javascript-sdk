@@ -152,9 +152,11 @@ export class WLAsset implements IWLCarouselItem {
   };
 
   public getTrailerAssetId = (): string | null => {
-    const trailer = Array.isArray(this.externalReferences) ? this.externalReferences.find(ref => ref.type === "trailer") : null; 
+    const trailer = Array.isArray(this.externalReferences)
+      ? this.externalReferences.find(ref => ref.type === "trailer")
+      : null;
     return trailer?.locator ?? null;
-  }
+  };
 
   public requiredProducts = (): string[] => {
     /* eslint-disable @typescript-eslint/ban-ts-ignore */
@@ -228,6 +230,16 @@ export class WLAsset implements IWLCarouselItem {
     return null;
   }
 
+  public getEPGProgress(now?: number): number {
+    const { startTime, endTime } = this;
+    if (startTime && endTime) {
+      const currentTime = (now || Date.now()) - startTime.getTime();
+      const duration = endTime.getTime() - startTime.getTime();
+      return Math.max(Math.min((currentTime / duration) * 100, 100), 0);
+    }
+    return 0;
+  }
+
   public isGeoBlocked = (location?: UserLocation) => {
     if (!location) {
       return false; // if we do not know, let the backend handle things
@@ -243,42 +255,44 @@ export class WLAsset implements IWLCarouselItem {
     return isBlocked;
   };
 
-  public getEntitlementCase= ({
+  public getEntitlementCase = ({
     availabilityKeys,
     userEntitlements,
     paymentIsEnabled,
     availableProductOfferings,
     login
   }: {
-      userEntitlements: Product[];
-      login: LoginResponse;
-      availableProductOfferings: WLProductOffering[];
-      availabilityKeys: string[];
-      paymentIsEnabled: boolean;
-    }) => {
-    if (!login.hasSession() ||login.isAnonymous) {
+    userEntitlements: Product[];
+    login: LoginResponse;
+    availableProductOfferings: WLProductOffering[];
+    availabilityKeys: string[];
+    paymentIsEnabled: boolean;
+  }) => {
+    if (!login.hasSession() || login.isAnonymous) {
       if (this.anonymousIsAllowed(userEntitlements)) {
         return EntitlementCase.IS_ENTITLED_ANON;
       } else {
         return EntitlementCase.NOT_LOGGED_IN;
       }
     } else if (this.inFuture() && this.getStartTime()) {
-      if (!this.getHasProperProduct(availabilityKeys) &&
+      if (
+        !this.getHasProperProduct(availabilityKeys) &&
         this.getBuyableProductOfferings(availableProductOfferings).length > 0 &&
-        paymentIsEnabled) {
+        paymentIsEnabled
+      ) {
         return EntitlementCase.IN_FUTURE_NEED_PURCHASE;
       }
       return EntitlementCase.IN_FUTURE;
     } else if (
       !this.getHasProperProduct(availabilityKeys) &&
       this.getBuyableProductOfferings(availableProductOfferings).length > 0 &&
-      paymentIsEnabled) {
+      paymentIsEnabled
+    ) {
       return EntitlementCase.NEED_PURCHASE;
     } else if (this.getIsEntitled(availabilityKeys)) {
       return EntitlementCase.IS_ENTITLED;
-    }
-    else {
+    } else {
       return EntitlementCase.NOT_ENTITLED;
     }
-  }
+  };
 }
