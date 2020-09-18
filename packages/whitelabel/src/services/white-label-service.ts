@@ -5,12 +5,12 @@ import { IWLEPG } from "../interfaces/wl-epg";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup;
-  origin: string;
+  origin?: string;
 }
 
 export class WhiteLabelService extends BaseService {
   private deviceGroup: DeviceGroup;
-  private origin: string;
+  private origin?: string;
 
   constructor(apiOptions: WhiteLabelServiceOptions) {
     const { deviceGroup, origin, ...baseOptions } = apiOptions;
@@ -21,6 +21,9 @@ export class WhiteLabelService extends BaseService {
   }
 
   public getConfig({ locale }: { locale: string }) {
+    if (!this.origin) {
+      return Promise.reject(new Error("[WhiteLabelService] No origin set"));
+    }
     return this.get(
       `/api/internal/origin/config?locale=${locale}&deviceGroup=${this.deviceGroup}&origin=${this.origin}`
     ).then(data => deserialize(WLConfig, data));
