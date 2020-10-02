@@ -1,5 +1,5 @@
 import { ImageScaler } from "../utils/image-scaler";
-import { IWLCarouselItem } from "../interfaces/wl-carousel-item";
+import { IWLCarouselItem, IProductionCountry } from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
 import { WLProductOffering } from "./wl-productoffering";
@@ -65,6 +65,8 @@ export class WLAsset implements IWLCarouselItem {
   public action: any;
   @jsonProperty({ type: WLSeason })
   public seasons: WLSeason[] = [];
+  @jsonProperty()
+  public productionCountries: IProductionCountry[];
   @jsonProperty()
   public bookmark?: {
     percentage: number;

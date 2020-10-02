@@ -17,6 +17,11 @@ export interface IWLSeason {
   episodes?: IWLCarouselItem[];
 }
 
+export interface IProductionCountry {
+  code: string;
+  name: string;
+}
+
 export interface IWLCarouselItem {
   assetId: string;
   type: AssetType;
@@ -34,6 +39,7 @@ export interface IWLCarouselItem {
   externalReferences: ExternalReferences[];
   action: IWLAction;
   year: number;
+  productionCountries: IProductionCountry[];
   bookmark?: {
     time: number;
     percentage: number;
