@@ -1,4 +1,4 @@
-import { Publication, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { Publication, LoginResponse, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { mockProduct, mockProductAnonymous } from "../../test-utils/mock-product";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
@@ -49,6 +49,10 @@ describe("wl asset", () => {
       asset.startTime = mockTomorrow;
       expect(asset.getLocalStartDayString(mockTranslations)).toBe("Tomorrow");
     });
+    it("should deserialize production countries", () => {
+      const asset = deserialize(WLAsset, { productionCountries: [{ code: "SE", name: "Sweden" }] });
+      expect(asset.productionCountries).toEqual([{ code: "SE", name: "Sweden" }])
+    })
   });
   describe("epg", () => {
     describe("getTimeSlot()", () => {

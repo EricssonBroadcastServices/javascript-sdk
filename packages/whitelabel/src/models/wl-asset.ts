@@ -28,6 +28,13 @@ export class WLTag {
   public id: string;
 }
 
+class ProductionCountry implements IProductionCountry {
+  @jsonProperty()
+  public code: string;
+  @jsonProperty()
+  public name: string;
+}
+
 export class WLAsset implements IWLCarouselItem {
   @jsonProperty({ externalName: "assetId" })
   public id: string;
@@ -65,8 +72,8 @@ export class WLAsset implements IWLCarouselItem {
   public action: any;
   @jsonProperty({ type: WLSeason })
   public seasons: WLSeason[] = [];
-  @jsonProperty()
-  public productionCountries: IProductionCountry[];
+  @jsonProperty({ type: ProductionCountry })
+  public productionCountries: ProductionCountry[];
   @jsonProperty()
   public bookmark?: {
     percentage: number;
