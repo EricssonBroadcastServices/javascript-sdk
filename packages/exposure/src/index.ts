@@ -25,7 +25,8 @@ export {
   OfferingPrice,
   Price,
   Promotion,
-  PromotionResponse
+  PromotionResponse,
+  Discount
 } from "./models/product-offering-model";
 export { LoginResponse } from "./models/login-response-model";
 export {

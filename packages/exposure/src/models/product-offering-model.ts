@@ -46,6 +46,15 @@ class LocalizedMetadata {
   public description: string;
 }
 
+export class Discount {
+  @jsonProperty()
+  public price: Price;
+  @jsonProperty()
+  public numberOfRecurringPayments: number;
+  @jsonProperty()
+  public freePeriod?: string;
+}
+
 export class ProductOffering {
   @jsonProperty()
   public id: string;
@@ -61,13 +70,14 @@ export class ProductOffering {
   public productIds: string[];
   @jsonProperty({ type: OfferingPrice })
   public offeringPrice: OfferingPrice;
+  @jsonProperty()
+  public discount: Discount;
+
   public getTitle = (locale: string) => {
     if (this.localizedMetadata.length === 0) {
       return "";
     }
-    const localized = this.localizedMetadata.find(
-      metadata => metadata.locale === locale
-    );
+    const localized = this.localizedMetadata.find(metadata => metadata.locale === locale);
     return localized ? localized.name : this.localizedMetadata[0].name;
   };
 
@@ -75,12 +85,8 @@ export class ProductOffering {
     if (this.localizedMetadata.length === 0) {
       return "";
     }
-    const localized = this.localizedMetadata.find(
-      metadata => metadata.locale === locale
-    );
-    return localized
-      ? localized.description
-      : this.localizedMetadata[0].description;
+    const localized = this.localizedMetadata.find(metadata => metadata.locale === locale);
+    return localized ? localized.description : this.localizedMetadata[0].description;
   };
 
   public activePurchase?: Purchase | undefined;
