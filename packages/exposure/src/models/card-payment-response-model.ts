@@ -24,7 +24,7 @@ class AdyenPaymentRedirect {
 
 export enum StripePaymentType {
   CARD = "card",
-  IDEAL = "ideal",
+  IDEAL = "ideal"
 }
 
 class StripePurchaseResponse {
@@ -32,6 +32,8 @@ class StripePurchaseResponse {
   public clientSecret: string;
   @jsonProperty()
   public stripeCustomerId: string;
+  @jsonProperty()
+  public setupCard: boolean;
   @jsonProperty()
   public status: string;
   @jsonProperty({ type: String })

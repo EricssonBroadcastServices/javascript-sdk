@@ -22,10 +22,12 @@ export class Purchase {
 }
 
 export class PurchaseResponse {
+  @jsonProperty({ type: String })
+  public consumedProductOfferingDiscounts: string[];
   @jsonProperty({ type: Purchase })
   public purchases: Purchase[] = [];
 
   public getTvods = () => {
     return this.purchases.filter(p => p.assetId);
-  }
+  };
 }
