@@ -71,7 +71,7 @@ export class ProductOffering {
   @jsonProperty({ type: OfferingPrice })
   public offeringPrice: OfferingPrice;
   @jsonProperty()
-  public discount: Discount;
+  public discount?: Discount;
 
   public getTitle = (locale: string) => {
     if (this.localizedMetadata.length === 0) {
