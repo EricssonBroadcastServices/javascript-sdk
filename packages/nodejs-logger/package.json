@@ -1,0 +1,32 @@
+{
+  "name": "nodejs-logger",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Benjamin Wallberg <me@bwallberg.com>",
+  "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
+  "license": "ISC",
+  "main": "src/index.ts",
+  "files": [
+    "src/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricssonBroadcastServices/javascript-sdk.git"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc"
+  },
+  "bugs": {
+    "url": "https://github.com/EricssonBroadcastServices/javascript-sdk/issues"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "on-finished": "^2.3.0",
+    "winston": "^3.3.3",
+    "winston-transport": "^4.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3"
+  }
+}
