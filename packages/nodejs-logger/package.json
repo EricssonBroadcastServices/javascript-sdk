@@ -1,13 +1,12 @@
 {
-  "name": "nodejs-logger",
+  "name": "@EricssonBroadcastServices/nodejs-logger",
   "version": "1.0.0",
   "description": "",
-  "author": "Benjamin Wallberg <me@bwallberg.com>",
-  "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
+  "author": "",
   "license": "ISC",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "files": [
-    "src/"
+    "dist/**/*"
   ],
   "repository": {
     "type": "git",
