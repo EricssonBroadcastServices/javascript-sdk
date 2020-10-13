@@ -20,26 +20,28 @@ export class WhiteLabelService extends BaseService {
     this.deviceGroup = deviceGroup;
   }
 
-  public getConfig({ locale }: { locale: string }) {
+  public getConfig({ locale, countryCode }: { locale: string; countryCode?: string }) {
     if (!this.origin) {
       return Promise.reject(new Error("[WhiteLabelService] No origin set"));
     }
     return this.get(
-      `/api/internal/origin/config?locale=${locale}&deviceGroup=${this.deviceGroup}&origin=${this.origin}`
+      `/api/internal/origin/config?locale=${locale}&deviceGroup=${this.deviceGroup}&origin=${this.origin}&countryCode=${countryCode}`
     ).then(data => deserialize(WLConfig, data));
   }
 
   public getConfigByCustomerAndBusinessUnit({
     locale,
     customer,
-    businessUnit
+    businessUnit,
+    countryCode
   }: {
     locale: string;
     customer: string;
     businessUnit: string;
+    countryCode?: string;
   }) {
     return this.get(
-      `/api/internal/customer/${customer}/businessunit/${businessUnit}/config?locale=${locale}&deviceGroup=${this.deviceGroup}`
+      `/api/internal/customer/${customer}/businessunit/${businessUnit}/config?locale=${locale}&deviceGroup=${this.deviceGroup}&countryCode=${countryCode}`
     ).then(data => deserialize(WLConfig, data));
   }
 
