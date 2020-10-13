@@ -20,26 +20,39 @@ export class WhiteLabelService extends BaseService {
     this.deviceGroup = deviceGroup;
   }
 
-  public getConfig({ locale }: { locale: string }) {
+  public getConfig({ locale, countryCode }: { locale: string; countryCode?: string }) {
     if (!this.origin) {
       return Promise.reject(new Error("[WhiteLabelService] No origin set"));
     }
+    const queryString = querystring.stringify({
+      locale,
+      origin: this.origin,
+      deviceGroup: this.deviceGroup,
+      countryCode
+    })
     return this.get(
-      `/api/internal/origin/config?locale=${locale}&deviceGroup=${this.deviceGroup}&origin=${this.origin}`
+      `/api/internal/origin/config?${queryString}`
     ).then(data => deserialize(WLConfig, data));
   }
 
   public getConfigByCustomerAndBusinessUnit({
     locale,
     customer,
-    businessUnit
+    businessUnit,
+    countryCode
   }: {
     locale: string;
     customer: string;
     businessUnit: string;
-  }) {
+    countryCode?: string;
+    }) {
+    const queryString = querystring.stringify({
+      locale,
+      deviceGroup: this.deviceGroup,
+      countryCode
+    })
     return this.get(
-      `/api/internal/customer/${customer}/businessunit/${businessUnit}/config?locale=${locale}&deviceGroup=${this.deviceGroup}`
+      `/api/internal/customer/${customer}/businessunit/${businessUnit}/config?${queryString}`
     ).then(data => deserialize(WLConfig, data));
   }
 
@@ -57,8 +70,12 @@ export class WhiteLabelService extends BaseService {
     pageId: string;
     locale: string;
   }) {
+    const queryString = querystring.stringify({
+      deviceGroup: this.deviceGroup,
+      locale
+    });  
     return this.get(
-      `/api/internal/customer/${customer}/businessunit/${businessUnit}/page/${pageId}?deviceGroup=${this.deviceGroup}&locale=${locale}`
+      `/api/internal/customer/${customer}/businessunit/${businessUnit}/page/${pageId}?${queryString}`
     ).then(data => deserialize(WLPageModel, data));
   }
   public getComponentByInternalUrl<T extends WLComponent>({
@@ -83,9 +100,13 @@ export class WhiteLabelService extends BaseService {
     businessUnit: string;
     assetId: string;
     locale: string;
-  }) {
+    }) {
+    const queryString = querystring.stringify({
+      deviceGroup: this.deviceGroup,
+      locale
+    });  
     return this.get(
-      `/api/internal/customer/${customer}/businessunit/${businessUnit}/detailPage/${assetId}?deviceGroup=${this.deviceGroup}&locale=${locale}`
+      `/api/internal/customer/${customer}/businessunit/${businessUnit}/detailPage/${assetId}?${queryString}`
     ).then(data => deserialize(WLPageModel, data));
   }
 
@@ -126,7 +147,8 @@ export class WhiteLabelService extends BaseService {
     assetIds,
     sortOrder = "-created",
     products,
-    type
+    type,
+    countryCode
   }: {
     type?: string;
     customer: string;
@@ -135,6 +157,7 @@ export class WhiteLabelService extends BaseService {
     locale: string;
     sortOrder?: string;
     products?: string[];
+    countryCode?: string;
   }): Promise<WLAsset[]> {
     const queryString = querystring.stringify({
       locale,
@@ -145,7 +168,8 @@ export class WhiteLabelService extends BaseService {
       assetIds,
       sort: sortOrder,
       products,
-      assetType: type
+      assetType: type,
+      countryCode
     });
     return this.get(
       `/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${queryString}`
