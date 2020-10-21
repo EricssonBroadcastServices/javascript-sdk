@@ -10,28 +10,26 @@ export const Severity = {
   INFO: "info"
 };
 
-export const logDir = path.join("logs");
-
 const redBeeSimpleLogFormat = format.printf(({ message, level }) => {
   const now = new Date();
   return `[${now.toISOString()}]: ${level.toUpperCase()}  ${message}`;
 });
 
-const enabledExtraTransports: Transport[] = [];
-const logToConsoleEnabled = process.env.LOG_TO_CONSOLE;
-if (logToConsoleEnabled) {
-  enabledExtraTransports.push(new transports.Console());
-}
-
-const simpleFormatLogger = createLogger({
-  format: redBeeSimpleLogFormat,
-  transports: [
+let simpleFormatLogger;
+export function setupLogger(logDir: string, logToConsole = false) {
+  const enabledTransports: Transport[] = [
     new transports.File({
-      filename: path.join(__dirname, `../../${logDir}`, "/emp.log")
-    }),
-    ...enabledExtraTransports
-  ]
-});
+      filename: path.join(logDir, "/emp.log")
+    })
+  ];
+  if (logToConsole) {
+    enabledTransports.push(new transports.Console());
+  }
+  simpleFormatLogger = createLogger({
+    format: redBeeSimpleLogFormat,
+    transports: enabledTransports
+  });
+}
 
 export const logger = {
   info: (...args) => simpleFormatLogger.info(args),

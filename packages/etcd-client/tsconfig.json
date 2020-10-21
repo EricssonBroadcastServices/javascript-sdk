@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "inlineSources": true,
+    "esModuleInterop": true,
+    "sourceRoot": "/src",
+    "target": "es3",
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
+    "outDir": "dist/"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+  ]
+}
