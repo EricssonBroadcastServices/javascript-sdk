@@ -1,3 +1,5 @@
+import * as querystring from "query-string";
+
 export enum ImageSizes {
   CAROUSEL_MOBILE_LANDSCAPE = 270,
   CAROUSEL_DESKTOP_LANDSCAPE = 600,
@@ -8,21 +10,27 @@ export enum ImageSizes {
   DETAILPAGE = 1000
 }
 
+interface IFitOptions {
+  w?: number;
+  h?: number;
+  format?: string;
+}
+
 export class Scaler {
-  private fit(imageUrl: string | undefined, value: number, param: "w" | "h") {
-    if (!imageUrl) {
-      return "";
-    }
+  private fit(imageUrl: string | undefined, options: IFitOptions) {
+    if (!imageUrl) return "";
+    const queryString = querystring.stringify(options);
     if (imageUrl.includes("?")) {
-      return imageUrl + `&${param}=${value}`;
+      return `${imageUrl}&${queryString}`;
     }
-    return `${imageUrl}?${param}=${value}`;
+    return `${imageUrl}?${queryString}`;
   }
-  public fitToWidth(imageUrl: string | undefined, width: number) {
-    return this.fit(imageUrl, width, "w");
+
+  public fitToWidth(imageUrl: string | undefined, w: number, format?: string) {
+    return this.fit(imageUrl, { w, format });
   }
-  public fitToHeight(imageUrl: string | undefined, height: number) {
-    return this.fit(imageUrl, height, "h");
+  public fitToHeight(imageUrl: string | undefined, h: number, format?: string) {
+    return this.fit(imageUrl, { h, format });
   }
 }
 
