@@ -62,9 +62,9 @@ export class WLHerobannerItem implements IWLHeroBannerItem {
   @jsonProperty({ type: WLAction })
   public action: WLAction;
 
-  public getScaledImage(orientation: string, width: number) {
+  public getScaledImage(orientation: string, width: number, format?: string) {
     const imageUrl = this.images.find(image => image.orientation.toUpperCase() === orientation.toUpperCase())?.url;
-    return ImageScaler.fitToWidth(imageUrl, width);
+    return ImageScaler.fitToWidth(imageUrl, width, format);
   }
 }
 

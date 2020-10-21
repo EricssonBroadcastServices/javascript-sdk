@@ -87,14 +87,14 @@ export class WLAsset implements IWLCarouselItem {
     return getDurationLocalized(assetDuration);
   };
 
-  public getScaledLogo(width: number) {
+  public getScaledLogo(width: number, format?: string) {
     const imageUrl = this.images.find(image => image.type === ImageType.LOGO)?.url;
-    return ImageScaler.fitToWidth(imageUrl, width);
+    return ImageScaler.fitToWidth(imageUrl, width, format);
   }
 
-  public getScaledImage(orientation: string, width: number) {
+  public getScaledImage(orientation: string, width: number, format?: string) {
     const imageUrl = this.images.find(image => image.orientation.toUpperCase() === orientation.toUpperCase())?.url;
-    return ImageScaler.fitToWidth(imageUrl, width);
+    return ImageScaler.fitToWidth(imageUrl, width, format);
   }
 
   public isLive = () => {
