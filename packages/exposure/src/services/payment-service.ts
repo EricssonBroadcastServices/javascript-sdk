@@ -53,9 +53,11 @@ export interface BuyProductOfferingOptions extends CustomerAndBusinessUnitOption
       };
     };
     stripePurchase?: {
-      storeCardDetails: boolean;
+      storeCardDetails?: boolean; // deprecated
+      paymentMethodId?: string;
     };
     voucherCode?: string;
+    storePaymentMethod?: boolean;
   };
 }
 
