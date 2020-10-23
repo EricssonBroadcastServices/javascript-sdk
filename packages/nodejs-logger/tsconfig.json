@@ -3,6 +3,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "esModuleInterop": true,
+    "declaration": true,
     "sourceRoot": "/src",
     "target": "es3",
     "lib": [
