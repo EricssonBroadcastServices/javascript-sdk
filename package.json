@@ -2,7 +2,7 @@
   "name": "javascript-sdk",
   "private": true,
   "scripts": {
-    "postinstall": "lerna bootstrap --ignore-scripts",
+    "postinstall": "lerna bootstrap",
     "build": "lerna run prepare",
     "watch": "lerna run watch --parallel",
     "lerna:version": "lerna version",
