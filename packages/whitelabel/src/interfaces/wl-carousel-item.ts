@@ -5,6 +5,7 @@ export interface IWLAssetTag {
   title: string;
   tagType: string;
   id: string;
+  action?: IWLAction;
 }
 
 export interface IWLSeason {
