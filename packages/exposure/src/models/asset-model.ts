@@ -70,6 +70,15 @@ export enum AssetType {
   LIVE_EVENT = "LIVE_EVENT"
 }
 
+class ParentalRating {
+  @jsonProperty()
+  public country: string;
+  @jsonProperty()
+  public rating: string;
+  @jsonProperty()
+  public scheme: string;
+}
+
 export class Asset extends WithLocalized {
   @jsonProperty()
   public assetId: string;
@@ -111,12 +120,8 @@ export class Asset extends WithLocalized {
   public userData?: UserData;
   @jsonProperty({ type: String })
   public productionCountries: string[] = [];
-  @jsonProperty()
-  public parentalRatings: {
-    country: string;
-    rating: string;
-    scheme: string;
-  };
+  @jsonProperty({ type: ParentalRating })
+  public parentalRatings: ParentalRating[];
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
