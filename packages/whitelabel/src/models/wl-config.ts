@@ -44,6 +44,8 @@ export class WLAction implements IWLAction {
   public pageId?: string;
   @jsonProperty()
   public assetId?: string;
+  @jsonProperty()
+  public page?: WLReference;
   public getLink = () => {
     switch (this.type) {
       case WLActionType.ExternalLink:
