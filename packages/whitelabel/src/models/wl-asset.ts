@@ -79,6 +79,13 @@ export class WLAsset implements IWLCarouselItem {
     percentage: number;
     time: number;
   };
+  @jsonProperty()
+  public parentalRatings: {
+    country: string;
+    rating: string;
+    scheme: string;
+    countryName: string;
+  };
 
   public getDurationString = () => {
     const assetDuration = this.duration;

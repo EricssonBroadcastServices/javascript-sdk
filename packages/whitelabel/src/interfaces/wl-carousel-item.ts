@@ -46,4 +46,10 @@ export interface IWLCarouselItem {
     percentage: number;
   };
   seasons?: IWLSeason[];
+  parentalRatings: {
+    country: string;
+    rating: string;
+    scheme: string;
+    countryName: string;
+  };
 }

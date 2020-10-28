@@ -111,6 +111,12 @@ export class Asset extends WithLocalized {
   public userData?: UserData;
   @jsonProperty({ type: String })
   public productionCountries: string[] = [];
+  @jsonProperty()
+  public parentalRatings: {
+    country: string;
+    rating: string;
+    scheme: string;
+  };
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
