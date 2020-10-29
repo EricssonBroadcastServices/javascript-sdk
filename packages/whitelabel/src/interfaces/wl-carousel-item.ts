@@ -30,6 +30,13 @@ export interface IProductionCountry {
   name: string;
 }
 
+export interface IWLParentalRating {
+  country: string;
+  rating: string;
+  scheme: string;
+  countryName: string;
+}
+
 export interface IWLCarouselItem {
   assetId: string;
   type: AssetType;
@@ -53,4 +60,5 @@ export interface IWLCarouselItem {
     percentage: number;
   };
   seasons?: IWLSeason[];
+  parentalRatings: IWLParentalRating[]
 }

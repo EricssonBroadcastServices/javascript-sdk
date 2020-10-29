@@ -1,5 +1,5 @@
 import { ImageScaler } from "../utils/image-scaler";
-import { IWLCarouselItem, IProductionCountry, IWLAssetTag, IWLParticipant } from "../interfaces/wl-carousel-item";
+import { IWLCarouselItem, IProductionCountry, IWLAssetTag, IWLParticipant, IWLParentalRating } from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
 import { WLProductOffering } from "./wl-productoffering";
@@ -44,7 +44,17 @@ export class WLParticipant implements IWLParticipant {
   public function?: string;
   @jsonProperty()
   public action?: WLAction;
+}
 
+class WLParentalRating implements IWLParentalRating {
+  @jsonProperty()
+  public country: string;
+  @jsonProperty()
+  public rating: string;
+  @jsonProperty()
+  public scheme: string;
+  @jsonProperty()
+  public countryName: string;
 }
 
 export class WLAsset implements IWLCarouselItem {
@@ -91,6 +101,8 @@ export class WLAsset implements IWLCarouselItem {
     percentage: number;
     time: number;
   };
+  @jsonProperty({ type: WLParentalRating })
+  public parentalRatings: WLParentalRating[];
 
   public getDurationString = () => {
     const assetDuration = this.duration;
