@@ -37,7 +37,7 @@ function internalIsWebPSupported() {
 	return false;
 }
 
-let isSupported = internalIsWebPSupported();
+const isSupported = internalIsWebPSupported();
 export function isWebPSupported() {
 	return isSupported;
 }
