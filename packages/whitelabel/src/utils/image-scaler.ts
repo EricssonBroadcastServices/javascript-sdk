@@ -1,4 +1,5 @@
 import * as querystring from "query-string";
+import { isWebPSupported } from "./webp";
 
 export enum ImageSizes {
   CAROUSEL_MOBILE_LANDSCAPE = 270,
@@ -19,6 +20,10 @@ interface IFitOptions {
 export class Scaler {
   private fit(imageUrl: string | undefined, options: IFitOptions) {
     if (!imageUrl) return "";
+    if (!options?.format && isWebPSupported()) {
+      options = options || {};
+      options.format = 'webp';
+    }
     const queryString = querystring.stringify(options);
     if (imageUrl.includes("?")) {
       return `${imageUrl}&${queryString}`;
