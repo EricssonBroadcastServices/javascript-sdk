@@ -238,4 +238,23 @@ export class WhiteLabelService extends BaseService {
       })
     );
   }
+  public getPageByBase64Query({
+    customer,
+    businessUnit,
+    query,
+    locale
+  }: {
+    customer: string;
+    businessUnit: string;
+    query: string;
+    locale: string;
+  }) {
+    const queryString = querystring.stringify({
+      deviceGroup: this.deviceGroup,
+      locale
+    });
+    return this.get(
+      `/api/internal/customer/${customer}/businessunit/${businessUnit}/browse/${query}?${queryString}`
+    ).then(data => deserialize(WLPageModel, data));
+  }
 }

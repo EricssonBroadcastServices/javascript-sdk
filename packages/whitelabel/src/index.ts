@@ -3,7 +3,7 @@ export { Translations } from "./models/wl-translations";
 export { ImageScaler, ImageSizes } from "./utils/image-scaler";
 export { WLSeason } from "./models/wl-season";
 export { WLCarousel, WLComponent, WLHerobanner, WLHerobannerItem, CarouselSubType, WLImageComponent } from "./models/wl-component";
-export { WLAsset, WLTag } from "./models/wl-asset";
+export { WLAsset, WLTag, WLParticipant } from "./models/wl-asset";
 export { WLProductOffering, WLOfferingPrice } from "./models/wl-productoffering";
 export { Orientation, ImageType } from "./interfaces/image-fields";
 export { DeviceGroup } from "./interfaces/device-group";
