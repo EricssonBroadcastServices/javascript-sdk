@@ -1,5 +1,5 @@
 import { ImageScaler } from "../utils/image-scaler";
-import { IWLCarouselItem, IProductionCountry, IWLParentalRating } from "../interfaces/wl-carousel-item";
+import { IWLCarouselItem, IProductionCountry, IWLAssetTag, IWLParticipant, IWLParentalRating } from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
 import { WLProductOffering } from "./wl-productoffering";
@@ -11,21 +11,23 @@ import {
   Publication,
   ImageModel,
   ExternalReferences,
-  Participants,
   Product,
   UserLocation,
   LoginResponse
 } from "@EricssonBroadcastServices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { ImageType } from "../interfaces/image-fields";
+import { WLAction } from "./wl-config";
 
-export class WLTag {
+export class WLTag implements IWLAssetTag {
   @jsonProperty()
   public title: string;
   @jsonProperty()
   public tagType: string;
   @jsonProperty()
   public id: string;
+  @jsonProperty()
+  public action?: WLAction;
 }
 
 class ProductionCountry implements IProductionCountry {
@@ -33,6 +35,15 @@ class ProductionCountry implements IProductionCountry {
   public code: string;
   @jsonProperty()
   public name: string;
+}
+
+export class WLParticipant implements IWLParticipant {
+  @jsonProperty()
+  public name: string;
+  @jsonProperty()
+  public function?: string;
+  @jsonProperty()
+  public action?: WLAction;
 }
 
 class WLParentalRating implements IWLParentalRating {
@@ -67,8 +78,8 @@ export class WLAsset implements IWLCarouselItem {
   public tvShowId: string;
   @jsonProperty()
   public season: number;
-  @jsonProperty({ type: Participants })
-  public participants: Participants[] = [];
+  @jsonProperty({ type: WLParticipant })
+  public participants: WLParticipant[] = [];
   @jsonProperty()
   public startTime: Date;
   @jsonProperty()

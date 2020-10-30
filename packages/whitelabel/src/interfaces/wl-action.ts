@@ -26,6 +26,5 @@ export enum WLActionType {
   ExternalLink = "ExternalLink",
   NavigateToPage = "NavigateToPage",
   NavigateToDetails = "NavigateToDetails",
-  NavigateToBrowsePage = "NavigateToBrowsePage",
   PlayAsset = "PlayAsset"
 }
