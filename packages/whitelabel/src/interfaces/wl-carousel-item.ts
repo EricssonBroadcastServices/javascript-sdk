@@ -1,5 +1,4 @@
 import { AssetType, Publication, ExternalReferences, ImageModel } from "@EricssonBroadcastServices/exposure-sdk";
-import { WLAction } from "../models/wl-config";
 import { IWLAction } from "./wl-action";
 
 export interface IWLAssetTag {
@@ -12,7 +11,7 @@ export interface IWLAssetTag {
 export interface IWLParticipant {
   name: string;
   function?: string;
-  action?: WLAction;
+  action?: IWLAction;
 }
 
 export interface IWLSeason {
@@ -50,6 +49,7 @@ export interface IWLCarouselItem {
   participants: IWLParticipant[];
   tags: IWLAssetTag[];
   tvShowId?: string;
+  channelId?: string;
   season: number;
   externalReferences: ExternalReferences[];
   action: IWLAction;
