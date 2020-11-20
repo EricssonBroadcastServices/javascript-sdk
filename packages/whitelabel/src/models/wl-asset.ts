@@ -61,6 +61,8 @@ export class WLAsset implements IWLCarouselItem {
   @jsonProperty({ externalName: "assetId" })
   public id: string;
   @jsonProperty()
+  public trailerAssetId?: string;
+  @jsonProperty()
   public type: AssetType;
   @jsonProperty()
   public assetId: string;

@@ -38,6 +38,7 @@ export interface IWLParentalRating {
 
 export interface IWLCarouselItem {
   assetId: string;
+  trailerAssetId?: string;
   type: AssetType;
   title: string;
   description: string;
