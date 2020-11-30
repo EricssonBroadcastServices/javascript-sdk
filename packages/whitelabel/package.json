@@ -1,5 +1,5 @@
 {
-  "name": "@EricssonBroadcastServices/whitelabel-sdk",
+  "name": "@ericssonbroadcastservices/whitelabel-sdk",
   "version": "0.2.3",
   "description": "",
   "scripts": {
@@ -26,7 +26,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@EricssonBroadcastServices/exposure-sdk": "^0.1.1",
+    "@ericssonbroadcastservices/exposure-sdk": "^0.1.1",
     "axios": "^0.19.2",
     "date-fns": "^2.15.0",
     "iso8601-duration": "^1.2.0",

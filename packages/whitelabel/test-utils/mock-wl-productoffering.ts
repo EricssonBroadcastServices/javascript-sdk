@@ -1,4 +1,4 @@
-import { Price } from "@EricssonBroadcastServices/exposure-sdk";
+import { Price } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLOfferingPrice, WLProductOffering } from "../src/models/wl-productoffering";
 import { mockPurchaseResponse } from "./mock-purchase-response";
 import { mockProduct } from "./mock-product";

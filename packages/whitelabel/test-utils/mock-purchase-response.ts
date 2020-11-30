@@ -1,4 +1,4 @@
-import { Purchase, PurchaseResponse } from "@EricssonBroadcastServices/exposure-sdk";
+import { Purchase, PurchaseResponse } from "@ericssonbroadcastservices/exposure-sdk";
 
 const mockPurchase = new Purchase();
 mockPurchase.from = new Date(Date.now() - 100000);

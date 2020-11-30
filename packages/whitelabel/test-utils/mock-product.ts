@@ -1,4 +1,4 @@
-import { Product, ProductResponse } from "@EricssonBroadcastServices/exposure-sdk";
+import { Product, ProductResponse } from "@ericssonbroadcastservices/exposure-sdk";
 
 export const mockProduct = new Product();
 mockProduct.blocked = false;

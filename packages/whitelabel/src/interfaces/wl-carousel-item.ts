@@ -1,4 +1,4 @@
-import { AssetType, Publication, ExternalReferences, ImageModel } from "@EricssonBroadcastServices/exposure-sdk";
+import { AssetType, Publication, ExternalReferences, ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
 
 export interface IWLAssetTag {

@@ -24,7 +24,7 @@ export class Scaler {
       options = options || {};
       options.format = 'webp';
     }
-    const queryString = querystring.stringify(options);
+    const queryString = querystring.stringify(options as any);
     if (imageUrl.includes("?")) {
       return `${imageUrl}&${queryString}`;
     }

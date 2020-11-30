@@ -14,7 +14,7 @@ import {
   Product,
   UserLocation,
   LoginResponse
-} from "@EricssonBroadcastServices/exposure-sdk";
+} from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { ImageType } from "../interfaces/image-fields";
 import { WLAction } from "./wl-config";

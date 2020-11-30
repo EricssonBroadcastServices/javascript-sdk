@@ -1,4 +1,4 @@
-import { DeviceType } from "@EricssonBroadcastServices/exposure-sdk";
+import { DeviceType } from "@ericssonbroadcastservices/exposure-sdk";
 
 export const mocks = {
   customer: "CU",

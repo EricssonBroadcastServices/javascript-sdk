@@ -1,4 +1,4 @@
-import { ImageModel } from "@EricssonBroadcastServices/exposure-sdk";
+import { ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
 
 export interface IWLHeroBanner {

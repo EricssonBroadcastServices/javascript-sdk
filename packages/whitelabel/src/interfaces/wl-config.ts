@@ -1,4 +1,4 @@
-import { SystemConfig } from "@EricssonBroadcastServices/exposure-sdk";
+import { SystemConfig } from "@ericssonbroadcastservices/exposure-sdk";
 import { Theme } from "../models/wl-theme";
 import { IWLMenuItem, IWLFooter } from "./wl-menu";
 
