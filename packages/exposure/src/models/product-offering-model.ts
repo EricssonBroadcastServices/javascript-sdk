@@ -72,6 +72,8 @@ export class ProductOffering {
   public offeringPrice: OfferingPrice;
   @jsonProperty()
   public discount?: Discount;
+  @jsonProperty({ type: String })
+  public paymentMethodTypes: string[];
 
   public getTitle = (locale: string) => {
     if (this.localizedMetadata.length === 0) {
