@@ -58,11 +58,7 @@ export class AuthenticationService extends BaseService {
     ).then(data => deserialize(LoginResponse, data));
   }
 
-  public loginAnonymous({
-    customer,
-    businessUnit,
-    body
-  }: LoginAnonymousOptions) {
+  public loginAnonymous({ customer, businessUnit, body }: LoginAnonymousOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
@@ -71,28 +67,26 @@ export class AuthenticationService extends BaseService {
       })}/auth/anonymous`,
       body
     ).then(data => {
-      return deserialize(
-        LoginResponse,
-        Object.assign({}, data, { isAnonymous: true })
-      );
+      return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
     });
   }
-  public logout({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public logout({
+    customer,
+    businessUnit,
+    fromAllDevice = false
+  }: CustomerAndBusinessUnitOptions & { fromAllDevice?: boolean }) {
     // TODO: not used. Check why we get error.
     return this.delete(
       `${this.cuBuUrl({
         customer,
         businessUnit,
         apiVersion: "v2"
-      })}/auth/login`,
+      })}/auth/login?fromAllDevice=${fromAllDevice}`,
       this.options.authHeader()
     );
   }
 
-  public validateSession({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `${this.cuBuUrl({
         customer,
