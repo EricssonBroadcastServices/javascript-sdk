@@ -2,7 +2,7 @@ import { PaymentService } from "./payment-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
 
-describe("Location service", () => {
+describe("Payment service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "testBaseUrl",
     authHeader: () => ({ Authorization: "" })
