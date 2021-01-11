@@ -1,5 +1,6 @@
 import { parse } from "iso8601-duration";
 import format from "date-fns/format";
+import humanizeDuration from "humanize-duration";
 
 export interface Duration {
   years: number;
@@ -55,16 +56,11 @@ export const getTimeString = (date: Date) => {
   return format(date, "HH:mm");
 };
 
-// TODO localize this
-export const getDurationLocalized = (milliseconds: number) => {
-  const duration = parseSecondsToDuration(milliseconds / 1000);
-  const hours = duration.hours;
-  const minutes = duration.minutes;
-  const seconds = duration.seconds;
-
-  return `\
-${hours > 0 ? hours + "h " : ""}\
-${minutes > 0 ? minutes + "min " : ""}\
-${minutes <= 1 && seconds > 0 ? seconds + "sec" : ""}\
-`;
+export const getDurationLocalized = (milliseconds: number, locale?: string) => {
+  const language = locale || "en";
+  return humanizeDuration(milliseconds, {
+    language: language,
+    fallbacks: ["en"],
+    round: true,
+  });
 };

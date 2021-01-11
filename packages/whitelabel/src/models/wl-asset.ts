@@ -108,11 +108,11 @@ export class WLAsset implements IWLCarouselItem {
   @jsonProperty({ type: WLParentalRating })
   public parentalRatings: WLParentalRating[];
 
-  public getDurationString = () => {
+  public getDurationString = (locale?: string) => {
     const assetDuration = this.duration;
     if (!assetDuration) return;
 
-    return getDurationLocalized(assetDuration);
+    return getDurationLocalized(assetDuration, locale);
   };
 
   public getScaledLogo(width: number, format?: string) {
