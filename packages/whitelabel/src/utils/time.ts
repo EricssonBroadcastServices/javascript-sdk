@@ -56,8 +56,11 @@ export const getTimeString = (date: Date) => {
   return format(date, "HH:mm");
 };
 
-// TODO localize this
 export const getDurationLocalized = (milliseconds: number, locale?: string) => {
   const language = locale || "en";
-  return humanizeDuration(milliseconds, { language: language, fallbacks: ["en"] });
+  return humanizeDuration(milliseconds, {
+    language: language,
+    fallbacks: ["en"],
+    round: true,
+  });
 };
