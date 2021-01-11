@@ -83,6 +83,7 @@ export interface VerifyPurchaseOptions extends CustomerAndBusinessUnitOptions {
 
 export interface GetProductOfferingsByVoucherOptions extends CustomerAndBusinessUnitOptions {
   code: string;
+  countryCode?: string;
 }
 
 export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOptions {
@@ -90,15 +91,25 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
 }
 
 export class PaymentService extends BaseService {
-  public getProductOfferingsByVoucherCode({ customer, businessUnit, code }: GetProductOfferingsByVoucherOptions) {
-    return this.get(
-      `${this.cuBuUrl({
-        apiVersion: "v2",
-        customer,
-        businessUnit
-      })}/store/productofferings/voucher/${code}`,
-      this.options.authHeader()
-    ).then(data => {
+  public getProductOfferingsByVoucherCode({
+    customer,
+    businessUnit,
+    code,
+    countryCode
+  }: GetProductOfferingsByVoucherOptions) {
+    const url = countryCode
+      ? `${this.cuBuUrl({
+          apiVersion: "v2",
+          customer,
+          businessUnit
+        })}/store/productofferings/country/${countryCode}/voucher/${code}`
+      : `${this.cuBuUrl({
+          apiVersion: "v2",
+          customer,
+          businessUnit
+        })}/store/productofferings/voucher/${code}`;
+
+    return this.get(url, this.options.authHeader()).then(data => {
       return deserialize(PromotionResponse, data);
     });
   }
