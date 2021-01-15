@@ -4,7 +4,6 @@
     "inlineSources": true,
     "sourceRoot": "/src",
     "target": "es3",
-    "jsx": "react",
     "module": "commonjs",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,

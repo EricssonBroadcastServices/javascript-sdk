@@ -4,6 +4,7 @@
     "inlineSources": true,
     "esModuleInterop": true,
     "declaration": true,
+    "skipLibCheck": true,
     "sourceRoot": "/src",
     "target": "es3",
     "lib": [
