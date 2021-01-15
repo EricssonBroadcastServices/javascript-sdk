@@ -41,6 +41,8 @@ export class SystemConfig {
   @jsonProperty()
   public allowAccessWithoutLogin: boolean;
   @jsonProperty()
+  public analyticsPercentage: number;
+  @jsonProperty()
   public currencies: string[];
   @jsonProperty({ type: String })
   public displayLocales: string[];
