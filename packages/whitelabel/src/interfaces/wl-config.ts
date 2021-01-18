@@ -37,12 +37,21 @@ export interface IAppConfig {
  * @property {string} internalUrl
  */
 /**
+ * @typedef IApiConfigTVLogin
+ * @property {string} url
+ * @property {string} qrCode
+ */
+/**
  * @typedef IApiConfig
  * @property {IApiConfigSearch} search
  */
 export interface IApiConfig {
   search: {
     internalUrl: string;
+  };
+  tvLogin: {
+    url: string;
+    qrCode: string;
   };
 }
 
