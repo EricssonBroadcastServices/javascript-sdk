@@ -5,7 +5,7 @@
     "postinstall": "lerna bootstrap --ci",
     "build": "lerna run prepare",
     "watch": "lerna run watch --parallel",
-    "lerna:version": "lerna version",
+    "lerna:version": "lerna version --conventional-commits",
     "publish": "lerna publish -y --no-verify-access from-package",
     "test": "lerna run test"
   },
