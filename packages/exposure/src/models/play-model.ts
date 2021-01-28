@@ -96,12 +96,12 @@ export class Play {
   public playToken: string;
   @jsonProperty()
   public playTokenExpiration: number;
-  @jsonProperty()
-  public formats: Format[];
+  @jsonProperty({ type: Format })
+  public formats: Format[] = [];
   @jsonProperty()
   public streamInfo: StreamInfo;
   @jsonProperty()
-  public sprites: Sprite[];
+  public sprites?: Sprite[];
   @jsonProperty()
   public contractRestrictions: ContractRestrictions;
   @jsonProperty()
