@@ -66,6 +66,7 @@ export interface IParameters {
   chromecastAppId?: string;
   appStoreId?: string;
   googleAnalyticsId?: string;
+  googlePlayStorePackageId?: string;
 }
 
 /**
