@@ -7,6 +7,18 @@ interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
 }
 
+interface PlayAssetOptions extends GetEntitlementForAssetOptions {
+  adParameters?: {
+    latitude?: string;
+    longitude?: string;
+    mute?: boolean;
+    consent?: string;
+    deviceMake?: string;
+    ifa?: string;
+    gdprOptin?: boolean;
+  }
+}
+
 export class EntitlementService extends BaseService {
   public getEntitlementForAsset({ customer, businessUnit, headers, assetId }: GetEntitlementForAssetOptions) {
     return this.get(
@@ -47,13 +59,14 @@ export class EntitlementService extends BaseService {
       }
     ).then(data => deserialize(AvailabilityKeysResponse, data));
   }
-  public getPlay({ customer, businessUnit, headers, assetId }: GetEntitlementForAssetOptions) {
+  public playAsset({ customer, businessUnit, headers, assetId, adParameters }: PlayAssetOptions) {
+    const queryParameters = new URLSearchParams(adParameters as Record<string, string>);
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
         businessUnit
-      })}/entitlement/${assetId}/play`,
+      })}/entitlement/${assetId}/play?${queryParameters.toString()}`,
       {
         ...headers,
         ...this.options.authHeader()
