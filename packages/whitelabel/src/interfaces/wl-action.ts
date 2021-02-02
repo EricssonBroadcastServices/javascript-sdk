@@ -15,6 +15,7 @@ export interface IWLAction {
   url?: string;
   internalUrl?: string;
   page?: IWLReference;
+  qrCode?: string;
 }
 
 export enum WLInternalActionType {
