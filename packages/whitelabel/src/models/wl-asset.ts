@@ -96,6 +96,8 @@ export class WLAsset implements IWLCarouselItem {
   public tags: WLTag[];
   @jsonProperty()
   public action: any;
+  @jsonProperty()
+  public pushNextCuepoint: number;
   @jsonProperty({ type: WLSeason })
   public seasons: WLSeason[] = [];
   @jsonProperty({ type: ProductionCountry })
