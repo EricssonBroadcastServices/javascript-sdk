@@ -56,7 +56,7 @@ export interface IWLCarouselItem {
   action: IWLAction;
   year: number;
   productionCountries: IProductionCountry[];
-  pushNextCuepoint: number;
+  pushNextCuepoint: number | null;
   bookmark?: {
     time: number;
     percentage: number;
