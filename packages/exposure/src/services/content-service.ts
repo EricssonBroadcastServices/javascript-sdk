@@ -28,30 +28,21 @@ export interface GetAssetsOptions extends CustomerAndBusinessUnitOptions {
   allowedCountry?: string | null;
 }
 
-export interface GetEpgOptions
-  extends CustomerAndBusinessUnitOptions,
-    PageinatedRequest {
+export interface GetEpgOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
   channelId: string;
   date?: Date;
   daysForward?: number;
   daysBackward?: number;
 }
 
-export interface GetLiveEventsOptions
-  extends CustomerAndBusinessUnitOptions,
-    PageinatedRequest {
+export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
   date?: Date;
   daysBackward: number;
   daysForward: number;
 }
 
 export class ContentService extends BaseService {
-  public getAssetById({
-    customer,
-    businessUnit,
-    assetId,
-    headers
-  }: GetAssetByIdOptions) {
+  public getAssetById({ customer, businessUnit, assetId, headers }: GetAssetByIdOptions) {
     const requestQuery = {
       fieldSet: "ALL"
     };
@@ -115,9 +106,7 @@ export class ContentService extends BaseService {
         customer,
         businessUnit,
         apiVersion: "v2"
-      })}/epg/${channelId}/date/${formattedDate}?${querystring.stringify(
-        requestQuery
-      )}`
+      })}/epg/${channelId}/date/${formattedDate}?${querystring.stringify(requestQuery)}`
     ).then(data => deserialize(EpgResponse, data));
   }
   public getLiveEvents({
@@ -156,10 +145,7 @@ export class ContentService extends BaseService {
     });
   }
 
-  public getRecentlyWatched({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getRecentlyWatched({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       pageSize: 24,
       fieldSet: "ALL"
@@ -175,10 +161,7 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponse, data));
   }
 
-  public getContinueWatching({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getContinueWatching({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       limit: 10
     };
@@ -192,10 +175,7 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponse, data));
   }
 
-  public getRecommended({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `${this.cuBuUrl({
         customer,
@@ -206,10 +186,7 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponse, data));
   }
 
-  public getBookmarks({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `${this.cuBuUrl({
         customer,
@@ -220,11 +197,7 @@ export class ContentService extends BaseService {
     ).then(data => data.items.map(b => deserialize(Bookmark, b)));
   }
 
-  public getSeasonsForSeries({
-    customer,
-    businessUnit,
-    assetId
-  }: GetAssetByIdOptions) {
+  public getSeasonsForSeries({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
     return this.get(
       `${this.cuBuUrl({
         customer,
@@ -238,12 +211,7 @@ export class ContentService extends BaseService {
     });
   }
 
-  public getEpisodesForSeason({
-    customer,
-    businessUnit,
-    assetId,
-    seasonNumber
-  }: GetEpisodesForSeasonOptions) {
+  public getEpisodesForSeason({ customer, businessUnit, assetId, seasonNumber }: GetEpisodesForSeasonOptions) {
     const requestQuery = {
       fieldSet: "ALL",
       onlyPublished: true
@@ -253,8 +221,7 @@ export class ContentService extends BaseService {
         customer,
         businessUnit,
         apiVersion: "v1"
-      })}/content/asset/${assetId}/season/${seasonNumber}/episode?` +
-        querystring.stringify(requestQuery)
+      })}/content/asset/${assetId}/season/${seasonNumber}/episode?` + querystring.stringify(requestQuery)
     ).then(data => {
       const seriesResponse = deserialize(EpisodesResponse, data);
       seriesResponse.seriesId = assetId;

@@ -9,13 +9,15 @@ import { DocumentService } from "./services/document-service";
 import { SearchService } from "./services/search-service";
 import { UserService } from "./services/user-service";
 import { PaymentService, CardPaymentDetails, VerifyPurchasePayload } from "./services/payment-service";
+import { SystemService } from "./services/system-service";
 
 /* Models */
 import { SystemConfig, PaymentType } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
-export { Localized, ImageModel } from "./models/localized-model";
+export { Localized, ImageModel, Orientation } from "./models/localized-model";
 export { Asset, AssetResponse, AssetType, Participants, Publication, ExternalReferences } from "./models/asset-model";
+export { Play, DRMType, FormatType, DRM, Format, StreamInfo, Sprite, ContractRestrictions } from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
 export { UserLocation } from "./models/user-location-model";
 export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";
@@ -88,4 +90,5 @@ export class ExposureApi {
   public user = new UserService(this.options);
   public payment = new PaymentService(this.options);
   public preferences = new PreferencesService(this.options);
+  public system = new SystemService(this.options);
 }

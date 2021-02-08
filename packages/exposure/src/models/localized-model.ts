@@ -1,6 +1,6 @@
 import { jsonProperty } from "../decorators/json-property";
 
-enum Orientation {
+export enum Orientation {
   LANDSCAPE = "LANDSCAPE",
   PORTRAIT = "PORTRAIT"
 }
@@ -101,6 +101,10 @@ export class WithLocalized {
       return allImages[0].url;
     }
     return "";
+  };
+
+  public getImages = (locale: string, defaultLocale?: string): ImageModel[] => {
+    return this.getLocalizedValue("images", locale, defaultLocale) || [];
   };
 
   public getTitle = (locale: string, defaultLocale?: string) => {
