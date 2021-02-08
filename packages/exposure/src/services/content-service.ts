@@ -175,7 +175,30 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponse, data));
   }
 
+  public getRecommendationsForAsset({
+    customer,
+    businessUnit,
+    assetId
+  }: GetAssetByIdOptions): Promise<{ items: Asset[] }> {
+    return this.get(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/recommend/watchNext/${assetId}`
+    ).then(response => ({ items: response.items.map(i => deserialize(Asset, i)) }));
+  }
+
+  public getNextEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
+    return this.get(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/next`
+    ).then(res => deserialize(Asset, res));
+  }
+
+  public getPreviousEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
+    return this.get(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/previous`
+    ).then(res => deserialize(Asset, res));
+  }
+
   public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+    // TODO: better name?
     return this.get(
       `${this.cuBuUrl({
         customer,
