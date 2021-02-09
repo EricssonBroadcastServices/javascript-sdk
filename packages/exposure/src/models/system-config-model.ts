@@ -5,7 +5,8 @@ export enum PaymentType {
   ADYEN = "adyen",
   STRIPE = "stripe",
   EXTERNAL = "external",
-  DENY = "deny"
+  DENY = "deny",
+  VOUCHERS_ONLY = "vouchers"
 }
 
 class FrontEndFeatures {
