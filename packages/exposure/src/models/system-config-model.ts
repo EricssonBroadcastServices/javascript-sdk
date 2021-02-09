@@ -76,6 +76,8 @@ export class SystemConfig {
   @jsonProperty()
   public signupMinimumAge: number;
   public paymentsIsEnabled = () => {
-    return [PaymentType.ADYEN, PaymentType.EXTERNAL, PaymentType.STRIPE].includes(this.paymentType);
+    return [PaymentType.ADYEN, PaymentType.EXTERNAL, PaymentType.STRIPE, PaymentType.VOUCHERS_ONLY].includes(
+      this.paymentType
+    );
   };
 }
