@@ -208,6 +208,26 @@ export class WhiteLabelService extends BaseService {
     }));
   }
 
+  public getPushNextContent({ customer, businessUnit, assetId, locale }: {
+    customer: string;
+    businessUnit: string;
+    assetId: string;
+    locale: string;
+  }) {
+    const queryString = querystring.stringify({
+      locale,
+      deviceGroup: this.deviceGroup
+    });
+    return this.get(
+      `/api/internal/customer/${customer}/businessunit/${businessUnit}/push-next-content/${assetId}?${queryString}`
+    ).then(data => {
+      return {
+        upNext: data.upNext ? deserialize(WLAsset, data.upNext) : null,
+        recommendations: data.recommendations.map(a => deserialize(WLAsset, a))
+      }
+    })
+  }
+
   public getEpgs({
     customer,
     businessUnit,
