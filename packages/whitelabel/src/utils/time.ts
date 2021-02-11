@@ -1,5 +1,5 @@
 import { parse } from "iso8601-duration";
-import format from "date-fns/format";
+import { format } from "date-fns";
 import * as humanizeDuration from "humanize-duration";
 
 export interface Duration {
