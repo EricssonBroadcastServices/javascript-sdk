@@ -283,14 +283,23 @@ export class WLAsset implements IWLCarouselItem {
     if (!location) {
       return false; // if we do not know, let the backend handle things
     }
-    let isBlocked = false;
+    // since we want to check all publications, ant all need to be blocked to block
+    // let's sum the result of each in an array
+    let publicationBlock: Boolean[] = [];
     this.publications.forEach(publication => {
+      // if no countries specified, it does not block
+      if (!publication.countries || publication.countries.length === 0) {
+        publicationBlock.push(false);
+      }
+      // if counties specified this publication blocks
       if (publication.countries.length > 0) {
         if (!publication.countries.includes(location.countryCode)) {
-          isBlocked = true;
+          publicationBlock.push(true);
         }
       }
     });
+    // if any publication allows your region, don't block.
+    const isBlocked = publicationBlock.length === 0 || publicationBlock.includes(false) ? false : true;
     return isBlocked;
   };
 
