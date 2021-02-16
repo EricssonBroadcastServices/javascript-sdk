@@ -5,7 +5,7 @@ import { AssetResponse, Asset, EpisodesResponse } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
 import { Bookmark } from "../models/bookmark-model";
 import { SeasonResponse } from "../models/season-model";
-import { EpgResponse } from "../models/program-model";
+import { EpgResponse, OnNowResponse } from "../models/program-model";
 
 export interface PageinatedRequest {
   pageSize?: number;
@@ -33,6 +33,11 @@ export interface GetEpgOptions extends CustomerAndBusinessUnitOptions, Pageinate
   date?: Date;
   daysForward?: number;
   daysBackward?: number;
+}
+
+export interface GetOnNowOptions extends CustomerAndBusinessUnitOptions {
+  channelId: string;
+  minutesForward?: number;
 }
 
 export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
@@ -83,6 +88,7 @@ export class ContentService extends BaseService {
       headers
     ).then(data => deserialize(AssetResponse, data));
   }
+
   public getEpg({
     daysForward,
     daysBackward,
@@ -109,6 +115,17 @@ export class ContentService extends BaseService {
       })}/epg/${channelId}/date/${formattedDate}?${querystring.stringify(requestQuery)}`
     ).then(data => deserialize(EpgResponse, data));
   }
+
+  public getOnNow({ channelId, minutesForward, customer, businessUnit }: GetOnNowOptions) {
+    const requestQuery = {
+      minutesForward: minutesForward || 0
+    };
+    return this.get(
+      `/v1/channel/customer/${customer || this.options.customer}/businessunit/${businessUnit ||
+        this.options.businessUnit}/onnow/${channelId}?${querystring.stringify(requestQuery)}`
+    ).then(data => deserialize(OnNowResponse, data));
+  }
+
   public getLiveEvents({
     daysBackward,
     daysForward,

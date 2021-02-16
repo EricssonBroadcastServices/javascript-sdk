@@ -14,6 +14,7 @@ export class Program {
     type: Asset
   })
   public asset: Asset;
+  public blackout?: boolean;
 }
 
 export class EpgResponse {
@@ -46,4 +47,26 @@ export class EpgResponse {
     }
     return 0;
   };
+}
+
+export class OnNowAsset {
+  @jsonProperty()
+  public startTime: string;
+  @jsonProperty()
+  public endTime: string;
+  @jsonProperty({
+    type: Asset
+  })
+  public asset: Asset;
+}
+
+export class OnNowResponse {
+  @jsonProperty()
+  public active: boolean;
+  @jsonProperty({ type: Asset })
+  public channel: Asset;
+  @jsonProperty({
+    type: OnNowAsset
+  })
+  public assets: OnNowAsset[];
 }
