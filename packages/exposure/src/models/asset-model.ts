@@ -130,7 +130,7 @@ export class Asset extends WithLocalized {
   public productionCountries: string[] = [];
   @jsonProperty({ type: ParentalRating })
   public parentalRatings: ParentalRating[];
-  @jsonProperty()
+  @jsonProperty({ type: String })
   public channelFeatures?: ChannelFeature[];
 
   public series = () => {
