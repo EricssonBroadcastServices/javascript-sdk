@@ -13,6 +13,14 @@ export enum lowResBoundaries {
   upper = 499
 }
 
+export enum ChannelFeature {
+  VIRTUAL = "VIRTUAL",
+  VC_CURATED = "VC_CURATED",
+  VC_PERSONALIZED = "VC_PERSONALIZED",
+  VC_SCHEDULED = "VC_SCHEDULED",
+  EPG = "EPG"
+}
+
 class Medias {
   @jsonProperty()
   public durationMillis: number;
@@ -122,6 +130,8 @@ export class Asset extends WithLocalized {
   public productionCountries: string[] = [];
   @jsonProperty({ type: ParentalRating })
   public parentalRatings: ParentalRating[];
+  @jsonProperty()
+  public channelFeatures?: ChannelFeature[];
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
@@ -149,11 +159,8 @@ export class Asset extends WithLocalized {
     if (this.publications.length === 0) {
       return undefined;
     }
-    return this.startTime
-      ? new Date(this.startTime)
-      : this.publications[0].fromDate;
+    return this.startTime ? new Date(this.startTime) : this.publications[0].fromDate;
   };
-
 
   public getYear = () => {
     return this.productionYear;
