@@ -23,11 +23,19 @@ export class Format {
   @jsonProperty()
   public mediaLocator: string;
   @jsonProperty()
+  public orgMediaLocator: string;
+  @jsonProperty()
   public drm?: {
     [DRMType.FAIRPLAY]?: DRM;
     [DRMType.PLAYREADY]?: DRM;
     [DRMType.WIDEVINE]?: DRM;
   };
+  @jsonProperty()
+  public liveDelay?: number;
+  @jsonProperty()
+  public adMediaLocator?: string;
+  @jsonProperty()
+  public vastUrl?: string;
 }
 
 export class StreamInfo {

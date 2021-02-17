@@ -16,7 +16,15 @@ import { SystemConfig, PaymentType } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
 export { Localized, ImageModel, Orientation } from "./models/localized-model";
-export { Asset, AssetResponse, AssetType, Participants, Publication, ExternalReferences } from "./models/asset-model";
+export {
+  Asset,
+  AssetResponse,
+  AssetType,
+  Participants,
+  Publication,
+  ExternalReferences,
+  ChannelFeature
+} from "./models/asset-model";
 export { Play, DRMType, FormatType, DRM, Format, StreamInfo, Sprite, ContractRestrictions } from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
 export { UserLocation } from "./models/user-location-model";
@@ -42,7 +50,7 @@ export { Tag, TagCollection } from "./models/tag-model";
 export { TagResponse } from "./models/tag-response-model";
 export { Bookmark } from "./models/bookmark-model";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
-export { Program, EpgResponse } from "./models/program-model";
+export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export { Purchase, PurchaseResponse } from "./models/purchase-model";
 export { Transaction, TransactionsWithProductOffering } from "./models/transaction-model";
 export { UserDetailsResponse } from "./models/user-detail-response-model";

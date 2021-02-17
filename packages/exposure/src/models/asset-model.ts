@@ -75,7 +75,11 @@ export enum AssetType {
   EPISODE = "EPISODE",
   CLIP = "CLIP",
   AD = "AD",
-  LIVE_EVENT = "LIVE_EVENT"
+  LIVE_EVENT = "LIVE_EVENT",
+  COLLECTION = "COLLECTION",
+  PODCAST = "PODCAST",
+  PODCAST_EPISODE = "PODCAST_EPISODE",
+  OTHER = "OTHER"
 }
 
 class ParentalRating {

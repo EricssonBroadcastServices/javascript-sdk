@@ -16,7 +16,7 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
     deviceMake?: string;
     ifa?: string;
     gdprOptin?: boolean;
-  }
+  };
 }
 
 export class EntitlementService extends BaseService {
@@ -28,8 +28,8 @@ export class EntitlementService extends BaseService {
         businessUnit
       })}/entitlement/${assetId}/entitle`,
       {
-        ...headers,
-        ...this.options.authHeader()
+        ...this.options.authHeader(),
+        ...headers
       }
     );
   }
@@ -41,8 +41,8 @@ export class EntitlementService extends BaseService {
         businessUnit
       })}/entitlement/accountproduct`,
       {
-        ...headers,
-        ...this.options.authHeader()
+        ...this.options.authHeader(),
+        ...headers
       }
     ).then(data => deserialize(ProductResponse, data));
   }
@@ -54,8 +54,8 @@ export class EntitlementService extends BaseService {
         businessUnit
       })}/entitlement/availabilitykey`,
       {
-        ...headers,
-        ...this.options.authHeader()
+        ...this.options.authHeader(),
+        ...headers
       }
     ).then(data => deserialize(AvailabilityKeysResponse, data));
   }
@@ -68,8 +68,8 @@ export class EntitlementService extends BaseService {
         businessUnit
       })}/entitlement/${assetId}/play?${queryParameters.toString()}`,
       {
-        ...headers,
-        ...this.options.authHeader()
+        ...this.options.authHeader(),
+        ...headers
       }
     ).then(data => deserialize(Play, data));
   }
