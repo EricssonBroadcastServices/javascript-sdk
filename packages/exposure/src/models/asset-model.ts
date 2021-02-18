@@ -91,6 +91,11 @@ class ParentalRating {
   public scheme: string;
 }
 
+class OverlayWidget {
+  @jsonProperty()
+  public url: string;
+}
+
 export class Asset extends WithLocalized {
   @jsonProperty()
   public assetId: string;
@@ -136,6 +141,8 @@ export class Asset extends WithLocalized {
   public parentalRatings: ParentalRating[];
   @jsonProperty({ type: String })
   public channelFeatures?: ChannelFeature[];
+  @jsonProperty({ type: OverlayWidget })
+  public overlayWidgets?: OverlayWidget[];
 
   public series = () => {
     return this.tags.find(t => t.type === "series");

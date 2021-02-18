@@ -1,5 +1,5 @@
 import { ImageScaler } from "../utils/image-scaler";
-import { IWLCarouselItem, IProductionCountry, IWLAssetTag, IWLParticipant, IWLParentalRating } from "../interfaces/wl-carousel-item";
+import { IWLCarouselItem, IProductionCountry, IWLAssetTag, IWLParticipant, IWLParentalRating, IWLOverlayWidget } from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
 import { WLProductOffering } from "./wl-productoffering";
@@ -57,6 +57,11 @@ class WLParentalRating implements IWLParentalRating {
   public countryName: string;
 }
 
+class WLOverlayWidget implements IWLOverlayWidget {
+  @jsonProperty()
+  public url: string;
+}
+
 export class WLAsset implements IWLCarouselItem {
   @jsonProperty({ externalName: "assetId" })
   public id: string;
@@ -109,6 +114,8 @@ export class WLAsset implements IWLCarouselItem {
   };
   @jsonProperty({ type: WLParentalRating })
   public parentalRatings: WLParentalRating[];
+  @jsonProperty({ type: WLOverlayWidget })
+  public overlayWidgets: WLOverlayWidget[];
 
   public getDurationString = (locale?: string) => {
     const assetDuration = this.duration;
