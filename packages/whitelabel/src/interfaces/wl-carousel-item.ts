@@ -36,6 +36,10 @@ export interface IWLParentalRating {
   countryName: string;
 }
 
+export interface IWLOverlayWidget {
+  url: string;
+}
+
 export interface IWLCarouselItem {
   assetId: string;
   trailerAssetId?: string;
@@ -62,5 +66,6 @@ export interface IWLCarouselItem {
     percentage: number;
   };
   seasons?: IWLSeason[];
-  parentalRatings: IWLParentalRating[]
+  parentalRatings: IWLParentalRating[];
+  overlayWidgets: IWLOverlayWidget[];
 }
