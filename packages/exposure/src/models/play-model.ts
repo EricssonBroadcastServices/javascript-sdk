@@ -91,6 +91,43 @@ export class ContractRestrictions {
   public timeshiftEnabled?: boolean;
 }
 
+export class AdMarker {
+  @jsonProperty()
+  public id: string;
+  @jsonProperty()
+  public type: string;
+  @jsonProperty()
+  public offset: number;
+  @jsonProperty()
+  public duration: string;
+}
+
+export class Ad {
+  @jsonProperty()
+  public title: string;
+  @jsonProperty()
+  public titleId: string;
+  @jsonProperty()
+  public duration: string;
+}
+
+export class Ads {
+  @jsonProperty()
+  public stitcher: string;
+  @jsonProperty()
+  public stitcherSession?: string;
+  @jsonProperty()
+  public stitcherProfileId?: string;
+  @jsonProperty()
+  public insertionDuration?: number;
+  @jsonProperty()
+  public insertionMaxCount?: number;
+  @jsonProperty({ type: AdMarker })
+  public adMarkers?: AdMarker[];
+  @jsonProperty({ type: Ad })
+  public ads?: Ad[];
+}
+
 export class Play {
   @jsonProperty()
   public accountId: string;
@@ -128,4 +165,6 @@ export class Play {
   public materialId: string;
   @jsonProperty()
   public materiaVersion: number;
+  @jsonProperty({ type: Ads })
+  public ads: Ads;
 }
