@@ -25,7 +25,17 @@ export {
   ExternalReferences,
   ChannelFeature
 } from "./models/asset-model";
-export { Play, DRMType, FormatType, DRM, Format, StreamInfo, Sprite, ContractRestrictions } from "./models/play-model";
+export {
+  Play,
+  DRMType,
+  FormatType,
+  DRM,
+  Format,
+  Stitcher,
+  StreamInfo,
+  Sprite,
+  ContractRestrictions
+} from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
 export { UserLocation } from "./models/user-location-model";
 export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";

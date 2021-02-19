@@ -12,6 +12,12 @@ export enum FormatType {
   SMOOTHSTREAMING = "SMOOTHSTREAMING"
 }
 
+export enum Stitcher  {
+  GENERIC = "GENERIC",
+  NOWTILUS = "NOWTILUS",
+}
+
+
 export class DRM {
   licenseServerUrl: string;
   certificateUrl?: string;
@@ -113,7 +119,7 @@ export class Ad {
 
 export class Ads {
   @jsonProperty()
-  public stitcher: string;
+  public stitcher: Stitcher;
   @jsonProperty()
   public stitcherSession?: string;
   @jsonProperty()
