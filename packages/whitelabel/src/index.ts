@@ -2,7 +2,14 @@ export { WLPageModel } from "./models/wl-page";
 export { Translations } from "./models/wl-translations";
 export { ImageScaler, ImageSizes } from "./utils/image-scaler";
 export { WLSeason } from "./models/wl-season";
-export { WLCarousel, WLComponent, WLHerobanner, WLHerobannerItem, CarouselSubType, WLImageComponent } from "./models/wl-component";
+export {
+  WLCarousel,
+  WLComponent,
+  WLHerobanner,
+  WLHerobannerItem,
+  CarouselSubType,
+  WLImageComponent
+} from "./models/wl-component";
 export { WLAsset, WLTag, WLParticipant } from "./models/wl-asset";
 export { WLProductOffering, WLOfferingPrice } from "./models/wl-productoffering";
 export { Orientation, ImageType } from "./interfaces/image-fields";
@@ -18,10 +25,24 @@ export { IWLCarousel } from "./interfaces/wl-carousel";
 export { IWLEPG, IWLEPGChannel } from "./interfaces/wl-epg";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
 export { Theme } from "./models/wl-theme";
-export { WLConfig, WLAction, WLLanguage, WLMenuItem, WLSocialMediaLink, WLSystemConfig, ThemeModel } from "./models/wl-config";
+export {
+  WLConfig,
+  WLAction,
+  WLLanguage,
+  WLMenuItem,
+  WLSocialMediaLink,
+  WLSystemConfig,
+  ThemeModel
+} from "./models/wl-config";
 export { WLReference, WLReferencePresentation } from "./models/wl-reference";
 export { WhiteLabelService } from "./services/white-label-service";
 export { IWLImageComponent } from "./interfaces/wl-image-component";
 export { EntitlementCase } from "./interfaces/entitlement-cases";
-export { parseISOStringToDuration, parseSecondsToDuration, getDurationLocalized, getTimeString } from "./utils/time";
+export {
+  parseISOStringToDuration,
+  parseSecondsToDuration,
+  getDurationLocalized,
+  getTimeString,
+  Duration
+} from "./utils/time";
 export { isWebPSupported } from "./utils/webp";
