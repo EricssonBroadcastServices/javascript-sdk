@@ -96,6 +96,23 @@ class OverlayWidget {
   public url: string;
 }
 
+export enum EntityType {
+  ASSET = "ASSET"
+}
+
+export enum LinkType {
+  TRAILER = "TRAILER"
+}
+
+export class LinkedEntity {
+  @jsonProperty()
+  public entityId: string;
+  @jsonProperty()
+  public entityType: EntityType;
+  @jsonProperty()
+  public linkType: LinkType;
+}
+
 export class Asset extends WithLocalized {
   @jsonProperty()
   public assetId: string;
@@ -127,6 +144,8 @@ export class Asset extends WithLocalized {
   public tvShowId: string;
   @jsonProperty({ type: ExternalReferences })
   public externalReferences: ExternalReferences[] = [];
+  @jsonProperty({ type: LinkedEntity })
+  public linkedEntities: LinkedEntity[] = [];
   @jsonProperty({ type: Participants })
   public participants: Participants[] = [];
   @jsonProperty()

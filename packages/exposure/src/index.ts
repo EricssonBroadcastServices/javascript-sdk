@@ -23,7 +23,10 @@ export {
   Participants,
   Publication,
   ExternalReferences,
-  ChannelFeature
+  ChannelFeature,
+  LinkedEntity,
+  LinkType,
+  EntityType
 } from "./models/asset-model";
 export {
   Play,
