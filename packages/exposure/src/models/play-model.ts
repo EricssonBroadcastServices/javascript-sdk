@@ -9,14 +9,15 @@ export enum DRMType {
 export enum FormatType {
   DASH = "DASH",
   HLS = "HLS",
-  SMOOTHSTREAMING = "SMOOTHSTREAMING"
+  SMOOTHSTREAMING = "SMOOTHSTREAMING",
+  MP4 = "MP4",
+  MP3 = "MP3"
 }
 
-export enum Stitcher  {
+export enum Stitcher {
   GENERIC = "GENERIC",
-  NOWTILUS = "NOWTILUS",
+  NOWTILUS = "NOWTILUS"
 }
-
 
 export class DRM {
   licenseServerUrl: string;
