@@ -14,9 +14,7 @@ export class LoginResponse {
   public sessionToken: string;
   public isLoggedIn = () => this.hasSession() && !this.isAnonymous;
   public hasSession = () =>
-    this.sessionToken &&
-    this.sessionToken !== "" &&
-    Date.parse(this.expirationDateTime) > Date.now();
+    this.sessionToken && this.sessionToken !== "" && Date.parse(this.expirationDateTime) > Date.now();
   @jsonProperty()
   public informationCollectionConsentGiven: Date;
   @jsonProperty()
@@ -33,4 +31,10 @@ export class LoginResponse {
   public userId: string;
   @jsonProperty()
   public accountId: string;
+  @jsonProperty()
+  public isOverDeviceLimit: boolean;
+  @jsonProperty()
+  public crmToken: string;
+  @jsonProperty()
+  public child: boolean;
 }
