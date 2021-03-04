@@ -75,6 +75,8 @@ export class WLMenuItem implements IWLMenuItem {
 
 export class WLSocialMediaLink implements IWLSocialMediaLink {
   @jsonProperty()
+  public type: string;
+  @jsonProperty()
   public icon: string;
   @jsonProperty()
   public iconUrl: string;
