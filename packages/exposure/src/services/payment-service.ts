@@ -171,13 +171,12 @@ export class PaymentService extends BaseService {
   }
 
   public getTransactions({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
-    // DEPRECATED : not officially in exposure.
     return this.get(
       `${this.cuBuUrl({
-        apiVersion: "v1/whitelabel",
+        apiVersion: "v2",
         customer,
         businessUnit
-      })}/store/account/transactions/offerings`,
+      })}/store/account/transactions/productoffering`,
       this.options.authHeader()
     ).then(data => {
       const transactions: TransactionsWithProductOffering[] = data.transactionsProductOfferingPairs.map(t => {
