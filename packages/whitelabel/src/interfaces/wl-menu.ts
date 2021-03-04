@@ -6,6 +6,7 @@ export interface IWLMenuItem {
 }
 
 export interface IWLSocialMediaLink {
+  type: string;
   action: IWLAction;
   icon: string;
   iconUrl: string;
