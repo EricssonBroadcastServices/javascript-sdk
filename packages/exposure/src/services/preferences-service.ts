@@ -14,6 +14,8 @@ interface AddAssetToListOptions extends DeleteAssetFromListOptions {
   order?: number;
 }
 
+interface GetAssetFromListOptions extends DeleteAssetFromListOptions {}
+
 export class PreferencesService extends BaseService {
   public getListById({ customer, businessUnit, listId }: GetListByIdOptions): Promise<PreferenceListItem[]> {
     return this.get(
@@ -48,7 +50,7 @@ export class PreferencesService extends BaseService {
       this.options.authHeader()
     );
   }
-  public getAssetFromList({ listId, assetId, customer, businessUnit }: DeleteAssetFromListOptions) {
+  public getAssetFromList({ listId, assetId, customer, businessUnit }: GetAssetFromListOptions) {
     return this.get(
       `${this.cuBuUrl({
         customer,
