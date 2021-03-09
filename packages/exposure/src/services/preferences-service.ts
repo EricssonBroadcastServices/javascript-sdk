@@ -48,4 +48,14 @@ export class PreferencesService extends BaseService {
       this.options.authHeader()
     );
   }
+  public getAssetFromList({ listId, assetId, customer, businessUnit }: DeleteAssetFromListOptions) {
+    return this.get(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/preferences/list/${listId}/asset/${assetId}`,
+      this.options.authHeader()
+    ).then(data => deserialize(PreferenceListItem, data));
+  }
 }
