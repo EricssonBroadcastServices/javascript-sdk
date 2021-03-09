@@ -10,7 +10,8 @@ import { WLComponentType } from "../interfaces/wl-component";
 
 export enum CarouselSubType {
   EPG = "epg",
-  PROGRESS = "progress"
+  PROGRESS = "progress",
+  FAVORITES = "favorites"
 }
 
 export class WLComponent {
