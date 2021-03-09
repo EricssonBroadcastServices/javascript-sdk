@@ -14,6 +14,8 @@ interface AddAssetToListOptions extends DeleteAssetFromListOptions {
   order?: number;
 }
 
+interface GetAssetFromListOptions extends DeleteAssetFromListOptions {}
+
 export class PreferencesService extends BaseService {
   public getListById({ customer, businessUnit, listId }: GetListByIdOptions): Promise<PreferenceListItem[]> {
     return this.get(
@@ -47,5 +49,15 @@ export class PreferencesService extends BaseService {
       })}/preferences/list/${listId}/asset/${assetId}`,
       this.options.authHeader()
     );
+  }
+  public getAssetFromList({ listId, assetId, customer, businessUnit }: GetAssetFromListOptions) {
+    return this.get(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/preferences/list/${listId}/asset/${assetId}`,
+      this.options.authHeader()
+    ).then(data => deserialize(PreferenceListItem, data));
   }
 }
