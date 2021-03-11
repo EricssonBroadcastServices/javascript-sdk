@@ -7,6 +7,7 @@ import { IWLCarousel } from "../interfaces/wl-carousel";
 import { IWLHeroBannerItem, WLHeroBannerItemType, IWLHeroBanner } from "../interfaces/wl-herobanner";
 import { IWLImageComponent } from "../interfaces/wl-image-component";
 import { WLComponentType } from "../interfaces/wl-component";
+import { IWLTextComponent } from "../interfaces/wl-text-component";
 
 export enum CarouselSubType {
   EPG = "epg",
@@ -87,4 +88,15 @@ export class WLImageComponent extends WLComponent implements IWLImageComponent {
   public images: ImageModel[];
   @jsonProperty()
   public action?: WLAction;
+}
+
+export class WLTextComponent extends WLComponent implements IWLTextComponent {
+  @jsonProperty()
+  public type: WLComponentType;
+  @jsonProperty()
+  public id: string;
+  @jsonProperty()
+  public title?: string;
+  @jsonProperty()
+  public body: string;
 }

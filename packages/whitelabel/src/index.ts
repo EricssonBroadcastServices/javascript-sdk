@@ -37,6 +37,7 @@ export {
 export { WLReference, WLReferencePresentation } from "./models/wl-reference";
 export { WhiteLabelService } from "./services/white-label-service";
 export { IWLImageComponent } from "./interfaces/wl-image-component";
+export { IWLTextComponent } from "./interfaces/wl-text-component";
 export { EntitlementCase } from "./interfaces/entitlement-cases";
 export {
   parseISOStringToDuration,
