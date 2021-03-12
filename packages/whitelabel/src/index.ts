@@ -8,7 +8,8 @@ export {
   WLHerobanner,
   WLHerobannerItem,
   CarouselSubType,
-  WLImageComponent
+  WLImageComponent,
+  WLTextComponent
 } from "./models/wl-component";
 export { WLAsset, WLTag, WLParticipant } from "./models/wl-asset";
 export { WLProductOffering, WLOfferingPrice } from "./models/wl-productoffering";
