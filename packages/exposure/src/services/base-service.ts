@@ -1,5 +1,4 @@
 import axios from "axios";
-import { deserialize } from "../decorators/property-mapper";
 import { ApiError } from "../models/api-error-model";
 
 interface Headers {
@@ -35,11 +34,9 @@ interface CuBuUrlOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export const errorMapper = err => {
-  if (!err)
-    throw deserialize(ApiError, { message: "Unknown error", httpCode: 500 });
-  if (typeof err === "string")
-    throw deserialize(ApiError, { message: err, httpCode: 500 });
-  throw deserialize(ApiError, {
+  if (!err) throw new ApiError({ message: "Unknown error", httpCode: 500 });
+  if (typeof err === "string") throw new ApiError({ message: err, httpCode: 500 });
+  throw new ApiError({
     httpCode: err.response ? err.response.status : 500,
     message: err.response?.data?.message ? err.response?.data?.message : err.message
   });

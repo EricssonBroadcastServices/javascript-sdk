@@ -1,23 +1,8 @@
-import { jsonProperty } from "../decorators/json-property";
-
-export enum ErrorContext {
-  LOGIN = "LOGIN",
-  PAYMENT = "PAYMENT"
-}
-
-export interface AppError {
-  httpCode: number;
-  message: string;
-  context?: ErrorContext;
-  getFriendlyMessage: () => string;
-}
-
-export class ApiError implements AppError {
-  @jsonProperty()
+export class ApiError {
   public message: string;
-  @jsonProperty()
   public httpCode: number;
-  @jsonProperty()
-  public context: ErrorContext;
-  public getFriendlyMessage = () => this.message;
+  constructor(err) {
+    this.message = err.message;
+    this.httpCode = err.httpCode;
+  }
 }
