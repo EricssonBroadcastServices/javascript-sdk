@@ -7,5 +7,6 @@ export enum WLComponentType {
   ASSET_PAGE = "asset_page",
   BROWSE_PAGE = "browse_page",
   FOOTER = "footer",
-  IMAGE = "image"
+  IMAGE = "image",
+  TEXT = "text"
 }
