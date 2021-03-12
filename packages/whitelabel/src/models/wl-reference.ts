@@ -1,10 +1,10 @@
-import { CarouselLayout, IWLReference } from "../interfaces/wl-reference";
+import { CarouselLayout, PresentationImageOrientation, IWLReference } from "../interfaces/wl-reference";
 import { WLComponentType } from "../interfaces/wl-component";
-import { AspectRatio, jsonProperty, ImageOrientation } from "@ericssonbroadcastservices/exposure-sdk";
+import { AspectRatio, jsonProperty } from "@ericssonbroadcastservices/exposure-sdk";
 
 export class WLReferencePresentation {
   @jsonProperty()
-  public imageOrientation: ImageOrientation;
+  public imageOrientation: PresentationImageOrientation;
   @jsonProperty()
   public layout: CarouselLayout;
   @jsonProperty()
@@ -25,7 +25,7 @@ export class WLReference implements IWLReference {
   @jsonProperty()
   public presentation: WLReferencePresentation = {
     layout: CarouselLayout.CAROUSEL, // default values
-    imageOrientation: ImageOrientation.LANDSCAPE,
+    imageOrientation: PresentationImageOrientation.LANDSCAPE,
     imageAspectRatio: AspectRatio.SIXTEEN_BY_NINE
   };
 }

@@ -1,9 +1,14 @@
-import { AspectRatio, ImageOrientation } from "@ericssonbroadcastservices/exposure-sdk";
+import { AspectRatio } from "@ericssonbroadcastservices/exposure-sdk";
 
 export enum CarouselLayout {
   CAROUSEL = "carousel",
   GRID = "grid",
   LIST = "list"
+}
+
+export enum PresentationImageOrientation {
+  LANDSCAPE = "landscape",
+  PORTRAIT = "portrait"
 }
 
 export interface IWLReference {
@@ -13,7 +18,7 @@ export interface IWLReference {
   reloadInterval?: number;
   type: string;
   presentation?: {
-    imageOrientation: ImageOrientation;
+    imageOrientation: PresentationImageOrientation;
     layout?: CarouselLayout;
     imageAspectRatio: AspectRatio;
   };
