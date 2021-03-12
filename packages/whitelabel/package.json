@@ -32,7 +32,8 @@
     "humanize-duration": "^3.25.1",
     "iso8601-duration": "^1.2.0",
     "query-string": "^6.13.1",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "marked": "^2.0.1"
   },
   "browserslist": [
     "defaults"

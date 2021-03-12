@@ -1,3 +1,4 @@
+import * as marked from "marked";
 import { jsonProperty, deserialize, ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { ImageScaler } from "../utils/image-scaler";
@@ -99,4 +100,12 @@ export class WLTextComponent extends WLComponent implements IWLTextComponent {
   public title?: string;
   @jsonProperty()
   public body: string;
+
+  public getHtml(): string {
+    return marked(this.body);
+  }
+
+  public getLexer() {
+    return marked.lexer(this.body);
+  }
 }
