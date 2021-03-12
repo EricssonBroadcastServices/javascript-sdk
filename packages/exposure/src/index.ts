@@ -15,7 +15,7 @@ import { SystemService } from "./services/system-service";
 import { SystemConfig, PaymentType } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
-export { Localized, ImageModel, Orientation } from "./models/localized-model";
+export { Localized, ImageModel, ImageOrientation, ImageType } from "./models/localized-model";
 export {
   Asset,
   AssetResponse,
