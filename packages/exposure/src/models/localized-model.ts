@@ -1,8 +1,18 @@
 import { jsonProperty } from "../decorators/json-property";
 
-export enum Orientation {
+export enum ImageOrientation {
   LANDSCAPE = "LANDSCAPE",
-  PORTRAIT = "PORTRAIT"
+  PORTRAIT = "PORTRAIT",
+  SQUARE = "SQUARE"
+}
+
+export enum ImageType {
+  POSTER = "poster",
+  BANNER = "banner",
+  LOGO = "logo",
+  THUMBNAIL = "thumbnail",
+  COVER = "cover",
+  OTHER = "other"
 }
 
 export class ImageModel {
@@ -10,10 +20,10 @@ export class ImageModel {
   public url: string;
 
   @jsonProperty()
-  public type?: string;
+  public type?: ImageType;
 
   @jsonProperty()
-  public orientation: string = Orientation.LANDSCAPE;
+  public orientation: string = ImageOrientation.LANDSCAPE;
 
   @jsonProperty()
   public height = 0;
@@ -84,9 +94,9 @@ export class WithLocalized {
 
     const imagesByCorrectOrientation = allImages.filter(i => i.orientation === orientation.toUpperCase());
     const imagesByCorrectType = imagesByCorrectOrientation.filter(i => {
-      if (orientation === Orientation.LANDSCAPE) {
+      if (orientation === ImageOrientation.LANDSCAPE) {
         return i.type === "cover";
-      } else if (orientation === Orientation.PORTRAIT) {
+      } else if (orientation === ImageOrientation.PORTRAIT) {
         return i.type === "poster";
       }
       return false;

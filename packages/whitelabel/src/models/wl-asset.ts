@@ -10,13 +10,13 @@ import {
   AssetType,
   Publication,
   ImageModel,
+  ImageType,
   ExternalReferences,
   Product,
   UserLocation,
   LoginResponse
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
-import { ImageType } from "../interfaces/image-fields";
 import { WLAction } from "./wl-config";
 
 export class WLTag implements IWLAssetTag {
