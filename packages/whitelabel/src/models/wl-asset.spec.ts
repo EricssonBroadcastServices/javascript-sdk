@@ -26,13 +26,13 @@ describe("wl asset", () => {
     it("should render duration string", () => {
       const asset = new WLAsset();
       asset.duration = 60000;
-      expect(asset.getDurationString()).toEqual("1min ");
+      expect(asset.getDurationString()).toEqual("1 minute");
       asset.duration = 60000 * 61;
-      expect(asset.getDurationString()).toEqual("1h 1min ");
+      expect(asset.getDurationString()).toEqual("1 hour, 1 minute");
       asset.duration = 60000 * 61 + 1000;
-      expect(asset.getDurationString()).toEqual("1h 1min 1sec");
+      expect(asset.getDurationString()).toEqual("1 hour, 1 minute, 1 second");
       asset.duration = 500;
-      expect(asset.getDurationString()).toEqual("");
+      expect(asset.getDurationString()).toEqual("1 second");
     });
     it("should return friendly formatted starttime", () => {
       const asset = new WLAsset();
