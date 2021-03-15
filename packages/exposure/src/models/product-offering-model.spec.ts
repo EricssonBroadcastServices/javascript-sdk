@@ -43,6 +43,6 @@ describe("ProductOffering", () => {
     expect(productOffering.getTitle("en")).toEqual("");
   });
   it("should display price", () => {
-    expect(productOffering.offeringPrice.price.getPriceWithCurrency()).toEqual("10 SEK");
+    expect(productOffering.offeringPrice.price.getPriceWithCurrency()).toEqual("10.00 SEK");
   });
 });

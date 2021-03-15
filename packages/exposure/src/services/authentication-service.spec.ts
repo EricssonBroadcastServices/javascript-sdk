@@ -77,11 +77,11 @@ describe("Auth service", () => {
       customer: mocks.customer,
       businessUnit: mocks.businessUnit
     });
-    expect(
-      axios.delete
-    ).toHaveBeenCalledWith(
-      "testBaseUrl/v2/customer/CU/businessunit/BU/auth/login",
-      { headers: serviceOptions.authHeader() }
+    expect(axios.delete).toHaveBeenCalledWith(
+      "testBaseUrl/v2/customer/CU/businessunit/BU/auth/login?fromAllDevice=false",
+      {
+        headers: serviceOptions.authHeader()
+      }
     );
   });
 });

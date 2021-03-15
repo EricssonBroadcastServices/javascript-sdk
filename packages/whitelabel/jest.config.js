@@ -14,7 +14,7 @@ module.exports = {
     "ts-jest": {
       tsConfig:  {
         ...tsconfig.compilerOptions,
-        esModuleInterop: true
+        esModuleInterop: false
       }
     }
   }
