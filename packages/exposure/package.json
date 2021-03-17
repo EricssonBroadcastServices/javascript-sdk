@@ -27,11 +27,15 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "axios": "^0.21.1",
-    "pbkdf2": "^3.1.1",
+    "crypto-js": "^4.0.0",
     "query-string": "^6.13.1",
     "reflect-metadata": "^0.1.13"
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "devDependencies": {
+    "@types/crypto-js": "^4.0.1",
+    "@types/pbkdf2": "^3.1.0"
+  }
 }
