@@ -1,23 +1,20 @@
-import * as pbkdf2 from "pbkdf2";
-import * as crypto from "crypto";
+import CryptoJS from "crypto-js";
 import { PasswordAlgorithm, PasswordHashConfig } from "../models/system-config-model";
 import { Credentials, PasswordTuple } from "../services/authentication-service";
 
-function sha512(str) {
-  return crypto
-    .createHash("sha512")
-    .update(str)
-    .digest();
+function sha512(str: string): CryptoJS.lib.WordArray {
+  return CryptoJS.SHA512(str);
 }
 
 export async function hashIt(username: string, password: string, iterations: number, sharedRandom: string) {
-  return new Promise((resolve, reject) => {
-    pbkdf2.pbkdf2(password, sha512(username + sharedRandom), iterations, 64, "sha512", (err, hash) => {
-      if (err) {
-        reject(err.toString());
-      }
-      resolve(hash.toString("hex"));
-    });
+  return new Promise(resolve => {
+    resolve(
+      CryptoJS.PBKDF2(password, sha512(username + sharedRandom), {
+        keySize: 16,
+        hasher: CryptoJS.algo.SHA512,
+        iterations
+      }).toString(CryptoJS.enc.Hex)
+    );
   });
 }
 
