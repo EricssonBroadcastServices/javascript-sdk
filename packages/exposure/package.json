@@ -35,7 +35,6 @@
     "defaults"
   ],
   "devDependencies": {
-    "@types/crypto-js": "^4.0.1",
-    "@types/pbkdf2": "^3.1.0"
+    "@types/crypto-js": "^4.0.1"
   }
 }
