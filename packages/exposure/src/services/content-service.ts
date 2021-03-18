@@ -133,7 +133,13 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(OnNowResponse, data));
   }
 
-  public getOnNow({ minutesForward = 0, customer, businessUnit, pageNumber = 1, pageSize = 100 }: GetOnNowOptions) {
+  public getOnNow({
+    minutesForward = 0,
+    customer,
+    businessUnit,
+    pageNumber = 1,
+    pageSize = 100
+  }: GetOnNowOptions): Promise<{ apiChannelStatuses: OnNowResponse[] }> {
     const requestQuery = {
       minutesForward: minutesForward,
       pageNumber,
