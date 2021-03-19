@@ -35,9 +35,15 @@ export interface GetEpgOptions extends CustomerAndBusinessUnitOptions, Pageinate
   daysBackward?: number;
 }
 
-export interface GetOnNowOptions extends CustomerAndBusinessUnitOptions {
+export interface GetOnNowByChannelIdOptions extends CustomerAndBusinessUnitOptions {
   channelId: string;
   minutesForward?: number;
+}
+
+export interface GetOnNowOptions extends CustomerAndBusinessUnitOptions {
+  minutesForward?: number;
+  pageSize?: number;
+  pageNumber?: number;
 }
 
 export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
@@ -116,14 +122,37 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(EpgResponse, data));
   }
 
-  public getOnNow({ channelId, minutesForward, customer, businessUnit }: GetOnNowOptions) {
+  public getOnNowByChannelId({ channelId, minutesForward, customer, businessUnit }: GetOnNowByChannelIdOptions) {
     const requestQuery = {
       minutesForward: minutesForward || 0
     };
     return this.get(
-      `/v1/channel/customer/${customer || this.options.customer}/businessunit/${businessUnit ||
-        this.options.businessUnit}/onnow/${channelId}?${querystring.stringify(requestQuery)}`
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/channel/onnow/${channelId}?${querystring.stringify(
+        requestQuery
+      )}`
     ).then(data => deserialize(OnNowResponse, data));
+  }
+
+  public getOnNow({
+    minutesForward = 0,
+    customer,
+    businessUnit,
+    pageNumber = 1,
+    pageSize = 100
+  }: GetOnNowOptions): Promise<{ apiChannelStatuses: OnNowResponse[] }> {
+    const requestQuery = {
+      minutesForward: minutesForward,
+      pageNumber,
+      pageSize
+    };
+    return this.get(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/channel/onnow?${querystring.stringify(
+        requestQuery
+      )}`
+    ).then(data => ({
+      ...data,
+      apiChannelStatuses: data.apiChannelStatuses.map(item => deserialize(OnNowResponse, item))
+    }));
   }
 
   public getLiveEvents({
