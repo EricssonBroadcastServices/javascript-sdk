@@ -29,12 +29,26 @@ class Medias {
 export class Publication {
   @jsonProperty({ type: Date })
   public fromDate: Date;
+  @jsonProperty({ type: Date })
+  public toDate: Date;
   @jsonProperty({ type: String })
   public countries: string[] = [];
   @jsonProperty({ type: String })
   public products: string[] = [];
   @jsonProperty({ type: String })
   public availabilityKeys: string[];
+
+  public isExpired() {
+    return this.toDate.getTime() < Date.now();
+  }
+
+  public isInFuture() {
+    return this.fromDate.getTime() > Date.now();
+  }
+
+  public isActive() {
+    return !this.isInFuture() && !this.isExpired();
+  }
 }
 
 export class ExternalReferences {
