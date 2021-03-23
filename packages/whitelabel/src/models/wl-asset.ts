@@ -134,6 +134,10 @@ export class WLAsset implements IWLCarouselItem {
     return ImageScaler.fitToWidth(imageUrl, width, format);
   }
 
+  public getActivePublications() {
+    return this.publications.filter(p => p.isActive());
+  }
+
   public isLive = () => {
     if (this.startTime && this.endTime) {
       const now = new Date();
@@ -150,7 +154,9 @@ export class WLAsset implements IWLCarouselItem {
     if (this.publications.length === 0) {
       return false;
     }
-    return this.publications[0].fromDate.getTime() > Date.now();
+    return this.publications
+      .filter(p => !p.isExpired())
+      .every(p => p.fromDate.getTime() > Date.now());
   };
 
   public getIsEntitled = (availabilityKeys: string[]) => {
@@ -207,20 +213,28 @@ export class WLAsset implements IWLCarouselItem {
   public requiredProducts = (): string[] => {
     /* eslint-disable @typescript-eslint/ban-ts-ignore */
     /* eslint-disable prefer-spread */
+    let publications = this.getActivePublications();
+    if (this.inFuture()) {
+      publications = this.publications.filter(p => p.isInFuture());
+    }
     return [].concat.apply(
       [],
       // @ts-ignore
-      this.publications.map(pub => pub.products)
+      publications.map(pub => pub.products)
     );
   };
 
   public getAvailabilityKeys = (): string[] => {
     /* eslint-disable @typescript-eslint/ban-ts-ignore */
-    /* eslint-disable prefer-spread */
+  /* eslint-disable prefer-spread */
+    let publications = this.getActivePublications();
+    if (this.inFuture()) {
+      publications = this.publications.filter(p => p.isInFuture());
+    }
     return [].concat.apply(
       [],
       // @ts-ignore
-      this.publications.map(pub => pub.availabilityKeys)
+      publications.map(pub => pub.availabilityKeys)
     );
   };
 
@@ -293,7 +307,7 @@ export class WLAsset implements IWLCarouselItem {
     // since we want to check all publications, ant all need to be blocked to block
     // let's sum the result of each in an array
     let publicationBlock: Boolean[] = [];
-    this.publications.forEach(publication => {
+    this.getActivePublications().forEach(publication => {
       // if no countries specified, it does not block
       if (!publication.countries || publication.countries.length === 0) {
         publicationBlock.push(false);
