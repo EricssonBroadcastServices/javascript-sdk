@@ -156,7 +156,7 @@ export class WLAsset implements IWLCarouselItem {
     }
     return this.publications
       .filter(p => !p.isExpired())
-      .every(p => p.isInFuture);
+      .every(p => p.isInFuture());
   };
 
   public getIsEntitled = (availabilityKeys: string[]) => {
