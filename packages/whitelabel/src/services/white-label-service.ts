@@ -277,4 +277,25 @@ export class WhiteLabelService extends BaseService {
       `/api/internal/customer/${customer}/businessunit/${businessUnit}/browse/${query}?${queryString}`
     ).then(data => deserialize(WLPageModel, data));
   }
+
+  public getAssetList({
+    customer,
+    businessUnit,
+    locale,
+    listId
+  }: {
+    customer: string;
+    businessUnit: string;
+    listId: string;
+    locale: string;
+  }) {
+    const queryString = querystring.stringify({
+      deviceGroup: this.deviceGroup,
+      locale
+    });
+    return this.get(
+      `/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/preferences/list/${listId}/asset?${queryString}`,
+      this.options.authHeader()
+    ).then(data => data.items.map(a => deserialize(WLAsset, a)));
+  }
 }
