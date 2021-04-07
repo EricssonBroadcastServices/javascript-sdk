@@ -22,7 +22,7 @@ export { IWLConfig, IWLSystemConfig, IAppConfig } from "./interfaces/wl-config";
 export { IWLMenuItem, IWLFooter, IWLSocialMediaLink } from "./interfaces/wl-menu";
 export { WLComponentType } from "./interfaces/wl-component";
 export { IWLCarousel } from "./interfaces/wl-carousel";
-export { IWLEPG, IWLEPGChannel } from "./interfaces/wl-epg";
+export { IWLEPG, IWLEPGChannel, IWLEpgComponent } from "./interfaces/wl-epg";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
 export { Theme } from "./models/wl-theme";
 export {
