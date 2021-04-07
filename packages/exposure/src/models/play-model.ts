@@ -19,13 +19,6 @@ export enum Stitcher {
   NOWTILUS = "NOWTILUS"
 }
 
-export enum CdnProvider {
-  LUMEN = "CTL",
-  HIGHWINDS = "HW",
-  FASTLY = "FSLY",
-  UNKNOWN = "unknown"
-}
-
 export class DRM {
   licenseServerUrl: string;
   certificateUrl?: string;
@@ -148,7 +141,7 @@ export class Cdn {
   @jsonProperty()
   public host?: string;
   @jsonProperty()
-  public provider?: CdnProvider;
+  public provider?: string;
 }
 
 export class Analytics {

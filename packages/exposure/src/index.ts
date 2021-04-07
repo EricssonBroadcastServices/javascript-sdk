@@ -35,7 +35,6 @@ export {
   DRM,
   Format,
   Stitcher,
-  CdnProvider,
   StreamInfo,
   Sprite,
   ContractRestrictions
