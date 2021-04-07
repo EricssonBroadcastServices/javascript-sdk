@@ -19,6 +19,13 @@ export enum Stitcher {
   NOWTILUS = "NOWTILUS"
 }
 
+export enum CdnProvider {
+  LUMEN = "CTL",
+  HIGHWINDS = "HW",
+  FASTLY = "FSLY",
+  UNKNOWN = "unknown"
+}
+
 export class DRM {
   licenseServerUrl: string;
   certificateUrl?: string;
@@ -135,6 +142,24 @@ export class Ads {
   public ads?: Ad[];
 }
 
+export class Cdn {
+  @jsonProperty()
+  public profile?: string;
+  @jsonProperty()
+  public host?: string;
+  @jsonProperty()
+  public provider?: CdnProvider;
+}
+
+export class Analytics {
+  @jsonProperty()
+  public postInterval?: number;
+  @jsonProperty()
+  public bucket?: number;
+  @jsonProperty()
+  public tag?: string;
+}
+
 export class Play {
   @jsonProperty()
   public accountId: string;
@@ -174,4 +199,8 @@ export class Play {
   public materiaVersion: number;
   @jsonProperty({ type: Ads })
   public ads: Ads;
+  @jsonProperty({ type: Cdn })
+  public cdn?: Cdn;
+  @jsonProperty({ type: Analytics })
+  public analytics?: Analytics;
 }
