@@ -1,7 +1,7 @@
 const _storage = {};
 
 const store = (key: string, value: string): void => {
-  if (sessionStorage) {
+  if (typeof sessionStorage !== "undefined") {
     sessionStorage.setItem(key, value);
   } else {
     _storage[key] = value;
@@ -9,7 +9,7 @@ const store = (key: string, value: string): void => {
 };
 
 const get = (key: string): string | null => {
-  if (sessionStorage) {
+  if (typeof sessionStorage !== "undefined") {
     return sessionStorage.getItem(key);
   } else {
     return _storage[key];
@@ -17,7 +17,7 @@ const get = (key: string): string | null => {
 };
 
 const remove = (key: string): void => {
-  if (sessionStorage) {
+  if (typeof sessionStorage !== "undefined") {
     sessionStorage.removeItem(key);
   } else {
     delete _storage[key];
