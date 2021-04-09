@@ -9,6 +9,7 @@ import { IWLHeroBannerItem, WLHeroBannerItemType, IWLHeroBanner } from "../inter
 import { IWLImageComponent } from "../interfaces/wl-image-component";
 import { WLComponentType } from "../interfaces/wl-component";
 import { IWLTextComponent } from "../interfaces/wl-text-component";
+import { IWLEpgComponent } from "../interfaces/wl-epg";
 
 export enum CarouselSubType {
   EPG = "epg",
@@ -108,4 +109,47 @@ export class WLTextComponent extends WLComponent implements IWLTextComponent {
   public getLexer() {
     return marked.lexer(this.body);
   }
+}
+
+
+export class WLEpgComponentChannel {
+  @jsonProperty()
+  public channel: WLAsset;
+  @jsonProperty({ type: WLAsset })
+  public programs: WLAsset[];
+
+  public findOngoing(time = new Date()) {
+    return this.programs.find(p => p.startTime < time && p.endTime > time);
+  }
+
+  public findCurrentAndUpcomingProgramsByHour(date: Date) {
+    const ongoingAtHour = this.findOngoing(date);
+    const startingNextHour = this.programs.find(p => p.startTime.getHours() >= date.getHours() + 1);
+    if (!ongoingAtHour) return [];
+    /* return all programs that in some way is ongoing during the selected hour
+     * return the rest of the list if there is nothing starting in the next hour.
+     * This will occur when date.getHours() + 1 equals 24, and will result in us
+     * showing the remaining programs in todays epg
+     * if programs ongoing or starting during the hour is less than 3. Use minimum 3.
+    */
+    const startIndex = this.programs.indexOf(ongoingAtHour);
+    const stopIndex = startingNextHour ?
+      (
+        this.programs.indexOf(startingNextHour) - startIndex < 3 ?
+          startIndex + 3 :
+          this.programs.indexOf(startingNextHour)
+      ) :
+      undefined;
+    return this.programs.slice(
+      startIndex,
+      stopIndex
+    );
+  }
+}
+
+export class WLEpgComponent extends WLComponent implements IWLEpgComponent {
+  @jsonProperty()
+  public title?: string;
+  @jsonProperty({ type: WLEpgComponentChannel })
+  public channels: WLEpgComponentChannel[];
 }
