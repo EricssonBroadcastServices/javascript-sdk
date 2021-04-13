@@ -2,9 +2,6 @@ import { TimeService } from "./time-service";
 import { ServiceOptions } from "./base-service";
 import { Time } from "../models/time-model";
 import axios from "axios";
-import { mocks } from "../../test-utils/mocks";
-
-const { customer, businessUnit } = mocks;
 
 describe("Time service", () => {
   const serviceOptions: ServiceOptions = {
@@ -20,8 +17,8 @@ describe("Time service", () => {
       }
     };
     spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
-    const timeResponse = await timeService.getTime({ customer, businessUnit });
+    const timeResponse = await timeService.getTime();
     expect(timeResponse).toBeInstanceOf(Time);
-    expect(axios.get).toHaveBeenCalledWith(`${serviceOptions.baseUrl}/v1/customer/CU/businessunit/BU/time`, {});
+    expect(axios.get).toHaveBeenCalledWith(`${serviceOptions.baseUrl}/v2/time`, {});
   });
 });
