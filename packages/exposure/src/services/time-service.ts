@@ -27,7 +27,7 @@ export class TimeService extends BaseService {
     // if a diff is stored, respond with client time adjusted accordingly
     if (sessionKeyStorage.getItem(SESSION_STORAGE_KEY)) {
       const diff = sessionKeyStorage.getItem(SESSION_STORAGE_KEY);
-      return Number(clientTime) + Number(diff);
+      return Number(clientTime) - Number(diff);
     } else {
       // if we do not have a diff stored, fetch it and store it - though respond with the server time for now
       const timeResponse = await this.getTime();
