@@ -5,6 +5,7 @@ import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { mockProductOffering } from "../../test-utils/mock-wl-productoffering";
 import { mockTranslations } from "../../test-utils/mock-translations";
 import { freeProduct, mockPublications, product1 } from "@ericssonbroadcastservices/exposure-sdk/test-utils/mockPublication";
+// import { it } from "date-fns/locale";
 
 describe("wl asset", () => {
   describe("entitlement", () => {
@@ -246,4 +247,12 @@ describe("wl asset", () => {
       })).toBe(EntitlementCase.IN_FUTURE);
     });
   });
+  describe("EPG Progress", ()=>{
+    it("", ()=>{
+      const asset = new WLAsset();
+      asset.startTime = new Date();
+      asset.endTime = new Date(Date.now() + 60 * 1000);
+      expect(asset.getEPGProgress(asset.startTime.getTime() + 30000)).toBe(50)
+    })
+  })
 });
