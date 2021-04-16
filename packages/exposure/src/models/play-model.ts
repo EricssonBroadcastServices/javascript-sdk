@@ -170,7 +170,7 @@ export class Play {
   public formats: Format[] = [];
   @jsonProperty()
   public streamInfo: StreamInfo;
-  @jsonProperty()
+  @jsonProperty({ type: Sprite })
   public sprites?: Sprite[];
   @jsonProperty()
   public contractRestrictions: ContractRestrictions;
