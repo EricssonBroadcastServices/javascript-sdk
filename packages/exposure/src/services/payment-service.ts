@@ -264,4 +264,12 @@ export class PaymentService extends BaseService {
       this.options.authHeader()
     );
   }
+
+  public getBraintreeClientToken({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<string> {
+    return this.post(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/store/purchase/initialize`,
+      {},
+      { ...this.options.authHeader() }
+    ).then(data => data.clientToken);
+  }
 }
