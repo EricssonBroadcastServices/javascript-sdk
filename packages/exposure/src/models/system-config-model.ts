@@ -6,7 +6,8 @@ export enum PaymentType {
   STRIPE = "stripe",
   EXTERNAL = "external",
   DENY = "deny",
-  VOUCHERS_ONLY = "vouchers"
+  VOUCHERS_ONLY = "vouchers",
+  BRAINTREE = "braintree"
 }
 
 class FrontEndFeatures {
@@ -76,8 +77,12 @@ export class SystemConfig {
   @jsonProperty()
   public signupMinimumAge: number;
   public paymentsIsEnabled = () => {
-    return [PaymentType.ADYEN, PaymentType.EXTERNAL, PaymentType.STRIPE, PaymentType.VOUCHERS_ONLY].includes(
-      this.paymentType
-    );
+    return [
+      PaymentType.ADYEN,
+      PaymentType.EXTERNAL,
+      PaymentType.STRIPE,
+      PaymentType.VOUCHERS_ONLY,
+      PaymentType.BRAINTREE
+    ].includes(this.paymentType);
   };
 }
