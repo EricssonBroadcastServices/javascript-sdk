@@ -10,6 +10,7 @@ import { IWLImageComponent } from "../interfaces/wl-image-component";
 import { WLComponentType } from "../interfaces/wl-component";
 import { IWLTextComponent } from "../interfaces/wl-text-component";
 import { IWLEpgComponent } from "../interfaces/wl-epg";
+import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
 
 export enum CarouselSubType {
   EPG = "epg",
@@ -152,4 +153,13 @@ export class WLEpgComponent extends WLComponent implements IWLEpgComponent {
   public title?: string;
   @jsonProperty({ type: WLEpgComponentChannel })
   public channels: WLEpgComponentChannel[];
+}
+
+export class WLIframe extends WLComponent implements IWLIframeComponent {
+  @jsonProperty()
+  public type: WLComponentType;
+  @jsonProperty()
+  public title: string;
+  @jsonProperty()
+  public iframe?: IWLIframe;
 }

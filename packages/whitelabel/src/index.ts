@@ -11,7 +11,8 @@ export {
   WLImageComponent,
   WLTextComponent,
   WLEpgComponent,
-  WLEpgComponentChannel
+  WLEpgComponentChannel,
+  WLIframe,
 } from "./models/wl-component";
 export { WLAsset, WLTag, WLParticipant } from "./models/wl-asset";
 export { WLProductOffering, WLOfferingPrice } from "./models/wl-productoffering";
@@ -20,6 +21,7 @@ export { IWLCarouselItem, IWLSeason, IWLAssetTag } from "./interfaces/wl-carouse
 export { IWLReference, CarouselLayout, PresentationImageOrientation } from "./interfaces/wl-reference";
 export { IWLAction, WLActionType, WLInternalActionType } from "./interfaces/wl-action";
 export { IWLHeroBanner, IWLHeroBannerItem, WLHeroBannerItemType } from "./interfaces/wl-herobanner";
+export { IWLIframe, IWLIframeComponent } from "./interfaces/wl-iframe";
 export { IWLConfig, IWLSystemConfig, IAppConfig } from "./interfaces/wl-config";
 export { IWLMenuItem, IWLFooter, IWLSocialMediaLink } from "./interfaces/wl-menu";
 export { WLComponentType } from "./interfaces/wl-component";
