@@ -14,7 +14,21 @@ interface AddAssetToListOptions extends DeleteAssetFromListOptions {
   order?: number;
 }
 
-interface GetAssetFromListOptions extends DeleteAssetFromListOptions {}
+interface GetAssetFromListOptions extends DeleteAssetFromListOptions { }
+
+interface GetTagsFromList extends CustomerAndBusinessUnitOptions {
+  listId: string;
+}
+
+interface DeleteTagFromListOptions extends GetTagsFromList {
+  tagId: string;
+}
+
+interface AddTagToListOptions extends DeleteTagFromListOptions {
+  order?: number;
+}
+
+
 
 export class PreferencesService extends BaseService {
   public getListById({ customer, businessUnit, listId }: GetListByIdOptions): Promise<PreferenceListItem[]> {
@@ -35,7 +49,7 @@ export class PreferencesService extends BaseService {
         apiVersion: "v1"
       })}/preferences/list/${listId}/asset/${assetId}`,
       {
-        order: order || 0,
+        order: order || 0
       },
       this.options.authHeader()
     );
@@ -59,5 +73,33 @@ export class PreferencesService extends BaseService {
       })}/preferences/list/${listId}/asset/${assetId}`,
       this.options.authHeader()
     ).then(data => deserialize(PreferenceListItem, data));
+  }
+
+  public addTagToList({ customer, businessUnit, listId, tagId, order }: AddTagToListOptions) {
+    return this.post(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences/list/${listId}/tag/${tagId}`,
+      {
+        order: order || 0
+      },
+      this.options.authHeader()
+    );
+  }
+
+  public deleteTagFromList({ customer, businessUnit, listId, tagId }: DeleteTagFromListOptions) {
+    return this.delete(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences/list/${listId}/tag/${tagId}`,
+      this.options.authHeader()
+    );
+  }
+
+  public getTagsFromList({
+    customer,
+    businessUnit,
+    listId
+  }: GetTagsFromList): Promise<{ query: string; items: { id: string; order: number }[] }> {
+    return this.get(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences/list/${listId}/tag`,
+      this.options.authHeader()
+    );
   }
 }
