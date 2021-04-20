@@ -45,6 +45,8 @@ export class SystemConfig {
   @jsonProperty()
   public analyticsPercentage: number;
   @jsonProperty()
+  public analyticsBaseUrl: string;
+  @jsonProperty()
   public currencies: string[];
   @jsonProperty({ type: String })
   public displayLocales: string[];
