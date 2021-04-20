@@ -11,12 +11,13 @@ import { WLComponentType } from "../interfaces/wl-component";
 import { IWLTextComponent } from "../interfaces/wl-text-component";
 import { IWLEpgComponent } from "../interfaces/wl-epg";
 import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
+import { IWLTagFeedCarousel, IWLTagFeedTags } from "../interfaces/wl-tag-feed-carousel";
 
 export enum CarouselSubType {
   EPG = "epg",
   PROGRESS = "progress",
   FAVORITES = "favorites",
-  TAG_FEED = "tagFeed"
+  TAG_FEED = "TagFeedQuery",
 }
 
 export class WLComponent {
@@ -52,6 +53,23 @@ export class WLCarousel extends WLComponent implements IWLCarousel  {
         return 0;
     }
   }
+}
+
+export class WLTagFeedCarousel extends WLComponent implements IWLTagFeedCarousel {
+ @jsonProperty()
+ public title: string;
+ @jsonProperty()
+ public subType: CarouselSubType;
+ @jsonProperty()
+ public tags: IWLTagFeedTags 
+
+ @jsonProperty()
+ public contentPreferencesUrl: {
+  url: string,
+  fields: string[],
+  authorized: boolean
+ }
+
 }
 
 export class WLHerobannerItem implements IWLHeroBannerItem {
