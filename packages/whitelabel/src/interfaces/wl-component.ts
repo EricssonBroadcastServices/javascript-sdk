@@ -9,5 +9,6 @@ export enum WLComponentType {
   FOOTER = "footer",
   IMAGE = "image",
   TEXT = "text",
-  EPG = "epg"
+  EPG = "epg",
+  IFRAME = "iframe"
 }
