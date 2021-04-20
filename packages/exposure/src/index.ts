@@ -1,7 +1,6 @@
 import { ContentService } from "./services/content-service";
 import { ServiceOptions } from "./services/base-service";
 import { LocationService } from "./services/location-service";
-import { TimeService } from "./services/time-service";
 import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
 import { CustomerConfigService } from "./services/customer-config-service";
@@ -80,7 +79,6 @@ export { SystemConfig, PaymentType };
 export {
   ContentService,
   LocationService,
-  TimeService,
   TagService,
   EntitlementService,
   UserService,
@@ -106,7 +104,6 @@ export class ExposureApi {
   public content = new ContentService(this.options);
   public document = new DocumentService(this.options);
   public location = new LocationService(this.options);
-  public time = new TimeService(this.options);
   public tag = new TagService(this.options);
   public entitlements = new EntitlementService(this.options);
   public config = new CustomerConfigService(this.options);
