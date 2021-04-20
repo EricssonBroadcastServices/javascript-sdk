@@ -15,7 +15,8 @@ import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
 export enum CarouselSubType {
   EPG = "epg",
   PROGRESS = "progress",
-  FAVORITES = "favorites"
+  FAVORITES = "favorites",
+  TAG_FEED = "tagFeed"
 }
 
 export class WLComponent {
