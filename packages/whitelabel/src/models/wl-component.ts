@@ -65,7 +65,7 @@ export class WLTagFeedCarousel extends WLComponent implements IWLTagFeedCarousel
 
  @jsonProperty()
  public contentPreferencesUrl: {
-  url: string,
+  internalUrl: string,
   fields: string[],
   authorized: boolean
  }

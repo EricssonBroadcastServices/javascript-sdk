@@ -11,7 +11,7 @@ export interface IWLTagFeedCarousel {
   title?: string;
   tagTitles: IWLTagFeedTagTitles,
   contentPreferencesUrl: {
-    url: string,
+    internalUrl: string,
     fields: string[],
     authorized: boolean 
   }
