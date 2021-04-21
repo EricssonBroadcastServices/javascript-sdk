@@ -1,6 +1,6 @@
 import { CarouselSubType } from "../models/wl-component";
 
-export interface IWLTagFeedTags {
+export interface IWLTagFeedTagTitles {
   [key: string]: string
 }
 
@@ -9,7 +9,7 @@ export interface IWLTagFeedCarousel {
   type: string;
   subType: CarouselSubType;
   title?: string;
-  tags: IWLTagFeedTags,
+  tagTitles: IWLTagFeedTagTitles,
   contentPreferencesUrl: {
     url: string,
     fields: string[],

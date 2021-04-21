@@ -11,7 +11,7 @@ import { WLComponentType } from "../interfaces/wl-component";
 import { IWLTextComponent } from "../interfaces/wl-text-component";
 import { IWLEpgComponent } from "../interfaces/wl-epg";
 import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
-import { IWLTagFeedCarousel, IWLTagFeedTags } from "../interfaces/wl-tag-feed-carousel";
+import { IWLTagFeedCarousel, IWLTagFeedTagTitles } from "../interfaces/wl-tag-feed-carousel";
 
 export enum CarouselSubType {
   EPG = "epg",
@@ -61,7 +61,7 @@ export class WLTagFeedCarousel extends WLComponent implements IWLTagFeedCarousel
  @jsonProperty()
  public subType: CarouselSubType;
  @jsonProperty()
- public tags: IWLTagFeedTags 
+ public tagTitles: IWLTagFeedTagTitles 
 
  @jsonProperty()
  public contentPreferencesUrl: {
