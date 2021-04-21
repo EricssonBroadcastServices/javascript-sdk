@@ -35,6 +35,35 @@ export class PasswordHashConfig {
   public algorithms: PasswordAlgorithm[];
 }
 
+export enum LoginMethodType {
+  FIREBASE = "firebase",
+  USER_ACCOUNTS = "useraccounts"
+}
+
+export class LoginMethodProvider {
+  @jsonProperty()
+  public name: string;
+  @jsonProperty()
+  public key: any;
+}
+
+export class LoginMethod {
+  @jsonProperty()
+  public method: LoginMethodType;
+  @jsonProperty({ type: LoginMethodProvider })
+  public providers?: LoginMethodProvider[];
+  @jsonProperty()
+  public webkey?: {
+    apiKey: string;
+    authDomain: string;
+    projectId: string;
+    storageBucket: string;
+    messagingSenderId: string;
+    appId: string;
+    measurementId: string;
+  };
+}
+
 export class SystemConfig {
   @jsonProperty()
   public paymentType: PaymentType;
@@ -78,6 +107,8 @@ export class SystemConfig {
   public stripePublicKey: string;
   @jsonProperty()
   public signupMinimumAge: number;
+  @jsonProperty({ type: LoginMethod })
+  public loginMethods: LoginMethod[];
   public paymentsIsEnabled = () => {
     return [
       PaymentType.ADYEN,

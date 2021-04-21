@@ -12,7 +12,13 @@ import { PaymentService, CardPaymentDetails, VerifyPurchasePayload } from "./ser
 import { SystemService } from "./services/system-service";
 
 /* Models */
-import { SystemConfig, PaymentType } from "./models/system-config-model";
+import {
+  SystemConfig,
+  PaymentType,
+  LoginMethod,
+  LoginMethodProvider,
+  LoginMethodType
+} from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
 export { Localized, ImageModel, ImageOrientation, ImageType } from "./models/localized-model";
@@ -73,7 +79,7 @@ export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
 export { PaymentMethod } from "./models/payment-method";
 
-export { SystemConfig, PaymentType };
+export { SystemConfig, PaymentType, LoginMethod, LoginMethodProvider, LoginMethodType };
 
 /* Services */
 export {
