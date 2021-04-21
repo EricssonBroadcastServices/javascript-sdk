@@ -13,6 +13,7 @@ export {
   WLEpgComponent,
   WLEpgComponentChannel,
   WLIframe,
+  WLTagFeedCarousel
 } from "./models/wl-component";
 export { WLAsset, WLTag, WLParticipant } from "./models/wl-asset";
 export { WLProductOffering, WLOfferingPrice } from "./models/wl-productoffering";
@@ -28,6 +29,7 @@ export { WLComponentType } from "./interfaces/wl-component";
 export { IWLCarousel } from "./interfaces/wl-carousel";
 export { IWLEPG, IWLEPGChannel, IWLEpgComponent } from "./interfaces/wl-epg";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
+export { IWLTagFeedCarousel } from "./interfaces/wl-tag-feed-carousel";
 export { Theme } from "./models/wl-theme";
 export {
   WLConfig,
