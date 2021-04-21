@@ -17,7 +17,7 @@ export enum CarouselSubType {
   EPG = "epg",
   PROGRESS = "progress",
   FAVORITES = "favorites",
-  TAG_FEED = "TagFeedQuery",
+  TAG_FEED = "TagFeedQuery"
 }
 
 export class WLComponent {
@@ -27,11 +27,11 @@ export class WLComponent {
   public type: string;
 }
 
-export class WLCarousel extends WLComponent implements IWLCarousel  {
+export class WLCarousel extends WLComponent implements IWLCarousel {
   @jsonProperty()
   public title: string;
   @jsonProperty({ type: String })
-  public subType: CarouselSubType | null;
+  public subType: CarouselSubType | null;
   @jsonProperty({ type: WLAsset })
   public assets: WLAsset[];
 
@@ -56,20 +56,19 @@ export class WLCarousel extends WLComponent implements IWLCarousel  {
 }
 
 export class WLTagFeedCarousel extends WLComponent implements IWLTagFeedCarousel {
- @jsonProperty()
- public title: string;
- @jsonProperty()
- public subType: CarouselSubType;
- @jsonProperty()
- public tagTitles: IWLTagFeedTagTitles 
+  @jsonProperty()
+  public title: string;
+  @jsonProperty()
+  public subType: CarouselSubType;
+  @jsonProperty()
+  public tagTitles: IWLTagFeedTagTitles;
 
- @jsonProperty()
- public contentPreferencesUrl: {
-  internalUrl: string,
-  fields: string[],
-  authorized: boolean
- }
-
+  @jsonProperty()
+  public contentPreferencesUrl: {
+    internalUrl: string;
+    fields: string[];
+    authorized: boolean;
+  };
 }
 
 export class WLHerobannerItem implements IWLHeroBannerItem {
@@ -131,7 +130,6 @@ export class WLTextComponent extends WLComponent implements IWLTextComponent {
   }
 }
 
-
 export class WLEpgComponentChannel {
   @jsonProperty()
   public channel: WLAsset;
@@ -151,19 +149,14 @@ export class WLEpgComponentChannel {
      * This will occur when date.getHours() + 1 equals 24, and will result in us
      * showing the remaining programs in todays epg
      * if programs ongoing or starting during the hour is less than 3. Use minimum 3.
-    */
+     */
     const startIndex = this.programs.indexOf(ongoingAtHour);
-    const stopIndex = startingNextHour ?
-      (
-        this.programs.indexOf(startingNextHour) - startIndex < 3 ?
-          startIndex + 3 :
-          this.programs.indexOf(startingNextHour)
-      ) :
-      undefined;
-    return this.programs.slice(
-      startIndex,
-      stopIndex
-    );
+    const stopIndex = startingNextHour
+      ? this.programs.indexOf(startingNextHour) - startIndex < 3
+        ? startIndex + 3
+        : this.programs.indexOf(startingNextHour)
+      : undefined;
+    return this.programs.slice(startIndex, stopIndex);
   }
 }
 
