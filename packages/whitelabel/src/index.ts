@@ -12,8 +12,7 @@ export {
   WLTextComponent,
   WLEpgComponent,
   WLEpgComponentChannel,
-  WLIframe,
-  WLTagFeedCarousel
+  WLIframe
 } from "./models/wl-component";
 export { WLAsset, WLTag, WLParticipant } from "./models/wl-asset";
 export { WLProductOffering, WLOfferingPrice } from "./models/wl-productoffering";
@@ -25,11 +24,10 @@ export { IWLHeroBanner, IWLHeroBannerItem, WLHeroBannerItemType } from "./interf
 export { IWLIframe, IWLIframeComponent } from "./interfaces/wl-iframe";
 export { IWLConfig, IWLSystemConfig, IAppConfig } from "./interfaces/wl-config";
 export { IWLMenuItem, IWLFooter, IWLSocialMediaLink } from "./interfaces/wl-menu";
-export { WLComponentType } from "./interfaces/wl-component";
-export { IWLCarousel } from "./interfaces/wl-carousel";
+export { WLComponentType, WLComponentSubType } from "./interfaces/wl-component";
+export { IWLCarousel, IWLTagTitles } from "./interfaces/wl-carousel";
 export { IWLEPG, IWLEPGChannel, IWLEpgComponent } from "./interfaces/wl-epg";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
-export { IWLTagFeedCarousel } from "./interfaces/wl-tag-feed-carousel";
 export { Theme } from "./models/wl-theme";
 export {
   WLConfig,

@@ -1,4 +1,5 @@
 import { AspectRatio } from "@ericssonbroadcastservices/exposure-sdk";
+import { WLComponentType, WLComponentSubType } from "./wl-component";
 
 export enum CarouselLayout {
   CAROUSEL = "carousel",
@@ -12,11 +13,13 @@ export enum PresentationImageOrientation {
 }
 
 export interface IWLReference {
-  internalUrl: string;
   id: string;
+  type: WLComponentType;
+  subType?: WLComponentSubType;
+  internalUrl: string;
+  urlVariables?: string[];
   authorized: boolean;
   reloadInterval?: number;
-  type: string;
   presentation?: {
     imageOrientation: PresentationImageOrientation;
     layout?: CarouselLayout;
