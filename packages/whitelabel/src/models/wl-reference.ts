@@ -1,5 +1,5 @@
 import { CarouselLayout, PresentationImageOrientation, IWLReference } from "../interfaces/wl-reference";
-import { WLComponentType } from "../interfaces/wl-component";
+import { WLComponentType, WLComponentSubType } from "../interfaces/wl-component";
 import { AspectRatio, jsonProperty } from "@ericssonbroadcastservices/exposure-sdk";
 
 export class WLReferencePresentation {
@@ -15,13 +15,17 @@ export class WLReference implements IWLReference {
   @jsonProperty()
   public id: string;
   @jsonProperty()
+  public type: WLComponentType;
+  @jsonProperty()
+  public subType?: WLComponentSubType;
+  @jsonProperty()
   public internalUrl: string;
+  @jsonProperty()
+  public urlVariables?: string[];
   @jsonProperty()
   public authorized: boolean;
   @jsonProperty()
   public reloadInterval?: number;
-  @jsonProperty()
-  public type: WLComponentType;
   @jsonProperty()
   public presentation: WLReferencePresentation = {
     layout: CarouselLayout.CAROUSEL, // default values

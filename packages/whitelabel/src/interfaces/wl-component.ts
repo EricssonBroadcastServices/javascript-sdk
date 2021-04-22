@@ -12,3 +12,7 @@ export enum WLComponentType {
   EPG = "epg",
   IFRAME = "iframe"
 }
+
+export enum WLComponentSubType {
+  TAG_FEED_QUERY = "TagFeedQuery"
+}
