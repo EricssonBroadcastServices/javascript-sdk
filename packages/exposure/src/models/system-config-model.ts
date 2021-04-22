@@ -44,6 +44,8 @@ export class LoginMethodProvider {
   @jsonProperty()
   public name: string;
   @jsonProperty()
+  public providerId: string;
+  @jsonProperty()
   public key: any;
 }
 
@@ -61,6 +63,19 @@ export class LoginMethod {
     messagingSenderId: string;
     appId: string;
     measurementId: string;
+  };
+  @jsonProperty()
+  public config?: {
+    web: {
+      apiKey: string;
+      authDomain: string;
+      projectId: string;
+      storageBucket: string;
+      messagingSenderId: string;
+      appId: string;
+      measurementId: string;
+    };
+    [key: string]: any;
   };
 }
 
