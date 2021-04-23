@@ -56,6 +56,9 @@ export interface BuyProductOfferingOptions extends CustomerAndBusinessUnitOption
       storeCardDetails?: boolean; // deprecated
       paymentMethodId?: string;
     };
+    braintreePurchase?: {
+      paymentMethodId: string;
+    };
     voucherCode?: string;
     storePaymentMethod?: boolean;
   };
@@ -88,6 +91,21 @@ export interface GetProductOfferingsByVoucherOptions extends CustomerAndBusiness
 
 export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOptions {
   purchaseId: string;
+}
+
+interface IBraintreeSettings {
+  clientToken: string;
+  braintreePaymentMethods?: {
+    paypal: {
+      amount?: number;
+      currency?: string;
+      flow: string;
+    };
+  };
+}
+
+interface IInitializeBraintreeOptions extends CustomerAndBusinessUnitOptions {
+  productOfferingId: string;
 }
 
 export class PaymentService extends BaseService {
@@ -265,11 +283,15 @@ export class PaymentService extends BaseService {
     );
   }
 
-  public getBraintreeClientToken({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<string> {
+  public initializeBraintree({
+    customer,
+    businessUnit,
+    productOfferingId
+  }: IInitializeBraintreeOptions): Promise<IBraintreeSettings> {
     return this.post(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/store/purchase/initialize`,
-      {},
+      { productOfferingId },
       { ...this.options.authHeader() }
-    ).then(data => data.clientToken);
+    );
   }
 }
