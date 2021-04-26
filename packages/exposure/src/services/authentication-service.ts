@@ -46,6 +46,16 @@ export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
   };
 }
 
+export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
+  username: string;
+  email: string;
+  displayName: string;
+  providerId: string;
+  accessToken: string;
+  emailVerified: boolean;
+  device: DeviceInfo;
+}
+
 export class AuthenticationService extends BaseService {
   public login({ customer, businessUnit, body }: LoginOptions) {
     return this.post(
@@ -70,6 +80,37 @@ export class AuthenticationService extends BaseService {
       return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
     });
   }
+
+  public loginFirebase({
+    username,
+    email,
+    displayName,
+    providerId,
+    accessToken,
+    customer,
+    businessUnit,
+    emailVerified,
+    device
+  }: LoginFireBaseOptions) {
+    const payload = {
+      username,
+      email,
+      displayName,
+      emailVerified,
+      providerId,
+      accessToken,
+      device
+    };
+    return this.post(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v2"
+      })}/auth/firebaseLogin`,
+      payload
+    ).then(data => deserialize(LoginResponse, data));
+  }
+
   public logout({
     customer,
     businessUnit,
