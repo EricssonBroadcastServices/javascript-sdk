@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { PreferenceListItem } from "../models/asset-model";
+import { PreferenceListTags, PreferenceListItem } from "../models/preference-model";
 
 interface GetListByIdOptions extends CustomerAndBusinessUnitOptions {
   listId: string;
@@ -14,7 +14,7 @@ interface AddAssetToListOptions extends DeleteAssetFromListOptions {
   order?: number;
 }
 
-interface GetAssetFromListOptions extends DeleteAssetFromListOptions { }
+interface GetAssetFromListOptions extends DeleteAssetFromListOptions {}
 
 interface GetTagsFromList extends CustomerAndBusinessUnitOptions {
   listId: string;
@@ -28,8 +28,6 @@ interface AddTagToListOptions extends DeleteTagFromListOptions {
   order?: number;
 }
 
-
-
 export class PreferencesService extends BaseService {
   public getListById({ customer, businessUnit, listId }: GetListByIdOptions): Promise<PreferenceListItem[]> {
     return this.get(
@@ -39,7 +37,7 @@ export class PreferencesService extends BaseService {
         apiVersion: "v1"
       })}/preferences/list/${listId}/asset`,
       this.options.authHeader()
-    ).then(data => data.map(item => deserialize(PreferenceListItem, item)))
+    ).then(data => data.map(item => deserialize(PreferenceListItem, item)));
   }
   public addAssetToList({ customer, businessUnit, listId, assetId, order }: AddAssetToListOptions) {
     return this.post(
@@ -92,11 +90,7 @@ export class PreferencesService extends BaseService {
     );
   }
 
-  public getTagsFromList({
-    customer,
-    businessUnit,
-    listId
-  }: GetTagsFromList): Promise<{ query: string; items: { id: string; order: number }[] }> {
+  public getTagsFromList({ customer, businessUnit, listId }: GetTagsFromList): Promise<PreferenceListTags> {
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences/list/${listId}/tag`,
       this.options.authHeader()

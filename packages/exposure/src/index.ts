@@ -78,6 +78,7 @@ export { PasswordPolicy } from "./models/password-policy-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
 export { PaymentMethod } from "./models/payment-method";
+export { PreferenceListItem, PreferenceListTags, PreferenceListTagItem } from "./models/preference-model";
 
 export { SystemConfig, PaymentType, LoginMethod, LoginMethodProvider, LoginMethodType };
 
@@ -92,7 +93,8 @@ export {
   SearchService,
   PaymentService,
   CustomerConfigService,
-  DocumentService
+  DocumentService,
+  PreferencesService
 };
 
 /* InterFaces */
