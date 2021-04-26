@@ -4,7 +4,7 @@ import { WLAsset } from "./wl-asset";
 import { ImageScaler } from "../utils/image-scaler";
 import { WLSeason } from "./wl-season";
 import { WLAction } from "./wl-config";
-import { IWLCarousel } from "../interfaces/wl-carousel";
+import { IWLCarousel, IWLTagTitles } from "../interfaces/wl-carousel";
 import { IWLHeroBannerItem, WLHeroBannerItemType, IWLHeroBanner } from "../interfaces/wl-herobanner";
 import { IWLImageComponent } from "../interfaces/wl-image-component";
 import { WLComponentType } from "../interfaces/wl-component";
@@ -33,6 +33,8 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
   public subType: CarouselSubType | null;
   @jsonProperty({ type: WLAsset })
   public assets: WLAsset[];
+  @jsonProperty()
+  public tagTitles: IWLTagTitles;
 
   public static fromSeason = (season: WLSeason) => {
     const carousel = new WLCarousel();

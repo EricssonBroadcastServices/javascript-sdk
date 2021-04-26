@@ -276,14 +276,3 @@ export class EpisodesResponse extends AssetResponse {
   public seriesId: string;
   public seasonNumber: number;
 }
-
-export class PreferenceListItem {
-  @jsonProperty()
-  public assetId: string;
-  @jsonProperty()
-  public lastUpdated: Date;
-  @jsonProperty()
-  public order: number;
-  @jsonProperty()
-  public asset: Asset;
-}
