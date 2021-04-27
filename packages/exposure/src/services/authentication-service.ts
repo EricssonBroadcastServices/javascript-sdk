@@ -29,14 +29,9 @@ export interface Credentials {
 }
 
 export interface LoginOptions extends CustomerAndBusinessUnitOptions {
-  body: {
-    username: string;
-    credentials: {
-      passwordTuples: PasswordTuple[];
-    };
-    deviceId: string;
-    device: DeviceInfo;
-  };
+  username: string;
+  password: string;
+  device: DeviceInfo;
 }
 
 export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
@@ -57,18 +52,32 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export class AuthenticationService extends BaseService {
-  public login({ customer, businessUnit, body }: LoginOptions) {
+  public async login({ customer, businessUnit, username, password, device }: LoginOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
         apiVersion: "v2"
       })}/auth/login`,
-      body
+      {
+        username,
+        credentials: {
+          passwordTuples: [
+            {
+              algorithm: {
+                algorithmName: "CLEAR"
+              },
+              value: password
+            }
+          ]
+        },
+        deviceId: device.deviceId,
+        device
+      }
     ).then(data => deserialize(LoginResponse, data));
   }
 
-  public loginAnonymous({ customer, businessUnit, body }: LoginAnonymousOptions) {
+  public async loginAnonymous({ customer, businessUnit, body }: LoginAnonymousOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
@@ -81,7 +90,7 @@ export class AuthenticationService extends BaseService {
     });
   }
 
-  public loginFirebase({
+  public async loginFirebase({
     username,
     email,
     displayName,
@@ -111,12 +120,11 @@ export class AuthenticationService extends BaseService {
     ).then(data => deserialize(LoginResponse, data));
   }
 
-  public logout({
+  public async logout({
     customer,
     businessUnit,
     fromAllDevice = false
   }: CustomerAndBusinessUnitOptions & { fromAllDevice?: boolean }) {
-    // TODO: not used. Check why we get error.
     return this.delete(
       `${this.cuBuUrl({
         customer,
@@ -127,7 +135,7 @@ export class AuthenticationService extends BaseService {
     );
   }
 
-  public validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public async validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `${this.cuBuUrl({
         customer,

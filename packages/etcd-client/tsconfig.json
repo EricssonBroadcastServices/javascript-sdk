@@ -12,6 +12,7 @@
       "es7",
       "dom"
     ],
+    "types": ["node"],
     "outDir": "dist/"
   },
   "include": [

@@ -104,7 +104,6 @@ export { Credentials, CardPaymentDetails, VerifyPurchasePayload, PasswordTuple, 
 export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
 export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
-export { getCredentials } from "./utils/credentials";
 
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}

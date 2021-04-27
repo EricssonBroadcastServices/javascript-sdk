@@ -1,4 +1,4 @@
-import { AuthenticationService } from "./authentication-service";
+import { AuthenticationService, DeviceType } from "./authentication-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
 import { LoginResponse } from "../models/login-response-model";
@@ -20,24 +20,39 @@ describe("Auth service", () => {
     spyOn(axios, "delete").and.returnValue(Promise.resolve(mockReturnValue));
   });
   it("should login", async () => {
-    const body = {
-      username: "user",
-      credentials: {
-        passwordTuples: []
-      },
-      device: mocks.device,
-      deviceId: "123"
-    };
-    const loginResponse = await authService.login({
+    const loginOptions = {
       customer: mocks.customer,
       businessUnit: mocks.businessUnit,
-      body: body
-    });
+      username: "tester",
+      password: "tester123",
+      device: {
+        deviceId: "123",
+        height: 10,
+        width: 20,
+        type: DeviceType.WEB,
+        name: ""
+      }
+    };
+    const loginResponse = await authService.login(loginOptions);
     expect(loginResponse).toBeInstanceOf(LoginResponse);
     expect(loginResponse.isAnonymous).toBeFalsy();
     expect(axios.post).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/login`,
-      expect.objectContaining(body),
+      expect.objectContaining({
+        username: loginOptions.username,
+        credentials: {
+          passwordTuples: [
+            {
+              algorithm: {
+                algorithmName: "CLEAR"
+              },
+              value: loginOptions.password
+            }
+          ]
+        },
+        deviceId: loginOptions.device.deviceId,
+        device: loginOptions.device
+      }),
       expect.any(Object)
     );
   });
