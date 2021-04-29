@@ -58,6 +58,7 @@ export interface BuyProductOfferingOptions extends CustomerAndBusinessUnitOption
     };
     braintreePurchase?: {
       paymentMethodId: string;
+      reusedPaymentMethod: boolean;
     };
     voucherCode?: string;
     storePaymentMethod?: boolean;
