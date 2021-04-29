@@ -94,7 +94,7 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
   purchaseId: string;
 }
 
-interface IBraintreeSettings {
+export interface IBraintreeSettings {
   clientToken: string;
   braintreePaymentMethods?: {
     googlePay: {
