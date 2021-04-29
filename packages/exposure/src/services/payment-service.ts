@@ -96,6 +96,20 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
 interface IBraintreeSettings {
   clientToken: string;
   braintreePaymentMethods?: {
+    googlePay: {
+      merchantId: string;
+      allowedPaymentMethods: [
+        {
+          type: string;
+        }
+      ];
+      googlePayVersion: number;
+      transactionInfo: {
+        totalPrice: string;
+        totalPriceStatus: string;
+        currencyCode: string;
+      };
+    };
     paypal: {
       amount?: number;
       currency?: string;
