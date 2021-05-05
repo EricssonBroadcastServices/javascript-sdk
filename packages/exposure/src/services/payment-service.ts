@@ -97,7 +97,15 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
 export interface IBraintreeSettings {
   clientToken: string;
   braintreePaymentMethods?: {
-    googlePay: {
+    applePay?: {
+      paymentRequest: {
+        total: {
+          amount: string;
+          label: string;
+        };
+      };
+    };
+    googlePay?: {
       merchantId: string;
       allowedPaymentMethods: [
         {
@@ -111,7 +119,7 @@ export interface IBraintreeSettings {
         currencyCode: string;
       };
     };
-    paypal: {
+    paypal?: {
       amount?: number;
       currency?: string;
       flow: string;
