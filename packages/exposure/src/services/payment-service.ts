@@ -269,7 +269,7 @@ export class PaymentService extends BaseService {
     businessUnit,
     paymentMethodId
   }: IAddPaymentMethodOptions): Promise<{ stripe: { clientSecret: string } }> {
-    const payload = paymentMethodId ? { paymentMethodId } : null;
+    const payload = paymentMethodId ? { paymentMethodId } : {};
     return this.post(
       `${this.cuBuUrl({
         customer,
