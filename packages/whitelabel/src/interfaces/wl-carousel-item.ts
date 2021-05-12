@@ -68,4 +68,5 @@ export interface IWLCarouselItem {
   seasons?: IWLSeason[];
   parentalRatings: IWLParentalRating[];
   overlayWidgets: IWLOverlayWidget[];
+  slugs?: string[];
 }
