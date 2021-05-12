@@ -120,7 +120,7 @@ export class WLAsset implements IWLCarouselItem {
   public slugs: string[];
 
   private getIdentifier = () => {
-    return this.slugs.length > 0 ? this.slugs[0] : this.assetId;
+    return this.slugs?.length > 0 ? this.slugs[0] : this.assetId;
   };
 
   public getDurationString = (locale?: string) => {
