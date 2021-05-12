@@ -116,6 +116,12 @@ export class WLAsset implements IWLCarouselItem {
   public parentalRatings: WLParentalRating[];
   @jsonProperty({ type: WLOverlayWidget })
   public overlayWidgets: WLOverlayWidget[];
+  @jsonProperty({ type: String })
+  public slugs: string[];
+
+  private getIdentifier = () => {
+    return this.slugs.length > 0 ? this.slugs[0] : this.assetId;
+  };
 
   public getDurationString = (locale?: string) => {
     const assetDuration = this.duration;
@@ -176,30 +182,30 @@ export class WLAsset implements IWLCarouselItem {
   public getBrowseLink = () => {
     switch (this.type) {
       case AssetType.TV_SHOW:
-        return `/asset/${this.assetId}`;
+        return `/asset/${this.getIdentifier()}`;
       default:
-        return `/asset/${this.assetId}`;
+        return `/asset/${this.getIdentifier()}`;
     }
   };
 
   public getPlayLink = (userEntitlements: Product[], availabilityKeys: string[]) => {
     switch (this.type) {
       case AssetType.TV_SHOW:
-        return `/asset/${this.assetId}`;
+        return `/asset/${this.getIdentifier()}`;
       case AssetType.EPISODE:
         return this.getIsEntitled(availabilityKeys)
-          ? `/play/${this.assetId}?playlist=season`
-          : `/asset/${this.assetId}`;
+          ? `/play/${this.getIdentifier()}?playlist=season`
+          : `/asset/${this.getIdentifier()}`;
       default:
         if (this.tvShowId && this.season) {
           return this.getIsEntitled(availabilityKeys)
-            ? `/play/${this.assetId}?playlist=season`
-            : `/asset/${this.assetId}`;
+            ? `/play/${this.getIdentifier()}?playlist=season`
+            : `/asset/${this.getIdentifier()}`;
         }
         if (this.anonymousIsAllowed(userEntitlements)) {
-          return `/play/anonymous/${this.assetId}`;
+          return `/play/anonymous/${this.getIdentifier()}`;
         }
-        return this.getIsEntitled(availabilityKeys) ? `/play/${this.assetId}` : `/asset/${this.assetId}`;
+        return this.getIsEntitled(availabilityKeys) ? `/play/${this.getIdentifier()}` : `/asset/${this.getIdentifier()}`;
     }
   };
 

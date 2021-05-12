@@ -176,6 +176,8 @@ export class Asset extends WithLocalized {
   public channelFeatures?: ChannelFeature[];
   @jsonProperty({ type: OverlayWidget })
   public overlayWidgets?: OverlayWidget[];
+  @jsonProperty({ type: String })
+  public slugs: string[] = [];
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
