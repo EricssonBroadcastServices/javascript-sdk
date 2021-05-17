@@ -148,7 +148,8 @@ export class WhiteLabelService extends BaseService {
     sortOrder = "-created",
     products,
     type,
-    countryCode
+    countryCode,
+    query
   }: {
     type?: string;
     customer: string;
@@ -158,6 +159,7 @@ export class WhiteLabelService extends BaseService {
     sortOrder?: string;
     products?: string[];
     countryCode?: string;
+    query?: string;
   }): Promise<WLAsset[]> {
     const queryString = querystring.stringify({
       locale,
@@ -169,7 +171,8 @@ export class WhiteLabelService extends BaseService {
       sort: sortOrder,
       products,
       assetType: type,
-      countryCode
+      countryCode,
+      query
     });
     return this.get(
       `/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/content/asset?${queryString}`
