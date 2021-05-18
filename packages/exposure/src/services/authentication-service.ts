@@ -9,36 +9,20 @@ export enum DeviceType {
 }
 
 export interface DeviceInfo {
-  height: number;
-  width: number;
   type: DeviceType;
   name: string;
   deviceId: string;
-}
-
-export interface PasswordTuple {
-  algorithm: {
-    algorithmName: string;
-    pbkdf2Iterations?: number;
-  };
-  value: string;
-}
-
-export interface Credentials {
-  passwordTuples: PasswordTuple[];
 }
 
 export interface LoginOptions extends CustomerAndBusinessUnitOptions {
   username: string;
   password: string;
   device: DeviceInfo;
+  informationCollectionConsentGivenNow: boolean;
 }
 
 export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
-  body: {
-    deviceId: string;
-    device: DeviceInfo;
-  };
+  device: DeviceInfo;
 }
 
 export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
@@ -52,39 +36,37 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export class AuthenticationService extends BaseService {
-  public async login({ customer, businessUnit, username, password, device }: LoginOptions) {
+  public async login({
+    customer,
+    businessUnit,
+    username,
+    password,
+    device,
+    informationCollectionConsentGivenNow
+  }: LoginOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2"
+        apiVersion: "v3"
       })}/auth/login`,
       {
         username,
-        credentials: {
-          passwordTuples: [
-            {
-              algorithm: {
-                algorithmName: "CLEAR"
-              },
-              value: password
-            }
-          ]
-        },
-        deviceId: device.deviceId,
-        device
+        password,
+        device,
+        informationCollectionConsentGivenNow
       }
     ).then(data => deserialize(LoginResponse, data));
   }
 
-  public async loginAnonymous({ customer, businessUnit, body }: LoginAnonymousOptions) {
+  public async loginAnonymous({ customer, businessUnit, device }: LoginAnonymousOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
         apiVersion: "v2"
       })}/auth/anonymous`,
-      body
+      { device, deviceId: device.deviceId }
     ).then(data => {
       return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
     });

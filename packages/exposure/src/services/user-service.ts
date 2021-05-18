@@ -1,27 +1,17 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import {
-  PasswordTuple,
-  DeviceInfo,
-  Credentials,
-  DeviceType
-} from "./authentication-service";
+import { DeviceInfo, DeviceType } from "./authentication-service";
 import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/signup-response-model";
 import { UserDetailsResponse } from "../models/user-detail-response-model";
 import { LoginResponse } from "../models/login-response-model";
 
 interface SignupOptions extends CustomerAndBusinessUnitOptions {
-  body: {
-    emailAddress: string;
-    password: string;
-    informationCollectionConsentGivenNow: boolean;
-    displayName: string;
-    credentials: {
-      passwordTuples: PasswordTuple[];
-    };
-    deviceId: string;
-    device: DeviceInfo;
-  };
+  emailAddress: string;
+  informationCollectionConsentGivenNow: boolean;
+  language?: string;
+  displayName: string;
+  password: string;
+  device: DeviceInfo;
 }
 
 export interface ResetOptions extends CustomerAndBusinessUnitOptions {
@@ -30,14 +20,11 @@ export interface ResetOptions extends CustomerAndBusinessUnitOptions {
 
 export interface SetNewPasswordOptions extends CustomerAndBusinessUnitOptions {
   token: string;
-  body: {
-    credentials: Credentials;
-    informationCollectionConsentGivenNow: boolean;
-  };
+  password: string;
+  informationCollectionConsentGivenNow: boolean;
 }
 
-export interface UpdateUserDetailsOptions
-  extends CustomerAndBusinessUnitOptions {
+export interface UpdateUserDetailsOptions extends CustomerAndBusinessUnitOptions {
   body: {
     displayName: string | null;
     newPassword: string | null;
@@ -51,24 +38,21 @@ export interface ConfirmSignupOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export interface DeleteUserOptions extends CustomerAndBusinessUnitOptions {
-  credentials: Credentials;
+  password: string;
 }
 
 export interface ChangePasswordOptions extends CustomerAndBusinessUnitOptions {
-  body: {
-    newCredentials: Credentials;
-    oldCredentials: Credentials;
-    device: DeviceInfo;
-  };
+  newPassword: string;
+  oldPassword: string;
+  device: DeviceInfo;
+  logoutOnAllDevices?: boolean;
 }
 
-export interface ConfirmActivationCodeOptions
-  extends CustomerAndBusinessUnitOptions {
+export interface ConfirmActivationCodeOptions extends CustomerAndBusinessUnitOptions {
   code: string;
 }
 
-export interface ConsumeActivationCodeOptions 
-  extends CustomerAndBusinessUnitOptions {
+export interface ConsumeActivationCodeOptions extends CustomerAndBusinessUnitOptions {
   code: string;
   device: {
     deviceId: string;
@@ -78,19 +62,34 @@ export interface ConsumeActivationCodeOptions
 }
 
 export interface ChangeEmailOptions extends CustomerAndBusinessUnitOptions {
-  email: string;
-  credentials: Credentials;
+  newEmailAddress: string;
 }
 
 export class UserService extends BaseService {
-  public signup({ customer, businessUnit, body }: SignupOptions) {
+  public signup({
+    customer,
+    businessUnit,
+    emailAddress,
+    password,
+    device,
+    displayName,
+    informationCollectionConsentGivenNow,
+    language
+  }: SignupOptions) {
     return this.post(
       `${this.cuBuUrl({
-        apiVersion: "v2",
+        apiVersion: "v3",
         customer,
         businessUnit
       })}/user/signup`,
-      body,
+      {
+        emailAddress,
+        password,
+        device,
+        displayName,
+        informationCollectionConsentGivenNow,
+        language
+      },
       {
         "Content-Type": "application/json"
       }
@@ -110,23 +109,24 @@ export class UserService extends BaseService {
   public setNewPassword({
     customer,
     businessUnit,
-    body,
+    password,
+    informationCollectionConsentGivenNow,
     token
   }: SetNewPasswordOptions) {
     return this.put(
       `${this.cuBuUrl({
-        apiVersion: "v2",
+        apiVersion: "v3",
         customer,
         businessUnit
       })}/user/signup/password/${token}`,
-      body
+      {
+        password,
+        informationCollectionConsentGivenNow
+      }
     );
   }
 
-  public getUserDetails({
-    customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions) {
+  public getUserDetails({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -137,11 +137,7 @@ export class UserService extends BaseService {
     ).then(data => deserialize(UserDetailsResponse, data));
   }
 
-  public updateUserDetails({
-    customer,
-    businessUnit,
-    body
-  }: UpdateUserDetailsOptions) {
+  public updateUserDetails({ customer, businessUnit, body }: UpdateUserDetailsOptions) {
     return this.put(
       `${this.cuBuUrl({
         apiVersion: "v1",
@@ -153,12 +149,7 @@ export class UserService extends BaseService {
     );
   }
 
-  public confirmSignup({
-    customer,
-    businessUnit,
-    token,
-    deviceId
-  }: ConfirmSignupOptions) {
+  public confirmSignup({ customer, businessUnit, token, deviceId }: ConfirmSignupOptions) {
     return this.put(
       `${this.cuBuUrl({
         apiVersion: "v1",
@@ -173,18 +164,14 @@ export class UserService extends BaseService {
     ).then(data => deserialize(LoginResponse, data.loginResponse));
   }
 
-  public deleteUser({
-    customer,
-    businessUnit,
-    credentials
-  }: DeleteUserOptions) {
+  public deleteUser({ customer, businessUnit, password }: DeleteUserOptions) {
     return this.post(
       `${this.cuBuUrl({
-        apiVersion: "v2",
+        apiVersion: "v3",
         customer,
         businessUnit
       })}/user/delete`,
-      credentials,
+      { password },
       this.options.authHeader()
     );
   }
@@ -192,24 +179,28 @@ export class UserService extends BaseService {
   public changePassword({
     customer,
     businessUnit,
-    body
+    oldPassword,
+    newPassword,
+    logoutOnAllDevices,
+    device
   }: ChangePasswordOptions) {
     return this.put(
       `${this.cuBuUrl({
-        apiVersion: "v2",
+        apiVersion: "v3",
         customer,
         businessUnit
       })}/user/changePassword`,
-      body,
+      {
+        oldPassword,
+        newPassword,
+        logoutOnAllDevices: !!logoutOnAllDevices,
+        device
+      },
       this.options.authHeader()
     ).then(data => deserialize(LoginResponse, data.loginResponse));
   }
 
-  public confirmActivationCode({
-    customer,
-    businessUnit,
-    code
-  }: ConfirmActivationCodeOptions) {
+  public confirmActivationCode({ customer, businessUnit, code }: ConfirmActivationCodeOptions) {
     return this.put(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -251,16 +242,15 @@ export class UserService extends BaseService {
     ).then(data => deserialize(LoginResponse, data));
   }
 
-  public changeEmail({ email, customer, businessUnit, credentials }: ChangeEmailOptions) {
+  public changeEmail({ newEmailAddress, customer, businessUnit }: ChangeEmailOptions) {
     return this.put(
       `${this.cuBuUrl({
-        apiVersion: "v2",
+        apiVersion: "v3",
         customer,
         businessUnit
       })}/user/changeEmail`,
       {
-        credentials,
-        newEmailAddress: email
+        newEmailAddress
       },
       this.options.authHeader()
     );

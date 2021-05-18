@@ -4,7 +4,7 @@ import { LocationService } from "./services/location-service";
 import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
 import { CustomerConfigService } from "./services/customer-config-service";
-import { AuthenticationService, Credentials, PasswordTuple, DeviceType } from "./services/authentication-service";
+import { AuthenticationService, DeviceType } from "./services/authentication-service";
 import { DocumentService } from "./services/document-service";
 import { SearchService } from "./services/search-service";
 import { UserService } from "./services/user-service";
@@ -67,7 +67,7 @@ export {
   CardPaymentResponse,
   AdyenPaymentStatus,
   PurchaseStatus,
-  StripePaymentType,
+  StripePaymentType
 } from "./models/card-payment-response-model";
 export { Season, SeasonResponse } from "./models/season-model";
 export { Tag, TagCollection } from "./models/tag-model";
@@ -103,7 +103,7 @@ export {
 };
 
 /* InterFaces */
-export { Credentials, CardPaymentDetails, VerifyPurchasePayload, PasswordTuple, DeviceType, IBraintreeSettings };
+export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IBraintreeSettings };
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";
