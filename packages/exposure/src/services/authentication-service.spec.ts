@@ -27,31 +27,21 @@ describe("Auth service", () => {
       password: "tester123",
       device: {
         deviceId: "123",
-        height: 10,
-        width: 20,
         type: DeviceType.WEB,
         name: ""
-      }
+      },
+      informationCollectionConsentGivenNow: false
     };
     const loginResponse = await authService.login(loginOptions);
     expect(loginResponse).toBeInstanceOf(LoginResponse);
     expect(loginResponse.isAnonymous).toBeFalsy();
     expect(axios.post).toHaveBeenCalledWith(
-      `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/login`,
+      `${serviceOptions.baseUrl}/v3/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/login`,
       expect.objectContaining({
         username: loginOptions.username,
-        credentials: {
-          passwordTuples: [
-            {
-              algorithm: {
-                algorithmName: "CLEAR"
-              },
-              value: loginOptions.password
-            }
-          ]
-        },
-        deviceId: loginOptions.device.deviceId,
-        device: loginOptions.device
+        password: loginOptions.password,
+        device: loginOptions.device,
+        informationCollectionConsentGivenNow: false
       }),
       expect.any(Object)
     );
@@ -64,7 +54,7 @@ describe("Auth service", () => {
     const loginResponse = await authService.loginAnonymous({
       customer: mocks.customer,
       businessUnit: mocks.businessUnit,
-      body: body
+      device: mocks.device
     });
     expect(loginResponse).toBeInstanceOf(LoginResponse);
     expect(loginResponse.isAnonymous).toBe(true);
