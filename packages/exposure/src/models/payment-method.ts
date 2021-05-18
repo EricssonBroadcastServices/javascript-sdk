@@ -9,13 +9,19 @@ class CardSummary {
   public expiryYear: string;
   @jsonProperty()
   public last4: string;
+  @jsonProperty()
+  public origin?: string;
 }
 
 export class PaymentMethod {
   @jsonProperty()
   public id: string;
   @jsonProperty()
-  public cardSummary: CardSummary;
+  public cardSummary?: CardSummary;
+  @jsonProperty()
+  public payPalDetails?: {
+    email: string;
+  };
   @jsonProperty()
   public preferred: boolean;
 }

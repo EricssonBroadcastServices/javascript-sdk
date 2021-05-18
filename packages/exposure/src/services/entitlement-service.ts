@@ -17,6 +17,9 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
     ifa?: string;
     gdprOptin?: boolean;
   };
+  audioOnly?: boolean;
+  maxResolution?: string;
+  maxFrameRate?: number;
 }
 
 export class EntitlementService extends BaseService {
@@ -59,8 +62,26 @@ export class EntitlementService extends BaseService {
       }
     ).then(data => deserialize(AvailabilityKeysResponse, data));
   }
-  public playAsset({ customer, businessUnit, headers, assetId, adParameters }: PlayAssetOptions) {
+  public playAsset({
+    customer,
+    businessUnit,
+    headers,
+    assetId,
+    adParameters,
+    audioOnly,
+    maxFrameRate,
+    maxResolution
+  }: PlayAssetOptions) {
     const queryParameters = new URLSearchParams(adParameters as Record<string, string>);
+    if (audioOnly) {
+      queryParameters.append("audioOnly", "true");
+    }
+    if (maxFrameRate) {
+      queryParameters.append("maxFrameRate", maxFrameRate.toString());
+    }
+    if (maxResolution) {
+      queryParameters.append("maxResolution", maxResolution);
+    }
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",

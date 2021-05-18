@@ -58,6 +58,7 @@ export interface BuyProductOfferingOptions extends CustomerAndBusinessUnitOption
     };
     braintreePurchase?: {
       paymentMethodId: string;
+      reusedPaymentMethod: boolean;
     };
     voucherCode?: string;
     storePaymentMethod?: boolean;
@@ -93,10 +94,32 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
   purchaseId: string;
 }
 
-interface IBraintreeSettings {
+export interface IBraintreeSettings {
   clientToken: string;
   braintreePaymentMethods?: {
-    paypal: {
+    applePay?: {
+      paymentRequest: {
+        total: {
+          amount: string;
+          label: string;
+        };
+      };
+    };
+    googlePay?: {
+      merchantId: string;
+      allowedPaymentMethods: [
+        {
+          type: string;
+        }
+      ];
+      googlePayVersion: number;
+      transactionInfo: {
+        totalPrice: string;
+        totalPriceStatus: string;
+        currencyCode: string;
+      };
+    };
+    paypal?: {
       amount?: number;
       currency?: string;
       flow: string;
@@ -104,8 +127,13 @@ interface IBraintreeSettings {
   };
 }
 
+interface IAddPaymentMethodOptions extends CustomerAndBusinessUnitOptions {
+  paymentMethodId?: string;
+}
+
 interface IInitializeBraintreeOptions extends CustomerAndBusinessUnitOptions {
-  productOfferingId: string;
+  productOfferingId?: string;
+  voucherCode?: string;
 }
 
 export class PaymentService extends BaseService {
@@ -238,15 +266,17 @@ export class PaymentService extends BaseService {
   }
   public addPaymentMethod({
     customer,
-    businessUnit
-  }: CustomerAndBusinessUnitOptions): Promise<{ stripe: { clientSecret: string } }> {
+    businessUnit,
+    paymentMethodId
+  }: IAddPaymentMethodOptions): Promise<{ stripe: { clientSecret: string } }> {
+    const payload = paymentMethodId ? { paymentMethodId } : {};
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
         apiVersion: "v2"
       })}/paymentmethods`,
-      null,
+      payload,
       this.options.authHeader()
     );
   }
@@ -286,11 +316,12 @@ export class PaymentService extends BaseService {
   public initializeBraintree({
     customer,
     businessUnit,
-    productOfferingId
+    productOfferingId,
+    voucherCode
   }: IInitializeBraintreeOptions): Promise<IBraintreeSettings> {
     return this.post(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/store/purchase/initialize`,
-      { productOfferingId },
+      { productOfferingId, voucherCode },
       { ...this.options.authHeader() }
     );
   }
