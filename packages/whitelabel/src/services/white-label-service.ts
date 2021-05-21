@@ -1,5 +1,5 @@
 import { BaseService, ServiceOptions, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
-import { WLConfig, WLPageModel, WLComponent, WLAsset, DeviceGroup } from "../index";
+import { WLConfig, WLPageModel, WLComponent, WLAsset, DeviceGroup, WLTag } from "../index";
 import * as querystring from "query-string";
 import { IWLEPG } from "../interfaces/wl-epg";
 
@@ -56,6 +56,24 @@ export class WhiteLabelService extends BaseService {
     ).then(data => deserialize(WLConfig, data));
   }
 
+  public getTagList({
+    customer,
+    businessUnit,
+    deviceGroup,
+    locale, 
+  }: {
+    customer: string;
+    businessUnit: string;
+    deviceGroup: string;
+    locale?: string;
+  }): Promise<WLTag[]> {
+    const queryString = new URLSearchParams;
+    deviceGroup && queryString.append("deviceGroup", deviceGroup);
+    locale && queryString.append("locale", locale);
+    return this.get(
+      `/api/internal/customer/${customer}/businessunit/${businessUnit}/tags?${queryString.toString()}`
+    ).then(data => data.map(tag => deserialize(WLTag, tag)));
+  }
   public getTranslations(locale: string) {
     return this.get(`/api/internal/translations/${locale}`);
   }
