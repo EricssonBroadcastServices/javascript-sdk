@@ -61,6 +61,11 @@ export interface ConsumeActivationCodeOptions extends CustomerAndBusinessUnitOpt
   };
 }
 
+export interface ChangeEmailAndUsername extends CustomerAndBusinessUnitOptions {
+  password: string;
+  newEmailAddressAndUsername: string;
+}
+
 export interface ChangeEmailOptions extends CustomerAndBusinessUnitOptions {
   newEmailAddress: string;
 }
@@ -251,6 +256,26 @@ export class UserService extends BaseService {
       })}/user/changeEmail`,
       {
         newEmailAddress
+      },
+      this.options.authHeader()
+    );
+  }
+
+  public changeEmailAndUsername({
+    newEmailAddressAndUsername,
+    customer,
+    businessUnit,
+    password
+  }: ChangeEmailAndUsername) {
+    return this.put(
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/user/changeEmailAndUsername`,
+      {
+        password,
+        newEmailAddressAndUsername
       },
       this.options.authHeader()
     );
