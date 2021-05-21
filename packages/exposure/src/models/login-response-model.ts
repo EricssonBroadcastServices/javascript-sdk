@@ -38,4 +38,15 @@ export class LoginResponse {
   public crmToken: string;
   @jsonProperty()
   public child: boolean;
+  @jsonProperty()
+  public userProfile: {
+    username: string;
+    displayName: string;
+    emailAddress: string;
+    userId: string;
+    child: boolean;
+    owner: boolean;
+    emailAddressRequired: false;
+    language: string;
+  };
 }

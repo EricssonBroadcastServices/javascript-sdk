@@ -9,41 +9,20 @@ export enum DeviceType {
 }
 
 export interface DeviceInfo {
-  height: number;
-  width: number;
   type: DeviceType;
   name: string;
   deviceId: string;
 }
 
-export interface PasswordTuple {
-  algorithm: {
-    algorithmName: string;
-    pbkdf2Iterations?: number;
-  };
-  value: string;
-}
-
-export interface Credentials {
-  passwordTuples: PasswordTuple[];
-}
-
 export interface LoginOptions extends CustomerAndBusinessUnitOptions {
-  body: {
-    username: string;
-    credentials: {
-      passwordTuples: PasswordTuple[];
-    };
-    deviceId: string;
-    device: DeviceInfo;
-  };
+  username: string;
+  password: string;
+  device: DeviceInfo;
+  informationCollectionConsentGivenNow: boolean;
 }
 
 export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
-  body: {
-    deviceId: string;
-    device: DeviceInfo;
-  };
+  device: DeviceInfo;
 }
 
 export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
@@ -57,31 +36,43 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export class AuthenticationService extends BaseService {
-  public login({ customer, businessUnit, body }: LoginOptions) {
+  public async login({
+    customer,
+    businessUnit,
+    username,
+    password,
+    device,
+    informationCollectionConsentGivenNow
+  }: LoginOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2"
+        apiVersion: "v3"
       })}/auth/login`,
-      body
+      {
+        username,
+        password,
+        device,
+        informationCollectionConsentGivenNow
+      }
     ).then(data => deserialize(LoginResponse, data));
   }
 
-  public loginAnonymous({ customer, businessUnit, body }: LoginAnonymousOptions) {
+  public async loginAnonymous({ customer, businessUnit, device }: LoginAnonymousOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
         apiVersion: "v2"
       })}/auth/anonymous`,
-      body
+      { device, deviceId: device.deviceId }
     ).then(data => {
       return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
     });
   }
 
-  public loginFirebase({
+  public async loginFirebase({
     username,
     email,
     displayName,
@@ -111,12 +102,11 @@ export class AuthenticationService extends BaseService {
     ).then(data => deserialize(LoginResponse, data));
   }
 
-  public logout({
+  public async logout({
     customer,
     businessUnit,
     fromAllDevice = false
   }: CustomerAndBusinessUnitOptions & { fromAllDevice?: boolean }) {
-    // TODO: not used. Check why we get error.
     return this.delete(
       `${this.cuBuUrl({
         customer,
@@ -127,7 +117,7 @@ export class AuthenticationService extends BaseService {
     );
   }
 
-  public validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public async validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     return this.get(
       `${this.cuBuUrl({
         customer,
