@@ -13,6 +13,7 @@ export class LoginResponse {
   @jsonProperty()
   public sessionToken: string;
   public isLoggedIn = () => this.hasSession() && !this.isAnonymous;
+  public isFirebase = () => this.accountId.startsWith("firebase..");
   public hasSession = () =>
     this.sessionToken && this.sessionToken !== "" && Date.parse(this.expirationDateTime) > Date.now();
   @jsonProperty()
