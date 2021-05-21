@@ -67,7 +67,7 @@ export class WhiteLabelService extends BaseService {
     deviceGroup: string;
     locale?: string;
   }): Promise<WLTag[]> {
-    const queryString = new URLSearchParams;
+    const queryString = new URLSearchParams();
     deviceGroup && queryString.append("deviceGroup", deviceGroup);
     locale && queryString.append("locale", locale);
     return this.get(
