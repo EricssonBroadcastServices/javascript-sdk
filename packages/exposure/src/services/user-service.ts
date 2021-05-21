@@ -68,6 +68,7 @@ export interface ChangeEmailAndUsername extends CustomerAndBusinessUnitOptions {
 
 export interface ChangeEmailOptions extends CustomerAndBusinessUnitOptions {
   newEmailAddress: string;
+  authHeader?: () => { Authorization: string };
 }
 
 export class UserService extends BaseService {
@@ -247,7 +248,7 @@ export class UserService extends BaseService {
     ).then(data => deserialize(LoginResponse, data));
   }
 
-  public changeEmail({ newEmailAddress, customer, businessUnit }: ChangeEmailOptions) {
+  public changeEmail({ newEmailAddress, customer, businessUnit, authHeader }: ChangeEmailOptions) {
     return this.put(
       `${this.cuBuUrl({
         apiVersion: "v3",
@@ -257,7 +258,7 @@ export class UserService extends BaseService {
       {
         newEmailAddress
       },
-      this.options.authHeader()
+      authHeader?.() ?? this.options.authHeader()
     );
   }
 
