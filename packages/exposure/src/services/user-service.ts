@@ -269,7 +269,7 @@ export class UserService extends BaseService {
   }: ChangeEmailAndUsername) {
     return this.put(
       `${this.cuBuUrl({
-        apiVersion: "v2",
+        apiVersion: "v3",
         customer,
         businessUnit
       })}/user/changeEmailAndUsername`,
