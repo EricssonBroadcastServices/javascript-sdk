@@ -97,6 +97,12 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
 export interface IBraintreeSettings {
   clientToken: string;
   braintreePaymentMethods?: {
+    card?: {
+      vault?: {
+        vaultCard: boolean;
+        allowVaultCardOverride: boolean;
+      };
+    };
     applePay?: {
       paymentRequest: {
         total: {
