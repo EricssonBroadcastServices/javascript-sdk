@@ -18,7 +18,7 @@ export interface LoginOptions extends CustomerAndBusinessUnitOptions {
   username: string;
   password: string;
   device: DeviceInfo;
-  informationCollectionConsentGivenNow: boolean;
+  informationCollectionConsentGivenNow?: boolean;
 }
 
 export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
@@ -42,7 +42,7 @@ export class AuthenticationService extends BaseService {
     username,
     password,
     device,
-    informationCollectionConsentGivenNow
+    informationCollectionConsentGivenNow = false
   }: LoginOptions) {
     return this.post(
       `${this.cuBuUrl({
