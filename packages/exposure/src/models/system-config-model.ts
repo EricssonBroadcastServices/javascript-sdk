@@ -79,6 +79,40 @@ export class LoginMethod {
   };
 }
 
+export enum AccessModel {
+  /**
+   * No user login required, but (some) content may require user login.
+   * Anonymous login should be done.
+   */
+  OPEN = "open",
+  /**
+   * Login is always required.
+   */
+  LOGIN = "login",
+  /**
+   * Login and payment is required.
+   */
+  PAY = "pay"
+}
+
+export enum SignupModel {
+  /**
+   * All users are provisioned from the backend.
+   * User login option to be present.
+   */
+  PROVISONED = "provisioned",
+  /**
+   * Users may signup, a confirmation mail will be sent, sessionToken created at conformation.
+   * User signup and login option to be present.
+   */
+  CONFIRMED = "confirmed",
+  /**
+   * Users may signup, no conformation mail will be sent, sessionToken created at signup.
+   * User signup and login option to be present.
+   */
+  UNCONFIRMED = "unconfirmed"
+}
+
 export class SystemConfig {
   @jsonProperty()
   public paymentType: PaymentType;
@@ -124,6 +158,10 @@ export class SystemConfig {
   public signupMinimumAge: number;
   @jsonProperty({ type: LoginMethod })
   public loginMethods: LoginMethod[];
+  @jsonProperty()
+  public accessModel: AccessModel;
+  @jsonProperty()
+  public signupModel: SignupModel;
   public paymentsIsEnabled = () => {
     return [
       PaymentType.ADYEN,
