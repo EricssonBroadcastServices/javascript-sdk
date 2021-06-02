@@ -2,7 +2,6 @@ import { ImageScaler } from "../utils/image-scaler";
 import { IWLCarouselItem, IProductionCountry, IWLAssetTag, IWLParticipant, IWLParentalRating, IWLOverlayWidget } from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
-import { WLProductOffering } from "./wl-productoffering";
 import { getTimeString, getDurationLocalized } from "../utils/time";
 import { getDayLocalized } from "../utils/date";
 import {
@@ -14,7 +13,8 @@ import {
   ExternalReferences,
   Product,
   UserLocation,
-  LoginResponse
+  LoginResponse,
+  IProductOffering
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
@@ -248,7 +248,7 @@ export class WLAsset implements IWLCarouselItem {
     const isEntitled = userAvailabilityKeys.filter(key => this.getAvailabilityKeys().includes(key));
     return isEntitled.length > 0;
   };
-  public getBuyableProductOfferings = (availableProductOfferings: WLProductOffering[]) => {
+  public getBuyableProductOfferings = (availableProductOfferings: IProductOffering[]) => {
     // TODO: solve this with proper typings, cannot find a solution now, hence eslint disable
     const buyable = [].concat
       .apply(
@@ -339,7 +339,7 @@ export class WLAsset implements IWLCarouselItem {
   }: {
     userEntitlements: Product[];
     login: LoginResponse;
-    availableProductOfferings: WLProductOffering[];
+    availableProductOfferings: IProductOffering[];
     availabilityKeys: string[];
     paymentIsEnabled: boolean;
   }) => {

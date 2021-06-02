@@ -1,10 +1,20 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { deserialize } from "../decorators/property-mapper";
-import { ProductOffering, PromotionResponse } from "../models/product-offering-model";
-import { CardPaymentResponse } from "../models/card-payment-response-model";
-import { TransactionsWithProductOffering } from "../models/transaction-model";
-import { PurchaseResponse } from "../models/purchase-model";
-import { PaymentMethod } from "../models/payment-method";
+import { ICardPaymentResponse } from "../models/store/card-payment/i-card-payment";
+import {
+  IExposureProductOfferingsResponse,
+  IProductOffering
+} from "../models/store/product-offering/i-product-offering";
+import { ProductOfferingUtils } from "../models/store/product-offering/product-offering-utils";
+import { IExposurePromotionResponse, IPromotionResponse } from "../models/store/promotion/i-promotion";
+import {
+  IExposureTransactionsWithProductOffering,
+  ITransactionWithProductOffering
+} from "../models/store/transaction/i-transaction";
+import { TransactionUtils } from "../models/store/transaction/transaction-utils";
+import { IExposurePurchaseResponse, IPurchaseResponse } from "../models/store/purchase/i-purchase";
+import { PurchaseUtils } from "../models/store/purchase/purchase-utils";
+import { IPaymentMethod } from "../models/store/payment-method/i-payment-method";
+import { IBraintreeSettings } from "../models/store/braintree-settings/i-braintree-settings";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
@@ -94,45 +104,6 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
   purchaseId: string;
 }
 
-export interface IBraintreeSettings {
-  clientToken: string;
-  braintreePaymentMethods?: {
-    card?: {
-      vault?: {
-        vaultCard: boolean;
-        allowVaultCardOverride: boolean;
-      };
-    };
-    applePay?: {
-      paymentRequest: {
-        total: {
-          amount: string;
-          label: string;
-        };
-      };
-    };
-    googlePay?: {
-      merchantId: string;
-      allowedPaymentMethods: [
-        {
-          type: string;
-        }
-      ];
-      googlePayVersion: number;
-      transactionInfo: {
-        totalPrice: string;
-        totalPriceStatus: string;
-        currencyCode: string;
-      };
-    };
-    paypal?: {
-      amount?: number;
-      currency?: string;
-      flow: string;
-    };
-  };
-}
-
 interface IAddPaymentMethodOptions extends CustomerAndBusinessUnitOptions {
   paymentMethodId?: string;
 }
@@ -148,7 +119,7 @@ export class PaymentService extends BaseService {
     businessUnit,
     code,
     countryCode
-  }: GetProductOfferingsByVoucherOptions) {
+  }: GetProductOfferingsByVoucherOptions): Promise<IPromotionResponse> {
     const url = countryCode
       ? `${this.cuBuUrl({
           apiVersion: "v2",
@@ -161,8 +132,11 @@ export class PaymentService extends BaseService {
           businessUnit
         })}/store/productofferings/voucher/${code}`;
 
-    return this.get(url, this.options.authHeader()).then(data => {
-      return deserialize(PromotionResponse, data);
+    return this.get(url, this.options.authHeader()).then((data: IExposurePromotionResponse) => {
+      return {
+        ...data,
+        productOfferings: data?.productOfferings.map(p => ProductOfferingUtils.build(p)) || []
+      };
     });
   }
   public getProductOfferingsByCountry({
@@ -170,20 +144,24 @@ export class PaymentService extends BaseService {
     businessUnit,
     countryCode,
     includeSelectAssetProducts = true
-  }: GetProductOfferingsByCountryOptions) {
+  }: GetProductOfferingsByCountryOptions): Promise<IProductOffering[]> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
         businessUnit
       })}/store/productoffering/country/${countryCode}?includeSelectAssetProducts=${includeSelectAssetProducts}`
-    ).then(data => {
-      const productofferings: ProductOffering[] = data.productOfferings.map(p => deserialize(ProductOffering, p));
-      return productofferings;
+    ).then((data: IExposureProductOfferingsResponse) => {
+      return data.productOfferings.map(p => ProductOfferingUtils.build(p));
     });
   }
 
-  public buyProductOffering({ customer, businessUnit, productOfferingId, body }: BuyProductOfferingOptions) {
+  public buyProductOffering({
+    customer,
+    businessUnit,
+    productOfferingId,
+    body
+  }: BuyProductOfferingOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -192,10 +170,16 @@ export class PaymentService extends BaseService {
       })}/store/purchase/${productOfferingId}`,
       body,
       this.options.authHeader()
-    ).then(data => deserialize(CardPaymentResponse, data));
+    );
   }
 
-  public buyWithVoucherCode({ customer, businessUnit, code, assetId, productOfferingId }: BuyWithVoucherCodeOptions) {
+  public buyWithVoucherCode({
+    customer,
+    businessUnit,
+    code,
+    assetId,
+    productOfferingId
+  }: BuyWithVoucherCodeOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -207,10 +191,15 @@ export class PaymentService extends BaseService {
         voucherCode: code
       },
       this.options.authHeader()
-    ).then(data => deserialize(CardPaymentResponse, data));
+    );
   }
 
-  public verifyPurchase({ customer, businessUnit, body, purchaseId }: VerifyPurchaseOptions) {
+  public verifyPurchase({
+    customer,
+    businessUnit,
+    body,
+    purchaseId
+  }: VerifyPurchaseOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -219,10 +208,13 @@ export class PaymentService extends BaseService {
       })}/store/purchase/${purchaseId}/verify`,
       body,
       this.options.authHeader()
-    ).then(data => deserialize(CardPaymentResponse, { ...data, purchaseId: purchaseId }));
+    ).then(data => ({ ...data, purchaseId: purchaseId }));
   }
 
-  public getTransactions({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getTransactions({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions): Promise<ITransactionWithProductOffering[]> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -230,15 +222,15 @@ export class PaymentService extends BaseService {
         businessUnit
       })}/store/account/transactions/productoffering`,
       this.options.authHeader()
-    ).then(data => {
-      const transactions: TransactionsWithProductOffering[] = data.transactionsProductOfferingPairs.map(t => {
-        return deserialize(TransactionsWithProductOffering, t);
-      });
-      return transactions;
+    ).then((data: IExposureTransactionsWithProductOffering) => {
+      return data.transactionsProductOfferingPairs.map(item => ({
+        transactions: TransactionUtils.build(item.transactions),
+        productOffering: ProductOfferingUtils.build(item.productOffering)
+      }));
     });
   }
 
-  public getPurchases({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getPurchases({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IPurchaseResponse> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -246,7 +238,10 @@ export class PaymentService extends BaseService {
         businessUnit
       })}/store/purchase`,
       this.options.authHeader()
-    ).then(data => deserialize(PurchaseResponse, data));
+    ).then((data: IExposurePurchaseResponse) => ({
+      ...data,
+      purchases: data.purchases.map(p => PurchaseUtils.build(p))
+    }));
   }
 
   public cancelSubscription({ customer, businessUnit, purchaseId }: CancelSubscriptionOptions) {
@@ -260,7 +255,7 @@ export class PaymentService extends BaseService {
     );
   }
 
-  public getPaymentMethods({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<PaymentMethod[]> {
+  public getPaymentMethods({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IPaymentMethod[]> {
     return this.get(
       `${this.cuBuUrl({
         customer,
@@ -268,7 +263,7 @@ export class PaymentService extends BaseService {
         apiVersion: "v2"
       })}/paymentmethods`,
       this.options.authHeader()
-    ).then(data => data.methods.map(m => deserialize(PaymentMethod, m)));
+    ).then(data => data.methods);
   }
   public addPaymentMethod({
     customer,

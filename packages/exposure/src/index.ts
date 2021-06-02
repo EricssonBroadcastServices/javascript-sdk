@@ -8,12 +8,7 @@ import { AuthenticationService, DeviceType } from "./services/authentication-ser
 import { DocumentService } from "./services/document-service";
 import { SearchService } from "./services/search-service";
 import { UserService } from "./services/user-service";
-import {
-  PaymentService,
-  CardPaymentDetails,
-  VerifyPurchasePayload,
-  IBraintreeSettings
-} from "./services/payment-service";
+import { PaymentService, CardPaymentDetails, VerifyPurchasePayload } from "./services/payment-service";
 import { SystemService } from "./services/system-service";
 
 /* Models */
@@ -53,38 +48,27 @@ export {
 export { Event, EventResponse } from "./models/event-model";
 export { UserLocation } from "./models/user-location-model";
 export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";
-export {
-  ProductOffering,
-  ProductOfferingsResponse,
-  OfferingPrice,
-  Price,
-  Promotion,
-  PromotionResponse,
-  Discount
-} from "./models/product-offering-model";
+export { IProductOffering, IOfferingPrice, IPrice } from "./models/store/product-offering/i-product-offering";
+export { ProductOfferingUtils } from "./models/store/product-offering/product-offering-utils";
+export { IPromotion, IPromotionDiscount, IPromotionResponse } from "./models/store/promotion/i-promotion";
 export { LoginResponse } from "./models/login-response-model";
-export {
-  CardPaymentResponse,
-  AdyenPaymentStatus,
-  PurchaseStatus,
-  StripePaymentType
-} from "./models/card-payment-response-model";
+export { ICardPaymentResponse, PurchaseStatus, StripePaymentType } from "./models/store/card-payment/i-card-payment";
 export { Season, SeasonResponse } from "./models/season-model";
 export { Tag, TagCollection } from "./models/tag-model";
 export { TagResponse } from "./models/tag-response-model";
 export { Bookmark } from "./models/bookmark-model";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
-export { Purchase, PurchaseResponse } from "./models/purchase-model";
-export { Transaction, TransactionsWithProductOffering } from "./models/transaction-model";
+export { IPurchase, IPurchaseResponse } from "./models/store/purchase/i-purchase";
+export { ITransaction, ITransactionWithProductOffering } from "./models/store/transaction/i-transaction";
 export { UserDetailsResponse } from "./models/user-detail-response-model";
 export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
 export { PasswordPolicy } from "./models/password-policy-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
-export { PaymentMethod } from "./models/payment-method";
+export { IPaymentMethod } from "./models/store/payment-method/i-payment-method";
 export { PreferenceListItem, PreferenceListTags, PreferenceListTagItem } from "./models/preference-model";
-
+export { IBraintreeSettings } from "./models/store/braintree-settings/i-braintree-settings";
 export { SystemConfig, PaymentType, LoginMethod, LoginMethodProvider, LoginMethodType };
 
 /* Services */
@@ -103,7 +87,7 @@ export {
 };
 
 /* InterFaces */
-export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IBraintreeSettings };
+export { CardPaymentDetails, VerifyPurchasePayload, DeviceType };
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";

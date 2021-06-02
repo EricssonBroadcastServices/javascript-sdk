@@ -1,36 +1,31 @@
 import { Translations } from "./wl-translations";
 import { parseISOStringToDuration } from "../utils/time";
-import { jsonProperty, OfferingPrice, ProductOffering } from "@ericssonbroadcastservices/exposure-sdk";
+import { IOfferingPrice, IProductOffering, ProductOfferingUtils} from "@ericssonbroadcastservices/exposure-sdk";
 
-export class WLOfferingPrice extends OfferingPrice {
-  public getPriceWithVAT = (translations: Translations) => {
+export class WLProductOfferingUtils extends ProductOfferingUtils {
+  static getPriceWithVAT = (offeringPrice: IOfferingPrice, translations: Translations) => {
     const vatString =
-      this.vat.percentage === 0
+    offeringPrice.vat.percentage === 0
         ? ""
-        : ` - ${this.vat.percentage}% ${
-            this.vat.included ? translations.getText("VAT_INCLUDED") : translations.getText("VAT_NOT_INCLUDED")
+        : ` - ${offeringPrice.vat.percentage}% ${
+          offeringPrice.vat.included ? translations.getText("VAT_INCLUDED") : translations.getText("VAT_NOT_INCLUDED")
           }`;
-    return this.price.getPriceWithCurrency() + vatString;
+    return ProductOfferingUtils.getPriceWithCurrency(offeringPrice.price) + vatString;
   };
-  public getPricelessVAT = (translations: Translations) => {
+  static getPricelessVAT = (offeringPrice: IOfferingPrice, translations: Translations) => {
     const vatString =
-      this.vat.percentage === 0
+    offeringPrice.vat.percentage === 0
         ? ""
-        : `${this.vat.percentage}% ${
-            this.vat.included ? translations.getText("VAT_INCLUDED") : translations.getText("VAT_NOT_INCLUDED")
+        : `${offeringPrice.vat.percentage}% ${
+          offeringPrice.vat.included ? translations.getText("VAT_INCLUDED") : translations.getText("VAT_NOT_INCLUDED")
           }`;
     return vatString;
   };
-}
 
-export class WLProductOffering extends ProductOffering {
-  @jsonProperty({ type: WLOfferingPrice })
-  public offeringPrice: WLOfferingPrice;
-
-  public getRentalLengthString = (translations: Translations) => {
-    const duration = this.rentalLength
-      ? parseISOStringToDuration(this.rentalLength)
-      : parseISOStringToDuration(this.recurrence);
+  static getRentalLengthString = (offering: IProductOffering, translations: Translations) => {
+    const duration = offering.rentalLength
+      ? parseISOStringToDuration(offering.rentalLength)
+      : parseISOStringToDuration(offering.recurrence);
     const months = duration.months;
     const days = duration.days;
     const hours = duration.hours;
@@ -49,15 +44,13 @@ export class WLProductOffering extends ProductOffering {
       `${minutes > 0 ? minutes + ` ${minuteText} ` : ""}`
     );
   };
-  public getRecurrenceString = (translations: Translations) => {
-    if (parseInt(this.getRentalLengthString(translations)) === 1) {
-      return this.getRentalLengthString(translations).replace("1", "");
+
+  static getRecurrenceString = (offering: IProductOffering, translations: Translations) => {
+    
+    if (parseInt(WLProductOfferingUtils.getRentalLengthString(offering, translations)) === 1) {
+      return WLProductOfferingUtils.getRentalLengthString(offering, translations).replace("1", "");
     }
-    return this.getRentalLengthString(translations);
+    return WLProductOfferingUtils.getRentalLengthString(offering, translations);
   };
 }
 
-export class ProductOfferingsResponse {
-  @jsonProperty({ type: ProductOffering })
-  public productOfferings: ProductOffering[] = [];
-}
