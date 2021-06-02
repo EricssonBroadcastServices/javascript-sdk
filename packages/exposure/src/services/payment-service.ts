@@ -225,7 +225,7 @@ export class PaymentService extends BaseService {
     ).then((data: IExposureTransactionsWithProductOffering) => {
       return data.transactionsProductOfferingPairs.map(item => ({
         transactions: TransactionUtils.build(item.transactions),
-        productOffering: ProductOfferingUtils.build(item.productOffering)
+        productOffering: item.productOffering && ProductOfferingUtils.build(item.productOffering)
       }));
     });
   }
@@ -244,7 +244,7 @@ export class PaymentService extends BaseService {
     }));
   }
 
-  public cancelSubscription({ customer, businessUnit, purchaseId }: CancelSubscriptionOptions) {
+  public cancelSubscription({ customer, businessUnit, purchaseId }: CancelSubscriptionOptions): Promise<unknown> {
     return this.delete(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -285,7 +285,7 @@ export class PaymentService extends BaseService {
     customer,
     businessUnit,
     paymentMethodId
-  }: CustomerAndBusinessUnitOptions & { paymentMethodId: string }) {
+  }: CustomerAndBusinessUnitOptions & { paymentMethodId: string }): Promise<unknown> {
     return this.delete(
       `${this.cuBuUrl({
         customer,
@@ -300,7 +300,7 @@ export class PaymentService extends BaseService {
     customer,
     businessUnit,
     paymentMethodId
-  }: CustomerAndBusinessUnitOptions & { paymentMethodId: string }) {
+  }: CustomerAndBusinessUnitOptions & { paymentMethodId: string }): Promise<unknown> {
     return this.put(
       `${this.cuBuUrl({
         customer,

@@ -21,11 +21,11 @@ export interface ITransaction extends Omit<IExposureTransaction, "completedTime"
 export interface IExposureTransactionsWithProductOffering {
   transactionsProductOfferingPairs: {
     transactions: IExposureTransaction;
-    productOffering: IExposureProductOffering;
+    productOffering?: IExposureProductOffering;
   }[];
 }
 
 export interface ITransactionWithProductOffering {
   transactions: ITransaction;
-  productOffering: IProductOffering;
+  productOffering?: IProductOffering;
 }

@@ -60,6 +60,7 @@ export { Bookmark } from "./models/bookmark-model";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export { IPurchase, IPurchaseResponse } from "./models/store/purchase/i-purchase";
+export { PurchaseUtils } from "./models/store/purchase/purchase-utils";
 export { ITransaction, ITransactionWithProductOffering } from "./models/store/transaction/i-transaction";
 export { UserDetailsResponse } from "./models/user-detail-response-model";
 export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
