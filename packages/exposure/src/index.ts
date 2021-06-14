@@ -48,6 +48,8 @@ export {
   DRM,
   Format,
   Ads,
+  AdClip,
+  AdClipCategory,
   Stitcher,
   StreamInfo,
   Sprite,
