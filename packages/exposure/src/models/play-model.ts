@@ -155,6 +155,8 @@ export class Analytics {
 
 export class Play {
   @jsonProperty()
+  public assetId?: string;
+  @jsonProperty()
   public accountId: string;
   @jsonProperty()
   public productId: string;

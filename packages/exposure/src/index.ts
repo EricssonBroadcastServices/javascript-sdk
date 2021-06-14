@@ -17,7 +17,9 @@ import {
   PaymentType,
   LoginMethod,
   LoginMethodProvider,
-  LoginMethodType
+  LoginMethodType,
+  AccessModel,
+  SignupModel
 } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
@@ -70,7 +72,7 @@ export { ApiError } from "./models/api-error-model";
 export { IPaymentMethod } from "./models/store/payment-method/i-payment-method";
 export { PreferenceListItem, PreferenceListTags, PreferenceListTagItem } from "./models/preference-model";
 export { IBraintreeSettings } from "./models/store/braintree-settings/i-braintree-settings";
-export { SystemConfig, PaymentType, LoginMethod, LoginMethodProvider, LoginMethodType };
+export { SystemConfig, PaymentType, LoginMethod, LoginMethodProvider, LoginMethodType, AccessModel, SignupModel };
 
 /* Services */
 export {
