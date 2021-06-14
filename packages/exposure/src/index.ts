@@ -47,6 +47,7 @@ export {
   FormatType,
   DRM,
   Format,
+  Ads,
   Stitcher,
   StreamInfo,
   Sprite,

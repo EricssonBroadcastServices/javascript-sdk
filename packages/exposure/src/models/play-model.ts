@@ -118,6 +118,21 @@ export class Ad {
   public duration: string;
 }
 
+export class AdTrackingEvents {
+  complete?: string[];
+  firstQuartile?: string[];
+  midpoint?: string[];
+  thirdQuartile?: string[];
+}
+
+export class AdClip {
+  title?: string;
+  titleId?: string;
+  duration?: string;
+  impressionUrlTemplates?: string[];
+  trackingEvents?: AdTrackingEvents;
+}
+
 export class Ads {
   @jsonProperty()
   public stitcher: Stitcher;
@@ -133,6 +148,8 @@ export class Ads {
   public adMarkers?: AdMarker[];
   @jsonProperty({ type: Ad })
   public ads?: Ad[];
+  @jsonProperty({ type: AdClip })
+  public clips?: AdClip[];
 }
 
 export class Cdn {
