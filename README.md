@@ -26,22 +26,4 @@ you to select a version bump type, please follow the semver standard.
 
 ### deserialize, jsonProperty
 
-The long term goal is to remove the ts decorators deserialize and jsonProperty entirely from our projects.
-When adding new classes use the following approach 
-```javascript 
-class SomeClass {
-    public someProperty: string;
-    constructor(json?: any | IAProperInterface) {
-        this.someProperty = json?.someProperty.
-    }
-}
-```
-For the moment, we also need to make sure it's backwards compatible with deserialize. Which can e tested like this.
-```javascript 
-describe("some class", () => {
-    it("should be compatible with deserialize", () => {
-        const json = { someProperty: "hello" };
-        expect(deserialize(SomeClass, json)).toEqual(new SomeClass(json));
-    })
-})
-```
+The long term goal is to remove the ts decorators deserialize and jsonProperty entirely from our projects. Avoid using them if possible.
