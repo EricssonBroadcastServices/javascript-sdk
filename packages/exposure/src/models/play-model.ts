@@ -19,6 +19,11 @@ export enum Stitcher {
   NOWTILUS = "NOWTILUS"
 }
 
+export enum AdClipCategory {
+  VOD = "vod",
+  AD = "ad"
+}
+
 export class DRM {
   licenseServerUrl: string;
   certificateUrl?: string;
@@ -118,6 +123,32 @@ export class Ad {
   public duration: string;
 }
 
+export class AdTrackingEvents {
+  @jsonProperty({ type: String })
+  complete?: string[];
+  @jsonProperty({ type: String })
+  firstQuartile?: string[];
+  @jsonProperty({ type: String })
+  midpoint?: string[];
+  @jsonProperty({ type: String })
+  thirdQuartile?: string[];
+}
+
+export class AdClip {
+  @jsonProperty()
+  title?: string;
+  @jsonProperty()
+  titleId?: string;
+  @jsonProperty()
+  category?: AdClipCategory;
+  @jsonProperty()
+  duration?: number;
+  @jsonProperty({ type: String })
+  impressionUrlTemplates?: string[];
+  @jsonProperty()
+  trackingEvents?: AdTrackingEvents;
+}
+
 export class Ads {
   @jsonProperty()
   public stitcher: Stitcher;
@@ -133,6 +164,8 @@ export class Ads {
   public adMarkers?: AdMarker[];
   @jsonProperty({ type: Ad })
   public ads?: Ad[];
+  @jsonProperty({ type: AdClip })
+  public clips?: AdClip[];
 }
 
 export class Cdn {
