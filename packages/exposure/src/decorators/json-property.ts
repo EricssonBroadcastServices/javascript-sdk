@@ -20,6 +20,9 @@ export interface IInternalPropertyMetaData<T>
   deserializer?: (arg: any) => any;
 }
 
+/**
+ * @deprecated should be avoided. Planned to be removed in the future
+ */
 export function jsonProperty<T>(
   propertyMetadata: IExternalPropertyMetadata<T> = {}
 ) {
