@@ -58,7 +58,7 @@ export { ICardPaymentResponse, PurchaseStatus, StripePaymentType } from "./model
 export { Season, SeasonResponse } from "./models/season-model";
 export { Tag, TagCollection } from "./models/tag-model";
 export { TagResponse } from "./models/tag-response-model";
-export { Bookmark } from "./models/bookmark-model";
+export { IBookmark } from "./models/user-play-history/i-bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export { IPurchase, IPurchaseResponse } from "./models/store/purchase/i-purchase";
