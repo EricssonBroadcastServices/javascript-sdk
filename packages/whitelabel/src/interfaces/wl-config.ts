@@ -43,9 +43,12 @@ export interface IAppConfig {
  */
 /**
  * @typedef IApiConfig
+ * @property {string} exposureUrl
  * @property {IApiConfigSearch} search
+ * @property {IApiConfigTVLogin} tvLogin
  */
 export interface IApiConfig {
+  exposureUrl: string;
   search: {
     internalUrl: string;
   };
