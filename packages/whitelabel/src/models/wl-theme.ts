@@ -23,4 +23,10 @@ export class Theme {
   public primaryBrandColor: string;
   @jsonProperty()
   public heroBannerTextColor: string;
+  @jsonProperty()
+  public fontLight?: string;
+  @jsonProperty()
+  public fontRegular?: string;
+  @jsonProperty()
+  public fontBold?: string;
 }
