@@ -48,7 +48,7 @@ class LocalizedMetadata {
 
 export class Discount {
   @jsonProperty()
-  public price: Price;
+  public price?: Price;
   @jsonProperty()
   public numberOfRecurringPayments: number;
   @jsonProperty()
