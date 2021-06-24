@@ -21,7 +21,7 @@ export class Purchase {
   @jsonProperty()
   public assetId?: string;
   @jsonProperty()
-  public apiStoreProductOffering: ProductOffering;
+  public apiStoreProductOffering?: ProductOffering;
 }
 
 export class PurchaseResponse {
