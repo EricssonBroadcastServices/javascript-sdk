@@ -41,4 +41,16 @@ describe("Payment service", () => {
       }
     );
   });
+  it("should fetch purchases with correct url", async () => {
+    spyOn(axios, "get").and.returnValue(Promise.resolve({}));
+    await paymentService.getPurchases({ customer: "CU", businessUnit: "BU" });
+    expect(axios.get).toHaveBeenCalledWith(
+      `${serviceOptions.baseUrl}/v2/customer/CU/businessunit/BU/store/purchase?includeOfferingDetails=false`,
+      {
+        headers: {
+          Authorization: ""
+        }
+      }
+    );
+  });
 });

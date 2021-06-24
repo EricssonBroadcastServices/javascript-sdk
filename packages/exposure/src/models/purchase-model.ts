@@ -1,4 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
+import { ProductOffering } from "./product-offering-model";
 
 export class Purchase {
   @jsonProperty()
@@ -19,6 +20,8 @@ export class Purchase {
   public status: string;
   @jsonProperty()
   public assetId?: string;
+  @jsonProperty()
+  public apiStoreProductOffering: ProductOffering;
 }
 
 export class PurchaseResponse {

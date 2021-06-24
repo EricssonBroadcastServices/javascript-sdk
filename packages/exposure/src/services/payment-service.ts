@@ -94,6 +94,10 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
   purchaseId: string;
 }
 
+export interface GetPurchasesOptions extends CustomerAndBusinessUnitOptions {
+  includeOfferingDetails?: boolean;
+}
+
 export interface IBraintreeSettings {
   clientToken: string;
   braintreePaymentMethods?: {
@@ -238,13 +242,15 @@ export class PaymentService extends BaseService {
     });
   }
 
-  public getPurchases({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getPurchases({ customer, businessUnit, includeOfferingDetails = false }: GetPurchasesOptions) {
+    const queryParameters = new URLSearchParams();
+    queryParameters.set("includeOfferingDetails", includeOfferingDetails ? "true" : "false");
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
         businessUnit
-      })}/store/purchase`,
+      })}/store/purchase?${queryParameters.toString()}`,
       this.options.authHeader()
     ).then(data => deserialize(PurchaseResponse, data));
   }
