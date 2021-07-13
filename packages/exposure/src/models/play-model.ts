@@ -84,6 +84,8 @@ export class Sprite {
   public width: number;
   @jsonProperty()
   public vtt: string;
+  @jsonProperty()
+  public offsetInMs?: number;
 }
 
 export class ContractRestrictions {
