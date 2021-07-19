@@ -113,6 +113,14 @@ export enum SignupModel {
   UNCONFIRMED = "unconfirmed"
 }
 
+export class ConsentManagement {
+  @jsonProperty()
+  public didomi?: {
+    apiKey: string;
+    noticeId: string;
+  };
+}
+
 export class SystemConfig {
   @jsonProperty()
   public paymentType: PaymentType;
@@ -136,6 +144,8 @@ export class SystemConfig {
   public adyenContext: string;
   @jsonProperty()
   public informationCollectionConsentDate: string;
+  @jsonProperty({ type: ConsentManagement })
+  public consentManagement?: ConsentManagement;
   @jsonProperty({ type: PasswordPolicy })
   public passwordPolicy: PasswordPolicy = new PasswordPolicy();
   @jsonProperty()
