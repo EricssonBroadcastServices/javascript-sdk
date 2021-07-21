@@ -25,3 +25,10 @@ export class PreferenceListTags {
   @jsonProperty({ type: PreferenceListTagItem })
   public items: PreferenceListTagItem[];
 }
+
+export class UserPreferences {
+  @jsonProperty()
+  public lastUpdated?: string;
+  @jsonProperty()
+  public preferences: any;
+}

@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { PreferenceListTags, PreferenceListItem } from "../models/preference-model";
+import { PreferenceListTags, PreferenceListItem, UserPreferences } from "../models/preference-model";
 
 interface GetListByIdOptions extends CustomerAndBusinessUnitOptions {
   listId: string;
@@ -26,6 +26,17 @@ interface DeleteTagFromListOptions extends GetTagsFromList {
 
 interface AddTagToListOptions extends DeleteTagFromListOptions {
   order?: number;
+}
+
+interface GetPreferencesOptions extends CustomerAndBusinessUnitOptions {}
+
+interface GetPreferenceOptions extends CustomerAndBusinessUnitOptions {
+  key: string;
+}
+
+interface SetPreferenceOptions extends CustomerAndBusinessUnitOptions {
+  key: string;
+  value: string | boolean | Array<string | number> | number;
 }
 
 export class PreferencesService extends BaseService {
@@ -95,5 +106,36 @@ export class PreferencesService extends BaseService {
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences/list/${listId}/tag`,
       this.options.authHeader()
     );
+  }
+
+  public getPreferences({ customer, businessUnit }: GetPreferencesOptions): Promise<UserPreferences> {
+    return this.get(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences`,
+      this.options.authHeader()
+    );
+  }
+
+  public getPreference({ customer, businessUnit, key }: GetPreferenceOptions): Promise<string | Array<string>> {
+    return this.getPreferences({ customer, businessUnit }).then(userPreferences =>
+      userPreferences.preferences[key].includes(",")
+        ? userPreferences.preferences[key].split(",")
+        : userPreferences.preferences[key]
+    );
+  }
+
+  public setPreference({ customer, businessUnit, key, value }: SetPreferenceOptions) {
+    return this.getPreferences({ customer, businessUnit })
+      .then(userPreferences => {
+        userPreferences.preferences[key] = value.toString();
+        delete userPreferences.lastUpdated;
+        return userPreferences;
+      })
+      .then(updatedPreferences =>
+        this.post(
+          `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences`,
+          updatedPreferences,
+          this.options.authHeader()
+        )
+      );
   }
 }
