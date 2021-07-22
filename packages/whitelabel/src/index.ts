@@ -45,6 +45,7 @@ export { IWLTextComponent } from "./interfaces/wl-text-component";
 export { EntitlementCase } from "./interfaces/entitlement-cases";
 export {
   parseISOStringToDuration,
+  getDateObjectFromISOString,
   parseSecondsToDuration,
   getDurationLocalized,
   getTimeString,

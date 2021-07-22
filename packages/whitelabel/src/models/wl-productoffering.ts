@@ -1,5 +1,5 @@
 import { Translations } from "./wl-translations";
-import { parseISOStringToDuration } from "../utils/time";
+import { getDateObjectFromISOString, parseISOStringToDuration } from "../utils/time";
 import { jsonProperty, OfferingPrice, ProductOffering } from "@ericssonbroadcastservices/exposure-sdk";
 
 export class WLOfferingPrice extends OfferingPrice {
@@ -26,6 +26,13 @@ export class WLOfferingPrice extends OfferingPrice {
 export class WLProductOffering extends ProductOffering {
   @jsonProperty({ type: WLOfferingPrice })
   public offeringPrice: WLOfferingPrice;
+
+  public getRentalLengthDateObject = (): Date | undefined => {
+    const duration = this.rentalLength;
+    if (!duration) return;
+    const dateObject = getDateObjectFromISOString(duration);
+    return dateObject;
+  }
 
   public getRentalLengthString = (translations: Translations) => {
     const duration = this.rentalLength
