@@ -1,4 +1,4 @@
-import { parse } from "iso8601-duration";
+import { parse, toSeconds } from "iso8601-duration";
 import { format } from "date-fns";
 import * as humanizeDuration from "humanize-duration";
 
@@ -51,6 +51,14 @@ export const parseISOStringToDuration = (durationString: string | undefined): Du
     seconds: duration.seconds ?? 0
   };
 };
+
+
+export const getDateObjectFromISOString = (durationString: string): Date => {
+  const duration = parseISOStringToDuration(durationString);
+  const seconds = toSeconds(duration);
+  const ms = seconds * 1000;
+  return new Date(Date.now() + ms);
+}
 
 export const getTimeString = (date: Date) => {
   return format(date, "HH:mm");
