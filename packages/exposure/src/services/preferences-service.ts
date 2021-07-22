@@ -115,12 +115,11 @@ export class PreferencesService extends BaseService {
     );
   }
 
-  public getPreference({ customer, businessUnit, key }: GetPreferenceOptions): Promise<string | Array<string>> {
-    return this.getPreferences({ customer, businessUnit }).then(userPreferences =>
-      userPreferences.preferences[key].includes(",")
-        ? userPreferences.preferences[key].split(",")
-        : userPreferences.preferences[key]
-    );
+  public getPreference({ customer, businessUnit, key }: GetPreferenceOptions): Promise<string> {
+    return this.getPreferences({ customer, businessUnit }).then(userPreferences => {
+      if (!userPreferences.preferences || !userPreferences.preferences[key]) return "";
+      return userPreferences.preferences[key];
+    });
   }
 
   public setPreference({ customer, businessUnit, key, value }: SetPreferenceOptions) {
