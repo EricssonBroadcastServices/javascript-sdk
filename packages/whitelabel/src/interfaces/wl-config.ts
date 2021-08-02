@@ -102,6 +102,7 @@ export interface IWLConfig {
     internalUrl: string;
   };
   title: string;
+  description: string;
   menu: IWLMenuItem[];
   logo?: string;
   favicon?: string;
