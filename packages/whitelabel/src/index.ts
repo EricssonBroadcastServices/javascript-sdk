@@ -52,3 +52,4 @@ export {
   Duration
 } from "./utils/time";
 export { isWebPSupported } from "./utils/webp";
+export { getDayLocalized, getLocalDateFormat } from "./utils/date";

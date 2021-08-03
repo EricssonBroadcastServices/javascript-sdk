@@ -1,4 +1,4 @@
-import { Price } from "@ericssonbroadcastservices/exposure-sdk";
+import { deserialize, Price } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLOfferingPrice, WLProductOffering } from "../src/models/wl-productoffering";
 import { mockPurchaseResponse } from "./mock-purchase-response";
 import { mockProduct } from "./mock-product";
@@ -55,3 +55,62 @@ mockProductOfferingWithoutPurchase.localizedMetadata = [
     description: "123"
   }
 ];
+
+export const mockEventTicket = deserialize(WLProductOffering, {
+  rentalLength: "PT48H",
+  localizedMetadata: [
+    {
+      locale: "en",
+      name: "1 min pass",
+      description: "This product gives you access for 1 min. Used for testing."
+    }
+  ],
+  productIds: ["1min1_82162E"],
+  offeringPrice: {
+    price: {
+      amount: 100,
+      fractionDigits: 2,
+      currency: "USD"
+    },
+    countryCode: "SE",
+    vat: {
+      percentage: 25,
+      included: true
+    }
+  },
+  id: "40e1ca16-e8cf-424e-b4d3-5ebefdf63c2b",
+  productOfferingId: "40e1ca16-e8cf-424e-b4d3-5ebefdf63c2b",
+  entitlementStart: "2019-04-08T11:21:52.182Z",
+  salesStart: "2019-04-08T11:21:47.182Z",
+  productRequiresSelectAsset: false,
+  paymentMethodTypes: ["card"]
+});
+
+export const mockRental = deserialize(WLProductOffering, {
+  rentalLength: "PT1M",
+  localizedMetadata: [
+    {
+      locale: "en",
+      name: "1 min pass 2.1",
+      description: ""
+    }
+  ],
+  productIds: ["a44acabb-768f-46b4-b74f-cd89a1509335_82162E"],
+  offeringPrice: {
+    price: {
+      amount: 1000,
+      fractionDigits: 2,
+      currency: "SEK"
+    },
+    countryCode: "SE",
+    vat: {
+      percentage: 25,
+      included: true
+    }
+  },
+  id: "3a2f0ec0-852f-4c2a-bdca-b613fec088db_82162E",
+  productOfferingId: "3a2f0ec0-852f-4c2a-bdca-b613fec088db_82162E",
+  salesStart: "2019-10-28T13:49:25.555Z",
+  productRequiresSelectAsset: false,
+  paymentMethodTypes: ["card"]
+});
