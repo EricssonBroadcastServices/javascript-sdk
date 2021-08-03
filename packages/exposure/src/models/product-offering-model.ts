@@ -61,6 +61,8 @@ export class ProductOffering {
   @jsonProperty()
   public rentalLength?: string;
   @jsonProperty()
+  public rentalExpiryWindow?: string;
+  @jsonProperty()
   public recurrence?: string;
   @jsonProperty({ type: LocalizedMetadata })
   public localizedMetadata: LocalizedMetadata[];
@@ -74,6 +76,10 @@ export class ProductOffering {
   public discount?: Discount;
   @jsonProperty({ type: String })
   public paymentMethodTypes: string[];
+  @jsonProperty()
+  public entitlementStart: Date;
+  @jsonProperty()
+  public salesStart: Date;
 
   public getTitle = (locale: string) => {
     if (this.localizedMetadata.length === 0) {
