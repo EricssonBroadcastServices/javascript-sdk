@@ -80,11 +80,6 @@ export class ProductOffering {
   public entitlementStart?: Date;
   @jsonProperty()
   public salesStart: Date;
-
-  public isEventTicket() {
-    return this.entitlementStart && this.rentalLength;
-  }
-
   public getTitle = (locale: string) => {
     if (this.localizedMetadata.length === 0) {
       return "";

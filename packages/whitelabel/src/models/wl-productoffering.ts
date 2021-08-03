@@ -29,7 +29,7 @@ export class WLProductOffering extends ProductOffering {
   public offeringPrice: WLOfferingPrice;
 
   public getRentalLengthString = (translations: Translations, locale?: string) => {
-    if (this.isEventTicket()) {
+    if (this.entitlementStart && this.rentalLength) {
       const entitlementStop = getDateObjectFromISOString(this.rentalLength as string, this.salesStart)
       return `${translations.getText("VALID_UNTIL")} ${getLocalDateFormat(
             entitlementStop,
