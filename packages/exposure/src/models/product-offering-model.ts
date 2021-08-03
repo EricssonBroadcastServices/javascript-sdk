@@ -77,9 +77,13 @@ export class ProductOffering {
   @jsonProperty({ type: String })
   public paymentMethodTypes: string[];
   @jsonProperty()
-  public entitlementStart: Date;
+  public entitlementStart?: Date;
   @jsonProperty()
   public salesStart: Date;
+
+  protected isEventTicket() {
+    return this.entitlementStart && this.rentalLength;
+  }
 
   public getTitle = (locale: string) => {
     if (this.localizedMetadata.length === 0) {

@@ -1,5 +1,6 @@
 import { Translations } from "./wl-translations";
 import { getDateObjectFromISOString, parseISOStringToDuration } from "../utils/time";
+import { getLocalDateFormat, FORMAT } from "../utils/date";
 import { jsonProperty, OfferingPrice, ProductOffering } from "@ericssonbroadcastservices/exposure-sdk";
 
 export class WLOfferingPrice extends OfferingPrice {
@@ -27,14 +28,15 @@ export class WLProductOffering extends ProductOffering {
   @jsonProperty({ type: WLOfferingPrice })
   public offeringPrice: WLOfferingPrice;
 
-  public getRentalLengthDateObject = (): Date | undefined => {
-    const duration = this.rentalLength;
-    if (!duration) return;
-    const dateObject = getDateObjectFromISOString(duration);
-    return dateObject;
-  }
-
-  public getRentalLengthString = (translations: Translations) => {
+  public getRentalLengthString = (translations: Translations, locale?: string) => {
+    if (this.isEventTicket()) {
+      const entitlementStop = getDateObjectFromISOString(this.rentalLength as string, this.salesStart)
+      return `${translations.getText("VALID_UNTIL")} ${getLocalDateFormat(
+            entitlementStop,
+            FORMAT.MEDIUM_DATE,
+            locale
+          )}`;
+    }
     const duration = this.rentalLength
       ? parseISOStringToDuration(this.rentalLength)
       : parseISOStringToDuration(this.recurrence);

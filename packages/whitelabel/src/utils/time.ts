@@ -52,12 +52,11 @@ export const parseISOStringToDuration = (durationString: string | undefined): Du
   };
 };
 
-
-export const getDateObjectFromISOString = (durationString: string): Date => {
+export const getDateObjectFromISOString = (durationString: string, startDate = new Date()): Date => {
   const duration = parseISOStringToDuration(durationString);
   const seconds = toSeconds(duration);
   const ms = seconds * 1000;
-  return new Date(Date.now() + ms);
+  return new Date(startDate.getTime() + ms);
 }
 
 export const getTimeString = (date: Date) => {
