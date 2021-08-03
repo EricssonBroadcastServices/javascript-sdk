@@ -81,7 +81,7 @@ export class ProductOffering {
   @jsonProperty()
   public salesStart: Date;
 
-  protected isEventTicket() {
+  public isEventTicket() {
     return this.entitlementStart && this.rentalLength;
   }
 
