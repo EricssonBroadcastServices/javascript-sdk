@@ -28,4 +28,10 @@ describe("White label service", () => {
     expect(service.get)
       .toHaveBeenLastCalledWith("/api/internal/customer/BSCU/businessunit/BSBU/config?countryCode=SE&deviceGroup=web&locale=en");
   });
+  it("should use proper query params when fetching page", () => {
+    service.getPage({ locale: "en", customer: "BSCU", businessUnit: "BSBU", pageId: "123" })
+    expect(service.get).toHaveBeenCalledWith("/api/internal/customer/BSCU/businessunit/BSBU/page/123?deviceGroup=web&locale=en");
+    service.getPage({ locale: "en", customer: "BSCU", businessUnit: "BSBU", pageId: "123", countryCode: "SE" })
+    expect(service.get).toHaveBeenCalledWith("/api/internal/customer/BSCU/businessunit/BSBU/page/123?countryCode=SE&deviceGroup=web&locale=en");
+  });
 })
