@@ -289,16 +289,19 @@ export class WhiteLabelService extends BaseService {
     customer,
     businessUnit,
     query,
-    locale
+    locale,
+    countryCode
   }: {
     customer: string;
     businessUnit: string;
     query: string;
     locale: string;
+    countryCode?: string;
   }) {
     const queryString = querystring.stringify({
       deviceGroup: this.deviceGroup,
-      locale
+      locale,
+      countryCode
     });
     return this.get(
       `/api/internal/customer/${customer}/businessunit/${businessUnit}/browse/${query}?${queryString}`
