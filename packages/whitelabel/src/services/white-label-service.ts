@@ -81,16 +81,19 @@ export class WhiteLabelService extends BaseService {
     customer,
     businessUnit,
     pageId,
-    locale
+    locale,
+    countryCode
   }: {
     customer: string;
     businessUnit: string;
     pageId: string;
     locale: string;
+    countryCode?: string;
   }) {
     const queryString = querystring.stringify({
       deviceGroup: this.deviceGroup,
-      locale
+      locale,
+      countryCode
     });  
     return this.get(
       `/api/internal/customer/${customer}/businessunit/${businessUnit}/page/${pageId}?${queryString}`
@@ -112,16 +115,19 @@ export class WhiteLabelService extends BaseService {
     customer,
     businessUnit,
     assetId,
-    locale
+    locale,
+    countryCode
   }: {
     customer: string;
     businessUnit: string;
     assetId: string;
     locale: string;
+    countryCode?: string;
     }) {
     const queryString = querystring.stringify({
       deviceGroup: this.deviceGroup,
-      locale
+      locale,
+      countryCode
     });  
     return this.get(
       `/api/internal/customer/${customer}/businessunit/${businessUnit}/detailPage/${assetId}?${queryString}`
@@ -283,16 +289,19 @@ export class WhiteLabelService extends BaseService {
     customer,
     businessUnit,
     query,
-    locale
+    locale,
+    countryCode
   }: {
     customer: string;
     businessUnit: string;
     query: string;
     locale: string;
+    countryCode?: string;
   }) {
     const queryString = querystring.stringify({
       deviceGroup: this.deviceGroup,
-      locale
+      locale,
+      countryCode
     });
     return this.get(
       `/api/internal/customer/${customer}/businessunit/${businessUnit}/browse/${query}?${queryString}`
