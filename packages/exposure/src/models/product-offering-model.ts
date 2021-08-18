@@ -15,13 +15,13 @@ export class Price implements IPrice {
   @jsonProperty()
   public currency: string;
   /**
-   * @deprecated use static method on PriceUtils
+   * @deprecated use PriceUtils instead
    */
   public getPrice = () => {
     return PriceUtils.getPriceString(this);
   };
   /**
-   * @deprecated use static method on PriceUtils
+   * @deprecated use PriceUtils instead
    */
   public getPriceWithCurrency = () => {
     return PriceUtils.getPriceStringWithCurrency(this);
