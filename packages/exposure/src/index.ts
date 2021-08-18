@@ -12,7 +12,7 @@ import {
   PaymentService,
   CardPaymentDetails,
   VerifyPurchasePayload,
-  IBraintreeSettings
+  IPurchaseSettings
 } from "./services/payment-service";
 import { SystemService } from "./services/system-service";
 
@@ -65,7 +65,7 @@ export {
   Price,
   Promotion,
   PromotionResponse,
-  Discount
+  IDiscount
 } from "./models/product-offering-model";
 export { LoginResponse } from "./models/login-response-model";
 export {
@@ -113,13 +113,13 @@ export {
 };
 
 /* InterFaces */
-export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IBraintreeSettings };
+export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IPurchaseSettings };
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
 export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
-
+export { PriceUtils, IPrice } from "./models/price-model";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);
