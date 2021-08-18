@@ -5,7 +5,7 @@ import { CardPaymentResponse } from "../models/card-payment-response-model";
 import { TransactionsWithProductOffering } from "../models/transaction-model";
 import { PurchaseResponse } from "../models/purchase-model";
 import { PaymentMethod } from "../models/payment-method";
-import { IPrice } from "../models/price-model";
+import { IPrice } from "../models/price";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;

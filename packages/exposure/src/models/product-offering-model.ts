@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { IPrice, PriceUtils } from "./price-model";
+import { IPrice, PriceUtils } from "./price";
 import { Purchase } from "./purchase-model";
 
 interface IVat {
