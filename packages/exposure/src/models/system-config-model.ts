@@ -37,7 +37,8 @@ export class PasswordHashConfig {
 
 export enum LoginMethodType {
   FIREBASE = "firebase",
-  USER_ACCOUNTS = "useraccounts"
+  USER_ACCOUNTS = "useraccounts",
+  OAUTH = "oauth"
 }
 
 export class LoginMethodProvider {
@@ -77,6 +78,10 @@ export class LoginMethod {
     };
     [key: string]: any;
   };
+  @jsonProperty()
+  public name?: string;
+  @jsonProperty()
+  public client_id?: string;
 }
 
 export enum AccessModel {
