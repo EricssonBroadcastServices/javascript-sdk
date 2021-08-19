@@ -142,8 +142,8 @@ export interface IPurchaseSettings {
   };
   stripe?: {
     methodTypes: IPurchaseMethodType[];
+    wallets?: IPurchaseMethodType[];
   };
-  wallets?: IPurchaseMethodType[];
 }
 
 interface IAddPaymentMethodOptions extends CustomerAndBusinessUnitOptions {
