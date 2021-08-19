@@ -44,7 +44,7 @@ interface ILocalizedMetadata {
 }
 
 export interface IDiscount {
-  price?: Price;
+  price?: IPrice;
   numberOfRecurringPayments: number;
   freePeriod?: string;
 }
