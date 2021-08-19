@@ -5,6 +5,7 @@ import { CardPaymentResponse } from "../models/card-payment-response-model";
 import { TransactionsWithProductOffering } from "../models/transaction-model";
 import { PurchaseResponse } from "../models/purchase-model";
 import { PaymentMethod } from "../models/payment-method";
+import { IPrice } from "../models/price";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
@@ -97,8 +98,12 @@ export interface CancelSubscriptionOptions extends CustomerAndBusinessUnitOption
 export interface GetPurchasesOptions extends CustomerAndBusinessUnitOptions {
   includeOfferingDetails?: boolean;
 }
-
-export interface IBraintreeSettings {
+interface IPurchaseMethodType {
+  name: string;
+  price: IPrice;
+  recurring: boolean;
+}
+export interface IPurchaseSettings {
   clientToken: string;
   braintreePaymentMethods?: {
     card?: {
@@ -135,6 +140,10 @@ export interface IBraintreeSettings {
       flow: string;
     };
   };
+  stripe?: {
+    methodTypes: IPurchaseMethodType[];
+  };
+  wallets?: IPurchaseMethodType[];
 }
 
 interface IAddPaymentMethodOptions extends CustomerAndBusinessUnitOptions {
@@ -325,12 +334,12 @@ export class PaymentService extends BaseService {
     );
   }
 
-  public initializeBraintree({
+  public initializePurchase({
     customer,
     businessUnit,
     productOfferingId,
     voucherCode
-  }: IInitializeBraintreeOptions): Promise<IBraintreeSettings> {
+  }: IInitializeBraintreeOptions): Promise<IPurchaseSettings> {
     return this.post(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/store/purchase/initialize`,
       { productOfferingId, voucherCode },

@@ -1,30 +1,30 @@
 import { jsonProperty } from "../decorators/json-property";
+import { IPrice, priceUtils } from "./price";
 import { Purchase } from "./purchase-model";
 
-class Vat {
-  @jsonProperty()
-  public percentage: number;
-  @jsonProperty()
-  public included: boolean;
+interface IVat {
+  percentage: number;
+  included: boolean;
 }
 
-export class Price {
+export class Price implements IPrice {
   @jsonProperty()
   public amount: number;
   @jsonProperty()
   public fractionDigits: number;
   @jsonProperty()
   public currency: string;
+  /**
+   * @deprecated use priceUtils instead
+   */
   public getPrice = () => {
-    const arr = this.amount.toString().split("");
-    arr.splice(arr.length - this.fractionDigits, 0, ".");
-    if (arr[0] === ".") {
-      arr.unshift("0");
-    }
-    return arr.join("");
+    return priceUtils.getPriceString(this);
   };
+  /**
+   * @deprecated use priceUtils instead
+   */
   public getPriceWithCurrency = () => {
-    return this.getPrice() + " " + this.currency;
+    return priceUtils.getPriceStringWithCurrency(this);
   };
 }
 
@@ -33,26 +33,20 @@ export class OfferingPrice {
   public price: Price;
   @jsonProperty()
   public countryCode: string;
-  @jsonProperty({ type: Vat })
-  public vat: Vat;
+  @jsonProperty()
+  public vat: IVat;
 }
 
-class LocalizedMetadata {
-  @jsonProperty()
-  public locale: string;
-  @jsonProperty()
-  public name: string;
-  @jsonProperty()
-  public description: string;
+interface ILocalizedMetadata {
+  locale: string;
+  name: string;
+  description: string;
 }
 
-export class Discount {
-  @jsonProperty()
-  public price?: Price;
-  @jsonProperty()
-  public numberOfRecurringPayments: number;
-  @jsonProperty()
-  public freePeriod?: string;
+export interface IDiscount {
+  price?: Price;
+  numberOfRecurringPayments: number;
+  freePeriod?: string;
 }
 
 export class ProductOffering {
@@ -64,8 +58,8 @@ export class ProductOffering {
   public rentalExpiryWindow?: string;
   @jsonProperty()
   public recurrence?: string;
-  @jsonProperty({ type: LocalizedMetadata })
-  public localizedMetadata: LocalizedMetadata[];
+  @jsonProperty({ type: Object })
+  public localizedMetadata: ILocalizedMetadata[];
   @jsonProperty()
   public productRequiresSelectAsset: boolean;
   @jsonProperty({ type: String })
@@ -73,7 +67,7 @@ export class ProductOffering {
   @jsonProperty({ type: OfferingPrice })
   public offeringPrice: OfferingPrice;
   @jsonProperty()
-  public discount?: Discount;
+  public discount?: IDiscount;
   @jsonProperty({ type: String })
   public paymentMethodTypes: string[];
   @jsonProperty()
