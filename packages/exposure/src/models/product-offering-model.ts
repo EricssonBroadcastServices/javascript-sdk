@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { IPrice, PriceUtils } from "./price";
+import { IPrice, priceUtils } from "./price";
 import { Purchase } from "./purchase-model";
 
 interface IVat {
@@ -15,16 +15,16 @@ export class Price implements IPrice {
   @jsonProperty()
   public currency: string;
   /**
-   * @deprecated use PriceUtils instead
+   * @deprecated use priceUtils instead
    */
   public getPrice = () => {
-    return PriceUtils.getPriceString(this);
+    return priceUtils.getPriceString(this);
   };
   /**
-   * @deprecated use PriceUtils instead
+   * @deprecated use priceUtils instead
    */
   public getPriceWithCurrency = () => {
-    return PriceUtils.getPriceStringWithCurrency(this);
+    return priceUtils.getPriceStringWithCurrency(this);
   };
 }
 

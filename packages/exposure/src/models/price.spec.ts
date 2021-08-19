@@ -1,4 +1,4 @@
-import { IPrice, PriceUtils } from "./price";
+import { IPrice, priceUtils } from "./price";
 
 describe("price", () => {
   it("returns proper price", () => {
@@ -7,11 +7,11 @@ describe("price", () => {
       currency: "SEK",
       fractionDigits: 2
     };
-    expect(PriceUtils.getPriceString(p)).toEqual("10.00");
+    expect(priceUtils.getPriceString(p)).toEqual("10.00");
     p.fractionDigits = 3;
-    expect(PriceUtils.getPriceString(p)).toEqual("1.000");
+    expect(priceUtils.getPriceString(p)).toEqual("1.000");
     p.amount = 4593;
-    expect(PriceUtils.getPriceString(p)).toEqual("4.593");
+    expect(priceUtils.getPriceString(p)).toEqual("4.593");
   });
   it("returns proper price with currency", () => {
     const p: IPrice = {
@@ -19,6 +19,6 @@ describe("price", () => {
       currency: "SEK",
       fractionDigits: 2
     };
-    expect(PriceUtils.getPriceStringWithCurrency(p)).toEqual("10.00 SEK");
+    expect(priceUtils.getPriceStringWithCurrency(p)).toEqual("10.00 SEK");
   });
 });

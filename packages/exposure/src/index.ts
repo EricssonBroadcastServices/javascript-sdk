@@ -119,7 +119,7 @@ export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IPurchaseSetting
 export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
 export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
-export { PriceUtils, IPrice } from "./models/price";
+export { priceUtils, IPrice } from "./models/price";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);

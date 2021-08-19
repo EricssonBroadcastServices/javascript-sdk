@@ -17,7 +17,7 @@ export function getPriceStringWithCurrency(price: IPrice) {
   return getPriceString(price) + " " + price.currency;
 }
 
-export const PriceUtils = {
+export const priceUtils = {
   getPriceString,
   getPriceStringWithCurrency
 };
