@@ -1,7 +1,7 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
 import { deserialize } from "../decorators/property-mapper";
-import { AssetResponse, Asset, EpisodesResponse } from "../models/asset-model";
+import { AssetResponse, Asset, EpisodesResponse, AssetType } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
 import { Bookmark } from "../models/bookmark-model";
 import { SeasonResponse } from "../models/season-model";
@@ -26,6 +26,16 @@ export interface GetAssetsOptions extends CustomerAndBusinessUnitOptions {
   pageSize?: number;
   pageNumber?: number;
   allowedCountry?: string | null;
+  assetType?: AssetType;
+  onlyPublished?: boolean;
+}
+
+export interface GetCollectionEntriesOptions extends CustomerAndBusinessUnitOptions {
+  assetId: string;
+  onlyPublished?: boolean;
+  sort?: string;
+  pageSize?: number;
+  pageNumber?: number;
 }
 
 export interface GetEpgOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
@@ -74,7 +84,9 @@ export class ContentService extends BaseService {
     pageNumber,
     pageSize,
     allowedCountry,
-    headers
+    headers,
+    assetType,
+    onlyPublished = true
   }: GetAssetsOptions) {
     const requestQuery = {
       query,
@@ -82,8 +94,9 @@ export class ContentService extends BaseService {
       pageSize: pageSize || 30,
       pageNumber: pageNumber || 1,
       fieldSet: "ALL",
-      onlyPublished: true,
-      allowedCountry
+      onlyPublished,
+      allowedCountry,
+      assetType
     };
     return this.get(
       `${this.cuBuUrl({
@@ -91,6 +104,33 @@ export class ContentService extends BaseService {
         businessUnit,
         apiVersion: "v1"
       })}/content/asset?${querystring.stringify(requestQuery)}`,
+      headers
+    ).then(data => deserialize(AssetResponse, data));
+  }
+
+  public getCollectionEntries({
+    customer,
+    businessUnit,
+    assetId,
+    headers,
+    pageSize,
+    pageNumber,
+    sort,
+    onlyPublished = true
+  }: GetCollectionEntriesOptions) {
+    const requestQuery = {
+      fieldSet: "ALL",
+      pageSize,
+      pageNumber,
+      sort,
+      onlyPublished
+    };
+    return this.get(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v1"
+      })}/content/asset/${assetId}/collectionentries?${querystring.stringify(requestQuery)}`,
       headers
     ).then(data => deserialize(AssetResponse, data));
   }
