@@ -2,7 +2,6 @@ import { Translations } from "./wl-translations";
 import { getDateObjectFromISOString, parseISOStringToDuration } from "../utils/time";
 import { getLocalDateFormat, FORMAT } from "../utils/date";
 import { jsonProperty, OfferingPrice, ProductOffering } from "@ericssonbroadcastservices/exposure-sdk";
-
 export class WLOfferingPrice extends OfferingPrice {
   public getPriceWithVAT = (translations: Translations) => {
     const vatString =
@@ -28,6 +27,9 @@ export class WLProductOffering extends ProductOffering {
   @jsonProperty({ type: WLOfferingPrice })
   public offeringPrice: WLOfferingPrice;
 
+  /**
+   * @deprecated use wlProductOfferingUtils.getRentalLengthDescription
+   */
   public getRentalLengthString = (translations: Translations, locale?: string) => {
     if (this.entitlementStart && this.rentalLength) {
       const entitlementStop = getDateObjectFromISOString(this.rentalLength as string, this.salesStart)
@@ -58,6 +60,10 @@ export class WLProductOffering extends ProductOffering {
       `${minutes > 0 ? minutes + ` ${minuteText} ` : ""}`
     );
   };
+
+  /**
+   * @deprecated use wlProductOfferingUtils.getRentalLengthDescription
+   */
   public getRecurrenceString = (translations: Translations) => {
     if (parseInt(this.getRentalLengthString(translations)) === 1) {
       return this.getRentalLengthString(translations).replace("1", "");

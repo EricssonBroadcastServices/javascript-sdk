@@ -114,3 +114,61 @@ export const mockRental = deserialize(WLProductOffering, {
   productRequiresSelectAsset: false,
   paymentMethodTypes: ["card"]
 });
+
+export const mockRentalWithRentalExpiryWindow = deserialize(WLProductOffering, {
+  "rentalLength": "PT1M",
+  "rentalExpiryWindow": "PT240H",
+  "localizedMetadata": [{
+    "locale": "en",
+    "name": "1 min pass 3",
+    "description": ""
+  }],
+  "productIds": ["0c404a06-2912-4c20-ab12-25c5283995ff_82162E"],
+  "offeringPrice": {
+    "price": {
+      "amount": 10000,
+      "fractionDigits": 2,
+      "currency": "SEK"
+    },
+    "countryCode": "SE",
+    "vat": {
+      "percentage": 25.0,
+      "included": true
+    }
+  },
+  "id": "e679d4af-56e2-4e8c-a5ad-c55683ccc0c9_82162E",
+  "productOfferingId": "e679d4af-56e2-4e8c-a5ad-c55683ccc0c9_82162E",
+  "salesStart": "2019-10-28T14:01:19.649Z",
+  "productRequiresSelectAsset": false,
+  "paymentMethodTypes": ["card"]
+});
+
+export const mockRecurrence = deserialize(WLProductOffering, {
+  "recurrence": "P1M",
+  "localizedMetadata": [{
+    "locale": "sv",
+    "name": "svod free first month"
+  }],
+  "productIds": ["e7b7f304-7592-4954-b170-263af49b49e4_82162E"],
+  "offeringPrice": {
+    "price": {
+      "amount": 100,
+      "fractionDigits": 2,
+      "currency": "SEK"
+    },
+    "countryCode": "SE",
+    "vat": {
+      "percentage": 25.0,
+      "included": true
+    }
+  },
+  "id": "51a6f01b-1ee2-4a7c-aade-9b33d97199ec_82162E",
+  "productOfferingId": "51a6f01b-1ee2-4a7c-aade-9b33d97199ec_82162E",
+  "salesStart": "2021-07-20T13:03:19Z",
+  "discount": {
+    "numberOfRecurringPayments": 0,
+    "freePeriod": "P1M"
+  },
+  "productRequiresSelectAsset": false,
+  "paymentMethodTypes": ["card"]
+});
