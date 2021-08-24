@@ -28,6 +28,7 @@ export { WLComponentType, WLComponentSubType } from "./interfaces/wl-component";
 export { IWLCarousel, IWLTagTitles } from "./interfaces/wl-carousel";
 export { IWLEPG, IWLEPGChannel, IWLEpgComponent } from "./interfaces/wl-epg";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
+export { IWLPage } from "./interfaces/wl-page";
 export { Theme } from "./models/wl-theme";
 export {
   WLConfig,
