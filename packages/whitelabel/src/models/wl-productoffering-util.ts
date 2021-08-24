@@ -1,4 +1,4 @@
-import { ProductOffering } from "../../../exposure/dist";
+import { ProductOffering, priceUtils } from "@ericssonbroadcastservices/exposure-sdk";
 import { FORMAT, getLocalDateFormat } from "../utils/date";
 import { getDateObjectFromISOString, iso8601ToReadableString } from "../utils/time";
 import { Translations } from "./wl-translations";
@@ -28,6 +28,25 @@ export function getRentalLengthDescription(productOffering: ProductOffering, tra
   return "";
 }
 
+function getPriceWithVATString({ offeringPrice, ...rest }: ProductOffering, translations: Translations) {
+  const vatString =
+  offeringPrice.vat.percentage === 0
+      ? ""
+      : ` - ${getPricelessVATString({ offeringPrice, ...rest }, translations)}`;
+  return priceUtils.getPriceStringWithCurrency(offeringPrice.price) + vatString;
+};
+
+function getPricelessVATString({ offeringPrice }: ProductOffering, translations: Translations) {
+  const vatString =
+    offeringPrice.vat.percentage === 0
+      ? ""
+      : `${offeringPrice.vat.percentage}% ${offeringPrice.vat.included ? translations.getText("VAT_INCLUDED") : translations.getText("VAT_NOT_INCLUDED")
+      }`;
+  return vatString;
+}
+
 export const wlProductOfferingUtils = {
-  getRentalLengthDescription
+  getRentalLengthDescription,
+  getPriceWithVATString,
+  getPricelessVATString
 }

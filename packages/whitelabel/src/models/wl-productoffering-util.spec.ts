@@ -20,5 +20,15 @@ describe("wlProductOfferingUtils", () => {
       expect(wlProductOfferingUtils.getRentalLengthDescription(mockRecurrence, mockTranslations))
         .toBe("Valid for 1 Month at a time. This effering will be automatically renewed");
     })
+  });
+  describe("getPriceWithVATString", () => {
+    it("returns proper price", () => {
+      expect(wlProductOfferingUtils.getPriceWithVATString(mockRecurrence, mockTranslations)).toBe("1.00 SEK - 25% VAT included");
+      expect(wlProductOfferingUtils.getPriceWithVATString(mockRental, mockTranslations)).toBe("10.00 SEK - 25% VAT not included");
+    });
+    it("returns proper VAT string", () => {
+      expect(wlProductOfferingUtils.getPricelessVATString(mockRental, mockTranslations)).toBe("25% VAT not included");
+      expect(wlProductOfferingUtils.getPricelessVATString(mockRecurrence, mockTranslations)).toBe("25% VAT included");
+    })
   })
 })

@@ -105,7 +105,7 @@ export const mockRental = deserialize(WLProductOffering, {
     countryCode: "SE",
     vat: {
       percentage: 25,
-      included: true
+      included: false
     }
   },
   id: "3a2f0ec0-852f-4c2a-bdca-b613fec088db_82162E",
