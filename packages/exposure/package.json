@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/exposure-sdk",
-  "version": "0.47.0",
+  "version": "0.48.0",
   "description": "",
   "scripts": {
     "prepare": "tsc",
