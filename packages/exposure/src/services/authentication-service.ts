@@ -35,6 +35,11 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
   device: DeviceInfo;
 }
 
+interface ILoginByOauthToken extends CustomerAndBusinessUnitOptions {
+  token: string;
+  device: DeviceInfo;
+}
+
 export class AuthenticationService extends BaseService {
   public async login({
     customer,
@@ -70,6 +75,20 @@ export class AuthenticationService extends BaseService {
     ).then(data => {
       return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
     });
+  }
+
+  public async loginByOauthToken({
+    customer,
+    businessUnit,
+    token,
+    device
+  }: ILoginByOauthToken): Promise<LoginResponse> {
+    const url = `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/auth/oauthLogin`;
+    const payload = {
+      token,
+      device
+    };
+    return this.post(url, payload).then(data => deserialize(LoginResponse, data));
   }
 
   public async loginFirebase({
