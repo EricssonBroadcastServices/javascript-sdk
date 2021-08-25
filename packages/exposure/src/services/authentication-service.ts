@@ -35,7 +35,7 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
   device: DeviceInfo;
 }
 
-interface ILoginByOauthToken extends CustomerAndBusinessUnitOptions {
+interface LoginByOauthTokenOptions extends CustomerAndBusinessUnitOptions {
   token: string;
   device: DeviceInfo;
 }
@@ -82,7 +82,7 @@ export class AuthenticationService extends BaseService {
     businessUnit,
     token,
     device
-  }: ILoginByOauthToken): Promise<LoginResponse> {
+  }: LoginByOauthTokenOptions): Promise<LoginResponse> {
     const url = `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/auth/oauthLogin`;
     const payload = {
       token,
