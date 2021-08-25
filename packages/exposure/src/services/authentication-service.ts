@@ -35,11 +35,9 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
   device: DeviceInfo;
 }
 
-interface ILoginByOauthToken {
+interface ILoginByOauthToken extends CustomerAndBusinessUnitOptions {
   token: string;
   device: DeviceInfo;
-  customer: string;
-  businessUnit: string;
 }
 
 export class AuthenticationService extends BaseService {
