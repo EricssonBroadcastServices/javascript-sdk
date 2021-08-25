@@ -109,11 +109,10 @@ export class ContentService extends BaseService {
   }
 
   public async getAllAssets({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
-    const pageSize = 100;
-    const { totalCount, items } = await this.getAssets({
+    const { totalCount, items, pageSize } = await this.getAssets({
       customer,
       businessUnit,
-      pageSize: pageSize,
+      pageSize: 100,
       pageNumber: 1
     });
     const numberOfPages = Math.ceil(totalCount / pageSize) - 1; // minus the one we already fetched;
