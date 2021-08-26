@@ -45,6 +45,7 @@ export interface IWLCarouselItem {
   trailerAssetId?: string;
   type: AssetType;
   title: string;
+  sortingTitle?: string;
   description: string;
   images: ImageModel[];
   publications: Publication[];
