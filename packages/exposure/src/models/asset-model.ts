@@ -241,6 +241,10 @@ export class Asset extends WithLocalized {
     }
     return this.getLocalizedValue("title", locale, defaultLocale);
   };
+
+  public getSortingTitle = (locale: string, defaultLocale?: string) => {
+    return this.getLocalizedValue("sortingTitle", locale, defaultLocale);
+  };
 }
 
 export class AssetResponse {
