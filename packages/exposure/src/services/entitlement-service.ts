@@ -15,7 +15,7 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
     autoplay?: boolean;
     consent?: string;
     deviceMake?: string;
-    deviceeType?: string;
+    deviceType?: string;
     ifa?: string;
     uid?: string;
     gdprOptin?: boolean;
