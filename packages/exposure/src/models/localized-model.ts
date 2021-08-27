@@ -45,6 +45,8 @@ export class Localized {
   @jsonProperty()
   public title: string;
   @jsonProperty()
+  public sortingTitle?: string;
+  @jsonProperty()
   public shortDescription: string;
   @jsonProperty()
   public description: string;
