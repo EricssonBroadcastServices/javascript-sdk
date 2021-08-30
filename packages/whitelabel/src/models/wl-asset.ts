@@ -1,5 +1,13 @@
 import { ImageScaler } from "../utils/image-scaler";
-import { IWLCarouselItem, IProductionCountry, IWLAssetTag, IWLParticipant, IWLParentalRating, IWLOverlayWidget } from "../interfaces/wl-carousel-item";
+import {
+  IWLCarouselItem,
+  IProductionCountry,
+  IWLAssetTag,
+  IWLParticipant,
+  IWLParentalRating,
+  IWLOverlayWidget,
+  IWLMarkerPoint
+} from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
 import { WLProductOffering } from "./wl-productoffering";
@@ -14,7 +22,8 @@ import {
   ExternalReferences,
   Product,
   UserLocation,
-  LoginResponse
+  LoginResponse,
+  MarkerType
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
@@ -60,6 +69,17 @@ class WLParentalRating implements IWLParentalRating {
 class WLOverlayWidget implements IWLOverlayWidget {
   @jsonProperty()
   public url: string;
+}
+
+class WLMarkerPoint implements IWLMarkerPoint {
+  @jsonProperty()
+  public type: MarkerType;
+  @jsonProperty()
+  public offset: number;
+  @jsonProperty()
+  public endOffset?: number;
+  @jsonProperty()
+  public title: string;
 }
 
 export class WLAsset implements IWLCarouselItem {
@@ -118,6 +138,8 @@ export class WLAsset implements IWLCarouselItem {
   public overlayWidgets: WLOverlayWidget[];
   @jsonProperty({ type: String })
   public slugs: string[];
+  @jsonProperty({ type: WLMarkerPoint })
+  public markerPoints?: WLMarkerPoint[];
 
   private getIdentifier = () => {
     return this.slugs?.length > 0 ? this.slugs[0] : this.assetId;
@@ -160,9 +182,7 @@ export class WLAsset implements IWLCarouselItem {
     if (this.publications.length === 0) {
       return false;
     }
-    return this.publications
-      .filter(p => !p.isExpired())
-      .every(p => p.isInFuture());
+    return this.publications.filter(p => !p.isExpired()).every(p => p.isInFuture());
   };
 
   public getIsEntitled = (availabilityKeys: string[]) => {
@@ -205,7 +225,9 @@ export class WLAsset implements IWLCarouselItem {
         if (this.anonymousIsAllowed(userEntitlements)) {
           return `/play/anonymous/${this.getIdentifier()}`;
         }
-        return this.getIsEntitled(availabilityKeys) ? `/play/${this.getIdentifier()}` : `/asset/${this.getIdentifier()}`;
+        return this.getIsEntitled(availabilityKeys)
+          ? `/play/${this.getIdentifier()}`
+          : `/asset/${this.getIdentifier()}`;
     }
   };
 
@@ -232,7 +254,7 @@ export class WLAsset implements IWLCarouselItem {
 
   public getAvailabilityKeys = (): string[] => {
     /* eslint-disable @typescript-eslint/ban-ts-ignore */
-  /* eslint-disable prefer-spread */
+    /* eslint-disable prefer-spread */
     let publications = this.getActivePublications();
     if (this.inFuture()) {
       publications = this.publications.filter(p => p.isInFuture());

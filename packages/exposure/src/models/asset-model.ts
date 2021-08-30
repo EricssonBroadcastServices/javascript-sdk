@@ -127,6 +127,22 @@ export class LinkedEntity {
   public linkType: LinkType;
 }
 
+export enum MarkerType {
+  INTRO = "INTRO",
+  CREDITS = "CREDITS",
+  POINT = "POINT",
+  CHAPTER = "CHAPTER"
+}
+
+export class MarkerPoint extends WithLocalized {
+  @jsonProperty()
+  public offset: number;
+  @jsonProperty()
+  public endOffset?: number;
+  @jsonProperty()
+  public type: MarkerType;
+}
+
 export class Asset extends WithLocalized {
   @jsonProperty()
   public assetId: string;
@@ -178,6 +194,8 @@ export class Asset extends WithLocalized {
   public overlayWidgets?: OverlayWidget[];
   @jsonProperty({ type: String })
   public slugs: string[] = [];
+  @jsonProperty({ type: MarkerPoint })
+  public markerPoints: MarkerPoint[] = [];
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
