@@ -39,7 +39,7 @@ export class Localized {
   @jsonProperty({
     type: ImageModel
   })
-  public images: ImageModel[] = [];
+  public images?: ImageModel[] = [];
   @jsonProperty()
   public locale: string;
   @jsonProperty()
@@ -47,11 +47,11 @@ export class Localized {
   @jsonProperty()
   public sortingTitle?: string;
   @jsonProperty()
-  public shortDescription: string;
+  public shortDescription?: string;
   @jsonProperty()
-  public description: string;
+  public description?: string;
   @jsonProperty()
-  public longDescription: string;
+  public longDescription?: string;
 }
 
 const sortByResolution = (a: ImageModel, b: ImageModel) => {

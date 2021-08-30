@@ -39,7 +39,9 @@ export {
   ChannelFeature,
   LinkedEntity,
   LinkType,
-  EntityType
+  EntityType,
+  MarkerType,
+  MarkerPoint
 } from "./models/asset-model";
 export {
   Play,
