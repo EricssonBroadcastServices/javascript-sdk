@@ -18,7 +18,7 @@ describe("wlProductOfferingUtils", () => {
     });
     it("handles recurrence", () => {
       expect(wlProductOfferingUtils.getRentalLengthDescription(mockRecurrence, mockTranslations))
-        .toBe("Valid for 1 Month at a time. This effering will be automatically renewed");
+        .toBe("Valid for 1 Month at a time. This offering will be automatically renewed");
     })
   });
   describe("getPriceWithVATString", () => {

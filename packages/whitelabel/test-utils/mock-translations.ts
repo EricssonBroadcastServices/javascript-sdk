@@ -83,7 +83,7 @@ const englishTranslations = {
   NOT_ALLOWED: "Not allowed",
   RETRY: "Retry",
   VALID_FOR: "Valid for {time}.",
-  VALID_FOR_RECURRENCE: "Valid for {time} at a time. This effering will be automatically renewed",
+  VALID_FOR_RECURRENCE: "Valid for {time} at a time. This offering will be automatically renewed",
   VALID_FOR_EXPIRY_WINDOW: "Valid for {time} once you start watching. You have {expiry} to start watching.",
   DATES: {
     SECONDS: "seconds",
