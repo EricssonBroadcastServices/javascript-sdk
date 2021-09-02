@@ -20,7 +20,7 @@ export class WhiteLabelService extends BaseService {
     this.deviceGroup = deviceGroup;
   }
 
-  public getConfig({ locale, countryCode, origin }: { locale: string; countryCode?: string; origin?: string }) {
+  public getConfig({ locale, countryCode, origin }: { locale?: string; countryCode?: string; origin?: string }) {
     if (!this.origin && !origin) {
       return Promise.reject(new Error("[WhiteLabelService] No origin set"));
     }
