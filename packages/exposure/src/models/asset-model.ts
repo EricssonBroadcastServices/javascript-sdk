@@ -216,14 +216,25 @@ export class Asset extends WithLocalized {
     if (this.publications.length === 0) {
       return false;
     }
-    return this.publications[0].fromDate.getTime() > Date.now();
+    return this.publications.filter(p => !p.isExpired()).every(p => p.isInFuture());
   };
 
   public getStartTime = () => {
-    if (this.publications.length === 0) {
+    if (this.publications.length === 0 && !this.startTime) {
       return undefined;
     }
-    return this.startTime ? new Date(this.startTime) : this.publications[0].fromDate;
+    const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
+    // if we the asset will be published in the future, take the start time from next upcoming publication
+    if (this.inFuture()) {
+      const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
+      if (futurePublications) return futurePublications[0].fromDate;
+    }
+    // if we have active publications, the start time has already been
+    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    if (activePublications) {
+      return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
+    }
+    return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
   };
 
   public getYear = () => {
