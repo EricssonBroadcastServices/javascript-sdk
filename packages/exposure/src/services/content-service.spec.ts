@@ -13,7 +13,7 @@ let getSpy: jasmine.Spy;
 
 describe("Content service", () => {
   const serviceOptions: ServiceOptions = {
-    baseUrl: "testBaseUrl",
+    baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "sessionToken" })
   };
   const contentService = new ContentService(serviceOptions);
@@ -65,7 +65,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toBeCalledWith(
-      "testBaseUrl/v1/customer/CU/businessunit/BU/content/asset/123?fieldSet=ALL",
+      "https://testbaseurl.com/v1/customer/CU/businessunit/BU/content/asset/123?fieldSet=ALL",
       { headers: undefined }
     );
   });
@@ -79,7 +79,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toHaveBeenCalledWith(
-      `testBaseUrl/v2/customer/CU/businessunit/BU/epg/123/date/${epgDateFormatter(
+      `https://testbaseurl.com/v2/customer/CU/businessunit/BU/epg/123/date/${epgDateFormatter(
         new Date()
       )}?daysBackward=1&daysForward=1&pageNumber=1&pageSize=500`,
       { headers: undefined }
@@ -99,7 +99,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toHaveBeenCalledWith(
-      "testBaseUrl/v2/customer/CU/businessunit/BU/epg/123/date/2020-01-01?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1",
+      "https://testbaseurl.com/v2/customer/CU/businessunit/BU/epg/123/date/2020-01-01?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1",
       { headers: undefined }
     );
   });
@@ -114,7 +114,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toHaveBeenCalledWith(
-      `testBaseUrl/v2/customer/CU/businessunit/BU/event/date/${epgDateFormatter(
+      `https://testbaseurl.com/v2/customer/CU/businessunit/BU/event/date/${epgDateFormatter(
         new Date()
       )}?daysBackward=1&daysForward=2&pageNumber=1&pageSize=500&sort=startTime`,
       { headers: undefined }
@@ -133,7 +133,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toHaveBeenCalledWith(
-      "testBaseUrl/v2/customer/CU/businessunit/BU/event/date/2020-10-28?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1&sort=startTime",
+      "https://testbaseurl.com/v2/customer/CU/businessunit/BU/event/date/2020-10-28?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1&sort=startTime",
       { headers: undefined }
     );
   });
@@ -146,7 +146,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toBeCalledWith(
-      "testBaseUrl/v1/customer/CU/businessunit/BU/userplayhistory/lastviewed?fieldSet=ALL&pageSize=24",
+      "https://testbaseurl.com/v1/customer/CU/businessunit/BU/userplayhistory/lastviewed?fieldSet=ALL&pageSize=24",
       { headers: serviceOptions.authHeader() }
     );
   });
@@ -159,7 +159,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toBeCalledWith(
-      "testBaseUrl/v1/customer/CU/businessunit/BU/recommend/continue?limit=10",
+      "https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/continue?limit=10",
       { headers: serviceOptions.authHeader() }
     );
   });
@@ -172,7 +172,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toBeCalledWith(
-      "testBaseUrl/v1/customer/CU/businessunit/BU/recommend/user",
+      "https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/user",
       { headers: serviceOptions.authHeader() }
     );
   });
@@ -187,7 +187,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toBeCalledWith(
-      "testBaseUrl/v1/customer/CU/businessunit/BU/userplayhistory/lastviewedoffset",
+      "https://testbaseurl.com/v1/customer/CU/businessunit/BU/userplayhistory/lastviewedoffset",
       { headers: serviceOptions.authHeader() }
     );
   });
@@ -201,7 +201,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toBeCalledWith(
-      "testBaseUrl/v1/customer/CU/businessunit/BU/content/asset/123/season",
+      "https://testbaseurl.com/v1/customer/CU/businessunit/BU/content/asset/123/season",
       { headers: undefined }
     );
   });
@@ -216,7 +216,7 @@ describe("Content service", () => {
     expect(
       axios.get
     ).toBeCalledWith(
-      "testBaseUrl/v1/customer/CU/businessunit/BU/content/asset/123/season/1/episode?fieldSet=ALL&onlyPublished=true",
+      "https://testbaseurl.com/v1/customer/CU/businessunit/BU/content/asset/123/season/1/episode?fieldSet=ALL&onlyPublished=true",
       { headers: undefined }
     );
   });

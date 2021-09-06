@@ -4,7 +4,7 @@ import axios from "axios";
 
 describe("Payment service", () => {
   const serviceOptions: ServiceOptions = {
-    baseUrl: "testBaseUrl",
+    baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "" })
   };
   const paymentService = new PaymentService(serviceOptions);
