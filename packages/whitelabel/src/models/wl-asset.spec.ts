@@ -2,9 +2,9 @@ import { Publication, LoginResponse, deserialize } from "@ericssonbroadcastservi
 import { WLAsset } from "./wl-asset";
 import { mockProduct, mockProductAnonymous } from "../../test-utils/mock-product";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
-import { mockProductOffering } from "../../test-utils/mock-wl-productoffering";
+import { mockProductOffering, mockProductOfferingGenerator } from "../../test-utils/mock-wl-productoffering";
 import { mockTranslations } from "../../test-utils/mock-translations";
-import { freeProduct, mockPublications, product1 } from "@ericssonbroadcastservices/exposure-sdk/test-utils/mockPublication";
+import { freeProduct, mockPublications, product1, mockMultiplePublicationWindows } from "@ericssonbroadcastservices/exposure-sdk/test-utils/mockPublication";
 // import { it } from "date-fns/locale";
 
 describe("wl asset", () => {
@@ -254,5 +254,34 @@ describe("wl asset", () => {
       asset.endTime = new Date(Date.now() + 60 * 1000);
       expect(asset.getEPGProgress(asset.startTime.getTime() + 30000)).toBe(50)
     })
-  })
+  });
+
+  describe("publication windows", () => {
+    const asset = new WLAsset();
+    asset.publications = mockMultiplePublicationWindows;
+    it("should have start time according to its next upcoming publication", () => {
+      expect(asset.getStartTime()).toEqual(asset.getNextPublications()[0].fromDate);
+    })
+    it("should have a sub set as next window", () => {
+      const total = asset.publications.length;
+      const nextWindow = asset.getNextPublications();
+      expect(nextWindow.length).toBeLessThan(total);
+    });
+    it("should only get buyable products for the next publication window", () => {
+      const productOfferings = [
+        mockProductOfferingGenerator("MEMBER_123"),
+        mockProductOfferingGenerator("PVOD_123"),
+        mockProductOfferingGenerator("SVOD_123"),
+        mockProductOfferingGenerator("TVOD_123"),
+      ];
+      const offerings = asset.getBuyableProductOfferings(productOfferings);
+      const offeringIds: string[] = [];
+      offerings.forEach((o) => {
+        o.productIds.forEach(pid => {
+          offeringIds.push(pid);
+        });
+      });
+      expect(offeringIds).toContain("PVOD_123");
+    });
+  });
 });
