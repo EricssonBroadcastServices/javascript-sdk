@@ -330,7 +330,7 @@ export class WLAsset implements IWLCarouselItem {
     );
     if (this.inFuture()) {
       const upcomingPublications = publicationsSortedAscending.filter(p => p.isInFuture());
-      if (upcomingPublications) {
+      if (upcomingPublications.length > 0) {
         const nextDate = upcomingPublications[0].fromDate;
         return upcomingPublications.filter(up => {
           return up.fromDate.getTime() === nextDate.getTime()
