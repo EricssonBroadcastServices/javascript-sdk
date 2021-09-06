@@ -6,7 +6,7 @@ import { CustomerConfigFile } from "../models/customer-config-file-model";
 
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
-    baseUrl: "testBaseUrl",
+    baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "sessionToken" })
   };
   const customerConfigService = new CustomerConfigService(serviceOptions);
@@ -56,7 +56,7 @@ describe("Auth service", () => {
     expect(
       axios.get
     ).toHaveBeenCalledWith(
-      "testBaseUrl/v1/config/appConfig.json/origin/test?",
+      "https://testbaseurl.com/v1/config/appConfig.json/origin/test?",
       { headers: undefined }
     );
 
@@ -71,7 +71,7 @@ describe("Auth service", () => {
     expect(
       axios.get
     ).toHaveBeenCalledWith(
-      "testBaseUrl/v1/config/appConfig.json/origin/test?name=value",
+      "https://testbaseurl.com/v1/config/appConfig.json/origin/test?name=value",
       { headers: undefined }
     );
   });

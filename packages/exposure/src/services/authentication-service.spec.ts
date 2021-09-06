@@ -7,7 +7,7 @@ import { SessionResponse } from "../models/session-model";
 
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
-    baseUrl: "testBaseUrl",
+    baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "sessionToken" })
   };
   const authService = new AuthenticationService(serviceOptions);
@@ -83,7 +83,7 @@ describe("Auth service", () => {
       businessUnit: mocks.businessUnit
     });
     expect(axios.delete).toHaveBeenCalledWith(
-      "testBaseUrl/v2/customer/CU/businessunit/BU/auth/login?fromAllDevice=false",
+      "https://testbaseurl.com/v2/customer/CU/businessunit/BU/auth/login?fromAllDevice=false",
       {
         headers: serviceOptions.authHeader()
       }
