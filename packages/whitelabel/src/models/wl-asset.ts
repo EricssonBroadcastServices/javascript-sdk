@@ -243,7 +243,7 @@ export class WLAsset implements IWLCarouselItem {
     /* eslint-disable prefer-spread */
     let publications = this.getActivePublications();
     if (this.inFuture()) {
-      publications = this.publications.filter(p => p.isInFuture());
+      publications = this.getNextPublications();
     }
     return [].concat.apply(
       [],
@@ -322,6 +322,23 @@ export class WLAsset implements IWLCarouselItem {
       return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
     }
     return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
+  };
+
+  public getNextPublications = () => {
+    const publicationsSortedAscending = this.publications.sort(
+      (a, b) => a.fromDate.getTime() - b.fromDate.getTime()
+    );
+    if (this.inFuture()) {
+      const upcomingPublications = publicationsSortedAscending.filter(p => p.isInFuture());
+      if (upcomingPublications.length > 0) {
+        const nextDate = upcomingPublications[0].fromDate;
+        return upcomingPublications.filter(up => {
+          return up.fromDate.getTime() === nextDate.getTime()
+        });
+      }
+    }
+    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    return activePublications;
   };
 
   public getTimeSlot() {

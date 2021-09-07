@@ -48,3 +48,68 @@ const publicationJson = [
 ];
 
 export const mockPublications = publicationJson.map(p => deserialize(Publication, p));
+
+const multiplePublicationWindows = [
+  {
+    countries: ["CH", "LI"],
+    customData: null,
+    devices: [],
+    fromDate: "2025-09-16T00:00:00Z",
+    products: ["PROVISION_123"],
+    availabilityKeys: ["PROVISION_123", "mauritanian_59EA01c_PROVISION_123"],
+    publicationDate: "2025-09-16T00:00:00Z",
+    publicationId: "mauritanian_PROVISION_123",
+    services: [],
+    toDate: "2099-12-31T00:00:00Z"
+  },
+  {
+    countries: ["CH", "LI"],
+    customData: null,
+    devices: [],
+    fromDate: "2026-03-30T00:00:00Z",
+    products: ["MEMBER_123"],
+    availabilityKeys: ["MEMBER_123", "mauritanian_59EA01c_MEMBER_123"],
+    publicationDate: "2026-03-30T00:00:00Z",
+    publicationId: "mauritanian_MEMBER_123",
+    services: [],
+    toDate: "2027-03-30T00:00:00Z"
+  },
+  {
+    countries: ["CH", "LI"],
+    customData: null,
+    devices: [],
+    fromDate: "2027-03-30T00:00:00Z",
+    products: ["SVOD_123"],
+    availabilityKeys: ["SVOD_123", "mauritanian_59EA01c_SVOD_123"],
+    publicationDate: "2027-03-30T00:00:00Z",
+    publicationId: "mauritanian_SVOD_123",
+    services: [],
+    toDate: "2099-12-31T00:00:00Z"
+  },
+  {
+    countries: ["CH", "LI"],
+    customData: null,
+    devices: [],
+    fromDate: "2025-09-22T00:00:00Z",
+    products: ["TVOD_123"],
+    availabilityKeys: ["TVOD_123", "mauritanian_59EA01c_TVOD_123"],
+    publicationDate: "2025-09-22T00:00:00Z",
+    publicationId: "mauritanian_TVOD_123",
+    services: [],
+    toDate: "2026-03-30T00:00:00Z"
+  },
+  {
+    countries: ["CH", "LI"],
+    customData: null,
+    devices: [],
+    fromDate: "2025-09-16T00:00:00Z",
+    products: ["PVOD_123"],
+    availabilityKeys: ["PVOD_123", "mauritanian_59EA01c_PVOD_123"],
+    publicationDate: "2025-09-02T00:00:00Z",
+    publicationId: "mauritanian_PVOD_123",
+    services: [],
+    toDate: "2025-09-22T00:00:00Z"
+  }
+];
+
+export const mockMultiplePublicationWindows = multiplePublicationWindows.map(p => deserialize(Publication, p));
