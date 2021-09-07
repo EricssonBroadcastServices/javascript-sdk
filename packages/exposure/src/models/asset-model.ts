@@ -147,6 +147,10 @@ export class Asset extends WithLocalized {
   @jsonProperty()
   public assetId: string;
   @jsonProperty()
+  public changed: Date;
+  @jsonProperty()
+  public created: Date;
+  @jsonProperty()
   public type: AssetType;
   @jsonProperty({
     type: Medias
