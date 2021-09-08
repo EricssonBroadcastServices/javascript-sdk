@@ -189,6 +189,9 @@ export class WLAsset implements IWLCarouselItem {
     return this.getHasProperProduct(availabilityKeys) && !this.inFuture();
   };
 
+  /**
+   * @deprecated routing logic should preferably be kept in apps
+   */
   public getActionLink = (userEntitlements: Product[], availabilityKeys: string[]): string => {
     switch (this.action?.type) {
       case "NavigateToDetails":
@@ -199,6 +202,9 @@ export class WLAsset implements IWLCarouselItem {
     return "";
   };
 
+  /**
+   * @deprecated routing logic should preferably be kept in apps
+   */
   public getBrowseLink = () => {
     switch (this.type) {
       case AssetType.TV_SHOW:
@@ -208,6 +214,9 @@ export class WLAsset implements IWLCarouselItem {
     }
   };
 
+  /**
+   * @deprecated routing logic should preferably be kept in apps
+   */
   public getPlayLink = (userEntitlements: Product[], availabilityKeys: string[]) => {
     switch (this.type) {
       case AssetType.TV_SHOW:
