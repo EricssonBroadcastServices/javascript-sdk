@@ -33,8 +33,8 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
   audioOnly?: boolean;
   maxResolution?: string;
   maxFrameRate?: number;
-  supportedFormats?: TFormat[];
-  supportedDrms?: TDrm[];
+  supportedFormats?: TPlayFormat[];
+  supportedDrms?: TPlayDrm[];
 }
 
 export class EntitlementService extends BaseService {

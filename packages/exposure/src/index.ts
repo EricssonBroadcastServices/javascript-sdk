@@ -104,7 +104,6 @@ export {
   ContentService,
   LocationService,
   TagService,
-  EntitlementService,
   UserService,
   AuthenticationService,
   SearchService,
@@ -113,6 +112,7 @@ export {
   DocumentService,
   PreferencesService
 };
+export { EntitlementService, TPlayDrm, TPlayFormat } from "./services/entitlement-service";
 
 /* InterFaces */
 export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IPurchaseSettings };
