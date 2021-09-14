@@ -7,8 +7,8 @@ interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
 }
 
-type TFormat = "dash" | "hls" | "mss";
-type TDrm = "widevine" | "playready" | "fairplay";
+export type TPlayFormat = "dash" | "hls" | "mss";
+export type TPlayDrm = "widevine" | "playready" | "fairplay";
 
 interface PlayAssetOptions extends GetEntitlementForAssetOptions {
   adParameters?: {
