@@ -7,6 +7,9 @@ interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
 }
 
+type TFormat = "dash" | "hls" | "mss";
+type TDrm = "widevine" | "playready" | "fairplay";
+
 interface PlayAssetOptions extends GetEntitlementForAssetOptions {
   adParameters?: {
     latitude?: string;
@@ -30,6 +33,8 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
   audioOnly?: boolean;
   maxResolution?: string;
   maxFrameRate?: number;
+  supportedFormats?: TFormat[];
+  supportedDrms?: TDrm[];
 }
 
 export class EntitlementService extends BaseService {
@@ -80,7 +85,9 @@ export class EntitlementService extends BaseService {
     adParameters,
     audioOnly,
     maxFrameRate,
-    maxResolution
+    maxResolution,
+    supportedFormats,
+    supportedDrms
   }: PlayAssetOptions) {
     const queryParameters = new URLSearchParams(adParameters as Record<string, string>);
     if (audioOnly) {
@@ -91,6 +98,12 @@ export class EntitlementService extends BaseService {
     }
     if (maxResolution) {
       queryParameters.append("maxResolution", maxResolution);
+    }
+    if (supportedFormats) {
+      queryParameters.append("supportedFormats", supportedFormats.join(","));
+    }
+    if (supportedDrms) {
+      queryParameters.append("supportedDrms", supportedDrms.join(","));
     }
     return this.get(
       `${this.cuBuUrl({
