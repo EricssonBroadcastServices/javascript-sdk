@@ -54,6 +54,7 @@ export interface GetOnNowOptions extends CustomerAndBusinessUnitOptions {
   minutesForward?: number;
   pageSize?: number;
   pageNumber?: number;
+  sortingLocale?: string;
 }
 
 export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
@@ -196,12 +197,14 @@ export class ContentService extends BaseService {
     customer,
     businessUnit,
     pageNumber = 1,
-    pageSize = 100
+    pageSize = 100,
+    sortingLocale
   }: GetOnNowOptions): Promise<{ apiChannelStatuses: OnNowResponse[] }> {
     const requestQuery = {
       minutesForward: minutesForward,
       pageNumber,
-      pageSize
+      pageSize,
+      sortingLocale
     };
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/channel/onnow?${querystring.stringify(
