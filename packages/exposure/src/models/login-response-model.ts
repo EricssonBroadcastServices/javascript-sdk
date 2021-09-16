@@ -1,12 +1,37 @@
 import { jsonProperty } from "../decorators/json-property";
 
-export class ConfigReloadQueryParameter {
-  @jsonProperty()
-  public name: string;
-  @jsonProperty()
-  public value: string;
+interface IConfigReloadQueryParameter {
+  name: string;
+  value: string;
 }
-
+interface IUserProfileAttribute {
+  attributeId: string;
+  type: string;
+  requiredAtSignup: boolean;
+  defaultValue: any; // TODO: is it really any?
+  value: any; // TODO: is it really any?
+  valueSet: boolean;
+}
+interface IUserProfile {
+  username: string;
+  displayName: string;
+  emailAddress: string;
+  userId: string;
+  child: boolean;
+  owner: boolean;
+  emailAddressRequired: boolean;
+  language: string;
+  capabilities: {
+    canChangePassword: boolean;
+    canChangeUserNameAndEmail: boolean;
+    canChangeEmail: boolean;
+    canManageAccount: boolean;
+    canManageDevices: boolean;
+    canManagePayments: boolean;
+    canManagePurchases: boolean;
+  };
+  attributes: IUserProfileAttribute[];
+}
 export class LoginResponse {
   @jsonProperty()
   public expirationDateTime: string;
@@ -26,8 +51,8 @@ export class LoginResponse {
   public language: string;
   @jsonProperty()
   public username: string | null;
-  @jsonProperty({ type: ConfigReloadQueryParameter })
-  public configReloadQueryParameter: ConfigReloadQueryParameter;
+  @jsonProperty()
+  public configReloadQueryParameter?: IConfigReloadQueryParameter;
   @jsonProperty()
   public userId: string;
   @jsonProperty()
@@ -39,14 +64,13 @@ export class LoginResponse {
   @jsonProperty()
   public child: boolean;
   @jsonProperty()
-  public userProfile: {
-    username: string;
-    displayName: string;
-    emailAddress: string;
-    userId: string;
-    child: boolean;
-    owner: boolean;
-    emailAddressRequired: false;
-    language: string;
-  };
+  public userProfile: IUserProfile;
+}
+
+export interface ISessionResponse {
+  accountId: string;
+  userId: string;
+  configReloadQueryParameter?: IConfigReloadQueryParameter;
+  overTheDeviceLimit: boolean;
+  userProfile: IUserProfile;
 }

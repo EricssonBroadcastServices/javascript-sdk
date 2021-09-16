@@ -69,7 +69,7 @@ export {
   PromotionResponse,
   IDiscount
 } from "./models/product-offering-model";
-export { LoginResponse } from "./models/login-response-model";
+export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
   CardPaymentResponse,
   AdyenPaymentStatus,
