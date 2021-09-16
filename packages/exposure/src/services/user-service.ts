@@ -289,7 +289,7 @@ export class UserService extends BaseService {
     );
   }
 
-  public setAttribute({ customer, businessUnit, attributes }: SetAttributeOptions): Promise<IUserDetails> {
+  public setAttributes({ customer, businessUnit, attributes }: SetAttributeOptions): Promise<IUserDetails> {
     return this.put(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v3" })}/user/attributes`,
       attributes,
