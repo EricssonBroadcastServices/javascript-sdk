@@ -1,36 +1,8 @@
 import { jsonProperty } from "../decorators/json-property";
-
+import { IUserProfile } from "../interfaces/user-profile";
 interface IConfigReloadQueryParameter {
   name: string;
   value: string;
-}
-interface IUserProfileAttribute {
-  attributeId: string;
-  type: string;
-  requiredAtSignup: boolean;
-  defaultValue: any; // TODO: is it really any?
-  value: any; // TODO: is it really any?
-  valueSet: boolean;
-}
-interface IUserProfile {
-  username: string;
-  displayName: string;
-  emailAddress: string;
-  userId: string;
-  child: boolean;
-  owner: boolean;
-  emailAddressRequired: boolean;
-  language: string;
-  capabilities: {
-    canChangePassword: boolean;
-    canChangeUserNameAndEmail: boolean;
-    canChangeEmail: boolean;
-    canManageAccount: boolean;
-    canManageDevices: boolean;
-    canManagePayments: boolean;
-    canManagePurchases: boolean;
-  };
-  attributes: IUserProfileAttribute[];
 }
 export class LoginResponse {
   @jsonProperty()

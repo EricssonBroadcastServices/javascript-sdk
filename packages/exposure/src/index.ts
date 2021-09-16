@@ -84,7 +84,7 @@ export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export { Purchase, PurchaseResponse } from "./models/purchase-model";
 export { Transaction, TransactionsWithProductOffering } from "./models/transaction-model";
-export { UserDetailsResponse } from "./models/user-detail-response-model";
+export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user-details";
 export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
 export { PasswordPolicy } from "./models/password-policy-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";

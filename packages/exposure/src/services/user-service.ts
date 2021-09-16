@@ -2,7 +2,7 @@ import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { DeviceInfo, DeviceType } from "./authentication-service";
 import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/signup-response-model";
-import { UserDetailsResponse } from "../models/user-detail-response-model";
+import { IUserDetails } from "../interfaces/user-details";
 import { LoginResponse } from "../models/login-response-model";
 
 interface SignupOptions extends CustomerAndBusinessUnitOptions {
@@ -70,6 +70,14 @@ export interface ChangeEmailOptions extends CustomerAndBusinessUnitOptions {
   newEmailAddress: string;
 }
 
+interface AttributePayload {
+  attributeId: string;
+  value: any;
+}
+interface SetAttributeOptions extends CustomerAndBusinessUnitOptions {
+  attributes: AttributePayload[];
+}
+
 export class UserService extends BaseService {
   public signup({
     customer,
@@ -131,7 +139,7 @@ export class UserService extends BaseService {
     );
   }
 
-  public getUserDetails({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getUserDetails({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IUserDetails> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -139,7 +147,7 @@ export class UserService extends BaseService {
         businessUnit
       })}/user/details`,
       this.options.authHeader()
-    ).then(data => deserialize(UserDetailsResponse, data));
+    );
   }
 
   public updateUserDetails({ customer, businessUnit, body }: UpdateUserDetailsOptions) {
@@ -277,6 +285,14 @@ export class UserService extends BaseService {
         password,
         newEmailAddressAndUsername
       },
+      this.options.authHeader()
+    );
+  }
+
+  public setAttribute({ customer, businessUnit, attributes }: SetAttributeOptions): Promise<IUserDetails> {
+    return this.put(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v3" })}/user/attributes`,
+      attributes,
       this.options.authHeader()
     );
   }
