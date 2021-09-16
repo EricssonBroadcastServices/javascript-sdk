@@ -231,11 +231,11 @@ export class Asset extends WithLocalized {
     // if we the asset will be published in the future, take the start time from next upcoming publication
     if (this.inFuture()) {
       const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
-      if (futurePublications) return futurePublications[0].fromDate;
+      if (futurePublications.length) return futurePublications[0].fromDate;
     }
     // if we have active publications, the start time has already been
     const activePublications = publicationsSortedAscending.filter(p => p.isActive());
-    if (activePublications) {
+    if (activePublications.length) {
       return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
     }
     return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
