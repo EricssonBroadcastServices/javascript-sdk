@@ -1,8 +1,4 @@
-export interface IPrice {
-  amount: number;
-  fractionDigits: number;
-  currency: string;
-}
+import { IPrice } from "..";
 
 export function getPriceString(price: IPrice) {
   const arr = price.amount.toString().split("");
