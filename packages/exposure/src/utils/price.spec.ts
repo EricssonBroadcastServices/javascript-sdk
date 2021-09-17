@@ -1,4 +1,5 @@
-import { IPrice, priceUtils } from "./price";
+import { priceUtils } from "..";
+import { IPrice } from "../../dist";
 
 describe("price", () => {
   it("returns proper price", () => {

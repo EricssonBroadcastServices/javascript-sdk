@@ -1,7 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { LoginResponse } from "../models/login-response-model";
-import { SessionResponse } from "../models/session-model";
+import { LoginResponse, ISessionResponse } from "../models/login-response-model";
 
 export enum DeviceType {
   WEB = "WEB",
@@ -136,7 +135,7 @@ export class AuthenticationService extends BaseService {
     );
   }
 
-  public async validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public async validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<ISessionResponse> {
     return this.get(
       `${this.cuBuUrl({
         customer,
@@ -144,6 +143,6 @@ export class AuthenticationService extends BaseService {
         apiVersion: "v2"
       })}/auth/session`,
       this.options.authHeader()
-    ).then(data => deserialize(SessionResponse, data));
+    );
   }
 }
