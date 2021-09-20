@@ -32,12 +32,17 @@ export interface IAppConfig {
   };
 }
 
+interface IWebAppUrl {
+  url: string;
+  qrCode: string;
+}
+
 /**
  * @typedef IApiConfigSearch
  * @property {string} internalUrl
  */
 /**
- * @typedef IApiConfigTVLogin
+ * @typedef IWebAppUrl
  * @property {string} url
  * @property {string} qrCode
  */
@@ -45,17 +50,20 @@ export interface IAppConfig {
  * @typedef IApiConfig
  * @property {string} exposureUrl
  * @property {IApiConfigSearch} search
- * @property {IApiConfigTVLogin} tvLogin
+ * @property {IWebAppUrl} tvLogin
+ * @property {IWebAppUrl} termsAndConditions
+ * @property {IWebAppUrl} cookiePolicy
+ * @property {IWebAppUrl} privacyPolicy
  */
 export interface IApiConfig {
   exposureUrl: string;
   search: {
     internalUrl: string;
   };
-  tvLogin: {
-    url: string;
-    qrCode: string;
-  };
+  tvLogin: IWebAppUrl;
+  termsAndConditions: IWebAppUrl;
+  cookiePolicy: IWebAppUrl;
+  privacyPolicy: IWebAppUrl;
 }
 
 /**
