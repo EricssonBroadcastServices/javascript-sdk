@@ -124,6 +124,7 @@ export { jsonProperty } from "./decorators/json-property";
 export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
 export { priceUtils } from "./utils/price";
 export { IPrice } from "./interfaces/price";
+export { userDetailsUtils } from "./utils/user-details";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);

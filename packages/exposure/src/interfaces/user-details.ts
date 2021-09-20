@@ -5,6 +5,11 @@ export interface IUserProfileAttribute {
   defaultValue: any;
   value: any;
   valueSet: boolean;
+  localized: {
+    locale: string;
+    title?: string;
+    description?: string;
+  }[];
 }
 
 export interface IUserCapabilities {
