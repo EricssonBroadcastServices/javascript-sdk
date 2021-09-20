@@ -99,7 +99,7 @@ export class WLAsset implements IWLCarouselItem {
   public images: ImageModel[];
   @jsonProperty({ type: Publication })
   public publications: Publication[] = [];
-  @jsonProperty({ type: ExternalReferences })
+  @jsonProperty({ type: Object })
   public externalReferences: ExternalReferences[] = [];
   @jsonProperty()
   public tvShowId: string;
