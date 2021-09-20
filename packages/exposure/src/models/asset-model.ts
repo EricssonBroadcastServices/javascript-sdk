@@ -118,6 +118,13 @@ export enum MarkerType {
   CHAPTER = "CHAPTER"
 }
 
+class EventTimes {
+  @jsonProperty()
+  public startTime: Date;
+  @jsonProperty()
+  public endTime: Date;
+}
+
 export class MarkerPoint extends WithLocalized {
   @jsonProperty()
   public offset: number;
@@ -182,6 +189,8 @@ export class Asset extends WithLocalized {
   public slugs: string[] = [];
   @jsonProperty({ type: MarkerPoint })
   public markerPoints: MarkerPoint[] = [];
+  @jsonProperty()
+  public event?: EventTimes;
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
@@ -206,9 +215,12 @@ export class Asset extends WithLocalized {
   };
 
   public getStartTime = () => {
-    if (this.publications.length === 0 && !this.startTime) {
+    if (this.publications.length === 0 && !this.startTime && !this.event?.startTime) {
       return undefined;
     }
+
+    if (this.event?.startTime) return this.event.startTime;
+
     const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
     // if we the asset will be published in the future, take the start time from next upcoming publication
     if (this.inFuture()) {
