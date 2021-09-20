@@ -21,9 +21,8 @@ export enum ChannelFeature {
   EPG = "EPG"
 }
 
-class Medias {
-  @jsonProperty()
-  public durationMillis: number;
+interface IMedias {
+  durationMillis: number;
 }
 
 export class Publication {
@@ -51,34 +50,25 @@ export class Publication {
   }
 }
 
-export class ExternalReferences {
-  @jsonProperty()
-  public type: string;
-  @jsonProperty()
-  public locator: string;
+export interface ExternalReferences {
+  type: string;
+  locator: string;
 }
 
-export class Participants {
-  @jsonProperty()
-  public function?: string;
-  @jsonProperty()
-  public name: string;
+export interface Participants {
+  function?: string;
+  name: string;
 }
 
-export class PlayHistory {
-  @jsonProperty()
-  public channelId?: string;
-  @jsonProperty()
-  public lastViewedOffset?: number;
-  @jsonProperty()
-  public lastViewedTime?: number;
-  @jsonProperty()
-  public programId?: string;
+export interface PlayHistory {
+  channelId?: string;
+  lastViewedOffset?: number;
+  lastViewedTime?: number;
+  programId?: string;
 }
 
-export class UserData {
-  @jsonProperty()
-  public playHistory?: PlayHistory;
+export interface UserData {
+  playHistory?: PlayHistory;
 }
 
 export enum AssetType {
@@ -97,18 +87,14 @@ export enum AssetType {
   OTHER = "OTHER"
 }
 
-class ParentalRating {
-  @jsonProperty()
-  public country: string;
-  @jsonProperty()
-  public rating: string;
-  @jsonProperty()
-  public scheme: string;
+interface ParentalRating {
+  country: string;
+  rating: string;
+  scheme: string;
 }
 
-class OverlayWidget {
-  @jsonProperty()
-  public url: string;
+interface IOverlayWidget {
+  url: string;
 }
 
 export enum EntityType {
@@ -119,13 +105,10 @@ export enum LinkType {
   TRAILER = "TRAILER"
 }
 
-export class LinkedEntity {
-  @jsonProperty()
-  public entityId: string;
-  @jsonProperty()
-  public entityType: EntityType;
-  @jsonProperty()
-  public linkType: LinkType;
+export interface LinkedEntity {
+  entityId: string;
+  entityType: EntityType;
+  linkType: LinkType;
 }
 
 export enum MarkerType {
@@ -153,10 +136,8 @@ export class Asset extends WithLocalized {
   public created: Date;
   @jsonProperty()
   public type: AssetType;
-  @jsonProperty({
-    type: Medias
-  })
-  public medias: Medias[] = [];
+  @jsonProperty()
+  public medias: IMedias[] = [];
   @jsonProperty()
   public productionYear: number;
   @jsonProperty({
@@ -177,11 +158,11 @@ export class Asset extends WithLocalized {
   public episode: number;
   @jsonProperty()
   public tvShowId: string;
-  @jsonProperty({ type: ExternalReferences })
+  @jsonProperty({ type: Object })
   public externalReferences: ExternalReferences[] = [];
-  @jsonProperty({ type: LinkedEntity })
+  @jsonProperty({ type: Object })
   public linkedEntities: LinkedEntity[] = [];
-  @jsonProperty({ type: Participants })
+  @jsonProperty({ type: Object })
   public participants: Participants[] = [];
   @jsonProperty()
   public duration: number;
@@ -191,12 +172,12 @@ export class Asset extends WithLocalized {
   public userData?: UserData;
   @jsonProperty({ type: String })
   public productionCountries: string[] = [];
-  @jsonProperty({ type: ParentalRating })
+  @jsonProperty({ type: Object })
   public parentalRatings: ParentalRating[];
   @jsonProperty({ type: String })
   public channelFeatures?: ChannelFeature[];
-  @jsonProperty({ type: OverlayWidget })
-  public overlayWidgets?: OverlayWidget[];
+  @jsonProperty()
+  public overlayWidgets?: IOverlayWidget[];
   @jsonProperty({ type: String })
   public slugs: string[] = [];
   @jsonProperty({ type: MarkerPoint })
