@@ -1,5 +1,5 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { deserialize } from "../decorators/property-mapper";
+import { deserialize } from "..";
 import { ProductOffering, PromotionResponse } from "../models/product-offering-model";
 import { CardPaymentResponse } from "../models/card-payment-response-model";
 import { TransactionsWithProductOffering } from "../models/transaction-model";
