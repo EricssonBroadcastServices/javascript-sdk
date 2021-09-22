@@ -1,5 +1,13 @@
 import { ImageScaler } from "../utils/image-scaler";
-import { IWLCarouselItem, IProductionCountry, IWLAssetTag, IWLParticipant, IWLParentalRating, IWLOverlayWidget } from "../interfaces/wl-carousel-item";
+import {
+  IWLCarouselItem,
+  IProductionCountry,
+  IWLAssetTag,
+  IWLParticipant,
+  IWLParentalRating,
+  IWLOverlayWidget,
+  IWLMarkerPoint
+} from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
 import { WLProductOffering } from "./wl-productoffering";
@@ -14,7 +22,8 @@ import {
   ExternalReferences,
   Product,
   UserLocation,
-  LoginResponse
+  LoginResponse,
+  MarkerType
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
@@ -62,6 +71,17 @@ class WLOverlayWidget implements IWLOverlayWidget {
   public url: string;
 }
 
+class WLMarkerPoint implements IWLMarkerPoint {
+  @jsonProperty()
+  public type: MarkerType;
+  @jsonProperty()
+  public offset: number;
+  @jsonProperty()
+  public endOffset?: number;
+  @jsonProperty()
+  public title: string;
+}
+
 export class WLAsset implements IWLCarouselItem {
   @jsonProperty({ externalName: "assetId" })
   public id: string;
@@ -79,7 +99,7 @@ export class WLAsset implements IWLCarouselItem {
   public images: ImageModel[];
   @jsonProperty({ type: Publication })
   public publications: Publication[] = [];
-  @jsonProperty({ type: ExternalReferences })
+  @jsonProperty({ type: Object })
   public externalReferences: ExternalReferences[] = [];
   @jsonProperty()
   public tvShowId: string;
@@ -118,6 +138,8 @@ export class WLAsset implements IWLCarouselItem {
   public overlayWidgets: WLOverlayWidget[];
   @jsonProperty({ type: String })
   public slugs: string[];
+  @jsonProperty({ type: WLMarkerPoint })
+  public markerPoints?: WLMarkerPoint[];
 
   private getIdentifier = () => {
     return this.slugs?.length > 0 ? this.slugs[0] : this.assetId;
@@ -160,15 +182,16 @@ export class WLAsset implements IWLCarouselItem {
     if (this.publications.length === 0) {
       return false;
     }
-    return this.publications
-      .filter(p => !p.isExpired())
-      .every(p => p.isInFuture());
+    return this.publications.filter(p => !p.isExpired()).every(p => p.isInFuture());
   };
 
   public getIsEntitled = (availabilityKeys: string[]) => {
     return this.getHasProperProduct(availabilityKeys) && !this.inFuture();
   };
 
+  /**
+   * @deprecated routing logic should preferably be kept in apps
+   */
   public getActionLink = (userEntitlements: Product[], availabilityKeys: string[]): string => {
     switch (this.action?.type) {
       case "NavigateToDetails":
@@ -179,6 +202,9 @@ export class WLAsset implements IWLCarouselItem {
     return "";
   };
 
+  /**
+   * @deprecated routing logic should preferably be kept in apps
+   */
   public getBrowseLink = () => {
     switch (this.type) {
       case AssetType.TV_SHOW:
@@ -188,6 +214,9 @@ export class WLAsset implements IWLCarouselItem {
     }
   };
 
+  /**
+   * @deprecated routing logic should preferably be kept in apps
+   */
   public getPlayLink = (userEntitlements: Product[], availabilityKeys: string[]) => {
     switch (this.type) {
       case AssetType.TV_SHOW:
@@ -205,7 +234,9 @@ export class WLAsset implements IWLCarouselItem {
         if (this.anonymousIsAllowed(userEntitlements)) {
           return `/play/anonymous/${this.getIdentifier()}`;
         }
-        return this.getIsEntitled(availabilityKeys) ? `/play/${this.getIdentifier()}` : `/asset/${this.getIdentifier()}`;
+        return this.getIsEntitled(availabilityKeys)
+          ? `/play/${this.getIdentifier()}`
+          : `/asset/${this.getIdentifier()}`;
     }
   };
 
@@ -221,7 +252,7 @@ export class WLAsset implements IWLCarouselItem {
     /* eslint-disable prefer-spread */
     let publications = this.getActivePublications();
     if (this.inFuture()) {
-      publications = this.publications.filter(p => p.isInFuture());
+      publications = this.getNextPublications();
     }
     return [].concat.apply(
       [],
@@ -232,7 +263,7 @@ export class WLAsset implements IWLCarouselItem {
 
   public getAvailabilityKeys = (): string[] => {
     /* eslint-disable @typescript-eslint/ban-ts-ignore */
-  /* eslint-disable prefer-spread */
+    /* eslint-disable prefer-spread */
     let publications = this.getActivePublications();
     if (this.inFuture()) {
       publications = this.publications.filter(p => p.isInFuture());
@@ -286,7 +317,37 @@ export class WLAsset implements IWLCarouselItem {
     if (this.publications.length === 0 && !this.startTime) {
       return undefined;
     }
-    return this.startTime ? new Date(this.startTime) : this.publications[0].fromDate;
+    const publicationsSortedAscending = this.publications.sort(
+      (a, b) => a.fromDate.getTime() - b.fromDate.getTime()
+    );
+    // if we the asset will be published in the future, take the start time from next upcoming publication
+    if (this.inFuture()) {
+      const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
+      if (futurePublications.length) return futurePublications[0].fromDate;
+    }
+    // if we have active publications, the start time has already been
+    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    if (activePublications.length) {
+      return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
+    }
+    return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
+  };
+
+  public getNextPublications = () => {
+    const publicationsSortedAscending = this.publications.sort(
+      (a, b) => a.fromDate.getTime() - b.fromDate.getTime()
+    );
+    if (this.inFuture()) {
+      const upcomingPublications = publicationsSortedAscending.filter(p => p.isInFuture());
+      if (upcomingPublications.length > 0) {
+        const nextDate = upcomingPublications[0].fromDate;
+        return upcomingPublications.filter(up => {
+          return up.fromDate.getTime() === nextDate.getTime()
+        });
+      }
+    }
+    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    return activePublications;
   };
 
   public getTimeSlot() {

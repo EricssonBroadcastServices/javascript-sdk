@@ -172,3 +172,20 @@ export const mockRecurrence = deserialize(WLProductOffering, {
   "productRequiresSelectAsset": false,
   "paymentMethodTypes": ["card"]
 });
+export const mockProductOfferingGenerator = (id: string) => {
+  const mockProductOffering = new WLProductOffering();
+  mockProductOffering.id = id;
+  mockProductOffering.offeringPrice = mockOfferingPrice;
+  mockProductOffering.rentalLength = "PT1M";
+
+  mockProductOffering.activePurchase = mockPurchaseResponse.purchases[0];
+  mockProductOffering.localizedMetadata = [
+    {
+      locale: "en",
+      name: "test",
+      description: "123"
+    }
+  ];
+  mockProductOffering.productIds = [id];
+  return mockProductOffering;
+}

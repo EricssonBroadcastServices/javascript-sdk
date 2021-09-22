@@ -1,5 +1,5 @@
+import { IPrice, priceUtils } from "..";
 import { jsonProperty } from "../decorators/json-property";
-import { IPrice, priceUtils } from "./price";
 import { Purchase } from "./purchase-model";
 
 interface IVat {
@@ -49,6 +49,13 @@ export interface IDiscount {
   freePeriod?: string;
 }
 
+export enum ProductOfferingType {
+  RENTAL = "rental",
+  SUBSCRIPTION = "subscription",
+  PURCHASE = "purchase",
+  EVENT = "event"
+}
+
 export class ProductOffering {
   @jsonProperty()
   public id: string;
@@ -62,6 +69,8 @@ export class ProductOffering {
   public localizedMetadata: ILocalizedMetadata[];
   @jsonProperty()
   public productRequiresSelectAsset: boolean;
+  @jsonProperty()
+  public productOfferingType: ProductOfferingType;
   @jsonProperty({ type: String })
   public productIds: string[];
   @jsonProperty({ type: OfferingPrice })

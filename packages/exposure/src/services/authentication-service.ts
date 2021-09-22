@@ -1,7 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { LoginResponse } from "../models/login-response-model";
-import { SessionResponse } from "../models/session-model";
+import { LoginResponse, ISessionResponse } from "../models/login-response-model";
 
 export enum DeviceType {
   WEB = "WEB",
@@ -32,6 +31,11 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
   providerId: string;
   accessToken: string;
   emailVerified: boolean;
+  device: DeviceInfo;
+}
+
+interface LoginByOauthTokenOptions extends CustomerAndBusinessUnitOptions {
+  token: string;
   device: DeviceInfo;
 }
 
@@ -70,6 +74,20 @@ export class AuthenticationService extends BaseService {
     ).then(data => {
       return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
     });
+  }
+
+  public async loginByOauthToken({
+    customer,
+    businessUnit,
+    token,
+    device
+  }: LoginByOauthTokenOptions): Promise<LoginResponse> {
+    const url = `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/auth/oauthLogin`;
+    const payload = {
+      token,
+      device
+    };
+    return this.post(url, payload).then(data => deserialize(LoginResponse, data));
   }
 
   public async loginFirebase({
@@ -117,7 +135,7 @@ export class AuthenticationService extends BaseService {
     );
   }
 
-  public async validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public async validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<ISessionResponse> {
     return this.get(
       `${this.cuBuUrl({
         customer,
@@ -125,6 +143,6 @@ export class AuthenticationService extends BaseService {
         apiVersion: "v2"
       })}/auth/session`,
       this.options.authHeader()
-    ).then(data => deserialize(SessionResponse, data));
+    );
   }
 }

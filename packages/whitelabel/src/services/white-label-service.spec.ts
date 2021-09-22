@@ -19,6 +19,9 @@ describe("White label service", () => {
     service.getConfig({ locale: "en", countryCode: "SE" })
     expect(service.get)
       .toHaveBeenLastCalledWith("/api/internal/origin/config?countryCode=SE&deviceGroup=web&locale=en&origin=bsbu.enigmatv.io");
+    service.getConfig({ locale: "en", origin: "test.test" });
+    expect(service.get)
+      .toHaveBeenLastCalledWith("/api/internal/origin/config?deviceGroup=web&locale=en&origin=test.test")
   });
   it("should send correct queryParams when fetching config based on cu bu", () => {
     service.getConfigByCustomerAndBusinessUnit({ locale: "en", customer: "BSCU", businessUnit: "BSBU" });

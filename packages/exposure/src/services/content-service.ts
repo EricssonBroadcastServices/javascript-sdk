@@ -54,6 +54,7 @@ export interface GetOnNowOptions extends CustomerAndBusinessUnitOptions {
   minutesForward?: number;
   pageSize?: number;
   pageNumber?: number;
+  sortingLocale?: string;
 }
 
 export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, PageinatedRequest {
@@ -106,6 +107,24 @@ export class ContentService extends BaseService {
       })}/content/asset?${querystring.stringify(requestQuery)}`,
       headers
     ).then(data => deserialize(AssetResponse, data));
+  }
+
+  public async getAllAssets({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+    const { totalCount, items, pageSize } = await this.getAssets({
+      customer,
+      businessUnit,
+      pageSize: 100,
+      pageNumber: 1
+    });
+    const numberOfPages = Math.ceil(totalCount / pageSize) - 1; // minus the one we already fetched;
+    // Create array of remaining pageNumbers to fetch. +1 for mapping 0 => 1, + 1 for skipping the one we already fetched
+    const pageNumberArr = new Array(numberOfPages).fill("").map((item, index) => index + 2);
+    const combinedAssetResponses = await Promise.all(
+      pageNumberArr.map(pageNumber => {
+        return this.getAssets({ customer, businessUnit, pageSize, pageNumber }).then(res => res.items);
+      })
+    );
+    return [items, ...combinedAssetResponses].flatMap(arr => [...arr]);
   }
 
   public getCollectionEntries({
@@ -178,12 +197,14 @@ export class ContentService extends BaseService {
     customer,
     businessUnit,
     pageNumber = 1,
-    pageSize = 100
+    pageSize = 100,
+    sortingLocale
   }: GetOnNowOptions): Promise<{ apiChannelStatuses: OnNowResponse[] }> {
     const requestQuery = {
       minutesForward: minutesForward,
       pageNumber,
-      pageSize
+      pageSize,
+      sortingLocale
     };
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/channel/onnow?${querystring.stringify(

@@ -39,7 +39,9 @@ export {
   ChannelFeature,
   LinkedEntity,
   LinkType,
-  EntityType
+  EntityType,
+  MarkerType,
+  MarkerPoint
 } from "./models/asset-model";
 export {
   Play,
@@ -67,7 +69,7 @@ export {
   PromotionResponse,
   IDiscount
 } from "./models/product-offering-model";
-export { LoginResponse } from "./models/login-response-model";
+export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
   CardPaymentResponse,
   AdyenPaymentStatus,
@@ -82,7 +84,8 @@ export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export { Purchase, PurchaseResponse } from "./models/purchase-model";
 export { Transaction, TransactionsWithProductOffering } from "./models/transaction-model";
-export { UserDetailsResponse } from "./models/user-detail-response-model";
+export { IUserProfile } from "./interfaces/user-profile";
+export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user-details";
 export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
 export { PasswordPolicy } from "./models/password-policy-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
@@ -102,7 +105,6 @@ export {
   ContentService,
   LocationService,
   TagService,
-  EntitlementService,
   UserService,
   AuthenticationService,
   SearchService,
@@ -111,6 +113,7 @@ export {
   DocumentService,
   PreferencesService
 };
+export { EntitlementService, TPlayDrm, TPlayFormat } from "./services/entitlement-service";
 
 /* InterFaces */
 export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IPurchaseSettings };
@@ -119,7 +122,9 @@ export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IPurchaseSetting
 export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
 export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
-export { priceUtils, IPrice } from "./models/price";
+export { priceUtils } from "./utils/price";
+export { IPrice } from "./interfaces/price";
+export { userDetailsUtils } from "./utils/user-details";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);

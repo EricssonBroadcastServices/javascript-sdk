@@ -21,9 +21,8 @@ export enum ChannelFeature {
   EPG = "EPG"
 }
 
-class Medias {
-  @jsonProperty()
-  public durationMillis: number;
+interface IMedias {
+  durationMillis: number;
 }
 
 export class Publication {
@@ -51,34 +50,25 @@ export class Publication {
   }
 }
 
-export class ExternalReferences {
-  @jsonProperty()
-  public type: string;
-  @jsonProperty()
-  public locator: string;
+export interface ExternalReferences {
+  type: string;
+  locator: string;
 }
 
-export class Participants {
-  @jsonProperty()
-  public function?: string;
-  @jsonProperty()
-  public name: string;
+export interface Participants {
+  function?: string;
+  name: string;
 }
 
-export class PlayHistory {
-  @jsonProperty()
-  public channelId?: string;
-  @jsonProperty()
-  public lastViewedOffset?: number;
-  @jsonProperty()
-  public lastViewedTime?: number;
-  @jsonProperty()
-  public programId?: string;
+export interface PlayHistory {
+  channelId?: string;
+  lastViewedOffset?: number;
+  lastViewedTime?: number;
+  programId?: string;
 }
 
-export class UserData {
-  @jsonProperty()
-  public playHistory?: PlayHistory;
+export interface UserData {
+  playHistory?: PlayHistory;
 }
 
 export enum AssetType {
@@ -90,24 +80,21 @@ export enum AssetType {
   CLIP = "CLIP",
   AD = "AD",
   LIVE_EVENT = "LIVE_EVENT",
+  EVENT = "EVENT",
   COLLECTION = "COLLECTION",
   PODCAST = "PODCAST",
   PODCAST_EPISODE = "PODCAST_EPISODE",
   OTHER = "OTHER"
 }
 
-class ParentalRating {
-  @jsonProperty()
-  public country: string;
-  @jsonProperty()
-  public rating: string;
-  @jsonProperty()
-  public scheme: string;
+interface ParentalRating {
+  country: string;
+  rating: string;
+  scheme: string;
 }
 
-class OverlayWidget {
-  @jsonProperty()
-  public url: string;
+interface IOverlayWidget {
+  url: string;
 }
 
 export enum EntityType {
@@ -118,24 +105,46 @@ export enum LinkType {
   TRAILER = "TRAILER"
 }
 
-export class LinkedEntity {
+export interface LinkedEntity {
+  entityId: string;
+  entityType: EntityType;
+  linkType: LinkType;
+}
+
+export enum MarkerType {
+  INTRO = "INTRO",
+  CREDITS = "CREDITS",
+  POINT = "POINT",
+  CHAPTER = "CHAPTER"
+}
+
+class EventTimes {
   @jsonProperty()
-  public entityId: string;
+  public startTime: Date;
   @jsonProperty()
-  public entityType: EntityType;
+  public endTime: Date;
+}
+
+export class MarkerPoint extends WithLocalized {
   @jsonProperty()
-  public linkType: LinkType;
+  public offset: number;
+  @jsonProperty()
+  public endOffset?: number;
+  @jsonProperty()
+  public type: MarkerType;
 }
 
 export class Asset extends WithLocalized {
   @jsonProperty()
   public assetId: string;
   @jsonProperty()
+  public changed: Date;
+  @jsonProperty()
+  public created: Date;
+  @jsonProperty()
   public type: AssetType;
-  @jsonProperty({
-    type: Medias
-  })
-  public medias: Medias[] = [];
+  @jsonProperty()
+  public medias: IMedias[] = [];
   @jsonProperty()
   public productionYear: number;
   @jsonProperty({
@@ -156,11 +165,11 @@ export class Asset extends WithLocalized {
   public episode: number;
   @jsonProperty()
   public tvShowId: string;
-  @jsonProperty({ type: ExternalReferences })
+  @jsonProperty({ type: Object })
   public externalReferences: ExternalReferences[] = [];
-  @jsonProperty({ type: LinkedEntity })
+  @jsonProperty({ type: Object })
   public linkedEntities: LinkedEntity[] = [];
-  @jsonProperty({ type: Participants })
+  @jsonProperty({ type: Object })
   public participants: Participants[] = [];
   @jsonProperty()
   public duration: number;
@@ -170,14 +179,18 @@ export class Asset extends WithLocalized {
   public userData?: UserData;
   @jsonProperty({ type: String })
   public productionCountries: string[] = [];
-  @jsonProperty({ type: ParentalRating })
+  @jsonProperty({ type: Object })
   public parentalRatings: ParentalRating[];
   @jsonProperty({ type: String })
   public channelFeatures?: ChannelFeature[];
-  @jsonProperty({ type: OverlayWidget })
-  public overlayWidgets?: OverlayWidget[];
+  @jsonProperty()
+  public overlayWidgets?: IOverlayWidget[];
   @jsonProperty({ type: String })
   public slugs: string[] = [];
+  @jsonProperty({ type: MarkerPoint })
+  public markerPoints: MarkerPoint[] = [];
+  @jsonProperty()
+  public event?: EventTimes;
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
@@ -198,14 +211,28 @@ export class Asset extends WithLocalized {
     if (this.publications.length === 0) {
       return false;
     }
-    return this.publications[0].fromDate.getTime() > Date.now();
+    return this.publications.filter(p => !p.isExpired()).every(p => p.isInFuture());
   };
 
   public getStartTime = () => {
-    if (this.publications.length === 0) {
+    if (this.publications.length === 0 && !this.startTime && !this.event?.startTime) {
       return undefined;
     }
-    return this.startTime ? new Date(this.startTime) : this.publications[0].fromDate;
+
+    if (this.event?.startTime) return this.event.startTime;
+
+    const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
+    // if we the asset will be published in the future, take the start time from next upcoming publication
+    if (this.inFuture()) {
+      const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
+      if (futurePublications.length) return futurePublications[0].fromDate;
+    }
+    // if we have active publications, the start time has already been
+    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    if (activePublications.length) {
+      return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
+    }
+    return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
   };
 
   public getYear = () => {
@@ -240,6 +267,10 @@ export class Asset extends WithLocalized {
       return `S${this.season}E${this.episode} ` + this.getLocalizedValue("title", locale, defaultLocale);
     }
     return this.getLocalizedValue("title", locale, defaultLocale);
+  };
+
+  public getSortingTitle = (locale: string, defaultLocale?: string) => {
+    return this.getLocalizedValue("sortingTitle", locale, defaultLocale);
   };
 }
 

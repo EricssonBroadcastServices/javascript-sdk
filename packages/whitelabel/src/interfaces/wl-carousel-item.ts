@@ -1,4 +1,4 @@
-import { AssetType, Publication, ExternalReferences, ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
+import { AssetType, Publication, ExternalReferences, ImageModel, MarkerType } from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
 
 export interface IWLAssetTag {
@@ -40,11 +40,19 @@ export interface IWLOverlayWidget {
   url: string;
 }
 
+export interface IWLMarkerPoint {
+  type: MarkerType,
+  offset: number,
+  endOffset?: number;
+  title: string;
+}
+
 export interface IWLCarouselItem {
   assetId: string;
   trailerAssetId?: string;
   type: AssetType;
   title: string;
+  sortingTitle?: string;
   description: string;
   images: ImageModel[];
   publications: Publication[];
@@ -69,4 +77,5 @@ export interface IWLCarouselItem {
   parentalRatings: IWLParentalRating[];
   overlayWidgets: IWLOverlayWidget[];
   slugs?: string[];
+  markerPoints?: IWLMarkerPoint[];
 }

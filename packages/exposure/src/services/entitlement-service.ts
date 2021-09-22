@@ -7,19 +7,34 @@ interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
 }
 
+export type TPlayFormat = "dash" | "hls" | "mss";
+export type TPlayDrm = "widevine" | "playready" | "fairplay";
+
 interface PlayAssetOptions extends GetEntitlementForAssetOptions {
   adParameters?: {
     latitude?: string;
     longitude?: string;
     mute?: boolean;
+    autoplay?: boolean;
     consent?: string;
     deviceMake?: string;
+    deviceType?: string;
     ifa?: string;
+    uid?: string;
     gdprOptin?: boolean;
+    width?: number;
+    height?: number;
+    pageUrl?: string;
+    domain?: string;
+    appBundle?: string;
+    appName?: string;
+    appStoreUrl?: string;
   };
   audioOnly?: boolean;
   maxResolution?: string;
   maxFrameRate?: number;
+  supportedFormats?: TPlayFormat[];
+  supportedDrms?: TPlayDrm[];
 }
 
 export class EntitlementService extends BaseService {
@@ -70,7 +85,9 @@ export class EntitlementService extends BaseService {
     adParameters,
     audioOnly,
     maxFrameRate,
-    maxResolution
+    maxResolution,
+    supportedFormats,
+    supportedDrms
   }: PlayAssetOptions) {
     const queryParameters = new URLSearchParams(adParameters as Record<string, string>);
     if (audioOnly) {
@@ -81,6 +98,12 @@ export class EntitlementService extends BaseService {
     }
     if (maxResolution) {
       queryParameters.append("maxResolution", maxResolution);
+    }
+    if (supportedFormats) {
+      queryParameters.append("supportedFormats", supportedFormats.join(","));
+    }
+    if (supportedDrms) {
+      queryParameters.append("supportedDrms", supportedDrms.join(","));
     }
     return this.get(
       `${this.cuBuUrl({
