@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { TagCollection } from "./tag-model";
+import { IAssetTagCollection } from "../interfaces/asset-tag";
 import { IUserLocation } from "../interfaces/user-localtion";
 import { Season } from "./season-model";
 import { WithLocalized } from "./localized-model";
@@ -148,9 +148,9 @@ export class Asset extends WithLocalized {
   @jsonProperty()
   public productionYear: number;
   @jsonProperty({
-    type: TagCollection
+    type: Object
   })
-  public tags: TagCollection[] = [];
+  public tags: IAssetTagCollection[] = [];
   @jsonProperty({ type: Publication })
   public publications: Publication[] = [];
   @jsonProperty()

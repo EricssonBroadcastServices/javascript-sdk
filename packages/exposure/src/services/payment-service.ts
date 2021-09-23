@@ -1,7 +1,7 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "..";
 import { ProductOffering, PromotionResponse } from "../models/product-offering-model";
-import { CardPaymentResponse } from "../models/card-payment-response-model";
+import { ICardPaymentResponse } from "../interfaces/card-payment-response";
 import { TransactionsWithProductOffering } from "../models/transaction-model";
 import { PurchaseResponse } from "../models/purchase-model";
 import { PaymentMethod } from "../models/payment-method";
@@ -196,7 +196,12 @@ export class PaymentService extends BaseService {
     });
   }
 
-  public buyProductOffering({ customer, businessUnit, productOfferingId, body }: BuyProductOfferingOptions) {
+  public buyProductOffering({
+    customer,
+    businessUnit,
+    productOfferingId,
+    body
+  }: BuyProductOfferingOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -205,10 +210,16 @@ export class PaymentService extends BaseService {
       })}/store/purchase/${productOfferingId}`,
       body,
       this.options.authHeader()
-    ).then(data => deserialize(CardPaymentResponse, data));
+    );
   }
 
-  public buyWithVoucherCode({ customer, businessUnit, code, assetId, productOfferingId }: BuyWithVoucherCodeOptions) {
+  public buyWithVoucherCode({
+    customer,
+    businessUnit,
+    code,
+    assetId,
+    productOfferingId
+  }: BuyWithVoucherCodeOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -220,10 +231,15 @@ export class PaymentService extends BaseService {
         voucherCode: code
       },
       this.options.authHeader()
-    ).then(data => deserialize(CardPaymentResponse, data));
+    );
   }
 
-  public verifyPurchase({ customer, businessUnit, body, purchaseId }: VerifyPurchaseOptions) {
+  public verifyPurchase({
+    customer,
+    businessUnit,
+    body,
+    purchaseId
+  }: VerifyPurchaseOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -232,7 +248,7 @@ export class PaymentService extends BaseService {
       })}/store/purchase/${purchaseId}/verify`,
       body,
       this.options.authHeader()
-    ).then(data => deserialize(CardPaymentResponse, { ...data, purchaseId: purchaseId }));
+    ).then(data => ({ ...data, purchaseId: purchaseId }));
   }
 
   public getTransactions({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {

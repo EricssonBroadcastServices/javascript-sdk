@@ -70,14 +70,9 @@ export {
   IDiscount
 } from "./models/product-offering-model";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
-export {
-  CardPaymentResponse,
-  AdyenPaymentStatus,
-  PurchaseStatus,
-  StripePaymentType
-} from "./models/card-payment-response-model";
+export { ICardPaymentResponse, PurchaseStatus, StripePaymentType } from "./interfaces/card-payment-response";
 export { Season, SeasonResponse } from "./models/season-model";
-export { Tag, TagCollection } from "./models/tag-model";
+export { IAssetTag, IAssetTagCollection } from "./interfaces/asset-tag";
 export { TagResponse } from "./models/tag-response-model";
 export { IBookmark } from "./interfaces/bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
