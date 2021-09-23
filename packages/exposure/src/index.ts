@@ -73,7 +73,7 @@ export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export { ICardPaymentResponse, PurchaseStatus, StripePaymentType } from "./interfaces/card-payment-response";
 export { Season, SeasonResponse } from "./models/season-model";
 export { IAssetTag, IAssetTagCollection } from "./interfaces/asset-tag";
-export { TagResponse } from "./models/tag-response-model";
+export { ITag } from "./interfaces/tag";
 export { IBookmark } from "./interfaces/bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
@@ -120,6 +120,7 @@ export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./s
 export { priceUtils } from "./utils/price";
 export { IPrice } from "./interfaces/price";
 export { userDetailsUtils } from "./utils/user-details";
+export { tagUtils } from "./utils/tag";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);
