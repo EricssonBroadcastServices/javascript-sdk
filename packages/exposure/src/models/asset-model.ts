@@ -1,6 +1,6 @@
 import { jsonProperty } from "../decorators/json-property";
 import { TagCollection } from "./tag-model";
-import { UserLocation } from "./user-location-model";
+import { IUserLocation } from "../interfaces/user-localtion";
 import { Season } from "./season-model";
 import { WithLocalized } from "./localized-model";
 
@@ -239,7 +239,7 @@ export class Asset extends WithLocalized {
     return this.productionYear;
   };
 
-  public isGeoBlocked = (location: UserLocation | null) => {
+  public isGeoBlocked = (location: IUserLocation | null) => {
     if (!location) {
       return false; // if we do not know, let the backend handle things
     }

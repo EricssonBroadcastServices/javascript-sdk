@@ -3,7 +3,7 @@ import * as querystring from "query-string";
 import { deserialize } from "../decorators/property-mapper";
 import { AssetResponse, Asset, EpisodesResponse, AssetType } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
-import { Bookmark } from "../models/bookmark-model";
+import { IBookmark } from "../interfaces/bookmark";
 import { SeasonResponse } from "../models/season-model";
 import { EpgResponse, OnNowResponse } from "../models/program-model";
 
@@ -316,7 +316,7 @@ export class ContentService extends BaseService {
     ).then(data => deserialize(AssetResponse, data));
   }
 
-  public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IBookmark[]> {
     return this.get(
       `${this.cuBuUrl({
         customer,
@@ -324,7 +324,7 @@ export class ContentService extends BaseService {
         apiVersion: "v1"
       })}/userplayhistory/lastviewedoffset`,
       this.options.authHeader()
-    ).then(data => data.items.map(b => deserialize(Bookmark, b)));
+    ).then(data => data.items);
   }
 
   public getSeasonsForSeries({ customer, businessUnit, assetId }: GetAssetByIdOptions) {

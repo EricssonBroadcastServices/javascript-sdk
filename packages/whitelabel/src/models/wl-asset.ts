@@ -20,7 +20,7 @@ import {
   ImageType,
   ExternalReferences,
   Product,
-  UserLocation,
+  IUserLocation,
   LoginResponse,
   MarkerType,
   ProductOffering
@@ -367,7 +367,7 @@ export class WLAsset implements IWLCarouselItem {
     return 0;
   }
 
-  public isGeoBlocked = (location?: UserLocation) => {
+  public isGeoBlocked = (location?: IUserLocation) => {
     if (!location) {
       return false; // if we do not know, let the backend handle things
     }

@@ -58,7 +58,7 @@ export {
   ContractRestrictions
 } from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
-export { UserLocation } from "./models/user-location-model";
+export { IUserLocation } from "./interfaces/user-localtion";
 export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";
 export {
   ProductOffering,
@@ -79,7 +79,7 @@ export {
 export { Season, SeasonResponse } from "./models/season-model";
 export { Tag, TagCollection } from "./models/tag-model";
 export { TagResponse } from "./models/tag-response-model";
-export { Bookmark } from "./models/bookmark-model";
+export { IBookmark } from "./interfaces/bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export { Purchase, PurchaseResponse } from "./models/purchase-model";
