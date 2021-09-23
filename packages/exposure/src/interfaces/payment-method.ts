@@ -1,4 +1,4 @@
-interface CardSummary {
+interface ICardSummary {
   brand: string;
   expiryMonth: string;
   expiryYear: string;
@@ -6,9 +6,9 @@ interface CardSummary {
   origin?: string;
 }
 
-export interface PaymentMethod {
+export interface IPaymentMethod {
   id: string;
-  cardSummary?: CardSummary;
+  cardSummary?: ICardSummary;
   payPalDetails?: {
     email: string;
   };

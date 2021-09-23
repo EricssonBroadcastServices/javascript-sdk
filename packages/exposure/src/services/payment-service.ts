@@ -4,7 +4,7 @@ import { ProductOffering, PromotionResponse } from "../models/product-offering-m
 import { ICardPaymentResponse } from "../interfaces/card-payment-response";
 import { TransactionsWithProductOffering } from "../models/transaction-model";
 import { PurchaseResponse } from "../models/purchase-model";
-import { PaymentMethod } from "../models/payment-method";
+import { IPaymentMethod } from "../interfaces/payment-method";
 import { IPrice } from "../interfaces/price";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
@@ -291,7 +291,7 @@ export class PaymentService extends BaseService {
     );
   }
 
-  public getPaymentMethods({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<PaymentMethod[]> {
+  public getPaymentMethods({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IPaymentMethod[]> {
     return this.get(
       `${this.cuBuUrl({
         customer,
@@ -299,7 +299,7 @@ export class PaymentService extends BaseService {
         apiVersion: "v2"
       })}/paymentmethods`,
       this.options.authHeader()
-    ).then(data => data.methods.map(m => deserialize(PaymentMethod, m)));
+    ).then(data => data.methods);
   }
   public addPaymentMethod({
     customer,

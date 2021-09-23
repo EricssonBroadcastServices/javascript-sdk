@@ -99,7 +99,7 @@ export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-mo
 export { PasswordPolicy } from "./models/password-policy-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
-export { PaymentMethod } from "./models/payment-method";
+export { IPaymentMethod as PaymentMethod, IPaymentMethod } from "./interfaces/payment-method";
 export {
   PreferenceListItem,
   PreferenceListTags,
