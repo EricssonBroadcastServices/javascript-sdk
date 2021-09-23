@@ -54,3 +54,4 @@ export {
 } from "./utils/time";
 export { isWebPSupported } from "./utils/webp";
 export { getDayLocalized, getLocalDateFormat, FORMAT } from "./utils/date";
+export { wlProductOfferingUtils } from "./utils/offerings";
