@@ -1,6 +1,7 @@
 import { parse, toSeconds } from "iso8601-duration";
 import { format } from "date-fns";
 import * as humanizeDuration from "humanize-duration";
+import { Translations } from "../models/wl-translations";
 
 export interface Duration {
   years: number;
@@ -71,3 +72,24 @@ export const getDurationLocalized = (milliseconds: number, locale?: string) => {
     round: true,
   });
 };
+
+export function iso8601ToReadableString(iso8601String: string, translations: Translations): string {
+  const duration = parseISOStringToDuration(iso8601String);
+  const months = duration.months;
+  const days = duration.days;
+  const hours = duration.hours;
+  const minutes = duration.minutes;
+
+  const monthText = months > 1 ? translations.getText(["DATES", "MONTHS"]) : translations.getText(["DATES", "MONTH"]);
+  const dayText = days > 1 ? translations.getText(["DATES", "DAYS"]) : translations.getText(["DATES", "DAY"]);
+  const hourText = hours > 1 ? translations.getText(["DATES", "HOURS"]) : translations.getText(["DATES", "HOUR"]);
+  const minuteText =
+    minutes > 1 ? translations.getText(["DATES", "MINUTES"]) : translations.getText(["DATES", "MINUTE"]);
+
+  return (
+    `${months > 0 ? months + ` ${monthText} ` : ""}` +
+    `${days > 0 ? days + ` ${dayText}` : ""}` +
+    `${hours > 0 ? hours + ` ${hourText} ` : ""}` +
+    `${minutes > 0 ? minutes + ` ${minuteText} ` : ""}`
+  ).trim();
+}

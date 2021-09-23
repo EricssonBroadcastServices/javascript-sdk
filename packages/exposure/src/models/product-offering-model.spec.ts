@@ -1,4 +1,4 @@
-import { deserialize } from "../decorators/property-mapper";
+import { deserialize } from "..";
 import { ProductOffering } from "./product-offering-model";
 
 describe("ProductOffering", () => {

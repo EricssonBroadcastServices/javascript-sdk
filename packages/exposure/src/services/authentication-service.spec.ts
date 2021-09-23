@@ -3,7 +3,6 @@ import { ServiceOptions } from "./base-service";
 import axios from "axios";
 import { LoginResponse } from "../models/login-response-model";
 import { mocks } from "../../test-utils/mocks";
-import { SessionResponse } from "../models/session-model";
 
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
@@ -65,11 +64,10 @@ describe("Auth service", () => {
     );
   });
   it("should validate session", async () => {
-    const sessionResponse = await authService.validateSession({
+    await authService.validateSession({
       customer: mocks.customer,
       businessUnit: mocks.businessUnit
     });
-    expect(sessionResponse).toBeInstanceOf(SessionResponse);
     expect(
       axios.get
     ).toHaveBeenCalledWith(
