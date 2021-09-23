@@ -58,7 +58,8 @@ export {
   ContractRestrictions
 } from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
-export { IUserLocation } from "./interfaces/user-localtion";
+// alias for backwards compatibility
+export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/user-localtion";
 export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";
 export {
   ProductOffering,
@@ -70,11 +71,24 @@ export {
   IDiscount
 } from "./models/product-offering-model";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
-export { ICardPaymentResponse, PurchaseStatus, StripePaymentType } from "./interfaces/card-payment-response";
+export {
+  ICardPaymentResponse,
+  // alias for backwards compatibility
+  ICardPaymentResponse as CardPaymentResponse,
+  PurchaseStatus,
+  StripePaymentType
+} from "./interfaces/card-payment-response";
 export { Season, SeasonResponse } from "./models/season-model";
-export { IAssetTag, IAssetTagCollection } from "./interfaces/asset-tag";
-export { ITag } from "./interfaces/tag";
-export { IBookmark } from "./interfaces/bookmark";
+export {
+  IAssetTag,
+  // alias for backwards compatibility
+  IAssetTag as Tag,
+  IAssetTagCollection,
+  // alias for backwards compatibility
+  IAssetTagCollection as TagCollection
+} from "./interfaces/asset-tag";
+export { ITag, ITag as TagResponse } from "./interfaces/tag";
+export { IBookmark, IBookmark as Bookmark } from "./interfaces/bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export { Purchase, PurchaseResponse } from "./models/purchase-model";
