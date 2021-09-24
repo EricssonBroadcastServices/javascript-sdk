@@ -58,7 +58,6 @@ export {
   ContractRestrictions
 } from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
-// alias for backwards compatibility
 export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/user-localtion";
 export {
   IProduct,
@@ -72,7 +71,6 @@ export { IProductOffering, IProductOffering as ProductOffering } from "./interfa
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
   ICardPaymentResponse,
-  // alias for backwards compatibility
   ICardPaymentResponse as CardPaymentResponse,
   PurchaseStatus,
   StripePaymentType
@@ -80,10 +78,8 @@ export {
 export { Season, SeasonResponse } from "./models/season-model";
 export {
   IAssetTag,
-  // alias for backwards compatibility
   IAssetTag as Tag,
   IAssetTagCollection,
-  // alias for backwards compatibility
   IAssetTagCollection as TagCollection
 } from "./interfaces/asset-tag";
 export { ITag, ITag as TagResponse } from "./interfaces/tag";
