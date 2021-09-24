@@ -1,5 +1,5 @@
 import { IProductOffering, priceUtils, productOfferingUtils } from "..";
-import { ProductOfferingType } from "../interfaces/product-offering";
+import { ProductOfferingType } from "../interfaces/payment/product-offering";
 
 describe("ProductOffering", () => {
   const productOffering: IProductOffering = {
@@ -26,6 +26,7 @@ describe("ProductOffering", () => {
       }
     },
     id: "3a2f0ec0-852f-4c2a-bdca-b613fec088db_82162E",
+    productOfferingId: "3a2f0ec0-852f-4c2a-bdca-b613fec088db_82162E",
     salesStart: "2019-10-28T13:49:25.555Z",
     productRequiresSelectAsset: false,
     paymentMethodTypes: ["card"]

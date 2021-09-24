@@ -1,6 +1,6 @@
 import { jsonProperty } from "../decorators/json-property";
-import { IAssetTagCollection } from "../interfaces/asset-tag";
-import { IUserLocation } from "../interfaces/user-localtion";
+import { IAssetTagCollection } from "../interfaces/content/asset-tag";
+import { IUserLocation } from "../interfaces/location/user-location";
 import { Season } from "./season-model";
 import { WithLocalized } from "./localized-model";
 

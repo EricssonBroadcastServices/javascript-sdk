@@ -2,7 +2,7 @@ import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { DeviceInfo, DeviceType } from "./authentication-service";
 import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/signup-response-model";
-import { IUserDetails } from "../interfaces/user-details";
+import { IUserDetails } from "../interfaces/user/user-details";
 import { LoginResponse } from "../models/login-response-model";
 
 interface SignupOptions extends CustomerAndBusinessUnitOptions {

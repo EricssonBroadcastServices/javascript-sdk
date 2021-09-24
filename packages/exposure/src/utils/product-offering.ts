@@ -1,4 +1,4 @@
-import { IProductOffering } from "../interfaces/product-offering";
+import { IProductOffering } from "../interfaces/payment/product-offering";
 
 function getTitle(offering: IProductOffering, locale: string) {
   if (offering.localizedMetadata.length === 0) {

@@ -1,4 +1,4 @@
-import { IPurchase } from "../interfaces/purchase";
+import { IPurchase } from "../interfaces/payment/purchase";
 
 function getTvods(purchases: IPurchase[]) {
   return purchases.filter(p => p.assetId);

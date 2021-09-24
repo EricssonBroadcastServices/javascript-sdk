@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { IProductResponse, IAvailabilityKeysResponse } from "../interfaces/product";
+import { IProductResponse, IAvailabilityKeysResponse } from "../interfaces/entitlement/product";
 import { Play } from "../models/play-model";
 
 interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {

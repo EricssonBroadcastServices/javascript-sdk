@@ -1,5 +1,5 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { ITag } from "../interfaces/tag";
+import { ITag } from "../interfaces/tag/tag";
 
 interface TagOptions extends CustomerAndBusinessUnitOptions {
   tagId: string;

@@ -58,7 +58,7 @@ export {
   ContractRestrictions
 } from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
-export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/user-localtion";
+export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/location/user-location";
 export {
   IProduct,
   IProduct as Product,
@@ -66,24 +66,24 @@ export {
   IProductResponse as ProductResponse,
   IAvailabilityKeysResponse,
   IAvailabilityKeysResponse as AvailabilityKeysResponse
-} from "./interfaces/product";
-export { IProductOffering, IProductOffering as ProductOffering } from "./interfaces/product-offering";
+} from "./interfaces/entitlement/product";
+export { IProductOffering, IProductOffering as ProductOffering } from "./interfaces/payment/product-offering";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
   ICardPaymentResponse,
   ICardPaymentResponse as CardPaymentResponse,
   PurchaseStatus,
   StripePaymentType
-} from "./interfaces/card-payment-response";
+} from "./interfaces/payment/card-payment-response";
 export { Season, SeasonResponse } from "./models/season-model";
 export {
   IAssetTag,
   IAssetTag as Tag,
   IAssetTagCollection,
   IAssetTagCollection as TagCollection
-} from "./interfaces/asset-tag";
-export { ITag, ITag as TagResponse } from "./interfaces/tag";
-export { IBookmark, IBookmark as Bookmark } from "./interfaces/bookmark";
+} from "./interfaces/content/asset-tag";
+export { ITag, ITag as TagResponse } from "./interfaces/tag/tag";
+export { IBookmark, IBookmark as Bookmark } from "./interfaces/content/bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export {
@@ -91,15 +91,15 @@ export {
   IPurchase as Purchase,
   IPurchaseResponse,
   IPurchaseResponse as PurchaseResponse
-} from "./interfaces/purchase";
+} from "./interfaces/payment/purchase";
 export {
   ITransaction,
   ITransaction as Transaction,
   ITransactionsWithProductOffering,
   ITransactionsWithProductOffering as TransactionsWithProductOffering
-} from "./interfaces/transaction";
-export { IUserProfile } from "./interfaces/user-profile";
-export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user-details";
+} from "./interfaces/payment/transaction";
+export { IUserProfile } from "./interfaces/user/user-profile";
+export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user/user-details";
 export {
   IPasswordAlgorithm,
   IPasswordAlgorithm as PasswordAlgorithm,
@@ -109,7 +109,7 @@ export {
 export { IPasswordPolicy, IPasswordPolicy as PasswordPolicy } from "./models/system-config-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
-export { IPaymentMethod as PaymentMethod, IPaymentMethod } from "./interfaces/payment-method";
+export { IPaymentMethod as PaymentMethod, IPaymentMethod } from "./interfaces/payment/payment-method";
 export {
   PreferenceListItem,
   PreferenceListTags,
@@ -160,7 +160,7 @@ export {
   IOfferingPrice as OfferingPrice,
   IPromotion,
   IPromotion as Promotion
-} from "./interfaces/price";
+} from "./interfaces/payment/price";
 export { userDetailsUtils } from "./utils/user-details";
 export { tagUtils } from "./utils/tag";
 export { purchaseUtils } from "./utils/purchase";

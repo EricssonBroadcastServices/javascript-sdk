@@ -1,5 +1,5 @@
 import { BaseService } from "./base-service";
-import { IUserLocation } from "../interfaces/user-localtion";
+import { IUserLocation } from "../interfaces/location/user-location";
 
 export class LocationService extends BaseService {
   public getLocation(): Promise<IUserLocation> {

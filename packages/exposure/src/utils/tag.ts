@@ -1,4 +1,4 @@
-import { ITag } from "../interfaces/tag";
+import { ITag } from "../interfaces/tag/tag";
 
 function getTitle(tag: ITag, locale: string) {
   if (tag.localized.length === 0) {

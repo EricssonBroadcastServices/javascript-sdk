@@ -1,10 +1,10 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { ICardPaymentResponse } from "../interfaces/card-payment-response";
-import { ITransactionsWithProductOffering } from "../interfaces/transaction";
-import { IPaymentMethod } from "../interfaces/payment-method";
-import { IPrice, IPromotion } from "../interfaces/price";
-import { IProductOffering } from "../interfaces/product-offering";
-import { IPurchaseResponse } from "../interfaces/purchase";
+import { ICardPaymentResponse } from "../interfaces/payment/card-payment-response";
+import { ITransactionsWithProductOffering } from "../interfaces/payment/transaction";
+import { IPaymentMethod } from "../interfaces/payment/payment-method";
+import { IPrice, IPromotion } from "../interfaces/payment/price";
+import { IProductOffering } from "../interfaces/payment/product-offering";
+import { IPurchaseResponse } from "../interfaces/payment/purchase";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
