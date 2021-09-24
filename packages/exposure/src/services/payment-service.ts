@@ -1,11 +1,10 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { deserialize } from "..";
-import { ProductOffering, PromotionResponse } from "../models/product-offering-model";
 import { ICardPaymentResponse } from "../interfaces/card-payment-response";
-import { TransactionsWithProductOffering } from "../models/transaction-model";
-import { PurchaseResponse } from "../models/purchase-model";
+import { ITransactionsWithProductOffering } from "../interfaces/transaction";
 import { IPaymentMethod } from "../interfaces/payment-method";
-import { IPrice } from "../interfaces/price";
+import { IPrice, IPromotion } from "../interfaces/price";
+import { IProductOffering } from "../interfaces/product-offering";
+import { IPurchaseResponse } from "../interfaces/purchase";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
@@ -161,7 +160,10 @@ export class PaymentService extends BaseService {
     businessUnit,
     code,
     countryCode
-  }: GetProductOfferingsByVoucherOptions) {
+  }: GetProductOfferingsByVoucherOptions): Promise<{
+    productOfferings: IProductOffering[];
+    promotion: IPromotion;
+  }> {
     const url = countryCode
       ? `${this.cuBuUrl({
           apiVersion: "v2",
@@ -174,26 +176,23 @@ export class PaymentService extends BaseService {
           businessUnit
         })}/store/productofferings/voucher/${code}`;
 
-    return this.get(url, this.options.authHeader()).then(data => {
-      return deserialize(PromotionResponse, data);
-    });
+    return this.get(url, this.options.authHeader());
   }
   public getProductOfferingsByCountry({
     customer,
     businessUnit,
     countryCode,
     includeSelectAssetProducts = true
-  }: GetProductOfferingsByCountryOptions) {
+  }: GetProductOfferingsByCountryOptions): Promise<{
+    productOfferings: IProductOffering[];
+  }> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
         businessUnit
       })}/store/productoffering/country/${countryCode}?includeSelectAssetProducts=${includeSelectAssetProducts}`
-    ).then(data => {
-      const productofferings: ProductOffering[] = data.productOfferings.map(p => deserialize(ProductOffering, p));
-      return productofferings;
-    });
+    ).then(data => data.productOfferings);
   }
 
   public buyProductOffering({
@@ -251,7 +250,10 @@ export class PaymentService extends BaseService {
     ).then(data => ({ ...data, purchaseId: purchaseId }));
   }
 
-  public getTransactions({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getTransactions({
+    customer,
+    businessUnit
+  }: CustomerAndBusinessUnitOptions): Promise<ITransactionsWithProductOffering[]> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -260,14 +262,16 @@ export class PaymentService extends BaseService {
       })}/store/account/transactions/productoffering`,
       this.options.authHeader()
     ).then(data => {
-      const transactions: TransactionsWithProductOffering[] = data.transactionsProductOfferingPairs.map(t => {
-        return deserialize(TransactionsWithProductOffering, t);
-      });
+      const transactions: ITransactionsWithProductOffering[] = data.transactionsProductOfferingPairs;
       return transactions;
     });
   }
 
-  public getPurchases({ customer, businessUnit, includeOfferingDetails = false }: GetPurchasesOptions) {
+  public getPurchases({
+    customer,
+    businessUnit,
+    includeOfferingDetails = false
+  }: GetPurchasesOptions): Promise<IPurchaseResponse> {
     const queryParameters = new URLSearchParams();
     queryParameters.set("includeOfferingDetails", includeOfferingDetails ? "true" : "false");
     return this.get(
@@ -277,7 +281,7 @@ export class PaymentService extends BaseService {
         businessUnit
       })}/store/purchase?${queryParameters.toString()}`,
       this.options.authHeader()
-    ).then(data => deserialize(PurchaseResponse, data));
+    );
   }
 
   public cancelSubscription({ customer, businessUnit, purchaseId }: CancelSubscriptionOptions) {

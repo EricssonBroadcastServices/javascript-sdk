@@ -61,15 +61,7 @@ export { Event, EventResponse } from "./models/event-model";
 // alias for backwards compatibility
 export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/user-localtion";
 export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";
-export {
-  ProductOffering,
-  ProductOfferingsResponse,
-  OfferingPrice,
-  Price,
-  Promotion,
-  PromotionResponse,
-  IDiscount
-} from "./models/product-offering-model";
+export { IProductOffering, IProductOffering as ProductOffering } from "./interfaces/product-offering";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
   ICardPaymentResponse,
@@ -91,8 +83,18 @@ export { ITag, ITag as TagResponse } from "./interfaces/tag";
 export { IBookmark, IBookmark as Bookmark } from "./interfaces/bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
-export { Purchase, PurchaseResponse } from "./models/purchase-model";
-export { Transaction, TransactionsWithProductOffering } from "./models/transaction-model";
+export {
+  IPurchase,
+  IPurchase as Purchase,
+  IPurchaseResponse,
+  IPurchaseResponse as PurchaseResponse
+} from "./interfaces/purchase";
+export {
+  ITransaction,
+  ITransaction as Transaction,
+  ITransactionsWithProductOffering,
+  ITransactionsWithProductOffering as TransactionsWithProductOffering
+} from "./interfaces/transaction";
 export { IUserProfile } from "./interfaces/user-profile";
 export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user-details";
 export {
@@ -147,9 +149,19 @@ export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
 export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
 export { priceUtils } from "./utils/price";
-export { IPrice } from "./interfaces/price";
+export {
+  IPrice,
+  IPrice as Price,
+  IDiscount,
+  IOfferingPrice,
+  IOfferingPrice as OfferingPrice,
+  IPromotion,
+  IPromotion as Promotion
+} from "./interfaces/price";
 export { userDetailsUtils } from "./utils/user-details";
 export { tagUtils } from "./utils/tag";
+export { purchaseUtils } from "./utils/purchase";
+export { productOfferingUtils } from "./utils/product-offering";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);

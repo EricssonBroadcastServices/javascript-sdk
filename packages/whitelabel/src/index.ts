@@ -15,7 +15,6 @@ export {
   WLIframe
 } from "./models/wl-component";
 export { WLAsset, WLTag, WLParticipant } from "./models/wl-asset";
-export { WLProductOffering, WLOfferingPrice } from "./models/wl-productoffering";
 export { DeviceGroup } from "./interfaces/device-group";
 export { IWLCarouselItem, IWLSeason, IWLAssetTag, IWLMarkerPoint } from "./interfaces/wl-carousel-item";
 export { IWLReference, CarouselLayout, PresentationImageOrientation } from "./interfaces/wl-reference";

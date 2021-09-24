@@ -10,7 +10,7 @@ export function getRentalLengthDescription(productOffering: ProductOffering, tra
   if (productOffering.rentalLength) {
     if (!productOffering.rentalExpiryWindow) {
       if (productOffering.entitlementStart) {
-        const entitlementStop = getDateObjectFromISOString(productOffering.rentalLength, productOffering.salesStart)
+        const entitlementStop = getDateObjectFromISOString(productOffering.rentalLength, new Date(productOffering.salesStart))
         return `${translations.getText("VALID_UNTIL")} ${getLocalDateFormat(
               entitlementStop,
               FORMAT.MEDIUM_DATE,
