@@ -20,8 +20,8 @@ import { SystemService } from "./services/system-service";
 import {
   SystemConfig,
   PaymentType,
-  LoginMethod,
-  LoginMethodProvider,
+  ILoginMethod,
+  ILoginMethodProvider,
   LoginMethodType,
   AccessModel,
   SignupModel
@@ -95,8 +95,13 @@ export { Purchase, PurchaseResponse } from "./models/purchase-model";
 export { Transaction, TransactionsWithProductOffering } from "./models/transaction-model";
 export { IUserProfile } from "./interfaces/user-profile";
 export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user-details";
-export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
-export { PasswordPolicy } from "./models/password-policy-model";
+export {
+  IPasswordAlgorithm,
+  IPasswordAlgorithm as PasswordAlgorithm,
+  IPasswordHashConfig,
+  IPasswordHashConfig as PasswordHashConfig
+} from "./models/system-config-model";
+export { IPasswordPolicy, IPasswordPolicy as PasswordPolicy } from "./models/system-config-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
 export { IPaymentMethod as PaymentMethod, IPaymentMethod } from "./interfaces/payment-method";
@@ -107,7 +112,17 @@ export {
   UserPreferences
 } from "./models/preference-model";
 
-export { SystemConfig, PaymentType, LoginMethod, LoginMethodProvider, LoginMethodType, AccessModel, SignupModel };
+export {
+  SystemConfig,
+  PaymentType,
+  ILoginMethod,
+  ILoginMethod as LoginMethod,
+  ILoginMethodProvider,
+  ILoginMethodProvider as LoginMethodProvider,
+  LoginMethodType,
+  AccessModel,
+  SignupModel
+};
 
 /* Services */
 export {

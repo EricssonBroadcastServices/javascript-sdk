@@ -1,5 +1,9 @@
 import { jsonProperty } from "../decorators/json-property";
-import { PasswordPolicy } from "./password-policy-model";
+
+export interface IPasswordPolicy {
+  minimumLength: number;
+  minimumGroups: number;
+}
 
 export enum PaymentType {
   ADYEN = "adyen",
@@ -10,29 +14,21 @@ export enum PaymentType {
   BRAINTREE = "braintree"
 }
 
-class FrontEndFeatures {
-  @jsonProperty()
-  public shouldAlwaysUseAnonymousLogin: boolean;
-  @jsonProperty()
-  public customLandingPageUrl?: string;
-  @jsonProperty()
-  public customAccountPageUrl?: string;
-  @jsonProperty()
-  public customSignupPageUrl?: string;
+interface IFrontEndFeatures {
+  shouldAlwaysUseAnonymousLogin: boolean;
+  customLandingPageUrl?: string;
+  customAccountPageUrl?: string;
+  customSignupPageUrl?: string;
 }
 
-export class PasswordAlgorithm {
-  @jsonProperty()
-  public algorithmName: string;
-  @jsonProperty()
-  public pbkdf2Iterations?: number;
+export interface IPasswordAlgorithm {
+  algorithmName: string;
+  pbkdf2Iterations?: number;
 }
 
-export class PasswordHashConfig {
-  @jsonProperty()
-  public sharedRandom: string;
-  @jsonProperty({ type: PasswordAlgorithm })
-  public algorithms: PasswordAlgorithm[];
+export interface IPasswordHashConfig {
+  sharedRandom: string;
+  algorithms: IPasswordAlgorithm[];
 }
 
 export enum LoginMethodType {
@@ -41,22 +37,16 @@ export enum LoginMethodType {
   OAUTH = "oauth"
 }
 
-export class LoginMethodProvider {
-  @jsonProperty()
-  public name: string;
-  @jsonProperty()
-  public providerId: string;
-  @jsonProperty()
-  public key: any;
+export class ILoginMethodProvider {
+  name: string;
+  providerId: string;
+  key: any;
 }
 
-export class LoginMethod {
-  @jsonProperty()
-  public method: LoginMethodType;
-  @jsonProperty({ type: LoginMethodProvider })
-  public providers?: LoginMethodProvider[];
-  @jsonProperty()
-  public webkey?: {
+export interface ILoginMethod {
+  method: LoginMethodType;
+  providers?: ILoginMethodProvider[];
+  webkey?: {
     apiKey: string;
     authDomain: string;
     projectId: string;
@@ -65,8 +55,7 @@ export class LoginMethod {
     appId: string;
     measurementId: string;
   };
-  @jsonProperty()
-  public config?: {
+  config?: {
     web: {
       apiKey: string;
       authDomain: string;
@@ -78,10 +67,8 @@ export class LoginMethod {
     };
     [key: string]: any;
   };
-  @jsonProperty()
-  public name?: string;
-  @jsonProperty()
-  public client_id?: string;
+  name?: string;
+  client_id?: string;
 }
 
 export enum AccessModel {
@@ -118,9 +105,8 @@ export enum SignupModel {
   UNCONFIRMED = "unconfirmed"
 }
 
-export class ConsentManagement {
-  @jsonProperty()
-  public didomi?: {
+export interface IConsentManagement {
+  didomi?: {
     apiKey: string;
     noticeId: string;
   };
@@ -137,7 +123,7 @@ export class SystemConfig {
   public analyticsPercentage: number;
   @jsonProperty()
   public analyticsBaseUrl: string;
-  @jsonProperty()
+  @jsonProperty({ type: String })
   public currencies: string[];
   @jsonProperty({ type: String })
   public displayLocales: string[];
@@ -149,20 +135,20 @@ export class SystemConfig {
   public adyenContext: string;
   @jsonProperty()
   public informationCollectionConsentDate: string;
-  @jsonProperty({ type: ConsentManagement })
-  public consentManagement?: ConsentManagement;
-  @jsonProperty({ type: PasswordPolicy })
-  public passwordPolicy: PasswordPolicy = new PasswordPolicy();
+  @jsonProperty()
+  public consentManagement?: IConsentManagement;
+  @jsonProperty()
+  public passwordPolicy: IPasswordPolicy;
   @jsonProperty()
   public adyenOriginKey: string;
   @jsonProperty()
   public allowAnonymous = false;
   @jsonProperty()
   public playerUrl: string;
-  @jsonProperty({ type: FrontEndFeatures })
-  public frontendFeatures: FrontEndFeatures = new FrontEndFeatures();
   @jsonProperty()
-  public passwordHashConfig: PasswordHashConfig;
+  public frontendFeatures: IFrontEndFeatures;
+  @jsonProperty()
+  public passwordHashConfig: IPasswordHashConfig;
   @jsonProperty()
   public externalPaymentUrl: string;
   @jsonProperty()
@@ -171,8 +157,8 @@ export class SystemConfig {
   public stripePublicKey: string;
   @jsonProperty()
   public signupMinimumAge: number;
-  @jsonProperty({ type: LoginMethod })
-  public loginMethods: LoginMethod[];
+  @jsonProperty({ type: Object })
+  public loginMethods: ILoginMethod[];
   @jsonProperty()
   public accessModel: AccessModel;
   @jsonProperty()
