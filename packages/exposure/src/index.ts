@@ -60,7 +60,14 @@ export {
 export { Event, EventResponse } from "./models/event-model";
 // alias for backwards compatibility
 export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/user-localtion";
-export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";
+export {
+  IProduct,
+  IProduct as Product,
+  IProductResponse,
+  IProductResponse as ProductResponse,
+  IAvailabilityKeysResponse,
+  IAvailabilityKeysResponse as AvailabilityKeysResponse
+} from "./interfaces/product";
 export { IProductOffering, IProductOffering as ProductOffering } from "./interfaces/product-offering";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
