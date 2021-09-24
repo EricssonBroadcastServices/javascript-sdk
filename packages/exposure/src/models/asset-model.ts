@@ -288,21 +288,6 @@ export class AssetResponse {
   public numberOfPages = () => {
     return Math.ceil(this.totalCount / this.pageSize);
   };
-  public getInitialSlide = () => {
-    const now = new Date();
-    if (this.items.length === 0) {
-      return 0;
-    }
-    if (this.items[0].startTime) {
-      for (let i = 0; i < this.items.length; i++) {
-        const endTime = new Date(this.items[i].endTime);
-        if (endTime > now) {
-          return i;
-        }
-      }
-    }
-    return 0;
-  };
 }
 
 export class EpisodesResponse extends AssetResponse {
