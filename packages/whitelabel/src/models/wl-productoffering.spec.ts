@@ -9,9 +9,9 @@ describe("WL product offering", () => {
   describe("Rental length string", () => {
     it("should handle rental", () => {
       expect(mockRental.getRentalLengthString(mockTranslations)).toEqual("1 minute ");
-    })
+    });
     it("should handle event ticket", () => {
-      expect(mockEventTicket.getRentalLengthString(mockTranslations)).toEqual("Valid until April 10th, 2019")
-    })
+      expect(mockEventTicket.getRentalLengthString(mockTranslations)).toEqual("Valid until April 10th, 2019");
+    });
   });
 });

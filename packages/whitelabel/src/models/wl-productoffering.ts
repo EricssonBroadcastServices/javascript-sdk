@@ -32,12 +32,12 @@ export class WLProductOffering extends ProductOffering {
    */
   public getRentalLengthString = (translations: Translations, locale?: string) => {
     if (this.entitlementStart && this.rentalLength) {
-      const entitlementStop = getDateObjectFromISOString(this.rentalLength as string, this.salesStart)
+      const entitlementStop = getDateObjectFromISOString(this.rentalLength as string, this.salesStart);
       return `${translations.getText("VALID_UNTIL")} ${getLocalDateFormat(
-            entitlementStop,
-            FORMAT.MEDIUM_DATE,
-            locale
-          )}`;
+        entitlementStop,
+        FORMAT.MEDIUM_DATE,
+        locale
+      )}`;
     }
     const duration = this.rentalLength
       ? parseISOStringToDuration(this.rentalLength)

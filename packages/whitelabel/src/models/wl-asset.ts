@@ -317,9 +317,7 @@ export class WLAsset implements IWLCarouselItem {
     if (this.publications.length === 0 && !this.startTime) {
       return undefined;
     }
-    const publicationsSortedAscending = this.publications.sort(
-      (a, b) => a.fromDate.getTime() - b.fromDate.getTime()
-    );
+    const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
     // if we the asset will be published in the future, take the start time from next upcoming publication
     if (this.inFuture()) {
       const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
@@ -334,15 +332,13 @@ export class WLAsset implements IWLCarouselItem {
   };
 
   public getNextPublications = () => {
-    const publicationsSortedAscending = this.publications.sort(
-      (a, b) => a.fromDate.getTime() - b.fromDate.getTime()
-    );
+    const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
     if (this.inFuture()) {
       const upcomingPublications = publicationsSortedAscending.filter(p => p.isInFuture());
       if (upcomingPublications.length > 0) {
         const nextDate = upcomingPublications[0].fromDate;
         return upcomingPublications.filter(up => {
-          return up.fromDate.getTime() === nextDate.getTime()
+          return up.fromDate.getTime() === nextDate.getTime();
         });
       }
     }

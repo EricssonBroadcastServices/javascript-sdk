@@ -2,12 +2,12 @@ import { WLAsset } from "../models/wl-asset";
 import { IWLCarouselItem } from "./wl-carousel-item";
 
 export interface IWLEPGChannel {
-	channel: WLAsset;
-	programs: WLAsset[];
+  channel: WLAsset;
+  programs: WLAsset[];
 }
 
 export interface IWLEPG {
-	channels: IWLEPGChannel[];
+  channels: IWLEPGChannel[];
 }
 
 export interface IWLEpgComponent {

@@ -2,7 +2,7 @@ import { IWLCarouselItem } from "./wl-carousel-item";
 import { CarouselSubType } from "../models/wl-component";
 
 export interface IWLTagTitles {
-  [key: string]: string
+  [key: string]: string;
 }
 
 export interface IWLCarousel {

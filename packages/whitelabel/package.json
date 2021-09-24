@@ -7,7 +7,9 @@
     "watch": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint --ext .ts --fix ./src/"
+    "lint": "npm run lint:code && npm run lint:types",
+    "lint:code": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "lint:types": "tsc --noEmit -p tsconfig.json"
   },
   "repository": {
     "type": "git",

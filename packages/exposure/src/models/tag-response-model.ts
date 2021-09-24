@@ -14,9 +14,7 @@ export class TagResponse {
     if (this.localized.length === 0) {
       return "";
     }
-    const localeItem =
-      this.localized.find(localizedItem => localizedItem.locale === locale) ||
-      this.localized[0];
+    const localeItem = this.localized.find(localizedItem => localizedItem.locale === locale) || this.localized[0];
     return localeItem.title || "";
   };
 }

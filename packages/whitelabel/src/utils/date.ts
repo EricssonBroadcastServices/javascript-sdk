@@ -116,12 +116,7 @@ interface IAvailableLocales {
   specifier: string;
 }
 
-export function getLocalDateFormat(
-  date: Date,
-  stringFormat: string,
-  clientLocale?: string,
-  specifier?: string
-) {
+export function getLocalDateFormat(date: Date, stringFormat: string, clientLocale?: string, specifier?: string) {
   let locale: Locale | undefined;
   let existingLocale: IAvailableLocales | undefined;
 

@@ -14,7 +14,7 @@ interface AddAssetToListOptions extends DeleteAssetFromListOptions {
   order?: number;
 }
 
-interface GetAssetFromListOptions extends DeleteAssetFromListOptions {}
+type GetAssetFromListOptions = DeleteAssetFromListOptions;
 
 interface GetTagsFromList extends CustomerAndBusinessUnitOptions {
   listId: string;
@@ -28,7 +28,7 @@ interface AddTagToListOptions extends DeleteTagFromListOptions {
   order?: number;
 }
 
-interface GetPreferencesOptions extends CustomerAndBusinessUnitOptions {}
+type GetPreferencesOptions = CustomerAndBusinessUnitOptions;
 
 interface GetPreferenceOptions extends CustomerAndBusinessUnitOptions {
   key: string;

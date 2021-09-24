@@ -53,12 +53,9 @@ describe("Auth service", () => {
       origin: "test"
     });
     expect(response).toBeInstanceOf(CustomerConfigFile);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
-      "https://testbaseurl.com/v1/config/appConfig.json/origin/test?",
-      { headers: undefined }
-    );
+    expect(axios.get).toHaveBeenCalledWith("https://testbaseurl.com/v1/config/appConfig.json/origin/test?", {
+      headers: undefined
+    });
 
     response = await customerConfigService.getConfigFileByOrigin({
       origin: "test",
@@ -68,11 +65,8 @@ describe("Auth service", () => {
       }
     });
     expect(response).toBeInstanceOf(CustomerConfigFile);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
-      "https://testbaseurl.com/v1/config/appConfig.json/origin/test?name=value",
-      { headers: undefined }
-    );
+    expect(axios.get).toHaveBeenCalledWith("https://testbaseurl.com/v1/config/appConfig.json/origin/test?name=value", {
+      headers: undefined
+    });
   });
 });

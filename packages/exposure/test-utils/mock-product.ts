@@ -1,7 +1,5 @@
 import { Product, ProductResponse } from "../src";
 
-
-
 export const mockProduct = new Product();
 mockProduct.blocked = false;
 mockProduct.entitlementRequired = true;
@@ -21,4 +19,3 @@ mockProductAnonymous.blocked = false;
 mockProductAnonymous.entitlementRequired = false;
 mockProductAnonymous.id = "mockProductAnonymous";
 mockProductAnonymous.anonymousAllowed = true;
-

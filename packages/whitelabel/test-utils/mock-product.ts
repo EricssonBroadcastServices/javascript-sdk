@@ -19,4 +19,3 @@ mockProductAnonymous.blocked = false;
 mockProductAnonymous.entitlementRequired = false;
 mockProductAnonymous.id = "mockProductAnonymous";
 mockProductAnonymous.anonymousAllowed = true;
-

@@ -4,8 +4,6 @@ import { UserLocation } from "../models/user-location-model";
 
 export class LocationService extends BaseService {
   public getLocation() {
-    return this.get("/v2/location").then(data =>
-      deserialize(UserLocation, data)
-    );
+    return this.get("/v2/location").then(data => deserialize(UserLocation, data));
   }
 }

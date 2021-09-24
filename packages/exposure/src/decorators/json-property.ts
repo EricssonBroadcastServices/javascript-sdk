@@ -10,8 +10,7 @@ interface IExternalPropertyMetadata<T> {
   deserializer?: (arg: any) => any;
 }
 
-export interface IInternalPropertyMetaData<T>
-  extends IExternalPropertyMetadata<T> {
+export interface IInternalPropertyMetaData<T> extends IExternalPropertyMetadata<T> {
   key: string;
   externalName: string;
   type: IConstructable<T>;
@@ -23,33 +22,21 @@ export interface IInternalPropertyMetaData<T>
 /**
  * @deprecated should be avoided. Planned to be removed in the future
  */
-export function jsonProperty<T>(
-  propertyMetadata: IExternalPropertyMetadata<T> = {}
-) {
+export function jsonProperty<T>(propertyMetadata: IExternalPropertyMetadata<T> = {}) {
   return (target: any, propertyKey: string) => {
     // Static cannot be serialized
     if (typeof target === "function") {
-      throw new TypeError(
-        `@Serialize cannot be used on a static property ('${propertyKey}').`
-      );
+      throw new TypeError(`@Serialize cannot be used on a static property ('${propertyKey}').`);
     }
 
     // Methods cannot be serialized.
     if (typeof target[propertyKey] === "function") {
-      throw new TypeError(
-        `@Serialize cannot be used on a method property ('${propertyKey}').`
-      );
+      throw new TypeError(`@Serialize cannot be used on a method property ('${propertyKey}').`);
     }
 
-    const propertyType = Reflect.getMetadata(
-      "design:type",
-      target,
-      propertyKey
-    );
+    const propertyType = Reflect.getMetadata("design:type", target, propertyKey);
     if (typeof propertyType === "undefined") {
-      throw new TypeError(
-        `@JsonMember: type detected for '${propertyKey}' is undefined.`
-      );
+      throw new TypeError(`@JsonMember: type detected for '${propertyKey}' is undefined.`);
     }
 
     const metadata: IInternalPropertyMetaData<T> = {

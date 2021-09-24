@@ -79,7 +79,5 @@ export class CardPaymentResponse {
     );
   };
   public adyenStatus = () =>
-    this.adyenIsEmpty()
-      ? AdyenPaymentStatus.EMPTY
-      : this.apiAdyenCardPurchaseResponse.purchase.apiAdyenPurchaseStatus;
+    this.adyenIsEmpty() ? AdyenPaymentStatus.EMPTY : this.apiAdyenCardPurchaseResponse.purchase.apiAdyenPurchaseStatus;
 }

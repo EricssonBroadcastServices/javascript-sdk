@@ -22,7 +22,7 @@ export class Scaler {
     if (!imageUrl) return "";
     if (!options?.format && isWebPSupported()) {
       options = options || {};
-      options.format = 'webp';
+      options.format = "webp";
     }
     const queryString = querystring.stringify(options as any);
     if (imageUrl.includes("?")) {
