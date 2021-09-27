@@ -26,24 +26,24 @@ describe("util/date", () => {
       const dateArr = [
         { startTime: new Date(Date.now() - 20000), endTime: new Date(Date.now() - 10000) },
         { startTime: new Date(Date.now() - 10000), endTime: new Date(Date.now() + 10000) }
-      ]
+      ];
       expect(getIndexOfLiveOrClosestUpcomingDateInterval(dateArr)).toBe(1);
-    })
+    });
     it("returns the index of the closest upcoming date interval", () => {
       let dateArr = [
         { startTime: new Date(Date.now() - 20000), endTime: new Date(Date.now() - 10000) },
         { startTime: new Date(Date.now() + 5000), endTime: new Date(Date.now() + 10000) },
         { startTime: new Date(Date.now() + 7000), endTime: new Date(Date.now() + 10000) },
         { startTime: new Date(Date.now() + 3000), endTime: new Date(Date.now() + 10000) }
-      ]
+      ];
       expect(getIndexOfLiveOrClosestUpcomingDateInterval(dateArr)).toBe(3);
       dateArr = [
         { startTime: new Date(Date.now() - 20000), endTime: new Date(Date.now() - 10000) },
         { startTime: new Date(Date.now() + 3000), endTime: new Date(Date.now() + 10000) },
         { startTime: new Date(Date.now() + 5000), endTime: new Date(Date.now() + 10000) },
         { startTime: new Date(Date.now() + 7000), endTime: new Date(Date.now() + 10000) }
-      ]
+      ];
       expect(getIndexOfLiveOrClosestUpcomingDateInterval(dateArr)).toBe(1);
-    })
-  })
+    });
+  });
 });

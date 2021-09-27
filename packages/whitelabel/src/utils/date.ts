@@ -116,12 +116,7 @@ interface IAvailableLocales {
   specifier: string;
 }
 
-export function getLocalDateFormat(
-  date: Date,
-  stringFormat: string,
-  clientLocale?: string,
-  specifier?: string
-) {
+export function getLocalDateFormat(date: Date, stringFormat: string, clientLocale?: string, specifier?: string) {
   let locale: Locale | undefined;
   let existingLocale: IAvailableLocales | undefined;
 
@@ -153,15 +148,18 @@ function dateIntervalIsNow(startTime: Date, endTime: Date) {
   return false;
 }
 
-export function getIndexOfLiveOrClosestUpcomingDateInterval<T extends { startTime: Date; endTime: Date }[]>(dateIntervals: T, now = Date.now()): number {
+export function getIndexOfLiveOrClosestUpcomingDateInterval<T extends { startTime: Date; endTime: Date }[]>(
+  dateIntervals: T,
+  now = Date.now()
+): number {
   const isLive = dateIntervals.find(({ startTime, endTime }) => dateIntervalIsNow(startTime, endTime));
   if (isLive) {
-    return dateIntervals.indexOf(isLive) || 0;
+    return dateIntervals.indexOf(isLive) || 0;
   }
   const closest = dateIntervals
     .filter(({ startTime }) => startTime.getTime() > now)
     .sort((a, b) => {
-      return (a.startTime.getTime() - now) - (b.startTime.getTime() - now);
+      return a.startTime.getTime() - now - (b.startTime.getTime() - now);
     });
-  return dateIntervals.indexOf(closest[0]) || 0;
+  return dateIntervals.indexOf(closest[0]) || 0;
 }
