@@ -116,12 +116,7 @@ interface IAvailableLocales {
   specifier: string;
 }
 
-export function getLocalDateFormat(
-  date: Date,
-  stringFormat: string,
-  clientLocale?: string,
-  specifier?: string
-) {
+export function getLocalDateFormat(date: Date, stringFormat: string, clientLocale?: string, specifier?: string) {
   let locale: Locale | undefined;
   let existingLocale: IAvailableLocales | undefined;
 
@@ -143,4 +138,28 @@ export function getLocalDateFormat(
     locale = locales[existingLocale.localeCode];
   }
   return format(date, stringFormat, { locale });
+}
+
+function dateIntervalIsNow(startTime: Date, endTime: Date) {
+  const now = new Date();
+  if (endTime > now && startTime <= now) {
+    return true;
+  }
+  return false;
+}
+
+export function getIndexOfLiveOrClosestUpcomingDateInterval<T extends { startTime: Date; endTime: Date }[]>(
+  dateIntervals: T,
+  now = Date.now()
+): number {
+  const isLive = dateIntervals.find(({ startTime, endTime }) => dateIntervalIsNow(startTime, endTime));
+  if (isLive) {
+    return dateIntervals.indexOf(isLive) || 0;
+  }
+  const closest = dateIntervals
+    .filter(({ startTime }) => startTime.getTime() > now)
+    .sort((a, b) => {
+      return a.startTime.getTime() - now - (b.startTime.getTime() - now);
+    });
+  return dateIntervals.indexOf(closest[0]) || 0;
 }

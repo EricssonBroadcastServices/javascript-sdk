@@ -16,10 +16,32 @@ describe("WL component", () => {
       });
       const asset1 = new WLAsset();
       const asset2 = new WLAsset();
-      spyOn(asset2, "isLive").and.returnValue(true);
+      asset1.startTime = new Date(Date.now() - 5000);
+      asset1.endTime = new Date(Date.now() + 10000);
+      asset2.startTime = new Date(Date.now() - 10000);
+      asset2.endTime = new Date(Date.now() - 5000);
+
       carousel.assets = [asset1, asset2];
       expect(carousel.subType === CarouselSubType.EPG).toBeTruthy();
-      expect(carousel.getInitialSlide()).toBe(1);
+      expect(carousel.getInitialSlide()).toBe(0);
+    });
+    it("should get proper initial slide when no program is live", () => {
+      const carousel = deserialize(WLCarousel, {
+        subType: "epg"
+      });
+      const asset1 = new WLAsset();
+      const asset2 = new WLAsset();
+      const asset3 = new WLAsset();
+
+      asset1.startTime = new Date(Date.now() + 10000);
+      asset1.endTime = new Date(Date.now() + 15000);
+      asset2.startTime = new Date(Date.now() - 10000);
+      asset2.endTime = new Date(Date.now() - 5000);
+      asset3.startTime = new Date(Date.now() + 1000);
+      asset3.endTime = new Date(Date.now() + 5000);
+      carousel.assets = [asset1, asset2, asset3];
+      expect(carousel.subType === CarouselSubType.EPG).toBeTruthy();
+      expect(carousel.getInitialSlide()).toBe(2);
     });
   });
 
