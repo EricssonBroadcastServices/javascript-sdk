@@ -183,9 +183,7 @@ export class PaymentService extends BaseService {
     businessUnit,
     countryCode,
     includeSelectAssetProducts = true
-  }: GetProductOfferingsByCountryOptions): Promise<{
-    productOfferings: IProductOffering[];
-  }> {
+  }: GetProductOfferingsByCountryOptions): Promise<IProductOffering[]> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
