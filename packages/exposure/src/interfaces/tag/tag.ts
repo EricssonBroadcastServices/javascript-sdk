@@ -1,15 +1,7 @@
-import { ImageOrientation, ImageType } from "../..";
-
-interface ITagImage {
-  height: number;
-  orientation: ImageOrientation;
-  type: ImageType;
-  url: string;
-  width: number;
-}
+import { IImage } from "../..";
 
 export interface ITag {
   tagId: string;
-  localized: { title?: string; locale: string; description?: string; images: ITagImage[] }[];
+  localized: { title?: string; locale: string; description?: string; images: IImage[] }[];
   scheme: string;
 }

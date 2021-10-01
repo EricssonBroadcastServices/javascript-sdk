@@ -16,14 +16,14 @@ import {
   jsonProperty,
   AssetType,
   Publication,
-  ImageModel,
   ImageType,
   ExternalReferences,
   Product,
   IUserLocation,
   LoginResponse,
   MarkerType,
-  ProductOffering
+  ProductOffering,
+  IImage
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
@@ -95,8 +95,8 @@ export class WLAsset implements IWLCarouselItem {
   public title: string;
   @jsonProperty()
   public description: string;
-  @jsonProperty({ type: ImageModel })
-  public images: ImageModel[];
+  @jsonProperty({ type: Object })
+  public images: IImage[];
   @jsonProperty({ type: Publication })
   public publications: Publication[] = [];
   @jsonProperty({ type: Object })
