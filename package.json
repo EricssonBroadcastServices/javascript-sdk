@@ -7,7 +7,14 @@
     "watch": "lerna run watch --parallel",
     "lerna:version": "lerna version --conventional-commits --no-changelog",
     "publish": "lerna publish -y --no-verify-access from-package",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "lint": "lerna run lint --parallel",
+    "format": "lerna run format --parallel"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -19,6 +26,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^7.0.2",
     "jest": "^25.1.0",
     "lerna": "^3.22.1",
     "prettier": "^1.19.1",

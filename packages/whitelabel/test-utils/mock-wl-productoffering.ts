@@ -139,10 +139,10 @@ export const mockRentalWithRentalExpiryWindow: IProductOffering = {
       "fractionDigits": 2,
       "currency": "SEK"
     },
-    "countryCode": "SE",
-    "vat": {
-      "percentage": 25.0,
-      "included": true
+    countryCode: "SE",
+    vat: {
+      percentage: 25.0,
+      included: true
     }
   },
   "id": "e679d4af-56e2-4e8c-a5ad-c55683ccc0c9_82162E",
@@ -166,18 +166,18 @@ export const mockRecurrence: IProductOffering = {
       "fractionDigits": 2,
       "currency": "SEK"
     },
-    "countryCode": "SE",
-    "vat": {
-      "percentage": 25.0,
-      "included": true
+    countryCode: "SE",
+    vat: {
+      percentage: 25.0,
+      included: true
     }
   },
-  "id": "51a6f01b-1ee2-4a7c-aade-9b33d97199ec_82162E",
-  "productOfferingId": "51a6f01b-1ee2-4a7c-aade-9b33d97199ec_82162E",
-  "salesStart": "2021-07-20T13:03:19Z",
-  "discount": {
-    "numberOfRecurringPayments": 0,
-    "freePeriod": "P1M"
+  id: "51a6f01b-1ee2-4a7c-aade-9b33d97199ec_82162E",
+  productOfferingId: "51a6f01b-1ee2-4a7c-aade-9b33d97199ec_82162E",
+  salesStart: "2021-07-20T13:03:19Z",
+  discount: {
+    numberOfRecurringPayments: 0,
+    freePeriod: "P1M"
   },
   "productRequiresSelectAsset": false,
   "paymentMethodTypes": ["card"]

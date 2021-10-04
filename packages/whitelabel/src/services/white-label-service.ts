@@ -29,10 +29,8 @@ export class WhiteLabelService extends BaseService {
       origin: origin || this.origin,
       deviceGroup: this.deviceGroup,
       countryCode
-    })
-    return this.get(
-      `/api/internal/origin/config?${queryString}`
-    ).then(data => deserialize(WLConfig, data));
+    });
+    return this.get(`/api/internal/origin/config?${queryString}`).then(data => deserialize(WLConfig, data));
   }
 
   public getConfigByCustomerAndBusinessUnit({
@@ -45,12 +43,12 @@ export class WhiteLabelService extends BaseService {
     customer: string;
     businessUnit: string;
     countryCode?: string;
-    }) {
+  }) {
     const queryString = querystring.stringify({
       locale,
       deviceGroup: this.deviceGroup,
       countryCode
-    })
+    });
     return this.get(
       `/api/internal/customer/${customer}/businessunit/${businessUnit}/config?${queryString}`
     ).then(data => deserialize(WLConfig, data));
@@ -60,7 +58,7 @@ export class WhiteLabelService extends BaseService {
     customer,
     businessUnit,
     deviceGroup,
-    locale, 
+    locale
   }: {
     customer: string;
     businessUnit: string;
@@ -94,7 +92,7 @@ export class WhiteLabelService extends BaseService {
       deviceGroup: this.deviceGroup,
       locale,
       countryCode
-    });  
+    });
     return this.get(
       `/api/internal/customer/${customer}/businessunit/${businessUnit}/page/${pageId}?${queryString}`
     ).then(data => deserialize(WLPageModel, data));
@@ -123,12 +121,12 @@ export class WhiteLabelService extends BaseService {
     assetId: string;
     locale: string;
     countryCode?: string;
-    }) {
+  }) {
     const queryString = querystring.stringify({
       deviceGroup: this.deviceGroup,
       locale,
       countryCode
-    });  
+    });
     return this.get(
       `/api/internal/customer/${customer}/businessunit/${businessUnit}/detailPage/${assetId}?${queryString}`
     ).then(data => deserialize(WLPageModel, data));
@@ -235,7 +233,12 @@ export class WhiteLabelService extends BaseService {
     }));
   }
 
-  public getPushNextContent({ customer, businessUnit, assetId, locale }: {
+  public getPushNextContent({
+    customer,
+    businessUnit,
+    assetId,
+    locale
+  }: {
     customer: string;
     businessUnit: string;
     assetId: string;
@@ -251,8 +254,8 @@ export class WhiteLabelService extends BaseService {
       return {
         upNext: data.upNext ? deserialize(WLAsset, data.upNext) : null,
         recommendations: data.recommendations.map(a => deserialize(WLAsset, a))
-      }
-    })
+      };
+    });
   }
 
   public getEpgs({

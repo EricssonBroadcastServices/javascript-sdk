@@ -7,7 +7,11 @@
     "watch": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint --ext .ts --fix ./src/"
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "lint": "npm run lint:legacy && npm run lint:code && npm run lint:types",
+    "lint:legacy": "eslint --ext .ts --fix ./src/",
+    "lint:code": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "lint:types": "tsc --noEmit -p tsconfig.json"
   },
   "repository": {
     "type": "git",

@@ -15,7 +15,11 @@
   },
   "scripts": {
     "prepare": "npm run build",
-    "build": "tsc"
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "lint": "npm run lint:code && npm run lint:types",
+    "lint:code": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "lint:types": "tsc --noEmit -p tsconfig.json"
   },
   "bugs": {
     "url": "https://github.com/EricssonBroadcastServices/javascript-sdk/issues"

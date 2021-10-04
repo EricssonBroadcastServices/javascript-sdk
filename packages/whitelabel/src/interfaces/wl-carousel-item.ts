@@ -1,4 +1,10 @@
-import { AssetType, Publication, ExternalReferences, ImageModel, MarkerType } from "@ericssonbroadcastservices/exposure-sdk";
+import {
+  AssetType,
+  Publication,
+  ExternalReferences,
+  ImageModel,
+  MarkerType
+} from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
 
 export interface IWLAssetTag {
@@ -41,8 +47,8 @@ export interface IWLOverlayWidget {
 }
 
 export interface IWLMarkerPoint {
-  type: MarkerType,
-  offset: number,
+  type: MarkerType;
+  offset: number;
   endOffset?: number;
   title: string;
 }

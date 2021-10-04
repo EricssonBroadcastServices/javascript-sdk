@@ -1,6 +1,5 @@
 import { mockTranslations } from "../../test-utils/mock-translations";
 
-
 describe("translations", () => {
   it("should properly get text", () => {
     expect(mockTranslations.getText("BUY")).toBe(mockTranslations.data["BUY"]);

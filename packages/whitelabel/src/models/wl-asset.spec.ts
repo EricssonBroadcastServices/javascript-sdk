@@ -4,7 +4,12 @@ import { mockProduct, mockProductAnonymous } from "../../test-utils/mock-product
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { mockProductOffering, mockProductOfferingGenerator } from "../../test-utils/mock-wl-productoffering";
 import { mockTranslations } from "../../test-utils/mock-translations";
-import { freeProduct, mockPublications, product1, mockMultiplePublicationWindows } from "@ericssonbroadcastservices/exposure-sdk/test-utils/mockPublication";
+import {
+  freeProduct,
+  mockPublications,
+  product1,
+  mockMultiplePublicationWindows
+} from "@ericssonbroadcastservices/exposure-sdk/test-utils/mockPublication";
 // import { it } from "date-fns/locale";
 
 describe("wl asset", () => {
@@ -53,8 +58,8 @@ describe("wl asset", () => {
     });
     it("should deserialize production countries", () => {
       const asset = deserialize(WLAsset, { productionCountries: [{ code: "SE", name: "Sweden" }] });
-      expect(asset.productionCountries).toEqual([{ code: "SE", name: "Sweden" }])
-    })
+      expect(asset.productionCountries).toEqual([{ code: "SE", name: "Sweden" }]);
+    });
   });
   describe("epg", () => {
     describe("getTimeSlot()", () => {
@@ -185,13 +190,15 @@ describe("wl asset", () => {
     it("should return IS_ENTITLED_ANON", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
       spyOn(mockLogin, "hasSession").and.returnValue(false);
-      asset.publications.push(deserialize(Publication, {
-        fromDate: new Date(Date.now() - 60 * 60000),
-        toDate: new Date(Date.now() + 60 * 60000),
-        countries: [],
-        products: [mockProductAnonymous.id],
-        availabilityKeys: [mockProductAnonymous.id]
-      }));
+      asset.publications.push(
+        deserialize(Publication, {
+          fromDate: new Date(Date.now() - 60 * 60000),
+          toDate: new Date(Date.now() + 60 * 60000),
+          countries: [],
+          products: [mockProductAnonymous.id],
+          availabilityKeys: [mockProductAnonymous.id]
+        })
+      );
       expect(
         asset.getEntitlementCase({
           availabilityKeys: [],
@@ -231,29 +238,33 @@ describe("wl asset", () => {
     it("should be IN_FUTURE when entitled anon and in future", () => {
       spyOn(mockLogin, "hasSession").and.returnValue(false);
       spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
-      asset.publications = [deserialize(Publication, {
-        fromDate: new Date(Date.now() + 30 * 60000),
-        toDate: new Date(Date.now() + 60 * 60000),
-        countries: [],
-        products: [mockProductAnonymous.id],
-        availabilityKeys: [mockProductAnonymous.id]
-      })]
-      expect(asset.getEntitlementCase({
-        login: mockLogin,
-        availabilityKeys: [mockProductAnonymous.id],
-        userEntitlements: [mockProductAnonymous],
-        paymentIsEnabled: true,
-        availableProductOfferings: []
-      })).toBe(EntitlementCase.IN_FUTURE);
+      asset.publications = [
+        deserialize(Publication, {
+          fromDate: new Date(Date.now() + 30 * 60000),
+          toDate: new Date(Date.now() + 60 * 60000),
+          countries: [],
+          products: [mockProductAnonymous.id],
+          availabilityKeys: [mockProductAnonymous.id]
+        })
+      ];
+      expect(
+        asset.getEntitlementCase({
+          login: mockLogin,
+          availabilityKeys: [mockProductAnonymous.id],
+          userEntitlements: [mockProductAnonymous],
+          paymentIsEnabled: true,
+          availableProductOfferings: []
+        })
+      ).toBe(EntitlementCase.IN_FUTURE);
     });
   });
-  describe("EPG Progress", ()=>{
-    it("", ()=>{
+  describe("EPG Progress", () => {
+    it("", () => {
       const asset = new WLAsset();
       asset.startTime = new Date();
       asset.endTime = new Date(Date.now() + 60 * 1000);
-      expect(asset.getEPGProgress(asset.startTime.getTime() + 30000)).toBe(50)
-    })
+      expect(asset.getEPGProgress(asset.startTime.getTime() + 30000)).toBe(50);
+    });
   });
 
   describe("publication windows", () => {
@@ -261,7 +272,7 @@ describe("wl asset", () => {
     asset.publications = mockMultiplePublicationWindows;
     it("should have start time according to its next upcoming publication", () => {
       expect(asset.getStartTime()).toEqual(asset.getNextPublications()[0].fromDate);
-    })
+    });
     it("should have a sub set as next window", () => {
       const total = asset.publications.length;
       const nextWindow = asset.getNextPublications();
@@ -272,11 +283,11 @@ describe("wl asset", () => {
         mockProductOfferingGenerator("MEMBER_123"),
         mockProductOfferingGenerator("PVOD_123"),
         mockProductOfferingGenerator("SVOD_123"),
-        mockProductOfferingGenerator("TVOD_123"),
+        mockProductOfferingGenerator("TVOD_123")
       ];
       const offerings = asset.getBuyableProductOfferings(productOfferings);
       const offeringIds: string[] = [];
-      offerings.forEach((o) => {
+      offerings.forEach(o => {
         o.productIds.forEach(pid => {
           offeringIds.push(pid);
         });

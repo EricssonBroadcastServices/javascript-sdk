@@ -58,7 +58,7 @@ export const getDateObjectFromISOString = (durationString: string, startDate = n
   const seconds = toSeconds(duration);
   const ms = seconds * 1000;
   return new Date(startDate.getTime() + ms);
-}
+};
 
 export const getTimeString = (date: Date) => {
   return format(date, "HH:mm");
@@ -69,7 +69,7 @@ export const getDurationLocalized = (milliseconds: number, locale?: string) => {
   return humanizeDuration(milliseconds, {
     language: language,
     fallbacks: ["en"],
-    round: true,
+    round: true
   });
 };
 
