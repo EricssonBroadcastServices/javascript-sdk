@@ -109,6 +109,7 @@ export interface IConsentManagement {
   didomi?: {
     apiKey: string;
     noticeId: string;
+    tvNoticeId?: string;
   };
 }
 
