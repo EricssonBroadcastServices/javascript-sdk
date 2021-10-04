@@ -1,45 +1,11 @@
 import { jsonProperty } from "../decorators/json-property";
-
-export enum ImageOrientation {
-  LANDSCAPE = "LANDSCAPE",
-  PORTRAIT = "PORTRAIT",
-  SQUARE = "SQUARE"
-}
-
-export enum ImageType {
-  POSTER = "poster",
-  BANNER = "banner",
-  LOGO = "logo",
-  THUMBNAIL = "thumbnail",
-  COVER = "cover",
-  OTHER = "other"
-}
-
-export class ImageModel {
-  @jsonProperty()
-  public url: string;
-
-  @jsonProperty()
-  public type?: ImageType;
-
-  @jsonProperty()
-  public orientation: string = ImageOrientation.LANDSCAPE;
-
-  @jsonProperty()
-  public height = 0;
-
-  @jsonProperty()
-  public width = 0;
-
-  @jsonProperty({ type: String })
-  public tags: string[];
-}
+import { ImageOrientation, IImage } from "../interfaces/content/image";
 
 export class Localized {
   @jsonProperty({
-    type: ImageModel
+    type: Object
   })
-  public images?: ImageModel[] = [];
+  public images?: IImage[] = [];
   @jsonProperty()
   public locale: string;
   @jsonProperty()
@@ -54,7 +20,7 @@ export class Localized {
   public longDescription?: string;
 }
 
-const sortByResolution = (a: ImageModel, b: ImageModel) => {
+const sortByResolution = (a: IImage, b: IImage) => {
   return b.width - a.width;
 };
 
@@ -115,7 +81,7 @@ export class WithLocalized {
     return "";
   };
 
-  public getImages = (locale: string, defaultLocale?: string): ImageModel[] => {
+  public getImages = (locale: string, defaultLocale?: string): IImage[] => {
     return this.getLocalizedValue("images", locale, defaultLocale) || [];
   };
 

@@ -1,5 +1,5 @@
 import * as marked from "marked";
-import { jsonProperty, deserialize, ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
+import { jsonProperty, deserialize, IImage } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { ImageScaler } from "../utils/image-scaler";
 import { WLSeason } from "./wl-season";
@@ -11,6 +11,7 @@ import { WLComponentType } from "../interfaces/wl-component";
 import { IWLTextComponent } from "../interfaces/wl-text-component";
 import { IWLEpgComponent } from "../interfaces/wl-epg";
 import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
+import { getIndexOfLiveOrClosestUpcomingDateInterval } from "../utils/date";
 
 export enum CarouselSubType {
   EPG = "epg",
@@ -49,7 +50,7 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
   public getInitialSlide() {
     switch (this.subType) {
       case CarouselSubType.EPG:
-        return this.assets.map((a, i) => ({ ...a, index: i })).find(a => a.isLive())?.index || 0;
+        return getIndexOfLiveOrClosestUpcomingDateInterval(this.assets);
       default:
         return 0;
     }
@@ -57,8 +58,8 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
 }
 
 export class WLHerobannerItem implements IWLHeroBannerItem {
-  @jsonProperty({ type: ImageModel })
-  public images: ImageModel[];
+  @jsonProperty({ type: Object })
+  public images: IImage[];
   @jsonProperty()
   public type: WLHeroBannerItemType;
   @jsonProperty()
@@ -90,8 +91,8 @@ export class WLImageComponent extends WLComponent implements IWLImageComponent {
   public title?: string;
   @jsonProperty()
   public description?: string;
-  @jsonProperty({ type: ImageModel })
-  public images: ImageModel[];
+  @jsonProperty({ type: Object })
+  public images: IImage[];
   @jsonProperty()
   public action?: WLAction;
 }

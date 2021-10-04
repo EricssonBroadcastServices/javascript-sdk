@@ -1,6 +1,6 @@
 import { jsonProperty } from "../decorators/json-property";
-import { TagCollection } from "./tag-model";
-import { UserLocation } from "./user-location-model";
+import { IAssetTagCollection } from "../interfaces/content/asset-tag";
+import { IUserLocation } from "../interfaces/location/user-location";
 import { Season } from "./season-model";
 import { WithLocalized } from "./localized-model";
 
@@ -148,9 +148,9 @@ export class Asset extends WithLocalized {
   @jsonProperty()
   public productionYear: number;
   @jsonProperty({
-    type: TagCollection
+    type: Object
   })
-  public tags: TagCollection[] = [];
+  public tags: IAssetTagCollection[] = [];
   @jsonProperty({ type: Publication })
   public publications: Publication[] = [];
   @jsonProperty()
@@ -239,7 +239,7 @@ export class Asset extends WithLocalized {
     return this.productionYear;
   };
 
-  public isGeoBlocked = (location: UserLocation | null) => {
+  public isGeoBlocked = (location: IUserLocation | null) => {
     if (!location) {
       return false; // if we do not know, let the backend handle things
     }
@@ -287,21 +287,6 @@ export class AssetResponse {
   public items: Asset[] = [];
   public numberOfPages = () => {
     return Math.ceil(this.totalCount / this.pageSize);
-  };
-  public getInitialSlide = () => {
-    const now = new Date();
-    if (this.items.length === 0) {
-      return 0;
-    }
-    if (this.items[0].startTime) {
-      for (let i = 0; i < this.items.length; i++) {
-        const endTime = new Date(this.items[i].endTime);
-        if (endTime > now) {
-          return i;
-        }
-      }
-    }
-    return 0;
   };
 }
 

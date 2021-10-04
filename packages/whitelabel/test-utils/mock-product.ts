@@ -1,21 +1,31 @@
-import { Product, ProductResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { IProduct, IProductResponse } from "@ericssonbroadcastservices/exposure-sdk";
 
-export const mockProduct = new Product();
-mockProduct.blocked = false;
-mockProduct.entitlementRequired = true;
-mockProduct.id = "mockProductId";
-mockProduct.name = "MockProduct";
+export const mockProduct: IProduct = {
+  blocked: false,
+  entitlementRequired: true,
+  id: "mockProductId",
+  name: "MockProduct",
+  anonymousAllowed: false
+}
 
-export const mockProductResponse = new ProductResponse();
-mockProductResponse.entitled = [mockProduct];
+export const mockProductResponse: IProductResponse = {
+  entitled: [mockProduct],
+  notEntitled: []
+}
 
-export const mockProductBlocked = new Product();
-mockProductBlocked.blocked = true;
-mockProductBlocked.entitlementRequired = true;
-mockProductBlocked.id = "blockedProduct";
+export const mockProductBlocked: IProduct = {
+  blocked: true,
+  entitlementRequired: true,
+  id: "blockedProduct",
+  name: "blocked",
+  anonymousAllowed: false
+}
 
-export const mockProductAnonymous = new Product();
-mockProductAnonymous.blocked = false;
-mockProductAnonymous.entitlementRequired = false;
-mockProductAnonymous.id = "mockProductAnonymous";
-mockProductAnonymous.anonymousAllowed = true;
+export const mockProductAnonymous: IProduct = {
+  blocked: false,
+  entitlementRequired: false,
+  id: "mockProductAnonymous",
+  name: "mockProductAnonymous",
+  anonymousAllowed: true
+}
+

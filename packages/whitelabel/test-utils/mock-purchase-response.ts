@@ -1,12 +1,16 @@
-import { Purchase, PurchaseResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { IPurchase, IPurchaseResponse } from "@ericssonbroadcastservices/exposure-sdk";
 
-const mockPurchase = new Purchase();
-mockPurchase.from = new Date(Date.now() - 100000);
-mockPurchase.until = new Date(Date.now() + 100000);
-mockPurchase.renewal = false;
-mockPurchase.status = "FULFILLED";
-mockPurchase.transactionId = "123";
-mockPurchase.id = "mockPurchase";
+export const mockPurchase: IPurchase = {
+  from: new Date(Date.now() - 100000).toISOString(),
+  until: new Date(Date.now() + 100000).toISOString(),
+  renewal: false,
+  status: "FULFILLED",
+  transactionId: "123",
+  id: "mockPurchase",
+  productOfferingId: "456"
+}
 
-export const mockPurchaseResponse = new PurchaseResponse();
-mockPurchaseResponse.purchases = [mockPurchase];
+export const mockPurchaseResponse: IPurchaseResponse = {
+  purchases: [mockPurchase],
+  consumedProductOfferingDiscounts: []
+}

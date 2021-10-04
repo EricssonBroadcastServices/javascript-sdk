@@ -5,7 +5,6 @@ import { mocks } from "../../test-utils/mocks";
 import { AssetResponse, Asset, EpisodesResponse } from "../models/asset-model";
 import { EpgResponse } from "../models/program-model";
 import { epgDateFormatter } from "../utils/date";
-import { Bookmark } from "../models/bookmark-model";
 import { SeasonResponse } from "../models/season-model";
 
 const { customer, businessUnit } = mocks;
@@ -178,7 +177,6 @@ describe("Content service", () => {
       businessUnit
     });
     expect(assets).toBeInstanceOf(Array);
-    expect(assets[0]).toBeInstanceOf(Bookmark);
     expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/userplayhistory/lastviewedoffset",
       {

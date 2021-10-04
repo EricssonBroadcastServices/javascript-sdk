@@ -20,15 +20,16 @@ import { SystemService } from "./services/system-service";
 import {
   SystemConfig,
   PaymentType,
-  LoginMethod,
-  LoginMethodProvider,
+  ILoginMethod,
+  ILoginMethodProvider,
   LoginMethodType,
   AccessModel,
   SignupModel
 } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
-export { Localized, ImageModel, ImageOrientation, ImageType } from "./models/localized-model";
+export { Localized } from "./models/localized-model";
+export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
 export {
   Asset,
   AssetResponse,
@@ -58,39 +59,58 @@ export {
   ContractRestrictions
 } from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
-export { UserLocation } from "./models/user-location-model";
-export { Product, ProductResponse, AvailabilityKeysResponse } from "./models/product-model";
+export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/location/user-location";
 export {
-  ProductOffering,
-  ProductOfferingsResponse,
-  OfferingPrice,
-  Price,
-  Promotion,
-  PromotionResponse,
-  IDiscount
-} from "./models/product-offering-model";
+  IProduct,
+  IProduct as Product,
+  IProductResponse,
+  IProductResponse as ProductResponse,
+  IAvailabilityKeysResponse,
+  IAvailabilityKeysResponse as AvailabilityKeysResponse
+} from "./interfaces/entitlement/product";
+export { IProductOffering, IProductOffering as ProductOffering } from "./interfaces/payment/product-offering";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
-  CardPaymentResponse,
-  AdyenPaymentStatus,
+  ICardPaymentResponse,
+  ICardPaymentResponse as CardPaymentResponse,
   PurchaseStatus,
   StripePaymentType
-} from "./models/card-payment-response-model";
+} from "./interfaces/payment/card-payment-response";
 export { Season, SeasonResponse } from "./models/season-model";
-export { Tag, TagCollection } from "./models/tag-model";
-export { TagResponse } from "./models/tag-response-model";
-export { Bookmark } from "./models/bookmark-model";
+export {
+  IAssetTag,
+  IAssetTag as Tag,
+  IAssetTagCollection,
+  IAssetTagCollection as TagCollection
+} from "./interfaces/content/asset-tag";
+export { ITag, ITag as TagResponse } from "./interfaces/tag/tag";
+export { IBookmark, IBookmark as Bookmark } from "./interfaces/content/bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
-export { Purchase, PurchaseResponse } from "./models/purchase-model";
-export { Transaction, TransactionsWithProductOffering } from "./models/transaction-model";
-export { IUserProfile } from "./interfaces/user-profile";
-export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user-details";
-export { PasswordAlgorithm, PasswordHashConfig } from "./models/system-config-model";
-export { PasswordPolicy } from "./models/password-policy-model";
+export {
+  IPurchase,
+  IPurchase as Purchase,
+  IPurchaseResponse,
+  IPurchaseResponse as PurchaseResponse
+} from "./interfaces/payment/purchase";
+export {
+  ITransaction,
+  ITransaction as Transaction,
+  ITransactionsWithProductOffering,
+  ITransactionsWithProductOffering as TransactionsWithProductOffering
+} from "./interfaces/payment/transaction";
+export { IUserProfile } from "./interfaces/user/user-profile";
+export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user/user-details";
+export {
+  IPasswordAlgorithm,
+  IPasswordAlgorithm as PasswordAlgorithm,
+  IPasswordHashConfig,
+  IPasswordHashConfig as PasswordHashConfig
+} from "./models/system-config-model";
+export { IPasswordPolicy, IPasswordPolicy as PasswordPolicy } from "./models/system-config-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
-export { PaymentMethod } from "./models/payment-method";
+export { IPaymentMethod as PaymentMethod, IPaymentMethod } from "./interfaces/payment/payment-method";
 export {
   PreferenceListItem,
   PreferenceListTags,
@@ -98,7 +118,17 @@ export {
   UserPreferences
 } from "./models/preference-model";
 
-export { SystemConfig, PaymentType, LoginMethod, LoginMethodProvider, LoginMethodType, AccessModel, SignupModel };
+export {
+  SystemConfig,
+  PaymentType,
+  ILoginMethod,
+  ILoginMethod as LoginMethod,
+  ILoginMethodProvider,
+  ILoginMethodProvider as LoginMethodProvider,
+  LoginMethodType,
+  AccessModel,
+  SignupModel
+};
 
 /* Services */
 export {
@@ -123,8 +153,19 @@ export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
 export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
 export { priceUtils } from "./utils/price";
-export { IPrice } from "./interfaces/price";
+export {
+  IPrice,
+  IPrice as Price,
+  IDiscount,
+  IOfferingPrice,
+  IOfferingPrice as OfferingPrice,
+  IPromotion,
+  IPromotion as Promotion
+} from "./interfaces/payment/price";
 export { userDetailsUtils } from "./utils/user-details";
+export { tagUtils } from "./utils/tag";
+export { purchaseUtils } from "./utils/purchase";
+export { productOfferingUtils } from "./utils/product-offering";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);

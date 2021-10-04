@@ -1,6 +1,5 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { deserialize } from "../decorators/property-mapper";
-import { TagResponse } from "../models/tag-response-model";
+import { ITag } from "../interfaces/tag/tag";
 
 interface TagOptions extends CustomerAndBusinessUnitOptions {
   tagId: string;
@@ -13,14 +12,14 @@ interface GetTagsOptions extends CustomerAndBusinessUnitOptions {
   sort?: string;
 }
 export class TagService extends BaseService {
-  public getTag({ customer, businessUnit, tagId }: TagOptions) {
+  public getTag({ customer, businessUnit, tagId }: TagOptions): Promise<ITag> {
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
         apiVersion: "v1"
       })}/tag/${tagId}`
-    ).then(data => deserialize(TagResponse, data));
+    );
   }
 
   public getTags({
@@ -30,7 +29,7 @@ export class TagService extends BaseService {
     pageNumber,
     sort,
     tagType
-  }: GetTagsOptions): Promise<{ pageSize: number; pageNumber: number; totalCount: number; items: TagResponse[] }> {
+  }: GetTagsOptions): Promise<{ pageSize: number; pageNumber: number; totalCount: number; items: ITag[] }> {
     const searchParams = new URLSearchParams();
     if (pageNumber) {
       searchParams.set("pageNumber", `${pageNumber}`);
@@ -44,14 +43,7 @@ export class TagService extends BaseService {
     if (tagType) {
       searchParams.set("scheme", `${tagType}`);
     }
-    return this.get(
-      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/tag?${searchParams.toString()}`
-    ).then(res => {
-      return {
-        ...res,
-        items: res.items.map(item => deserialize(TagResponse, item))
-      };
-    });
+    return this.get(`${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/tag?${searchParams.toString()}`);
   }
 
   public async getAllTags({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {

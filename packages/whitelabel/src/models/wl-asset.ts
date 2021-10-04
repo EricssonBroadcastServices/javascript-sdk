@@ -16,14 +16,14 @@ import {
   jsonProperty,
   AssetType,
   Publication,
-  ImageModel,
   ImageType,
   ExternalReferences,
   Product,
-  UserLocation,
+  IUserLocation,
   LoginResponse,
   MarkerType,
-  ProductOffering
+  ProductOffering,
+  IImage
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
@@ -95,8 +95,8 @@ export class WLAsset implements IWLCarouselItem {
   public title: string;
   @jsonProperty()
   public description: string;
-  @jsonProperty({ type: ImageModel })
-  public images: ImageModel[];
+  @jsonProperty({ type: Object })
+  public images: IImage[];
   @jsonProperty({ type: Publication })
   public publications: Publication[] = [];
   @jsonProperty({ type: Object })
@@ -363,7 +363,7 @@ export class WLAsset implements IWLCarouselItem {
     return 0;
   }
 
-  public isGeoBlocked = (location?: UserLocation) => {
+  public isGeoBlocked = (location?: IUserLocation) => {
     if (!location) {
       return false; // if we do not know, let the backend handle things
     }
