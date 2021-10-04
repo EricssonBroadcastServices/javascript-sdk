@@ -1,6 +1,6 @@
 import { WLCarousel, CarouselSubType, WLHerobannerItem } from "./wl-component";
 import { WLAsset } from "./wl-asset";
-import { deserialize, ImageModel, ImageOrientation } from "@ericssonbroadcastservices/exposure-sdk";
+import { deserialize, IImage, ImageOrientation } from "@ericssonbroadcastservices/exposure-sdk";
 
 describe("WL component", () => {
   describe("WL carousel", () => {
@@ -27,13 +27,19 @@ describe("WL component", () => {
     it("should scale image", () => {
       const item = new WLHerobannerItem();
 
-      const image = new ImageModel();
-      image.orientation = ImageOrientation.LANDSCAPE;
-      image.url = "https://image.test.com/test.png";
+      const image: IImage = {
+        orientation: ImageOrientation.LANDSCAPE,
+        url: "https://image.test.com/test.png",
+        height: 600,
+        width: 800
+      };
 
-      const image2 = new ImageModel();
-      image2.orientation = ImageOrientation.PORTRAIT;
-      image2.url = "https://image.test.com/test2.png";
+      const image2: IImage = {
+        orientation: ImageOrientation.PORTRAIT,
+        url: "https://image.test.com/test2.png",
+        height: 800,
+        width: 400
+      };
 
       item.images = [image, image2];
       expect(item.getScaledImage(ImageOrientation.LANDSCAPE, 300)).toBe("https://image.test.com/test.png?w=300");
