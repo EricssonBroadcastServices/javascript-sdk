@@ -1,4 +1,4 @@
-import { IUserProfileAttribute } from "../interfaces/user-details";
+import { IUserProfileAttribute } from "../interfaces/user/user-details";
 
 function getAttributeTitle(attribute: IUserProfileAttribute, locale: string): string | null {
   if (!attribute.localized.length) return null;

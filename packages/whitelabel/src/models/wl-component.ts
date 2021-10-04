@@ -1,5 +1,5 @@
 import * as marked from "marked";
-import { jsonProperty, deserialize, ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
+import { jsonProperty, deserialize, IImage } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { ImageScaler } from "../utils/image-scaler";
 import { WLSeason } from "./wl-season";
@@ -58,8 +58,8 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
 }
 
 export class WLHerobannerItem implements IWLHeroBannerItem {
-  @jsonProperty({ type: ImageModel })
-  public images: ImageModel[];
+  @jsonProperty({ type: Object })
+  public images: IImage[];
   @jsonProperty()
   public type: WLHeroBannerItemType;
   @jsonProperty()
@@ -91,8 +91,8 @@ export class WLImageComponent extends WLComponent implements IWLImageComponent {
   public title?: string;
   @jsonProperty()
   public description?: string;
-  @jsonProperty({ type: ImageModel })
-  public images: ImageModel[];
+  @jsonProperty({ type: Object })
+  public images: IImage[];
   @jsonProperty()
   public action?: WLAction;
 }

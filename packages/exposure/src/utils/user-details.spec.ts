@@ -1,4 +1,4 @@
-import { IUserDetails } from "../interfaces/user-details";
+import { IUserDetails } from "../interfaces/user/user-details";
 import { userDetailsUtils } from "./user-details";
 
 const mockDetails: IUserDetails = {

@@ -5,7 +5,6 @@ import { mocks } from "../../test-utils/mocks";
 import { AssetResponse, Asset, EpisodesResponse } from "../models/asset-model";
 import { EpgResponse } from "../models/program-model";
 import { epgDateFormatter } from "../utils/date";
-import { Bookmark } from "../models/bookmark-model";
 import { SeasonResponse } from "../models/season-model";
 
 const { customer, businessUnit } = mocks;
@@ -24,9 +23,7 @@ describe("Content service", () => {
       }
     };
     spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
-    getSpy = spyOn(axios, "get").and.returnValue(
-      Promise.resolve(mockReturnValue)
-    );
+    getSpy = spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
   });
   it("should getAssets", async () => {
     let assets = await contentService.getAssets({
@@ -62,11 +59,11 @@ describe("Content service", () => {
       assetId: "123"
     });
     expect(asset).toBeInstanceOf(Asset);
-    expect(
-      axios.get
-    ).toBeCalledWith(
+    expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/content/asset/123?fieldSet=ALL",
-      { headers: undefined }
+      {
+        headers: undefined
+      }
     );
   });
   it("should get epg", async () => {
@@ -156,11 +153,11 @@ describe("Content service", () => {
       businessUnit
     });
     expect(assets).toBeInstanceOf(AssetResponse);
-    expect(
-      axios.get
-    ).toBeCalledWith(
+    expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/continue?limit=10",
-      { headers: serviceOptions.authHeader() }
+      {
+        headers: serviceOptions.authHeader()
+      }
     );
   });
   it("should get recommended", async () => {
@@ -169,12 +166,9 @@ describe("Content service", () => {
       businessUnit
     });
     expect(assets).toBeInstanceOf(AssetResponse);
-    expect(
-      axios.get
-    ).toBeCalledWith(
-      "https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/user",
-      { headers: serviceOptions.authHeader() }
-    );
+    expect(axios.get).toBeCalledWith("https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/user", {
+      headers: serviceOptions.authHeader()
+    });
   });
   it("should get bookmarks", async () => {
     getSpy.and.returnValue(Promise.resolve({ data: { items: [{}] } }));
@@ -183,12 +177,11 @@ describe("Content service", () => {
       businessUnit
     });
     expect(assets).toBeInstanceOf(Array);
-    expect(assets[0]).toBeInstanceOf(Bookmark);
-    expect(
-      axios.get
-    ).toBeCalledWith(
+    expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/userplayhistory/lastviewedoffset",
-      { headers: serviceOptions.authHeader() }
+      {
+        headers: serviceOptions.authHeader()
+      }
     );
   });
   it("should get seasons for series", async () => {
@@ -198,9 +191,7 @@ describe("Content service", () => {
       assetId: "123"
     });
     expect(seasons).toBeInstanceOf(SeasonResponse);
-    expect(
-      axios.get
-    ).toBeCalledWith(
+    expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/content/asset/123/season",
       { headers: undefined }
     );

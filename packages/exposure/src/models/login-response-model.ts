@@ -1,5 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
-import { IUserProfile } from "../interfaces/user-profile";
+import { IUserProfile } from "../interfaces/user/user-profile";
 interface IConfigReloadQueryParameter {
   name: string;
   value: string;
