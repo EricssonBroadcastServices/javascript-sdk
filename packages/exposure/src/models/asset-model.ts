@@ -173,10 +173,10 @@ export class Asset extends WithLocalized {
   public localized: ILocalizedMetadata[] = [];
 
   public series = () => {
-    return this.tags.find(t => t.type === "series");
+    return this.tags.some(t => t.type === "series");
   };
 
-  public isLive = () => {
+  public isLive = (): boolean => {
     if (this.startTime && this.endTime) {
       const now = new Date();
       const startTime = new Date(this.startTime);
@@ -216,23 +216,11 @@ export class Asset extends WithLocalized {
     return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
   };
 
-  public getYear = () => {
-    return this.productionYear;
-  };
   /**
    * @deprecated see publicationUtils.isGeoBlocked
    */
   public isGeoBlocked = (location: IUserLocation | null) => {
     return publicationUtils.isGeoBlocked(this.publications, location);
-  };
-
-  public playlistEntry = (locale: string) => {
-    // TODO: this entire function can probably be removed
-    return {
-      src: this.assetId,
-      type: "video/emp",
-      title: this.getTitle(locale)
-    };
   };
 
   public getTitle = (locale: string, defaultLocale?: string, enrichEpisodeTitles = true) => {
@@ -259,9 +247,6 @@ export class AssetResponse {
     type: Asset
   })
   public items: Asset[] = [];
-  public numberOfPages = () => {
-    return Math.ceil(this.totalCount / this.pageSize);
-  };
 }
 
 export class EpisodesResponse extends AssetResponse {
