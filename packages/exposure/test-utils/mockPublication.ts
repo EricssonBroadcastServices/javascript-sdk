@@ -23,26 +23,26 @@ export const publicationsJson: IPublication[] & any = [
     countries: [],
     customData: null,
     devices: [],
-    fromDate: new Date(Date.now() + 60 * 60000 * 24 * 7),
+    fromDate: new Date(Date.now() + 60 * 60000 * 24 * 7).toString(),
     products: [freeProduct],
     availabilityKeys: [freeProduct],
     publicationDate: "2021-03-27T23:02:00Z",
     publicationId: "6a11cc4b-d169-4501-a0e0-af2398a5cc53_629E11",
     services: [],
-    toDate: new Date(Date.now() + 60 * 60000 * 24 * 8)
+    toDate: new Date(Date.now() + 60 * 60000 * 24 * 8).toString()
   },
   {
     // old invalid publication
     countries: [],
     customData: null,
     devices: [],
-    fromDate: new Date(Date.now() - 60 * 60000 * 24 * 7),
+    fromDate: new Date(Date.now() - 60 * 60000 * 24 * 7).toString(),
     products: [freeProduct],
     availabilityKeys: [freeProduct],
     publicationDate: "2021-03-22T14:36:00Z",
     publicationId: "dfd4c4d4-3d2a-470c-ae23-bf52068487f4_629E11",
     services: [],
-    toDate: new Date(Date.now() - 60 * 60000 * 24 * 6)
+    toDate: new Date(Date.now() - 60 * 60000 * 24 * 6).toString()
   }
 ];
 
@@ -106,5 +106,77 @@ export const mockMultiplePublicationWindows = [
     publicationId: "mauritanian_PVOD_123",
     services: [],
     toDate: "2025-09-22T00:00:00Z"
+  }
+];
+
+export const blockedPublication = {
+  // active publication
+  countries: ["SE"],
+  customData: null,
+  devices: [],
+  fromDate: new Date(Date.now() - 60 * 60000).toString(),
+  products: [product1, product2],
+  availabilityKeys: [product1, product2],
+  publicationDate: "2020-08-20T18:00:00Z",
+  publicationId: "dc3c8e9f-6f52-4639-a2c1-746c79dd2737_629E11",
+  services: [],
+  toDate: new Date(Date.now() + 60 * 60000).toString()
+};
+
+export const publicationsJsonOnlyFuture: IPublication[] & any = [
+  {
+    // future publication
+    countries: [],
+    customData: null,
+    devices: [],
+    fromDate: new Date(Date.now() + 60 * 60000 * 24 * 7).toString(),
+    products: [freeProduct],
+    availabilityKeys: ["a2"],
+    publicationDate: "2021-03-27T23:02:00Z",
+    publicationId: "6a11cc4b-d169-4501-a0e0-af2398a5cc53_629E11",
+    services: [],
+    toDate: new Date(Date.now() + 60 * 60000 * 24 * 8).toString()
+  },
+  {
+    // future publication
+    countries: [],
+    customData: null,
+    devices: [],
+    fromDate: new Date(Date.now() + 60 * 60000 * 24 * 14).toString(),
+    products: [freeProduct],
+    availabilityKeys: ["a1"],
+    publicationDate: "2021-03-22T14:36:00Z",
+    publicationId: "dfd4c4d4-3d2a-470c-ae23-bf52068487f4_629E11",
+    services: [],
+    toDate: new Date(Date.now() + 60 * 60000 * 24 * 15).toString()
+  }
+];
+
+export const publicationsJsonOnlyActive: IPublication[] & any = [
+  {
+    // future publication
+    countries: [],
+    customData: null,
+    devices: [],
+    fromDate: new Date(Date.now() - 60 * 60000 * 24 * 7).toString(),
+    products: [freeProduct],
+    availabilityKeys: ["a1"],
+    publicationDate: "2021-03-27T23:02:00Z",
+    publicationId: "6a11cc4b-d169-4501-a0e0-af2398a5cc53_629E11",
+    services: [],
+    toDate: new Date(Date.now() + 60 * 60000 * 24 * 8).toString()
+  },
+  {
+    // future publication
+    countries: [],
+    customData: null,
+    devices: [],
+    fromDate: new Date(Date.now() - 60 * 60000 * 24 * 14).toString(),
+    products: [freeProduct],
+    availabilityKeys: ["a2", "a3"],
+    publicationDate: "2021-03-22T14:36:00Z",
+    publicationId: "dfd4c4d4-3d2a-470c-ae23-bf52068487f4_629E11",
+    services: [],
+    toDate: new Date(Date.now() + 60 * 60000 * 24 * 15).toString()
   }
 ];

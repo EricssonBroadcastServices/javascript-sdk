@@ -4,4 +4,5 @@ export interface IPublication {
   countries: string[];
   products: string[];
   availabilityKeys: string[];
+  publicationId: string;
 }
