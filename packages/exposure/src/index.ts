@@ -28,7 +28,7 @@ import {
 } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
-export { Localized } from "./models/localized-model";
+export { ILocalizedMetadata, ILocalizedMetadata as Localized } from "./interfaces/content/localized-metadata";
 export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
 export {
   Asset,

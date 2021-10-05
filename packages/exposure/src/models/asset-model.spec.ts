@@ -1,10 +1,11 @@
+import { deserialize } from "..";
 import { Asset, AssetType } from "./asset-model";
 
 describe("Asset", () => {
   describe("getTitle", () => {
     let asset: Asset;
     beforeEach(() => {
-      asset = new Asset();
+      asset = deserialize(Asset, {});
       asset.localized = [
         {
           locale: "en",

@@ -1,6 +1,5 @@
 import { jsonProperty } from "../decorators/json-property";
 import { Asset } from "./asset-model";
-
 export class Program {
   @jsonProperty()
   public assetId: string;

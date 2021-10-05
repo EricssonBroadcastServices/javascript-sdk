@@ -1,10 +1,12 @@
-import { jsonProperty } from "../decorators/json-property";
+import { ILocalizedMetadata } from "..";
 import { IAssetTagCollection } from "../interfaces/content/asset-tag";
 import { IUserLocation } from "../interfaces/location/user-location";
 import { Season } from "./season-model";
-import { WithLocalized } from "./localized-model";
 import { publicationUtils } from "../utils/publication";
 import { IPublication } from "../interfaces/content/publication";
+import { localizedUtils } from "../utils/localized";
+import { WithLocalized } from "./localized-model";
+import { jsonProperty } from "../decorators/json-property";
 
 export enum mediumResBoundaries {
   lower = 500,
@@ -108,6 +110,8 @@ export class MarkerPoint extends WithLocalized {
   public endOffset?: number;
   @jsonProperty()
   public type: MarkerType;
+  @jsonProperty({ type: Object })
+  public localized: ILocalizedMetadata[] = [];
 }
 
 export class Asset extends WithLocalized {
@@ -167,6 +171,8 @@ export class Asset extends WithLocalized {
   public markerPoints: MarkerPoint[] = [];
   @jsonProperty()
   public event?: EventTimes;
+  @jsonProperty({ type: Object })
+  public localized: ILocalizedMetadata[] = [];
 
   public series = () => {
     return this.tags.find(t => t.type === "series");
@@ -233,13 +239,14 @@ export class Asset extends WithLocalized {
 
   public getTitle = (locale: string, defaultLocale?: string, enrichEpisodeTitles = true) => {
     if (this.episode && this.season && enrichEpisodeTitles) {
-      return `S${this.season}E${this.episode} ` + this.getLocalizedValue("title", locale, defaultLocale);
+      return (`S${this.season}E${this.episode} ` +
+        localizedUtils.getLocalizedValue(this.localized, "title", locale, defaultLocale)) as string;
     }
-    return this.getLocalizedValue("title", locale, defaultLocale);
+    return localizedUtils.getLocalizedValue(this.localized, "title", locale, defaultLocale) as string;
   };
 
   public getSortingTitle = (locale: string, defaultLocale?: string) => {
-    return this.getLocalizedValue("sortingTitle", locale, defaultLocale);
+    return localizedUtils.getLocalizedValue(this.localized, "sortingTitle", locale, defaultLocale) as string;
   };
 }
 

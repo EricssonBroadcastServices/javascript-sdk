@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
-import { deserialize } from "../decorators/property-mapper";
+import { deserialize } from "..";
 import { AssetResponse, Asset, EpisodesResponse, AssetType } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
 import { IBookmark } from "../interfaces/content/bookmark";
