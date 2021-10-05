@@ -35,7 +35,6 @@ export {
   AssetResponse,
   AssetType,
   Participants,
-  Publication,
   ExternalReferences,
   ChannelFeature,
   LinkedEntity,
@@ -44,6 +43,7 @@ export {
   MarkerType,
   MarkerPoint
 } from "./models/asset-model";
+export { IPublication, IPublication as Publication } from "./interfaces/content/publication";
 export {
   Play,
   DRMType,
@@ -166,6 +166,7 @@ export { userDetailsUtils } from "./utils/user-details";
 export { tagUtils } from "./utils/tag";
 export { purchaseUtils } from "./utils/purchase";
 export { productOfferingUtils } from "./utils/product-offering";
+export { publicationUtils } from "./utils/publication";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);

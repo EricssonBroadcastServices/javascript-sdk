@@ -1,4 +1,4 @@
-import { Publication, LoginResponse, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
+import { LoginResponse, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { mockProduct, mockProductAnonymous } from "../../test-utils/mock-product";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
@@ -6,7 +6,7 @@ import { mockProductOffering, mockProductOfferingGenerator } from "../../test-ut
 import { mockTranslations } from "../../test-utils/mock-translations";
 import {
   freeProduct,
-  mockPublications,
+  publicationsJson,
   product1,
   mockMultiplePublicationWindows
 } from "@ericssonbroadcastservices/exposure-sdk/test-utils/mockPublication";
@@ -15,7 +15,7 @@ import {
 describe("wl asset", () => {
   describe("entitlement", () => {
     const asset = new WLAsset();
-    asset.publications = mockPublications;
+    asset.publications = publicationsJson;
     it("should be entitled", () => {
       spyOn(asset, "inFuture").and.returnValue(false);
       expect(asset.getIsEntitled([product1, "4"])).toBe(true);
@@ -124,13 +124,13 @@ describe("wl asset", () => {
     beforeEach(() => {
       asset = new WLAsset();
       asset.publications = [
-        deserialize(Publication, {
+        {
           products: ["1", mockProduct.id],
           availabilityKeys: ["1"],
-          fromDate: new Date(Date.now() - 60 * 60000),
-          toDate: new Date(Date.now() + 60 * 60000),
+          fromDate: new Date(Date.now() - 60 * 60000).toString(),
+          toDate: new Date(Date.now() + 60 * 60000).toString(),
           countries: []
-        })
+        }
       ];
       mockLogin = new LoginResponse();
     });
@@ -162,7 +162,7 @@ describe("wl asset", () => {
     it("should return IN_FUTIRE", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
       spyOn(mockLogin, "hasSession").and.returnValue(true);
-      asset.publications[0].fromDate = new Date(Date.now() + 60000);
+      asset.publications[0].fromDate = new Date(Date.now() + 60000).toString();
       expect(
         asset.getEntitlementCase({
           availabilityKeys: ["1"],
@@ -176,7 +176,7 @@ describe("wl asset", () => {
     it("should return IN_FUTIRE_NEED_PURCHASE", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
       spyOn(mockLogin, "hasSession").and.returnValue(true);
-      asset.publications[0].fromDate = new Date(Date.now() + 60000);
+      asset.publications[0].fromDate = new Date(Date.now() + 60000).toString();
       expect(
         asset.getEntitlementCase({
           availabilityKeys: [],
@@ -190,15 +190,13 @@ describe("wl asset", () => {
     it("should return IS_ENTITLED_ANON", () => {
       spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
       spyOn(mockLogin, "hasSession").and.returnValue(false);
-      asset.publications.push(
-        deserialize(Publication, {
-          fromDate: new Date(Date.now() - 60 * 60000),
-          toDate: new Date(Date.now() + 60 * 60000),
-          countries: [],
-          products: [mockProductAnonymous.id],
-          availabilityKeys: [mockProductAnonymous.id]
-        })
-      );
+      asset.publications.push({
+        fromDate: new Date(Date.now() - 60 * 60000).toString(),
+        toDate: new Date(Date.now() + 60 * 60000).toString(),
+        countries: [],
+        products: [mockProductAnonymous.id],
+        availabilityKeys: [mockProductAnonymous.id]
+      });
       expect(
         asset.getEntitlementCase({
           availabilityKeys: [],
@@ -239,13 +237,13 @@ describe("wl asset", () => {
       spyOn(mockLogin, "hasSession").and.returnValue(false);
       spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
       asset.publications = [
-        deserialize(Publication, {
-          fromDate: new Date(Date.now() + 30 * 60000),
-          toDate: new Date(Date.now() + 60 * 60000),
+        {
+          fromDate: new Date(Date.now() + 30 * 60000).toString(),
+          toDate: new Date(Date.now() + 60 * 60000).toString(),
           countries: [],
           products: [mockProductAnonymous.id],
           availabilityKeys: [mockProductAnonymous.id]
-        })
+        }
       ];
       expect(
         asset.getEntitlementCase({

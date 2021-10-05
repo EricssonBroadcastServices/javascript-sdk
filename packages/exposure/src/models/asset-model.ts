@@ -3,6 +3,8 @@ import { IAssetTagCollection } from "../interfaces/content/asset-tag";
 import { IUserLocation } from "../interfaces/location/user-location";
 import { Season } from "./season-model";
 import { WithLocalized } from "./localized-model";
+import { publicationUtils } from "../utils/publication";
+import { IPublication } from "../interfaces/content/publication";
 
 export enum mediumResBoundaries {
   lower = 500,
@@ -24,32 +26,6 @@ export enum ChannelFeature {
 interface IMedias {
   durationMillis: number;
 }
-
-export class Publication {
-  @jsonProperty({ type: Date })
-  public fromDate: Date;
-  @jsonProperty({ type: Date })
-  public toDate: Date;
-  @jsonProperty({ type: String })
-  public countries: string[] = [];
-  @jsonProperty({ type: String })
-  public products: string[] = [];
-  @jsonProperty({ type: String })
-  public availabilityKeys: string[];
-
-  public isExpired() {
-    return this.toDate.getTime() < Date.now();
-  }
-
-  public isInFuture() {
-    return this.fromDate.getTime() > Date.now();
-  }
-
-  public isActive() {
-    return !this.isInFuture() && !this.isExpired();
-  }
-}
-
 export interface ExternalReferences {
   type: string;
   locator: string;
@@ -151,8 +127,8 @@ export class Asset extends WithLocalized {
     type: Object
   })
   public tags: IAssetTagCollection[] = [];
-  @jsonProperty({ type: Publication })
-  public publications: Publication[] = [];
+  @jsonProperty({ type: Object })
+  public publications: IPublication[] = [];
   @jsonProperty()
   public startTime: string;
   @jsonProperty()
@@ -207,11 +183,12 @@ export class Asset extends WithLocalized {
     }
     return false;
   };
+
+  /**
+   * @deprecated see publicationUtils.allInFuture
+   */
   public inFuture = () => {
-    if (this.publications.length === 0) {
-      return false;
-    }
-    return this.publications.filter(p => !p.isExpired()).every(p => p.isInFuture());
+    return publicationUtils.allInFuture(this.publications);
   };
 
   public getStartTime = () => {
@@ -221,14 +198,14 @@ export class Asset extends WithLocalized {
 
     if (this.event?.startTime) return this.event.startTime;
 
-    const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
+    const publicationsSortedAscending = this.publications.sort(publicationUtils.sortPublicationsAscending);
     // if we the asset will be published in the future, take the start time from next upcoming publication
     if (this.inFuture()) {
-      const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
+      const futurePublications = publicationsSortedAscending.filter(p => publicationUtils.inFuture(p));
       if (futurePublications.length) return futurePublications[0].fromDate;
     }
     // if we have active publications, the start time has already been
-    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    const activePublications = publicationsSortedAscending.filter(p => publicationUtils.isActive(p));
     if (activePublications.length) {
       return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
     }
@@ -238,23 +215,15 @@ export class Asset extends WithLocalized {
   public getYear = () => {
     return this.productionYear;
   };
-
+  /**
+   * @deprecated see publicationUtils.isGeoBlocked
+   */
   public isGeoBlocked = (location: IUserLocation | null) => {
-    if (!location) {
-      return false; // if we do not know, let the backend handle things
-    }
-    let isBlocked = false;
-    this.publications.forEach(publication => {
-      if (publication.countries.length > 0) {
-        if (!publication.countries.includes(location.countryCode)) {
-          isBlocked = true;
-        }
-      }
-    });
-    return isBlocked;
+    return publicationUtils.isGeoBlocked(this.publications, location);
   };
 
   public playlistEntry = (locale: string) => {
+    // TODO: this entire function can probably be removed
     return {
       src: this.assetId,
       type: "video/emp",

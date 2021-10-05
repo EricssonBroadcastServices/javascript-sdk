@@ -1,23 +1,22 @@
-import { deserialize } from "../src/decorators/property-mapper";
-import { Publication } from "../src/models/asset-model";
+import { IPublication } from "../src";
 
 export const product1 = "03278a7e-b029-4be9-bbec-32cd1b0ea708_629E11";
 export const product2 = "22e5cdc1-787e-4382-b268-f923098de70a_629E11";
 export const freeProduct = "free_product_629E11";
 
-const publicationJson = [
+export const publicationsJson: IPublication[] & any = [
   {
     // active publication
     countries: [],
     customData: null,
     devices: [],
-    fromDate: new Date(Date.now() - 60 * 60000),
+    fromDate: new Date(Date.now() - 60 * 60000).toString(),
     products: [product1, product2],
     availabilityKeys: [product1, product2],
     publicationDate: "2020-08-20T18:00:00Z",
     publicationId: "dc3c8e9f-6f52-4639-a2c1-746c79dd2737_629E11",
     services: [],
-    toDate: new Date(Date.now() + 60 * 60000)
+    toDate: new Date(Date.now() + 60 * 60000).toString()
   },
   {
     // future publication
@@ -47,9 +46,7 @@ const publicationJson = [
   }
 ];
 
-export const mockPublications = publicationJson.map(p => deserialize(Publication, p));
-
-const multiplePublicationWindows = [
+export const mockMultiplePublicationWindows = [
   {
     countries: ["CH", "LI"],
     customData: null,
@@ -111,5 +108,3 @@ const multiplePublicationWindows = [
     toDate: "2025-09-22T00:00:00Z"
   }
 ];
-
-export const mockMultiplePublicationWindows = multiplePublicationWindows.map(p => deserialize(Publication, p));
