@@ -301,22 +301,22 @@ export class WLAsset implements IWLCarouselItem {
     return null;
   };
 
-  public getStartTime = () => {
+  public getStartTime = (): Date | null => {
     if (this.publications.length === 0 && !this.startTime) {
-      return undefined;
+      return null;
     }
     const publicationsSortedAscending = this.publications.sort(publicationUtils.sortPublicationsAscending);
     // if we the asset will be published in the future, take the start time from next upcoming publication
     if (this.inFuture()) {
       const futurePublications = publicationsSortedAscending.filter(p => publicationUtils.inFuture(p));
-      if (futurePublications.length) return futurePublications[0].fromDate;
+      if (futurePublications.length) return new Date(futurePublications[0].fromDate);
     }
     // if we have active publications, the start time has already been
     const activePublications = publicationUtils.getActivePublications(publicationsSortedAscending);
     if (activePublications.length) {
-      return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
+      return this.startTime ? new Date(this.startTime) : new Date(activePublications[0].fromDate);
     }
-    return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
+    return this.startTime ? new Date(this.startTime) : new Date(publicationsSortedAscending[0].fromDate);
   };
 
   public getNextPublications = () => {

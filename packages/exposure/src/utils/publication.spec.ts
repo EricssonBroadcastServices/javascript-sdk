@@ -1,5 +1,10 @@
 import { publicationUtils } from "..";
-import { blockedPublication, publicationsJson, publicationsJsonOnlyActive, publicationsJsonOnlyFuture } from "../../test-utils/mockPublication";
+import {
+  blockedPublication,
+  publicationsJson,
+  publicationsJsonOnlyActive,
+  publicationsJsonOnlyFuture
+} from "../../test-utils/mockPublication";
 
 describe("Publication", () => {
   it("is active or not active", () => {

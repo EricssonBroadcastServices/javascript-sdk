@@ -96,11 +96,9 @@ export enum MarkerType {
   CHAPTER = "CHAPTER"
 }
 
-class EventTimes {
-  @jsonProperty()
-  public startTime: Date;
-  @jsonProperty()
-  public endTime: Date;
+interface IEventTimes {
+  startTime: string;
+  endTime: string;
 }
 
 export class MarkerPoint extends WithLocalized {
@@ -170,7 +168,7 @@ export class Asset extends WithLocalized {
   @jsonProperty({ type: MarkerPoint })
   public markerPoints: MarkerPoint[] = [];
   @jsonProperty()
-  public event?: EventTimes;
+  public event?: IEventTimes;
   @jsonProperty({ type: Object })
   public localized: ILocalizedMetadata[] = [];
 

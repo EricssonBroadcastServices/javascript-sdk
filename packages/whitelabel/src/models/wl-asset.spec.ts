@@ -269,7 +269,7 @@ describe("wl asset", () => {
     const asset = new WLAsset();
     asset.publications = mockMultiplePublicationWindows;
     it("should have start time according to its next upcoming publication", () => {
-      expect(asset.getStartTime()).toEqual(asset.getNextPublications()[0].fromDate);
+      expect(asset.getStartTime()).toEqual(new Date(asset.getNextPublications()[0].fromDate));
     });
     it("should have a sub set as next window", () => {
       const total = asset.publications.length;
