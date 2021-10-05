@@ -45,19 +45,27 @@ export {
 } from "./models/asset-model";
 export { IPublication, IPublication as Publication } from "./interfaces/content/publication";
 export {
-  Play,
+  IPlay,
+  IPlay as Play,
   DRMType,
   FormatType,
-  DRM,
-  Format,
-  Ads,
-  AdClip,
+  IDRM,
+  IDRM as DRM,
+  IFormat,
+  IFormat as Format,
+  IAds,
+  IAds as Ads,
+  IAdClip,
+  IAdClip as AdClip,
   AdClipCategory,
   Stitcher,
-  StreamInfo,
-  Sprite,
-  ContractRestrictions
-} from "./models/play-model";
+  IStreamInfo,
+  IStreamInfo as StreamInfo,
+  ISprite,
+  ISprite as Sprite,
+  IContractRestrictions,
+  IContractRestrictions as ContractRestrictions
+} from "./interfaces/entitlement/play";
 export { Event, EventResponse } from "./models/event-model";
 export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/location/user-location";
 export {
