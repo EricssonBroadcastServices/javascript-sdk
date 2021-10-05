@@ -167,6 +167,7 @@ export { tagUtils } from "./utils/tag";
 export { purchaseUtils } from "./utils/purchase";
 export { productOfferingUtils } from "./utils/product-offering";
 export { publicationUtils } from "./utils/publication";
+export { localizedUtils } from "./utils/localized";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);
