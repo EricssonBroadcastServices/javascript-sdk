@@ -2,7 +2,6 @@ import { ImageScaler } from "../utils/image-scaler";
 import {
   IWLCarouselItem,
   IProductionCountry,
-  IWLAssetTag,
   IWLParticipant,
   IWLParentalRating,
   IWLOverlayWidget,
@@ -28,17 +27,7 @@ import {
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
-
-export class WLTag implements IWLAssetTag {
-  @jsonProperty()
-  public title: string;
-  @jsonProperty()
-  public tagType: string;
-  @jsonProperty()
-  public id: string;
-  @jsonProperty()
-  public action?: WLAction;
-}
+import { IWLAssetTag } from "..";
 
 class ProductionCountry implements IProductionCountry {
   @jsonProperty()
@@ -118,8 +107,8 @@ export class WLAsset implements IWLCarouselItem {
   public duration: number;
   @jsonProperty()
   public year: number;
-  @jsonProperty({ type: WLTag })
-  public tags: WLTag[];
+  @jsonProperty({ type: Object })
+  public tags: IWLAssetTag[];
   @jsonProperty()
   public action: any;
   @jsonProperty()
