@@ -1,0 +1,70 @@
+{
+  "items": [
+    {
+      "changed": "2021-05-12T06:39:43.131Z",
+      "created": "2021-05-12T06:16:06.528Z",
+      "customData": null,
+      "episodeCount": 9,
+      "externalReferences": [],
+      "linkedEntities": [],
+      "localized": [
+        {
+          "description": "Apex Legends is a free-to-play hero battle royale game developed by Respawn Entertainment and published by Electronic Art",
+          "images": [],
+          "locale": "en",
+          "longDescription": "Apex Legends is a free-to-play hero battle royale game developed by Respawn Entertainment and published by Electronic Art",
+          "shortDescription": "Apex Legends is a free-to-play hero battle royale game developed by Respawn Entertainment and published by Electronic Art",
+          "sortingTitle": "Apex Legends",
+          "title": "Apex Legends"
+        }
+      ],
+      "season": "1",
+      "seasonId": "c89e79dd-b0b6-40ac-bb31-41be3221d66c_82162E",
+      "tags": [],
+      "tvShowId": "fe58d2f2-f1b5-4802-820d-b955a769e2b4_82162E"
+    },
+    {
+      "changed": "2021-09-23T06:49:18.779Z",
+      "created": "2021-09-23T06:17:18.291Z",
+      "customData": null,
+      "episodeCount": 1,
+      "externalReferences": [],
+      "linkedEntities": [],
+      "localized": [
+        {
+          "images": [],
+          "locale": "en",
+          "sortingTitle": "VR",
+          "title": "VR"
+        }
+      ],
+      "season": "2",
+      "seasonId": "e776d184-b070-4928-a9e2-5b338dfee207_82162E",
+      "tags": [],
+      "tvShowId": "fe58d2f2-f1b5-4802-820d-b955a769e2b4_82162E"
+    },
+    {
+      "changed": "2021-10-06T08:59:21.433Z",
+      "created": "2021-10-06T08:59:12.958Z",
+      "customData": null,
+      "episodeCount": 4,
+      "externalReferences": [],
+      "linkedEntities": [],
+      "localized": [
+        {
+          "images": [],
+          "locale": "en",
+          "sortingTitle": "Xbox Cloud Gaming",
+          "title": "Xbox Cloud Gaming"
+        }
+      ],
+      "season": "3",
+      "seasonId": "685ba47f-e9a5-4f4f-96f4-086ffd4b006e_82162E",
+      "tags": [],
+      "tvShowId": "fe58d2f2-f1b5-4802-820d-b955a769e2b4_82162E"
+    }
+  ],
+  "pageNumber": 1,
+  "pageSize": 5,
+  "totalCount": 3
+}

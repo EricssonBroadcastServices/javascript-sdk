@@ -7,6 +7,7 @@ import { IBookmark } from "../interfaces/content/bookmark";
 import { SeasonResponse } from "../models/season-model";
 import { EpgResponse, OnNowResponse } from "../models/program-model";
 import { IEpisodesResponse } from "../interfaces/content/asset-response";
+import { IPaginatedResponse } from "../interfaces/content/paginated";
 
 export interface PageinatedRequest {
   pageSize?: number;
@@ -225,7 +226,7 @@ export class ContentService extends BaseService {
     pageSize,
     pageNumber,
     date
-  }: GetLiveEventsOptions) {
+  }: GetLiveEventsOptions): Promise<{ items: Asset[] } & IPaginatedResponse> {
     const requestQuery = {
       daysBackward,
       daysForward,

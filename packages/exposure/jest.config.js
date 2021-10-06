@@ -10,9 +10,10 @@ module.exports = {
   collectCoverage: true,
   coverageReporters: ["text", "text-summary", "html"],
   collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"],
+  testEnvironment: "node",
   globals: {
     "ts-jest": {
-      tsConfig:  {
+      tsConfig: {
         ...tsconfig.compilerOptions,
         esModuleInterop: true
       }

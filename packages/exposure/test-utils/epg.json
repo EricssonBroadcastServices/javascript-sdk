@@ -1,0 +1,416 @@
+{
+  "channelId": "7e20b78c_82162E",
+  "programs": [
+    {
+      "asset": {
+        "assetId": "7e20b78c_20211005235147_82162E",
+        "audioTracks": [],
+        "changed": "2021-10-06T15:00:47.864Z",
+        "created": "2021-09-28T23:58:17.332Z",
+        "customData": null,
+        "externalReferences": [],
+        "linkedEntities": [],
+        "live": false,
+        "localized": [
+          {
+            "description": "Season XIV of the World Poker Tour continues from Borgata Hotel Casino & Spa with more than 1,000 entries and a prize pool of $3.2 million.",
+            "images": [
+              {
+                "height": 720,
+                "orientation": "LANDSCAPE",
+                "type": "other",
+                "url": "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/f46262eaba8621fbeff3c542cddd28fa/f46262eaba8621fbeff3c542cddd28fa.jpg",
+                "width": 1280
+              }
+            ],
+            "locale": "en",
+            "sortingTitle": "World Poker Tour Season 14 Episode 8",
+            "title": "World Poker Tour Season 14 Episode 8"
+          }
+        ],
+        "parentalRatings": [
+          {
+            "country": "US",
+            "rating": "TV14",
+            "scheme": "MPAA"
+          }
+        ],
+        "participants": [],
+        "productionCountries": [],
+        "publications": [
+          {
+            "countries": [],
+            "customData": null,
+            "devices": [],
+            "fromDate": "2021-10-05T23:51:47Z",
+            "products": [
+              "free_product_82162E"
+            ],
+            "availabilityKeys": [
+              "free_product_82162E",
+              "7e20b78c_20211005235147_82162E_free_product_82162E"
+            ],
+            "publicationDate": "2021-09-28T23:51:47Z",
+            "publicationId": "7e20b78c_20211005235147_82162E",
+            "services": [],
+            "toDate": "2021-10-13T00:46:59Z"
+          }
+        ],
+        "spokenLanguages": [],
+        "subtitles": [],
+        "tags": [
+          {
+            "tagValues": [
+              {
+                "tagId": "action_82162E"
+              }
+            ],
+            "type": "genre"
+          }
+        ],
+        "type": "LIVE_EVENT",
+        "duration": 3312000,
+        "slugs": [],
+        "markerPoints": []
+      },
+      "assetId": "7e20b78c_20211005235147_82162E",
+      "blackout": false,
+      "catchup": false,
+      "catchupBlocked": false,
+      "channelId": "7e20b78c_82162E",
+      "endTime": "2021-10-06T00:46:59Z",
+      "programId": "7e20b78c_20211005235147_82162E",
+      "startTime": "2021-10-05T23:51:47Z",
+      "vodAvailable": false
+    },
+    {
+      "asset": {
+        "assetId": "7e20b78c_20211006004659_82162E",
+        "audioTracks": [],
+        "changed": "2021-10-06T15:00:47.868Z",
+        "created": "2021-09-29T01:58:15.351Z",
+        "customData": null,
+        "externalReferences": [],
+        "linkedEntities": [],
+        "live": false,
+        "localized": [
+          {
+            "description": "Season XIV of the World Poker Tour continues from Borgata Hotel Casino & Spa with more than 1,000 entries and a prize pool of $3.2 million.",
+            "images": [
+              {
+                "height": 720,
+                "orientation": "LANDSCAPE",
+                "type": "other",
+                "url": "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/f46262eaba8621fbeff3c542cddd28fa/f46262eaba8621fbeff3c542cddd28fa.jpg",
+                "width": 1280
+              }
+            ],
+            "locale": "en",
+            "sortingTitle": "World Poker Tour Season 14 Episode 9",
+            "title": "World Poker Tour Season 14 Episode 9"
+          }
+        ],
+        "parentalRatings": [
+          {
+            "country": "US",
+            "rating": "TV14",
+            "scheme": "MPAA"
+          }
+        ],
+        "participants": [],
+        "productionCountries": [],
+        "publications": [
+          {
+            "countries": [],
+            "customData": null,
+            "devices": [],
+            "fromDate": "2021-10-06T00:46:59Z",
+            "products": [
+              "free_product_82162E"
+            ],
+            "availabilityKeys": [
+              "free_product_82162E",
+              "7e20b78c_20211006004659_82162E_free_product_82162E"
+            ],
+            "publicationDate": "2021-09-29T00:46:59Z",
+            "publicationId": "7e20b78c_20211006004659_82162E",
+            "services": [],
+            "toDate": "2021-10-13T01:42:11Z"
+          }
+        ],
+        "spokenLanguages": [],
+        "subtitles": [],
+        "tags": [
+          {
+            "tagValues": [
+              {
+                "tagId": "action_82162E"
+              }
+            ],
+            "type": "genre"
+          }
+        ],
+        "type": "LIVE_EVENT",
+        "duration": 3312000,
+        "slugs": [],
+        "markerPoints": []
+      },
+      "assetId": "7e20b78c_20211006004659_82162E",
+      "blackout": false,
+      "catchup": false,
+      "catchupBlocked": false,
+      "channelId": "7e20b78c_82162E",
+      "endTime": "2021-10-06T01:42:11Z",
+      "programId": "7e20b78c_20211006004659_82162E",
+      "startTime": "2021-10-06T00:46:59Z",
+      "vodAvailable": false
+    },
+    {
+      "asset": {
+        "assetId": "7e20b78c_20211006014211_82162E",
+        "audioTracks": [],
+        "changed": "2021-10-06T15:00:47.868Z",
+        "created": "2021-09-29T01:58:15.353Z",
+        "customData": null,
+        "externalReferences": [],
+        "linkedEntities": [],
+        "live": false,
+        "localized": [
+          {
+            "description": "With 412 entries, the WPT bestbet Bounty Scramble generated a prize pool of nearly $2 million.",
+            "images": [
+              {
+                "height": 720,
+                "orientation": "LANDSCAPE",
+                "type": "other",
+                "url": "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/f46262eaba8621fbeff3c542cddd28fa/f46262eaba8621fbeff3c542cddd28fa.jpg",
+                "width": 1280
+              }
+            ],
+            "locale": "en",
+            "sortingTitle": "World Poker Tour Season 14 Episode 10",
+            "title": "World Poker Tour Season 14 Episode 10"
+          }
+        ],
+        "parentalRatings": [
+          {
+            "country": "US",
+            "rating": "TV14",
+            "scheme": "MPAA"
+          }
+        ],
+        "participants": [],
+        "productionCountries": [],
+        "publications": [
+          {
+            "countries": [],
+            "customData": null,
+            "devices": [],
+            "fromDate": "2021-10-06T01:42:11Z",
+            "products": [
+              "free_product_82162E"
+            ],
+            "availabilityKeys": [
+              "free_product_82162E",
+              "7e20b78c_20211006014211_82162E_free_product_82162E"
+            ],
+            "publicationDate": "2021-09-29T01:42:11Z",
+            "publicationId": "7e20b78c_20211006014211_82162E",
+            "services": [],
+            "toDate": "2021-10-13T02:37:23Z"
+          }
+        ],
+        "spokenLanguages": [],
+        "subtitles": [],
+        "tags": [
+          {
+            "tagValues": [
+              {
+                "tagId": "action_82162E"
+              }
+            ],
+            "type": "genre"
+          }
+        ],
+        "type": "LIVE_EVENT",
+        "duration": 3312000,
+        "slugs": [],
+        "markerPoints": []
+      },
+      "assetId": "7e20b78c_20211006014211_82162E",
+      "blackout": false,
+      "catchup": false,
+      "catchupBlocked": false,
+      "channelId": "7e20b78c_82162E",
+      "endTime": "2021-10-06T02:37:23Z",
+      "programId": "7e20b78c_20211006014211_82162E",
+      "startTime": "2021-10-06T01:42:11Z",
+      "vodAvailable": false
+    },
+    {
+      "asset": {
+        "assetId": "7e20b78c_20211006023723_82162E",
+        "audioTracks": [],
+        "changed": "2021-10-06T15:00:47.876Z",
+        "created": "2021-09-29T03:58:15.182Z",
+        "customData": null,
+        "externalReferences": [],
+        "linkedEntities": [],
+        "live": false,
+        "localized": [
+          {
+            "description": "With 412 entries, the WPT bestbet Bounty Scramble generated a prize pool of nearly $2 million.",
+            "images": [
+              {
+                "height": 720,
+                "orientation": "LANDSCAPE",
+                "type": "other",
+                "url": "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/f46262eaba8621fbeff3c542cddd28fa/f46262eaba8621fbeff3c542cddd28fa.jpg",
+                "width": 1280
+              }
+            ],
+            "locale": "en",
+            "sortingTitle": "World Poker Tour Season 14 Episode 11",
+            "title": "World Poker Tour Season 14 Episode 11"
+          }
+        ],
+        "parentalRatings": [
+          {
+            "country": "US",
+            "rating": "TV14",
+            "scheme": "MPAA"
+          }
+        ],
+        "participants": [],
+        "productionCountries": [],
+        "publications": [
+          {
+            "countries": [],
+            "customData": null,
+            "devices": [],
+            "fromDate": "2021-10-06T02:37:23Z",
+            "products": [
+              "free_product_82162E"
+            ],
+            "availabilityKeys": [
+              "free_product_82162E",
+              "7e20b78c_20211006023723_82162E_free_product_82162E"
+            ],
+            "publicationDate": "2021-09-29T02:37:23Z",
+            "publicationId": "7e20b78c_20211006023723_82162E",
+            "services": [],
+            "toDate": "2021-10-13T03:32:35Z"
+          }
+        ],
+        "spokenLanguages": [],
+        "subtitles": [],
+        "tags": [
+          {
+            "tagValues": [
+              {
+                "tagId": "action_82162E"
+              }
+            ],
+            "type": "genre"
+          }
+        ],
+        "type": "LIVE_EVENT",
+        "duration": 3312000,
+        "slugs": [],
+        "markerPoints": []
+      },
+      "assetId": "7e20b78c_20211006023723_82162E",
+      "blackout": false,
+      "catchup": false,
+      "catchupBlocked": false,
+      "channelId": "7e20b78c_82162E",
+      "endTime": "2021-10-06T03:32:35Z",
+      "programId": "7e20b78c_20211006023723_82162E",
+      "startTime": "2021-10-06T02:37:23Z",
+      "vodAvailable": false
+    },
+    {
+      "asset": {
+        "assetId": "7e20b78c_20211006033235_82162E",
+        "audioTracks": [],
+        "changed": "2021-10-06T15:00:47.877Z",
+        "created": "2021-09-29T03:58:15.182Z",
+        "customData": null,
+        "externalReferences": [],
+        "linkedEntities": [],
+        "live": false,
+        "localized": [
+          {
+            "description": "Four players, Benjamin Zamini, Marvin Karlins, Stan Jablonski, and Tyler Patterson, compete at the WPT bestbet Jacksonville Bounty Scramble for the more than $375,000 first-place prize and a seat into the Monster WPT Tournament of Champions.?",
+            "images": [
+              {
+                "height": 720,
+                "orientation": "LANDSCAPE",
+                "type": "other",
+                "url": "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/f46262eaba8621fbeff3c542cddd28fa/f46262eaba8621fbeff3c542cddd28fa.jpg",
+                "width": 1280
+              }
+            ],
+            "locale": "en",
+            "sortingTitle": "World Poker Tour Season 14 Episode 12",
+            "title": "World Poker Tour Season 14 Episode 12"
+          }
+        ],
+        "parentalRatings": [
+          {
+            "country": "US",
+            "rating": "TV14",
+            "scheme": "MPAA"
+          }
+        ],
+        "participants": [],
+        "productionCountries": [],
+        "publications": [
+          {
+            "countries": [],
+            "customData": null,
+            "devices": [],
+            "fromDate": "2021-10-06T03:32:35Z",
+            "products": [
+              "free_product_82162E"
+            ],
+            "availabilityKeys": [
+              "free_product_82162E",
+              "7e20b78c_20211006033235_82162E_free_product_82162E"
+            ],
+            "publicationDate": "2021-09-29T03:32:35Z",
+            "publicationId": "7e20b78c_20211006033235_82162E",
+            "services": [],
+            "toDate": "2021-10-13T04:27:47Z"
+          }
+        ],
+        "spokenLanguages": [],
+        "subtitles": [],
+        "tags": [
+          {
+            "tagValues": [
+              {
+                "tagId": "action_82162E"
+              }
+            ],
+            "type": "genre"
+          }
+        ],
+        "type": "LIVE_EVENT",
+        "duration": 3312000,
+        "slugs": [],
+        "markerPoints": []
+      },
+      "assetId": "7e20b78c_20211006033235_82162E",
+      "blackout": false,
+      "catchup": false,
+      "catchupBlocked": false,
+      "channelId": "7e20b78c_82162E",
+      "endTime": "2021-10-06T04:27:47Z",
+      "programId": "7e20b78c_20211006033235_82162E",
+      "startTime": "2021-10-06T03:32:35Z",
+      "vodAvailable": false
+    }
+  ],
+  "totalHitsAllChannels": 26
+}

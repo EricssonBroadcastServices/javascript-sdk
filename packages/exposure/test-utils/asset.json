@@ -1,0 +1,249 @@
+{
+  "items" : [ {
+    "assetId" : "7e20b78c_20211013122426_82162E",
+    "audioTracks" : [ ],
+    "created" : "2021-10-06T13:00:48.248Z",
+    "customData" : null,
+    "externalReferences" : [ ],
+    "linkedEntities" : [ ],
+    "live" : false,
+    "localized" : [ {
+      "description" : "From the Commerce Casino in Los Angeles, California, six players hope to follow in the steps of former WPT Champions Phil Laak and Barry Greenstein by taking down the WPT Invitational event.",
+      "images" : [ {
+        "height" : 720,
+        "orientation" : "LANDSCAPE",
+        "type" : "other",
+        "url" : "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/1793148b57564ba76c9273884d038f07/1793148b57564ba76c9273884d038f07.jpg",
+        "width" : 1280
+      } ],
+      "locale" : "en",
+      "sortingTitle" : "World Poker Tour Season 9 Episode 15",
+      "title" : "World Poker Tour Season 9 Episode 15"
+    } ],
+    "parentalRatings" : [ {
+      "country" : "US",
+      "rating" : "TV14",
+      "scheme" : "MPAA"
+    } ],
+    "participants" : [ ],
+    "productionCountries" : [ ],
+    "publications" : [ {
+      "countries" : [ ],
+      "customData" : null,
+      "devices" : [ ],
+      "fromDate" : "2021-10-13T12:24:26Z",
+      "products" : [ "free_product_82162E" ],
+      "availabilityKeys" : [ "free_product_82162E", "7e20b78c_20211013122426_82162E_free_product_82162E" ],
+      "publicationDate" : "2021-10-06T12:24:26Z",
+      "publicationId" : "7e20b78c_20211013122426_82162E",
+      "services" : [ ],
+      "toDate" : "2021-10-20T13:20:58Z"
+    } ],
+    "spokenLanguages" : [ ],
+    "subtitles" : [ ],
+    "tags" : [ ],
+    "type" : "LIVE_EVENT",
+    "slugs" : [ ],
+    "markerPoints" : [ ]
+  }, {
+    "assetId" : "7e20b78c_20211013112753_82162E",
+    "audioTracks" : [ ],
+    "created" : "2021-10-06T13:00:48.246Z",
+    "customData" : null,
+    "externalReferences" : [ ],
+    "linkedEntities" : [ ],
+    "live" : false,
+    "localized" : [ {
+      "description" : "The conclusion of the Southern Poker Championship takes place as four players remain to win the WPT Title at the Beau Rivage Casino.",
+      "images" : [ {
+        "height" : 720,
+        "orientation" : "LANDSCAPE",
+        "type" : "other",
+        "url" : "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/1793148b57564ba76c9273884d038f07/1793148b57564ba76c9273884d038f07.jpg",
+        "width" : 1280
+      } ],
+      "locale" : "en",
+      "sortingTitle" : "World Poker Tour Season 9 Episode 14",
+      "title" : "World Poker Tour Season 9 Episode 14"
+    } ],
+    "parentalRatings" : [ {
+      "country" : "US",
+      "rating" : "TV14",
+      "scheme" : "MPAA"
+    } ],
+    "participants" : [ ],
+    "productionCountries" : [ ],
+    "publications" : [ {
+      "countries" : [ ],
+      "customData" : null,
+      "devices" : [ ],
+      "fromDate" : "2021-10-13T11:27:53Z",
+      "products" : [ "free_product_82162E" ],
+      "availabilityKeys" : [ "free_product_82162E", "7e20b78c_20211013112753_82162E_free_product_82162E" ],
+      "publicationDate" : "2021-10-06T11:27:53Z",
+      "publicationId" : "7e20b78c_20211013112753_82162E",
+      "services" : [ ],
+      "toDate" : "2021-10-20T12:24:26Z"
+    } ],
+    "spokenLanguages" : [ ],
+    "subtitles" : [ ],
+    "tags" : [ ],
+    "type" : "LIVE_EVENT",
+    "slugs" : [ ],
+    "markerPoints" : [ ]
+  }, {
+    "assetId" : "7e20b78c_20211013103121_82162E",
+    "audioTracks" : [ ],
+    "changed" : "2021-10-06T13:00:48.245Z",
+    "created" : "2021-10-06T11:00:47.674Z",
+    "customData" : null,
+    "externalReferences" : [ ],
+    "linkedEntities" : [ ],
+    "live" : false,
+    "localized" : [ {
+      "description" : "The Gulf Coast of Mississippi plays home to the final table of the Southern Poker Championship and history is on the line as Season VII champion Allen Carter hopes to become the first player to win the same event twice.",
+      "images" : [ {
+        "height" : 720,
+        "orientation" : "LANDSCAPE",
+        "type" : "other",
+        "url" : "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/1793148b57564ba76c9273884d038f07/1793148b57564ba76c9273884d038f07.jpg",
+        "width" : 1280
+      } ],
+      "locale" : "en",
+      "sortingTitle" : "World Poker Tour Season 9 Episode 13",
+      "title" : "World Poker Tour Season 9 Episode 13"
+    } ],
+    "parentalRatings" : [ {
+      "country" : "US",
+      "rating" : "TV14",
+      "scheme" : "MPAA"
+    } ],
+    "participants" : [ ],
+    "productionCountries" : [ ],
+    "publications" : [ {
+      "countries" : [ ],
+      "customData" : null,
+      "devices" : [ ],
+      "fromDate" : "2021-10-13T10:31:21Z",
+      "products" : [ "free_product_82162E" ],
+      "availabilityKeys" : [ "free_product_82162E", "7e20b78c_20211013103121_82162E_free_product_82162E" ],
+      "publicationDate" : "2021-10-06T10:31:21Z",
+      "publicationId" : "7e20b78c_20211013103121_82162E",
+      "services" : [ ],
+      "toDate" : "2021-10-20T11:27:53Z"
+    } ],
+    "spokenLanguages" : [ ],
+    "subtitles" : [ ],
+    "tags" : [ {
+      "tagValues" : [ {
+        "tagId" : "action_82162E"
+      } ],
+      "type" : "genre"
+    } ],
+    "type" : "LIVE_EVENT",
+    "slugs" : [ ],
+    "markerPoints" : [ ]
+  }, {
+    "assetId" : "7e20b78c_20211013093448_82162E",
+    "audioTracks" : [ ],
+    "changed" : "2021-10-06T13:00:48.244Z",
+    "created" : "2021-10-06T11:00:47.673Z",
+    "customData" : null,
+    "externalReferences" : [ ],
+    "linkedEntities" : [ ],
+    "live" : false,
+    "localized" : [ {
+      "description" : "Three players remain at this explosive final table.  Vanessa Rousso, still in contention to become the first woman in WPT history to win an open event.",
+      "images" : [ {
+        "height" : 720,
+        "orientation" : "LANDSCAPE",
+        "type" : "other",
+        "url" : "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/posters/1793148b57564ba76c9273884d038f07/1793148b57564ba76c9273884d038f07.jpg",
+        "width" : 1280
+      } ],
+      "locale" : "en",
+      "sortingTitle" : "World Poker Tour Season 9 Episode 12",
+      "title" : "World Poker Tour Season 9 Episode 12"
+    } ],
+    "parentalRatings" : [ {
+      "country" : "US",
+      "rating" : "TV14",
+      "scheme" : "MPAA"
+    } ],
+    "participants" : [ ],
+    "productionCountries" : [ ],
+    "publications" : [ {
+      "countries" : [ ],
+      "customData" : null,
+      "devices" : [ ],
+      "fromDate" : "2021-10-13T09:34:48Z",
+      "products" : [ "free_product_82162E" ],
+      "availabilityKeys" : [ "free_product_82162E", "7e20b78c_20211013093448_82162E_free_product_82162E" ],
+      "publicationDate" : "2021-10-06T09:34:48Z",
+      "publicationId" : "7e20b78c_20211013093448_82162E",
+      "services" : [ ],
+      "toDate" : "2021-10-20T10:31:21Z"
+    } ],
+    "spokenLanguages" : [ ],
+    "subtitles" : [ ],
+    "tags" : [ {
+      "tagValues" : [ {
+        "tagId" : "action_82162E"
+      } ],
+      "type" : "genre"
+    } ],
+    "type" : "LIVE_EVENT",
+    "slugs" : [ ],
+    "markerPoints" : [ ]
+  }, {
+    "assetId" : "b110f13c-cb6a-4ed4-8b9f-b76d707f1697_82162E",
+    "audioTracks" : [ "ENGLISH" ],
+    "changed" : "2021-10-06T09:12:21.739Z",
+    "created" : "2021-10-06T09:01:11.101Z",
+    "customData" : null,
+    "episode" : "4",
+    "externalReferences" : [ ],
+    "linkedEntities" : [ ],
+    "live" : false,
+    "localized" : [ {
+      "images" : [ {
+        "height" : 400,
+        "orientation" : "LANDSCAPE",
+        "type" : "cover",
+        "url" : "https://ps.vemup.ctl.cdn.ebsd.ericsson.net/imagescaler002/bscu/bsbu/assets/b110f13c-cb6a-4ed4-8b9f-b76d707f1697_82162E/posters/743a182b9d9758acb1b95047bfd91cfb/743a182b9d9758acb1b95047bfd91cfb.jpg",
+        "width" : 866
+      } ],
+      "locale" : "en",
+      "sortingTitle" : "Gears of War 4 - Latency",
+      "title" : "Gears of War 4 - Latency"
+    } ],
+    "parentalRatings" : [ ],
+    "participants" : [ ],
+    "productionCountries" : [ ],
+    "publications" : [ {
+      "countries" : [ ],
+      "customData" : null,
+      "devices" : [ ],
+      "fromDate" : "2021-10-06T09:03:00Z",
+      "products" : [ "7b71959f-9cca-4bd0-a59d-b17e35628b66_82162E" ],
+      "availabilityKeys" : [ "7b71959f-9cca-4bd0-a59d-b17e35628b66_82162E", "b110f13c-cb6a-4ed4-8b9f-b76d707f1697_82162E_7b71959f-9cca-4bd0-a59d-b17e35628b66_82162E" ],
+      "publicationDate" : "2021-10-06T09:03:00Z",
+      "publicationId" : "684bb064-7c54-4462-aae3-fc93a1a797b8_82162E",
+      "services" : [ ],
+      "toDate" : "2026-10-06T09:03:00Z"
+    } ],
+    "season" : "3",
+    "seasonId" : "685ba47f-e9a5-4f4f-96f4-086ffd4b006e_82162E",
+    "spokenLanguages" : [ ],
+    "subtitles" : [ ],
+    "tags" : [ ],
+    "tvShowId" : "fe58d2f2-f1b5-4802-820d-b955a769e2b4_82162E",
+    "type" : "EPISODE",
+    "duration" : 291952,
+    "slugs" : [ ],
+    "markerPoints" : [ ]
+  } ],
+  "pageNumber" : 1,
+  "pageSize" : 5,
+  "totalCount" : 468
+}
