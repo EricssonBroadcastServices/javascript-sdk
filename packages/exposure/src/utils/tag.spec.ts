@@ -55,6 +55,7 @@ describe("tagUtils", () => {
       const tag: ITag = {
         scheme: "other",
         localized: [
+          { title: "deTitle", description: "deDesc", images: [], locale: "de" },
           { title: "svTitle", description: "svDesc", images: [{ url: "1" } as IImage], locale: "sv" },
           { title: "Title", description: "Description", images: [{ url: "2" } as IImage], locale: "en" }
         ],
@@ -62,6 +63,7 @@ describe("tagUtils", () => {
       };
       expect(tagUtils.getImages(tag, "sv", "en")).toEqual([{ url: "1" }]);
       expect(tagUtils.getImages(tag, "dk", "en")).toEqual([{ url: "2" }]);
+      expect(tagUtils.getImages(tag, "de", "en")).toEqual([{ url: "2" }]);
     });
   });
 });
