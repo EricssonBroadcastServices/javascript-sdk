@@ -129,7 +129,8 @@ describe("wl asset", () => {
           availabilityKeys: ["1"],
           fromDate: new Date(Date.now() - 60 * 60000).toString(),
           toDate: new Date(Date.now() + 60 * 60000).toString(),
-          countries: []
+          countries: [],
+          publicationId: ""
         }
       ];
       mockLogin = new LoginResponse();
@@ -195,7 +196,8 @@ describe("wl asset", () => {
         toDate: new Date(Date.now() + 60 * 60000).toString(),
         countries: [],
         products: [mockProductAnonymous.id],
-        availabilityKeys: [mockProductAnonymous.id]
+        availabilityKeys: [mockProductAnonymous.id],
+        publicationId: ""
       });
       expect(
         asset.getEntitlementCase({
@@ -242,7 +244,8 @@ describe("wl asset", () => {
           toDate: new Date(Date.now() + 60 * 60000).toString(),
           countries: [],
           products: [mockProductAnonymous.id],
-          availabilityKeys: [mockProductAnonymous.id]
+          availabilityKeys: [mockProductAnonymous.id],
+          publicationId: ""
         }
       ];
       expect(
