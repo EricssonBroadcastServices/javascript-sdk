@@ -10,7 +10,8 @@ export enum WLComponentType {
   IMAGE = "image",
   TEXT = "text",
   EPG = "epg",
-  IFRAME = "iframe"
+  IFRAME = "iframe",
+  TAG_TYPE = "tagtype"
 }
 
 export enum WLComponentSubType {

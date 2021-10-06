@@ -14,9 +14,11 @@ export {
   WLEpgComponentChannel,
   WLIframe
 } from "./models/wl-component";
-export { WLAsset, WLTag, WLParticipant } from "./models/wl-asset";
+export { WLAsset, WLParticipant } from "./models/wl-asset";
+export { IWLAssetTag, IWLAssetTag as WLTag } from "./interfaces/wl-tag";
 export { DeviceGroup } from "./interfaces/device-group";
-export { IWLCarouselItem, IWLSeason, IWLAssetTag, IWLMarkerPoint } from "./interfaces/wl-carousel-item";
+export { IWLCategoriesComponent } from "./interfaces/wl-categories-component";
+export { IWLCarouselItem, IWLSeason, IWLMarkerPoint } from "./interfaces/wl-carousel-item";
 export { IWLReference, CarouselLayout, PresentationImageOrientation } from "./interfaces/wl-reference";
 export { IWLAction, WLActionType, WLInternalActionType } from "./interfaces/wl-action";
 export { IWLHeroBanner, IWLHeroBannerItem, WLHeroBannerItemType } from "./interfaces/wl-herobanner";
