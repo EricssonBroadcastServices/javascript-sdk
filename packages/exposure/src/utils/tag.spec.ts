@@ -1,4 +1,4 @@
-import { tagUtils } from "..";
+import { IImage, tagUtils } from "..";
 import { ITag } from "../interfaces/tag/tag";
 
 describe("tagUtils", () => {
@@ -48,6 +48,20 @@ describe("tagUtils", () => {
       expect(tagUtils.getDescription(tag, "sv")).toBe("svDesc");
       expect(tagUtils.getDescription(tag, "dk")).toBe("svDesc");
       expect(tagUtils.getDescription(tag, "dk", "en")).toBe("Description");
+    });
+  });
+  describe("get localized images", () => {
+    it("returns images in correct locale", () => {
+      const tag: ITag = {
+        scheme: "other",
+        localized: [
+          { title: "svTitle", description: "svDesc", images: [{ url: "1" } as IImage], locale: "sv" },
+          { title: "Title", description: "Description", images: [{ url: "2" } as IImage], locale: "en" }
+        ],
+        tagId: "123"
+      };
+      expect(tagUtils.getImages(tag, "sv", "en")).toEqual([{ url: "1" }]);
+      expect(tagUtils.getImages(tag, "dk", "en")).toEqual([{ url: "2" }]);
     });
   });
 });
