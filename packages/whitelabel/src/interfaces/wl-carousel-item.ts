@@ -6,13 +6,7 @@ import {
   MarkerType
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
-
-export interface IWLAssetTag {
-  title: string;
-  tagType: string;
-  id: string;
-  action?: IWLAction;
-}
+import { IWLAssetTag } from "./wl-tag";
 
 export interface IWLParticipant {
   name: string;
