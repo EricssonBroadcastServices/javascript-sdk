@@ -235,21 +235,3 @@ export class Asset extends WithLocalized {
     return localizedUtils.getLocalizedValue(this.localized, "sortingTitle", locale, defaultLocale) as string;
   };
 }
-
-export class AssetResponse {
-  @jsonProperty()
-  public pageSize: number;
-  @jsonProperty()
-  public pageNumber: number;
-  @jsonProperty()
-  public totalCount: number;
-  @jsonProperty({
-    type: Asset
-  })
-  public items: Asset[] = [];
-}
-
-export class EpisodesResponse extends AssetResponse {
-  public seriesId: string;
-  public seasonNumber: number;
-}

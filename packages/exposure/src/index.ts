@@ -30,9 +30,9 @@ import { PreferencesService } from "./services/preferences-service";
 
 export { ILocalizedMetadata, ILocalizedMetadata as Localized } from "./interfaces/content/localized-metadata";
 export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
+export { IAssetResponse, IAssetResponse as AssetResponse } from "./interfaces/content/asset-response";
 export {
   Asset,
-  AssetResponse,
   AssetType,
   Participants,
   ExternalReferences,

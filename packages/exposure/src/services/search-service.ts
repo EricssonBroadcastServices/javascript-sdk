@@ -1,7 +1,7 @@
 import * as querystring from "query-string";
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { AssetResponse } from "../models/asset-model";
+import { Asset, IAssetResponse } from "..";
 
 export interface SearchOptions extends CustomerAndBusinessUnitOptions {
   query: string;
@@ -9,7 +9,7 @@ export interface SearchOptions extends CustomerAndBusinessUnitOptions {
 }
 
 export class SearchService extends BaseService {
-  public search({ customer, businessUnit, query, locale }: SearchOptions) {
+  public search({ customer, businessUnit, query, locale }: SearchOptions): Promise<IAssetResponse> {
     const requestQuery = {
       fieldSet: "ALL",
       locale,
@@ -21,11 +21,9 @@ export class SearchService extends BaseService {
         customer,
         businessUnit
       })}/content/search/query/${query}?${querystring.stringify(requestQuery)}`
-    ).then(data => {
-      return deserialize(AssetResponse, {
-        ...data,
-        items: data.items.map(i => i.asset)
-      });
-    });
+    ).then(data => ({
+      ...data,
+      items: data.items.map(i => deserialize(Asset, i.asset))
+    }));
   }
 }

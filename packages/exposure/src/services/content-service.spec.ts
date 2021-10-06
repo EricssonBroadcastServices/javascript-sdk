@@ -2,7 +2,7 @@ import { ContentService } from "./content-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
 import { mocks } from "../../test-utils/mocks";
-import { AssetResponse, Asset, EpisodesResponse } from "../models/asset-model";
+import { Asset } from "../models/asset-model";
 import { EpgResponse } from "../models/program-model";
 import { epgDateFormatter } from "../utils/date";
 import { SeasonResponse } from "../models/season-model";
@@ -26,11 +26,10 @@ describe("Content service", () => {
     getSpy = spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
   });
   it("should getAssets", async () => {
-    let assets = await contentService.getAssets({
+    await contentService.getAssets({
       customer,
       businessUnit
     });
-    expect(assets).toBeInstanceOf(AssetResponse);
     expect(
       axios.get
     ).toHaveBeenCalledWith(
@@ -38,13 +37,12 @@ describe("Content service", () => {
       { headers: undefined }
     );
 
-    assets = await contentService.getAssets({
+    await contentService.getAssets({
       customer,
       businessUnit,
       pageNumber: 2,
       pageSize: 2
     });
-    expect(assets).toBeInstanceOf(AssetResponse);
     expect(
       axios.get
     ).toHaveBeenCalledWith(
@@ -101,13 +99,12 @@ describe("Content service", () => {
     );
   });
   it("should get live events", async () => {
-    let liveEvents = await contentService.getLiveEvents({
+    await contentService.getLiveEvents({
       customer,
       businessUnit,
       daysBackward: 1,
       daysForward: 2
     });
-    expect(liveEvents instanceof AssetResponse);
     expect(
       axios.get
     ).toHaveBeenCalledWith(
@@ -117,7 +114,7 @@ describe("Content service", () => {
       { headers: undefined }
     );
 
-    liveEvents = await contentService.getLiveEvents({
+    await contentService.getLiveEvents({
       customer,
       businessUnit,
       pageNumber: 3,
@@ -126,7 +123,6 @@ describe("Content service", () => {
       daysForward: 2,
       date: new Date(1603843200000)
     });
-    expect(liveEvents).toBeInstanceOf(AssetResponse);
     expect(
       axios.get
     ).toHaveBeenCalledWith(
@@ -135,11 +131,10 @@ describe("Content service", () => {
     );
   });
   it("should get recently watched", async () => {
-    const assets = await contentService.getRecentlyWatched({
+    await contentService.getRecentlyWatched({
       customer,
       businessUnit
     });
-    expect(assets).toBeInstanceOf(AssetResponse);
     expect(
       axios.get
     ).toBeCalledWith(
@@ -148,11 +143,10 @@ describe("Content service", () => {
     );
   });
   it("should get continue watching", async () => {
-    const assets = await contentService.getContinueWatching({
+    await contentService.getContinueWatching({
       customer,
       businessUnit
     });
-    expect(assets).toBeInstanceOf(AssetResponse);
     expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/continue?limit=10",
       {
@@ -161,11 +155,10 @@ describe("Content service", () => {
     );
   });
   it("should get recommended", async () => {
-    const assets = await contentService.getRecommended({
+    await contentService.getRecommended({
       customer,
       businessUnit
     });
-    expect(assets).toBeInstanceOf(AssetResponse);
     expect(axios.get).toBeCalledWith("https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/user", {
       headers: serviceOptions.authHeader()
     });
@@ -197,13 +190,12 @@ describe("Content service", () => {
     );
   });
   it("should get episodes for season", async () => {
-    const episodes = await contentService.getEpisodesForSeason({
+    await contentService.getEpisodesForSeason({
       customer,
       businessUnit,
       assetId: "123",
       seasonNumber: 1
     });
-    expect(episodes).toBeInstanceOf(EpisodesResponse);
     expect(
       axios.get
     ).toBeCalledWith(
