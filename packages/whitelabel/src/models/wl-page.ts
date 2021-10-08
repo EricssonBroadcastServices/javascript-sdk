@@ -7,6 +7,10 @@ export class WLPageModel extends WLComponent implements IWLPage {
   @jsonProperty({ type: WLReference })
   public components: WLReference[];
   @jsonProperty()
+  public created?: Date;
+  @jsonProperty()
+  public changed?: Date;
+  @jsonProperty()
   public name: string;
   @jsonProperty()
   public title?: string;
