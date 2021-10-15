@@ -12,7 +12,8 @@ export {
   WLTextComponent,
   WLEpgComponent,
   WLEpgComponentChannel,
-  WLIframe
+  WLIframe,
+  WLCategoriesComponent
 } from "./models/wl-component";
 export { WLAsset, WLParticipant } from "./models/wl-asset";
 export { IWLAssetTag, IWLAssetTag as WLTag } from "./interfaces/wl-tag";
