@@ -12,6 +12,7 @@ import { IWLTextComponent } from "../interfaces/wl-text-component";
 import { IWLEpgComponent } from "../interfaces/wl-epg";
 import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
 import { getIndexOfLiveOrClosestUpcomingDateInterval } from "../utils/date";
+import { IWLAssetTag, IWLCategoriesComponent } from "..";
 
 marked.setOptions({
   mangle: false
@@ -59,6 +60,17 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
         return 0;
     }
   }
+}
+
+export class WLCategoriesComponent implements IWLCategoriesComponent {
+  @jsonProperty()
+  id: string;
+  @jsonProperty()
+  type: WLComponentType;
+  @jsonProperty()
+  title?: string;
+  @jsonProperty({ type: Object })
+  tags: IWLAssetTag[];
 }
 
 export class WLHerobannerItem implements IWLHeroBannerItem {
