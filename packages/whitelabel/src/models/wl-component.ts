@@ -13,6 +13,10 @@ import { IWLEpgComponent } from "../interfaces/wl-epg";
 import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
 import { getIndexOfLiveOrClosestUpcomingDateInterval } from "../utils/date";
 
+marked.setOptions({
+  mangle: false
+});
+
 export enum CarouselSubType {
   EPG = "epg",
   PROGRESS = "progress",
