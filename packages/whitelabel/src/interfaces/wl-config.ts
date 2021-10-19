@@ -1,4 +1,4 @@
-import { SystemConfig } from "@ericssonbroadcastservices/exposure-sdk";
+import { SystemConfig, IImage } from "@ericssonbroadcastservices/exposure-sdk";
 import { Theme } from "../models/wl-theme";
 import { IWLMenuItem, IWLFooter } from "./wl-menu";
 
@@ -93,6 +93,7 @@ export interface IParameters {
  * @property {IConfigHomePage} homePage
  * @property {string} title
  * @property {WLMenuItem[]} menu
+ * @property {IImage} appLogo - optional
  * @property {string} logo - optional
  * @property {string} backgroundImage - optional
  * @property {WLSystemConfig} systemConfig
@@ -112,6 +113,7 @@ export interface IWLConfig {
   title: string;
   description: string;
   menu: IWLMenuItem[];
+  appLogo?: IImage;
   logo?: string;
   favicon?: string;
   backgroundImage?: string;
