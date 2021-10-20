@@ -93,7 +93,7 @@ export interface IParameters {
  * @property {IConfigHomePage} homePage
  * @property {string} title
  * @property {WLMenuItem[]} menu
- * @property {IImage} appLogo - optional
+ * @property {IImage[]} images
  * @property {string} logo - optional
  * @property {string} backgroundImage - optional
  * @property {WLSystemConfig} systemConfig
@@ -113,7 +113,7 @@ export interface IWLConfig {
   title: string;
   description: string;
   menu: IWLMenuItem[];
-  appLogo?: IImage;
+  images: IImage[];
   logo?: string;
   favicon?: string;
   backgroundImage?: string;
