@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ApiError } from "../models/api-error-model";
 
 interface Headers {
@@ -53,11 +53,12 @@ export class BaseService {
     if (!cu || !bu) throw new Error("Missing customer or businessUnit");
     return `/${apiVersion}/customer/${cu}/businessunit/${bu}`;
   }
-  public get(url: string, headers?: Headers) {
+
+  public get(url: string, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .get(new URL(url, this.options.baseUrl).toString(), { headers })
       .then(response => response.data)
-      .catch(errorMapper);
+      .catch(customErrorHandler || errorMapper);
   }
   public delete(url: string, headers?: Headers) {
     return axios

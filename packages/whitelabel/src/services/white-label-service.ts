@@ -1,7 +1,23 @@
-import { BaseService, ServiceOptions, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
-import { WLConfig, WLPageModel, WLComponent, WLAsset, DeviceGroup, IWLAssetTag } from "../index";
+import {
+  BaseService,
+  ServiceOptions,
+  deserialize,
+  ExposureApi,
+  IEntitlementError,
+  IProductOffering
+} from "@ericssonbroadcastservices/exposure-sdk";
+import {
+  WLConfig,
+  WLPageModel,
+  WLComponent,
+  WLAsset,
+  DeviceGroup,
+  IWLAssetTag,
+  IEntitlementStatusResult
+} from "../index";
 import * as querystring from "query-string";
 import { IWLEPG } from "../interfaces/wl-epg";
+import { errorToEntitlementResult } from "../utils/entitlement";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup;
@@ -328,5 +344,37 @@ export class WhiteLabelService extends BaseService {
       `/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/preferences/list/${listId}/asset?${queryString}`,
       this.options.authHeader()
     ).then(data => data.items.map(a => deserialize(WLAsset, a)));
+  }
+
+  public getEntitlementForAsset({
+    exposureApi,
+    asset,
+    customer,
+    businessUnit,
+    offerings
+  }: {
+    exposureApi: ExposureApi;
+    asset: WLAsset;
+    customer: string;
+    businessUnit: string;
+    offerings: IProductOffering[];
+  }): Promise<IEntitlementStatusResult> {
+    return exposureApi.entitlements
+      .getEntitlementForAsset({ assetId: asset.assetId, customer, businessUnit })
+      .then(() => {
+        return {
+          isEntitled: true,
+          accessLater: [],
+          accessNow: [],
+          isInFuture: false,
+          startTime: null,
+          isGeoBlocked: false,
+          entitlementError: null,
+          loginToWatchForFree: false
+        };
+      })
+      .catch(err => {
+        return errorToEntitlementResult(err as IEntitlementError, asset, offerings);
+      });
   }
 }
