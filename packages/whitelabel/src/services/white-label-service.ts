@@ -21,19 +21,22 @@ import { errorToEntitlementResult } from "../utils/entitlement";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup;
+  exposureApi: ExposureApi;
   origin?: string;
 }
 
 export class WhiteLabelService extends BaseService {
   private deviceGroup: DeviceGroup;
   private origin?: string;
+  public exposureApi: ExposureApi;
 
   constructor(apiOptions: WhiteLabelServiceOptions) {
-    const { deviceGroup, origin, ...baseOptions } = apiOptions;
+    const { deviceGroup, origin, exposureApi, ...baseOptions } = apiOptions;
     super(baseOptions);
 
     this.origin = origin;
     this.deviceGroup = deviceGroup;
+    this.exposureApi = exposureApi;
   }
 
   public getConfig({ locale, countryCode, origin }: { locale?: string; countryCode?: string; origin?: string }) {
@@ -347,19 +350,17 @@ export class WhiteLabelService extends BaseService {
   }
 
   public getEntitlementForAsset({
-    exposureApi,
     asset,
     customer,
     businessUnit,
     offerings
   }: {
-    exposureApi: ExposureApi;
     asset: WLAsset;
     customer: string;
     businessUnit: string;
     offerings: IProductOffering[];
   }): Promise<IEntitlementStatusResult> {
-    return exposureApi.entitlements
+    return this.exposureApi.entitlements
       .getEntitlementForAsset({ assetId: asset.assetId, customer, businessUnit })
       .then(() => {
         return {
