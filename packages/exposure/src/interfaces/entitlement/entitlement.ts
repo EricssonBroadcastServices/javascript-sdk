@@ -1,13 +1,9 @@
-import { StreamInfo } from "../..";
-
-interface IEntitleMentResponseFormat {
-  format: string;
-}
+import { Format, StreamInfo } from "../..";
 
 export interface IEntitlementResponse {
   accountId: string;
   requestId: string;
-  formats: IEntitleMentResponseFormat[]; // is this the same as in play response?
+  formats: Format;
   productId: string;
   publicationId: string;
   publicationStart: string;
@@ -38,7 +34,7 @@ export enum EntitlementActionType {
      action.publication indicates when */
   WAIT = "WAIT",
   /* if LOGIN the user will be able to watch the content simply by logging in.
-  This action will olny be returned for anonymous sessions */
+  This action will only be returned for anonymous sessions */
   LOGIN = "LOGIN"
 }
 

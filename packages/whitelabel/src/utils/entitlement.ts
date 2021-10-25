@@ -42,7 +42,7 @@ export function errorToEntitlementResult(
     isInFuture: !!entitlementError.actions?.every(a => {
       return [EntitlementActionType.BUY_WATCH_LATER, EntitlementActionType.WAIT].includes(a.type);
     }),
-    startTime: asset.getStartTime() || null, // not sure i we should use err. available at instead.
+    startTime: asset.getStartTime() || null, // not sure i we should use err.availableAt instead.
     isGeoBlocked: entitlementError?.message === "GEO_BLOCKED",
     entitlementError,
     loginToWatchForFree: !!entitlementError.actions?.some(a => a.type === EntitlementActionType.LOGIN)
