@@ -35,6 +35,8 @@ export class WLComponent {
 export class WLCarousel extends WLComponent implements IWLCarousel {
   @jsonProperty()
   public title: string;
+  @jsonProperty()
+  public description?: string;
   @jsonProperty({ type: String })
   public subType: CarouselSubType | null;
   @jsonProperty({ type: WLAsset })
