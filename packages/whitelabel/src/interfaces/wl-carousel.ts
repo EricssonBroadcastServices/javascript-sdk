@@ -10,7 +10,7 @@ export interface IWLCarousel {
   type: string;
   subType: CarouselSubType | null;
   title?: string;
-  description?: string;
+  subTitle?: string;
   assets: IWLCarouselItem[];
   tagTitles?: IWLTagTitles;
 }
