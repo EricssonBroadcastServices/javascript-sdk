@@ -2,6 +2,7 @@ import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
 import { IProductResponse, IAvailabilityKeysResponse } from "../interfaces/entitlement/product";
 import { Play } from "../models/play-model";
+import { IEntitlementError, IEntitlementResponse } from "../interfaces/entitlement/entitlement";
 
 interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
@@ -38,7 +39,12 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
 }
 
 export class EntitlementService extends BaseService {
-  public getEntitlementForAsset({ customer, businessUnit, headers, assetId }: GetEntitlementForAssetOptions) {
+  public getEntitlementForAsset({
+    customer,
+    businessUnit,
+    headers,
+    assetId
+  }: GetEntitlementForAssetOptions): Promise<IEntitlementResponse> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
@@ -48,6 +54,9 @@ export class EntitlementService extends BaseService {
       {
         ...this.options.authHeader(),
         ...headers
+      },
+      err => {
+        throw err.response?.data as IEntitlementError;
       }
     );
   }

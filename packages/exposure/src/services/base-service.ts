@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ApiError } from "../models/api-error-model";
 
 interface Headers {
@@ -53,28 +53,29 @@ export class BaseService {
     if (!cu || !bu) throw new Error("Missing customer or businessUnit");
     return `/${apiVersion}/customer/${cu}/businessunit/${bu}`;
   }
-  public get(url: string, headers?: Headers) {
+
+  public get(url: string, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .get(new URL(url, this.options.baseUrl).toString(), { headers })
       .then(response => response.data)
-      .catch(errorMapper);
+      .catch(customErrorHandler || errorMapper);
   }
-  public delete(url: string, headers?: Headers) {
+  public delete(url: string, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .delete(new URL(url, this.options.baseUrl).toString(), { headers })
       .then(response => response.data)
-      .catch(errorMapper);
+      .catch(customErrorHandler || errorMapper);
   }
-  public put(url: string, data: any, headers?: Headers) {
+  public put(url: string, data: any, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .put(new URL(url, this.options.baseUrl).toString(), data, { headers })
       .then(response => response.data)
-      .catch(errorMapper);
+      .catch(customErrorHandler || errorMapper);
   }
-  public post(url: string, data: any, headers?: Headers) {
+  public post(url: string, data: any, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .post(new URL(url, this.options.baseUrl).toString(), data, { headers })
       .then(response => response.data)
-      .catch(errorMapper);
+      .catch(customErrorHandler || errorMapper);
   }
 }
