@@ -4,9 +4,6 @@ import React, { Dispatch, useContext, useEffect, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "./util/react-query";
 import { StorageKey } from "./util/storageKeys";
-
-/* State handling for app specific stuff, meaning things that do not belong i a
-general module that could be shared between multiple apps */
 export interface IStorage {
   getItem: (key: string) => Promise<string | null>;
   removeItem: (key: string) => Promise<void>;
