@@ -1,10 +1,11 @@
 {
    "presets": [
+        "@babel/preset-typescript",
         "@babel/preset-env",
        ["@babel/preset-react", {"runtime": "automatic", "jsx": true }]
    ],
    "plugins": [
-        "@babel/plugin-transform-modules-commonjs",
+        ["@babel/transform-runtime"],
        "@babel/plugin-proposal-class-properties"
    ]
 }
