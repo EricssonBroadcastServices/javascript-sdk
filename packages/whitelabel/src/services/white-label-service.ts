@@ -371,7 +371,8 @@ export class WhiteLabelService extends BaseService {
           startTime: null,
           isGeoBlocked: false,
           entitlementError: null,
-          loginToWatchForFree: false
+          loginToWatchForFree: false,
+          shouldJustWait: false
         };
       })
       .catch(err => {
