@@ -35,7 +35,7 @@ export function shouldJustWait(actions?: IEntitlementActions[]): boolean {
     ?.flatMap(o => o.publications)
     .sort((a, b) => new Date(a.availableAt).getTime() - new Date(b.availableAt).getTime())[0];
   return (
-    new Date(waitAction?.publication?.availableAt as string).getTime() <
+    new Date(waitAction?.publication?.availableAt as string).getTime() <=
     new Date(earlisetOfferingDate?.availableAt as string).getTime()
   );
 }

@@ -70,4 +70,26 @@ describe("should just wait", () => {
     ];
     expect(shouldJustWait(actions)).toBe(false);
   });
+  it("should return true if buy watch now gives access at the same time as wait", () => {
+    const actions: IEntitlementActions[] = [
+      {
+        type: EntitlementActionType.WAIT,
+        publication: { availableAt: new Date(Date.now() + 2000).toISOString(), publicationId: "123" }
+      },
+      {
+        type: EntitlementActionType.BUY_WATCH_LATER,
+        offerings: [
+          {
+            offeringId: "123",
+            publications: [{ availableAt: new Date(Date.now() + 2000).toISOString(), publicationId: "456" }]
+          },
+          {
+            offeringId: "1235323",
+            publications: [{ availableAt: new Date(Date.now() + 5000).toISOString(), publicationId: "678" }]
+          }
+        ]
+      }
+    ];
+    expect(shouldJustWait(actions)).toBe(true);
+  });
 });
