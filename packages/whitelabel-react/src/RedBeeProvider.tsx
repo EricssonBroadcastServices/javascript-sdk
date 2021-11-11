@@ -21,8 +21,7 @@ export interface IRedBeeState {
   device: IDevice | null;
   session: LoginResponse | null;
   config: WLConfig | null;
-  // TODO: locale should be allowed to be null. Not doable right now, since it's not allowed when fetching config.
-  selectedLanguage: string;
+  selectedLanguage: string | null;
   customer?: string;
   businessUnit?: string;
   origin?: string;
@@ -64,7 +63,7 @@ const initialState: IRedBeeState = {
   storage: null,
   session: null,
   config: null,
-  selectedLanguage: "en",
+  selectedLanguage: null,
   exposureBaseUrl: "",
   internalApiUrl: "",
   deviceGroup: "" as DeviceGroup,
@@ -215,6 +214,6 @@ export function useRedBeeStateDispatch() {
 }
 
 export function useSelectedLanguage() {
-  const [{ exposureApi }] = useContext(RedBeeContext);
-  return exposureApi;
+  const { selectedLanguage } = useRedBeeState();
+  return selectedLanguage;
 }

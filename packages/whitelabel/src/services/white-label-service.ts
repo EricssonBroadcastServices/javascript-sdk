@@ -58,7 +58,7 @@ export class WhiteLabelService extends BaseService {
     businessUnit,
     countryCode
   }: {
-    locale: string;
+    locale?: string;
     customer: string;
     businessUnit: string;
     countryCode?: string;

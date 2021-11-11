@@ -14,7 +14,7 @@ export function useFetchConfig(disabled = false): void {
       wlApi
         .getConfigByCustomerAndBusinessUnit({
           countryCode: userLocation?.countryCode,
-          locale,
+          locale: locale || undefined,
           customer,
           businessUnit
         })
@@ -25,7 +25,7 @@ export function useFetchConfig(disabled = false): void {
       wlApi
         .getConfig({
           countryCode: userLocation?.countryCode,
-          locale,
+          locale: locale || undefined,
           origin
         })
         .then(config => {
