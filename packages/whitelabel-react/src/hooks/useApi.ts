@@ -3,13 +3,11 @@ import { WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useContext, useMemo } from "react";
 import { RedBeeContext } from "..";
 
-// TODO: could probably be part of the RedBeeProvider
 export function useExposureApi(): ExposureApi {
-  const [{ session, customer, businessUnit, baseUrl }] = useContext(RedBeeContext);
-
+  const [{ session, customer, businessUnit, exposureBaseUrl }] = useContext(RedBeeContext);
   return useMemo(() => {
     return new ExposureApi({
-      baseUrl,
+      baseUrl: exposureBaseUrl,
       authHeader: () => {
         if (session?.sessionToken) {
           return { Authorization: `Bearer ${session.sessionToken}` };
@@ -19,15 +17,15 @@ export function useExposureApi(): ExposureApi {
       customer,
       businessUnit,
     });
-  }, [session, customer, businessUnit, baseUrl]);
+  }, [session, customer, businessUnit, exposureBaseUrl]);
 }
 
 export function useWLApi(): WhiteLabelService {
   const exposureApi = useExposureApi();
-  const [{ session, customer, businessUnit, baseUrl, deviceGroup }] = useContext(RedBeeContext);
+  const [{ session, customer, businessUnit, internalApiUrl, deviceGroup }] = useContext(RedBeeContext);
   return useMemo(() => {
     return new WhiteLabelService({
-      baseUrl,
+      baseUrl: internalApiUrl,
       authHeader: () => {
         if (session?.sessionToken) {
           return { Authorization: `Bearer ${session.sessionToken}` };
@@ -39,5 +37,5 @@ export function useWLApi(): WhiteLabelService {
       deviceGroup,
       exposureApi
     });
-  }, [session, customer, businessUnit, deviceGroup, baseUrl]);
+  }, [session, customer, businessUnit, deviceGroup, internalApiUrl]);
 }

@@ -2,18 +2,18 @@ import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { DeviceType } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
-import { RedBeeProvider, IStorage, IDevice, useExposureApi, RedBeeContext, useUserGeoLocation } from "../src/index";
+import { RedBeeProvider, IStorage, IDevice, useExposureApi, RedBeeContext } from "../src/index";
 
 export default function App() {
   const exposureApi = useExposureApi();
-  const [redBeeContext] = useContext(RedBeeContext);
-  const userGeoLocation = useUserGeoLocation();
-  console.log(redBeeContext, userGeoLocation);
+  const [redBeeContextState] = useContext(RedBeeContext);
+  const { customer, businessUnit } = redBeeContextState;
   React.useEffect(() => {
-    exposureApi.content.getAssets({}).then(assets => {
-      console.log(assets);
-    })
-  }, [])
+    if (!(customer && businessUnit)) return;
+      exposureApi.content.getAssets({ customer, businessUnit }).then(assets => {
+        console.log(assets);
+      }).catch(err => console.log(err))
+  }, [redBeeContextState.customer, redBeeContextState.businessUnit])
   return <h1>Hello</h1>;
 }
 
@@ -31,12 +31,13 @@ const device: IDevice = {
 
 function AppProvider() {
   return <RedBeeProvider
-    baseUrl={"https://bsbu.enigmatv.io"}
-    customer={"BSCU"}
-    businessUnit={"BSBU"}
+    internalApiUrl={"https://bsbu.enigmatv.io"}
+    exposureBaseUrl={"https://exposure.api.redbee.dev"}
+    origin={"bsbu.enigmatv.io"}
     storage={storage}
     device={device}
     deviceGroup={DeviceGroup.TV}
+    autoFetchConfig
   >
     <App />
   </RedBeeProvider>

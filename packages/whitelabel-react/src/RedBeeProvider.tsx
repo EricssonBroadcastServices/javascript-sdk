@@ -2,6 +2,7 @@ import { deserialize, DeviceType, LoginResponse } from "@ericssonbroadcastservic
 import { DeviceGroup, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { Dispatch, useContext, useEffect, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
+import { useFetchConfig } from ".";
 import { queryClient } from "./util/react-query";
 import { StorageKey } from "./util/storageKeys";
 export interface IStorage {
@@ -9,7 +10,6 @@ export interface IStorage {
   removeItem: (key: string) => Promise<void>;
   setItem: (key: string, value: any) => Promise<void>;
 }
-
 export interface IDevice {
   deviceId: string;
   name: string;
@@ -23,9 +23,11 @@ interface IRedBeeState {
   config: WLConfig | null;
   // TODO: locale should be allowed to be null. Not doable right now, since it's not allowed when fetching config.
   selectedLanguage: string;
-  customer: string;
-  businessUnit: string;
-  baseUrl: string;
+  customer?: string;
+  businessUnit?: string;
+  origin?: string;
+  exposureBaseUrl: string;
+  internalApiUrl: string;
   deviceGroup: DeviceGroup;
 }
 
@@ -59,9 +61,8 @@ const initialState: IRedBeeState = {
   session: null,
   config: null,
   selectedLanguage: "en",
-  customer: "",
-  businessUnit: "",
-  baseUrl: "",
+  exposureBaseUrl: "",
+  internalApiUrl: "",
   deviceGroup: "" as DeviceGroup,
 };
 
@@ -74,32 +75,48 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
     case ActionType.SET_SESSION:
       return { ...state, session: (action as ISetSessionAction).session };
     case ActionType.SET_CONFIG:
-      return { ...state, config: (action as ISetConfigAction).config };
+      const config = (action as ISetConfigAction).config;
+      const { customer, businessUnit } = config;
+      return { ...state, customer, businessUnit, config };
     default:
       return state;
   }
 }
 
+function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode, autoFetchConfig: boolean }) {
+  useFetchConfig(!autoFetchConfig);
+  return <>{children}</>;
+}
+
 interface IRedBeeProvider {
-  customer: string;
-  businessUnit: string;
-  baseUrl: string;
-  children: React.ReactNode;
+  customer?: string;
+  businessUnit?: string;
+  origin?: string;
+  exposureBaseUrl: string;
+  internalApiUrl: string;
+  children?: React.ReactNode;
   deviceGroup: DeviceGroup;
   storage?: IStorage;
   device: IDevice;
+  autoFetchConfig?: boolean;
 }
 
 export function RedBeeProvider({
   children,
   customer,
   businessUnit,
-  baseUrl,
+  exposureBaseUrl,
+  internalApiUrl,
+  origin,
   deviceGroup,
   storage,
-  device
+  device,
+  autoFetchConfig = false
 }: IRedBeeProvider) {
-  if (!customer || !businessUnit || !baseUrl || !deviceGroup || !device) {
+  if (!(customer && businessUnit) && !origin) {
+    throw "Either customer and businessUnit or origin is required";
+  }
+  if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
     throw "Missing required prop in RedBeeProvider";
   }
   if (!storage) {
@@ -109,7 +126,9 @@ export function RedBeeProvider({
     ...initialState,
     customer,
     businessUnit,
-    baseUrl,
+    origin,
+    exposureBaseUrl,
+    internalApiUrl,
     deviceGroup,
     storage: storage || null,
     device
@@ -127,7 +146,9 @@ export function RedBeeProvider({
   }, []);
   return (
     <QueryClientProvider client={queryClient}>
-      <RedBeeContext.Provider value={[state, dispatch]}>{children}</RedBeeContext.Provider>
+      <RedBeeContext.Provider value={[state, dispatch]}>
+        <ChildrenRenderer autoFetchConfig={autoFetchConfig}>{children}</ChildrenRenderer>
+      </RedBeeContext.Provider>
     </QueryClientProvider>
   );
 }

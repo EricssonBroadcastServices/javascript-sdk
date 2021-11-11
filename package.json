@@ -9,7 +9,8 @@
     "publish": "lerna publish -y --no-verify-access from-package",
     "test": "lerna run test",
     "lint": "lerna run lint --parallel",
-    "format": "lerna run format --parallel"
+    "format": "lerna run format --parallel",
+    "demo": "lerna run demo"
   },
   "husky": {
     "hooks": {
