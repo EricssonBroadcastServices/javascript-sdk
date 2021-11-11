@@ -1,4 +1,4 @@
-import { IUserDetails } from "../interfaces/user/user-details";
+import { IUserDetails, UserAttributeType } from "../interfaces/user/user-details";
 import { userDetailsUtils } from "./user-details";
 
 const mockDetails: IUserDetails = {
@@ -20,7 +20,7 @@ const mockDetails: IUserDetails = {
           description: "descEN"
         }
       ],
-      type: "email",
+      type: UserAttributeType.EMAIL,
       requiredAtSignup: true,
       defaultValue: null
     },
@@ -29,7 +29,7 @@ const mockDetails: IUserDetails = {
       value: null,
       valueSet: false,
       localized: [],
-      type: "email",
+      type: UserAttributeType.EMAIL,
       requiredAtSignup: true,
       defaultValue: null
     }
