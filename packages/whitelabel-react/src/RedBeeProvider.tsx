@@ -1,5 +1,5 @@
-import { deserialize, DeviceType, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
-import { DeviceGroup, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { deserialize, DeviceType, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { Dispatch, useContext, useEffect, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from ".";
@@ -16,7 +16,7 @@ export interface IDevice {
   type: DeviceType;
 }
 
-interface IRedBeeState {
+export interface IRedBeeState {
   storage: IStorage | null;
   device: IDevice | null;
   session: LoginResponse | null;
@@ -29,6 +29,8 @@ interface IRedBeeState {
   exposureBaseUrl: string;
   internalApiUrl: string;
   deviceGroup: DeviceGroup;
+  exposureApi: ExposureApi;
+  whiteLabelApi: WhiteLabelService;
 }
 
 export enum ActionType {
@@ -55,6 +57,8 @@ interface ISetSelectedLanguageAction extends IAction {
 
 type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction;
 
+const defaultExposureApi = new ExposureApi({ authHeader: () => undefined })
+
 const initialState: IRedBeeState = {
   device: null,
   storage: null,
@@ -64,6 +68,9 @@ const initialState: IRedBeeState = {
   exposureBaseUrl: "",
   internalApiUrl: "",
   deviceGroup: "" as DeviceGroup,
+  // these default values will be directly overwritten when initialising the context. This is not very pretty, i know...
+  whiteLabelApi: new WhiteLabelService({ authHeader: () => undefined, exposureApi: defaultExposureApi, deviceGroup: DeviceGroup.TV }),
+  exposureApi: defaultExposureApi,
 };
 
 export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([initialState, () => ({})]);
@@ -73,7 +80,32 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
     case ActionType.SET_SELECTED_LANGUAGE:
       return { ...state, selectedLanguage: (action as ISetSelectedLanguageAction).language };
     case ActionType.SET_SESSION:
-      return { ...state, session: (action as ISetSessionAction).session };
+      const getAuthHeader = () => {
+        if ((action as ISetSessionAction).session?.sessionToken) {
+          return { Authorization: `Bearer ${(action as ISetSessionAction).session?.sessionToken}` };
+        }
+      return undefined;
+      }
+      const exposureApi = new ExposureApi({
+        baseUrl: state.exposureBaseUrl,
+        customer: state.customer,
+        businessUnit: state.businessUnit,
+        authHeader: getAuthHeader
+      })
+      return {
+        ...state,
+        session: (action as ISetSessionAction).session,
+        // The only time we need to update the exposure api is when setting a new session
+        exposureApi,
+        whiteLabelApi: new WhiteLabelService({
+          baseUrl: state.internalApiUrl,
+          customer: state.customer,
+          businessUnit: state.businessUnit,
+          deviceGroup: state.deviceGroup,
+          exposureApi,
+          authHeader: getAuthHeader
+        })
+      };
     case ActionType.SET_CONFIG:
       const config = (action as ISetConfigAction).config;
       const { customer, businessUnit } = config;
@@ -122,6 +154,7 @@ export function RedBeeProvider({
   if (!storage) {
     console.warn("not providing a storage module means no data will be persisted between session");
   }
+  const exposureApi = new ExposureApi({ customer, businessUnit, authHeader: () => undefined, baseUrl: exposureBaseUrl })
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     customer,
@@ -131,7 +164,9 @@ export function RedBeeProvider({
     internalApiUrl,
     deviceGroup,
     storage: storage || null,
-    device
+    device,
+    exposureApi,
+    whiteLabelApi: new WhiteLabelService({ exposureApi, authHeader: () => undefined, deviceGroup, customer, businessUnit, baseUrl: internalApiUrl })
   });
   useEffect(() => {
     async function initStorage() {
@@ -153,12 +188,17 @@ export function RedBeeProvider({
   );
 }
 
+export function useRedBeeState(): IRedBeeState {
+  const [state] = useContext(RedBeeContext);
+  return state;
+}
+
 export function useRedBeeStateDispatch() {
   const [, dispatch] = useContext(RedBeeContext);
   return dispatch;
 }
 
 export function useSelectedLanguage() {
-  const [state] = useContext(RedBeeContext);
-  return state.selectedLanguage;
+  const [{ exposureApi }] = useContext(RedBeeContext);
+  return exposureApi;
 }

@@ -2,17 +2,22 @@ import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { DeviceType } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
-import { RedBeeProvider, IStorage, IDevice, useExposureApi, RedBeeContext } from "../src/index";
+import { RedBeeProvider, IStorage, IDevice, useExposureApi, RedBeeContext, ActionType } from "../src/index";
 
 export default function App() {
   const exposureApi = useExposureApi();
-  const [redBeeContextState] = useContext(RedBeeContext);
-  const { customer, businessUnit } = redBeeContextState;
+  const [redBeeContextState, dispatch] = useContext(RedBeeContext);
+  const { customer, businessUnit, device } = redBeeContextState;
+  React.useEffect(() => {
+    // @ts-ignore
+    window.redbeeState = redBeeContextState;
+  }, [redBeeContextState])
   React.useEffect(() => {
     if (!(customer && businessUnit)) return;
-      exposureApi.content.getAssets({ customer, businessUnit }).then(assets => {
-        console.log(assets);
-      }).catch(err => console.log(err))
+    exposureApi.authentication.login({ customer, businessUnit, username: "simon.wallin1@mailinator.com", password: "SimonTest", device })
+      .then(session => {
+        dispatch({ type: ActionType.SET_SESSION, session })
+      })
   }, [redBeeContextState.customer, redBeeContextState.businessUnit])
   return <h1>Hello</h1>;
 }

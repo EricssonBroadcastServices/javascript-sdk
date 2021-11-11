@@ -6,9 +6,17 @@ module.exports =  {
     'plugin:prettier/recommended',
     "plugin:react/recommended"
   ],
- parserOptions:  {
-    ecmaVersion:  2018,
-    sourceType:  'module',
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true
+    }
+  },
+  settings: {
+    react: {
+      version: "detect"
+    }
   },
   rules:  {
     "@typescript-eslint/interface-name-prefix": "off",
