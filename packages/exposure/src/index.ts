@@ -69,7 +69,12 @@ export {
   IAvailabilityKeysResponse as AvailabilityKeysResponse
 } from "./interfaces/entitlement/product";
 export { IProductOffering, IProductOffering as ProductOffering } from "./interfaces/payment/product-offering";
-export { IEntitlementError, IEntitlementResponse, EntitlementActionType } from "./interfaces/entitlement/entitlement";
+export {
+  IEntitlementError,
+  IEntitlementResponse,
+  EntitlementActionType,
+  IEntitlementActions
+} from "./interfaces/entitlement/entitlement";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
   ICardPaymentResponse,

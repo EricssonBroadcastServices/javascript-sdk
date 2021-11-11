@@ -38,7 +38,7 @@ export enum EntitlementActionType {
   LOGIN = "LOGIN"
 }
 
-interface IEntitlementActions {
+export interface IEntitlementActions {
   type: EntitlementActionType;
   offerings?: IEntitlementOfferingReference[];
   publication?: IPublicationReference;

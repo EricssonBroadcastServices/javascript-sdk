@@ -1,4 +1,4 @@
-enum UserAttributeType {
+export enum UserAttributeType {
   BOOLEAN = "boolean",
   REAL = "real",
   EMAIL = "email",

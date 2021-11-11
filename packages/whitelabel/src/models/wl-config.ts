@@ -41,6 +41,8 @@ export class WLAction implements IWLAction {
   @jsonProperty()
   public url?: string;
   @jsonProperty()
+  public qrCode?: string;
+  @jsonProperty()
   public pageId?: string;
   @jsonProperty()
   public assetId?: string;

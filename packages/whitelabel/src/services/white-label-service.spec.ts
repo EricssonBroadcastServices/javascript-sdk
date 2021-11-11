@@ -1,3 +1,4 @@
+import { ExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
 import { WhiteLabelService } from "./white-label-service";
 
@@ -7,7 +8,8 @@ describe("White label service", () => {
     businessUnit: "BSBU",
     origin: "bsbu.enigmatv.io",
     authHeader: () => ({ Authorization: "" }),
-    deviceGroup: DeviceGroup.WEB
+    deviceGroup: DeviceGroup.WEB,
+    exposureApi: new ExposureApi({ authHeader: () => undefined })
   });
   beforeEach(() => {
     spyOn(service, "get").and.returnValue(Promise.resolve({}));

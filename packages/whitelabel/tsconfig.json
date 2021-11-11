@@ -21,7 +21,8 @@
     "lib": [
       "es6",
       "es7",
-      "dom"
+      "dom",
+      "es2019"
     ],
     "outDir": "dist/"
   },
