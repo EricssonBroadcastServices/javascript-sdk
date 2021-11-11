@@ -36,7 +36,7 @@ export interface IRedBeeState {
 export enum ActionType {
   SET_CONFIG = "setConfig",
   SET_SESSION = "setSession",
-  SET_SELECTED_LANGUAGE = "setSelectedLanguage",
+  SET_SELECTED_LANGUAGE = "setSelectedLanguage"
 }
 
 interface IAction {
@@ -57,7 +57,7 @@ interface ISetSelectedLanguageAction extends IAction {
 
 type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction;
 
-const defaultExposureApi = new ExposureApi({ authHeader: () => undefined })
+const defaultExposureApi = new ExposureApi({ authHeader: () => undefined });
 
 const initialState: IRedBeeState = {
   device: null,
@@ -69,8 +69,12 @@ const initialState: IRedBeeState = {
   internalApiUrl: "",
   deviceGroup: "" as DeviceGroup,
   // these default values will be directly overwritten when initialising the context. This is not very pretty, i know...
-  whiteLabelApi: new WhiteLabelService({ authHeader: () => undefined, exposureApi: defaultExposureApi, deviceGroup: DeviceGroup.TV }),
-  exposureApi: defaultExposureApi,
+  whiteLabelApi: new WhiteLabelService({
+    authHeader: () => undefined,
+    exposureApi: defaultExposureApi,
+    deviceGroup: DeviceGroup.TV
+  }),
+  exposureApi: defaultExposureApi
 };
 
 export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([initialState, () => ({})]);
@@ -84,14 +88,14 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         if ((action as ISetSessionAction).session?.sessionToken) {
           return { Authorization: `Bearer ${(action as ISetSessionAction).session?.sessionToken}` };
         }
-      return undefined;
-      }
+        return undefined;
+      };
       const exposureApi = new ExposureApi({
         baseUrl: state.exposureBaseUrl,
         customer: state.customer,
         businessUnit: state.businessUnit,
         authHeader: getAuthHeader
-      })
+      });
       return {
         ...state,
         session: (action as ISetSessionAction).session,
@@ -115,7 +119,7 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   }
 }
 
-function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode, autoFetchConfig: boolean }) {
+function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode; autoFetchConfig: boolean }) {
   useFetchConfig(!autoFetchConfig);
   return <>{children}</>;
 }
@@ -154,7 +158,12 @@ export function RedBeeProvider({
   if (!storage) {
     console.warn("not providing a storage module means no data will be persisted between session");
   }
-  const exposureApi = new ExposureApi({ customer, businessUnit, authHeader: () => undefined, baseUrl: exposureBaseUrl })
+  const exposureApi = new ExposureApi({
+    customer,
+    businessUnit,
+    authHeader: () => undefined,
+    baseUrl: exposureBaseUrl
+  });
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     customer,
@@ -166,7 +175,14 @@ export function RedBeeProvider({
     storage: storage || null,
     device,
     exposureApi,
-    whiteLabelApi: new WhiteLabelService({ exposureApi, authHeader: () => undefined, deviceGroup, customer, businessUnit, baseUrl: internalApiUrl })
+    whiteLabelApi: new WhiteLabelService({
+      exposureApi,
+      authHeader: () => undefined,
+      deviceGroup,
+      customer,
+      businessUnit,
+      baseUrl: internalApiUrl
+    })
   });
   useEffect(() => {
     async function initStorage() {

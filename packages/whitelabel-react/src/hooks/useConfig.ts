@@ -9,16 +9,16 @@ export function useFetchConfig(disabled = false): void {
   const userLocation = useUserGeoLocation();
   const wlApi = useWLApi();
   useEffect(() => {
-    if (!userLocation || disabled) return;
+    if (!userLocation || disabled) return;
     if (customer && businessUnit) {
       wlApi
         .getConfigByCustomerAndBusinessUnit({
           countryCode: userLocation?.countryCode,
           locale,
           customer,
-          businessUnit,
+          businessUnit
         })
-        .then((config) => {
+        .then(config => {
           dispatch({ type: ActionType.SET_CONFIG, config });
         });
     } else if (origin) {
@@ -28,11 +28,10 @@ export function useFetchConfig(disabled = false): void {
           locale,
           origin
         })
-        .then((config) => {
+        .then(config => {
           dispatch({ type: ActionType.SET_CONFIG, config });
         });
     }
-    
   }, [locale, userLocation?.countryCode]);
 }
 
