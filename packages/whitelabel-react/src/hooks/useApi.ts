@@ -1,7 +1,5 @@
 import { ExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
 import { WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
-import { useContext } from "react";
-import { RedBeeContext } from "..";
 import { useRedBeeState } from "../RedBeeProvider";
 
 export function useExposureApi(): ExposureApi {
@@ -10,6 +8,6 @@ export function useExposureApi(): ExposureApi {
 }
 
 export function useWLApi(): WhiteLabelService {
-  const [{ whiteLabelApi }] = useContext(RedBeeContext);
+  const { whiteLabelApi } = useRedBeeState();
   return whiteLabelApi;
 }
