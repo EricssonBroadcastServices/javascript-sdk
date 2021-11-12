@@ -1,6 +1,6 @@
 import { deserialize, DeviceType, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
-import React, { Dispatch, useContext, useEffect, useReducer } from "react";
+import React, { Dispatch, useContext, useEffect, useReducer, useMemo } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from ".";
 import { queryClient } from "./util/react-query";
@@ -58,7 +58,7 @@ type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction
 
 const defaultExposureApi = new ExposureApi({ authHeader: () => undefined });
 
-const initialState: IRedBeeState = {
+const defaultState: IRedBeeState = {
   device: null,
   storage: null,
   session: null,
@@ -76,7 +76,7 @@ const initialState: IRedBeeState = {
   exposureApi: defaultExposureApi
 };
 
-export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([initialState, () => ({})]);
+export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([defaultState, () => ({})]);
 
 function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   switch (action.type) {
@@ -157,32 +157,35 @@ export function RedBeeProvider({
   if (!storage) {
     console.warn("not providing a storage module means no data will be persisted between session");
   }
-  const exposureApi = new ExposureApi({
-    customer,
-    businessUnit,
-    authHeader: () => undefined,
-    baseUrl: exposureBaseUrl
-  });
-  const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
-    customer,
-    businessUnit,
-    origin,
-    exposureBaseUrl,
-    internalApiUrl,
-    deviceGroup,
-    storage: storage || null,
-    device,
-    exposureApi,
-    whiteLabelApi: new WhiteLabelService({
-      exposureApi,
-      authHeader: () => undefined,
-      deviceGroup,
+  const initialState = useMemo(() => {
+    const exposureApi = new ExposureApi({
       customer,
       businessUnit,
-      baseUrl: internalApiUrl
-    })
-  });
+      authHeader: () => undefined,
+      baseUrl: exposureBaseUrl
+    });
+    return {
+      ...initialState,
+      customer,
+      businessUnit,
+      origin,
+      exposureBaseUrl,
+      internalApiUrl,
+      deviceGroup,
+      storage: storage || null,
+      device,
+      exposureApi,
+      whiteLabelApi: new WhiteLabelService({
+        exposureApi,
+        authHeader: () => undefined,
+        deviceGroup,
+        customer,
+        businessUnit,
+        baseUrl: internalApiUrl
+      })
+    };
+  }, []);
+  const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     async function initStorage() {
       if (!storage) return;
