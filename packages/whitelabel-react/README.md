@@ -1,11 +1,7 @@
-# `whitelabel-react`
+# whitelabel-react
 
-> TODO: description
+A package for react utilities shared among the white label apps using react.
 
-## Usage
-
-```
-const whitelabelReact = require('whitelabel-react');
-
-// TODO: DEMONSTRATE API
-```
+Run the demo application by running 
+```npm run demo```
+This will start a simple react app using the package. See the demo code for examples of how to use the package.
