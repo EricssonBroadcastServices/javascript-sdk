@@ -215,8 +215,3 @@ export function useRedBeeStateDispatch() {
   const [, dispatch] = useContext(RedBeeContext);
   return dispatch;
 }
-
-export function useSelectedLanguage() {
-  const { selectedLanguage } = useRedBeeState();
-  return selectedLanguage;
-}
