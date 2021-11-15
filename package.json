@@ -9,7 +9,8 @@
     "publish": "lerna publish -y --no-verify-access from-package",
     "test": "lerna run test",
     "lint": "lerna run lint --parallel",
-    "format": "lerna run format --parallel"
+    "format": "lerna run format --parallel",
+    "demo": "lerna run demo"
   },
   "husky": {
     "hooks": {
@@ -26,6 +27,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.27.0",
     "husky": "^7.0.2",
     "jest": "^25.1.0",
     "lerna": "^3.22.1",
