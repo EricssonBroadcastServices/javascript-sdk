@@ -6,18 +6,16 @@ import {
   IEntitlementError,
   IProductOffering
 } from "@ericssonbroadcastservices/exposure-sdk";
-import {
-  WLConfig,
-  WLPageModel,
-  WLComponent,
-  WLAsset,
-  DeviceGroup,
-  IWLAssetTag,
-  IEntitlementStatusResult
-} from "../index";
 import * as querystring from "query-string";
 import { IWLEPG } from "../interfaces/wl-epg";
 import { errorToEntitlementResult } from "../utils/entitlement";
+import { DeviceGroup } from "../interfaces/device-group";
+import { WLConfig } from "../models/wl-config";
+import { IWLAssetTag } from "../interfaces/wl-tag";
+import { WLPageModel } from "../models/wl-page";
+import { WLComponent } from "../models/wl-component";
+import { WLAsset } from "../models/wl-asset";
+import { IEntitlementStatusResult } from "../interfaces/entitlement-result";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup;

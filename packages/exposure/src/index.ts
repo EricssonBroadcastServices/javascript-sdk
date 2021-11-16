@@ -68,7 +68,11 @@ export {
   IAvailabilityKeysResponse,
   IAvailabilityKeysResponse as AvailabilityKeysResponse
 } from "./interfaces/entitlement/product";
-export { IProductOffering, IProductOffering as ProductOffering } from "./interfaces/payment/product-offering";
+export {
+  IProductOffering,
+  IProductOffering as ProductOffering,
+  ProductOfferingType
+} from "./interfaces/payment/product-offering";
 export {
   IEntitlementError,
   IEntitlementResponse,
