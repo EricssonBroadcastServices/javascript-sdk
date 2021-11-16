@@ -1,5 +1,5 @@
 {
-  "name": "whitelabel-react",
+  "name": "@ericssonbroadcastservices/whitelabel-react",
   "version": "0.1.0",
   "description": "react utils for white label apps",
   "author": "simonwallin <simon.wallin@eyevinn.se>",
