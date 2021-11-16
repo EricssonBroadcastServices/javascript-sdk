@@ -1,6 +1,6 @@
 {
   "name": "whitelabel-react",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "react utils for white label apps",
   "author": "simonwallin <simon.wallin@eyevinn.se>",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
@@ -20,8 +20,8 @@
     "url": "https://github.com/EricssonBroadcastServices/javascript-sdk/issues"
   },
   "dependencies": {
-    "@ericssonbroadcastservices/exposure-sdk": "^0.72.0",
-    "@ericssonbroadcastservices/whitelabel-sdk": "^0.105.1",
+    "@ericssonbroadcastservices/exposure-sdk": "^0.73.0",
+    "@ericssonbroadcastservices/whitelabel-sdk": "^0.106.0",
     "react": "^17.0.2",
     "react-query": "^3.31.0"
   },
