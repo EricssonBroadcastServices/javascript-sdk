@@ -10,4 +10,4 @@ export { useLogout, useValidateSession } from "./hooks/useLogin";
 export { useSearch } from "./hooks/useSearch";
 export { useUserDetails } from "./hooks/useUserDetails";
 export { useUserSession } from "./hooks/useUserSession";
-export { } from "./hooks/useTagList";
+export { useTagList } from "./hooks/useTagList";
