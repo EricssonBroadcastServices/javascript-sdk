@@ -81,6 +81,7 @@ export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction
 function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   switch (action.type) {
     case ActionType.SET_SELECTED_LANGUAGE:
+      console.log(action);
       return { ...state, selectedLanguage: (action as ISetSelectedLanguageAction).language };
     case ActionType.SET_SESSION:
       const getAuthHeader = () => {
@@ -112,7 +113,13 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
     case ActionType.SET_CONFIG:
       const config = (action as ISetConfigAction).config;
       const { customer, businessUnit } = config;
-      return { ...state, customer, businessUnit, config };
+      return {
+        ...state,
+        customer,
+        businessUnit,
+        config,
+        selectedLanguage: state.selectedLanguage || config.systemConfig.defaultLocale
+      };
     default:
       return state;
   }

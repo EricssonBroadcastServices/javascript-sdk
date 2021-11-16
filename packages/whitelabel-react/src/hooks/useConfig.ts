@@ -1,12 +1,13 @@
-import { useContext, useEffect } from "react";
-import { ActionType, RedBeeContext, useSelectedLanguage } from "../";
+import { useEffect } from "react";
+import { ActionType, useRedBeeState, useRedBeeStateDispatch, useSelectedLanguage } from "../";
 import { useWLApi } from "../";
 import { useUserGeoLocation } from "./useLocation";
 
 export function useFetchConfig(disabled = false): void {
-  const [{ customer, businessUnit, origin }, dispatch] = useContext(RedBeeContext);
+  const dispatch = useRedBeeStateDispatch();
+  const { customer, businessUnit, origin } = useRedBeeState();
   const locale = useSelectedLanguage();
-  const userLocation = useUserGeoLocation();
+  const [userLocation] = useUserGeoLocation();
   const wlApi = useWLApi();
   useEffect(() => {
     if (!userLocation || disabled) return;
@@ -36,6 +37,11 @@ export function useFetchConfig(disabled = false): void {
 }
 
 export function useConfig() {
-  const [state] = useContext(RedBeeContext);
+  const state = useRedBeeState();
   return state.config;
+}
+
+export function useTheme() {
+  const config = useConfig();
+  return config?.theme || null;
 }
