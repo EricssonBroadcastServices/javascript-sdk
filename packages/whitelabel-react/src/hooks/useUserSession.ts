@@ -17,10 +17,8 @@ export function useSetSession(): (loginResponse: LoginResponse | null) => void {
   const { storage } = useRedBeeState();
   return useCallback(
     (loginResponse: LoginResponse | null) => {
-      if (loginResponse) {
-        if (storage) {
-          storage.setItem(StorageKey.SESSION, loginResponse);
-        }
+      if (loginResponse && storage) {
+        storage.setItem(StorageKey.SESSION, loginResponse);
       } else if (storage) {
         storage.removeItem(StorageKey.SESSION);
       }
