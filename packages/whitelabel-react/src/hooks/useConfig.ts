@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ActionType, useRedBeeState, useRedBeeStateDispatch, useSelectedLanguage } from "../";
 import { useWLApi } from "../";
 import { TApiHook } from "./type.apiHook";
-import { useUserGeoLocation } from "./useLocation";
+import { useGeolocation } from "./useGeolocation";
 
 const configLoadingId = "configLoading";
 
@@ -11,7 +11,7 @@ export function useFetchConfig(disabled = false): void {
   const dispatch = useRedBeeStateDispatch();
   const { customer, businessUnit, origin } = useRedBeeState();
   const locale = useSelectedLanguage();
-  const [userLocation] = useUserGeoLocation();
+  const [userLocation] = useGeolocation();
   const wlApi = useWLApi();
   useEffect(() => {
     if (!userLocation || disabled) return;

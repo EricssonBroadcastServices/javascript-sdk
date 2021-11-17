@@ -10,7 +10,7 @@ export function useUserDetails(): TApiHook<IUserDetails, [unknown]> {
   const exposureApi = useExposureApi();
   const { isLoading, error, data } = useQuery(
     [QueryKeys.USER_DETAILS, userSession?.sessionToken],
-    async () => {
+    () => {
       if (!userSession?.isLoggedIn()) return;
       return exposureApi.user.getUserDetails({});
     },

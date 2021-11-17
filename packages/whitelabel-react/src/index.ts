@@ -2,7 +2,7 @@ export { RedBeeContext, RedBeeProvider, ActionType, useRedBeeState, useRedBeeSta
 export type { IStorage, IDevice } from "./RedBeeProvider";
 export { useSelectedLanguage } from "./hooks/useSelectedLanguage";
 export { useExposureApi, useWLApi } from "./hooks/useApi";
-export { useUserGeoLocation } from "./hooks/useLocation";
+export { useGeolocation } from "./hooks/useGeolocation";
 export { useConfig, useFetchConfig, useTheme } from "./hooks/useConfig";
 export { useTranslations } from "./hooks/useTranslations";
 export { useActivationCode } from "./hooks/useActivationCode";

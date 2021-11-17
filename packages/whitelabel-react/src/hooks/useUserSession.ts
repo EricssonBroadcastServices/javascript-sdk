@@ -21,10 +21,8 @@ export function useSetSession(): (loginResponse: LoginResponse | null) => void {
         if (storage) {
           storage.setItem(StorageKey.SESSION, loginResponse);
         }
-      } else {
-        if (storage) {
-          storage.removeItem(StorageKey.SESSION);
-        }
+      } else if (storage) {
+        storage.removeItem(StorageKey.SESSION);
       }
       return dispatch({ type: ActionType.SET_SESSION, session: loginResponse });
     },
