@@ -9,7 +9,7 @@ const TAG_FEED_LIST_ID = "tagfeed";
 
 export function useTagList(): TApiHook<PreferenceListTags> {
   const exposureApi = useExposureApi();
-  const userSession = useUserSession();
+  const [userSession] = useUserSession();
   const { data, isLoading } = useQuery([QueryKeys.TAGS_LIST, userSession?.sessionToken], () => {
     if (!userSession?.isLoggedIn()) return;
     return exposureApi.preferences.getTagsFromList({

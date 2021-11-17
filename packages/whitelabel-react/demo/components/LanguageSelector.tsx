@@ -4,7 +4,7 @@ import { useSetSelectedLanguage } from "../../src/hooks/useSelectedLanguage";
 
 export function LanguageSelector() {
   const setSelectedLanguage = useSetSelectedLanguage();
-  const locales = useConfig()?.systemConfig.locales;
+  const locales = useConfig()[0]?.systemConfig.locales;
   return (
     <div>
       {locales?.map(l => (

@@ -6,7 +6,7 @@ import { useExposureApi } from "./useApi";
 import { TApiHook } from "./type.apiHook";
 
 export function useUserDetails(): TApiHook<IUserDetails, [unknown]> {
-  const userSession = useUserSession();
+  const [userSession] = useUserSession();
   const exposureApi = useExposureApi();
   const { isLoading, error, data } = useQuery(
     [QueryKeys.USER_DETAILS, userSession?.sessionToken],

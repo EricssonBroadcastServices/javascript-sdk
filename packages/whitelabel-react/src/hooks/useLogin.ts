@@ -28,7 +28,7 @@ export function useLogout() {
 }
 
 export function useValidateSession() {
-  const currentSession = useUserSession();
+  const [currentSession] = useUserSession();
   const exposureApi = useExposureApi();
   const setSession = useSetSession();
   return useCallback(() => {

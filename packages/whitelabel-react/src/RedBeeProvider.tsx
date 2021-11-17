@@ -17,6 +17,7 @@ export interface IDevice {
 }
 
 export interface IRedBeeState {
+  loading: string[];
   storage: IStorage | null;
   device: IDevice | null;
   session: LoginResponse | null;
@@ -35,7 +36,9 @@ export interface IRedBeeState {
 export enum ActionType {
   SET_CONFIG = "setConfig",
   SET_SESSION = "setSession",
-  SET_SELECTED_LANGUAGE = "setSelectedLanguage"
+  SET_SELECTED_LANGUAGE = "setSelectedLanguage",
+  START_LOADING = "startLoading",
+  STOP_LOADING = "stopLoading"
 }
 
 interface IAction {
@@ -54,11 +57,16 @@ interface ISetSelectedLanguageAction extends IAction {
   language: string;
 }
 
-type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction;
+interface ILoadingAction extends IAction {
+  id: string;
+}
+
+type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction | ILoadingAction;
 
 const defaultExposureApi = new ExposureApi({ authHeader: () => undefined });
 
 const defaultState: IRedBeeState = {
+  loading: [],
   device: null,
   storage: null,
   session: null,
@@ -80,6 +88,13 @@ export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction
 
 function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   switch (action.type) {
+    case ActionType.START_LOADING:
+      return {
+        ...state,
+        loading: [...state.loading.filter(i => i !== (action as ILoadingAction).id), (action as ILoadingAction).id]
+      };
+    case ActionType.STOP_LOADING:
+      return { ...state, loading: state.loading.filter(i => i !== (action as ILoadingAction).id) };
     case ActionType.SET_SELECTED_LANGUAGE:
       return { ...state, selectedLanguage: (action as ISetSelectedLanguageAction).language };
     case ActionType.SET_SESSION:
@@ -172,6 +187,7 @@ export function RedBeeProvider({
     });
     return {
       ...initialState,
+      loading: [],
       customer,
       businessUnit,
       origin,

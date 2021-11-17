@@ -3,10 +3,13 @@ import { useCallback } from "react";
 import { StorageKey } from "../util/storageKeys";
 import { ActionType } from "../RedBeeProvider";
 import { useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
+import { TApiHook } from "./type.apiHook";
 
-export function useUserSession(): LoginResponse | null {
+const sessionLoadingStateId = "sessionLoading";
+
+export function useUserSession(): TApiHook<LoginResponse> {
   const state = useRedBeeState();
-  return state.session;
+  return [state.session, state.loading.includes(sessionLoadingStateId)];
 }
 
 export function useSetSession(): (loginResponse: LoginResponse | null) => void {
@@ -20,7 +23,6 @@ export function useSetSession(): (loginResponse: LoginResponse | null) => void {
         }
       } else {
         if (storage) {
-          console.log("remove invalid session from storage");
           storage.removeItem(StorageKey.SESSION);
         }
       }

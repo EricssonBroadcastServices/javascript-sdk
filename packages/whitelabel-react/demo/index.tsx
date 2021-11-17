@@ -10,7 +10,8 @@ import {
   ActionType,
   useTranslations,
   useConfig,
-  useExposureApi
+  useExposureApi,
+  useRedBeeState
 } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
 
@@ -21,7 +22,8 @@ const device: IDevice = {
 };
 
 export default function App() {
-  const config = useConfig();
+  const [config] = useConfig();
+  const state = useRedBeeState();
   const exposureApi = useExposureApi();
   const traslations = useTranslations();
   const dispatch = useRedBeeStateDispatch();
@@ -41,6 +43,8 @@ export default function App() {
       <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(traslations, null, 2)}</p>
       <h2>Config</h2>
       <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(config, null, 2)}</p>
+      <h2>Loading state</h2>
+      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(state.loading, null, 2)}</p>
     </div>
   );
 }

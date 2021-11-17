@@ -7,7 +7,7 @@ import { useUserSession } from "./useUserSession";
 export function useSetSelectedLanguage() {
   const exposureApi = useExposureApi();
   const dispatch = useRedBeeStateDispatch();
-  const userSession = useUserSession();
+  const [userSession] = useUserSession();
   return useCallback(
     (language: string) => {
       dispatch({ type: ActionType.SET_SELECTED_LANGUAGE, language: language });

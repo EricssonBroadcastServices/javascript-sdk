@@ -1,7 +1,11 @@
+import { ThemeModel, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useEffect } from "react";
 import { ActionType, useRedBeeState, useRedBeeStateDispatch, useSelectedLanguage } from "../";
 import { useWLApi } from "../";
+import { TApiHook } from "./type.apiHook";
 import { useUserGeoLocation } from "./useLocation";
+
+const configLoadingId = "configLoading";
 
 export function useFetchConfig(disabled = false): void {
   const dispatch = useRedBeeStateDispatch();
@@ -12,6 +16,7 @@ export function useFetchConfig(disabled = false): void {
   useEffect(() => {
     if (!userLocation || disabled) return;
     if (customer && businessUnit) {
+      dispatch({ type: ActionType.START_LOADING, id: configLoadingId });
       wlApi
         .getConfigByCustomerAndBusinessUnit({
           countryCode: userLocation?.countryCode,
@@ -20,9 +25,13 @@ export function useFetchConfig(disabled = false): void {
           businessUnit
         })
         .then(config => {
-          dispatch({ type: ActionType.SET_CONFIG, config });
+          return dispatch({ type: ActionType.SET_CONFIG, config });
+        })
+        .finally(() => {
+          dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
         });
     } else if (origin) {
+      dispatch({ type: ActionType.START_LOADING, id: configLoadingId });
       wlApi
         .getConfig({
           countryCode: userLocation?.countryCode,
@@ -30,18 +39,21 @@ export function useFetchConfig(disabled = false): void {
           origin
         })
         .then(config => {
-          dispatch({ type: ActionType.SET_CONFIG, config });
+          return dispatch({ type: ActionType.SET_CONFIG, config });
+        })
+        .finally(() => {
+          dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
         });
     }
   }, [locale, userLocation?.countryCode]);
 }
 
-export function useConfig() {
+export function useConfig(): TApiHook<WLConfig> {
   const state = useRedBeeState();
-  return state.config;
+  return [state.config, state.loading.includes(configLoadingId)];
 }
 
-export function useTheme() {
-  const config = useConfig();
-  return config?.theme || null;
+export function useTheme(): TApiHook<ThemeModel> {
+  const [config, isLoading] = useConfig();
+  return [config?.theme || null, isLoading];
 }

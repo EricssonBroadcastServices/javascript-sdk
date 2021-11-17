@@ -8,7 +8,7 @@ import { useDebounce } from "./useDebounce";
 
 export function useSearch(term: string, debounceTime = 300): TApiHook<WLAsset[]> {
   const wlApi = useWLApi();
-  const searchUrl = useConfig()?.apiConfig.search.internalUrl;
+  const searchUrl = useConfig()[0]?.apiConfig.search.internalUrl;
   const debouncedTerm = useDebounce(term, debounceTime);
   const { data, isLoading } = useQuery([QueryKeys.SEARCH, debouncedTerm], () => {
     if (!searchUrl || !term || term === "") return;
