@@ -81,7 +81,6 @@ export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction
 function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   switch (action.type) {
     case ActionType.SET_SELECTED_LANGUAGE:
-      console.log(action);
       return { ...state, selectedLanguage: (action as ISetSelectedLanguageAction).language };
     case ActionType.SET_SESSION:
       const getAuthHeader = () => {
