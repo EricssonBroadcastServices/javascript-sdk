@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { DeviceType } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
@@ -25,6 +25,16 @@ const device: IDevice = {
   type: DeviceType.SMART_TV
 };
 
+const JsonBox = ({ json, children, title }: { json: any; children?: any; title: string }) => {
+  return (
+    <details style={{ flex: 1 }}>
+      {children}
+      <summary>{title}</summary>
+      <p style={{ whiteSpace: "pre-wrap" }}>{json}</p>
+    </details>
+  );
+};
+
 export default function App() {
   const [config] = useConfig();
   const state = useRedBeeState();
@@ -45,21 +55,20 @@ export default function App() {
   }, [config]);
   return (
     <div>
-      <LanguageSelector />
-      <SearchInput />
-      <h2>Activation Code</h2>
-      <button onClick={activationCodeData.refresh}>Refresh</button>
-      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(activationCodeData, null, 2)}</p>
-      <h2>Translations</h2>
-      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(traslations, null, 2)}</p>
-      <h2>Config</h2>
-      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(config, null, 2)}</p>
-      <h2>Loading state</h2>
-      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(state.loading, null, 2)}</p>
-      <h2>Geolocation</h2>
-      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(geolocation, null, 2)}</p>
-      <h2>User Details</h2>
-      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(userDetails, null, 2)}</p>
+      <div style={{ display: "flex" }}>
+        <LanguageSelector />
+        <SearchInput />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {/* <JsonBox title={"Activation Code"} json={JSON.stringify(activationCodeData, null, 2)}>
+          <button onClick={activationCodeData.refresh}>Refresh</button>
+        </JsonBox> */}
+        <JsonBox title={"Translations"} json={JSON.stringify(traslations, null, 2)}></JsonBox>
+        <JsonBox title={"Config"} json={JSON.stringify(config, null, 2)}></JsonBox>
+        <JsonBox title={"Loading state"} json={JSON.stringify(state.loading, null, 2)}></JsonBox>
+        <JsonBox title={"Geolocation"} json={JSON.stringify(geolocation, null, 2)}></JsonBox>
+        <JsonBox title={"User details"} json={JSON.stringify(userDetails, null, 2)}></JsonBox>
+      </div>
     </div>
   );
 }

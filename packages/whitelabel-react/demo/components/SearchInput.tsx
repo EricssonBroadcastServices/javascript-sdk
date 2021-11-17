@@ -6,7 +6,7 @@ export default function SearchInput() {
   const [assets] = useSearch(term);
   return (
     <div>
-      <input onChange={e => setTerm(e.target.value)} />
+      <input placeholder="Search" onChange={e => setTerm(e.target.value)} />
       {assets?.map(a => (
         <h4 key={a.assetId}>{a.title}</h4>
       ))}
