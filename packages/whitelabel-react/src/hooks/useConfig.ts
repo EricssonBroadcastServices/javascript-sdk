@@ -2,7 +2,7 @@ import { ThemeModel, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk"
 import { useEffect } from "react";
 import { ActionType, useRedBeeState, useRedBeeStateDispatch, useSelectedLanguage } from "../";
 import { useWLApi } from "../";
-import { TApiHook } from "./type.apiHook";
+import { TApiHook } from "../types/type.apiHook";
 import { useGeolocation } from "./useGeolocation";
 
 const configLoadingId = "configLoading";
@@ -50,10 +50,10 @@ export function useFetchConfig(disabled = false): void {
 
 export function useConfig(): TApiHook<WLConfig> {
   const state = useRedBeeState();
-  return [state.config, state.loading.includes(configLoadingId)];
+  return [state.config, state.loading.includes(configLoadingId), null];
 }
 
 export function useTheme(): TApiHook<ThemeModel> {
   const [config, isLoading] = useConfig();
-  return [config?.theme || null, isLoading];
+  return [config?.theme || null, isLoading, null];
 }

@@ -11,9 +11,13 @@ import {
   useTranslations,
   useConfig,
   useExposureApi,
-  useRedBeeState
+  useRedBeeState,
+  useActivationCode,
+  useGeolocation,
+  useUserDetails
 } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
+import SearchInput from "./components/SearchInput";
 
 const device: IDevice = {
   deviceId: "123",
@@ -25,8 +29,11 @@ export default function App() {
   const [config] = useConfig();
   const state = useRedBeeState();
   const exposureApi = useExposureApi();
-  const traslations = useTranslations();
+  const [traslations] = useTranslations();
   const dispatch = useRedBeeStateDispatch();
+  const [activationCodeData] = useActivationCode({});
+  const [geolocation] = useGeolocation();
+  const [userDetails] = useUserDetails();
   React.useEffect(() => {
     if (!config) return;
     const { customer, businessUnit } = config;
@@ -39,12 +46,20 @@ export default function App() {
   return (
     <div>
       <LanguageSelector />
+      <SearchInput />
+      <h2>Activation Code</h2>
+      <button onClick={activationCodeData.refresh}>Refresh</button>
+      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(activationCodeData, null, 2)}</p>
       <h2>Translations</h2>
       <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(traslations, null, 2)}</p>
       <h2>Config</h2>
       <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(config, null, 2)}</p>
       <h2>Loading state</h2>
       <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(state.loading, null, 2)}</p>
+      <h2>Geolocation</h2>
+      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(geolocation, null, 2)}</p>
+      <h2>User Details</h2>
+      <p style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(userDetails, null, 2)}</p>
     </div>
   );
 }

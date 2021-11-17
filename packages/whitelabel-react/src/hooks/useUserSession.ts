@@ -3,13 +3,13 @@ import { useCallback } from "react";
 import { StorageKey } from "../util/storageKeys";
 import { ActionType } from "../RedBeeProvider";
 import { useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
-import { TApiHook } from "./type.apiHook";
+import { TApiHook } from "../types/type.apiHook";
 
 const sessionLoadingStateId = "sessionLoading";
 
 export function useUserSession(): TApiHook<LoginResponse> {
   const state = useRedBeeState();
-  return [state.session, state.loading.includes(sessionLoadingStateId)];
+  return [state.session, state.loading.includes(sessionLoadingStateId), null];
 }
 
 export function useSetSession(): (loginResponse: LoginResponse | null) => void {

@@ -3,12 +3,12 @@ import { useQuery } from "react-query";
 import { QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
 import { useExposureApi } from "./useApi";
-import { TApiHook } from "./type.apiHook";
+import { TApiHook } from "../types/type.apiHook";
 
-export function useUserDetails(): TApiHook<IUserDetails, [unknown]> {
+export function useUserDetails(): TApiHook<IUserDetails> {
   const [userSession] = useUserSession();
   const exposureApi = useExposureApi();
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, data, error } = useQuery(
     [QueryKeys.USER_DETAILS, userSession?.sessionToken],
     () => {
       if (!userSession?.isLoggedIn()) return;
