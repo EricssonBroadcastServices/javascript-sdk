@@ -2,8 +2,9 @@ import { IUserLocation } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
 import { useExposureApi } from "../";
 import { QueryKeys } from "../util/react-query";
+import { TApiHook } from "./type.apiHook";
 
-export function useUserGeoLocation(): [IUserLocation | null, boolean] {
+export function useUserGeoLocation(): TApiHook<IUserLocation> {
   const exposureApi = useExposureApi();
   const { data, isLoading } = useQuery(
     QueryKeys.USER_LOCATION,
