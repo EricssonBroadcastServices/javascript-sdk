@@ -1,6 +1,7 @@
 import { WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useQuery } from "react-query";
-import { useRedBeeState, useWLApi } from "..";
+import { useRedBeeState } from "../RedBeeProvider";
+import { useWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 
 export function useAsset(identifier: string): TApiHook<WLAsset> {

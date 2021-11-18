@@ -4,7 +4,7 @@ import { StorageKey } from "../util/storageKeys";
 import { ActionType } from "../RedBeeProvider";
 import { useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { useSetSelectedLanguage } from "..";
+import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
 
 const sessionLoadingStateId = "sessionLoading";
 

@@ -1,6 +1,8 @@
 import { IProductOffering } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
-import { useExposureApi, useGeolocation, useRedBeeState } from "..";
+import { useExposureApi } from "./useApi";
+import { useGeolocation } from "./useGeolocation";
+import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useConsumedDiscounts, usePurchases } from "./usePurchases";

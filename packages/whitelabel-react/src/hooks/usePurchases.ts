@@ -1,7 +1,9 @@
 import { PurchaseResponse, purchaseUtils } from "@ericssonbroadcastservices/exposure-sdk";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
-import { useExposureApi, useRedBeeState, useUserSession } from "..";
+import { useExposureApi } from "./useApi";
+import { useRedBeeState } from "../RedBeeProvider";
+import { useUserSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 
