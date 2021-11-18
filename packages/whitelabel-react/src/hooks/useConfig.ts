@@ -45,6 +45,9 @@ export function useFetchConfig(disabled = false): void {
           dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
         });
     }
+    return () => {
+      dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
+    };
   }, [locale, userLocation?.countryCode]);
 }
 

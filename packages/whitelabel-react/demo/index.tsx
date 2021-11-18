@@ -41,7 +41,7 @@ export default function App() {
   const exposureApi = useExposureApi();
   const [traslations] = useTranslations();
   const dispatch = useRedBeeStateDispatch();
-  const [activationCodeData] = useActivationCode({});
+  // const [activationCodeData] = useActivationCode({});
   const [geolocation] = useGeolocation();
   const [userDetails] = useUserDetails();
   React.useEffect(() => {
