@@ -51,7 +51,8 @@ function AppProvider() {
     <RedBeeProvider
       internalApiUrl={"https://bsbu.enigmatv.io"}
       exposureBaseUrl={"https://exposure.api.redbee.dev"}
-      origin={"bsbu.enigmatv.io"}
+      customer={"BSCU"}
+      businessUnit={"BSBU"}
       storage={storage}
       device={device}
       deviceGroup={DeviceGroup.TV}

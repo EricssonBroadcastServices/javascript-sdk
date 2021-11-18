@@ -1,14 +1,19 @@
 import React from "react";
 import { useConfig } from "../../src";
-import { useSetSelectedLanguage } from "../../src/hooks/useSelectedLanguage";
+import { useSetSelectedLanguage, useSelectedLanguage } from "../../src/hooks/useSelectedLanguage";
 
 export function LanguageSelector() {
   const setSelectedLanguage = useSetSelectedLanguage();
+  const selectedLanguage = useSelectedLanguage();
   const locales = useConfig()[0]?.systemConfig.locales;
   return (
     <div>
       {locales?.map(l => (
-        <button key={l.code} onClick={() => setSelectedLanguage(l.code)}>
+        <button
+          style={{ backgroundColor: selectedLanguage === l.code ? "red" : "grey" }}
+          key={l.code}
+          onClick={() => setSelectedLanguage(l.code)}
+        >
           {l.name}
         </button>
       ))}

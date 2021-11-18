@@ -212,9 +212,13 @@ export function RedBeeProvider({
     async function initStorage() {
       if (!storage) return;
       const persistedSessionJSON = await storage.getItem(StorageKey.SESSION);
+      const persistedSelectedLanguage = await storage.getItem(StorageKey.LOCALE);
       if (persistedSessionJSON) {
         const parsed = JSON.parse(persistedSessionJSON);
         dispatch({ type: ActionType.SET_SESSION, session: deserialize(LoginResponse, parsed) });
+      }
+      if (persistedSelectedLanguage) {
+        dispatch({ type: ActionType.SET_SELECTED_LANGUAGE, language: persistedSelectedLanguage });
       }
     }
     initStorage();
