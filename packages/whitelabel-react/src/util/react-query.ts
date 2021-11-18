@@ -16,5 +16,6 @@ export enum QueryKeys {
   TRANSLATIONS = "translations",
   USER_LOCATION = "userLocation",
   TAGS_LIST = "tagsList",
-  USER_DETAILS = "userDetails"
+  USER_DETAILS = "userDetails",
+  SEARCH = "search"
 }
