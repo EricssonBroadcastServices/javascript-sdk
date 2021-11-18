@@ -12,7 +12,7 @@ export function useUserDetails(): TApiHook<IUserDetails> {
   const { customer, businessUnit } = useRedBeeState();
   // TODO: when we update user details this should be invalidated from cache.
   const { isLoading, data, error } = useQuery(
-    [QueryKeys.USER_DETAILS, userSession?.isLoggedIn(), customer, businessUnit],
+    [QueryKeys.USER_DETAILS, userSession?.sessionToken, customer, businessUnit],
     () => {
       if (!userSession?.isLoggedIn() || !customer || !businessUnit) return;
       return exposureApi.user.getUserDetails({ customer, businessUnit });
