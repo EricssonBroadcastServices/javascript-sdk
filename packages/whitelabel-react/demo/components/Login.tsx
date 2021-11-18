@@ -11,12 +11,12 @@ export const Login = () => {
   const [session] = useUserSession();
   return (
     <div>
-      <p>{`Logged in as: ${userDetails?.username}`}</p>
       <input value={username} onChange={e => setUsername(e.target.value)} />
       <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
       <button onClick={() => (session?.isLoggedIn() ? logout() : login(username, password))}>
         {session?.isLoggedIn() ? "Log out" : "Login"}
       </button>
+      <p>{`Logged in as: ${userDetails?.username}`}</p>
     </div>
   );
 };

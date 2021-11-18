@@ -21,7 +21,7 @@ export default function App() {
   return (
     <div>
       <HashRouter>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
           <Link to="/">
             <button style={{ marginRight: "10px" }}>Home</button>
           </Link>

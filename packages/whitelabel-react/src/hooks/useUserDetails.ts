@@ -1,6 +1,6 @@
 import { IUserDetails } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
-import { QueryKeys } from "../util/react-query";
+import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
 import { useExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
@@ -20,4 +20,8 @@ export function useUserDetails(): TApiHook<IUserDetails> {
     { staleTime: 1000 * 60 * 10 }
   );
   return [data || null, isLoading, error];
+}
+
+export function refetchUserDetails() {
+  return queryClient.invalidateQueries(QueryKeys.USER_DETAILS);
 }

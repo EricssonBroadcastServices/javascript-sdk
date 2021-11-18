@@ -8,7 +8,7 @@ export { useTranslations } from "./hooks/useTranslations";
 export { useActivationCode } from "./hooks/useActivationCode";
 export { useLogout, useValidateSession, useLogin } from "./hooks/useLogin";
 export { useSearch } from "./hooks/useSearch";
-export { useUserDetails } from "./hooks/useUserDetails";
+export { useUserDetails, refetchUserDetails } from "./hooks/useUserDetails";
 export { useUserSession } from "./hooks/useUserSession";
 export { useTagList } from "./hooks/useTagList";
 export { useConsumedDiscounts, usePurchases, useTvodIds, useUnsubscribe, refetchPurchases } from "./hooks/usePurchases";
