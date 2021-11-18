@@ -7,6 +7,7 @@ import { useWLApi } from "./useApi";
 import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
+import { useUserSession } from "..";
 
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
@@ -18,7 +19,7 @@ interface IUseEntitlement {
   startTimeAdjustmentSpread?: number;
 }
 
-const defaultEntitlementStatus: IEntitlementStatusResult = {
+export const defaultEntitlementStatus: IEntitlementStatusResult = {
   isEntitled: false,
   accessLater: [],
   accessNow: [],
@@ -35,7 +36,8 @@ export function useEntitlementForAsset(
   { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlement
 ): TApiHook<IEntitlementStatusResult> {
   const [availableProductOfferings, offeringsLoading] = useProductOfferings();
-  const { customer, businessUnit, session } = useRedBeeState();
+  const { customer, businessUnit } = useRedBeeState();
+  const [session] = useUserSession();
   const wlApi = useWLApi();
   const [result, setResult] = useState<IEntitlementStatusResult>(defaultEntitlementStatus);
   const { data, isLoading, error } = useQuery(
