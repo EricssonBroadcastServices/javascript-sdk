@@ -43,7 +43,6 @@ export function useEntitlementForAsset(
     () => {
       if (!session?.sessionToken || !customer || !businessUnit || !availableProductOfferings || offeringsLoading)
         return defaultEntitlementStatus;
-      console.log(availableProductOfferings, session.sessionToken, asset.assetId);
       return wlApi
         .getEntitlementForAsset({
           asset,
@@ -77,7 +76,6 @@ export function useEntitlementForAsset(
       if (when > 0) {
         timeout = setTimeout(() => {
           if (confirmEntitlementOnStart) {
-            // trigger a new entitlement check. Only one refetch will be triggered.
             refetchAssetEntitlements();
           } else if (
             data.entitlementError?.actions?.every(a => a.type === EntitlementActionType.WAIT) &&
