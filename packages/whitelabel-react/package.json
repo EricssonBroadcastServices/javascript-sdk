@@ -30,7 +30,7 @@
     "@ericssonbroadcastservices/whitelabel-sdk": "^0.106.0"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
+    "react": ">=17",
     "react-query": "^3.31.0"
   },
   "devDependencies": {
