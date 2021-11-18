@@ -18,7 +18,7 @@ export function useSetSession(): (loginResponse: LoginResponse | null) => void {
   return useCallback(
     (loginResponse: LoginResponse | null) => {
       if (loginResponse && storage) {
-        storage.setItem(StorageKey.SESSION, loginResponse);
+        storage.setItem(StorageKey.SESSION, JSON.stringify(loginResponse));
       } else if (storage) {
         storage.removeItem(StorageKey.SESSION);
       }

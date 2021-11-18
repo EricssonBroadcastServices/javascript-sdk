@@ -4,6 +4,21 @@ import { useSetSession, useUserSession } from "./useUserSession";
 import { useExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 
+export function useLogin() {
+  const exposureApi = useExposureApi();
+  const { device, customer, businessUnit } = useRedBeeState();
+  const setSession = useSetSession();
+  return useCallback(
+    (username: string, password: string) => {
+      if (!device) throw "No device";
+      return exposureApi.authentication.login({ customer, businessUnit, username, password, device }).then(session => {
+        setSession(session);
+      });
+    },
+    [device, exposureApi, customer, businessUnit]
+  );
+}
+
 export function useLogout() {
   const setSession = useSetSession();
   const exposureApi = useExposureApi();
