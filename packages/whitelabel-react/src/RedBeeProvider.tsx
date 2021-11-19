@@ -9,7 +9,7 @@ import { IStorage } from "./types/storage";
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
-  device: IDeviceInfo | null;
+  device: IDeviceInfo;
   session: LoginResponse | null;
   config: WLConfig | null;
   selectedLanguage: string | null;
@@ -52,30 +52,8 @@ interface ILoadingAction extends IAction {
 
 type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction | ILoadingAction;
 
-const defaultExposureApi = new ExposureApi({ authHeader: () => undefined });
-
-const defaultState: IRedBeeState = {
-  loading: [],
-  device: null,
-  storage: null,
-  session: null,
-  config: null,
-  selectedLanguage: null,
-  exposureBaseUrl: "",
-  internalApiUrl: "",
-  customer: "",
-  businessUnit: "",
-  deviceGroup: "" as DeviceGroup,
-  // these default values will be directly overwritten when initialising the context. This is not very pretty, i know...
-  whiteLabelApi: new WhiteLabelService({
-    authHeader: () => undefined,
-    exposureApi: defaultExposureApi,
-    deviceGroup: DeviceGroup.TV
-  }),
-  exposureApi: defaultExposureApi
-};
-
-export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([defaultState, () => ({})]);
+// default state will be overwritten by proper values in RedBeeProvider, hence faulty values here.
+export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([{} as IRedBeeState, () => ({})]);
 
 function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   switch (action.type) {
@@ -180,7 +158,7 @@ export function RedBeeProvider({
   if (!storage) {
     console.warn("not providing a storage module means no data will be persisted between session");
   }
-  const initialState = useMemo(() => {
+  const initialState: IRedBeeState = useMemo(() => {
     const exposureApi = new ExposureApi({
       customer,
       businessUnit,
