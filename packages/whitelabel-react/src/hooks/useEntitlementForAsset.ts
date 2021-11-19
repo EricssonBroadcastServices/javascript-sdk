@@ -7,7 +7,7 @@ import { useWLApi } from "./useApi";
 import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
-import { useUserSession } from "..";
+import { useUserSession } from "./useUserSession";
 
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
