@@ -95,5 +95,5 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
     // can't, and don't need to, add exposure as dependancy
   }, [customer, businessUnit, refreshCounter]);
 
-  return [{ ...data, refresh, isOverDeviceLimit }, isLoading, codeError];
+  return [{ ...(data as IActivationCodeData), refresh, isOverDeviceLimit }, isLoading, codeError];
 }

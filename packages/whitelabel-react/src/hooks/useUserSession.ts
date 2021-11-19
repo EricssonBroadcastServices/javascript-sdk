@@ -4,6 +4,7 @@ import { StorageKey } from "../util/storageKeys";
 import { ActionType } from "../RedBeeProvider";
 import { useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
+import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
 
 const sessionLoadingStateId = "sessionLoading";
 
@@ -14,11 +15,15 @@ export function useUserSession(): TApiHook<LoginResponse> {
 
 export function useSetSession(): (loginResponse: LoginResponse | null) => void {
   const dispatch = useRedBeeStateDispatch();
+  const setSelectedLanguage = useSetSelectedLanguage();
   const { storage } = useRedBeeState();
   return useCallback(
     (loginResponse: LoginResponse | null) => {
-      if (loginResponse && storage) {
-        storage.setItem(StorageKey.SESSION, loginResponse);
+      if (loginResponse) {
+        if (storage) {
+          storage.setItem(StorageKey.SESSION, JSON.stringify(loginResponse));
+        }
+        setSelectedLanguage(loginResponse.language);
       } else if (storage) {
         storage.removeItem(StorageKey.SESSION);
       }

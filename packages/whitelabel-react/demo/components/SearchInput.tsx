@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useSearch } from "../../src/index";
 
 export default function SearchInput() {
@@ -8,7 +9,9 @@ export default function SearchInput() {
     <div>
       <input placeholder="Search" onChange={e => setTerm(e.target.value)} />
       {assets?.map(a => (
-        <h4 key={a.assetId}>{a.title}</h4>
+        <Link key={a.assetId} to={`/asset/${a.assetId}`}>
+          {a.title}
+        </Link>
       ))}
     </div>
   );
