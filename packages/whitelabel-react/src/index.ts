@@ -1,5 +1,4 @@
 export { RedBeeContext, RedBeeProvider, ActionType, useRedBeeState, useRedBeeStateDispatch } from "./RedBeeProvider";
-export type { IStorage, IDevice } from "./RedBeeProvider";
 export { useSelectedLanguage, useSetSelectedLanguage } from "./hooks/useSelectedLanguage";
 export { useExposureApi, useWLApi } from "./hooks/useApi";
 export { useGeolocation } from "./hooks/useGeolocation";
@@ -15,3 +14,4 @@ export { useConsumedDiscounts, usePurchases, useTvodIds, useUnsubscribe, refetch
 export { useProductOfferings, refetchProductOfferings } from "./hooks/useProductOfferings";
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";
 export { useAsset } from "./hooks/useAsset";
+export type { IStorage } from "./types/storage";

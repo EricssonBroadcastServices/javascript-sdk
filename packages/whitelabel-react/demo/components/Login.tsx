@@ -16,7 +16,9 @@ export const Login = () => {
       <button onClick={() => (session?.isLoggedIn() ? logout() : login(username, password))}>
         {session?.isLoggedIn() ? "Log out" : "Login"}
       </button>
-      <p>{`Logged in as: ${userDetails?.username}`}</p>
+      {session?.isLoggedIn() && <p>{`Logged in as: ${userDetails?.username}`}</p>}
+      {session?.isAnonymous && <p>Logged in anonymously</p>}
+      {!session && <p>Session is null</p>}
     </div>
   );
 };

@@ -1,25 +1,15 @@
-import { deserialize, DeviceType, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { IDeviceInfo, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
-import React, { Dispatch, useContext, useEffect, useReducer, useMemo } from "react";
+import React, { Dispatch, useContext, useReducer, useMemo } from "react";
 import { QueryClientProvider } from "react-query";
-import { useFetchConfig } from ".";
+import { useFetchConfig } from "./hooks/useConfig";
 import { queryClient } from "./util/react-query";
-import { StorageKey } from "./util/storageKeys";
-export interface IStorage {
-  getItem: (key: string) => Promise<string | null>;
-  removeItem: (key: string) => Promise<void>;
-  setItem: (key: string, value: any) => Promise<void>;
-}
-export interface IDevice {
-  deviceId: string;
-  name: string;
-  type: DeviceType;
-}
-
+import { useInitializePersistedStorage } from "./hooks/useInitializePersistedStorage";
+import { IStorage } from "./types/storage";
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
-  device: IDevice | null;
+  device: IDeviceInfo | null;
   session: LoginResponse | null;
   config: WLConfig | null;
   selectedLanguage: string | null;
@@ -139,8 +129,21 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   }
 }
 
+export function useRedBeeState(): IRedBeeState {
+  const [state] = useContext(RedBeeContext);
+  return state;
+}
+
+export function useRedBeeStateDispatch() {
+  const [, dispatch] = useContext(RedBeeContext);
+  return dispatch;
+}
+
 function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode; autoFetchConfig: boolean }) {
-  useFetchConfig(!autoFetchConfig);
+  const isInitialized = useInitializePersistedStorage();
+  // disable config fetching until
+  useFetchConfig(!autoFetchConfig || !isInitialized);
+  if (!isInitialized) return null;
   return <>{children}</>;
 }
 
@@ -153,7 +156,7 @@ interface IRedBeeProvider {
   children?: React.ReactNode;
   deviceGroup: DeviceGroup;
   storage?: IStorage;
-  device: IDevice;
+  device: IDeviceInfo;
   autoFetchConfig?: boolean;
 }
 
@@ -173,7 +176,7 @@ export function RedBeeProvider({
     throw "Either customer and businessUnit or origin is required";
   }
   if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
-    throw "Missing required prop in RedBeeProvider";
+    throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, internalApiUrl: ${internalApiUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
   }
   if (!storage) {
     console.warn("not providing a storage module means no data will be persisted between session");
@@ -208,21 +211,6 @@ export function RedBeeProvider({
     };
   }, []);
   const [state, dispatch] = useReducer(reducer, initialState);
-  useEffect(() => {
-    async function initStorage() {
-      if (!storage) return;
-      const persistedSessionJSON = await storage.getItem(StorageKey.SESSION);
-      const persistedSelectedLanguage = await storage.getItem(StorageKey.LOCALE);
-      if (persistedSessionJSON) {
-        const parsed = JSON.parse(persistedSessionJSON);
-        dispatch({ type: ActionType.SET_SESSION, session: deserialize(LoginResponse, parsed) });
-      }
-      if (persistedSelectedLanguage) {
-        dispatch({ type: ActionType.SET_SELECTED_LANGUAGE, language: persistedSelectedLanguage });
-      }
-    }
-    initStorage();
-  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <RedBeeContext.Provider value={[state, dispatch]}>
@@ -230,14 +218,4 @@ export function RedBeeProvider({
       </RedBeeContext.Provider>
     </QueryClientProvider>
   );
-}
-
-export function useRedBeeState(): IRedBeeState {
-  const [state] = useContext(RedBeeContext);
-  return state;
-}
-
-export function useRedBeeStateDispatch() {
-  const [, dispatch] = useContext(RedBeeContext);
-  return dispatch;
 }
