@@ -1,11 +1,11 @@
-import { LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { IDeviceInfo, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 import { useCallback } from "react";
 import { StorageKey } from "../util/storageKeys";
 import { ActionType } from "../RedBeeProvider";
 import { useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
-import { IDevice, useExposureApi } from "..";
+import { useExposureApi } from "./useApi";
 
 const sessionLoadingStateId = "sessionLoading";
 
@@ -30,7 +30,7 @@ export function useSetSession(): (loginResponse: LoginResponse | null) => void {
         return dispatch({ type: ActionType.SET_SESSION, session: loginResponse });
       } else {
         try {
-          const anonSession = await exposureApi.authentication.loginAnonymous({ device: device as IDevice });
+          const anonSession = await exposureApi.authentication.loginAnonymous({ device: device as IDeviceInfo });
           return dispatch({ type: ActionType.SET_SESSION, session: anonSession });
         } catch (err) {
           console.error(err);

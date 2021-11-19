@@ -120,7 +120,7 @@ export function useRedBeeStateDispatch() {
 
 function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode; autoFetchConfig: boolean }) {
   const isInitialized = useInitializePersistedStorage();
-  // disable config fetching until
+  // disable config fetching until storage has been initialised. This means we use the correct locale for the initial config call.
   useFetchConfig(!autoFetchConfig || !isInitialized);
   if (!isInitialized) return null;
   return <>{children}</>;
