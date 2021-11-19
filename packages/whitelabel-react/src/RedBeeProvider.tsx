@@ -13,9 +13,8 @@ export interface IRedBeeState {
   session: LoginResponse | null;
   config: WLConfig | null;
   selectedLanguage: string | null;
-  customer?: string;
-  businessUnit?: string;
-  origin?: string;
+  customer: string;
+  businessUnit: string;
   exposureBaseUrl: string;
   internalApiUrl: string;
   deviceGroup: DeviceGroup;
@@ -64,6 +63,8 @@ const defaultState: IRedBeeState = {
   selectedLanguage: null,
   exposureBaseUrl: "",
   internalApiUrl: "",
+  customer: "",
+  businessUnit: "",
   deviceGroup: "" as DeviceGroup,
   // these default values will be directly overwritten when initialising the context. This is not very pretty, i know...
   whiteLabelApi: new WhiteLabelService({
@@ -150,7 +151,6 @@ function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.Reac
 interface IRedBeeProvider {
   customer?: string;
   businessUnit?: string;
-  origin?: string;
   exposureBaseUrl: string;
   internalApiUrl: string;
   children?: React.ReactNode;
@@ -166,14 +166,13 @@ export function RedBeeProvider({
   businessUnit,
   exposureBaseUrl,
   internalApiUrl,
-  origin,
   deviceGroup,
   storage,
   device,
   autoFetchConfig = false
 }: IRedBeeProvider) {
-  if (!(customer && businessUnit) && !origin) {
-    throw "Either customer and businessUnit or origin is required";
+  if (!customer || !businessUnit) {
+    throw "customer and businessUnit are required";
   }
   if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
     throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, internalApiUrl: ${internalApiUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
@@ -193,7 +192,6 @@ export function RedBeeProvider({
       loading: [],
       customer,
       businessUnit,
-      origin,
       exposureBaseUrl,
       internalApiUrl,
       deviceGroup,

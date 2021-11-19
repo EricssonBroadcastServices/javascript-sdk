@@ -9,42 +9,26 @@ const configLoadingId = "configLoading";
 
 export function useFetchConfig(disabled = false): void {
   const dispatch = useRedBeeStateDispatch();
-  const { customer, businessUnit, origin } = useRedBeeState();
+  const { customer, businessUnit } = useRedBeeState();
   const locale = useSelectedLanguage();
   const [userLocation] = useGeolocation();
   const wlApi = useWLApi();
   useEffect(() => {
-    if (!userLocation || disabled) return;
-    if (customer && businessUnit) {
-      dispatch({ type: ActionType.START_LOADING, id: configLoadingId });
-      wlApi
-        .getConfigByCustomerAndBusinessUnit({
-          countryCode: userLocation?.countryCode,
-          locale: locale || undefined,
-          customer,
-          businessUnit
-        })
-        .then(config => {
-          return dispatch({ type: ActionType.SET_CONFIG, config });
-        })
-        .finally(() => {
-          dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
-        });
-    } else if (origin) {
-      dispatch({ type: ActionType.START_LOADING, id: configLoadingId });
-      wlApi
-        .getConfig({
-          countryCode: userLocation?.countryCode,
-          locale: locale || undefined,
-          origin
-        })
-        .then(config => {
-          return dispatch({ type: ActionType.SET_CONFIG, config });
-        })
-        .finally(() => {
-          dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
-        });
-    }
+    if (!userLocation || disabled || !customer || !businessUnit) return;
+    dispatch({ type: ActionType.START_LOADING, id: configLoadingId });
+    wlApi
+      .getConfigByCustomerAndBusinessUnit({
+        countryCode: userLocation?.countryCode,
+        locale: locale || undefined,
+        customer,
+        businessUnit
+      })
+      .then(config => {
+        return dispatch({ type: ActionType.SET_CONFIG, config });
+      })
+      .finally(() => {
+        dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
+      });
     return () => {
       dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
     };
