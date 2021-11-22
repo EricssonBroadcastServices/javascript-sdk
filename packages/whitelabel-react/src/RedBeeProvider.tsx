@@ -4,8 +4,8 @@ import React, { Dispatch, useContext, useReducer, useMemo } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from "./hooks/useConfig";
 import { queryClient } from "./util/react-query";
-import { useInitializePersistedStorage } from "./hooks/useInitializePersistedStorage";
 import { IStorage } from "./types/storage";
+import { StorageContext, StorageProvider } from "./StorageProvider";
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
@@ -119,10 +119,8 @@ export function useRedBeeStateDispatch() {
 }
 
 function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode; autoFetchConfig: boolean }) {
-  const isInitialized = useInitializePersistedStorage();
   // disable config fetching until storage has been initialised. This means we use the correct locale for the initial config call.
-  useFetchConfig(!autoFetchConfig || !isInitialized);
-  if (!isInitialized) return null;
+  useFetchConfig(!autoFetchConfig);
   return <>{children}</>;
 }
 
@@ -138,7 +136,7 @@ interface IRedBeeProvider {
   autoFetchConfig?: boolean;
 }
 
-export function RedBeeProvider({
+function RedBeeStateHolder({
   children,
   customer,
   businessUnit,
@@ -158,15 +156,20 @@ export function RedBeeProvider({
   if (!storage) {
     console.warn("not providing a storage module means no data will be persisted between session");
   }
+  const storageState = useContext(StorageContext);
   const initialState: IRedBeeState = useMemo(() => {
+    const authHeader = () =>
+      storageState.session ? { Authorization: `Bearer ${storageState.session.sessionToken}` } : undefined;
     const exposureApi = new ExposureApi({
       customer,
       businessUnit,
-      authHeader: () => undefined,
+      authHeader,
       baseUrl: exposureBaseUrl
     });
     return {
-      ...initialState,
+      session: storageState.session,
+      selectedLanguage: storageState.locale,
+      config: null,
       loading: [],
       customer,
       businessUnit,
@@ -178,7 +181,7 @@ export function RedBeeProvider({
       exposureApi,
       whiteLabelApi: new WhiteLabelService({
         exposureApi,
-        authHeader: () => undefined,
+        authHeader,
         deviceGroup,
         customer,
         businessUnit,
@@ -193,5 +196,13 @@ export function RedBeeProvider({
         <ChildrenRenderer autoFetchConfig={autoFetchConfig}>{children}</ChildrenRenderer>
       </RedBeeContext.Provider>
     </QueryClientProvider>
+  );
+}
+
+export function RedBeeProvider(props: IRedBeeProvider) {
+  return (
+    <StorageProvider storage={props.storage}>
+      <RedBeeStateHolder {...props} />
+    </StorageProvider>
   );
 }
