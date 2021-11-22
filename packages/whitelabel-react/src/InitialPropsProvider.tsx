@@ -48,7 +48,7 @@ export function InitialPropsProvider({
         } else {
           session = deserialize(LoginResponse, JSON.parse(persistedSession));
           try {
-            // this will thorw if session is invalid
+            // this will throw if session is invalid
             tempExposureApi.authentication.validateSession({
               customer,
               businessUnit,
