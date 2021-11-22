@@ -1,11 +1,11 @@
 import { IDeviceInfo, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
-import React, { Dispatch, useContext, useReducer, useMemo } from "react";
+import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from "./hooks/useConfig";
 import { queryClient } from "./util/react-query";
 import { IStorage } from "./types/storage";
-import { StorageContext, StorageProvider } from "./StorageProvider";
+import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
@@ -119,14 +119,13 @@ export function useRedBeeStateDispatch() {
 }
 
 function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode; autoFetchConfig: boolean }) {
-  // disable config fetching until storage has been initialised. This means we use the correct locale for the initial config call.
   useFetchConfig(!autoFetchConfig);
   return <>{children}</>;
 }
 
 interface IRedBeeProvider {
-  customer?: string;
-  businessUnit?: string;
+  customer: string;
+  businessUnit: string;
   exposureBaseUrl: string;
   internalApiUrl: string;
   children?: React.ReactNode;
@@ -138,57 +137,12 @@ interface IRedBeeProvider {
 
 function RedBeeStateHolder({
   children,
-  customer,
-  businessUnit,
-  exposureBaseUrl,
-  internalApiUrl,
-  deviceGroup,
-  storage,
-  device,
   autoFetchConfig = false
-}: IRedBeeProvider) {
-  if (!customer || !businessUnit) {
-    throw "customer and businessUnit are required";
-  }
-  if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
-    throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, internalApiUrl: ${internalApiUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
-  }
-  if (!storage) {
-    console.warn("not providing a storage module means no data will be persisted between session");
-  }
-  const storageState = useContext(StorageContext);
-  const initialState: IRedBeeState = useMemo(() => {
-    const authHeader = () =>
-      storageState.session ? { Authorization: `Bearer ${storageState.session.sessionToken}` } : undefined;
-    const exposureApi = new ExposureApi({
-      customer,
-      businessUnit,
-      authHeader,
-      baseUrl: exposureBaseUrl
-    });
-    return {
-      session: storageState.session,
-      selectedLanguage: storageState.locale,
-      config: null,
-      loading: [],
-      customer,
-      businessUnit,
-      exposureBaseUrl,
-      internalApiUrl,
-      deviceGroup,
-      storage: storage || null,
-      device,
-      exposureApi,
-      whiteLabelApi: new WhiteLabelService({
-        exposureApi,
-        authHeader,
-        deviceGroup,
-        customer,
-        businessUnit,
-        baseUrl: internalApiUrl
-      })
-    };
-  }, []);
+}: {
+  autoFetchConfig: boolean;
+  children?: React.ReactNode;
+}) {
+  const initialState = useContext(InitialPropsContext);
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <QueryClientProvider client={queryClient}>
@@ -199,10 +153,37 @@ function RedBeeStateHolder({
   );
 }
 
-export function RedBeeProvider(props: IRedBeeProvider) {
+export function RedBeeProvider({
+  storage,
+  customer,
+  businessUnit,
+  device,
+  deviceGroup,
+  internalApiUrl,
+  exposureBaseUrl,
+  children,
+  autoFetchConfig
+}: IRedBeeProvider) {
+  if (!customer || !businessUnit) {
+    throw "customer and businessUnit are required";
+  }
+  if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
+    throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, internalApiUrl: ${internalApiUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
+  }
+  if (!storage) {
+    console.warn("not providing a storage module means no data will be persisted between sessions");
+  }
   return (
-    <StorageProvider storage={props.storage}>
-      <RedBeeStateHolder {...props} />
-    </StorageProvider>
+    <InitialPropsProvider
+      storage={storage}
+      customer={customer}
+      businessUnit={businessUnit}
+      device={device}
+      deviceGroup={deviceGroup}
+      internalApiUrl={internalApiUrl}
+      exposureBaseUrl={exposureBaseUrl}
+    >
+      <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>
+    </InitialPropsProvider>
   );
 }
