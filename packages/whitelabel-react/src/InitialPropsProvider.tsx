@@ -18,6 +18,58 @@ interface IInitialPropsProvider {
   deviceGroup: DeviceGroup;
 }
 
+async function getValidatedPersistedSession({
+  storage,
+  customer,
+  businessUnit,
+  exposureBaseUrl,
+  device
+}: {
+  customer: string;
+  businessUnit: string;
+  storage?: IStorage;
+  exposureBaseUrl: string;
+  device: IDeviceInfo;
+}) {
+  let session: LoginResponse | null = null;
+  const persistedSession = await storage?.getItem(StorageKey.SESSION);
+  const tempExposureApi = new ExposureApi({
+    customer,
+    businessUnit,
+    authHeader: () => undefined,
+    baseUrl: exposureBaseUrl
+  });
+  if (persistedSession) {
+    const persistedSessionJSON = JSON.parse(persistedSession);
+    if (!persistedSessionJSON.sessionToken) {
+      storage?.removeItem(StorageKey.SESSION);
+      session = null;
+    } else {
+      session = deserialize(LoginResponse, persistedSessionJSON);
+      try {
+        // this will throw if session is invalid
+        await tempExposureApi.authentication.validateSession({
+          customer,
+          businessUnit,
+          headers: { Authorization: `Bearer ${session.sessionToken}` }
+        });
+      } catch (err) {
+        console.error(err);
+        session = null;
+      }
+    }
+  }
+  if (!session) {
+    try {
+      session = await tempExposureApi.authentication.loginAnonymous({ customer, businessUnit, device });
+    } catch (err) {
+      console.error(err);
+      session = null;
+    }
+  }
+  return session;
+}
+
 export function InitialPropsProvider({
   children,
   storage,
@@ -32,42 +84,8 @@ export function InitialPropsProvider({
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      let session: LoginResponse | null = null;
-      const persistedSession = await storage?.getItem(StorageKey.SESSION);
+      const session = await getValidatedPersistedSession({ storage, customer, businessUnit, exposureBaseUrl, device })
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
-      const tempExposureApi = new ExposureApi({
-        customer,
-        businessUnit,
-        authHeader: () => undefined,
-        baseUrl: exposureBaseUrl
-      });
-      if (persistedSession) {
-        if (!JSON.parse(persistedSession).sessionToken) {
-          storage?.removeItem(StorageKey.SESSION);
-          session = null;
-        } else {
-          session = deserialize(LoginResponse, JSON.parse(persistedSession));
-          try {
-            // this will throw if session is invalid
-            tempExposureApi.authentication.validateSession({
-              customer,
-              businessUnit,
-              headers: { Authorization: `Bearer ${session.sessionToken}` }
-            });
-          } catch (err) {
-            console.error(err);
-            session = null;
-          }
-        }
-      }
-      if (!session) {
-        try {
-          session = await tempExposureApi.authentication.loginAnonymous({ customer, businessUnit, device });
-        } catch (err) {
-          console.error(err);
-          session = null;
-        }
-      }
       const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
       const exposureApi = new ExposureApi({
         customer,
