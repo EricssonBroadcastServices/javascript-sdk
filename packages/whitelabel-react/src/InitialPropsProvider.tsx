@@ -84,7 +84,7 @@ export function InitialPropsProvider({
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      const session = await getValidatedPersistedSession({ storage, customer, businessUnit, exposureBaseUrl, device })
+      const session = await getValidatedPersistedSession({ storage, customer, businessUnit, exposureBaseUrl, device });
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
       const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
       const exposureApi = new ExposureApi({
