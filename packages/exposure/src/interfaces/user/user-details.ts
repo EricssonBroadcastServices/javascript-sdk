@@ -1,6 +1,27 @@
+export enum UserAttributeType {
+  BOOLEAN = "boolean",
+  REAL = "real",
+  EMAIL = "email",
+  EMUN = "enum",
+  STRING = "string",
+  INTEGER = "integer"
+}
+interface IUserProfileAttributesEnum {
+  id: string;
+  localized: {
+    locale: string;
+    title?: string;
+    description?: string;
+  }[];
+}
 export interface IUserProfileAttribute {
   attributeId: string;
-  type: string;
+  type: UserAttributeType;
+  range?: {
+    min: number;
+    max: number;
+  };
+  enums?: IUserProfileAttributesEnum[];
   requiredAtSignup: boolean;
   defaultValue: any;
   value: any;

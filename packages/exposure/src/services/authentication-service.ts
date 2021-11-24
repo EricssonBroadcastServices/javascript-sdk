@@ -1,27 +1,16 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
 import { LoginResponse, ISessionResponse } from "../models/login-response-model";
-
-export enum DeviceType {
-  WEB = "WEB",
-  SMART_TV = "SMART_TV"
-}
-
-export interface DeviceInfo {
-  type: DeviceType;
-  name: string;
-  deviceId: string;
-}
-
+import { IDeviceInfo } from "../interfaces/device";
 export interface LoginOptions extends CustomerAndBusinessUnitOptions {
   username: string;
   password: string;
-  device: DeviceInfo;
+  device: IDeviceInfo;
   informationCollectionConsentGivenNow?: boolean;
 }
 
 export interface LoginAnonymousOptions extends CustomerAndBusinessUnitOptions {
-  device: DeviceInfo;
+  device: IDeviceInfo;
 }
 
 export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
@@ -31,12 +20,12 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
   providerId: string;
   accessToken: string;
   emailVerified: boolean;
-  device: DeviceInfo;
+  device: IDeviceInfo;
 }
 
 interface LoginByOauthTokenOptions extends CustomerAndBusinessUnitOptions {
   token: string;
-  device: DeviceInfo;
+  device: IDeviceInfo;
 }
 
 export class AuthenticationService extends BaseService {
@@ -135,14 +124,18 @@ export class AuthenticationService extends BaseService {
     );
   }
 
-  public async validateSession({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<ISessionResponse> {
+  public async validateSession({
+    customer,
+    businessUnit,
+    headers
+  }: CustomerAndBusinessUnitOptions): Promise<ISessionResponse> {
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
         apiVersion: "v2"
       })}/auth/session`,
-      this.options.authHeader()
+      { ...this.options.authHeader(), ...headers }
     );
   }
 }

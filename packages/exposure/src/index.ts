@@ -4,7 +4,7 @@ import { LocationService } from "./services/location-service";
 import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
 import { CustomerConfigService } from "./services/customer-config-service";
-import { AuthenticationService, DeviceType } from "./services/authentication-service";
+import { AuthenticationService } from "./services/authentication-service";
 import { DocumentService } from "./services/document-service";
 import { SearchService } from "./services/search-service";
 import { UserService } from "./services/user-service";
@@ -31,6 +31,7 @@ import { PreferencesService } from "./services/preferences-service";
 export { ILocalizedMetadata, ILocalizedMetadata as Localized } from "./interfaces/content/localized-metadata";
 export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
 export { IAssetResponse, IAssetResponse as AssetResponse } from "./interfaces/content/asset-response";
+export { IDeviceInfo, DeviceType } from "./interfaces/device";
 export {
   Asset,
   AssetType,
@@ -76,7 +77,17 @@ export {
   IAvailabilityKeysResponse,
   IAvailabilityKeysResponse as AvailabilityKeysResponse
 } from "./interfaces/entitlement/product";
-export { IProductOffering, IProductOffering as ProductOffering } from "./interfaces/payment/product-offering";
+export {
+  IProductOffering,
+  IProductOffering as ProductOffering,
+  ProductOfferingType
+} from "./interfaces/payment/product-offering";
+export {
+  IEntitlementError,
+  IEntitlementResponse,
+  EntitlementActionType,
+  IEntitlementActions
+} from "./interfaces/entitlement/entitlement";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
   ICardPaymentResponse,
@@ -154,7 +165,7 @@ export {
 export { EntitlementService, TPlayDrm, TPlayFormat } from "./services/entitlement-service";
 
 /* InterFaces */
-export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IPurchaseSettings };
+export { CardPaymentDetails, VerifyPurchasePayload, IPurchaseSettings };
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";

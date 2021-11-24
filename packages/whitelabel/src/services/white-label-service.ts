@@ -1,23 +1,40 @@
-import { BaseService, ServiceOptions, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
-import { WLConfig, WLPageModel, WLComponent, WLAsset, DeviceGroup, IWLAssetTag } from "../index";
+import {
+  BaseService,
+  ServiceOptions,
+  deserialize,
+  ExposureApi,
+  IEntitlementError,
+  IProductOffering
+} from "@ericssonbroadcastservices/exposure-sdk";
 import * as querystring from "query-string";
 import { IWLEPG } from "../interfaces/wl-epg";
+import { errorToEntitlementResult } from "../utils/entitlement";
+import { DeviceGroup } from "../interfaces/device-group";
+import { WLConfig } from "../models/wl-config";
+import { IWLAssetTag } from "../interfaces/wl-tag";
+import { WLPageModel } from "../models/wl-page";
+import { WLComponent } from "../models/wl-component";
+import { WLAsset } from "../models/wl-asset";
+import { IEntitlementStatusResult } from "../interfaces/entitlement-result";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup;
+  exposureApi: ExposureApi;
   origin?: string;
 }
 
 export class WhiteLabelService extends BaseService {
   private deviceGroup: DeviceGroup;
   private origin?: string;
+  public exposureApi: ExposureApi;
 
   constructor(apiOptions: WhiteLabelServiceOptions) {
-    const { deviceGroup, origin, ...baseOptions } = apiOptions;
+    const { deviceGroup, origin, exposureApi, ...baseOptions } = apiOptions;
     super(baseOptions);
 
     this.origin = origin;
     this.deviceGroup = deviceGroup;
+    this.exposureApi = exposureApi;
   }
 
   public getConfig({ locale, countryCode, origin }: { locale?: string; countryCode?: string; origin?: string }) {
@@ -39,7 +56,7 @@ export class WhiteLabelService extends BaseService {
     businessUnit,
     countryCode
   }: {
-    locale: string;
+    locale?: string;
     customer: string;
     businessUnit: string;
     countryCode?: string;
@@ -328,5 +345,36 @@ export class WhiteLabelService extends BaseService {
       `/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/preferences/list/${listId}/asset?${queryString}`,
       this.options.authHeader()
     ).then(data => data.items.map(a => deserialize(WLAsset, a)));
+  }
+
+  public getEntitlementForAsset({
+    asset,
+    customer,
+    businessUnit,
+    offerings
+  }: {
+    asset: WLAsset;
+    customer: string;
+    businessUnit: string;
+    offerings: IProductOffering[];
+  }): Promise<IEntitlementStatusResult> {
+    return this.exposureApi.entitlements
+      .getEntitlementForAsset({ assetId: asset.assetId, customer, businessUnit })
+      .then(() => {
+        return {
+          isEntitled: true,
+          accessLater: [],
+          accessNow: [],
+          isInFuture: false,
+          startTime: null,
+          isGeoBlocked: false,
+          entitlementError: null,
+          loginToWatchForFree: false,
+          shouldJustWait: false
+        };
+      })
+      .catch(err => {
+        return errorToEntitlementResult(err as IEntitlementError, asset, offerings);
+      });
   }
 }

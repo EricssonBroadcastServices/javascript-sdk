@@ -14,4 +14,5 @@ export interface IProductResponse {
 export interface IAvailabilityKeysResponse {
   expiryDate: string;
   availabilityKeys: string[];
+  futureAvailabilityKeys: string[];
 }

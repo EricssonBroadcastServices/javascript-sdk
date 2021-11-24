@@ -10,7 +10,7 @@ import {
   IContactInformation,
   IParameters
 } from "../interfaces/wl-config";
-import { jsonProperty, SystemConfig } from "@ericssonbroadcastservices/exposure-sdk";
+import { IImage, jsonProperty, SystemConfig } from "@ericssonbroadcastservices/exposure-sdk";
 
 export const breakpoints = {
   mobile: "600px",
@@ -40,6 +40,8 @@ export class WLAction implements IWLAction {
   public type: WLActionType;
   @jsonProperty()
   public url?: string;
+  @jsonProperty()
+  public qrCode?: string;
   @jsonProperty()
   public pageId?: string;
   @jsonProperty()
@@ -124,6 +126,8 @@ export class WLConfig implements IWLConfig {
   public menu: WLMenuItem[];
   @jsonProperty()
   public logo: string;
+  @jsonProperty({ type: Object })
+  public images: IImage[];
   @jsonProperty()
   public favicon?: string;
   @jsonProperty()
