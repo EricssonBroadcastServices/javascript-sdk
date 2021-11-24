@@ -1,43 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useQuery } from "react-query";
 import { useExposureApi, useRedBeeState } from "..";
 import { TApiHook } from "../types/type.apiHook";
+import { queryClient, QueryKeys } from "../util/react-query";
 
 const FAVORITES_LIST_ID = "favorites";
 
-export function useIsFavoriteInList({ assetId }: { assetId: string }): TApiHook<{ isInList: boolean }> {
+export function useAddAssetToFavorites({
+  assetId
+}: {
+  assetId: string;
+}): TApiHook<{ addAssetToFavourites: () => void }> {
   const exposureApi = useExposureApi();
   const { customer, businessUnit } = useRedBeeState();
-  const [isInList, setIsInList] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<any>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    exposureApi.preferences
-      .getAssetFromList({
-        listId: FAVORITES_LIST_ID,
-        assetId,
-        customer,
-        businessUnit
-      })
-      .then(() => {
-        setIsInList(true);
-        setLoading(false);
-      })
-      .catch((e: any) => {
-        setIsInList(false);
-        setLoading(false);
-        setError(e);
-      });
-  }, [assetId, customer, businessUnit]);
-
-  return [{ isInList }, loading, error];
-}
-
-export function useAddFavorites({ assetId }: { assetId: string }): TApiHook<{ add: () => void }> {
-  const exposureApi = useExposureApi();
-  const { customer, businessUnit } = useRedBeeState();
-
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
@@ -51,6 +26,7 @@ export function useAddFavorites({ assetId }: { assetId: string }): TApiHook<{ ad
         businessUnit
       })
       .then(() => {
+        queryClient.invalidateQueries(QueryKeys.FAVORITE_ASSET_IN_LIST);
         setLoading(false);
       })
       .catch((e: any) => {
@@ -59,13 +35,16 @@ export function useAddFavorites({ assetId }: { assetId: string }): TApiHook<{ ad
       });
   }, [assetId, customer, businessUnit]);
 
-  return [{ add }, loading, error];
+  return [{ addAssetToFavourites: add }, loading, error];
 }
 
-export function useRemoveFavorite({ assetId }: { assetId: string }): TApiHook<{ remove: () => void }> {
+export function useRemoveAssetFromFavorites({
+  assetId
+}: {
+  assetId: string;
+}): TApiHook<{ removeAssetFromFavorites: () => void }> {
   const exposureApi = useExposureApi();
   const { customer, businessUnit } = useRedBeeState();
-
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
@@ -79,6 +58,7 @@ export function useRemoveFavorite({ assetId }: { assetId: string }): TApiHook<{ 
         businessUnit
       })
       .then(() => {
+        queryClient.invalidateQueries(QueryKeys.FAVORITE_ASSET_IN_LIST);
         setLoading(false);
       })
       .catch((e: any) => {
@@ -87,5 +67,49 @@ export function useRemoveFavorite({ assetId }: { assetId: string }): TApiHook<{ 
       });
   }, [assetId, customer, businessUnit]);
 
-  return [{ remove }, loading, error];
+  return [{ removeAssetFromFavorites: remove }, loading, error];
+}
+
+export function useHandleAssetFavorites({
+  assetId
+}: {
+  assetId: string;
+}): TApiHook<{
+  isInList: boolean;
+  addAssetToFavourites: (() => void) | undefined;
+  removeAssetFromFavorites: (() => void) | undefined;
+}> {
+  const exposureApi = useExposureApi();
+  const [handleAdd] = useAddAssetToFavorites({ assetId });
+  const [handleRemove] = useRemoveAssetFromFavorites({ assetId });
+  const { customer, businessUnit } = useRedBeeState();
+
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.FAVORITE_ASSET_IN_LIST, assetId, customer, businessUnit],
+    () => {
+      return exposureApi.preferences
+        .getAssetFromList({
+          listId: FAVORITES_LIST_ID,
+          assetId,
+          customer,
+          businessUnit
+        })
+        .then(() => {
+          return true;
+        })
+        .catch((e: any) => {
+          return false;
+        });
+    }
+  );
+
+  return [
+    {
+      isInList: !!data,
+      removeAssetFromFavorites: handleRemove?.removeAssetFromFavorites,
+      addAssetToFavourites: handleAdd?.addAssetToFavourites
+    },
+    isLoading,
+    error
+  ];
 }
