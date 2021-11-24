@@ -1,5 +1,13 @@
 import React from "react";
-import { useConfig, useGeolocation, useRedBeeState, useTranslations, useUserDetails, useUserSession } from "../../src";
+import {
+  useBookmarks,
+  useConfig,
+  useGeolocation,
+  useRedBeeState,
+  useTranslations,
+  useUserDetails,
+  useUserSession
+} from "../../src";
 import { JsonBox } from "../components/JsonBox";
 
 export const Home = () => {
@@ -9,6 +17,7 @@ export const Home = () => {
   const [geolocation] = useGeolocation();
   const [userDetails] = useUserDetails();
   const [session] = useUserSession();
+  const [bookmarks] = useBookmarks();
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <JsonBox title={"Translations"} json={JSON.stringify(traslations, null, 2)}></JsonBox>
@@ -17,6 +26,7 @@ export const Home = () => {
       <JsonBox title={"Geolocation"} json={JSON.stringify(geolocation, null, 2)}></JsonBox>
       <JsonBox title={"User details"} json={JSON.stringify(userDetails, null, 2)}></JsonBox>
       <JsonBox title={"User session"} json={JSON.stringify(session, null, 2)}></JsonBox>
+      <JsonBox title={"Bookmarks"} json={JSON.stringify(bookmarks, null, 2)}></JsonBox>
     </div>
   );
 };
