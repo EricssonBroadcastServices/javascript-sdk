@@ -18,7 +18,7 @@ const Entitlements = ({ asset }: { asset: WLAsset }) => {
 export const Asset = () => {
   const { id } = useParams();
   const [asset, isLoading, error] = useAsset(id);
-  const bookmarkPercentage = useBookmarkPercentage(id);
+  const [bookmarkPercentage] = useBookmarkPercentage(id);
   if (isLoading || error || !asset) return null;
   return (
     <div>
