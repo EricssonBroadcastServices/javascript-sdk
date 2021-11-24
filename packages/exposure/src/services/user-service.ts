@@ -1,9 +1,9 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { DeviceInfo, DeviceType } from "./authentication-service";
 import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/signup-response-model";
 import { IUserDetails } from "../interfaces/user/user-details";
 import { LoginResponse } from "../models/login-response-model";
+import { IDeviceInfo } from "../interfaces/device";
 
 interface SignupOptions extends CustomerAndBusinessUnitOptions {
   emailAddress: string;
@@ -11,7 +11,7 @@ interface SignupOptions extends CustomerAndBusinessUnitOptions {
   language?: string;
   displayName: string;
   password: string;
-  device: DeviceInfo;
+  device: IDeviceInfo;
 }
 
 export interface ResetOptions extends CustomerAndBusinessUnitOptions {
@@ -44,7 +44,7 @@ export interface DeleteUserOptions extends CustomerAndBusinessUnitOptions {
 export interface ChangePasswordOptions extends CustomerAndBusinessUnitOptions {
   newPassword: string;
   oldPassword: string;
-  device: DeviceInfo;
+  device: IDeviceInfo;
   logoutOnAllDevices?: boolean;
 }
 
@@ -54,11 +54,7 @@ export interface ConfirmActivationCodeOptions extends CustomerAndBusinessUnitOpt
 
 export interface ConsumeActivationCodeOptions extends CustomerAndBusinessUnitOptions {
   code: string;
-  device: {
-    deviceId: string;
-    name: string;
-    type: DeviceType;
-  };
+  device: IDeviceInfo;
 }
 
 export interface ChangeEmailAndUsername extends CustomerAndBusinessUnitOptions {

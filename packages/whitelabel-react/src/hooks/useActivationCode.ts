@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { IDevice } from "../RedBeeProvider";
 import { useSetSession } from "./useUserSession";
 import { useExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
+import { IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
 
 interface IActivationCodeData {
   code: string;
@@ -45,7 +45,7 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
             customer,
             businessUnit,
             code: data.code,
-            device: device as IDevice
+            device: device as IDeviceInfo
           })
           .then(loginResponse => {
             if (loginResponse.isOverDeviceLimit) {

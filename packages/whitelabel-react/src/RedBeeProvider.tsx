@@ -1,31 +1,20 @@
-import { deserialize, DeviceType, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { IDeviceInfo, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
-import React, { Dispatch, useContext, useEffect, useReducer, useMemo } from "react";
+import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
-import { useFetchConfig } from ".";
+import { useFetchConfig } from "./hooks/useConfig";
 import { queryClient } from "./util/react-query";
-import { StorageKey } from "./util/storageKeys";
-export interface IStorage {
-  getItem: (key: string) => Promise<string | null>;
-  removeItem: (key: string) => Promise<void>;
-  setItem: (key: string, value: any) => Promise<void>;
-}
-export interface IDevice {
-  deviceId: string;
-  name: string;
-  type: DeviceType;
-}
-
+import { IStorage } from "./types/storage";
+import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
-  device: IDevice | null;
+  device: IDeviceInfo;
   session: LoginResponse | null;
   config: WLConfig | null;
   selectedLanguage: string | null;
-  customer?: string;
-  businessUnit?: string;
-  origin?: string;
+  customer: string;
+  businessUnit: string;
   exposureBaseUrl: string;
   internalApiUrl: string;
   deviceGroup: DeviceGroup;
@@ -63,28 +52,8 @@ interface ILoadingAction extends IAction {
 
 type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction | ILoadingAction;
 
-const defaultExposureApi = new ExposureApi({ authHeader: () => undefined });
-
-const defaultState: IRedBeeState = {
-  loading: [],
-  device: null,
-  storage: null,
-  session: null,
-  config: null,
-  selectedLanguage: null,
-  exposureBaseUrl: "",
-  internalApiUrl: "",
-  deviceGroup: "" as DeviceGroup,
-  // these default values will be directly overwritten when initialising the context. This is not very pretty, i know...
-  whiteLabelApi: new WhiteLabelService({
-    authHeader: () => undefined,
-    exposureApi: defaultExposureApi,
-    deviceGroup: DeviceGroup.TV
-  }),
-  exposureApi: defaultExposureApi
-};
-
-export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([defaultState, () => ({})]);
+// default state will be overwritten by proper values in RedBeeProvider, hence faulty values here.
+export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([{} as IRedBeeState, () => ({})]);
 
 function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   switch (action.type) {
@@ -139,90 +108,42 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
   }
 }
 
+export function useRedBeeState(): IRedBeeState {
+  const [state] = useContext(RedBeeContext);
+  return state;
+}
+
+export function useRedBeeStateDispatch() {
+  const [, dispatch] = useContext(RedBeeContext);
+  return dispatch;
+}
+
 function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode; autoFetchConfig: boolean }) {
   useFetchConfig(!autoFetchConfig);
   return <>{children}</>;
 }
 
 interface IRedBeeProvider {
-  customer?: string;
-  businessUnit?: string;
-  origin?: string;
+  customer: string;
+  businessUnit: string;
   exposureBaseUrl: string;
   internalApiUrl: string;
   children?: React.ReactNode;
   deviceGroup: DeviceGroup;
   storage?: IStorage;
-  device: IDevice;
+  device: IDeviceInfo;
   autoFetchConfig?: boolean;
 }
 
-export function RedBeeProvider({
+function RedBeeStateHolder({
   children,
-  customer,
-  businessUnit,
-  exposureBaseUrl,
-  internalApiUrl,
-  origin,
-  deviceGroup,
-  storage,
-  device,
   autoFetchConfig = false
-}: IRedBeeProvider) {
-  if (!(customer && businessUnit) && !origin) {
-    throw "Either customer and businessUnit or origin is required";
-  }
-  if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
-    throw "Missing required prop in RedBeeProvider";
-  }
-  if (!storage) {
-    console.warn("not providing a storage module means no data will be persisted between session");
-  }
-  const initialState = useMemo(() => {
-    const exposureApi = new ExposureApi({
-      customer,
-      businessUnit,
-      authHeader: () => undefined,
-      baseUrl: exposureBaseUrl
-    });
-    return {
-      ...initialState,
-      loading: [],
-      customer,
-      businessUnit,
-      origin,
-      exposureBaseUrl,
-      internalApiUrl,
-      deviceGroup,
-      storage: storage || null,
-      device,
-      exposureApi,
-      whiteLabelApi: new WhiteLabelService({
-        exposureApi,
-        authHeader: () => undefined,
-        deviceGroup,
-        customer,
-        businessUnit,
-        baseUrl: internalApiUrl
-      })
-    };
-  }, []);
+}: {
+  autoFetchConfig: boolean;
+  children?: React.ReactNode;
+}) {
+  const initialState = useContext(InitialPropsContext);
   const [state, dispatch] = useReducer(reducer, initialState);
-  useEffect(() => {
-    async function initStorage() {
-      if (!storage) return;
-      const persistedSessionJSON = await storage.getItem(StorageKey.SESSION);
-      const persistedSelectedLanguage = await storage.getItem(StorageKey.LOCALE);
-      if (persistedSessionJSON) {
-        const parsed = JSON.parse(persistedSessionJSON);
-        dispatch({ type: ActionType.SET_SESSION, session: deserialize(LoginResponse, parsed) });
-      }
-      if (persistedSelectedLanguage) {
-        dispatch({ type: ActionType.SET_SELECTED_LANGUAGE, language: persistedSelectedLanguage });
-      }
-    }
-    initStorage();
-  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <RedBeeContext.Provider value={[state, dispatch]}>
@@ -232,12 +153,37 @@ export function RedBeeProvider({
   );
 }
 
-export function useRedBeeState(): IRedBeeState {
-  const [state] = useContext(RedBeeContext);
-  return state;
-}
-
-export function useRedBeeStateDispatch() {
-  const [, dispatch] = useContext(RedBeeContext);
-  return dispatch;
+export function RedBeeProvider({
+  storage,
+  customer,
+  businessUnit,
+  device,
+  deviceGroup,
+  internalApiUrl,
+  exposureBaseUrl,
+  children,
+  autoFetchConfig
+}: IRedBeeProvider) {
+  if (!customer || !businessUnit) {
+    throw "customer and businessUnit are required";
+  }
+  if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
+    throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, internalApiUrl: ${internalApiUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
+  }
+  if (!storage) {
+    console.warn("not providing a storage module means no data will be persisted between sessions");
+  }
+  return (
+    <InitialPropsProvider
+      storage={storage}
+      customer={customer}
+      businessUnit={businessUnit}
+      device={device}
+      deviceGroup={deviceGroup}
+      internalApiUrl={internalApiUrl}
+      exposureBaseUrl={exposureBaseUrl}
+    >
+      <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>
+    </InitialPropsProvider>
+  );
 }
