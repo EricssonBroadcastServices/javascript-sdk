@@ -1,4 +1,4 @@
-import { ImageOrientation } from "..";
+import { ImageOrientation } from "../interfaces/content/image";
 import { ILocalizedContent, ILocalizedMetadata } from "../interfaces/content/localized-metadata";
 import { localizedUtils } from "../utils/localized";
 

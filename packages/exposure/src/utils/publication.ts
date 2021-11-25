@@ -1,4 +1,4 @@
-import { IUserLocation } from "..";
+import { IUserLocation } from "../interfaces/location/user-location";
 import { IPublication } from "../interfaces/content/publication";
 
 function isExpired(publication: IPublication) {

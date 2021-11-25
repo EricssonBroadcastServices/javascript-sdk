@@ -1,6 +1,6 @@
 import { Asset } from "./asset-model";
 import { WithLocalized } from "./localized-model";
-import { ILocalizedMetadata } from "..";
+import { ILocalizedMetadata } from "../interfaces/content/localized-metadata";
 import { jsonProperty } from "../decorators/json-property";
 
 export class Season extends WithLocalized {

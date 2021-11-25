@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
-import { deserialize, IAssetResponse } from "..";
+import { deserialize } from "../decorators/property-mapper";
 import { Asset, AssetType } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
 import { IBookmark } from "../interfaces/content/bookmark";
@@ -8,6 +8,7 @@ import { SeasonResponse } from "../models/season-model";
 import { EpgResponse, OnNowResponse } from "../models/program-model";
 import { IEpisodesResponse } from "../interfaces/content/asset-response";
 import { IPaginatedResponse } from "../interfaces/content/paginated";
+import { IAssetResponse } from "../interfaces/content/asset-response";
 
 export interface PageinatedRequest {
   pageSize?: number;

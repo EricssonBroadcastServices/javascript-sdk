@@ -1,7 +1,8 @@
 import * as querystring from "query-string";
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { Asset, IAssetResponse } from "..";
+import { Asset } from "../models/asset-model";
+import { IAssetResponse } from "../interfaces/content/asset-response";
 
 export interface SearchOptions extends CustomerAndBusinessUnitOptions {
   query: string;

@@ -1,4 +1,4 @@
-import { IImage, ImageOrientation } from "..";
+import { IImage, ImageOrientation } from "../interfaces/content/image";
 import { ILocalizedMetadata } from "../interfaces/content/localized-metadata";
 
 function getLocaleItem(localized: ILocalizedMetadata[], locale: string) {

@@ -1,4 +1,4 @@
-import { ILocalizedMetadata } from "..";
+import { ILocalizedMetadata } from "../interfaces/content/localized-metadata";
 import { IAssetTagCollection } from "../interfaces/content/asset-tag";
 import { IUserLocation } from "../interfaces/location/user-location";
 import { Season } from "./season-model";
