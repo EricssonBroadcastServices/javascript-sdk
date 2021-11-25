@@ -7,7 +7,7 @@ import { queryClient, QueryKeys } from "../util/react-query";
 
 const FAVORITES_LIST_ID = "favorites";
 
-export function useAddAssetToFavorites(assetId: string): TApiHook<{ add: () => void }> {
+export function useAddAssetToFavorites(assetId: string): TApiHook<() => void> {
   const exposureApi = useExposureApi();
   const { customer, businessUnit } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,10 +32,10 @@ export function useAddAssetToFavorites(assetId: string): TApiHook<{ add: () => v
       });
   }, [assetId, customer, businessUnit]);
 
-  return [{ add }, loading, error];
+  return [add, loading, error];
 }
 
-export function useRemoveAssetFromFavorites(assetId: string): TApiHook<{ remove: () => void }> {
+export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => void> {
   const exposureApi = useExposureApi();
   const { customer, businessUnit } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
@@ -60,15 +60,15 @@ export function useRemoveAssetFromFavorites(assetId: string): TApiHook<{ remove:
       });
   }, [assetId, customer, businessUnit]);
 
-  return [{ remove }, loading, error];
+  return [remove, loading, error];
 }
 
 export function useHandleAssetFavorites(
   assetId: string
 ): TApiHook<{
   isInList: boolean;
-  add: (() => void) | undefined;
-  remove: (() => void) | undefined;
+  add: (() => void) | null;
+  remove: (() => void) | null;
 }> {
   const exposureApi = useExposureApi();
   const [handleAdd] = useAddAssetToFavorites(assetId);
@@ -97,8 +97,8 @@ export function useHandleAssetFavorites(
   return [
     {
       isInList: !!data,
-      remove: handleRemove?.remove,
-      add: handleAdd?.add
+      remove: handleRemove,
+      add: handleAdd
     },
     isLoading,
     error
