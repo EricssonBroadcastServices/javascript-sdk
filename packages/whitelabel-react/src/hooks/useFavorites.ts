@@ -1,16 +1,13 @@
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
-import { useExposureApi, useRedBeeState } from "..";
+import { useRedBeeState } from "../RedBeeProvider";
+import { useExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 
 const FAVORITES_LIST_ID = "favorites";
 
-export function useAddAssetToFavorites({
-  assetId
-}: {
-  assetId: string;
-}): TApiHook<{ addAssetToFavourites: () => void }> {
+export function useAddAssetToFavorites(assetId: string): TApiHook<{ add: () => void }> {
   const exposureApi = useExposureApi();
   const { customer, businessUnit } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,14 +32,10 @@ export function useAddAssetToFavorites({
       });
   }, [assetId, customer, businessUnit]);
 
-  return [{ addAssetToFavourites: add }, loading, error];
+  return [{ add }, loading, error];
 }
 
-export function useRemoveAssetFromFavorites({
-  assetId
-}: {
-  assetId: string;
-}): TApiHook<{ removeAssetFromFavorites: () => void }> {
+export function useRemoveAssetFromFavorites(assetId: string): TApiHook<{ remove: () => void }> {
   const exposureApi = useExposureApi();
   const { customer, businessUnit } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,21 +60,19 @@ export function useRemoveAssetFromFavorites({
       });
   }, [assetId, customer, businessUnit]);
 
-  return [{ removeAssetFromFavorites: remove }, loading, error];
+  return [{ remove }, loading, error];
 }
 
-export function useHandleAssetFavorites({
-  assetId
-}: {
-  assetId: string;
-}): TApiHook<{
+export function useHandleAssetFavorites(
+  assetId: string
+): TApiHook<{
   isInList: boolean;
-  addAssetToFavourites: (() => void) | undefined;
-  removeAssetFromFavorites: (() => void) | undefined;
+  add: (() => void) | undefined;
+  remove: (() => void) | undefined;
 }> {
   const exposureApi = useExposureApi();
-  const [handleAdd] = useAddAssetToFavorites({ assetId });
-  const [handleRemove] = useRemoveAssetFromFavorites({ assetId });
+  const [handleAdd] = useAddAssetToFavorites(assetId);
+  const [handleRemove] = useRemoveAssetFromFavorites(assetId);
   const { customer, businessUnit } = useRedBeeState();
 
   const { data, isLoading, error } = useQuery(
@@ -106,8 +97,8 @@ export function useHandleAssetFavorites({
   return [
     {
       isInList: !!data,
-      removeAssetFromFavorites: handleRemove?.removeAssetFromFavorites,
-      addAssetToFavourites: handleAdd?.addAssetToFavourites
+      remove: handleRemove?.remove,
+      add: handleAdd?.add
     },
     isLoading,
     error

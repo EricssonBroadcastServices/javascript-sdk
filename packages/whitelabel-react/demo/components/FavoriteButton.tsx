@@ -4,16 +4,16 @@ import { useHandleAssetFavorites } from "../../src";
 
 export const FavoriteButton = ({ assetId }: { assetId: string }) => {
   const [session] = useUserSession();
-  const [{ isInList, addAssetToFavourites, removeAssetFromFavorites }, loading] = useHandleAssetFavorites({ assetId });
+  const [{ isInList, add, remove }, loading] = useHandleAssetFavorites(assetId);
 
   if (!session?.isLoggedIn()) {
     return <button>{"You have to be logged in to see your favorites"}</button>;
   }
 
   if (isInList && !loading) {
-    return <button onClick={removeAssetFromFavorites}>{"It's a favorite"}</button>;
+    return <button onClick={remove}>{"It's a favorite"}</button>;
   } else if (!isInList && !loading) {
-    return <button onClick={addAssetToFavourites}>{"It's not a favorite, yet"}</button>;
+    return <button onClick={add}>{"It's not a favorite, yet"}</button>;
   }
   return <button onClick={() => null}>{"loading..."}</button>;
 };
