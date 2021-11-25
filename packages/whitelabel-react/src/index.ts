@@ -14,4 +14,5 @@ export { useConsumedDiscounts, usePurchases, useTvodIds, useUnsubscribe, refetch
 export { useProductOfferings, refetchProductOfferings } from "./hooks/useProductOfferings";
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";
 export { useAsset } from "./hooks/useAsset";
+export { useBookmarks, useBookmarkPercentage } from "./hooks/useBookmarks";
 export type { IStorage } from "./types/storage";
