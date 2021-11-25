@@ -12,12 +12,13 @@ export function useSetSelectedLanguage() {
   const { storage } = useRedBeeState();
   const [userDetails] = useUserDetails();
   return useCallback(
-    (language: string) => {
+    (language: string, updateUserLanguage = true) => {
       dispatch({ type: ActionType.SET_SELECTED_LANGUAGE, language: language });
       if (storage) {
         storage.setItem(StorageKey.LOCALE, language);
       }
-      if (!userSession?.isLoggedIn() || language === userDetails?.language) return Promise.resolve();
+      if (!userSession?.isLoggedIn() || language === userDetails?.language || !updateUserLanguage)
+        return Promise.resolve();
       return (
         exposureApi.user
           // TODO: this method should be changed in the api to only take relevant paramters

@@ -4,7 +4,7 @@ import { LocationService } from "./services/location-service";
 import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
 import { CustomerConfigService } from "./services/customer-config-service";
-import { AuthenticationService, DeviceType } from "./services/authentication-service";
+import { AuthenticationService } from "./services/authentication-service";
 import { DocumentService } from "./services/document-service";
 import { SearchService } from "./services/search-service";
 import { UserService } from "./services/user-service";
@@ -30,6 +30,7 @@ import { PreferencesService } from "./services/preferences-service";
 
 export { Localized } from "./models/localized-model";
 export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
+export { IDeviceInfo, DeviceType } from "./interfaces/device";
 export {
   Asset,
   AssetResponse,
@@ -156,7 +157,7 @@ export {
 export { EntitlementService, TPlayDrm, TPlayFormat } from "./services/entitlement-service";
 
 /* InterFaces */
-export { CardPaymentDetails, VerifyPurchasePayload, DeviceType, IPurchaseSettings };
+export { CardPaymentDetails, VerifyPurchasePayload, IPurchaseSettings };
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";

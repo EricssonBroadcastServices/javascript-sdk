@@ -1,5 +1,4 @@
 export { RedBeeContext, RedBeeProvider, ActionType, useRedBeeState, useRedBeeStateDispatch } from "./RedBeeProvider";
-export type { IStorage, IDevice } from "./RedBeeProvider";
 export { useSelectedLanguage, useSetSelectedLanguage } from "./hooks/useSelectedLanguage";
 export { useExposureApi, useWLApi } from "./hooks/useApi";
 export { useGeolocation } from "./hooks/useGeolocation";
@@ -16,3 +15,4 @@ export { useProductOfferings, refetchProductOfferings } from "./hooks/useProduct
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";
 export { useAsset } from "./hooks/useAsset";
 export { useAddAssetToFavorites, useRemoveAssetFromFavorites, useHandleAssetFavorites } from "./hooks/useFavorites";
+export type { IStorage } from "./types/storage";
