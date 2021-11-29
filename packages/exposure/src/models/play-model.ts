@@ -136,6 +136,13 @@ export class AdTrackingEvents {
   thirdQuartile?: string[];
 }
 
+export class AdClickThroughData {
+  @jsonProperty()
+  public clickThroughUrl: string;
+  @jsonProperty()
+  public clickTrackingUrls: string;
+}
+
 export class AdClip {
   @jsonProperty()
   title?: string;
@@ -149,6 +156,8 @@ export class AdClip {
   impressionUrlTemplates?: string[];
   @jsonProperty()
   trackingEvents?: AdTrackingEvents;
+  @jsonProperty()
+  videoClicks?: AdClickThroughData;
 }
 
 export class Ads {
