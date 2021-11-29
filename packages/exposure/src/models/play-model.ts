@@ -140,7 +140,7 @@ export class AdClickThroughData {
   @jsonProperty()
   public clickThroughUrl: string;
   @jsonProperty()
-  public clickTrackingUrl: string;
+  public clickTrackingUrls: string;
 }
 
 export class AdClip {
