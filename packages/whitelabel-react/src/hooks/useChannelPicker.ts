@@ -8,7 +8,7 @@ const channelpickerUpdateInterval = 60000; // 1 minutes
 
 export function useChannelPicker(
   updateInterval: number = channelpickerUpdateInterval
-): TApiHook<IWLEPGChannel[] | undefined> {
+): TApiHook<IWLEPGChannel[] | null> {
   const { customer, businessUnit, selectedLanguage } = useRedBeeState();
   const wlApi = useWLApi();
 
@@ -16,10 +16,14 @@ export function useChannelPicker(
     [customer, businessUnit, selectedLanguage],
     () => {
       return wlApi.getChannelPicker({ locale: selectedLanguage as string, customer, businessUnit }).then(result => {
-        return result.channels;
+        if (result.channels?.length && result.channels.length > 1) {
+          return result.channels;
+        } else {
+          return null;
+        }
       });
     },
     { refetchInterval: updateInterval }
   );
-  return [data, isLoading, error];
+  return [data || null, isLoading, error];
 }
