@@ -16,5 +16,6 @@ export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEnt
 export { useAsset } from "./hooks/useAsset";
 export { useAddAssetToFavorites, useRemoveAssetFromFavorites, useHandleAssetFavorites } from "./hooks/useFavorites";
 export { useBookmarks, useBookmarkPercentage } from "./hooks/useBookmarks";
+export { useChannelPicker } from "./hooks/useChannelPicker";
 export type { IStorage } from "./types/storage";
 
