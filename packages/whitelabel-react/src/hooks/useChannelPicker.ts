@@ -4,11 +4,9 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useQuery } from "react-query";
 
-const channelpickerUpdateInterval = 60000; // 1 minutes
+const DEFAULT_INTERVAL = 60000; // 1 minute
 
-export function useChannelPicker(
-  updateInterval: number = channelpickerUpdateInterval
-): TApiHook<IWLEPGChannel[] | null> {
+export function useChannelPicker(updateInterval: number = DEFAULT_INTERVAL): TApiHook<IWLEPGChannel[] | null> {
   const { customer, businessUnit, selectedLanguage } = useRedBeeState();
   const wlApi = useWLApi();
 
