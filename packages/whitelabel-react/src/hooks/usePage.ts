@@ -1,4 +1,3 @@
-/* This entire file will be moved to the shared react package once we are entirely happy with the implementation */
 import { PreferenceListTags } from "@ericssonbroadcastservices/exposure-sdk";
 import {
   WLAsset,
