@@ -18,4 +18,5 @@ export { useAddAssetToFavorites, useRemoveAssetFromFavorites, useHandleAssetFavo
 export { useBookmarks, useBookmarkPercentage } from "./hooks/useBookmarks";
 export { useChannelPicker } from "./hooks/useChannelPicker";
 export type { IStorage } from "./types/storage";
-
+export { usePage, useResolvedPage, PageType } from "./hooks/usePage";
+export type { TWLComponent, IResolvedComponent } from "./hooks/usePage";

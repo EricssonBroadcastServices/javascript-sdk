@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { DeviceType } from "@ericssonbroadcastservices/exposure-sdk";
+import { DeviceType, IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
-import { RedBeeProvider, IStorage, IDevice } from "../src/index";
+import { RedBeeProvider, IStorage } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
 import SearchInput from "./components/SearchInput";
 import { Routes, Route, HashRouter, Link } from "react-router-dom";
@@ -10,8 +10,10 @@ import { Home } from "./pages/Home";
 import { Asset } from "./pages/Asset";
 import "./index.css";
 import { Login } from "./components/Login";
+import { Menu } from "./components/Menu";
+import { Page } from "./pages/Page";
 
-const device: IDevice = {
+const device: IDeviceInfo = {
   deviceId: "123",
   name: "123 test",
   type: DeviceType.SMART_TV
@@ -21,6 +23,7 @@ export default function App() {
   return (
     <div>
       <HashRouter>
+        <Menu />
         <div style={{ display: "flex", justifyContent: "space-evenly" }}>
           <Link to="/">
             <button style={{ marginRight: "10px" }}>Home</button>
@@ -33,6 +36,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/asset">
             <Route path=":id" element={<Asset />} />
+          </Route>
+          <Route path="/page">
+            <Route path=":id" element={<Page />} />
           </Route>
         </Routes>
       </HashRouter>
