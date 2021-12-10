@@ -104,7 +104,7 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IR
     (page?.components || []).map(reference => {
       return {
         retry: false,
-        staleTime: 1000 * 60 * 10,
+        staleTime: reference.authorized ? 0 : 1000 * 60 * 10,
         refetchInterval: reference.reloadInterval,
         queryKey: [
           selectedLanguage,
