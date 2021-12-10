@@ -93,6 +93,10 @@ export interface IAdTrackingEvents {
   thirdQuartile?: string[];
 }
 
+export interface IAdClickThroughData {
+  clickThroughUrl: string;
+  clickTrackingUrls: string[];
+}
 export interface IAdClip {
   title?: string;
   titleId?: string;
@@ -100,6 +104,7 @@ export interface IAdClip {
   duration?: number;
   impressionUrlTemplates?: string[];
   trackingEvents?: IAdTrackingEvents;
+  videoClicks?: IAdClickThroughData;
 }
 
 export interface IAds {
@@ -112,7 +117,6 @@ export interface IAds {
   ads?: IAd[];
   clips?: IAdClip[];
 }
-
 export interface ICdn {
   profile?: string;
   host?: string;
