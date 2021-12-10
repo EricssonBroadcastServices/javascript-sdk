@@ -81,7 +81,7 @@ export function iso8601ToReadableString(iso8601String: string, translations: Tra
   const hours = duration.hours;
   const minutes = duration.minutes;
 
-  const yearText = years > 1 ? translations.getText(["DATES", "YEAR"]) : translations.getText(["DATES", "YEAR"]);
+  const yearText = translations.getText(["DATES", "YEAR"]);
   const monthText = months > 1 ? translations.getText(["DATES", "MONTHS"]) : translations.getText(["DATES", "MONTH"]);
   const dayText = days > 1 ? translations.getText(["DATES", "DAYS"]) : translations.getText(["DATES", "DAY"]);
   const hourText = hours > 1 ? translations.getText(["DATES", "HOURS"]) : translations.getText(["DATES", "HOUR"]);
