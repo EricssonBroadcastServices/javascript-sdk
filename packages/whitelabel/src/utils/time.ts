@@ -75,11 +75,13 @@ export const getDurationLocalized = (milliseconds: number, locale?: string) => {
 
 export function iso8601ToReadableString(iso8601String: string, translations: Translations): string {
   const duration = parseISOStringToDuration(iso8601String);
+  const years = duration.years;
   const months = duration.months;
   const days = duration.days;
   const hours = duration.hours;
   const minutes = duration.minutes;
 
+  const yearText = years > 1 ? translations.getText(["DATES", "YEAR"]) : translations.getText(["DATES", "YEAR"]);
   const monthText = months > 1 ? translations.getText(["DATES", "MONTHS"]) : translations.getText(["DATES", "MONTH"]);
   const dayText = days > 1 ? translations.getText(["DATES", "DAYS"]) : translations.getText(["DATES", "DAY"]);
   const hourText = hours > 1 ? translations.getText(["DATES", "HOURS"]) : translations.getText(["DATES", "HOUR"]);
@@ -87,6 +89,7 @@ export function iso8601ToReadableString(iso8601String: string, translations: Tra
     minutes > 1 ? translations.getText(["DATES", "MINUTES"]) : translations.getText(["DATES", "MINUTE"]);
 
   return (
+    `${years > 0 ? years + ` ${yearText} ` : ""}` +
     `${months > 0 ? months + ` ${monthText} ` : ""}` +
     `${days > 0 ? days + ` ${dayText}` : ""}` +
     `${hours > 0 ? hours + ` ${hourText} ` : ""}` +
