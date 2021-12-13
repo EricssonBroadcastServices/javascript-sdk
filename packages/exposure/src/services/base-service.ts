@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import { IHttpClient, IRequestError } from "../interfaces/http-client";
 import { ApiError } from "../models/api-error-model";
 
 interface Headers {
@@ -27,6 +27,7 @@ export interface ServiceOptions {
   authHeader: () => AuthHeaders | undefined;
   customer?: string;
   businessUnit?: string;
+  httpClient: IHttpClient;
 }
 
 interface CuBuUrlOptions extends CustomerAndBusinessUnitOptions {
@@ -54,26 +55,26 @@ export class BaseService {
     return `/${apiVersion}/customer/${cu}/businessunit/${bu}`;
   }
 
-  public get(url: string, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
-    return axios
+  public get(url: string, headers?: Headers, customErrorHandler?: (err: IRequestError) => void) {
+    return this.options.httpClient
       .get(new URL(url, this.options.baseUrl).toString(), { headers })
       .then(response => response.data)
       .catch(customErrorHandler || errorMapper);
   }
-  public delete(url: string, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
-    return axios
+  public delete(url: string, headers?: Headers, customErrorHandler?: (err: IRequestError) => void) {
+    return this.options.httpClient
       .delete(new URL(url, this.options.baseUrl).toString(), { headers })
       .then(response => response.data)
       .catch(customErrorHandler || errorMapper);
   }
-  public put(url: string, data: any, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
-    return axios
+  public put(url: string, data: any, headers?: Headers, customErrorHandler?: (err: IRequestError) => void) {
+    return this.options.httpClient
       .put(new URL(url, this.options.baseUrl).toString(), data, { headers })
       .then(response => response.data)
       .catch(customErrorHandler || errorMapper);
   }
-  public post(url: string, data: any, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
-    return axios
+  public post(url: string, data: any, headers?: Headers, customErrorHandler?: (err: IRequestError) => void) {
+    return this.options.httpClient
       .post(new URL(url, this.options.baseUrl).toString(), data, { headers })
       .then(response => response.data)
       .catch(customErrorHandler || errorMapper);

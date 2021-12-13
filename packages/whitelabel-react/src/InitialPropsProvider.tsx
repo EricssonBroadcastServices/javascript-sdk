@@ -1,4 +1,10 @@
-import { deserialize, ExposureApi, IDeviceInfo, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import {
+  deserialize,
+  ExposureApi,
+  IDeviceInfo,
+  IHttpClient,
+  LoginResponse
+} from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup, WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
@@ -16,6 +22,7 @@ interface IInitialPropsProvider {
   children?: React.ReactNode;
   internalApiUrl: string;
   deviceGroup: DeviceGroup;
+  httpClient: IHttpClient;
 }
 
 async function getValidatedPersistedSession({
@@ -23,13 +30,15 @@ async function getValidatedPersistedSession({
   customer,
   businessUnit,
   exposureBaseUrl,
-  device
+  device,
+  httpClient
 }: {
   customer: string;
   businessUnit: string;
   storage?: IStorage;
   exposureBaseUrl: string;
   device: IDeviceInfo;
+  httpClient: IHttpClient;
 }) {
   let session: LoginResponse | null = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
@@ -37,7 +46,8 @@ async function getValidatedPersistedSession({
     customer,
     businessUnit,
     authHeader: () => undefined,
-    baseUrl: exposureBaseUrl
+    baseUrl: exposureBaseUrl,
+    httpClient
   });
   if (persistedSession) {
     const persistedSessionJSON = JSON.parse(persistedSession);
@@ -78,20 +88,29 @@ export function InitialPropsProvider({
   exposureBaseUrl,
   device,
   internalApiUrl,
-  deviceGroup
+  deviceGroup,
+  httpClient
 }: IInitialPropsProvider) {
   const [state, setState] = useState<IRedBeeState | null>(null);
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      const session = await getValidatedPersistedSession({ storage, customer, businessUnit, exposureBaseUrl, device });
+      const session = await getValidatedPersistedSession({
+        storage,
+        customer,
+        businessUnit,
+        exposureBaseUrl,
+        device,
+        httpClient
+      });
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
       const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
       const exposureApi = new ExposureApi({
         customer,
         businessUnit,
         authHeader,
-        baseUrl: exposureBaseUrl
+        baseUrl: exposureBaseUrl,
+        httpClient
       });
       setState({
         session,
@@ -112,7 +131,8 @@ export function InitialPropsProvider({
           deviceGroup,
           customer,
           businessUnit,
-          baseUrl: internalApiUrl
+          baseUrl: internalApiUrl,
+          httpClient
         })
       });
       setIsReady(true);

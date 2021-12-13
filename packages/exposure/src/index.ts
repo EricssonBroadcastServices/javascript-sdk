@@ -158,6 +158,7 @@ export { EntitlementService, TPlayDrm, TPlayFormat } from "./services/entitlemen
 
 /* InterFaces */
 export { CardPaymentDetails, VerifyPurchasePayload, IPurchaseSettings };
+export { IHeaders, IHttpClient, IRequestConfig, IRequestError, IResponse } from "./interfaces/http-client";
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";

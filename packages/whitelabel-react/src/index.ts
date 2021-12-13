@@ -17,6 +17,7 @@ export { useAsset } from "./hooks/useAsset";
 export { useAddAssetToFavorites, useRemoveAssetFromFavorites, useHandleAssetFavorites } from "./hooks/useFavorites";
 export { useBookmarks, useBookmarkPercentage } from "./hooks/useBookmarks";
 export { useChannelPicker } from "./hooks/useChannelPicker";
+// eslint-disable-next-line prettier/prettier
 export type { IStorage } from "./types/storage";
 export { usePage, useResolvedPage, PageType } from "./hooks/usePage";
 export type { TWLComponent, IResolvedComponent } from "./hooks/usePage";

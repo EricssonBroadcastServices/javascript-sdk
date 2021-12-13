@@ -6,7 +6,8 @@ import { mocks } from "../../test-utils/mocks";
 describe("Tag service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "" })
+    authHeader: () => ({ Authorization: "" }),
+    httpClient: axios
   };
   const tagService = new TagService(serviceOptions);
   const mockTagResponse = {

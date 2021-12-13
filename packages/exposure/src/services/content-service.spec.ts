@@ -13,7 +13,8 @@ let getSpy: jasmine.Spy;
 describe("Content service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "sessionToken" })
+    authHeader: () => ({ Authorization: "sessionToken" }),
+    httpClient: axios
   };
   const contentService = new ContentService(serviceOptions);
   beforeEach(() => {

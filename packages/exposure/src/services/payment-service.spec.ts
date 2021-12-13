@@ -5,7 +5,8 @@ import axios from "axios";
 describe("Payment service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "" })
+    authHeader: () => ({ Authorization: "" }),
+    httpClient: axios
   };
   const paymentService = new PaymentService(serviceOptions);
   it("should fetch product offerings with voucher code", async () => {

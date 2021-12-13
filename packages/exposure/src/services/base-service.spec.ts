@@ -6,7 +6,8 @@ import axios from "axios";
 describe("base service", () => {
   const baseService = new BaseService({
     baseUrl: "https://baseUrl.com",
-    authHeader: () => ({ Authorization: "" })
+    authHeader: () => ({ Authorization: "" }),
+    httpClient: axios
   });
   it("should throw error with missing customer or businessUnit", () => {
     expect(() =>
@@ -55,7 +56,8 @@ describe("base service", () => {
 
     baseService.setOptions({
       baseUrl: "https://baseUrl.com/",
-      authHeader: () => ({ Authorization: "" })
+      authHeader: () => ({ Authorization: "" }),
+      httpClient: axios
     });
     baseService.get("v1/test/");
     expect(axios.get).toHaveBeenCalledWith("https://baseurl.com/v1/test", expect.any(Object));

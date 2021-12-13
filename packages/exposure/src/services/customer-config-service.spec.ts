@@ -7,7 +7,8 @@ import { CustomerConfigFile } from "../models/customer-config-file-model";
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "sessionToken" })
+    authHeader: () => ({ Authorization: "sessionToken" }),
+    httpClient: axios
   };
   const customerConfigService = new CustomerConfigService(serviceOptions);
   beforeEach(() => {
