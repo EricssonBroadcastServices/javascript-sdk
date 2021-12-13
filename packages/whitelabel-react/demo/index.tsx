@@ -12,6 +12,7 @@ import "./index.css";
 import { Login } from "./components/Login";
 import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
+import axios from "axios";
 
 const device: IDeviceInfo = {
   deviceId: "123",
@@ -63,6 +64,7 @@ function AppProvider() {
       device={device}
       deviceGroup={DeviceGroup.TV}
       autoFetchConfig
+      httpClient={axios}
     >
       <App />
     </RedBeeProvider>
