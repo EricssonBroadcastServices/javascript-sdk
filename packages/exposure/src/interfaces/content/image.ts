@@ -1,7 +1,7 @@
 export enum ImageOrientation {
   LANDSCAPE = "LANDSCAPE",
   PORTRAIT = "PORTRAIT",
-  SQUARE = "SQUARE"
+  SQUARE = "SQUARE",
 }
 
 export enum ImageType {
@@ -10,7 +10,7 @@ export enum ImageType {
   LOGO = "logo",
   THUMBNAIL = "thumbnail",
   COVER = "cover",
-  OTHER = "other"
+  OTHER = "other",
 }
 
 export interface IImage {

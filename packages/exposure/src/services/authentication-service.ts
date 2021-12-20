@@ -35,21 +35,21 @@ export class AuthenticationService extends BaseService {
     username,
     password,
     device,
-    informationCollectionConsentGivenNow = false
+    informationCollectionConsentGivenNow = false,
   }: LoginOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v3"
+        apiVersion: "v3",
       })}/auth/login`,
       {
         username,
         password,
         device,
-        informationCollectionConsentGivenNow
+        informationCollectionConsentGivenNow,
       }
-    ).then(data => deserialize(LoginResponse, data));
+    ).then((data) => deserialize(LoginResponse, data));
   }
 
   public async loginAnonymous({ customer, businessUnit, device }: LoginAnonymousOptions) {
@@ -57,10 +57,10 @@ export class AuthenticationService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2"
+        apiVersion: "v2",
       })}/auth/anonymous`,
       { device, deviceId: device.deviceId }
-    ).then(data => {
+    ).then((data) => {
       return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
     });
   }
@@ -69,14 +69,14 @@ export class AuthenticationService extends BaseService {
     customer,
     businessUnit,
     token,
-    device
+    device,
   }: LoginByOauthTokenOptions): Promise<LoginResponse> {
     const url = `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/auth/oauthLogin`;
     const payload = {
       token,
-      device
+      device,
     };
-    return this.post(url, payload).then(data => deserialize(LoginResponse, data));
+    return this.post(url, payload).then((data) => deserialize(LoginResponse, data));
   }
 
   public async loginFirebase({
@@ -88,7 +88,7 @@ export class AuthenticationService extends BaseService {
     customer,
     businessUnit,
     emailVerified,
-    device
+    device,
   }: LoginFireBaseOptions) {
     const payload = {
       username,
@@ -97,28 +97,28 @@ export class AuthenticationService extends BaseService {
       emailVerified,
       providerId,
       accessToken,
-      device
+      device,
     };
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2"
+        apiVersion: "v2",
       })}/auth/firebaseLogin`,
       payload
-    ).then(data => deserialize(LoginResponse, data));
+    ).then((data) => deserialize(LoginResponse, data));
   }
 
   public async logout({
     customer,
     businessUnit,
-    fromAllDevice = false
+    fromAllDevice = false,
   }: CustomerAndBusinessUnitOptions & { fromAllDevice?: boolean }) {
     return this.delete(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2"
+        apiVersion: "v2",
       })}/auth/login?fromAllDevice=${fromAllDevice}`,
       this.options.authHeader()
     );
@@ -127,13 +127,13 @@ export class AuthenticationService extends BaseService {
   public async validateSession({
     customer,
     businessUnit,
-    headers
+    headers,
   }: CustomerAndBusinessUnitOptions): Promise<ISessionResponse> {
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2"
+        apiVersion: "v2",
       })}/auth/session`,
       { ...this.options.authHeader(), ...headers }
     );

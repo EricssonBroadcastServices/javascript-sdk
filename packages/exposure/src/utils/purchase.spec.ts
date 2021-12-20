@@ -10,7 +10,7 @@ describe("purchaseUtils", () => {
         from: new Date().toISOString(),
         until: new Date(Date.now() + 10000).toISOString(),
         status: PurchaseStatus.FULFILLED,
-        renewal: false
+        renewal: false,
       },
       {
         id: "456",
@@ -20,8 +20,8 @@ describe("purchaseUtils", () => {
         until: new Date(Date.now() + 10000).toISOString(),
         status: PurchaseStatus.FULFILLED,
         renewal: false,
-        assetId: "123"
-      }
+        assetId: "123",
+      },
     ];
     const tvods = purchaseUtils.getTvods(purchases);
     expect(tvods.length).toBe(1);

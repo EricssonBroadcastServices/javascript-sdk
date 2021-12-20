@@ -43,19 +43,19 @@ export class EntitlementService extends BaseService {
     customer,
     businessUnit,
     headers,
-    assetId
+    assetId,
   }: GetEntitlementForAssetOptions): Promise<IEntitlementResponse> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit
+        businessUnit,
       })}/entitlement/${assetId}/entitle`,
       {
         ...this.options.authHeader(),
-        ...headers
+        ...headers,
       },
-      err => {
+      (err) => {
         throw err.response?.data as IEntitlementError;
       }
     );
@@ -63,34 +63,34 @@ export class EntitlementService extends BaseService {
   public getUserEntitlements({
     customer,
     businessUnit,
-    headers
+    headers,
   }: CustomerAndBusinessUnitOptions): Promise<IProductResponse> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit
+        businessUnit,
       })}/entitlement/accountproduct`,
       {
         ...this.options.authHeader(),
-        ...headers
+        ...headers,
       }
     );
   }
   public getAvailabilityKeys({
     customer,
     businessUnit,
-    headers
+    headers,
   }: CustomerAndBusinessUnitOptions): Promise<IAvailabilityKeysResponse> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit
+        businessUnit,
       })}/entitlement/availabilitykey`,
       {
         ...this.options.authHeader(),
-        ...headers
+        ...headers,
       }
     );
   }
@@ -104,7 +104,7 @@ export class EntitlementService extends BaseService {
     maxFrameRate,
     maxResolution,
     supportedFormats,
-    supportedDrms
+    supportedDrms,
   }: PlayAssetOptions) {
     const queryParameters = new URLSearchParams(adParameters as Record<string, string>);
     if (audioOnly) {
@@ -126,12 +126,12 @@ export class EntitlementService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit
+        businessUnit,
       })}/entitlement/${assetId}/play?${queryParameters.toString()}`,
       {
         ...this.options.authHeader(),
-        ...headers
+        ...headers,
       }
-    ).then(data => deserialize(Play, data));
+    ).then((data) => deserialize(Play, data));
   }
 }

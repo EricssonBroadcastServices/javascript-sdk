@@ -1,22 +1,23 @@
-import { AuthenticationService, DeviceType } from "./authentication-service";
+import { AuthenticationService } from "./authentication-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
 import { LoginResponse } from "../models/login-response-model";
 import { mocks } from "../../test-utils/mocks";
+import { DeviceType } from "../interfaces/device";
 
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "sessionToken" })
+    authHeader: () => ({ Authorization: "sessionToken" }),
   };
   const authService = new AuthenticationService(serviceOptions);
   beforeEach(() => {
     const mockReturnValue = {
-      data: {}
+      data: {},
     };
-    spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
-    spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
-    spyOn(axios, "delete").and.returnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "post").mockReturnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "delete").mockReturnValue(Promise.resolve(mockReturnValue));
   });
   it("should login", async () => {
     const loginOptions = {
@@ -27,9 +28,9 @@ describe("Auth service", () => {
       device: {
         deviceId: "123",
         type: DeviceType.WEB,
-        name: ""
+        name: "",
       },
-      informationCollectionConsentGivenNow: false
+      informationCollectionConsentGivenNow: false,
     };
     const loginResponse = await authService.login(loginOptions);
     expect(loginResponse).toBeInstanceOf(LoginResponse);
@@ -40,7 +41,7 @@ describe("Auth service", () => {
         username: loginOptions.username,
         password: loginOptions.password,
         device: loginOptions.device,
-        informationCollectionConsentGivenNow: false
+        informationCollectionConsentGivenNow: false,
       }),
       expect.any(Object)
     );
@@ -48,12 +49,12 @@ describe("Auth service", () => {
   it("should login anon", async () => {
     const body = {
       device: mocks.device,
-      deviceId: "123"
+      deviceId: "123",
     };
     const loginResponse = await authService.loginAnonymous({
       customer: mocks.customer,
       businessUnit: mocks.businessUnit,
-      device: mocks.device
+      device: mocks.device,
     });
     expect(loginResponse).toBeInstanceOf(LoginResponse);
     expect(loginResponse.isAnonymous).toBe(true);
@@ -66,11 +67,9 @@ describe("Auth service", () => {
   it("should validate session", async () => {
     await authService.validateSession({
       customer: mocks.customer,
-      businessUnit: mocks.businessUnit
+      businessUnit: mocks.businessUnit,
     });
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/session`,
       { headers: serviceOptions.authHeader() }
     );
@@ -78,12 +77,12 @@ describe("Auth service", () => {
   it("should logout", async () => {
     await authService.logout({
       customer: mocks.customer,
-      businessUnit: mocks.businessUnit
+      businessUnit: mocks.businessUnit,
     });
     expect(axios.delete).toHaveBeenCalledWith(
       "https://testbaseurl.com/v2/customer/CU/businessunit/BU/auth/login?fromAllDevice=false",
       {
-        headers: serviceOptions.authHeader()
+        headers: serviceOptions.authHeader(),
       }
     );
   });

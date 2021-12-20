@@ -17,12 +17,12 @@ describe("Asset", () => {
       asset.localized = [
         {
           locale: "en",
-          title: "enTitle"
+          title: "enTitle",
         },
         {
           locale: "sv",
-          title: "svTitle"
-        }
+          title: "svTitle",
+        },
       ] as any;
     });
 

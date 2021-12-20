@@ -15,19 +15,19 @@ export class DocumentService extends BaseService {
     businessUnit,
     documentId,
     customDocumentName,
-    preferredLanguage
+    preferredLanguage,
   }: GetDocumentOptions) {
     const requestQuery = {
       documentId,
       customDocumentName,
-      preferredLanguage
+      preferredLanguage,
     };
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v1",
         customer,
-        businessUnit
+        businessUnit,
       })}/document?${querystring.stringify(requestQuery)}`
-    ).then(data => deserialize(DocumentModel, data));
+    ).then((data) => deserialize(DocumentModel, data));
   }
 }

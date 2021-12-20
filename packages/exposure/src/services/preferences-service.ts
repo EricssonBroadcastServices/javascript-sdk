@@ -45,20 +45,20 @@ export class PreferencesService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1"
+        apiVersion: "v1",
       })}/preferences/list/${listId}/asset`,
       this.options.authHeader()
-    ).then(data => data.map(item => deserialize(PreferenceListItem, item)));
+    ).then((data) => data.map((item) => deserialize(PreferenceListItem, item)));
   }
   public addAssetToList({ customer, businessUnit, listId, assetId, order }: AddAssetToListOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1"
+        apiVersion: "v1",
       })}/preferences/list/${listId}/asset/${assetId}`,
       {
-        order: order || 0
+        order: order || 0,
       },
       this.options.authHeader()
     );
@@ -68,7 +68,7 @@ export class PreferencesService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1"
+        apiVersion: "v1",
       })}/preferences/list/${listId}/asset/${assetId}`,
       this.options.authHeader()
     );
@@ -78,17 +78,17 @@ export class PreferencesService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1"
+        apiVersion: "v1",
       })}/preferences/list/${listId}/asset/${assetId}`,
       this.options.authHeader()
-    ).then(data => deserialize(PreferenceListItem, data));
+    ).then((data) => deserialize(PreferenceListItem, data));
   }
 
   public addTagToList({ customer, businessUnit, listId, tagId, order }: AddTagToListOptions) {
     return this.post(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences/list/${listId}/tag/${tagId}`,
       {
-        order: order || 0
+        order: order || 0,
       },
       this.options.authHeader()
     );
@@ -116,7 +116,7 @@ export class PreferencesService extends BaseService {
   }
 
   public getPreference({ customer, businessUnit, key }: GetPreferenceOptions): Promise<string> {
-    return this.getPreferences({ customer, businessUnit }).then(userPreferences => {
+    return this.getPreferences({ customer, businessUnit }).then((userPreferences) => {
       if (!userPreferences.preferences || !userPreferences.preferences[key]) return "";
       return userPreferences.preferences[key];
     });
@@ -124,12 +124,12 @@ export class PreferencesService extends BaseService {
 
   public setPreference({ customer, businessUnit, key, value }: SetPreferenceOptions) {
     return this.getPreferences({ customer, businessUnit })
-      .then(userPreferences => {
+      .then((userPreferences) => {
         userPreferences.preferences[key] = value.toString();
         delete userPreferences.lastUpdated;
         return userPreferences;
       })
-      .then(updatedPreferences =>
+      .then((updatedPreferences) =>
         this.post(
           `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences`,
           updatedPreferences,

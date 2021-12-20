@@ -26,6 +26,6 @@ const remove = (key: string): void => {
 
 export const sessionKeyStorage = {
   setItem: (key, value) => store(key, value),
-  getItem: key => get(key),
-  remove: key => remove(key)
+  getItem: (key) => get(key),
+  remove: (key) => remove(key),
 };

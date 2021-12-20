@@ -13,18 +13,18 @@ export class SearchService extends BaseService {
     const requestQuery = {
       fieldSet: "ALL",
       locale,
-      types: "MOVIE,TV_SHOW,EPISODE,CLIP,TV_CHANNEL"
+      types: "MOVIE,TV_SHOW,EPISODE,CLIP,TV_CHANNEL",
     };
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v1",
         customer,
-        businessUnit
+        businessUnit,
       })}/content/search/query/${query}?${querystring.stringify(requestQuery)}`
-    ).then(data => {
+    ).then((data) => {
       return deserialize(AssetResponse, {
         ...data,
-        items: data.items.map(i => i.asset)
+        items: data.items.map((i) => i.asset),
       });
     });
   }

@@ -9,27 +9,27 @@ describe("ProductOffering", () => {
       {
         locale: "en",
         name: "name",
-        description: ""
-      }
+        description: "",
+      },
     ],
     productIds: ["a44acabb-768f-46b4-b74f-cd89a1509335_82162E"],
     offeringPrice: {
       price: {
         amount: 1000,
         fractionDigits: 2,
-        currency: "SEK"
+        currency: "SEK",
       },
       countryCode: "SE",
       vat: {
         percentage: 25,
-        included: true
-      }
+        included: true,
+      },
     },
     id: "3a2f0ec0-852f-4c2a-bdca-b613fec088db_82162E",
     productOfferingId: "3a2f0ec0-852f-4c2a-bdca-b613fec088db_82162E",
     salesStart: "2019-10-28T13:49:25.555Z",
     productRequiresSelectAsset: false,
-    paymentMethodTypes: ["card"]
+    paymentMethodTypes: ["card"],
   };
   it("should deserialize the payment options", () => {
     expect(productOffering.paymentMethodTypes).toEqual(["card"]);

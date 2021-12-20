@@ -6,11 +6,11 @@ import { WithLocalized } from "./localized-model";
 
 export enum mediumResBoundaries {
   lower = 500,
-  upper = 1000
+  upper = 1000,
 }
 
 export enum lowResBoundaries {
-  upper = 499
+  upper = 499,
 }
 
 export enum ChannelFeature {
@@ -18,7 +18,7 @@ export enum ChannelFeature {
   VC_CURATED = "VC_CURATED",
   VC_PERSONALIZED = "VC_PERSONALIZED",
   VC_SCHEDULED = "VC_SCHEDULED",
-  EPG = "EPG"
+  EPG = "EPG",
 }
 
 interface IMedias {
@@ -84,7 +84,7 @@ export enum AssetType {
   COLLECTION = "COLLECTION",
   PODCAST = "PODCAST",
   PODCAST_EPISODE = "PODCAST_EPISODE",
-  OTHER = "OTHER"
+  OTHER = "OTHER",
 }
 
 interface ParentalRating {
@@ -98,11 +98,11 @@ interface IOverlayWidget {
 }
 
 export enum EntityType {
-  ASSET = "ASSET"
+  ASSET = "ASSET",
 }
 
 export enum LinkType {
-  TRAILER = "TRAILER"
+  TRAILER = "TRAILER",
 }
 
 export interface LinkedEntity {
@@ -115,7 +115,7 @@ export enum MarkerType {
   INTRO = "INTRO",
   CREDITS = "CREDITS",
   POINT = "POINT",
-  CHAPTER = "CHAPTER"
+  CHAPTER = "CHAPTER",
 }
 
 class EventTimes {
@@ -148,7 +148,7 @@ export class Asset extends WithLocalized {
   @jsonProperty()
   public productionYear: number;
   @jsonProperty({
-    type: Object
+    type: Object,
   })
   public tags: IAssetTagCollection[] = [];
   @jsonProperty({ type: Publication })
@@ -193,7 +193,7 @@ export class Asset extends WithLocalized {
   public event?: EventTimes;
 
   public series = () => {
-    return this.tags.find(t => t.type === "series");
+    return this.tags.find((t) => t.type === "series");
   };
 
   public isLive = () => {
@@ -211,7 +211,7 @@ export class Asset extends WithLocalized {
     if (this.publications.length === 0) {
       return false;
     }
-    return this.publications.filter(p => !p.isExpired()).every(p => p.isInFuture());
+    return this.publications.filter((p) => !p.isExpired()).every((p) => p.isInFuture());
   };
 
   public getStartTime = () => {
@@ -224,11 +224,11 @@ export class Asset extends WithLocalized {
     const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
     // if we the asset will be published in the future, take the start time from next upcoming publication
     if (this.inFuture()) {
-      const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
+      const futurePublications = publicationsSortedAscending.filter((p) => p.isInFuture());
       if (futurePublications.length) return futurePublications[0].fromDate;
     }
     // if we have active publications, the start time has already been
-    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    const activePublications = publicationsSortedAscending.filter((p) => p.isActive());
     if (activePublications.length) {
       return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
     }
@@ -244,7 +244,7 @@ export class Asset extends WithLocalized {
       return false; // if we do not know, let the backend handle things
     }
     let isBlocked = false;
-    this.publications.forEach(publication => {
+    this.publications.forEach((publication) => {
       if (publication.countries.length > 0) {
         if (!publication.countries.includes(location.countryCode)) {
           isBlocked = true;
@@ -258,7 +258,7 @@ export class Asset extends WithLocalized {
     return {
       src: this.assetId,
       type: "video/emp",
-      title: this.getTitle(locale)
+      title: this.getTitle(locale),
     };
   };
 
@@ -282,7 +282,7 @@ export class AssetResponse {
   @jsonProperty()
   public totalCount: number;
   @jsonProperty({
-    type: Asset
+    type: Asset,
   })
   public items: Asset[] = [];
   public numberOfPages = () => {

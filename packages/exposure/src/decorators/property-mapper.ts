@@ -33,7 +33,7 @@ export function deserialize<T>(type: IConstructable<T>, json: any): T {
   }
 
   if (isPrimitive(type)) {
-    return ((type as unknown) as (arg: any) => T)(json);
+    return (type as unknown as (arg: any) => T)(json);
   }
 
   const deserializeObj: IIndexable = new type();

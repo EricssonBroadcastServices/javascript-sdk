@@ -3,7 +3,7 @@ import { jsonProperty } from "../decorators/json-property";
 export enum DRMType {
   PLAYREADY = "com.microsoft.playready",
   WIDEVINE = "com.widevine.alpha",
-  FAIRPLAY = "com.apple.fps"
+  FAIRPLAY = "com.apple.fps",
 }
 
 export enum FormatType {
@@ -11,17 +11,17 @@ export enum FormatType {
   HLS = "HLS",
   SMOOTHSTREAMING = "SMOOTHSTREAMING",
   MP4 = "MP4",
-  MP3 = "MP3"
+  MP3 = "MP3",
 }
 
 export enum Stitcher {
   GENERIC = "GENERIC",
-  NOWTILUS = "NOWTILUS"
+  NOWTILUS = "NOWTILUS",
 }
 
 export enum AdClipCategory {
   VOD = "vod",
-  AD = "ad"
+  AD = "ad",
 }
 
 export class DRM {

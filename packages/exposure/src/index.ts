@@ -12,7 +12,7 @@ import {
   PaymentService,
   CardPaymentDetails,
   VerifyPurchasePayload,
-  IPurchaseSettings
+  IPurchaseSettings,
 } from "./services/payment-service";
 import { SystemService } from "./services/system-service";
 
@@ -24,7 +24,7 @@ import {
   ILoginMethodProvider,
   LoginMethodType,
   AccessModel,
-  SignupModel
+  SignupModel,
 } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
@@ -43,7 +43,7 @@ export {
   LinkType,
   EntityType,
   MarkerType,
-  MarkerPoint
+  MarkerPoint,
 } from "./models/asset-model";
 export {
   Play,
@@ -57,7 +57,7 @@ export {
   Stitcher,
   StreamInfo,
   Sprite,
-  ContractRestrictions
+  ContractRestrictions,
 } from "./models/play-model";
 export { Event, EventResponse } from "./models/event-model";
 export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/location/user-location";
@@ -67,32 +67,32 @@ export {
   IProductResponse,
   IProductResponse as ProductResponse,
   IAvailabilityKeysResponse,
-  IAvailabilityKeysResponse as AvailabilityKeysResponse
+  IAvailabilityKeysResponse as AvailabilityKeysResponse,
 } from "./interfaces/entitlement/product";
 export {
   IProductOffering,
   IProductOffering as ProductOffering,
-  ProductOfferingType
+  ProductOfferingType,
 } from "./interfaces/payment/product-offering";
 export {
   IEntitlementError,
   IEntitlementResponse,
   EntitlementActionType,
-  IEntitlementActions
+  IEntitlementActions,
 } from "./interfaces/entitlement/entitlement";
 export { LoginResponse, ISessionResponse } from "./models/login-response-model";
 export {
   ICardPaymentResponse,
   ICardPaymentResponse as CardPaymentResponse,
   PurchaseStatus,
-  StripePaymentType
+  StripePaymentType,
 } from "./interfaces/payment/card-payment-response";
 export { Season, SeasonResponse } from "./models/season-model";
 export {
   IAssetTag,
   IAssetTag as Tag,
   IAssetTagCollection,
-  IAssetTagCollection as TagCollection
+  IAssetTagCollection as TagCollection,
 } from "./interfaces/content/asset-tag";
 export { ITag, ITag as TagResponse } from "./interfaces/tag/tag";
 export { IBookmark, IBookmark as Bookmark } from "./interfaces/content/bookmark";
@@ -102,13 +102,13 @@ export {
   IPurchase,
   IPurchase as Purchase,
   IPurchaseResponse,
-  IPurchaseResponse as PurchaseResponse
+  IPurchaseResponse as PurchaseResponse,
 } from "./interfaces/payment/purchase";
 export {
   ITransaction,
   ITransaction as Transaction,
   ITransactionsWithProductOffering,
-  ITransactionsWithProductOffering as TransactionsWithProductOffering
+  ITransactionsWithProductOffering as TransactionsWithProductOffering,
 } from "./interfaces/payment/transaction";
 export { IUserProfile } from "./interfaces/user/user-profile";
 export { IUserDetails, IUserCapabilities, IUserProfileAttribute } from "./interfaces/user/user-details";
@@ -116,7 +116,7 @@ export {
   IPasswordAlgorithm,
   IPasswordAlgorithm as PasswordAlgorithm,
   IPasswordHashConfig,
-  IPasswordHashConfig as PasswordHashConfig
+  IPasswordHashConfig as PasswordHashConfig,
 } from "./models/system-config-model";
 export { IPasswordPolicy, IPasswordPolicy as PasswordPolicy } from "./models/system-config-model";
 export { AspectRatio } from "./interfaces/aspect-ratio";
@@ -126,7 +126,7 @@ export {
   PreferenceListItem,
   PreferenceListTags,
   PreferenceListTagItem,
-  UserPreferences
+  UserPreferences,
 } from "./models/preference-model";
 
 export {
@@ -138,7 +138,7 @@ export {
   ILoginMethodProvider as LoginMethodProvider,
   LoginMethodType,
   AccessModel,
-  SignupModel
+  SignupModel,
 };
 
 /* Services */
@@ -152,7 +152,7 @@ export {
   PaymentService,
   CustomerConfigService,
   DocumentService,
-  PreferencesService
+  PreferencesService,
 };
 export { EntitlementService, TPlayDrm, TPlayFormat } from "./services/entitlement-service";
 
@@ -171,7 +171,7 @@ export {
   IOfferingPrice,
   IOfferingPrice as OfferingPrice,
   IPromotion,
-  IPromotion as Promotion
+  IPromotion as Promotion,
 } from "./interfaces/payment/price";
 export { userDetailsUtils } from "./utils/user-details";
 export { tagUtils } from "./utils/tag";

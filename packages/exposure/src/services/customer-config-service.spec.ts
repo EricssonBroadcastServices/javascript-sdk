@@ -7,26 +7,24 @@ import { CustomerConfigFile } from "../models/customer-config-file-model";
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "sessionToken" })
+    authHeader: () => ({ Authorization: "sessionToken" }),
   };
   const customerConfigService = new CustomerConfigService(serviceOptions);
   beforeEach(() => {
     const mockReturnValue = {
-      data: {}
+      data: {},
     };
-    spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
-    spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "post").mockReturnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
   });
   it("should get file", async () => {
     let response = await customerConfigService.getConfigFile({
       customer: mocks.customer,
       businessUnit: mocks.businessUnit,
-      fileId: "test.json"
+      fileId: "test.json",
     });
     expect(response).toBeInstanceOf(CustomerConfigFile);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/config/test.json?`,
       { headers: undefined }
     );
@@ -37,36 +35,34 @@ describe("Auth service", () => {
       fileId: "test.json",
       queryParams: {
         name: "test",
-        value: "test"
-      }
+        value: "test",
+      },
     });
     expect(response).toBeInstanceOf(CustomerConfigFile);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/config/test.json?test=test`,
       { headers: undefined }
     );
   });
   it("should get file by origin", async () => {
     let response = await customerConfigService.getConfigFileByOrigin({
-      origin: "test"
+      origin: "test",
     });
     expect(response).toBeInstanceOf(CustomerConfigFile);
     expect(axios.get).toHaveBeenCalledWith("https://testbaseurl.com/v1/config/appConfig.json/origin/test?", {
-      headers: undefined
+      headers: undefined,
     });
 
     response = await customerConfigService.getConfigFileByOrigin({
       origin: "test",
       queryParams: {
         name: "name",
-        value: "value"
-      }
+        value: "value",
+      },
     });
     expect(response).toBeInstanceOf(CustomerConfigFile);
     expect(axios.get).toHaveBeenCalledWith("https://testbaseurl.com/v1/config/appConfig.json/origin/test?name=value", {
-      headers: undefined
+      headers: undefined,
     });
   });
 });

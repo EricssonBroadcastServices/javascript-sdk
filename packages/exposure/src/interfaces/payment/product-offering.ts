@@ -11,7 +11,7 @@ export enum ProductOfferingType {
   RENTAL = "rental",
   SUBSCRIPTION = "subscription",
   PURCHASE = "purchase",
-  EVENT = "event"
+  EVENT = "event",
 }
 
 export interface IProductOffering {

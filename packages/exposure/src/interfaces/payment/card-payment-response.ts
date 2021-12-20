@@ -1,6 +1,6 @@
 export enum StripePaymentType {
   CARD = "card",
-  IDEAL = "ideal"
+  IDEAL = "ideal",
 }
 interface IStripePurchaseResponse {
   clientSecret: string;
@@ -13,7 +13,7 @@ interface IStripePurchaseResponse {
 export enum PurchaseStatus {
   FULFILLED = "FULFILLED",
   PENDING = "PENDING",
-  REJECTED = "REJECTED"
+  REJECTED = "REJECTED",
 }
 
 interface IPurchaseInfo {

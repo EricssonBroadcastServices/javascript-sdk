@@ -6,29 +6,29 @@ import { mocks } from "../../test-utils/mocks";
 describe("Tag service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "" })
+    authHeader: () => ({ Authorization: "" }),
   };
   const tagService = new TagService(serviceOptions);
   const mockTagResponse = {
     localized: [
       {
         title: "test",
-        locale: "en"
-      }
+        locale: "en",
+      },
     ],
-    scheme: "other"
+    scheme: "other",
   };
   const mockReturnValue = {
-    data: mockTagResponse
+    data: mockTagResponse,
   };
   beforeEach(() => {
-    spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
   });
   it("should fetch tag by id", async () => {
     await tagService.getTag({
       customer: mocks.customer,
       businessUnit: mocks.businessUnit,
-      tagId: mocks.tagId1
+      tagId: mocks.tagId1,
     });
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/tag/${mocks.tagId1}`,
@@ -38,7 +38,7 @@ describe("Tag service", () => {
   it("should throw when missing customer argument", () => {
     expect(() => {
       tagService.getTag({
-        tagId: mocks.tagId1
+        tagId: mocks.tagId1,
       });
     }).toThrow();
   });
@@ -46,10 +46,10 @@ describe("Tag service", () => {
     tagService.setOptions({
       ...tagService.options,
       customer: mocks.customer,
-      businessUnit: mocks.businessUnit
+      businessUnit: mocks.businessUnit,
     });
     await tagService.getTag({
-      tagId: mocks.tagId1
+      tagId: mocks.tagId1,
     });
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/tag/${mocks.tagId1}`,
