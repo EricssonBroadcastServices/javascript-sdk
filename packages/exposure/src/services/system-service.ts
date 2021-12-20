@@ -4,7 +4,7 @@ import { SystemConfig } from "../models/system-config-model";
 
 export class SystemService extends BaseService {
   public getSystemConfig({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
-    return this.get(`/v1/customer/${customer}/businessunit/${businessUnit}/systemConfig`).then((data) =>
+    return this.get(`/v1/customer/${customer}/businessunit/${businessUnit}/systemConfig`).then(data =>
       deserialize(SystemConfig, data)
     );
   }

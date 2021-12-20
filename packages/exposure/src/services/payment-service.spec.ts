@@ -5,7 +5,7 @@ import axios from "axios";
 describe("Payment service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "" }),
+    authHeader: () => ({ Authorization: "" })
   };
   const paymentService = new PaymentService(serviceOptions);
   it("should fetch product offerings with voucher code", async () => {
@@ -13,14 +13,14 @@ describe("Payment service", () => {
     await paymentService.getProductOfferingsByVoucherCode({
       customer: "CU",
       businessUnit: "BU",
-      code: "123",
+      code: "123"
     });
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/CU/businessunit/BU/store/productofferings/voucher/123`,
       {
         headers: {
-          Authorization: "",
-        },
+          Authorization: ""
+        }
       }
     );
   });
@@ -30,14 +30,14 @@ describe("Payment service", () => {
       customer: "CU",
       businessUnit: "BU",
       code: "123",
-      countryCode: "SE",
+      countryCode: "SE"
     });
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/CU/businessunit/BU/store/productofferings/country/SE/voucher/123`,
       {
         headers: {
-          Authorization: "",
-        },
+          Authorization: ""
+        }
       }
     );
   });
@@ -48,8 +48,8 @@ describe("Payment service", () => {
       `${serviceOptions.baseUrl}/v2/customer/CU/businessunit/BU/store/purchase?includeOfferingDetails=false`,
       {
         headers: {
-          Authorization: "",
-        },
+          Authorization: ""
+        }
       }
     );
   });

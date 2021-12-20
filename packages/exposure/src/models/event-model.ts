@@ -9,7 +9,7 @@ export class Event {
   @jsonProperty()
   public endTime: string;
   @jsonProperty({
-    type: Asset,
+    type: Asset
   })
   public asset: Asset;
 }
@@ -22,7 +22,7 @@ export class EventResponse {
   @jsonProperty()
   public totalCount: number;
   @jsonProperty({
-    type: Event,
+    type: Event
   })
   public items: Event[] = [];
   public numberOfPages = () => {

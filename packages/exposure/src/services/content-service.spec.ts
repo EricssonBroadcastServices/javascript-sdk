@@ -13,14 +13,14 @@ let getSpy: jest.SpyInstance;
 describe("Content service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
-    authHeader: () => ({ Authorization: "sessionToken" }),
+    authHeader: () => ({ Authorization: "sessionToken" })
   };
   const contentService = new ContentService(serviceOptions);
   beforeEach(() => {
     const mockReturnValue = {
       data: {
-        items: [{}],
-      },
+        items: [{}]
+      }
     };
     jest.spyOn(axios, "post").mockReturnValue(Promise.resolve(mockReturnValue));
     getSpy = jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
@@ -28,7 +28,7 @@ describe("Content service", () => {
   it("should getAssets", async () => {
     let assets = await contentService.getAssets({
       customer,
-      businessUnit,
+      businessUnit
     });
     expect(assets).toBeInstanceOf(AssetResponse);
     expect(axios.get).toHaveBeenCalledWith(
@@ -40,7 +40,7 @@ describe("Content service", () => {
       customer,
       businessUnit,
       pageNumber: 2,
-      pageSize: 2,
+      pageSize: 2
     });
     expect(assets).toBeInstanceOf(AssetResponse);
     expect(axios.get).toHaveBeenCalledWith(
@@ -52,13 +52,13 @@ describe("Content service", () => {
     const asset = await contentService.getAssetById({
       customer,
       businessUnit,
-      assetId: "123",
+      assetId: "123"
     });
     expect(asset).toBeInstanceOf(Asset);
     expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/content/asset/123?fieldSet=ALL",
       {
-        headers: undefined,
+        headers: undefined
       }
     );
   });
@@ -66,7 +66,7 @@ describe("Content service", () => {
     let epg = await contentService.getEpg({
       customer,
       businessUnit,
-      channelId: "123",
+      channelId: "123"
     });
     expect(epg).toBeInstanceOf(EpgResponse);
     expect(axios.get).toHaveBeenCalledWith(
@@ -84,7 +84,7 @@ describe("Content service", () => {
       pageSize: 1,
       daysBackward: 3,
       daysForward: 2,
-      date: new Date(1577836800000),
+      date: new Date(1577836800000)
     });
     expect(epg).toBeInstanceOf(EpgResponse);
     expect(axios.get).toHaveBeenCalledWith(
@@ -97,7 +97,7 @@ describe("Content service", () => {
       customer,
       businessUnit,
       daysBackward: 1,
-      daysForward: 2,
+      daysForward: 2
     });
     expect(liveEvents instanceof AssetResponse);
     expect(axios.get).toHaveBeenCalledWith(
@@ -114,7 +114,7 @@ describe("Content service", () => {
       pageSize: 1,
       daysBackward: 3,
       daysForward: 2,
-      date: new Date(1603843200000),
+      date: new Date(1603843200000)
     });
     expect(liveEvents).toBeInstanceOf(AssetResponse);
     expect(axios.get).toHaveBeenCalledWith(
@@ -125,7 +125,7 @@ describe("Content service", () => {
   it("should get recently watched", async () => {
     const assets = await contentService.getRecentlyWatched({
       customer,
-      businessUnit,
+      businessUnit
     });
     expect(assets).toBeInstanceOf(AssetResponse);
     expect(axios.get).toBeCalledWith(
@@ -136,37 +136,37 @@ describe("Content service", () => {
   it("should get continue watching", async () => {
     const assets = await contentService.getContinueWatching({
       customer,
-      businessUnit,
+      businessUnit
     });
     expect(assets).toBeInstanceOf(AssetResponse);
     expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/continue?limit=10",
       {
-        headers: serviceOptions.authHeader(),
+        headers: serviceOptions.authHeader()
       }
     );
   });
   it("should get recommended", async () => {
     const assets = await contentService.getRecommended({
       customer,
-      businessUnit,
+      businessUnit
     });
     expect(assets).toBeInstanceOf(AssetResponse);
     expect(axios.get).toBeCalledWith("https://testbaseurl.com/v1/customer/CU/businessunit/BU/recommend/user", {
-      headers: serviceOptions.authHeader(),
+      headers: serviceOptions.authHeader()
     });
   });
   it("should get bookmarks", async () => {
     getSpy.mockReturnValue(Promise.resolve({ data: { items: [{}] } }));
     const assets = await contentService.getBookmarks({
       customer,
-      businessUnit,
+      businessUnit
     });
     expect(assets).toBeInstanceOf(Array);
     expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/userplayhistory/lastviewedoffset",
       {
-        headers: serviceOptions.authHeader(),
+        headers: serviceOptions.authHeader()
       }
     );
   });
@@ -174,7 +174,7 @@ describe("Content service", () => {
     const seasons = await contentService.getSeasonsForSeries({
       customer,
       businessUnit,
-      assetId: "123",
+      assetId: "123"
     });
     expect(seasons).toBeInstanceOf(SeasonResponse);
     expect(axios.get).toBeCalledWith(
@@ -187,7 +187,7 @@ describe("Content service", () => {
       customer,
       businessUnit,
       assetId: "123",
-      seasonNumber: 1,
+      seasonNumber: 1
     });
     expect(episodes).toBeInstanceOf(EpisodesResponse);
     expect(axios.get).toBeCalledWith(

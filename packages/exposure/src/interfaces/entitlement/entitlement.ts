@@ -35,7 +35,7 @@ export enum EntitlementActionType {
   WAIT = "WAIT",
   /* if LOGIN the user will be able to watch the content simply by logging in.
   This action will only be returned for anonymous sessions */
-  LOGIN = "LOGIN",
+  LOGIN = "LOGIN"
 }
 
 export interface IEntitlementActions {

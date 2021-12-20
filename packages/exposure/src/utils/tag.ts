@@ -6,8 +6,8 @@ function getTitle(tag: ITag, locale: string, defaultLocale?: string) {
     return "";
   }
   const localeItem =
-    tag.localized.find((localizedItem) => localizedItem.locale === locale) ||
-    tag.localized.find((localizedItem) => localizedItem.locale === defaultLocale) ||
+    tag.localized.find(localizedItem => localizedItem.locale === locale) ||
+    tag.localized.find(localizedItem => localizedItem.locale === defaultLocale) ||
     tag.localized[0];
   return localeItem.title || "";
 }
@@ -17,8 +17,8 @@ function getDescription(tag: ITag, locale: string, defaultLocale?: string) {
     return "";
   }
   const localeItem =
-    tag.localized.find((localizedItem) => localizedItem.locale === locale) ||
-    tag.localized.find((localizedItem) => localizedItem.locale === defaultLocale) ||
+    tag.localized.find(localizedItem => localizedItem.locale === locale) ||
+    tag.localized.find(localizedItem => localizedItem.locale === defaultLocale) ||
     tag.localized[0];
   return localeItem.description || "";
 }
@@ -28,10 +28,10 @@ function getImages(tag: ITag, locale: string, defaultLocale?: string) {
     return [];
   }
   let images: IImage[] = [];
-  if (tag.localized.find((localizedItem) => localizedItem.locale === locale)?.images.length) {
-    images = tag.localized.find((localizedItem) => localizedItem.locale === locale)?.images as IImage[];
-  } else if (tag.localized.find((localizedItem) => localizedItem.locale === defaultLocale)?.images.length) {
-    images = tag.localized.find((localizedItem) => localizedItem.locale === defaultLocale)?.images as IImage[];
+  if (tag.localized.find(localizedItem => localizedItem.locale === locale)?.images.length) {
+    images = tag.localized.find(localizedItem => localizedItem.locale === locale)?.images as IImage[];
+  } else if (tag.localized.find(localizedItem => localizedItem.locale === defaultLocale)?.images.length) {
+    images = tag.localized.find(localizedItem => localizedItem.locale === defaultLocale)?.images as IImage[];
   }
   return images;
 }
@@ -39,5 +39,5 @@ function getImages(tag: ITag, locale: string, defaultLocale?: string) {
 export const tagUtils = {
   getTitle,
   getDescription,
-  getImages,
+  getImages
 };

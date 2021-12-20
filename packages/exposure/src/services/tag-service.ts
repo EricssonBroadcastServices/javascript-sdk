@@ -17,7 +17,7 @@ export class TagService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/tag/${tagId}`
     );
   }
@@ -28,7 +28,7 @@ export class TagService extends BaseService {
     pageSize,
     pageNumber,
     sort,
-    tagType,
+    tagType
   }: GetTagsOptions): Promise<{ pageSize: number; pageNumber: number; totalCount: number; items: ITag[] }> {
     const searchParams = new URLSearchParams();
     if (pageNumber) {
@@ -51,16 +51,16 @@ export class TagService extends BaseService {
       customer,
       businessUnit,
       pageSize: 100,
-      pageNumber: 1,
+      pageNumber: 1
     });
     const numberOfPages = Math.ceil(totalCount / pageSize) - 1; // minus the one we already fetched;
     // Create array of remaining pageNumbers to fetch. +1 for mapping 0 => 1, + 1 for skipping the one we already fetched
     const pageNumberArr = new Array(numberOfPages).fill("").map((item, index) => index + 2);
     const combinedTagsResponses = await Promise.all(
-      pageNumberArr.map((pageNumber) => {
-        return this.getTags({ customer, businessUnit, pageSize, pageNumber }).then((res) => res.items);
+      pageNumberArr.map(pageNumber => {
+        return this.getTags({ customer, businessUnit, pageSize, pageNumber }).then(res => res.items);
       })
     );
-    return [items, ...combinedTagsResponses].flatMap((arr) => [...arr]);
+    return [items, ...combinedTagsResponses].flatMap(arr => [...arr]);
   }
 }

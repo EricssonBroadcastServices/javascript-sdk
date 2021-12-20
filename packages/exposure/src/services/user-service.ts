@@ -83,13 +83,13 @@ export class UserService extends BaseService {
     device,
     displayName,
     informationCollectionConsentGivenNow,
-    language,
+    language
   }: SignupOptions) {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v3",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/signup`,
       {
         emailAddress,
@@ -97,12 +97,12 @@ export class UserService extends BaseService {
         device,
         displayName,
         informationCollectionConsentGivenNow,
-        language,
+        language
       },
       {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       }
-    ).then((data) => deserialize(SignupResponse, data));
+    ).then(data => deserialize(SignupResponse, data));
   }
 
   public reset({ customer, businessUnit, username }: ResetOptions) {
@@ -110,7 +110,7 @@ export class UserService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/password/reset/${username}`
     );
   }
@@ -120,17 +120,17 @@ export class UserService extends BaseService {
     businessUnit,
     password,
     informationCollectionConsentGivenNow,
-    token,
+    token
   }: SetNewPasswordOptions) {
     return this.put(
       `${this.cuBuUrl({
         apiVersion: "v3",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/signup/password/${token}`,
       {
         password,
-        informationCollectionConsentGivenNow,
+        informationCollectionConsentGivenNow
       }
     );
   }
@@ -140,7 +140,7 @@ export class UserService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/details`,
       this.options.authHeader()
     );
@@ -151,7 +151,7 @@ export class UserService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v1",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/details`,
       body,
       this.options.authHeader()
@@ -163,14 +163,14 @@ export class UserService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v1",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/signup/confirm/${token}`,
       {
         deviceRegistration: {
-          deviceId,
-        },
+          deviceId
+        }
       }
-    ).then((data) => deserialize(LoginResponse, data.loginResponse));
+    ).then(data => deserialize(LoginResponse, data.loginResponse));
   }
 
   public deleteUser({ customer, businessUnit, password }: DeleteUserOptions) {
@@ -178,7 +178,7 @@ export class UserService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v3",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/delete`,
       { password },
       this.options.authHeader()
@@ -191,22 +191,22 @@ export class UserService extends BaseService {
     oldPassword,
     newPassword,
     logoutOnAllDevices,
-    device,
+    device
   }: ChangePasswordOptions) {
     return this.put(
       `${this.cuBuUrl({
         apiVersion: "v3",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/changePassword`,
       {
         oldPassword,
         newPassword,
         logoutOnAllDevices: !!logoutOnAllDevices,
-        device,
+        device
       },
       this.options.authHeader()
-    ).then((data) => deserialize(LoginResponse, data.loginResponse));
+    ).then(data => deserialize(LoginResponse, data.loginResponse));
   }
 
   public confirmActivationCode({ customer, businessUnit, code }: ConfirmActivationCodeOptions) {
@@ -214,7 +214,7 @@ export class UserService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/activation/confirm/${code}`,
       null,
       this.options.authHeader()
@@ -223,17 +223,17 @@ export class UserService extends BaseService {
 
   public getActivationCode({
     customer,
-    businessUnit,
+    businessUnit
   }: CustomerAndBusinessUnitOptions): Promise<{ code: string; expires: Date }> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/userActivation/activationCode`
-    ).then((data) => ({
+    ).then(data => ({
       ...data,
-      expires: new Date(data.expires),
+      expires: new Date(data.expires)
     }));
   }
 
@@ -242,13 +242,13 @@ export class UserService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/userActivation/consume`,
       {
         activationCode: code,
-        device,
+        device
       }
-    ).then((data) => deserialize(LoginResponse, data));
+    ).then(data => deserialize(LoginResponse, data));
   }
 
   public changeEmail({ newEmailAddress, customer, businessUnit }: ChangeEmailOptions) {
@@ -256,10 +256,10 @@ export class UserService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v3",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/changeEmail`,
       {
-        newEmailAddress,
+        newEmailAddress
       },
       this.options.authHeader()
     );
@@ -269,17 +269,17 @@ export class UserService extends BaseService {
     newEmailAddressAndUsername,
     customer,
     businessUnit,
-    password,
+    password
   }: ChangeEmailAndUsername) {
     return this.put(
       `${this.cuBuUrl({
         apiVersion: "v3",
         customer,
-        businessUnit,
+        businessUnit
       })}/user/changeEmailAndUsername`,
       {
         password,
-        newEmailAddressAndUsername,
+        newEmailAddressAndUsername
       },
       this.options.authHeader()
     );

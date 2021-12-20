@@ -3,7 +3,7 @@ import { ImageOrientation, IImage } from "../interfaces/content/image";
 
 export class Localized {
   @jsonProperty({
-    type: Object,
+    type: Object
   })
   public images?: IImage[] = [];
   @jsonProperty()
@@ -26,18 +26,18 @@ const sortByResolution = (a: IImage, b: IImage) => {
 
 export class WithLocalized {
   @jsonProperty({
-    type: Localized,
+    type: Localized
   })
   public localized: Localized[] = [];
 
   public getLocaleItem = (prefferedLocale: string) =>
-    this.localized.find((l) => l.locale === prefferedLocale) || this.localized[0];
+    this.localized.find(l => l.locale === prefferedLocale) || this.localized[0];
 
   public getLocalizedValue = (property: string, locale: string, defaultLocale?: string) => {
     if (!this.localized || this.localized.length === 0) {
       return "";
     }
-    const localeItem = this.localized.find((localizedItem) => localizedItem.locale === locale);
+    const localeItem = this.localized.find(localizedItem => localizedItem.locale === locale);
     if (!localeItem || !localeItem[property] || (Array.isArray(localeItem[property]) && !localeItem[property].length)) {
       if (defaultLocale) {
         return this.getLocalizedValue(property, defaultLocale);
@@ -60,8 +60,8 @@ export class WithLocalized {
       return "";
     }
 
-    const imagesByCorrectOrientation = allImages.filter((i) => i.orientation === orientation.toUpperCase());
-    const imagesByCorrectType = imagesByCorrectOrientation.filter((i) => {
+    const imagesByCorrectOrientation = allImages.filter(i => i.orientation === orientation.toUpperCase());
+    const imagesByCorrectType = imagesByCorrectOrientation.filter(i => {
       if (orientation === ImageOrientation.LANDSCAPE) {
         return i.type === "cover";
       } else if (orientation === ImageOrientation.PORTRAIT) {

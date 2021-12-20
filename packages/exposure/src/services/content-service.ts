@@ -66,16 +66,16 @@ export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, Pa
 export class ContentService extends BaseService {
   public getAssetById({ customer, businessUnit, assetId, headers }: GetAssetByIdOptions) {
     const requestQuery = {
-      fieldSet: "ALL",
+      fieldSet: "ALL"
     };
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/content/asset/${assetId}?${querystring.stringify(requestQuery)}`,
       headers
-    ).then((data) => deserialize(Asset, data));
+    ).then(data => deserialize(Asset, data));
   }
   public getAssets({
     customer,
@@ -87,7 +87,7 @@ export class ContentService extends BaseService {
     allowedCountry,
     headers,
     assetType,
-    onlyPublished = true,
+    onlyPublished = true
   }: GetAssetsOptions) {
     const requestQuery = {
       query,
@@ -97,16 +97,16 @@ export class ContentService extends BaseService {
       fieldSet: "ALL",
       onlyPublished,
       allowedCountry,
-      assetType,
+      assetType
     };
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/content/asset?${querystring.stringify(requestQuery)}`,
       headers
-    ).then((data) => deserialize(AssetResponse, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
 
   public async getAllAssets({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
@@ -114,17 +114,17 @@ export class ContentService extends BaseService {
       customer,
       businessUnit,
       pageSize: 100,
-      pageNumber: 1,
+      pageNumber: 1
     });
     const numberOfPages = Math.ceil(totalCount / pageSize) - 1; // minus the one we already fetched;
     // Create array of remaining pageNumbers to fetch. +1 for mapping 0 => 1, + 1 for skipping the one we already fetched
     const pageNumberArr = new Array(numberOfPages).fill("").map((item, index) => index + 2);
     const combinedAssetResponses = await Promise.all(
-      pageNumberArr.map((pageNumber) => {
-        return this.getAssets({ customer, businessUnit, pageSize, pageNumber }).then((res) => res.items);
+      pageNumberArr.map(pageNumber => {
+        return this.getAssets({ customer, businessUnit, pageSize, pageNumber }).then(res => res.items);
       })
     );
-    return [items, ...combinedAssetResponses].flatMap((arr) => [...arr]);
+    return [items, ...combinedAssetResponses].flatMap(arr => [...arr]);
   }
 
   public getCollectionEntries({
@@ -135,23 +135,23 @@ export class ContentService extends BaseService {
     pageSize,
     pageNumber,
     sort,
-    onlyPublished = true,
+    onlyPublished = true
   }: GetCollectionEntriesOptions) {
     const requestQuery = {
       fieldSet: "ALL",
       pageSize,
       pageNumber,
       sort,
-      onlyPublished,
+      onlyPublished
     };
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/content/asset/${assetId}/collectionentries?${querystring.stringify(requestQuery)}`,
       headers
-    ).then((data) => deserialize(AssetResponse, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
 
   public getEpg({
@@ -162,13 +162,13 @@ export class ContentService extends BaseService {
     channelId,
     customer,
     businessUnit,
-    date,
+    date
   }: GetEpgOptions) {
     const requestQuery = {
       daysBackward: daysBackward || 1,
       daysForward: daysForward || 1,
       pageSize: pageSize || 500,
-      pageNumber: pageNumber || 1,
+      pageNumber: pageNumber || 1
     };
     date = date || new Date();
     const formattedDate = epgDateFormatter(date);
@@ -176,20 +176,20 @@ export class ContentService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2",
+        apiVersion: "v2"
       })}/epg/${channelId}/date/${formattedDate}?${querystring.stringify(requestQuery)}`
-    ).then((data) => deserialize(EpgResponse, data));
+    ).then(data => deserialize(EpgResponse, data));
   }
 
   public getOnNowByChannelId({ channelId, minutesForward, customer, businessUnit }: GetOnNowByChannelIdOptions) {
     const requestQuery = {
-      minutesForward: minutesForward || 0,
+      minutesForward: minutesForward || 0
     };
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/channel/onnow/${channelId}?${querystring.stringify(
         requestQuery
       )}`
-    ).then((data) => deserialize(OnNowResponse, data));
+    ).then(data => deserialize(OnNowResponse, data));
   }
 
   public getOnNow({
@@ -198,21 +198,21 @@ export class ContentService extends BaseService {
     businessUnit,
     pageNumber = 1,
     pageSize = 100,
-    sortingLocale,
+    sortingLocale
   }: GetOnNowOptions): Promise<{ apiChannelStatuses: OnNowResponse[] }> {
     const requestQuery = {
       minutesForward: minutesForward,
       pageNumber,
       pageSize,
-      sortingLocale,
+      sortingLocale
     };
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/channel/onnow?${querystring.stringify(
         requestQuery
       )}`
-    ).then((data) => ({
+    ).then(data => ({
       ...data,
-      apiChannelStatuses: data.apiChannelStatuses.map((item) => deserialize(OnNowResponse, item)),
+      apiChannelStatuses: data.apiChannelStatuses.map(item => deserialize(OnNowResponse, item))
     }));
   }
 
@@ -223,14 +223,14 @@ export class ContentService extends BaseService {
     businessUnit,
     pageSize,
     pageNumber,
-    date,
+    date
   }: GetLiveEventsOptions) {
     const requestQuery = {
       daysBackward,
       daysForward,
       pageSize: pageSize || 500,
       pageNumber: pageNumber || 1,
-      sort: "startTime",
+      sort: "startTime"
     };
     date = date || new Date();
     const formattedDate = epgDateFormatter(date);
@@ -238,14 +238,14 @@ export class ContentService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2",
+        apiVersion: "v2"
       })}/event/date/${formattedDate}?${querystring.stringify(requestQuery)}`
-    ).then((data) => {
-      const items = data.items.map((item) => {
+    ).then(data => {
+      const items = data.items.map(item => {
         return {
           startTime: item.startTime,
           endTime: item.endTime,
-          ...item.asset,
+          ...item.asset
         };
       });
       return deserialize(AssetResponse, { items });
@@ -255,53 +255,53 @@ export class ContentService extends BaseService {
   public getRecentlyWatched({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
       pageSize: 24,
-      fieldSet: "ALL",
+      fieldSet: "ALL"
     };
     const headers = this.options.authHeader();
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/userplayhistory/lastviewed?${querystring.stringify(requestQuery)}`,
       headers
-    ).then((data) => deserialize(AssetResponse, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
 
   public getContinueWatching({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
     const requestQuery = {
-      limit: 10,
+      limit: 10
     };
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/recommend/continue?${querystring.stringify(requestQuery)}`,
       this.options.authHeader()
-    ).then((data) => deserialize(AssetResponse, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
 
   public getRecommendationsForAsset({
     customer,
     businessUnit,
-    assetId,
+    assetId
   }: GetAssetByIdOptions): Promise<{ items: Asset[] }> {
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/recommend/watchNext/${assetId}`
-    ).then((response) => ({ items: response.items.map((i) => deserialize(Asset, i)) }));
+    ).then(response => ({ items: response.items.map(i => deserialize(Asset, i)) }));
   }
 
   public getNextEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
     return this.get(`${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/next`).then(
-      (res) => deserialize(Asset, res)
+      res => deserialize(Asset, res)
     );
   }
 
   public getPreviousEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/previous`
-    ).then((res) => deserialize(Asset, res));
+    ).then(res => deserialize(Asset, res));
   }
 
   public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
@@ -310,10 +310,10 @@ export class ContentService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/recommend/user`,
       this.options.authHeader()
-    ).then((data) => deserialize(AssetResponse, data));
+    ).then(data => deserialize(AssetResponse, data));
   }
 
   public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IBookmark[]> {
@@ -321,10 +321,10 @@ export class ContentService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/userplayhistory/lastviewedoffset`,
       this.options.authHeader()
-    ).then((data) => data.items);
+    ).then(data => data.items);
   }
 
   public getSeasonsForSeries({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
@@ -332,9 +332,9 @@ export class ContentService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/content/asset/${assetId}/season`
-    ).then((data) => {
+    ).then(data => {
       const seriesResponse = deserialize(SeasonResponse, data);
       seriesResponse.series = assetId;
       return seriesResponse;
@@ -344,15 +344,15 @@ export class ContentService extends BaseService {
   public getEpisodesForSeason({ customer, businessUnit, assetId, seasonNumber }: GetEpisodesForSeasonOptions) {
     const requestQuery = {
       fieldSet: "ALL",
-      onlyPublished: true,
+      onlyPublished: true
     };
     return this.get(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })}/content/asset/${assetId}/season/${seasonNumber}/episode?` + querystring.stringify(requestQuery)
-    ).then((data) => {
+    ).then(data => {
       const seriesResponse = deserialize(EpisodesResponse, data);
       seriesResponse.seriesId = assetId;
       seriesResponse.seasonNumber = seasonNumber;

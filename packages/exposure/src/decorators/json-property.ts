@@ -44,7 +44,7 @@ export function jsonProperty<T>(propertyMetadata: IExternalPropertyMetadata<T> =
       key: propertyKey,
       externalName: propertyMetadata.externalName || propertyKey,
       type: propertyMetadata.type || propertyType,
-      isArray: propertyType === Array,
+      isArray: propertyType === Array
     };
 
     const existingMetadata = target[METADATA_KEY];
@@ -55,7 +55,7 @@ export function jsonProperty<T>(propertyMetadata: IExternalPropertyMetadata<T> =
         enumerable: false,
         configurable: false,
         writable: false,
-        value: { [metadata.key]: metadata },
+        value: { [metadata.key]: metadata }
       });
     }
   };

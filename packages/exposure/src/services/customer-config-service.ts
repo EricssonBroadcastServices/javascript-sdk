@@ -18,7 +18,7 @@ export class CustomerConfigService extends BaseService {
     if (queryParams) {
       queryString = `${queryParams.name}=${queryParams.value}`;
     }
-    return this.get(`/v1/config/appConfig.json/origin/${origin}?${queryString}`).then((data) =>
+    return this.get(`/v1/config/appConfig.json/origin/${origin}?${queryString}`).then(data =>
       deserialize(CustomerConfigFile, data)
     );
   }
@@ -32,8 +32,8 @@ export class CustomerConfigService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v1",
         customer,
-        businessUnit,
+        businessUnit
       })}/config/${fileId}?${queryString}`
-    ).then((data) => deserialize(CustomerConfigFile, data));
+    ).then(data => deserialize(CustomerConfigFile, data));
   }
 }

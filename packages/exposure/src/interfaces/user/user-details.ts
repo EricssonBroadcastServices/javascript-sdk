@@ -4,7 +4,7 @@ export enum UserAttributeType {
   EMAIL = "email",
   EMUN = "enum",
   STRING = "string",
-  INTEGER = "integer",
+  INTEGER = "integer"
 }
 interface IUserProfileAttributesEnum {
   id: string;

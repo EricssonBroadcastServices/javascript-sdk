@@ -11,7 +11,7 @@ export enum PaymentType {
   EXTERNAL = "external",
   DENY = "deny",
   VOUCHERS_ONLY = "vouchers",
-  BRAINTREE = "braintree",
+  BRAINTREE = "braintree"
 }
 
 interface IFrontEndFeatures {
@@ -35,7 +35,7 @@ export interface IPasswordHashConfig {
 export enum LoginMethodType {
   FIREBASE = "firebase",
   USER_ACCOUNTS = "useraccounts",
-  OAUTH = "oauth",
+  OAUTH = "oauth"
 }
 
 export class ILoginMethodProvider {
@@ -85,7 +85,7 @@ export enum AccessModel {
   /**
    * Login and payment is required.
    */
-  PAY = "pay",
+  PAY = "pay"
 }
 
 export enum SignupModel {
@@ -103,7 +103,7 @@ export enum SignupModel {
    * Users may signup, no conformation mail will be sent, sessionToken created at signup.
    * User signup and login option to be present.
    */
-  UNCONFIRMED = "unconfirmed",
+  UNCONFIRMED = "unconfirmed"
 }
 
 export interface IConsentManagement {
@@ -171,7 +171,7 @@ export class SystemConfig {
       PaymentType.EXTERNAL,
       PaymentType.STRIPE,
       PaymentType.VOUCHERS_ONLY,
-      PaymentType.BRAINTREE,
+      PaymentType.BRAINTREE
     ].includes(this.paymentType);
   };
 }

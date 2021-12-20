@@ -11,7 +11,7 @@ export class Program {
   @jsonProperty()
   public programId: string;
   @jsonProperty({
-    type: Asset,
+    type: Asset
   })
   public asset: Asset;
   public blackout?: boolean;
@@ -21,7 +21,7 @@ export class EpgResponse {
   @jsonProperty()
   public totalHitsAllchannels: number;
   @jsonProperty({
-    type: Program,
+    type: Program
   })
   public programs: Program[] = [];
   @jsonProperty()
@@ -55,7 +55,7 @@ export class OnNowAsset {
   @jsonProperty()
   public endTime: string;
   @jsonProperty({
-    type: Asset,
+    type: Asset
   })
   public asset: Asset;
 }
@@ -66,7 +66,7 @@ export class OnNowResponse {
   @jsonProperty({ type: Asset })
   public channel: Asset;
   @jsonProperty({
-    type: OnNowAsset,
+    type: OnNowAsset
   })
   public assets: OnNowAsset[];
 }

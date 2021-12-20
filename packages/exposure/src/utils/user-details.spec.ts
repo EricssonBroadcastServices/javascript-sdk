@@ -17,12 +17,12 @@ const mockDetails: IUserDetails = {
         {
           locale: "en",
           title: "titleEN",
-          description: "descEN",
-        },
+          description: "descEN"
+        }
       ],
       type: UserAttributeType.EMAIL,
       requiredAtSignup: true,
-      defaultValue: null,
+      defaultValue: null
     },
     {
       attributeId: "345",
@@ -31,8 +31,8 @@ const mockDetails: IUserDetails = {
       localized: [],
       type: UserAttributeType.EMAIL,
       requiredAtSignup: true,
-      defaultValue: null,
-    },
+      defaultValue: null
+    }
   ],
   capabilities: {
     canChangeEmail: true,
@@ -41,8 +41,8 @@ const mockDetails: IUserDetails = {
     canManageAccount: true,
     canManageDevices: true,
     canManagePayments: true,
-    canManagePurchases: true,
-  },
+    canManagePurchases: true
+  }
 };
 
 describe("userDetailsUtils", () => {

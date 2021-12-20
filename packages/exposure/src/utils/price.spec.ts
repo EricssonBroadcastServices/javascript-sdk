@@ -6,7 +6,7 @@ describe("price", () => {
     const p: IPrice = {
       amount: 1000,
       currency: "SEK",
-      fractionDigits: 2,
+      fractionDigits: 2
     };
     expect(priceUtils.getPriceString(p)).toEqual("10.00");
     p.fractionDigits = 3;
@@ -18,7 +18,7 @@ describe("price", () => {
     const p: IPrice = {
       amount: 1000,
       currency: "SEK",
-      fractionDigits: 2,
+      fractionDigits: 2
     };
     expect(priceUtils.getPriceStringWithCurrency(p)).toEqual("10.00 SEK");
   });

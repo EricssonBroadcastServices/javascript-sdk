@@ -159,7 +159,7 @@ export class PaymentService extends BaseService {
     customer,
     businessUnit,
     code,
-    countryCode,
+    countryCode
   }: GetProductOfferingsByVoucherOptions): Promise<{
     productOfferings: IProductOffering[];
     promotion: IPromotion;
@@ -168,12 +168,12 @@ export class PaymentService extends BaseService {
       ? `${this.cuBuUrl({
           apiVersion: "v2",
           customer,
-          businessUnit,
+          businessUnit
         })}/store/productofferings/country/${countryCode}/voucher/${code}`
       : `${this.cuBuUrl({
           apiVersion: "v2",
           customer,
-          businessUnit,
+          businessUnit
         })}/store/productofferings/voucher/${code}`;
 
     return this.get(url, this.options.authHeader());
@@ -182,28 +182,28 @@ export class PaymentService extends BaseService {
     customer,
     businessUnit,
     countryCode,
-    includeSelectAssetProducts = true,
+    includeSelectAssetProducts = true
   }: GetProductOfferingsByCountryOptions): Promise<IProductOffering[]> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/store/productoffering/country/${countryCode}?includeSelectAssetProducts=${includeSelectAssetProducts}`
-    ).then((data) => data.productOfferings);
+    ).then(data => data.productOfferings);
   }
 
   public buyProductOffering({
     customer,
     businessUnit,
     productOfferingId,
-    body,
+    body
   }: BuyProductOfferingOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/store/purchase/${productOfferingId}`,
       body,
       this.options.authHeader()
@@ -215,17 +215,17 @@ export class PaymentService extends BaseService {
     businessUnit,
     code,
     assetId,
-    productOfferingId,
+    productOfferingId
   }: BuyWithVoucherCodeOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/store/purchase/${productOfferingId}`,
       {
         assetId,
-        voucherCode: code,
+        voucherCode: code
       },
       this.options.authHeader()
     );
@@ -235,31 +235,31 @@ export class PaymentService extends BaseService {
     customer,
     businessUnit,
     body,
-    purchaseId,
+    purchaseId
   }: VerifyPurchaseOptions): Promise<ICardPaymentResponse> {
     return this.post(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/store/purchase/${purchaseId}/verify`,
       body,
       this.options.authHeader()
-    ).then((data) => ({ ...data, purchaseId: purchaseId }));
+    ).then(data => ({ ...data, purchaseId: purchaseId }));
   }
 
   public getTransactions({
     customer,
-    businessUnit,
+    businessUnit
   }: CustomerAndBusinessUnitOptions): Promise<ITransactionsWithProductOffering[]> {
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/store/account/transactions/productoffering`,
       this.options.authHeader()
-    ).then((data) => {
+    ).then(data => {
       const transactions: ITransactionsWithProductOffering[] = data.transactionsProductOfferingPairs;
       return transactions;
     });
@@ -268,7 +268,7 @@ export class PaymentService extends BaseService {
   public getPurchases({
     customer,
     businessUnit,
-    includeOfferingDetails = false,
+    includeOfferingDetails = false
   }: GetPurchasesOptions): Promise<IPurchaseResponse> {
     const queryParameters = new URLSearchParams();
     queryParameters.set("includeOfferingDetails", includeOfferingDetails ? "true" : "false");
@@ -276,7 +276,7 @@ export class PaymentService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/store/purchase?${queryParameters.toString()}`,
       this.options.authHeader()
     );
@@ -287,7 +287,7 @@ export class PaymentService extends BaseService {
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
-        businessUnit,
+        businessUnit
       })}/store/purchase/subscriptions/${purchaseId}`,
       this.options.authHeader()
     );
@@ -298,22 +298,22 @@ export class PaymentService extends BaseService {
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2",
+        apiVersion: "v2"
       })}/paymentmethods`,
       this.options.authHeader()
-    ).then((data) => data.methods);
+    ).then(data => data.methods);
   }
   public addPaymentMethod({
     customer,
     businessUnit,
-    paymentMethodId,
+    paymentMethodId
   }: IAddPaymentMethodOptions): Promise<{ stripe: { clientSecret: string } }> {
     const payload = paymentMethodId ? { paymentMethodId } : {};
     return this.post(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2",
+        apiVersion: "v2"
       })}/paymentmethods`,
       payload,
       this.options.authHeader()
@@ -322,13 +322,13 @@ export class PaymentService extends BaseService {
   public deletePaymentMethod({
     customer,
     businessUnit,
-    paymentMethodId,
+    paymentMethodId
   }: CustomerAndBusinessUnitOptions & { paymentMethodId: string }) {
     return this.delete(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2",
+        apiVersion: "v2"
       })}/paymentmethods/${paymentMethodId}`,
       this.options.authHeader()
     );
@@ -337,16 +337,16 @@ export class PaymentService extends BaseService {
   public setPreferredPaymentMethod({
     customer,
     businessUnit,
-    paymentMethodId,
+    paymentMethodId
   }: CustomerAndBusinessUnitOptions & { paymentMethodId: string }) {
     return this.put(
       `${this.cuBuUrl({
         customer,
         businessUnit,
-        apiVersion: "v2",
+        apiVersion: "v2"
       })}/paymentmethods/preferred`,
       {
-        paymentMethodId,
+        paymentMethodId
       },
       this.options.authHeader()
     );
@@ -356,7 +356,7 @@ export class PaymentService extends BaseService {
     customer,
     businessUnit,
     productOfferingId,
-    voucherCode,
+    voucherCode
   }: IInitializeBraintreeOptions): Promise<IPurchaseSettings> {
     return this.post(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/store/purchase/initialize`,

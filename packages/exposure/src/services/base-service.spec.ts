@@ -6,21 +6,21 @@ import axios from "axios";
 describe("base service", () => {
   const baseService = new BaseService({
     baseUrl: "https://baseUrl.com",
-    authHeader: () => ({ Authorization: "" }),
+    authHeader: () => ({ Authorization: "" })
   });
   it("should throw error with missing customer or businessUnit", () => {
     expect(() =>
       baseService.cuBuUrl({
         customer: undefined,
         businessUnit: mocks.businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })
     ).toThrow();
     expect(() =>
       baseService.cuBuUrl({
         customer: mocks.customer,
         businessUnit: undefined,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })
     ).toThrow();
   });
@@ -29,7 +29,7 @@ describe("base service", () => {
       baseService.cuBuUrl({
         customer: mocks.customer,
         businessUnit: mocks.businessUnit,
-        apiVersion: "v1",
+        apiVersion: "v1"
       })
     ).toBe(`/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}`);
   });
@@ -37,11 +37,11 @@ describe("base service", () => {
     baseService.setOptions({
       ...baseService.options,
       customer: mocks.customer,
-      businessUnit: mocks.businessUnit,
+      businessUnit: mocks.businessUnit
     });
     expect(
       baseService.cuBuUrl({
-        apiVersion: "v1",
+        apiVersion: "v1"
       })
     ).toBe(`/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}`);
   });
@@ -55,7 +55,7 @@ describe("base service", () => {
 
     baseService.setOptions({
       baseUrl: "https://baseUrl.com/",
-      authHeader: () => ({ Authorization: "" }),
+      authHeader: () => ({ Authorization: "" })
     });
     baseService.get("v1/test/");
     expect(axios.get).toHaveBeenCalledWith("https://baseurl.com/v1/test", expect.any(Object));
@@ -67,7 +67,7 @@ describe("base service", () => {
     expect(() => errorMapper("error")).toThrow(ApiError);
     expect(() =>
       errorMapper({
-        message: "something went wrong",
+        message: "something went wrong"
       })
     ).toThrow(ApiError);
   });

@@ -33,12 +33,12 @@ interface CuBuUrlOptions extends CustomerAndBusinessUnitOptions {
   apiVersion: "v1" | "v2" | "v1/whitelabel" | "v3";
 }
 
-export const errorMapper = (err) => {
+export const errorMapper = err => {
   if (!err) throw new ApiError({ message: "Unknown error", httpCode: 500 });
   if (typeof err === "string") throw new ApiError({ message: err, httpCode: 500 });
   throw new ApiError({
     httpCode: err.response ? err.response.status : 500,
-    message: err.response?.data?.message ? err.response?.data?.message : err.message,
+    message: err.response?.data?.message ? err.response?.data?.message : err.message
   });
 };
 
@@ -57,25 +57,25 @@ export class BaseService {
   public get(url: string, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .get(new URL(url, this.options.baseUrl).toString(), { headers })
-      .then((response) => response.data)
+      .then(response => response.data)
       .catch(customErrorHandler || errorMapper);
   }
   public delete(url: string, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .delete(new URL(url, this.options.baseUrl).toString(), { headers })
-      .then((response) => response.data)
+      .then(response => response.data)
       .catch(customErrorHandler || errorMapper);
   }
   public put(url: string, data: any, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .put(new URL(url, this.options.baseUrl).toString(), data, { headers })
-      .then((response) => response.data)
+      .then(response => response.data)
       .catch(customErrorHandler || errorMapper);
   }
   public post(url: string, data: any, headers?: Headers, customErrorHandler?: (err: AxiosError) => void) {
     return axios
       .post(new URL(url, this.options.baseUrl).toString(), data, { headers })
-      .then((response) => response.data)
+      .then(response => response.data)
       .catch(customErrorHandler || errorMapper);
   }
 }
