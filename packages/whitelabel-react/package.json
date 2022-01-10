@@ -18,7 +18,6 @@
     "url": "git+https://github.com/EricssonBroadcastServices/javascript-sdk.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
     "demo": "webpack-dev-server",
     "prepare": "tsc"
   },

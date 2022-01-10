@@ -1,8 +1,9 @@
-import { AuthenticationService, DeviceType } from "./authentication-service";
+import { AuthenticationService } from "./authentication-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
 import { LoginResponse } from "../models/login-response-model";
 import { mocks } from "../../test-utils/mocks";
+import { DeviceType } from "../interfaces/device";
 
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
