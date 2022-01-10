@@ -132,6 +132,7 @@ export interface IAnalytics {
 export interface IPlay {
   assetId?: string;
   accountId: string;
+  audioOnly?: boolean;
   productId: string;
   publicationId: string;
   playSessionId: string;
