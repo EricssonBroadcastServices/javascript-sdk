@@ -50,7 +50,7 @@ class Foo {
   public internal: string;
 }
 
-describe("deserialize()", function() {
+describe("deserialize()", function () {
   it("should deserialize string", () => {
     const json = {
       string: "test",

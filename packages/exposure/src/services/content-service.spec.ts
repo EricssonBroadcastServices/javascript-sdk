@@ -8,7 +8,7 @@ import { epgDateFormatter } from "../utils/date";
 import { SeasonResponse } from "../models/season-model";
 
 const { customer, businessUnit } = mocks;
-let getSpy: jasmine.Spy;
+let getSpy: jest.SpyInstance;
 
 describe("Content service", () => {
   const serviceOptions: ServiceOptions = {
@@ -22,8 +22,8 @@ describe("Content service", () => {
         items: [{}]
       }
     };
-    spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
-    getSpy = spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "post").mockReturnValue(Promise.resolve(mockReturnValue));
+    getSpy = jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
   });
   it("should getAssets", async () => {
     let assets = await contentService.getAssets({
@@ -31,9 +31,7 @@ describe("Content service", () => {
       businessUnit
     });
     expect(assets).toBeInstanceOf(AssetResponse);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/CU/businessunit/BU/content/asset?fieldSet=ALL&onlyPublished=true&pageNumber=1&pageSize=30`,
       { headers: undefined }
     );
@@ -45,9 +43,7 @@ describe("Content service", () => {
       pageSize: 2
     });
     expect(assets).toBeInstanceOf(AssetResponse);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/CU/businessunit/BU/content/asset?fieldSet=ALL&onlyPublished=true&pageNumber=2&pageSize=2`,
       { headers: undefined }
     );
@@ -73,9 +69,7 @@ describe("Content service", () => {
       channelId: "123"
     });
     expect(epg).toBeInstanceOf(EpgResponse);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `https://testbaseurl.com/v2/customer/CU/businessunit/BU/epg/123/date/${epgDateFormatter(
         new Date()
       )}?daysBackward=1&daysForward=1&pageNumber=1&pageSize=500`,
@@ -93,9 +87,7 @@ describe("Content service", () => {
       date: new Date(1577836800000)
     });
     expect(epg).toBeInstanceOf(EpgResponse);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       "https://testbaseurl.com/v2/customer/CU/businessunit/BU/epg/123/date/2020-01-01?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1",
       { headers: undefined }
     );
@@ -108,9 +100,7 @@ describe("Content service", () => {
       daysForward: 2
     });
     expect(liveEvents instanceof AssetResponse);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `https://testbaseurl.com/v2/customer/CU/businessunit/BU/event/date/${epgDateFormatter(
         new Date()
       )}?daysBackward=1&daysForward=2&pageNumber=1&pageSize=500&sort=startTime`,
@@ -127,9 +117,7 @@ describe("Content service", () => {
       date: new Date(1603843200000)
     });
     expect(liveEvents).toBeInstanceOf(AssetResponse);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       "https://testbaseurl.com/v2/customer/CU/businessunit/BU/event/date/2020-10-28?daysBackward=3&daysForward=2&pageNumber=3&pageSize=1&sort=startTime",
       { headers: undefined }
     );
@@ -140,9 +128,7 @@ describe("Content service", () => {
       businessUnit
     });
     expect(assets).toBeInstanceOf(AssetResponse);
-    expect(
-      axios.get
-    ).toBeCalledWith(
+    expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/userplayhistory/lastviewed?fieldSet=ALL&pageSize=24",
       { headers: serviceOptions.authHeader() }
     );
@@ -171,7 +157,7 @@ describe("Content service", () => {
     });
   });
   it("should get bookmarks", async () => {
-    getSpy.and.returnValue(Promise.resolve({ data: { items: [{}] } }));
+    getSpy.mockReturnValue(Promise.resolve({ data: { items: [{}] } }));
     const assets = await contentService.getBookmarks({
       customer,
       businessUnit
@@ -204,9 +190,7 @@ describe("Content service", () => {
       seasonNumber: 1
     });
     expect(episodes).toBeInstanceOf(EpisodesResponse);
-    expect(
-      axios.get
-    ).toBeCalledWith(
+    expect(axios.get).toBeCalledWith(
       "https://testbaseurl.com/v1/customer/CU/businessunit/BU/content/asset/123/season/1/episode?fieldSet=ALL&onlyPublished=true",
       { headers: undefined }
     );

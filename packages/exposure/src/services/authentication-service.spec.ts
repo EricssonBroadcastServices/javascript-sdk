@@ -15,9 +15,9 @@ describe("Auth service", () => {
     const mockReturnValue = {
       data: {}
     };
-    spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
-    spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
-    spyOn(axios, "delete").and.returnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "post").mockReturnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "delete").mockReturnValue(Promise.resolve(mockReturnValue));
   });
   it("should login", async () => {
     const loginOptions = {
@@ -69,9 +69,7 @@ describe("Auth service", () => {
       customer: mocks.customer,
       businessUnit: mocks.businessUnit
     });
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/auth/session`,
       { headers: serviceOptions.authHeader() }
     );

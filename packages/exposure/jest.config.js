@@ -12,7 +12,7 @@ module.exports = {
   collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"],
   globals: {
     "ts-jest": {
-      tsConfig:  {
+      tsconfig:  {
         ...tsconfig.compilerOptions,
         esModuleInterop: true
       }

@@ -12,7 +12,7 @@ describe("White label service", () => {
     exposureApi: new ExposureApi({ authHeader: () => undefined })
   });
   beforeEach(() => {
-    spyOn(service, "get").and.returnValue(Promise.resolve({}));
+    jest.spyOn(service, "get").mockReturnValue(Promise.resolve({}));
   });
   it("should send correct queryParams when fetching config with origin", () => {
     service.getConfig({ locale: "en" });

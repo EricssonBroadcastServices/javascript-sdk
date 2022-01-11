@@ -14,8 +14,8 @@ describe("Auth service", () => {
     const mockReturnValue = {
       data: {}
     };
-    spyOn(axios, "post").and.returnValue(Promise.resolve(mockReturnValue));
-    spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "post").mockReturnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
   });
   it("should get file", async () => {
     let response = await customerConfigService.getConfigFile({
@@ -24,9 +24,7 @@ describe("Auth service", () => {
       fileId: "test.json"
     });
     expect(response).toBeInstanceOf(CustomerConfigFile);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/config/test.json?`,
       { headers: undefined }
     );
@@ -41,9 +39,7 @@ describe("Auth service", () => {
       }
     });
     expect(response).toBeInstanceOf(CustomerConfigFile);
-    expect(
-      axios.get
-    ).toHaveBeenCalledWith(
+    expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}/config/test.json?test=test`,
       { headers: undefined }
     );
