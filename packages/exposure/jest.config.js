@@ -13,7 +13,7 @@ module.exports = {
   testEnvironment: "node",
   globals: {
     "ts-jest": {
-      tsConfig: {
+      tsconfig:  {
         ...tsconfig.compilerOptions,
         esModuleInterop: true
       }

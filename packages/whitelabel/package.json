@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc --watch",
-    "test": "jest",
+    "test": "TZ=UTC jest",
     "test:watch": "jest --watch",
     "lint": "npm run lint:code && npm run lint:types",
     "lint:code": "prettier --check \"src/**/*.{ts,tsx}\"",
@@ -29,12 +29,12 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@ericssonbroadcastservices/exposure-sdk": "^0.76.0",
-    "axios": "^0.21.1",
-    "date-fns": "^2.15.0",
-    "humanize-duration": "^3.25.1",
+    "axios": "^0.24.0",
+    "date-fns": "^2.27.0",
+    "humanize-duration": "^3.27.1",
     "iso8601-duration": "^1.2.0",
     "marked": "^2.0.1",
-    "query-string": "^6.13.1",
+    "query-string": "^7.0.1",
     "reflect-metadata": "^0.1.13"
   },
   "browserslist": [

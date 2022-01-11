@@ -17,15 +17,15 @@ describe("wl asset", () => {
     const asset = new WLAsset();
     asset.publications = publicationsJson;
     it("should be entitled", () => {
-      spyOn(asset, "inFuture").and.returnValue(false);
+      jest.spyOn(asset, "inFuture").mockReturnValue(false);
       expect(asset.getIsEntitled([product1, "4"])).toBe(true);
     });
     it("should not be entitled", () => {
-      spyOn(asset, "inFuture").and.returnValue(false);
+      jest.spyOn(asset, "inFuture").mockReturnValue(false);
       expect(asset.getIsEntitled([freeProduct, "5"])).toBe(false);
     });
     it("should not be entitled when in future", () => {
-      spyOn(asset, "inFuture").and.returnValue(true);
+      jest.spyOn(asset, "inFuture").mockReturnValue(true);
       expect(asset.getIsEntitled(["1", "5"])).toBe(false);
     });
   });
@@ -136,7 +136,7 @@ describe("wl asset", () => {
       mockLogin = new LoginResponse();
     });
     it("should return NOT_LOGGED_IN", () => {
-      spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
+      jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(false);
       expect(
         asset.getEntitlementCase({
           availabilityKeys: ["1"],
@@ -148,8 +148,8 @@ describe("wl asset", () => {
       ).toBe(EntitlementCase.NOT_LOGGED_IN);
     });
     it("should return IS_ENTITLED", () => {
-      spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
-      spyOn(mockLogin, "hasSession").and.returnValue(true);
+      jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(true);
+      jest.spyOn(mockLogin, "hasSession").mockReturnValue(true);
       expect(
         asset.getEntitlementCase({
           availabilityKeys: ["1"],
@@ -161,9 +161,9 @@ describe("wl asset", () => {
       ).toBe(EntitlementCase.IS_ENTITLED);
     });
     it("should return IN_FUTIRE", () => {
-      spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
-      spyOn(mockLogin, "hasSession").and.returnValue(true);
-      asset.publications[0].fromDate = new Date(Date.now() + 60000).toString();
+      jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(true);
+      jest.spyOn(mockLogin, "hasSession").mockReturnValue(true);
+      asset.publications[0].fromDate = new Date(Date.now() + 60000).toUTCString();
       expect(
         asset.getEntitlementCase({
           availabilityKeys: ["1"],
@@ -175,9 +175,9 @@ describe("wl asset", () => {
       ).toBe(EntitlementCase.IN_FUTURE);
     });
     it("should return IN_FUTIRE_NEED_PURCHASE", () => {
-      spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
-      spyOn(mockLogin, "hasSession").and.returnValue(true);
-      asset.publications[0].fromDate = new Date(Date.now() + 60000).toString();
+      jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(true);
+      jest.spyOn(mockLogin, "hasSession").mockReturnValue(true);
+      asset.publications[0].fromDate = new Date(Date.now() + 60000).toUTCString();
       expect(
         asset.getEntitlementCase({
           availabilityKeys: [],
@@ -189,8 +189,8 @@ describe("wl asset", () => {
       ).toBe(EntitlementCase.IN_FUTURE_NEED_PURCHASE);
     });
     it("should return IS_ENTITLED_ANON", () => {
-      spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
-      spyOn(mockLogin, "hasSession").and.returnValue(false);
+      jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(false);
+      jest.spyOn(mockLogin, "hasSession").mockReturnValue(false);
       asset.publications.push({
         fromDate: new Date(Date.now() - 60 * 60000).toString(),
         toDate: new Date(Date.now() + 60 * 60000).toString(),
@@ -210,8 +210,8 @@ describe("wl asset", () => {
       ).toBe(EntitlementCase.IS_ENTITLED_ANON);
     });
     it("should return NEED_PURCHASE", () => {
-      spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
-      spyOn(mockLogin, "hasSession").and.returnValue(true);
+      jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(true);
+      jest.spyOn(mockLogin, "hasSession").mockReturnValue(true);
       expect(
         asset.getEntitlementCase({
           availabilityKeys: [],
@@ -223,8 +223,8 @@ describe("wl asset", () => {
       ).toBe(EntitlementCase.NEED_PURCHASE);
     });
     it("should return NOT_ENTITLED", () => {
-      spyOn(mockLogin, "isLoggedIn").and.returnValue(true);
-      spyOn(mockLogin, "hasSession").and.returnValue(true);
+      jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(true);
+      jest.spyOn(mockLogin, "hasSession").mockReturnValue(true);
       expect(
         asset.getEntitlementCase({
           availabilityKeys: [],
@@ -236,8 +236,8 @@ describe("wl asset", () => {
       ).toBe(EntitlementCase.NOT_ENTITLED);
     });
     it("should be IN_FUTURE when entitled anon and in future", () => {
-      spyOn(mockLogin, "hasSession").and.returnValue(false);
-      spyOn(mockLogin, "isLoggedIn").and.returnValue(false);
+      jest.spyOn(mockLogin, "hasSession").mockReturnValue(false);
+      jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(false);
       asset.publications = [
         {
           fromDate: new Date(Date.now() + 30 * 60000).toString(),

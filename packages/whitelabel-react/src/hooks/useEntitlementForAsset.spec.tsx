@@ -51,13 +51,13 @@ function TestWrapper({ children }) {
 
 describe("useEntitlements", () => {
   beforeEach(() => {
-    spyOn(offerings, "useProductOfferings").and.returnValue([[], false]);
-    spyOn(api, "useWLApi").and.returnValue(mockWlService);
-    spyOn(location, "useGeolocation").and.returnValue([{ countryCode: "SE" }]);
+    jest.spyOn(offerings, "useProductOfferings").mockReturnValue([[], false]);
+    jest.spyOn(api, "useWLApi").mockReturnValue(mockWlService);
+    jest.spyOn(location, "useGeolocation").mockReturnValue([{ countryCode: "SE" }]);
   });
   it("defaults when no session token", () => {
-    spyOn(mockWlService, "getEntitlementForAsset").and.returnValue({ test: "lalal" });
-    spyOn(userSession, "useUserSession").and.returnValue([{ sessionToken: undefined }]);
+    jest.spyOn(mockWlService, "getEntitlementForAsset").mockReturnValue({ test: "lalal" });
+    jest.spyOn(userSession, "useUserSession").mockReturnValue([{ sessionToken: undefined }]);
     const { result } = renderHook(() => useEntitlementForAsset({ assetId: "1234" } as WLAsset, {}), {
       wrapper: TestWrapper
     });
@@ -80,8 +80,8 @@ describe("useEntitlements", () => {
       isGeoBlocked: false,
       loginToWatchForFree: false
     };
-    spyOn(userSession, "useUserSession").and.returnValue([{ sessionToken: "123" }]);
-    spyOn(mockWlService, "getEntitlementForAsset").and.returnValue(Promise.resolve(mockResult));
+    jest.spyOn(userSession, "useUserSession").mockReturnValue([{ sessionToken: "123" }]);
+    jest.spyOn(mockWlService, "getEntitlementForAsset").mockReturnValue(Promise.resolve(mockResult));
     const { result, waitForNextUpdate } = renderHook(() => useEntitlementForAsset({ assetId: "123" } as WLAsset, {}), {
       wrapper: TestWrapper
     });
