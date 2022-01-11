@@ -1,4 +1,4 @@
-import { DeviceType } from "../src/services/authentication-service";
+import { DeviceType } from "../src/interfaces/device";
 
 export const mocks = {
   customer: "CU",
