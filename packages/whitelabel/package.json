@@ -1,11 +1,11 @@
 {
   "name": "@ericssonbroadcastservices/whitelabel-sdk",
-  "version": "0.108.1",
+  "version": "0.109.0",
   "description": "",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc --watch",
-    "test": "jest",
+    "test": "TZ=UTC jest",
     "test:watch": "jest --watch",
     "lint": "npm run lint:code && npm run lint:types",
     "lint:code": "prettier --check \"src/**/*.{ts,tsx}\"",
@@ -28,7 +28,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@ericssonbroadcastservices/exposure-sdk": "^0.75.0",
+    "@ericssonbroadcastservices/exposure-sdk": "^0.76.0",
     "axios": "^0.24.0",
     "date-fns": "^2.27.0",
     "humanize-duration": "^3.27.1",

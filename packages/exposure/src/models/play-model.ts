@@ -203,6 +203,8 @@ export class Play {
   @jsonProperty()
   public accountId: string;
   @jsonProperty()
+  public audioOnly?: boolean;
+  @jsonProperty()
   public productId: string;
   @jsonProperty()
   public publicationId: string;
