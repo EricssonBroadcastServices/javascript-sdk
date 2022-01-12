@@ -23,7 +23,6 @@ export const Asset = () => {
   const [asset, isLoading, error] = useAsset(id);
   const [bookmarkPercentage] = useBookmarkPercentage(id);
   const [{ upNext, recommendations }] = usePushNextContentData(id);
-  console.log(upNext, recommendations);
   if (isLoading || error || !asset) return null;
   return (
     <div>
