@@ -2,7 +2,7 @@ import { WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React from "react";
 import { useParams } from "react-router";
 import { FavoriteButton } from "../components/FavoriteButton";
-import { useAsset, useBookmarkPercentage, useEntitlementForAsset } from "../../src";
+import { useAsset, useBookmarkPercentage, useEntitlementForAsset, usePushNextContentData } from "../../src";
 import { JsonBox } from "../components/JsonBox";
 import { PlayButton } from "../components/PlayButton";
 import { AssetType } from "@ericssonbroadcastservices/exposure-sdk";
@@ -22,6 +22,8 @@ export const Asset = () => {
   const { id } = useParams();
   const [asset, isLoading, error] = useAsset(id);
   const [bookmarkPercentage] = useBookmarkPercentage(id);
+  const [{ upNext, recommendations }] = usePushNextContentData(id);
+  console.log(upNext, recommendations);
   if (isLoading || error || !asset) return null;
   return (
     <div>
@@ -30,6 +32,7 @@ export const Asset = () => {
       <h4>{`Bookmark percentage: ${bookmarkPercentage}`}</h4>
       <Entitlements asset={asset} />
       {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker />}
+      <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data"/>
     </div>
   );
 };
