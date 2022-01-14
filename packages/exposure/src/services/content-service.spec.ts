@@ -1,7 +1,7 @@
 import { ContentService } from "./content-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
-import { mocks } from "../../test-utils/mocks";
+import { mockHttpOptions, mocks } from "../../test-utils/mocks";
 import { AssetResponse, Asset, EpisodesResponse } from "../models/asset-model";
 import { EpgResponse } from "../models/program-model";
 import { epgDateFormatter } from "../utils/date";
@@ -14,7 +14,7 @@ describe("Content service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "sessionToken" }),
-    httpClient: axios
+    http: mockHttpOptions
   };
   const contentService = new ContentService(serviceOptions);
   beforeEach(() => {

@@ -1,12 +1,13 @@
 import { PaymentService } from "./payment-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
+import { mockHttpOptions } from "../../test-utils/mocks";
 
 describe("Payment service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "" }),
-    httpClient: axios
+    http: mockHttpOptions
   };
   const paymentService = new PaymentService(serviceOptions);
   it("should fetch product offerings with voucher code", async () => {

@@ -2,8 +2,8 @@ import {
   deserialize,
   ExposureApi,
   IDeviceInfo,
-  IHttpClient,
-  LoginResponse
+  LoginResponse,
+  IHttpOptions
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup, WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ interface IInitialPropsProvider {
   children?: React.ReactNode;
   internalApiUrl: string;
   deviceGroup: DeviceGroup;
-  httpClient: IHttpClient;
+  http: IHttpOptions;
 }
 
 async function getValidatedPersistedSession({
@@ -31,14 +31,14 @@ async function getValidatedPersistedSession({
   businessUnit,
   exposureBaseUrl,
   device,
-  httpClient
+  http
 }: {
   customer: string;
   businessUnit: string;
   storage?: IStorage;
   exposureBaseUrl: string;
   device: IDeviceInfo;
-  httpClient: IHttpClient;
+  http: IHttpOptions;
 }) {
   let session: LoginResponse | null = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
@@ -47,7 +47,7 @@ async function getValidatedPersistedSession({
     businessUnit,
     authHeader: () => undefined,
     baseUrl: exposureBaseUrl,
-    httpClient
+    http
   });
   if (persistedSession) {
     const persistedSessionJSON = JSON.parse(persistedSession);
@@ -89,7 +89,7 @@ export function InitialPropsProvider({
   device,
   internalApiUrl,
   deviceGroup,
-  httpClient
+  http
 }: IInitialPropsProvider) {
   const [state, setState] = useState<IRedBeeState | null>(null);
   const [isReady, setIsReady] = useState(false);
@@ -101,7 +101,7 @@ export function InitialPropsProvider({
         businessUnit,
         exposureBaseUrl,
         device,
-        httpClient
+        http
       });
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
       const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
@@ -110,7 +110,7 @@ export function InitialPropsProvider({
         businessUnit,
         authHeader,
         baseUrl: exposureBaseUrl,
-        httpClient
+        http
       });
       setState({
         session,
@@ -125,7 +125,7 @@ export function InitialPropsProvider({
         config: null,
         deviceGroup,
         exposureApi,
-        httpClient,
+        http,
         whiteLabelApi: new WhiteLabelService({
           exposureApi,
           authHeader,
@@ -133,7 +133,7 @@ export function InitialPropsProvider({
           customer,
           businessUnit,
           baseUrl: internalApiUrl,
-          httpClient
+          http
         })
       });
       setIsReady(true);

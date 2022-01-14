@@ -1,3 +1,5 @@
+import axios from "axios";
+import { IHttpOptions } from "../src";
 import { DeviceType } from "../src/interfaces/device";
 
 export const mocks = {
@@ -11,4 +13,9 @@ export const mocks = {
     name: "name",
     deviceId: "123"
   }
+};
+
+export const mockHttpOptions: IHttpOptions = {
+  client: axios,
+  errorMapper: () => ({ message: "Oh no!", httpCode: 500 })
 };

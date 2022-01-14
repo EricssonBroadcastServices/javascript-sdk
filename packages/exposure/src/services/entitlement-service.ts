@@ -56,7 +56,7 @@ export class EntitlementService extends BaseService {
         ...headers
       },
       err => {
-        throw err.response?.data as IEntitlementError;
+        throw err?.data as IEntitlementError;
       }
     );
   }

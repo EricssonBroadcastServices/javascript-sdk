@@ -158,12 +158,19 @@ export { EntitlementService, TPlayDrm, TPlayFormat } from "./services/entitlemen
 
 /* InterFaces */
 export { CardPaymentDetails, VerifyPurchasePayload, IPurchaseSettings };
-export { IHeaders, IHttpClient, IRequestConfig, IRequestError, IResponse } from "./interfaces/http-client";
+export {
+  IHeaders,
+  IHttpClient,
+  IRequestConfig,
+  IRequestError,
+  IResponse,
+  TErrorMapper
+} from "./interfaces/http-client";
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";
 export { jsonProperty } from "./decorators/json-property";
-export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions } from "./services/base-service";
+export { BaseService, CustomerAndBusinessUnitOptions, ServiceOptions, IHttpOptions } from "./services/base-service";
 export { priceUtils } from "./utils/price";
 export {
   IPrice,

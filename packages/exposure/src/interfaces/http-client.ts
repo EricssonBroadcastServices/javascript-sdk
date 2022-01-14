@@ -13,10 +13,12 @@ export interface IRequestConfig {
 }
 
 export interface IRequestError {
-  code?: number;
-  // client should set error response to response property
-  response?: any;
+  message: string;
+  httpCode: number;
+  data?: any;
 }
+
+export type TErrorMapper = (err: unknown) => IRequestError;
 
 export interface IHttpClient {
   get<T = any, R = IResponse<T>>(url: string, config: IRequestConfig): Promise<R>;

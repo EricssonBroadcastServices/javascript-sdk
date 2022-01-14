@@ -1,5 +1,4 @@
-import { IHttpClient, IRequestError } from "../interfaces/http-client";
-import { ApiError } from "../models/api-error-model";
+import { IHttpClient, IRequestError, TErrorMapper } from "../interfaces/http-client";
 
 interface Headers {
   [key: string]: string;
@@ -22,27 +21,21 @@ export interface CustomerAndBusinessUnitOptions extends BaseRequestOptions {
   businessUnit?: string;
 }
 
+export interface IHttpOptions {
+  client: IHttpClient;
+  errorMapper: TErrorMapper;
+}
 export interface ServiceOptions {
   baseUrl?: string;
   authHeader: () => AuthHeaders | undefined;
   customer?: string;
   businessUnit?: string;
-  httpClient: IHttpClient;
+  http: IHttpOptions;
 }
 
 interface CuBuUrlOptions extends CustomerAndBusinessUnitOptions {
   apiVersion: "v1" | "v2" | "v1/whitelabel" | "v3";
 }
-
-export const errorMapper = err => {
-  if (!err) throw new ApiError({ message: "Unknown error", httpCode: 500 });
-  if (typeof err === "string") throw new ApiError({ message: err, httpCode: 500 });
-  throw new ApiError({
-    httpCode: err.response ? err.response.status : 500,
-    message: err.response?.data?.message ? err.response?.data?.message : err.message
-  });
-};
-
 export class BaseService {
   constructor(public options: ServiceOptions) {}
   public setOptions(options: ServiceOptions) {
@@ -56,27 +49,51 @@ export class BaseService {
   }
 
   public get(url: string, headers?: Headers, customErrorHandler?: (err: IRequestError) => void) {
-    return this.options.httpClient
+    return this.options.http.client
       .get(new URL(url, this.options.baseUrl).toString(), { headers })
       .then(response => response.data)
-      .catch(customErrorHandler || errorMapper);
+      .catch(err => {
+        throw this.options.http.errorMapper(err);
+      })
+      .catch((err: IRequestError) => {
+        if (customErrorHandler) throw customErrorHandler(err);
+        throw err;
+      });
   }
   public delete(url: string, headers?: Headers, customErrorHandler?: (err: IRequestError) => void) {
-    return this.options.httpClient
+    return this.options.http.client
       .delete(new URL(url, this.options.baseUrl).toString(), { headers })
       .then(response => response.data)
-      .catch(customErrorHandler || errorMapper);
+      .catch(err => {
+        throw this.options.http.errorMapper(err);
+      })
+      .catch((err: IRequestError) => {
+        if (customErrorHandler) throw customErrorHandler(err);
+        throw err;
+      });
   }
   public put(url: string, data: any, headers?: Headers, customErrorHandler?: (err: IRequestError) => void) {
-    return this.options.httpClient
+    return this.options.http.client
       .put(new URL(url, this.options.baseUrl).toString(), data, { headers })
       .then(response => response.data)
-      .catch(customErrorHandler || errorMapper);
+      .catch(err => {
+        throw this.options.http.errorMapper(err);
+      })
+      .catch((err: IRequestError) => {
+        if (customErrorHandler) throw customErrorHandler(err);
+        throw err;
+      });
   }
   public post(url: string, data: any, headers?: Headers, customErrorHandler?: (err: IRequestError) => void) {
-    return this.options.httpClient
+    return this.options.http.client
       .post(new URL(url, this.options.baseUrl).toString(), data, { headers })
       .then(response => response.data)
-      .catch(customErrorHandler || errorMapper);
+      .catch(err => {
+        throw this.options.http.errorMapper(err);
+      })
+      .catch((err: IRequestError) => {
+        if (customErrorHandler) throw customErrorHandler(err);
+        throw err;
+      });
   }
 }

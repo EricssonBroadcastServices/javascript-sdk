@@ -1,4 +1,4 @@
-import { IDeviceInfo, ExposureApi, LoginResponse, IHttpClient } from "@ericssonbroadcastservices/exposure-sdk";
+import { IDeviceInfo, ExposureApi, LoginResponse, IHttpOptions } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
@@ -20,7 +20,7 @@ export interface IRedBeeState {
   deviceGroup: DeviceGroup;
   exposureApi: ExposureApi;
   whiteLabelApi: WhiteLabelService;
-  httpClient: IHttpClient;
+  http: IHttpOptions;
 }
 
 export enum ActionType {
@@ -79,7 +79,7 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         customer: state.customer,
         businessUnit: state.businessUnit,
         authHeader: getAuthHeader,
-        httpClient: state.httpClient
+        http: state.http
       });
       return {
         ...state,
@@ -93,7 +93,7 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
           deviceGroup: state.deviceGroup,
           exposureApi,
           authHeader: getAuthHeader,
-          httpClient: state.httpClient
+          http: state.http
         })
       };
     case ActionType.SET_CONFIG:
@@ -136,7 +136,7 @@ interface IRedBeeProvider {
   storage?: IStorage;
   device: IDeviceInfo;
   autoFetchConfig?: boolean;
-  httpClient: IHttpClient;
+  http: IHttpOptions;
 }
 
 function RedBeeStateHolder({
@@ -167,7 +167,7 @@ export function RedBeeProvider({
   exposureBaseUrl,
   children,
   autoFetchConfig,
-  httpClient
+  http
 }: IRedBeeProvider) {
   if (!customer || !businessUnit) {
     throw "customer and businessUnit are required";
@@ -187,7 +187,7 @@ export function RedBeeProvider({
       deviceGroup={deviceGroup}
       internalApiUrl={internalApiUrl}
       exposureBaseUrl={exposureBaseUrl}
-      httpClient={httpClient}
+      http={http}
     >
       <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>
     </InitialPropsProvider>

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { DeviceType, IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
+import { DeviceType, IDeviceInfo, TErrorMapper } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { RedBeeProvider, IStorage, useConfig } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
@@ -13,6 +13,31 @@ import { Login } from "./components/Login";
 import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
 import axios from "axios";
+import redaxios from "redaxios";
+
+export const axiosErrorMapper: TErrorMapper = err => {
+  console.log(err);
+  if (!err) throw { message: "Unknown error", httpCode: 500 };
+  if (typeof err === "string") throw { message: err, httpCode: 500 };
+  throw {
+    httpCode: (err as any).response ? (err as any).response.status : 500,
+    message: (err as any).response?.data?.message ? (err as any).response?.data?.message : (err as any).message,
+    data: (err as any).response?.data
+  };
+};
+
+export const redaxiosErrorMapper: TErrorMapper = err => {
+  if (!err) throw { message: "Unknown error", httpCode: 500 };
+  if (typeof err === "string") throw { message: err, httpCode: 500 };
+  throw {
+    httpCode: (err as any).status || 500,
+    message: (err as any).data?.message,
+    data: (err as any).data
+  };
+};
+
+const axiosClient = { client: axios, errorMapper: axiosErrorMapper };
+const redaxiosClient = { client: redaxios, errorMapper: redaxiosErrorMapper }
 
 const device: IDeviceInfo = {
   deviceId: "123",
@@ -65,7 +90,7 @@ function AppProvider() {
       device={device}
       deviceGroup={DeviceGroup.TV}
       autoFetchConfig
-      httpClient={axios}
+      http={redaxiosClient}
     >
       <App />
     </RedBeeProvider>

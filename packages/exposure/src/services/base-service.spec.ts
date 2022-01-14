@@ -1,13 +1,15 @@
-import { BaseService, errorMapper } from "./base-service";
+import { BaseService } from "./base-service";
 import { mocks } from "../../test-utils/mocks";
-import { ApiError } from "../models/api-error-model";
 import axios from "axios";
 
 describe("base service", () => {
   const baseService = new BaseService({
     baseUrl: "https://baseUrl.com",
     authHeader: () => ({ Authorization: "" }),
-    httpClient: axios
+    http: {
+      client: axios,
+      errorMapper: () => ({ httpCode: 1, message: "oh oh" })
+    }
   });
   it("should throw error with missing customer or businessUnit", () => {
     expect(() =>
@@ -57,20 +59,12 @@ describe("base service", () => {
     baseService.setOptions({
       baseUrl: "https://baseUrl.com/",
       authHeader: () => ({ Authorization: "" }),
-      httpClient: axios
+      http: {
+        client: axios,
+        errorMapper: () => ({ httpCode: 1, message: "oh oh" })
+      }
     });
     baseService.get("v1/test/");
     expect(axios.get).toHaveBeenCalledWith("https://baseurl.com/v1/test", expect.any(Object));
-  });
-
-  it("should map error", () => {
-    expect(() => errorMapper(undefined)).toThrow(ApiError);
-    expect(() => errorMapper(1)).toThrow(ApiError);
-    expect(() => errorMapper("error")).toThrow(ApiError);
-    expect(() =>
-      errorMapper({
-        message: "something went wrong"
-      })
-    ).toThrow(ApiError);
   });
 });

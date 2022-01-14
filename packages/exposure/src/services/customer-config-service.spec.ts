@@ -1,14 +1,14 @@
 import { CustomerConfigService } from "./customer-config-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
-import { mocks } from "../../test-utils/mocks";
+import { mockHttpOptions, mocks } from "../../test-utils/mocks";
 import { CustomerConfigFile } from "../models/customer-config-file-model";
 
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "sessionToken" }),
-    httpClient: axios
+    http: mockHttpOptions
   };
   const customerConfigService = new CustomerConfigService(serviceOptions);
   beforeEach(() => {

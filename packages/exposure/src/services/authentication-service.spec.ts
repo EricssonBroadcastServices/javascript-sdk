@@ -2,14 +2,14 @@ import { AuthenticationService } from "./authentication-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
 import { LoginResponse } from "../models/login-response-model";
-import { mocks } from "../../test-utils/mocks";
+import { mockHttpOptions, mocks } from "../../test-utils/mocks";
 import { DeviceType } from "../interfaces/device";
 
 describe("Auth service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "sessionToken" }),
-    httpClient: axios
+    http: mockHttpOptions
   };
   const authService = new AuthenticationService(serviceOptions);
   beforeEach(() => {

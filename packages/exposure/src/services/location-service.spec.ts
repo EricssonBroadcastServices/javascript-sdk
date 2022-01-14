@@ -1,12 +1,13 @@
 import { LocationService } from "./location-service";
 import { ServiceOptions } from "./base-service";
 import axios from "axios";
+import { mockHttpOptions } from "../../test-utils/mocks";
 
 describe("Location service", () => {
   const serviceOptions: ServiceOptions = {
     baseUrl: "https://testbaseurl.com",
     authHeader: () => ({ Authorization: "" }),
-    httpClient: axios
+    http: mockHttpOptions
   };
   const locationService = new LocationService(serviceOptions);
   it("should fetch location", async () => {
