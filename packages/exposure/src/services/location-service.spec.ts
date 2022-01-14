@@ -16,7 +16,7 @@ describe("Location service", () => {
         countryCode: "SE"
       }
     };
-    spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
     await locationService.getLocation();
     expect(axios.get).toHaveBeenCalledWith(`${serviceOptions.baseUrl}/v2/location`, {});
   });

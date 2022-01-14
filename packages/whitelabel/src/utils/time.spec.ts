@@ -62,6 +62,6 @@ describe("util/time", () => {
     });
   });
   describe("format", () => {
-    expect(getTimeString(new Date("2020-01-01"))).toBe("01:00");
+    expect(getTimeString(new Date("2020-01-01T01:00:00.000Z"))).toBe("01:00");
   });
 });

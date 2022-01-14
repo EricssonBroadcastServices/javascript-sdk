@@ -47,7 +47,7 @@ describe("base service", () => {
     ).toBe(`/v1/customer/${mocks.customer}/businessunit/${mocks.businessUnit}`);
   });
   it("should successfully build request urls, regardless of trailing/leading slashes", () => {
-    spyOn(axios, "get").and.returnValue(Promise.resolve());
+    jest.spyOn(axios, "get").mockResolvedValue("");
     baseService.get("/v1/test");
     expect(axios.get).toHaveBeenCalledWith("https://baseurl.com/v1/test", expect.any(Object));
 

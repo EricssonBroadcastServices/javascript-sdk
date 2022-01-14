@@ -23,7 +23,7 @@ describe("Tag service", () => {
     data: mockTagResponse
   };
   beforeEach(() => {
-    spyOn(axios, "get").and.returnValue(Promise.resolve(mockReturnValue));
+    jest.spyOn(axios, "get").mockReturnValue(Promise.resolve(mockReturnValue));
   });
   it("should fetch tag by id", async () => {
     await tagService.getTag({

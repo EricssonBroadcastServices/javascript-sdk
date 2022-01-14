@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { DeviceType, IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
-import { RedBeeProvider, IStorage } from "../src/index";
+import { RedBeeProvider, IStorage, useConfig } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
 import SearchInput from "./components/SearchInput";
 import { Routes, Route, HashRouter, Link } from "react-router-dom";
@@ -21,12 +21,13 @@ const device: IDeviceInfo = {
 };
 
 export default function App() {
+  const [config] = useConfig();
   return (
     <div>
       <HashRouter>
         <Menu />
         <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-          <Link to="/">
+          <Link to={`/page/${config?.homePage.id}`}>
             <button style={{ marginRight: "10px" }}>Home</button>
           </Link>
           <LanguageSelector />

@@ -9,10 +9,11 @@ describe("White label service", () => {
     origin: "bsbu.enigmatv.io",
     authHeader: () => ({ Authorization: "" }),
     deviceGroup: DeviceGroup.WEB,
-    exposureApi: new ExposureApi({ authHeader: () => undefined })
+    exposureApi: new ExposureApi({ authHeader: () => undefined, httpClient: {} as any }),
+    httpClient: {} as any
   });
   beforeEach(() => {
-    spyOn(service, "get").and.returnValue(Promise.resolve({}));
+    jest.spyOn(service, "get").mockReturnValue(Promise.resolve({}));
   });
   it("should send correct queryParams when fetching config with origin", () => {
     service.getConfig({ locale: "en" });
