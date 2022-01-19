@@ -124,8 +124,9 @@ function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.Reac
 }
 
 interface IRedBeeProvider {
-  customer: string;
-  businessUnit: string;
+  customer?: string;
+  businessUnit?: string;
+  origin?: string;
   exposureBaseUrl: string;
   internalApiUrl: string;
   children?: React.ReactNode;
@@ -162,10 +163,11 @@ export function RedBeeProvider({
   internalApiUrl,
   exposureBaseUrl,
   children,
-  autoFetchConfig
+  autoFetchConfig,
+  origin
 }: IRedBeeProvider) {
-  if (!customer || !businessUnit) {
-    throw "customer and businessUnit are required";
+  if (!(customer && businessUnit) && !origin) {
+    throw "customer and businessUnit, or origin is required";
   }
   if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
     throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, internalApiUrl: ${internalApiUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
@@ -179,6 +181,7 @@ export function RedBeeProvider({
       customer={customer}
       businessUnit={businessUnit}
       device={device}
+      origin={origin}
       deviceGroup={deviceGroup}
       internalApiUrl={internalApiUrl}
       exposureBaseUrl={exposureBaseUrl}

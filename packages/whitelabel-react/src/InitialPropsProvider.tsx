@@ -1,5 +1,5 @@
 import { deserialize, ExposureApi, IDeviceInfo, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
-import { DeviceGroup, WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
@@ -9,8 +9,9 @@ export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedB
 
 interface IInitialPropsProvider {
   storage?: IStorage;
-  customer: string;
-  businessUnit: string;
+  customer?: string;
+  businessUnit?: string;
+  origin?: string;
   exposureBaseUrl: string;
   device: IDeviceInfo;
   children?: React.ReactNode;
@@ -70,6 +71,35 @@ async function getValidatedPersistedSession({
   return session;
 }
 
+interface IResolveCustomerAndBusinessUnit {
+  customer?: string;
+  businessUnit?: string;
+  origin?: string;
+  exposureBaseUrl: string;
+  internalApiUrl: string;
+  deviceGroup: DeviceGroup;
+}
+
+async function resolveCustomerAndBusinessUnit({ customer, businessUnit, origin, exposureBaseUrl, deviceGroup, internalApiUrl }: IResolveCustomerAndBusinessUnit): Promise<{ customer: string; businessUnit: string; config: WLConfig | null }> {
+  if (customer && businessUnit) {
+    return { customer, businessUnit, config: null };
+  }
+  if (origin) {
+    const tempWlApi = new WhiteLabelService({
+      exposureApi: new ExposureApi({
+        authHeader: () => undefined,
+        baseUrl: exposureBaseUrl
+      }),
+      authHeader: () => undefined,
+      deviceGroup,
+      baseUrl: internalApiUrl
+    })
+    const config = await tempWlApi.getConfig({ origin });
+    return { customer: config.customer, businessUnit: config.businessUnit, config };
+  }
+  throw "Either customer and businessUnit, or origin is required";
+}
+
 export function InitialPropsProvider({
   children,
   storage,
@@ -78,18 +108,20 @@ export function InitialPropsProvider({
   exposureBaseUrl,
   device,
   internalApiUrl,
-  deviceGroup
+  deviceGroup,
+  origin
 }: IInitialPropsProvider) {
   const [state, setState] = useState<IRedBeeState | null>(null);
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      const session = await getValidatedPersistedSession({ storage, customer, businessUnit, exposureBaseUrl, device });
+      const { config, ...rest } =  await resolveCustomerAndBusinessUnit({ customer, businessUnit, origin, exposureBaseUrl, internalApiUrl, deviceGroup });
+      const session = await getValidatedPersistedSession({ storage, customer: rest.customer, businessUnit: rest.businessUnit, exposureBaseUrl, device });
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
       const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
       const exposureApi = new ExposureApi({
-        customer,
-        businessUnit,
+        customer: rest.customer,
+        businessUnit: rest.businessUnit,
         authHeader,
         baseUrl: exposureBaseUrl
       });
@@ -97,21 +129,21 @@ export function InitialPropsProvider({
         session,
         selectedLanguage: persistedSelectedLanguage || null,
         loading: [],
-        customer,
-        businessUnit,
+        customer: rest.customer,
+        businessUnit: rest.businessUnit,
         storage: storage || null,
         device,
         exposureBaseUrl,
         internalApiUrl,
-        config: null,
+        config,
         deviceGroup,
         exposureApi,
         whiteLabelApi: new WhiteLabelService({
           exposureApi,
           authHeader,
           deviceGroup,
-          customer,
-          businessUnit,
+          customer: rest.customer,
+          businessUnit: rest.businessUnit,
           baseUrl: internalApiUrl
         })
       });

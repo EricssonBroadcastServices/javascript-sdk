@@ -27,11 +27,12 @@ export class WhiteLabelService extends BaseService {
   private deviceGroup: DeviceGroup;
   private origin?: string;
   public exposureApi: ExposureApi;
+  public options: WhiteLabelServiceOptions;
 
   constructor(apiOptions: WhiteLabelServiceOptions) {
     const { deviceGroup, origin, exposureApi, ...baseOptions } = apiOptions;
     super(baseOptions);
-
+    this.options = apiOptions;
     this.origin = origin;
     this.deviceGroup = deviceGroup;
     this.exposureApi = exposureApi;

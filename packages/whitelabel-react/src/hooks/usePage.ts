@@ -1,5 +1,6 @@
 import { PreferenceListTags } from "@ericssonbroadcastservices/exposure-sdk";
 import {
+  DeviceGroup,
   WLAsset,
   WLCarousel,
   WLCategoriesComponent,
@@ -7,6 +8,7 @@ import {
   WLComponentType,
   WLEpgComponent,
   WLHerobanner,
+  WLIframe,
   WLImageComponent,
   WLPageModel,
   WLReference,
@@ -35,7 +37,8 @@ export type TWLComponent =
   | WLEpgComponent
   | WLHerobanner
   | WLImageComponent
-  | WLCategoriesComponent;
+  | WLCategoriesComponent
+  | WLIframe;
 
 export function usePage(pageId: string, pageType: PageType): TApiHook<WLPageModel> {
   const wlApi = useWLApi();
@@ -69,7 +72,7 @@ export function usePage(pageId: string, pageType: PageType): TApiHook<WLPageMode
   return [data || null, isFetching, error];
 }
 
-function getComponentConstructor(reference: WLReference) {
+function getComponentConstructor(reference: WLReference, deviceGroup: DeviceGroup) {
   switch (reference.type) {
     case WLComponentType.CAROUSEL:
       return WLCarousel;
@@ -85,6 +88,11 @@ function getComponentConstructor(reference: WLReference) {
       return WLEpgComponent;
     case WLComponentType.TAG_TYPE:
       return WLCategoriesComponent;
+    case WLComponentType.IFRAME:
+      switch (deviceGroup) {
+        case DeviceGroup.WEB:
+          return WLIframe;
+      }
     default:
       throw `unknown component type ${reference.type} ${reference.subType}`;
   }
@@ -133,7 +141,7 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IR
           return {
             component: await wlApi.getComponentByInternalUrl<TWLComponent>({
               internalUrl,
-              type: getComponentConstructor(reference),
+              type: getComponentConstructor(reference, wlApi.options.deviceGroup),
               useAuthHeader: reference.authorized
             }),
             reference: reference
