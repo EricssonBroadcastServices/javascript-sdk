@@ -68,7 +68,7 @@ function getNextPublications(publications: IPublication[]) {
 }
 
 function getAvailabilityKeys(publications: IPublication[]): string[] {
-  /* eslint-disable @typescript-eslint/ban-ts-ignore */
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
   /* eslint-disable prefer-spread */
   let activePublications = getActivePublications(publications);
   if (allInFuture(publications)) {

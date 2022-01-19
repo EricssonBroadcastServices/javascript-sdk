@@ -32,6 +32,7 @@ const mockOfferingPriceWithVAT: IOfferingPrice = {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const mockProductOffering: IProductOffering = {
   id: "123",
@@ -48,6 +49,7 @@ export const mockProductOffering: IProductOffering = {
   productIds: [mockProduct.id]
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const mockProductOfferingWithoutPurchase: IProductOffering = {
   id: "456",

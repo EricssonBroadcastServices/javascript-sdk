@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import { renderHook } from "@testing-library/react-hooks";
-import { DeviceType, EntitlementActionType, ExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
-import { IDevice, RedBeeProvider, useEntitlementForAsset } from "..";
+import { DeviceType, EntitlementActionType, ExposureApi, IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
+import { RedBeeProvider, useEntitlementForAsset } from "..";
 import {
   DeviceGroup,
   IEntitlementStatusResult,
@@ -25,7 +25,7 @@ const storage = {
 };
 
 // const mockAsset = deserialize(WLAsset, {});
-const mockDevice: IDevice = { name: "123", deviceId: "123", type: DeviceType.WEB };
+const mockDevice: IDeviceInfo = { name: "123", deviceId: "123", type: DeviceType.WEB };
 const mockWlService = new WhiteLabelService({
   authHeader: () => ({ Authorization: "123" }),
   deviceGroup: DeviceGroup.WEB,

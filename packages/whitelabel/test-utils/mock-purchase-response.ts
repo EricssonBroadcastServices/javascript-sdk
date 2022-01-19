@@ -8,9 +8,9 @@ export const mockPurchase: IPurchase = {
   transactionId: "123",
   id: "mockPurchase",
   productOfferingId: "456"
-}
+};
 
 export const mockPurchaseResponse: IPurchaseResponse = {
   purchases: [mockPurchase],
   consumedProductOfferingDiscounts: []
-}
+};

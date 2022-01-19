@@ -52,9 +52,7 @@ describe("Content service", () => {
     expect(assets).toEqual(expectedAssets);
   });
   it("should get assetById", async () => {
-    nock(baseUrl)
-      .get("/v1/customer/CU/businessunit/BU/content/asset/123?fieldSet=ALL")
-      .reply(200, assetsJson.items[0]);
+    nock(baseUrl).get("/v1/customer/CU/businessunit/BU/content/asset/123?fieldSet=ALL").reply(200, assetsJson.items[0]);
     const asset = await contentService.getAssetById({
       customer,
       businessUnit,
@@ -152,9 +150,7 @@ describe("Content service", () => {
     assets.items.forEach(asset => expect(asset instanceof Asset));
   });
   it("should get continue watching", async () => {
-    nock(baseUrl)
-      .get("/v1/customer/CU/businessunit/BU/recommend/continue?limit=10")
-      .reply(200, assetsJson);
+    nock(baseUrl).get("/v1/customer/CU/businessunit/BU/recommend/continue?limit=10").reply(200, assetsJson);
     const assets = await contentService.getContinueWatching({
       customer,
       businessUnit
@@ -166,9 +162,7 @@ describe("Content service", () => {
     assets.items.forEach(asset => expect(asset instanceof Asset));
   });
   it("should get recommended", async () => {
-    nock(baseUrl)
-      .get("/v1/customer/CU/businessunit/BU/recommend/user")
-      .reply(200, assetsJson);
+    nock(baseUrl).get("/v1/customer/CU/businessunit/BU/recommend/user").reply(200, assetsJson);
     const assets = await contentService.getRecommended({
       customer,
       businessUnit
@@ -193,9 +187,7 @@ describe("Content service", () => {
     });
   });
   it("should get seasons for series", async () => {
-    nock(baseUrl)
-      .get("/v1/customer/CU/businessunit/BU/content/asset/123/season")
-      .reply(200, seasonJson);
+    nock(baseUrl).get("/v1/customer/CU/businessunit/BU/content/asset/123/season").reply(200, seasonJson);
     const seasons = await contentService.getSeasonsForSeries({
       customer,
       businessUnit,

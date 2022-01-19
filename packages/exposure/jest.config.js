@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const tsconfig = require("./tsconfig.json");
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
   testEnvironment: "node",
   globals: {
     "ts-jest": {
-      tsconfig:  {
+      tsconfig: {
         ...tsconfig.compilerOptions,
         esModuleInterop: true
       }

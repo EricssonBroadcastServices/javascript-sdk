@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const tsconfig = require("./tsconfig.json");
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
   collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"],
   globals: {
     "ts-jest": {
-      tsconfig:  {
+      tsconfig: {
         ...tsconfig.compilerOptions,
         esModuleInterop: false
       }
