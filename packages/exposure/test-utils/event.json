@@ -1,0 +1,390 @@
+{
+  "items" : [ {
+    "asset" : {
+      "assetId" : "5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544",
+      "audioTracks" : [ ],
+      "changed" : "2021-10-05T10:17:22.277Z",
+      "created" : "2021-10-04T09:02:53.506Z",
+      "customData" : null,
+      "externalReferences" : [ ],
+      "linkedEntities" : [ ],
+      "live" : false,
+      "localized" : [ {
+        "description" : "Wielkie piłkarskie emocje w PKO Bank Polski Ekstraklasie coraz bliżej! Zakupu każdego spotkania dokonasz na stronie: https://www.ekstraklasa.tv zarówno na telefonie jak i na komputerze.\n\n*Ze względu na ograniczenia wynikające z prawa podatkowego transmisje meczów są dostępne obecnie jedynie na terenie Unii Europejskiej (z wyłączeniem Polski).",
+        "images" : [ {
+          "height" : 100,
+          "orientation" : "LANDSCAPE",
+          "type" : "chromecast",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544/posters/3f4ec626bc7763f76e407e0d7a0bfef8/3f4ec626bc7763f76e407e0d7a0bfef8-1ea03481ed378c04c8c2898744029031-178x100.jpg",
+          "width" : 178
+        }, {
+          "height" : 1080,
+          "orientation" : "LANDSCAPE",
+          "type" : "poster",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544/posters/3f4ec626bc7763f76e407e0d7a0bfef8/3f4ec626bc7763f76e407e0d7a0bfef8.jpg",
+          "width" : 1920
+        } ],
+        "locale" : "pl"
+      }, {
+        "description" : "Great moments of football at PKO Bank Polski Ekstraklasa are one step away! You can purchase each match on the website: https://www.ekstraklasa.tv, both on your PC and mobile browsers. \n\n*Due to tax law restrictions, match broadcasts are currently available only in the European Union (excluding Poland).",
+        "images" : [ {
+          "height" : 100,
+          "orientation" : "LANDSCAPE",
+          "type" : "chromecast",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544/posters/817acf479f0a29a7b6298b1cc30c60a4/817acf479f0a29a7b6298b1cc30c60a4-ad5f290d052e02f97eb7c9d2885890ce-178x100.jpg",
+          "width" : 178
+        }, {
+          "height" : 1080,
+          "orientation" : "LANDSCAPE",
+          "type" : "poster",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544/posters/817acf479f0a29a7b6298b1cc30c60a4/817acf479f0a29a7b6298b1cc30c60a4.jpg",
+          "width" : 1920
+        } ],
+        "locale" : "en",
+        "longDescription" : "",
+        "shortDescription" : "",
+        "sortingTitle" : "",
+        "title" : ""
+      } ],
+      "parentalRatings" : [ ],
+      "participants" : [ ],
+      "productionCountries" : [ ],
+      "publications" : [ {
+        "countries" : [ "DE", "BE", "FI", "PT", "BG", "DK", "LT", "LU", "HR", "LV", "FR", "HU", "SE", "SI", "SK", "IE", "EE", "MT", "GR", "IT", "ES", "AT", "CY", "CZ", "RO", "NL" ],
+        "customData" : null,
+        "devices" : [ ],
+        "fromDate" : "2021-10-16T10:25:00Z",
+        "products" : [ "29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "all-access-product_FB3544" ],
+        "availabilityKeys" : [ "29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544_29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "all-access-product_FB3544", "5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544_all-access-product_FB3544" ],
+        "publicationDate" : "2021-10-04T10:25:00Z",
+        "publicationId" : "9fafd016-31ea-4a23-a0f3-f6bcbd2b7f93_FB3544",
+        "services" : [ ],
+        "toDate" : "2021-10-16T13:00:00Z"
+      }, {
+        "countries" : [ ],
+        "customData" : null,
+        "devices" : [ ],
+        "fromDate" : "2021-10-16T10:25:00Z",
+        "products" : [ "528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544" ],
+        "availabilityKeys" : [ "528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544", "5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544_528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544" ],
+        "publicationDate" : "2021-10-04T10:25:00Z",
+        "publicationId" : "953bf74c-9415-4106-9fa7-f3dad5787d1a_FB3544",
+        "services" : [ ],
+        "toDate" : "2021-10-16T13:00:00Z"
+      } ],
+      "spokenLanguages" : [ ],
+      "subtitles" : [ ],
+      "tags" : [ {
+        "tagValues" : [ {
+          "tagId" : "match_FB3544"
+        }, {
+          "tagId" : "piast-gliwice_CF763C"
+        }, {
+          "tagId" : "gornik-leczna_FB3544"
+        } ],
+        "type" : "other"
+      } ],
+      "type" : "EVENT",
+      "slugs" : [ ],
+      "markerPoints" : [ ],
+      "event" : {
+        "startTime" : "2021-10-16T10:25:00Z",
+        "endTime" : "2021-10-16T13:00:00Z"
+      }
+    },
+    "assetId" : "5d9b8254-7e2e-4222-9d96-c89a1b919c77_FB3544",
+    "endTime" : "2021-10-16T13:00:00Z",
+    "startTime" : "2021-10-16T10:25:00Z"
+  }, {
+    "asset" : {
+      "assetId" : "ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544",
+      "audioTracks" : [ ],
+      "changed" : "2021-10-05T10:17:58.918Z",
+      "created" : "2021-10-04T09:06:18.78Z",
+      "customData" : null,
+      "externalReferences" : [ ],
+      "linkedEntities" : [ ],
+      "live" : false,
+      "localized" : [ {
+        "description" : "Wielkie piłkarskie emocje w PKO Bank Polski Ekstraklasie coraz bliżej! Zakupu każdego spotkania dokonasz na stronie: https://www.ekstraklasa.tv zarówno na telefonie jak i na komputerze.\n\n*Ze względu na ograniczenia wynikające z prawa podatkowego transmisje meczów są dostępne obecnie jedynie na terenie Unii Europejskiej (z wyłączeniem Polski).",
+        "images" : [ {
+          "height" : 100,
+          "orientation" : "LANDSCAPE",
+          "type" : "chromecast",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544/posters/5882dfdf8ef39a88943997d72e069040/5882dfdf8ef39a88943997d72e069040-45abe15b08523ebdc4db348eb9211da0-178x100.jpg",
+          "width" : 178
+        }, {
+          "height" : 1080,
+          "orientation" : "LANDSCAPE",
+          "type" : "poster",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544/posters/5882dfdf8ef39a88943997d72e069040/5882dfdf8ef39a88943997d72e069040.jpg",
+          "width" : 1920
+        } ],
+        "locale" : "pl"
+      }, {
+        "description" : "Great moments of football at PKO Bank Polski Ekstraklasa are one step away! You can purchase each match on the website: https://www.ekstraklasa.tv, both on your PC and mobile browsers. \n\n*Due to tax law restrictions, match broadcasts are currently available only in the European Union (excluding Poland).",
+        "images" : [ {
+          "height" : 100,
+          "orientation" : "LANDSCAPE",
+          "type" : "chromecast",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544/posters/4d9835812c93eb072601edb8eb9b71d2/4d9835812c93eb072601edb8eb9b71d2-17d27825560b8258154864c996ee85ae-178x100.jpg",
+          "width" : 178
+        }, {
+          "height" : 1080,
+          "orientation" : "LANDSCAPE",
+          "type" : "poster",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544/posters/4d9835812c93eb072601edb8eb9b71d2/4d9835812c93eb072601edb8eb9b71d2.jpg",
+          "width" : 1920
+        } ],
+        "locale" : "en",
+        "longDescription" : "",
+        "shortDescription" : "",
+        "sortingTitle" : "",
+        "title" : ""
+      } ],
+      "parentalRatings" : [ ],
+      "participants" : [ ],
+      "productionCountries" : [ ],
+      "publications" : [ {
+        "countries" : [ "DE", "BE", "FI", "PT", "BG", "DK", "LT", "LU", "HR", "LV", "FR", "HU", "SE", "SI", "SK", "IE", "EE", "MT", "GR", "IT", "ES", "AT", "CY", "CZ", "RO", "NL" ],
+        "customData" : null,
+        "devices" : [ ],
+        "fromDate" : "2021-10-16T12:55:00Z",
+        "products" : [ "29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "all-access-product_FB3544" ],
+        "availabilityKeys" : [ "29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544_29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "all-access-product_FB3544", "ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544_all-access-product_FB3544" ],
+        "publicationDate" : "2021-10-04T12:55:00Z",
+        "publicationId" : "c7de5db1-a45c-42ac-b72d-52cc40978a46_FB3544",
+        "services" : [ ],
+        "toDate" : "2021-10-16T15:30:00Z"
+      }, {
+        "countries" : [ ],
+        "customData" : null,
+        "devices" : [ ],
+        "fromDate" : "2021-10-16T12:55:00Z",
+        "products" : [ "528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544" ],
+        "availabilityKeys" : [ "528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544", "ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544_528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544" ],
+        "publicationDate" : "2021-10-04T12:55:00Z",
+        "publicationId" : "d316fc60-0b16-495b-90ce-46da1f57f3ac_FB3544",
+        "services" : [ ],
+        "toDate" : "2021-10-16T15:30:00Z"
+      } ],
+      "spokenLanguages" : [ ],
+      "subtitles" : [ ],
+      "tags" : [ {
+        "tagValues" : [ {
+          "tagId" : "bruk-bet-termalica-nieciecza_FB3544"
+        }, {
+          "tagId" : "Lechia-Gdansk_CF763C"
+        }, {
+          "tagId" : "match_FB3544"
+        } ],
+        "type" : "other"
+      } ],
+      "type" : "EVENT",
+      "slugs" : [ ],
+      "markerPoints" : [ ],
+      "event" : {
+        "startTime" : "2021-10-16T12:55:00Z",
+        "endTime" : "2021-10-16T15:30:00Z"
+      }
+    },
+    "assetId" : "ef7ed55b-6836-433e-b1a2-91ddf527d80a_FB3544",
+    "endTime" : "2021-10-16T15:30:00Z",
+    "startTime" : "2021-10-16T12:55:00Z"
+  }, {
+    "asset" : {
+      "assetId" : "d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544",
+      "audioTracks" : [ ],
+      "changed" : "2021-10-05T10:19:31.92Z",
+      "created" : "2021-10-04T09:07:18.226Z",
+      "customData" : null,
+      "externalReferences" : [ ],
+      "linkedEntities" : [ ],
+      "live" : false,
+      "localized" : [ {
+        "description" : "Wielkie piłkarskie emocje w PKO Bank Polski Ekstraklasie coraz bliżej! Zakupu każdego spotkania dokonasz na stronie: https://www.ekstraklasa.tv zarówno na telefonie jak i na komputerze.\n\n*Ze względu na ograniczenia wynikające z prawa podatkowego transmisje meczów są dostępne obecnie jedynie na terenie Unii Europejskiej (z wyłączeniem Polski).\n",
+        "images" : [ {
+          "height" : 100,
+          "orientation" : "LANDSCAPE",
+          "type" : "chromecast",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544/posters/17b88713b2d651c50169bb87884a595f/17b88713b2d651c50169bb87884a595f-0a11851eab717e4bf2ec30e2095b4ec2-178x100.jpg",
+          "width" : 178
+        }, {
+          "height" : 1080,
+          "orientation" : "LANDSCAPE",
+          "type" : "poster",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544/posters/17b88713b2d651c50169bb87884a595f/17b88713b2d651c50169bb87884a595f.jpg",
+          "width" : 1920
+        } ],
+        "locale" : "pl"
+      }, {
+        "description" : "Great moments of football at PKO Bank Polski Ekstraklasa are one step away! You can purchase each match on the website: https://www.ekstraklasa.tv, both on your PC and mobile browsers. \n\n*Due to tax law restrictions, match broadcasts are currently available only in the European Union (excluding Poland).\n",
+        "images" : [ {
+          "height" : 100,
+          "orientation" : "LANDSCAPE",
+          "type" : "chromecast",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544/posters/1295a411a2aab1173437940c1ac693bd/1295a411a2aab1173437940c1ac693bd-4ece06158eef346e46ebc7e6658f0f63-178x100.jpg",
+          "width" : 178
+        }, {
+          "height" : 1080,
+          "orientation" : "LANDSCAPE",
+          "type" : "poster",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544/posters/1295a411a2aab1173437940c1ac693bd/1295a411a2aab1173437940c1ac693bd.jpg",
+          "width" : 1920
+        } ],
+        "locale" : "en",
+        "longDescription" : "",
+        "shortDescription" : "",
+        "sortingTitle" : "",
+        "title" : ""
+      } ],
+      "parentalRatings" : [ ],
+      "participants" : [ ],
+      "productionCountries" : [ ],
+      "publications" : [ {
+        "countries" : [ ],
+        "customData" : null,
+        "devices" : [ ],
+        "fromDate" : "2021-10-16T15:25:00Z",
+        "products" : [ "528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544" ],
+        "availabilityKeys" : [ "528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544", "d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544_528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544" ],
+        "publicationDate" : "2021-10-04T15:25:00Z",
+        "publicationId" : "4bbcfca8-2823-4094-9d4f-15feaf8f0d06_FB3544",
+        "services" : [ ],
+        "toDate" : "2021-10-16T18:00:00Z"
+      }, {
+        "countries" : [ "DE", "BE", "FI", "PT", "BG", "DK", "LT", "LU", "HR", "LV", "FR", "HU", "SE", "SI", "SK", "IE", "EE", "MT", "GR", "IT", "ES", "AT", "CY", "CZ", "RO", "NL" ],
+        "customData" : null,
+        "devices" : [ ],
+        "fromDate" : "2021-10-16T15:25:00Z",
+        "products" : [ "29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "all-access-product_FB3544" ],
+        "availabilityKeys" : [ "29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544_29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "all-access-product_FB3544", "d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544_all-access-product_FB3544" ],
+        "publicationDate" : "2021-10-04T15:25:00Z",
+        "publicationId" : "e60b93b4-f7c0-4850-b739-200bf7871417_FB3544",
+        "services" : [ ],
+        "toDate" : "2021-10-16T18:00:00Z"
+      } ],
+      "spokenLanguages" : [ ],
+      "subtitles" : [ ],
+      "tags" : [ {
+        "tagValues" : [ {
+          "tagId" : "Gornik-Zabrze_CF763C"
+        }, {
+          "tagId" : "match_FB3544"
+        }, {
+          "tagId" : "Wisla-Krakow_CF763C"
+        } ],
+        "type" : "other"
+      } ],
+      "type" : "EVENT",
+      "slugs" : [ ],
+      "markerPoints" : [ ],
+      "event" : {
+        "startTime" : "2021-10-16T15:25:00Z",
+        "endTime" : "2021-10-16T18:00:00Z"
+      }
+    },
+    "assetId" : "d3d5727b-6778-41bb-930d-ce0cdbd7cb96_FB3544",
+    "endTime" : "2021-10-16T18:00:00Z",
+    "startTime" : "2021-10-16T15:25:00Z"
+  }, {
+    "asset" : {
+      "assetId" : "8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544",
+      "audioTracks" : [ ],
+      "changed" : "2021-10-05T10:20:48.648Z",
+      "created" : "2021-10-04T09:08:26.7Z",
+      "customData" : null,
+      "externalReferences" : [ ],
+      "linkedEntities" : [ ],
+      "live" : false,
+      "localized" : [ {
+        "description" : "Wielkie piłkarskie emocje w PKO Bank Polski Ekstraklasie coraz bliżej! Zakupu każdego spotkania dokonasz na stronie: https://www.ekstraklasa.tv zarówno na telefonie jak i na komputerze.\n\n*Ze względu na ograniczenia wynikające z prawa podatkowego transmisje meczów są dostępne obecnie jedynie na terenie Unii Europejskiej (z wyłączeniem Polski).",
+        "images" : [ {
+          "height" : 100,
+          "orientation" : "LANDSCAPE",
+          "type" : "chromecast",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544/posters/368bd1b03fb754448c06946fecd7703b/368bd1b03fb754448c06946fecd7703b-31d963bca5f6f8308da387f3d54bd662-178x100.jpg",
+          "width" : 178
+        }, {
+          "height" : 1080,
+          "orientation" : "LANDSCAPE",
+          "type" : "poster",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544/posters/368bd1b03fb754448c06946fecd7703b/368bd1b03fb754448c06946fecd7703b.jpg",
+          "width" : 1920
+        } ],
+        "locale" : "pl",
+        "longDescription" : "",
+        "shortDescription" : "",
+        "sortingTitle" : "",
+        "title" : ""
+      }, {
+        "description" : "Great moments of football at PKO Bank Polski Ekstraklasa are one step away! You can purchase each match on the website: https://www.ekstraklasa.tv, both on your PC and mobile browsers. \n\n*Due to tax law restrictions, match broadcasts are currently available only in the European Union (excluding Poland).",
+        "images" : [ {
+          "height" : 100,
+          "orientation" : "LANDSCAPE",
+          "type" : "chromecast",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544/posters/a957767002a4f1bee12977f439b27432/a957767002a4f1bee12977f439b27432-f17a3b78650d2f45290bb97e45c70967-178x100.jpg",
+          "width" : 178
+        }, {
+          "height" : 1080,
+          "orientation" : "LANDSCAPE",
+          "type" : "poster",
+          "url" : "https://CF763C-az-westeurope.fsly.cdn.ebsd.ericsson.net/imagescaler002/ekstraklasa/ekstraklasatv/assets/8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544/posters/a957767002a4f1bee12977f439b27432/a957767002a4f1bee12977f439b27432.jpg",
+          "width" : 1920
+        } ],
+        "locale" : "en"
+      } ],
+      "parentalRatings" : [ ],
+      "participants" : [ ],
+      "productionCountries" : [ ],
+      "publications" : [ {
+        "countries" : [ "DE", "BE", "FI", "PT", "BG", "DK", "LT", "LU", "HR", "LV", "FR", "HU", "SE", "SI", "SK", "IE", "EE", "MT", "GR", "IT", "ES", "AT", "CY", "CZ", "RO", "NL" ],
+        "customData" : null,
+        "devices" : [ ],
+        "fromDate" : "2021-10-16T17:55:00Z",
+        "products" : [ "29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "all-access-product_FB3544" ],
+        "availabilityKeys" : [ "29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544_29423562-ff7c-43e9-ba44-f2636dafe6b6_FB3544", "all-access-product_FB3544", "8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544_all-access-product_FB3544" ],
+        "publicationDate" : "2021-10-04T17:55:00Z",
+        "publicationId" : "7ded8ad1-69d2-4189-bcae-c53447c37a90_FB3544",
+        "services" : [ ],
+        "toDate" : "2021-10-16T20:30:00Z"
+      }, {
+        "countries" : [ ],
+        "customData" : null,
+        "devices" : [ ],
+        "fromDate" : "2021-10-16T17:55:00Z",
+        "products" : [ "528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544" ],
+        "availabilityKeys" : [ "528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544", "8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544_528c46b2-1c92-4e32-9601-f4fd43be3e2c_FB3544" ],
+        "publicationDate" : "2021-10-04T17:55:00Z",
+        "publicationId" : "7b4986e2-9dc9-4459-a065-024dc24429a0_FB3544",
+        "services" : [ ],
+        "toDate" : "2021-10-16T20:30:00Z"
+      } ],
+      "spokenLanguages" : [ ],
+      "subtitles" : [ ],
+      "tags" : [ {
+        "tagValues" : [ {
+          "tagId" : "match_FB3544"
+        }, {
+          "tagId" : "rakow-czestochowa_CF763C"
+        }, {
+          "tagId" : "Slask-Wroclaw_CF763C"
+        } ],
+        "type" : "other"
+      } ],
+      "type" : "EVENT",
+      "slugs" : [ ],
+      "markerPoints" : [ ],
+      "event" : {
+        "startTime" : "2021-10-16T17:55:00Z",
+        "endTime" : "2021-10-16T20:30:00Z"
+      }
+    },
+    "assetId" : "8c71d6e9-daf5-43b3-8cef-18524771f555_FB3544",
+    "endTime" : "2021-10-16T20:30:00Z",
+    "startTime" : "2021-10-16T17:55:00Z"
+  } ],
+  "pageNumber" : 1,
+  "pageSize" : 5,
+  "totalCount" : 4
+}

@@ -1,11 +1,14 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
 import { deserialize } from "../decorators/property-mapper";
-import { AssetResponse, Asset, EpisodesResponse, AssetType } from "../models/asset-model";
+import { Asset, AssetType } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
 import { IBookmark } from "../interfaces/content/bookmark";
 import { SeasonResponse } from "../models/season-model";
 import { EpgResponse, OnNowResponse } from "../models/program-model";
+import { IEpisodesResponse } from "../interfaces/content/asset-response";
+import { IPaginatedResponse } from "../interfaces/content/paginated";
+import { IAssetResponse } from "../interfaces/content/asset-response";
 
 export interface PageinatedRequest {
   pageSize?: number;
@@ -88,7 +91,7 @@ export class ContentService extends BaseService {
     headers,
     assetType,
     onlyPublished = true
-  }: GetAssetsOptions) {
+  }: GetAssetsOptions): Promise<IAssetResponse> {
     const requestQuery = {
       query,
       sort,
@@ -106,10 +109,10 @@ export class ContentService extends BaseService {
         apiVersion: "v1"
       })}/content/asset?${querystring.stringify(requestQuery)}`,
       headers
-    ).then(data => deserialize(AssetResponse, data));
+    ).then(data => ({ ...data, items: data.items.map(asset => deserialize(Asset, asset)) }));
   }
 
-  public async getAllAssets({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public async getAllAssets({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<Asset[]> {
     const { totalCount, items, pageSize } = await this.getAssets({
       customer,
       businessUnit,
@@ -136,7 +139,7 @@ export class ContentService extends BaseService {
     pageNumber,
     sort,
     onlyPublished = true
-  }: GetCollectionEntriesOptions) {
+  }: GetCollectionEntriesOptions): Promise<IAssetResponse> {
     const requestQuery = {
       fieldSet: "ALL",
       pageSize,
@@ -151,7 +154,7 @@ export class ContentService extends BaseService {
         apiVersion: "v1"
       })}/content/asset/${assetId}/collectionentries?${querystring.stringify(requestQuery)}`,
       headers
-    ).then(data => deserialize(AssetResponse, data));
+    ).then(data => ({ ...data, items: data.items.map(asset => deserialize(Asset, asset)) }));
   }
 
   public getEpg({
@@ -224,7 +227,7 @@ export class ContentService extends BaseService {
     pageSize,
     pageNumber,
     date
-  }: GetLiveEventsOptions) {
+  }: GetLiveEventsOptions): Promise<{ items: Asset[] } & IPaginatedResponse> {
     const requestQuery = {
       daysBackward,
       daysForward,
@@ -240,19 +243,19 @@ export class ContentService extends BaseService {
         businessUnit,
         apiVersion: "v2"
       })}/event/date/${formattedDate}?${querystring.stringify(requestQuery)}`
-    ).then(data => {
-      const items = data.items.map(item => {
-        return {
+    ).then(({ items, pageSize, pageNumber, totalCount }) => {
+      const assetItems = items.map(item => {
+        return deserialize(Asset, {
           startTime: item.startTime,
           endTime: item.endTime,
           ...item.asset
-        };
+        });
       });
-      return deserialize(AssetResponse, { items });
+      return { items: assetItems, pageSize, pageNumber, totalCount };
     });
   }
 
-  public getRecentlyWatched({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getRecentlyWatched({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IAssetResponse> {
     const requestQuery = {
       pageSize: 24,
       fieldSet: "ALL"
@@ -265,10 +268,10 @@ export class ContentService extends BaseService {
         apiVersion: "v1"
       })}/userplayhistory/lastviewed?${querystring.stringify(requestQuery)}`,
       headers
-    ).then(data => deserialize(AssetResponse, data));
+    ).then(data => ({ ...data, items: data.items.map(asset => deserialize(Asset, asset)) }));
   }
 
-  public getContinueWatching({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getContinueWatching({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<{ items: Asset[] }> {
     const requestQuery = {
       limit: 10
     };
@@ -279,7 +282,7 @@ export class ContentService extends BaseService {
         apiVersion: "v1"
       })}/recommend/continue?${querystring.stringify(requestQuery)}`,
       this.options.authHeader()
-    ).then(data => deserialize(AssetResponse, data));
+    ).then(data => ({ ...data, items: data.items.map(asset => deserialize(Asset, asset)) }));
   }
 
   public getRecommendationsForAsset({
@@ -292,19 +295,19 @@ export class ContentService extends BaseService {
     ).then(response => ({ items: response.items.map(i => deserialize(Asset, i)) }));
   }
 
-  public getNextEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
-    return this.get(`${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/next`).then(
-      res => deserialize(Asset, res)
-    );
+  public getNextEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions): Promise<Asset> {
+    return this.get(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/next`
+    ).then(res => deserialize(Asset, res));
   }
 
-  public getPreviousEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions) {
+  public getPreviousEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions): Promise<Asset> {
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/previous`
     ).then(res => deserialize(Asset, res));
   }
 
-  public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions) {
+  public getRecommended({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<{ items: Asset[] }> {
     // TODO: better name?
     return this.get(
       `${this.cuBuUrl({
@@ -313,7 +316,7 @@ export class ContentService extends BaseService {
         apiVersion: "v1"
       })}/recommend/user`,
       this.options.authHeader()
-    ).then(data => deserialize(AssetResponse, data));
+    ).then(data => ({ items: data.items.map(i => deserialize(Asset, i)) }));
   }
 
   public getBookmarks({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IBookmark[]> {
@@ -341,7 +344,12 @@ export class ContentService extends BaseService {
     });
   }
 
-  public getEpisodesForSeason({ customer, businessUnit, assetId, seasonNumber }: GetEpisodesForSeasonOptions) {
+  public getEpisodesForSeason({
+    customer,
+    businessUnit,
+    assetId,
+    seasonNumber
+  }: GetEpisodesForSeasonOptions): Promise<IEpisodesResponse> {
     const requestQuery = {
       fieldSet: "ALL",
       onlyPublished: true
@@ -353,10 +361,8 @@ export class ContentService extends BaseService {
         apiVersion: "v1"
       })}/content/asset/${assetId}/season/${seasonNumber}/episode?` + querystring.stringify(requestQuery)
     ).then(data => {
-      const seriesResponse = deserialize(EpisodesResponse, data);
-      seriesResponse.seriesId = assetId;
-      seriesResponse.seasonNumber = seasonNumber;
-      return seriesResponse;
+      const items = data.items.map(asset => deserialize(Asset, asset));
+      return { items, ...data, seriesId: assetId, seasonNumber: seasonNumber };
     });
   }
 }

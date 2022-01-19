@@ -1,19 +1,11 @@
-import { mockPublications } from "../../test-utils/mockPublication";
+import { deserialize } from "..";
 import { Asset, AssetType } from "./asset-model";
-
-describe("Publication", () => {
-  it("is active or not active", () => {
-    expect(mockPublications[0].isActive()).toBe(true);
-    expect(mockPublications[1].isActive()).toBe(false);
-    expect(mockPublications[2].isActive()).toBe(false);
-  });
-});
 
 describe("Asset", () => {
   describe("getTitle", () => {
     let asset: Asset;
     beforeEach(() => {
-      asset = new Asset();
+      asset = deserialize(Asset, {});
       asset.localized = [
         {
           locale: "en",
