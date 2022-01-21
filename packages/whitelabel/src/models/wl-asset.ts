@@ -235,7 +235,7 @@ export class WLAsset implements IWLCarouselItem {
   };
 
   public requiredProducts = (): string[] => {
-    /* eslint-disable @typescript-eslint/ban-ts-ignore */
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
     /* eslint-disable prefer-spread */
     let publications = this.getActivePublications();
     if (this.inFuture()) {

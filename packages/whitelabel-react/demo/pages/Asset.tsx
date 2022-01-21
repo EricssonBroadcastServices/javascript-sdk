@@ -31,7 +31,7 @@ export const Asset = () => {
       <h4>{`Bookmark percentage: ${bookmarkPercentage}`}</h4>
       <Entitlements asset={asset} />
       {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker />}
-      <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data"/>
+      <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data" />
     </div>
   );
 };

@@ -5,7 +5,9 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { useWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 
-export function usePushNextContentData(assetId?: string): TApiHook<{ upNext: WLAsset | null, recommendations: WLAsset[] | null }> {
+export function usePushNextContentData(
+  assetId?: string
+): TApiHook<{ upNext: WLAsset | null; recommendations: WLAsset[] | null }> {
   const { customer, businessUnit } = useRedBeeState();
   const locale = useSelectedLanguage();
   const [pushNextContent, setPushNextContent] = useState<{ upNext: WLAsset | null; recommendations: WLAsset[] } | null>(
@@ -17,13 +19,17 @@ export function usePushNextContentData(assetId?: string): TApiHook<{ upNext: WLA
     if (assetId) {
       wlApi
         .getPushNextContent({ customer, businessUnit, assetId, locale: locale as string })
-        .then((pnc) => {
+        .then(pnc => {
           setPushNextContent(pnc);
         })
-        .catch((err) => {
-          setError(err)
+        .catch(err => {
+          setError(err);
         });
     }
   }, [assetId, customer, businessUnit, locale]);
-  return [{ upNext: pushNextContent?.upNext || null, recommendations: pushNextContent?.recommendations || null }, false, error];
+  return [
+    { upNext: pushNextContent?.upNext || null, recommendations: pushNextContent?.recommendations || null },
+    false,
+    error
+  ];
 }

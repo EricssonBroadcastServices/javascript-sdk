@@ -63,9 +63,7 @@ export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => voi
   return [remove, loading, error];
 }
 
-export function useHandleAssetFavorites(
-  assetId: string
-): TApiHook<{
+export function useHandleAssetFavorites(assetId: string): TApiHook<{
   isInList: boolean;
   add: (() => void) | null;
   remove: (() => void) | null;

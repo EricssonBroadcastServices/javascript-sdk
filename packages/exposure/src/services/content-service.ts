@@ -296,9 +296,9 @@ export class ContentService extends BaseService {
   }
 
   public getNextEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions): Promise<Asset> {
-    return this.get(
-      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/next`
-    ).then(res => deserialize(Asset, res));
+    return this.get(`${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/content/asset/${assetId}/next`).then(
+      res => deserialize(Asset, res)
+    );
   }
 
   public getPreviousEpisode({ customer, businessUnit, assetId }: GetAssetByIdOptions): Promise<Asset> {
