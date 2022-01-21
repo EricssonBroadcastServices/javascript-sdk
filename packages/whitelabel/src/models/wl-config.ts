@@ -48,10 +48,11 @@ export class WLAction implements IWLAction {
   public assetId?: string;
   @jsonProperty()
   public page?: WLReference;
-  @jsonProperty()
+  @jsonProperty({ type: String })
   public slugs?: string[];
   public getLink = () => {
-    const assetIdentifier = this.slugs ? this.slugs[0] : this.assetId;
+    const assetIdentifier =
+      this.slugs && Array.isArray(this.slugs) && this.slugs.length > 0 ? this.slugs[0] : this.assetId;
     switch (this.type) {
       case WLActionType.ExternalLink:
         return this.url;
