@@ -54,6 +54,7 @@ async function getValidatedPersistedSession({
           headers: { Authorization: `Bearer ${session.sessionToken}` }
         });
       } catch (err) {
+        storage?.removeItem(StorageKey.SESSION);
         console.error(err);
         session = null;
       }
