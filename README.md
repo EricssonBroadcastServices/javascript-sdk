@@ -4,6 +4,7 @@
 1. `npm install`, this will install all dependencies and link together all packages in this repo
 3. `npm run build` to build once and `npm run watch` to rebuild on changes
 4. `npm install <path-to-this-repo>/packages/<package-to-work-with>` run this from any project using these packages.
+5. `npm run demo` to run the demo appliction in the whitelabel-react package
 
 ## Release packages
 
@@ -21,4 +22,6 @@ you to select a version bump type, please follow the semver standard.
 - [WhiteLabel Webapp](https://github.com/EricssonBroadcastServices/WhiteLabelInternalApi)
 - [WhiteLabel SmartTV app](https://github.com/EricssonBroadcastServices/white-label-tv)
 - [WhiteLabel API](https://github.com/EricssonBroadcastServices/WhiteLabelInternalApi)
+- [WhiteLabel Native TV](https://github.com/EricssonBroadcastServices/white-label-native-tv)
+- [javascript-player](https://github.com/EricssonBroadcastServices/javascript-player)
 
