@@ -161,7 +161,7 @@ export class Asset extends WithLocalized {
   public parentalRatings: ParentalRating[];
   @jsonProperty({ type: String })
   public channelFeatures?: ChannelFeature[];
-  @jsonProperty()
+  @jsonProperty({ type: Object })
   public overlayWidgets?: IOverlayWidget[];
   @jsonProperty({ type: String })
   public slugs: string[] = [];
