@@ -64,6 +64,7 @@ function AppProvider() {
       device={device}
       deviceGroup={DeviceGroup.TV}
       autoFetchConfig
+      onSessionValidationError={err => console.log(err, "sessionValidationError")}
     >
       <App />
     </RedBeeProvider>
