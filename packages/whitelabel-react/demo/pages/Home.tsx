@@ -6,7 +6,8 @@ import {
   useRedBeeState,
   useTranslations,
   useUserDetails,
-  useUserSession
+  useUserSession,
+  useValidateSession
 } from "../../src";
 import { JsonBox } from "../components/JsonBox";
 
@@ -18,8 +19,10 @@ export const Home = () => {
   const [userDetails] = useUserDetails();
   const [session] = useUserSession();
   const [bookmarks] = useBookmarks();
+  const validateSession = useValidateSession();
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
+      <button onClick={() => validateSession()}>Validate session</button>
       <JsonBox title={"Translations"} json={JSON.stringify(traslations, null, 2)}></JsonBox>
       <JsonBox title={"Config"} json={JSON.stringify(config, null, 2)}></JsonBox>
       <JsonBox title={"Loading state"} json={JSON.stringify(state.loading, null, 2)}></JsonBox>
