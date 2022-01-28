@@ -46,10 +46,15 @@ export function useValidateSession() {
   const [currentSession] = useUserSession();
   const exposureApi = useExposureApi();
   const setSession = useSetSession();
+  const { storage } = useRedBeeState();
   return useCallback(() => {
     if (currentSession?.sessionToken) {
-      return exposureApi.authentication.validateSession({}).catch(() => {
-        setSession(null);
+      return exposureApi.authentication.validateSession({}).catch(err => {
+        if ((err as any)?.httpCode === 401) {
+          storage?.removeItem(StorageKey.SESSION);
+          setSession(null);
+        }
+        throw err;
       });
     }
     return Promise.resolve();

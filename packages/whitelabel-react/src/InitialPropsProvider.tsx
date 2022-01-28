@@ -16,6 +16,7 @@ interface IInitialPropsProvider {
   children?: React.ReactNode;
   internalApiUrl: string;
   deviceGroup: DeviceGroup;
+  onSessionValidationError?: (err: unknown) => void;
 }
 
 async function getValidatedPersistedSession({
@@ -56,9 +57,10 @@ async function getValidatedPersistedSession({
       } catch (err) {
         if ((err as any)?.httpCode === 401) {
           storage?.removeItem(StorageKey.SESSION);
+          session = null;
+        } else {
+          throw err;
         }
-        console.error(err);
-        session = null;
       }
     }
   }
@@ -66,8 +68,7 @@ async function getValidatedPersistedSession({
     try {
       session = await tempExposureApi.authentication.loginAnonymous({ customer, businessUnit, device });
     } catch (err) {
-      console.error(err);
-      session = null;
+      throw err;
     }
   }
   return session;
@@ -81,13 +82,20 @@ export function InitialPropsProvider({
   exposureBaseUrl,
   device,
   internalApiUrl,
-  deviceGroup
+  deviceGroup,
+  onSessionValidationError
 }: IInitialPropsProvider) {
   const [state, setState] = useState<IRedBeeState | null>(null);
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      const session = await getValidatedPersistedSession({ storage, customer, businessUnit, exposureBaseUrl, device });
+      let session: LoginResponse | null = null;
+      try {
+        session = await getValidatedPersistedSession({ storage, customer, businessUnit, exposureBaseUrl, device });
+      } catch (err) {
+        onSessionValidationError?.(err);
+        session = null;
+      }
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
       const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
       const exposureApi = new ExposureApi({
