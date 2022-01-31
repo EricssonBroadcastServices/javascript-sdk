@@ -3,6 +3,7 @@ import { StorageKey } from "../util/storageKeys";
 import { useSetSession, useUserSession } from "./useUserSession";
 import { useExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
+import { deserialize, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 
 export function useLogin() {
   const exposureApi = useExposureApi();
@@ -47,16 +48,36 @@ export function useValidateSession() {
   const exposureApi = useExposureApi();
   const setSession = useSetSession();
   const { storage } = useRedBeeState();
-  return useCallback(() => {
-    if (currentSession?.sessionToken) {
-      return exposureApi.authentication.validateSession({}).catch(err => {
-        if ((err as any)?.httpCode === 401) {
-          storage?.removeItem(StorageKey.SESSION);
-          setSession(null);
+  return useCallback(
+    /**
+     * @param {boolean} [fromStorage] - If the session from storage shuld be validated, as opposed to the session in the application state.
+     * They would be different in case on a non 401 response on the initial session validation
+     */
+    async (fromStorage?: boolean) => {
+      let session = currentSession;
+      if (fromStorage) {
+        try {
+          const storedSession = await storage?.getItem(StorageKey.SESSION);
+          if (storedSession) {
+            session = deserialize(LoginResponse, JSON.parse(storedSession));
+          }
+        } catch (err) {
+          console.error(err);
         }
-        throw err;
-      });
-    }
-    return Promise.resolve();
-  }, [currentSession?.sessionToken, exposureApi, setSession]);
+      }
+      if (session?.sessionToken) {
+        return exposureApi.authentication
+          .validateSession({ headers: { Authorization: `Bearer ${session.sessionToken}` } })
+          .catch(err => {
+            if ((err as any)?.httpCode === 401) {
+              storage?.removeItem(StorageKey.SESSION);
+              setSession(null);
+            }
+            throw err;
+          });
+      }
+      return Promise.resolve();
+    },
+    [currentSession?.sessionToken, exposureApi, setSession]
+  );
 }
