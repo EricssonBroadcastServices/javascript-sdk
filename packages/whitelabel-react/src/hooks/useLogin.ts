@@ -68,6 +68,11 @@ export function useValidateSession() {
       if (session?.sessionToken) {
         return exposureApi.authentication
           .validateSession({ headers: { Authorization: `Bearer ${session.sessionToken}` } })
+          .then(() => {
+            if (session?.sessionToken !== currentSession?.sessionToken) {
+              setSession(session);
+            }
+          })
           .catch(err => {
             if ((err as any)?.httpCode === 401) {
               storage?.removeItem(StorageKey.SESSION);
