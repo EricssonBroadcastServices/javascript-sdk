@@ -3,6 +3,7 @@ import { DeviceGroup, WhiteLabelService } from "@ericssonbroadcastservices/white
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
+import { ErrorCode } from "./util/error";
 import { StorageKey } from "./util/storageKeys";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
@@ -31,8 +32,9 @@ async function getValidatedPersistedSession({
   storage?: IStorage;
   exposureBaseUrl: string;
   device: IDeviceInfo;
-}) {
+}): Promise<[LoginResponse | null, unknown]> {
   let session: LoginResponse | null = null;
+  let error: unknown = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
   const tempExposureApi = new ExposureApi({
     customer,
@@ -55,12 +57,11 @@ async function getValidatedPersistedSession({
           headers: { Authorization: `Bearer ${session.sessionToken}` }
         });
       } catch (err) {
-        if ((err as any)?.httpCode === 401) {
-          storage?.removeItem(StorageKey.SESSION);
-          session = null;
-        } else {
-          throw err;
+        storage?.removeItem(StorageKey.SESSION);
+        if ((err as any)?.httpCode !== 401) {
+          error = { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
         }
+        session = null;
       }
     }
   }
@@ -71,7 +72,7 @@ async function getValidatedPersistedSession({
       throw err;
     }
   }
-  return session;
+  return [session, error];
 }
 
 export function InitialPropsProvider({
@@ -91,9 +92,18 @@ export function InitialPropsProvider({
     async function initStorage() {
       let session: LoginResponse | null = null;
       try {
-        session = await getValidatedPersistedSession({ storage, customer, businessUnit, exposureBaseUrl, device });
+        const [validatedSession, validationError] = await getValidatedPersistedSession({
+          storage,
+          customer,
+          businessUnit,
+          exposureBaseUrl,
+          device
+        });
+        session = validatedSession;
+        if (validationError) {
+          onSessionValidationError?.(validationError);
+        }
       } catch (err) {
-        onSessionValidationError?.(err);
         session = null;
       }
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);

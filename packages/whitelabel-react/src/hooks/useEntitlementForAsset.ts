@@ -37,7 +37,7 @@ export function useEntitlementForAsset(
   { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlement
 ): TApiHook<IEntitlementStatusResult> {
   const [availableProductOfferings, offeringsLoading] = useProductOfferings();
-  const { customer, businessUnit, storage } = useRedBeeState();
+  const { customer, businessUnit } = useRedBeeState();
   const [session] = useUserSession();
   const wlApi = useWLApi();
   const [result, setResult] = useState<IEntitlementStatusResult>(defaultEntitlementStatus);
@@ -61,9 +61,6 @@ export function useEntitlementForAsset(
           ) {
             // if we for any reason are calling the entitle endpoint with an invalid session, we should remove it.
             setSession(null);
-            if (storage) {
-              storage?.removeItem(StorageKey.SESSION);
-            }
           }
           let startTime = result.startTime;
           if (startTime && confirmEntitlementOnStart) {
