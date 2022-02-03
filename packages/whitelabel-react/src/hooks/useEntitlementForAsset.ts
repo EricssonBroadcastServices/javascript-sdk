@@ -8,7 +8,6 @@ import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSetSession, useUserSession } from "./useUserSession";
-import { StorageKey } from "../util/storageKeys";
 
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
