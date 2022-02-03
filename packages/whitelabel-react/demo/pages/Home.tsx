@@ -22,7 +22,7 @@ export const Home = () => {
   const validateSession = useValidateSession();
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <button onClick={() => validateSession(true).catch(err => console.log("Oh no!", err))}>Validate session</button>
+      <button onClick={() => validateSession().catch(err => console.log("Oh no!", err))}>Validate session</button>
       <JsonBox title={"Translations"} json={JSON.stringify(traslations, null, 2)}></JsonBox>
       <JsonBox title={"Config"} json={JSON.stringify(config, null, 2)}></JsonBox>
       <JsonBox title={"Loading state"} json={JSON.stringify(state.loading, null, 2)}></JsonBox>
