@@ -35,19 +35,12 @@ export function useValidateSession() {
   const setSession = useSetSession();
   return useCallback(async () => {
     if (session?.sessionToken) {
-      return exposureApi.authentication
-        .validateSession({ headers: { Authorization: `Bearer ${session.sessionToken}` } })
-        .then(() => {
-          if (session?.sessionToken) {
-            setSession(session);
-          }
-        })
-        .catch(err => {
-          setSession(null);
-          if ((err as any)?.httpCode !== 401) {
-            throw { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
-          }
-        });
+      return exposureApi.authentication.validateSession({}).catch(err => {
+        setSession(null);
+        if ((err as any)?.httpCode !== 401) {
+          throw { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
+        }
+      });
     }
     return Promise.resolve();
   }, [session?.sessionToken, exposureApi, setSession]);
