@@ -1,8 +1,11 @@
-import { jsonProperty } from "../decorators/json-property";
 import { Asset } from "./asset-model";
 import { WithLocalized } from "./localized-model";
+import { ILocalizedMetadata } from "../interfaces/content/localized-metadata";
+import { jsonProperty } from "../decorators/json-property";
 
 export class Season extends WithLocalized {
+  @jsonProperty({ type: Object })
+  public localized: ILocalizedMetadata[] = [];
   @jsonProperty()
   public season: number;
   @jsonProperty()

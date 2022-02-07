@@ -1,8 +1,12 @@
-import { jsonProperty } from "../decorators/json-property";
+import { ILocalizedMetadata } from "../interfaces/content/localized-metadata";
 import { IAssetTagCollection } from "../interfaces/content/asset-tag";
 import { IUserLocation } from "../interfaces/location/user-location";
 import { Season } from "./season-model";
+import { publicationUtils } from "../utils/publication";
+import { IPublication } from "../interfaces/content/publication";
+import { localizedUtils } from "../utils/localized";
 import { WithLocalized } from "./localized-model";
+import { jsonProperty } from "../decorators/json-property";
 
 export enum mediumResBoundaries {
   lower = 500,
@@ -24,32 +28,6 @@ export enum ChannelFeature {
 interface IMedias {
   durationMillis: number;
 }
-
-export class Publication {
-  @jsonProperty({ type: Date })
-  public fromDate: Date;
-  @jsonProperty({ type: Date })
-  public toDate: Date;
-  @jsonProperty({ type: String })
-  public countries: string[] = [];
-  @jsonProperty({ type: String })
-  public products: string[] = [];
-  @jsonProperty({ type: String })
-  public availabilityKeys: string[];
-
-  public isExpired() {
-    return this.toDate.getTime() < Date.now();
-  }
-
-  public isInFuture() {
-    return this.fromDate.getTime() > Date.now();
-  }
-
-  public isActive() {
-    return !this.isInFuture() && !this.isExpired();
-  }
-}
-
 export interface ExternalReferences {
   type: string;
   locator: string;
@@ -118,11 +96,9 @@ export enum MarkerType {
   CHAPTER = "CHAPTER"
 }
 
-class EventTimes {
-  @jsonProperty()
-  public startTime: Date;
-  @jsonProperty()
-  public endTime: Date;
+interface IEventTimes {
+  startTime: string;
+  endTime: string;
 }
 
 export class MarkerPoint extends WithLocalized {
@@ -132,6 +108,8 @@ export class MarkerPoint extends WithLocalized {
   public endOffset?: number;
   @jsonProperty()
   public type: MarkerType;
+  @jsonProperty({ type: Object })
+  public localized: ILocalizedMetadata[] = [];
 }
 
 export class Asset extends WithLocalized {
@@ -151,8 +129,8 @@ export class Asset extends WithLocalized {
     type: Object
   })
   public tags: IAssetTagCollection[] = [];
-  @jsonProperty({ type: Publication })
-  public publications: Publication[] = [];
+  @jsonProperty({ type: Object })
+  public publications: IPublication[] = [];
   @jsonProperty()
   public startTime: string;
   @jsonProperty()
@@ -183,20 +161,22 @@ export class Asset extends WithLocalized {
   public parentalRatings: ParentalRating[];
   @jsonProperty({ type: String })
   public channelFeatures?: ChannelFeature[];
-  @jsonProperty()
+  @jsonProperty({ type: Object })
   public overlayWidgets?: IOverlayWidget[];
   @jsonProperty({ type: String })
   public slugs: string[] = [];
   @jsonProperty({ type: MarkerPoint })
   public markerPoints: MarkerPoint[] = [];
   @jsonProperty()
-  public event?: EventTimes;
+  public event?: IEventTimes;
+  @jsonProperty({ type: Object })
+  public localized: ILocalizedMetadata[] = [];
 
   public series = () => {
-    return this.tags.find(t => t.type === "series");
+    return this.tags.some(t => t.type === "series");
   };
 
-  public isLive = () => {
+  public isLive = (): boolean => {
     if (this.startTime && this.endTime) {
       const now = new Date();
       const startTime = new Date(this.startTime);
@@ -207,11 +187,12 @@ export class Asset extends WithLocalized {
     }
     return false;
   };
+
+  /**
+   * @deprecated see publicationUtils.allInFuture
+   */
   public inFuture = () => {
-    if (this.publications.length === 0) {
-      return false;
-    }
-    return this.publications.filter(p => !p.isExpired()).every(p => p.isInFuture());
+    return publicationUtils.allInFuture(this.publications);
   };
 
   public getStartTime = () => {
@@ -221,76 +202,36 @@ export class Asset extends WithLocalized {
 
     if (this.event?.startTime) return this.event.startTime;
 
-    const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
+    const publicationsSortedAscending = this.publications.sort(publicationUtils.sortPublicationsAscending);
     // if we the asset will be published in the future, take the start time from next upcoming publication
     if (this.inFuture()) {
-      const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
+      const futurePublications = publicationsSortedAscending.filter(p => publicationUtils.inFuture(p));
       if (futurePublications.length) return futurePublications[0].fromDate;
     }
     // if we have active publications, the start time has already been
-    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    const activePublications = publicationsSortedAscending.filter(p => publicationUtils.isActive(p));
     if (activePublications.length) {
       return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
     }
     return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
   };
 
-  public getYear = () => {
-    return this.productionYear;
-  };
-
+  /**
+   * @deprecated see publicationUtils.isGeoBlocked
+   */
   public isGeoBlocked = (location: IUserLocation | null) => {
-    if (!location) {
-      return false; // if we do not know, let the backend handle things
-    }
-    let isBlocked = false;
-    this.publications.forEach(publication => {
-      if (publication.countries.length > 0) {
-        if (!publication.countries.includes(location.countryCode)) {
-          isBlocked = true;
-        }
-      }
-    });
-    return isBlocked;
-  };
-
-  public playlistEntry = (locale: string) => {
-    return {
-      src: this.assetId,
-      type: "video/emp",
-      title: this.getTitle(locale)
-    };
+    return publicationUtils.isGeoBlocked(this.publications, location);
   };
 
   public getTitle = (locale: string, defaultLocale?: string, enrichEpisodeTitles = true) => {
     if (this.episode && this.season && enrichEpisodeTitles) {
-      return `S${this.season}E${this.episode} ` + this.getLocalizedValue("title", locale, defaultLocale);
+      return (`S${this.season}E${this.episode} ` +
+        localizedUtils.getLocalizedValue(this.localized, "title", locale, defaultLocale)) as string;
     }
-    return this.getLocalizedValue("title", locale, defaultLocale);
+    return localizedUtils.getLocalizedValue(this.localized, "title", locale, defaultLocale) as string;
   };
 
   public getSortingTitle = (locale: string, defaultLocale?: string) => {
-    return this.getLocalizedValue("sortingTitle", locale, defaultLocale);
+    return localizedUtils.getLocalizedValue(this.localized, "sortingTitle", locale, defaultLocale) as string;
   };
-}
-
-export class AssetResponse {
-  @jsonProperty()
-  public pageSize: number;
-  @jsonProperty()
-  public pageNumber: number;
-  @jsonProperty()
-  public totalCount: number;
-  @jsonProperty({
-    type: Asset
-  })
-  public items: Asset[] = [];
-  public numberOfPages = () => {
-    return Math.ceil(this.totalCount / this.pageSize);
-  };
-}
-
-export class EpisodesResponse extends AssetResponse {
-  public seriesId: string;
-  public seasonNumber: number;
 }

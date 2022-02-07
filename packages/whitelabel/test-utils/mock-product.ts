@@ -6,12 +6,12 @@ export const mockProduct: IProduct = {
   id: "mockProductId",
   name: "MockProduct",
   anonymousAllowed: false
-}
+};
 
 export const mockProductResponse: IProductResponse = {
   entitled: [mockProduct],
   notEntitled: []
-}
+};
 
 export const mockProductBlocked: IProduct = {
   blocked: true,
@@ -19,7 +19,7 @@ export const mockProductBlocked: IProduct = {
   id: "blockedProduct",
   name: "blocked",
   anonymousAllowed: false
-}
+};
 
 export const mockProductAnonymous: IProduct = {
   blocked: false,
@@ -27,5 +27,4 @@ export const mockProductAnonymous: IProduct = {
   id: "mockProductAnonymous",
   name: "mockProductAnonymous",
   anonymousAllowed: true
-}
-
+};

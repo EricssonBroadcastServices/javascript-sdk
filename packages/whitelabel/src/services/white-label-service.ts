@@ -66,9 +66,9 @@ export class WhiteLabelService extends BaseService {
       deviceGroup: this.deviceGroup,
       countryCode
     });
-    return this.get(
-      `/api/internal/customer/${customer}/businessunit/${businessUnit}/config?${queryString}`
-    ).then(data => deserialize(WLConfig, data));
+    return this.get(`/api/internal/customer/${customer}/businessunit/${businessUnit}/config?${queryString}`).then(
+      data => deserialize(WLConfig, data)
+    );
   }
 
   public getTagList({

@@ -137,6 +137,11 @@ interface IRedBeeProvider {
   device: IDeviceInfo;
   autoFetchConfig?: boolean;
   http: IHttpOptions;
+  /** Listen for any errors when initially verifying the session.
+   * Should session validation fail for any unknown reason, for example network error, the apps should retry validation.
+   * When this is triggered, the current session will not have been cleared from storage, but it will also not be passed to the RedBee state
+   */
+  onSessionValidationError?: (err: unknown) => void;
 }
 
 function RedBeeStateHolder({
@@ -167,7 +172,8 @@ export function RedBeeProvider({
   exposureBaseUrl,
   children,
   autoFetchConfig,
-  http
+  http,
+  onSessionValidationError
 }: IRedBeeProvider) {
   if (!customer || !businessUnit) {
     throw "customer and businessUnit are required";
@@ -188,6 +194,7 @@ export function RedBeeProvider({
       internalApiUrl={internalApiUrl}
       exposureBaseUrl={exposureBaseUrl}
       http={http}
+      onSessionValidationError={onSessionValidationError}
     >
       <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>
     </InitialPropsProvider>

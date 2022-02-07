@@ -22,3 +22,4 @@ export type { IStorage } from "./types/storage";
 export { usePage, useResolvedPage, PageType } from "./hooks/usePage";
 export type { TWLComponent, IResolvedComponent } from "./hooks/usePage";
 export { usePushNextContentData } from "./hooks/usePushNextContentData";
+export { ErrorCode } from "./util/error";

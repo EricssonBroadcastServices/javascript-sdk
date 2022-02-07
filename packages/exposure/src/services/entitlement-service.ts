@@ -1,7 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { deserialize } from "../decorators/property-mapper";
 import { IProductResponse, IAvailabilityKeysResponse } from "../interfaces/entitlement/product";
-import { Play } from "../models/play-model";
+import { IPlay } from "../interfaces/entitlement/play";
 import { IEntitlementError, IEntitlementResponse } from "../interfaces/entitlement/entitlement";
 
 interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
@@ -105,7 +104,7 @@ export class EntitlementService extends BaseService {
     maxResolution,
     supportedFormats,
     supportedDrms
-  }: PlayAssetOptions) {
+  }: PlayAssetOptions): Promise<IPlay> {
     const queryParameters = new URLSearchParams(adParameters as Record<string, string>);
     if (audioOnly) {
       queryParameters.append("audioOnly", "true");
@@ -132,6 +131,6 @@ export class EntitlementService extends BaseService {
         ...this.options.authHeader(),
         ...headers
       }
-    ).then(data => deserialize(Play, data));
+    );
   }
 }

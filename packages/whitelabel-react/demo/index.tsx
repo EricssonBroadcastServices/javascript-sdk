@@ -37,7 +37,7 @@ export const redaxiosErrorMapper: TErrorMapper = err => {
 };
 
 const axiosClient = { client: axios, errorMapper: axiosErrorMapper };
-const redaxiosClient = { client: redaxios, errorMapper: redaxiosErrorMapper }
+const redaxiosClient = { client: redaxios, errorMapper: redaxiosErrorMapper };
 
 const device: IDeviceInfo = {
   deviceId: "123",
@@ -91,6 +91,7 @@ function AppProvider() {
       deviceGroup={DeviceGroup.TV}
       autoFetchConfig
       http={redaxiosClient}
+      onSessionValidationError={err => console.log(err, "sessionValidationError")}
     >
       <App />
     </RedBeeProvider>

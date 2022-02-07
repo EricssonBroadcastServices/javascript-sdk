@@ -1,4 +1,4 @@
-import { Publication, LoginResponse, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
+import { LoginResponse, deserialize } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { mockProduct, mockProductAnonymous } from "../../test-utils/mock-product";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
@@ -6,7 +6,7 @@ import { mockProductOffering, mockProductOfferingGenerator } from "../../test-ut
 import { mockTranslations } from "../../test-utils/mock-translations";
 import {
   freeProduct,
-  mockPublications,
+  publicationsJson,
   product1,
   mockMultiplePublicationWindows
 } from "@ericssonbroadcastservices/exposure-sdk/test-utils/mockPublication";
@@ -15,7 +15,7 @@ import {
 describe("wl asset", () => {
   describe("entitlement", () => {
     const asset = new WLAsset();
-    asset.publications = mockPublications;
+    asset.publications = publicationsJson;
     it("should be entitled", () => {
       jest.spyOn(asset, "inFuture").mockReturnValue(false);
       expect(asset.getIsEntitled([product1, "4"])).toBe(true);
@@ -124,13 +124,14 @@ describe("wl asset", () => {
     beforeEach(() => {
       asset = new WLAsset();
       asset.publications = [
-        deserialize(Publication, {
+        {
           products: ["1", mockProduct.id],
           availabilityKeys: ["1"],
-          fromDate: new Date(Date.now() - 60 * 60000),
-          toDate: new Date(Date.now() + 60 * 60000),
-          countries: []
-        })
+          fromDate: new Date(Date.now() - 60 * 60000).toString(),
+          toDate: new Date(Date.now() + 60 * 60000).toString(),
+          countries: [],
+          publicationId: ""
+        }
       ];
       mockLogin = new LoginResponse();
     });
@@ -162,7 +163,7 @@ describe("wl asset", () => {
     it("should return IN_FUTIRE", () => {
       jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(true);
       jest.spyOn(mockLogin, "hasSession").mockReturnValue(true);
-      asset.publications[0].fromDate = new Date(Date.now() + 60000);
+      asset.publications[0].fromDate = new Date(Date.now() + 60000).toUTCString();
       expect(
         asset.getEntitlementCase({
           availabilityKeys: ["1"],
@@ -176,7 +177,7 @@ describe("wl asset", () => {
     it("should return IN_FUTIRE_NEED_PURCHASE", () => {
       jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(true);
       jest.spyOn(mockLogin, "hasSession").mockReturnValue(true);
-      asset.publications[0].fromDate = new Date(Date.now() + 60000);
+      asset.publications[0].fromDate = new Date(Date.now() + 60000).toUTCString();
       expect(
         asset.getEntitlementCase({
           availabilityKeys: [],
@@ -190,15 +191,14 @@ describe("wl asset", () => {
     it("should return IS_ENTITLED_ANON", () => {
       jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(false);
       jest.spyOn(mockLogin, "hasSession").mockReturnValue(false);
-      asset.publications.push(
-        deserialize(Publication, {
-          fromDate: new Date(Date.now() - 60 * 60000),
-          toDate: new Date(Date.now() + 60 * 60000),
-          countries: [],
-          products: [mockProductAnonymous.id],
-          availabilityKeys: [mockProductAnonymous.id]
-        })
-      );
+      asset.publications.push({
+        fromDate: new Date(Date.now() - 60 * 60000).toString(),
+        toDate: new Date(Date.now() + 60 * 60000).toString(),
+        countries: [],
+        products: [mockProductAnonymous.id],
+        availabilityKeys: [mockProductAnonymous.id],
+        publicationId: ""
+      });
       expect(
         asset.getEntitlementCase({
           availabilityKeys: [],
@@ -239,13 +239,14 @@ describe("wl asset", () => {
       jest.spyOn(mockLogin, "hasSession").mockReturnValue(false);
       jest.spyOn(mockLogin, "isLoggedIn").mockReturnValue(false);
       asset.publications = [
-        deserialize(Publication, {
-          fromDate: new Date(Date.now() + 30 * 60000),
-          toDate: new Date(Date.now() + 60 * 60000),
+        {
+          fromDate: new Date(Date.now() + 30 * 60000).toString(),
+          toDate: new Date(Date.now() + 60 * 60000).toString(),
           countries: [],
           products: [mockProductAnonymous.id],
-          availabilityKeys: [mockProductAnonymous.id]
-        })
+          availabilityKeys: [mockProductAnonymous.id],
+          publicationId: ""
+        }
       ];
       expect(
         asset.getEntitlementCase({
@@ -271,7 +272,7 @@ describe("wl asset", () => {
     const asset = new WLAsset();
     asset.publications = mockMultiplePublicationWindows;
     it("should have start time according to its next upcoming publication", () => {
-      expect(asset.getStartTime()).toEqual(asset.getNextPublications()[0].fromDate);
+      expect(asset.getStartTime()).toEqual(new Date(asset.getNextPublications()[0].fromDate));
     });
     it("should have a sub set as next window", () => {
       const total = asset.publications.length;

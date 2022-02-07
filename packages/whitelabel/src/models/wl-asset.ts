@@ -14,7 +14,7 @@ import { getDayLocalized } from "../utils/date";
 import {
   jsonProperty,
   AssetType,
-  Publication,
+  IPublication,
   ImageType,
   ExternalReferences,
   Product,
@@ -22,7 +22,8 @@ import {
   LoginResponse,
   MarkerType,
   ProductOffering,
-  IImage
+  IImage,
+  publicationUtils
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
@@ -86,8 +87,8 @@ export class WLAsset implements IWLCarouselItem {
   public description: string;
   @jsonProperty({ type: Object })
   public images: IImage[];
-  @jsonProperty({ type: Publication })
-  public publications: Publication[] = [];
+  @jsonProperty({ type: Object })
+  public publications: IPublication[] = [];
   @jsonProperty({ type: Object })
   public externalReferences: ExternalReferences[] = [];
   @jsonProperty()
@@ -152,7 +153,7 @@ export class WLAsset implements IWLCarouselItem {
   }
 
   public getActivePublications() {
-    return this.publications.filter(p => p.isActive());
+    return publicationUtils.getActivePublications(this.publications);
   }
 
   public isLive = () => {
@@ -168,10 +169,7 @@ export class WLAsset implements IWLCarouselItem {
   };
 
   public inFuture = () => {
-    if (this.publications.length === 0) {
-      return false;
-    }
-    return this.publications.filter(p => !p.isExpired()).every(p => p.isInFuture());
+    return publicationUtils.allInFuture(this.publications);
   };
 
   public getIsEntitled = (availabilityKeys: string[]) => {
@@ -237,7 +235,7 @@ export class WLAsset implements IWLCarouselItem {
   };
 
   public requiredProducts = (): string[] => {
-    /* eslint-disable @typescript-eslint/ban-ts-ignore */
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
     /* eslint-disable prefer-spread */
     let publications = this.getActivePublications();
     if (this.inFuture()) {
@@ -251,17 +249,7 @@ export class WLAsset implements IWLCarouselItem {
   };
 
   public getAvailabilityKeys = (): string[] => {
-    /* eslint-disable @typescript-eslint/ban-ts-ignore */
-    /* eslint-disable prefer-spread */
-    let publications = this.getActivePublications();
-    if (this.inFuture()) {
-      publications = this.publications.filter(p => p.isInFuture());
-    }
-    return [].concat.apply(
-      [],
-      // @ts-ignore
-      publications.map(pub => pub.availabilityKeys)
-    );
+    return publicationUtils.getAvailabilityKeys(this.publications);
   };
 
   public getHasProperProduct = (userAvailabilityKeys: string[]) => {
@@ -302,37 +290,26 @@ export class WLAsset implements IWLCarouselItem {
     return null;
   };
 
-  public getStartTime = () => {
+  public getStartTime = (): Date | null => {
     if (this.publications.length === 0 && !this.startTime) {
-      return undefined;
+      return null;
     }
-    const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
+    const publicationsSortedAscending = this.publications.sort(publicationUtils.sortPublicationsAscending);
     // if we the asset will be published in the future, take the start time from next upcoming publication
     if (this.inFuture()) {
-      const futurePublications = publicationsSortedAscending.filter(p => p.isInFuture());
-      if (futurePublications.length) return futurePublications[0].fromDate;
+      const futurePublications = publicationsSortedAscending.filter(p => publicationUtils.inFuture(p));
+      if (futurePublications.length) return new Date(futurePublications[0].fromDate);
     }
     // if we have active publications, the start time has already been
-    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
+    const activePublications = publicationUtils.getActivePublications(publicationsSortedAscending);
     if (activePublications.length) {
-      return this.startTime ? new Date(this.startTime) : activePublications[0].fromDate;
+      return this.startTime ? new Date(this.startTime) : new Date(activePublications[0].fromDate);
     }
-    return this.startTime ? new Date(this.startTime) : publicationsSortedAscending[0].fromDate;
+    return this.startTime ? new Date(this.startTime) : new Date(publicationsSortedAscending[0].fromDate);
   };
 
   public getNextPublications = () => {
-    const publicationsSortedAscending = this.publications.sort((a, b) => a.fromDate.getTime() - b.fromDate.getTime());
-    if (this.inFuture()) {
-      const upcomingPublications = publicationsSortedAscending.filter(p => p.isInFuture());
-      if (upcomingPublications.length > 0) {
-        const nextDate = upcomingPublications[0].fromDate;
-        return upcomingPublications.filter(up => {
-          return up.fromDate.getTime() === nextDate.getTime();
-        });
-      }
-    }
-    const activePublications = publicationsSortedAscending.filter(p => p.isActive());
-    return activePublications;
+    return publicationUtils.getNextPublications(this.publications);
   };
 
   public getTimeSlot() {
@@ -353,27 +330,7 @@ export class WLAsset implements IWLCarouselItem {
   }
 
   public isGeoBlocked = (location?: IUserLocation) => {
-    if (!location) {
-      return false; // if we do not know, let the backend handle things
-    }
-    // since we want to check all publications, ant all need to be blocked to block
-    // let's sum the result of each in an array
-    let publicationBlock: Boolean[] = [];
-    this.getActivePublications().forEach(publication => {
-      // if no countries specified, it does not block
-      if (!publication.countries || publication.countries.length === 0) {
-        publicationBlock.push(false);
-      }
-      // if counties specified this publication blocks
-      if (publication.countries.length > 0) {
-        if (!publication.countries.includes(location.countryCode)) {
-          publicationBlock.push(true);
-        }
-      }
-    });
-    // if any publication allows your region, don't block.
-    const isBlocked = publicationBlock.length === 0 || publicationBlock.includes(false) ? false : true;
-    return isBlocked;
+    return publicationUtils.isGeoBlocked(this.publications, location || null);
   };
 
   public getEntitlementCase = ({

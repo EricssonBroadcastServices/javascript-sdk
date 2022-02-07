@@ -28,15 +28,14 @@ import {
 } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
-export { Localized } from "./models/localized-model";
+export { ILocalizedMetadata, ILocalizedMetadata as Localized } from "./interfaces/content/localized-metadata";
 export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
+export { IAssetResponse, IAssetResponse as AssetResponse } from "./interfaces/content/asset-response";
 export { IDeviceInfo, DeviceType } from "./interfaces/device";
 export {
   Asset,
-  AssetResponse,
   AssetType,
   Participants,
-  Publication,
   ExternalReferences,
   ChannelFeature,
   LinkedEntity,
@@ -45,20 +44,29 @@ export {
   MarkerType,
   MarkerPoint
 } from "./models/asset-model";
+export { IPublication, IPublication as Publication } from "./interfaces/content/publication";
 export {
-  Play,
+  IPlay,
+  IPlay as Play,
   DRMType,
   FormatType,
-  DRM,
-  Format,
-  Ads,
-  AdClip,
+  IDRM,
+  IDRM as DRM,
+  IFormat,
+  IFormat as Format,
+  IAds,
+  IAds as Ads,
+  IAdClip,
+  IAdClip as AdClip,
   AdClipCategory,
   Stitcher,
-  StreamInfo,
-  Sprite,
-  ContractRestrictions
-} from "./models/play-model";
+  IStreamInfo,
+  IStreamInfo as StreamInfo,
+  ISprite,
+  ISprite as Sprite,
+  IContractRestrictions,
+  IContractRestrictions as ContractRestrictions
+} from "./interfaces/entitlement/play";
 export { Event, EventResponse } from "./models/event-model";
 export { IUserLocation, IUserLocation as UserLocation } from "./interfaces/location/user-location";
 export {
@@ -185,6 +193,8 @@ export { userDetailsUtils } from "./utils/user-details";
 export { tagUtils } from "./utils/tag";
 export { purchaseUtils } from "./utils/purchase";
 export { productOfferingUtils } from "./utils/product-offering";
+export { publicationUtils } from "./utils/publication";
+export { localizedUtils } from "./utils/localized";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);

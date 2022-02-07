@@ -9,6 +9,7 @@ import { DeviceGroup, WhiteLabelService } from "@ericssonbroadcastservices/white
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
+import { ErrorCode } from "./util/error";
 import { StorageKey } from "./util/storageKeys";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
@@ -23,6 +24,7 @@ interface IInitialPropsProvider {
   internalApiUrl: string;
   deviceGroup: DeviceGroup;
   http: IHttpOptions;
+  onSessionValidationError?: (err: unknown) => void;
 }
 
 async function getValidatedPersistedSession({
@@ -39,8 +41,9 @@ async function getValidatedPersistedSession({
   exposureBaseUrl: string;
   device: IDeviceInfo;
   http: IHttpOptions;
-}) {
+}): Promise<[LoginResponse | null, unknown]> {
   let session: LoginResponse | null = null;
+  let error: unknown = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
   const tempExposureApi = new ExposureApi({
     customer,
@@ -64,7 +67,10 @@ async function getValidatedPersistedSession({
           headers: { Authorization: `Bearer ${session.sessionToken}` }
         });
       } catch (err) {
-        console.error(err);
+        storage?.removeItem(StorageKey.SESSION);
+        if ((err as any)?.httpCode !== 401) {
+          error = { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
+        }
         session = null;
       }
     }
@@ -73,11 +79,10 @@ async function getValidatedPersistedSession({
     try {
       session = await tempExposureApi.authentication.loginAnonymous({ customer, businessUnit, device });
     } catch (err) {
-      console.error(err);
-      session = null;
+      throw err;
     }
   }
-  return session;
+  return [session, error];
 }
 
 export function InitialPropsProvider({
@@ -89,20 +94,30 @@ export function InitialPropsProvider({
   device,
   internalApiUrl,
   deviceGroup,
-  http
+  http,
+  onSessionValidationError
 }: IInitialPropsProvider) {
   const [state, setState] = useState<IRedBeeState | null>(null);
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      const session = await getValidatedPersistedSession({
-        storage,
-        customer,
-        businessUnit,
-        exposureBaseUrl,
-        device,
-        http
-      });
+      let session: LoginResponse | null = null;
+      try {
+        const [validatedSession, validationError] = await getValidatedPersistedSession({
+          storage,
+          customer,
+          businessUnit,
+          exposureBaseUrl,
+          device,
+          http
+        });
+        session = validatedSession;
+        if (validationError) {
+          onSessionValidationError?.(validationError);
+        }
+      } catch (err) {
+        session = null;
+      }
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
       const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
       const exposureApi = new ExposureApi({

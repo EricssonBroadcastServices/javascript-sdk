@@ -8,6 +8,7 @@ function PagePresentation(props: IResolvedComponent) {
     <div>
       <h3>{props.component.id}</h3>
       <p>{props.component.type}</p>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
       <JsonBox title={props.component?.title} json={JSON.stringify(props, null, 2)} />
     </div>

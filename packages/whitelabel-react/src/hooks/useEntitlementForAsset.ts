@@ -7,7 +7,7 @@ import { useWLApi } from "./useApi";
 import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
-import { useUserSession } from "./useUserSession";
+import { useSetSession, useUserSession } from "./useUserSession";
 
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
@@ -40,6 +40,7 @@ export function useEntitlementForAsset(
   const [session] = useUserSession();
   const wlApi = useWLApi();
   const [result, setResult] = useState<IEntitlementStatusResult>(defaultEntitlementStatus);
+  const setSession = useSetSession();
   const { data, isLoading, error } = useQuery(
     [QueryKeys.ASSET_ENTITLEMENT, asset.assetId, session?.sessionToken, availableProductOfferings?.length],
     () => {
@@ -53,6 +54,13 @@ export function useEntitlementForAsset(
           businessUnit
         })
         .then(result => {
+          if (
+            result.entitlementError?.httpCode === 401 &&
+            result.entitlementError.message === "INVALID_SESSION_TOKEN"
+          ) {
+            // if we for any reason are calling the entitle endpoint with an invalid session, we should remove it.
+            setSession(null);
+          }
           let startTime = result.startTime;
           if (startTime && confirmEntitlementOnStart) {
             // add randomized extra time until start in order to spread out requests

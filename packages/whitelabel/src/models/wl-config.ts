@@ -48,16 +48,20 @@ export class WLAction implements IWLAction {
   public assetId?: string;
   @jsonProperty()
   public page?: WLReference;
+  @jsonProperty({ type: String })
+  public slugs?: string[];
   public getLink = () => {
+    const assetIdentifier =
+      this.slugs && Array.isArray(this.slugs) && this.slugs.length > 0 ? this.slugs[0] : this.assetId;
     switch (this.type) {
       case WLActionType.ExternalLink:
         return this.url;
       case WLActionType.NavigateToPage:
         return `/page/${this.pageId}`;
       case WLActionType.NavigateToDetails:
-        return `/asset/${this.assetId}`;
+        return `/asset/${assetIdentifier}`;
       case WLActionType.PlayAsset:
-        return `/play/${this.assetId}`;
+        return `/play/${assetIdentifier}`;
       default:
         return "";
     }
