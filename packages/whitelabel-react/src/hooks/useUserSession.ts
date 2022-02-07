@@ -30,6 +30,7 @@ export function useSetSession(): (loginResponse: LoginResponse | null) => void {
         return dispatch({ type: ActionType.SET_SESSION, session: loginResponse });
       } else {
         try {
+          storage?.removeItem(StorageKey.SESSION);
           const anonSession = await exposureApi.authentication.loginAnonymous({ device: device as IDeviceInfo });
           return dispatch({ type: ActionType.SET_SESSION, session: anonSession });
         } catch (err) {
