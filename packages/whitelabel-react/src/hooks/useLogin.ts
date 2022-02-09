@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { StorageKey } from "../util/storageKeys";
 import { useSetSession, useUserSession } from "./useUserSession";
 import { useExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
+import { ErrorCode } from "../util/error";
 
 export function useLogin() {
   const exposureApi = useExposureApi();
@@ -22,41 +22,26 @@ export function useLogin() {
 export function useLogout() {
   const setSession = useSetSession();
   const exposureApi = useExposureApi();
-  const { storage } = useRedBeeState();
   return useCallback(() => {
-    return exposureApi.authentication
-      .logout({})
-      .then(async () => {
-        if (storage) {
-          await storage.removeItem(StorageKey.SESSION);
-        }
-        setSession(null);
-      })
-      .catch(async () => {
-        // even if we fail to log out the session, we want the app to forget the token
-        if (storage) {
-          await storage.removeItem(StorageKey.SESSION);
-        }
-        setSession(null);
-      });
+    return exposureApi.authentication.logout({}).finally(async () => {
+      setSession(null);
+    });
   }, [setSession, exposureApi]);
 }
 
 export function useValidateSession() {
-  const [currentSession] = useUserSession();
+  const [session] = useUserSession();
   const exposureApi = useExposureApi();
   const setSession = useSetSession();
-  const { storage } = useRedBeeState();
-  return useCallback(() => {
-    if (currentSession?.sessionToken) {
+  return useCallback(async () => {
+    if (session?.sessionToken) {
       return exposureApi.authentication.validateSession({}).catch(err => {
-        if ((err as any)?.httpCode === 401) {
-          storage?.removeItem(StorageKey.SESSION);
-          setSession(null);
+        setSession(null);
+        if ((err as any)?.httpCode !== 401) {
+          throw { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
         }
-        throw err;
       });
     }
     return Promise.resolve();
-  }, [currentSession?.sessionToken, exposureApi, setSession]);
+  }, [session?.sessionToken, exposureApi, setSession]);
 }

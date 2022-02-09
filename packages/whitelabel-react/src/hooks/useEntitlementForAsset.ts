@@ -8,7 +8,6 @@ import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSetSession, useUserSession } from "./useUserSession";
-import { StorageKey } from "../util/storageKeys";
 
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
@@ -37,7 +36,7 @@ export function useEntitlementForAsset(
   { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlement
 ): TApiHook<IEntitlementStatusResult> {
   const [availableProductOfferings, offeringsLoading] = useProductOfferings();
-  const { customer, businessUnit, storage } = useRedBeeState();
+  const { customer, businessUnit } = useRedBeeState();
   const [session] = useUserSession();
   const wlApi = useWLApi();
   const [result, setResult] = useState<IEntitlementStatusResult>(defaultEntitlementStatus);
@@ -61,9 +60,6 @@ export function useEntitlementForAsset(
           ) {
             // if we for any reason are calling the entitle endpoint with an invalid session, we should remove it.
             setSession(null);
-            if (storage) {
-              storage?.removeItem(StorageKey.SESSION);
-            }
           }
           let startTime = result.startTime;
           if (startTime && confirmEntitlementOnStart) {
