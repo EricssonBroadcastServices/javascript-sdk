@@ -162,7 +162,7 @@ export {
   DocumentService,
   PreferencesService
 };
-export { EntitlementService, TPlayDrm, TPlayFormat } from "./services/entitlement-service";
+export { EntitlementService, TPlayDrm, TPlayFormat, TAdDeviceType } from "./services/entitlement-service";
 
 /* InterFaces */
 export { CardPaymentDetails, VerifyPurchasePayload, IPurchaseSettings };
