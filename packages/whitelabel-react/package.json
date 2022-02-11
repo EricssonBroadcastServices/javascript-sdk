@@ -19,6 +19,7 @@
   },
   "scripts": {
     "demo": "webpack-dev-server",
+    "watch": "npm run demo", 
     "prepare": "tsc"
   },
   "bugs": {
