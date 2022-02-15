@@ -1,6 +1,6 @@
 import { IUserLocation } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
-import { useExposureApi } from "..";
+import { useExposureApi } from "./useApi";
 import { QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
 
