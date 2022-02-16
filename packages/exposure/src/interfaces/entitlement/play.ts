@@ -87,6 +87,8 @@ export interface IAd {
 }
 
 export interface IAdTrackingEvents {
+  loaded?: string[];
+  start?: string[];
   complete?: string[];
   firstQuartile?: string[];
   midpoint?: string[];
