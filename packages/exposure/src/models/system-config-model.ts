@@ -19,6 +19,7 @@ interface IFrontEndFeatures {
   customLandingPageUrl?: string;
   customAccountPageUrl?: string;
   customSignupPageUrl?: string;
+  customPasswordResetPageUrl?: string;
   searchLocales?: string[];
 }
 
