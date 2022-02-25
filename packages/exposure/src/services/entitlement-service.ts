@@ -9,7 +9,7 @@ interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
 
 export type TPlayFormat = "dash" | "hls" | "mss";
 export type TPlayDrm = "widevine" | "playready" | "fairplay";
-export type TAdDeviceType = "desktop" | "tablet" | "mobile" | "tv" | "chromecast";
+export type TAdDeviceType = "desktop" | "tablet" | "mobile" | "ctv" | "chromecast" | "airplay";
 
 interface PlayAssetOptions extends GetEntitlementForAssetOptions {
   adParameters?: {
