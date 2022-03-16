@@ -151,6 +151,7 @@ export interface IPlay {
   playTokenExpirationReason: string;
   concurrentSessionsCount: number;
   durationInMs: number;
+  durationInMilliseconds: number;
   materialId: string;
   materiaVersion: number;
   ads: IAds;
