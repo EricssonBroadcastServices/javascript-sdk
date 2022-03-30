@@ -51,14 +51,15 @@ export class TagService extends BaseService {
       customer,
       businessUnit,
       pageSize: 100,
-      pageNumber: 1
+      pageNumber: 1,
+      sort: "-created"
     });
     const numberOfPages = Math.ceil(totalCount / pageSize) - 1; // minus the one we already fetched;
     // Create array of remaining pageNumbers to fetch. +1 for mapping 0 => 1, + 1 for skipping the one we already fetched
     const pageNumberArr = new Array(numberOfPages).fill("").map((item, index) => index + 2);
     const combinedTagsResponses = await Promise.all(
       pageNumberArr.map(pageNumber => {
-        return this.getTags({ customer, businessUnit, pageSize, pageNumber }).then(res => res.items);
+        return this.getTags({ customer, businessUnit, pageSize, pageNumber, sort: "-created" }).then(res => res.items);
       })
     );
     return [items, ...combinedTagsResponses].flatMap(arr => [...arr]);
