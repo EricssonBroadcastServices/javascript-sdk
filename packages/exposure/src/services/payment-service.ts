@@ -175,8 +175,7 @@ export class PaymentService extends BaseService {
           customer,
           businessUnit
         })}/store/productofferings/voucher/${code}`;
-
-    return this.get(url, this.options.authHeader());
+    return this.get(url);
   }
   public getProductOfferingsByCountry({
     customer,
