@@ -17,11 +17,7 @@ describe("Payment service", () => {
     });
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/CU/businessunit/BU/store/productofferings/voucher/123`,
-      {
-        headers: {
-          Authorization: ""
-        }
-      }
+      {}
     );
   });
   it("should fetch product offerings with voucher code and country", async () => {
