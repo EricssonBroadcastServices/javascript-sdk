@@ -42,10 +42,12 @@ export function useEntitlementForAsset(
   const [result, setResult] = useState<IEntitlementStatusResult>(defaultEntitlementStatus);
   const setSession = useSetSession();
   const { data, isLoading, error } = useQuery(
-    [QueryKeys.ASSET_ENTITLEMENT, asset.assetId, session?.sessionToken, availableProductOfferings?.length],
+    [QueryKeys.ASSET_ENTITLEMENT, asset.assetId, session?.sessionToken, availableProductOfferings?.length, offeringsLoading],
     () => {
-      if (!session?.sessionToken || !customer || !businessUnit || !availableProductOfferings || offeringsLoading)
+      if (!session?.sessionToken || !customer || !businessUnit || !availableProductOfferings || offeringsLoading) {
         return defaultEntitlementStatus;
+      }
+
       return wlApi
         .getEntitlementForAsset({
           asset,
