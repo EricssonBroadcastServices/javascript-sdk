@@ -7,7 +7,7 @@
     "watch": "lerna run watch --parallel",
     "lerna:version": "lerna version --conventional-commits --no-changelog",
     "publish": "lerna publish -y --no-verify-access from-package",
-    "test": "lerna run test",
+    "test": "lerna run test --stream",
     "lint": "lerna run lint --parallel",
     "format": "lerna run format --parallel",
     "demo": "lerna run demo --stream"
