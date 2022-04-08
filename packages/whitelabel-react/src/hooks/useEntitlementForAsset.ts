@@ -26,6 +26,7 @@ export const defaultEntitlementStatus: IEntitlementStatusResult = {
   isInFuture: false,
   startTime: null,
   isGeoBlocked: false,
+  isStreamLimitReached: false,
   entitlementError: null,
   loginToWatchForFree: false,
   shouldJustWait: false
