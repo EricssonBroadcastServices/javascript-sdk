@@ -5,7 +5,7 @@ import {
   IProductOffering
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { IEntitlementStatusResult, IListOffering, WLAsset } from "..";
-import { EntitlementStatus, IEntitlementResult } from "../interfaces/entitlement-result";
+import { EntitlementStatus } from "../interfaces/entitlement-result";
 
 function offeringToListOffering(
   productOffering: IProductOffering,
@@ -65,8 +65,9 @@ export function errorToEntitlementResult(
   entitlementError: IEntitlementError,
   asset: WLAsset,
   availableProductOfferings
-): IEntitlementResult {
+): IEntitlementStatusResult {
   const legacyEntitlementResult: IEntitlementStatusResult = {
+    status: EntitlementStatus.UNKNOWN,
     isEntitled: false,
     isInFuture: !!entitlementError.actions?.every(a => {
       return [EntitlementActionType.BUY_WATCH_LATER, EntitlementActionType.WAIT].includes(a.type);
@@ -96,7 +97,7 @@ export function errorToEntitlementResult(
     startTime: asset.getStartTime() || null // not sure i we should use err.availableAt instead.
   };
   return {
-    status: getEntitlementStatus(legacyEntitlementResult),
-    ...legacyEntitlementResult
+    ...legacyEntitlementResult,
+    status: getEntitlementStatus(legacyEntitlementResult)
   };
 }

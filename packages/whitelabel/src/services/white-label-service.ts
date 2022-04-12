@@ -15,7 +15,7 @@ import { IWLAssetTag } from "../interfaces/wl-tag";
 import { WLPageModel } from "../models/wl-page";
 import { WLComponent } from "../models/wl-component";
 import { WLAsset } from "../models/wl-asset";
-import { EntitlementStatus, IEntitlementResult } from "../interfaces/entitlement-result";
+import { EntitlementStatus, IEntitlementStatusResult } from "../interfaces/entitlement-result";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup;
@@ -357,7 +357,7 @@ export class WhiteLabelService extends BaseService {
     customer: string;
     businessUnit: string;
     offerings: IProductOffering[];
-  }): Promise<IEntitlementResult> {
+  }): Promise<IEntitlementStatusResult> {
     return this.exposureApi.entitlements
       .getEntitlementForAsset({ assetId: asset.assetId, customer, businessUnit })
       .then(() => {

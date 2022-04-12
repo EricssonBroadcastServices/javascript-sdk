@@ -46,7 +46,7 @@ export { WhiteLabelService } from "./services/white-label-service";
 export { IWLImageComponent } from "./interfaces/wl-image-component";
 export { IWLTextComponent } from "./interfaces/wl-text-component";
 export { EntitlementCase } from "./interfaces/entitlement-cases";
-export { IEntitlementStatusResult, IEntitlementResult, EntitlementStatus } from "./interfaces/entitlement-result";
+export { IEntitlementStatusResult, EntitlementStatus } from "./interfaces/entitlement-result";
 export { IListOffering } from "./interfaces/list-offering";
 export {
   parseISOStringToDuration,
