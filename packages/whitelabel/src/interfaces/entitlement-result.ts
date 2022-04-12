@@ -2,16 +2,19 @@ import { IEntitlementError } from "@ericssonbroadcastservices/exposure-sdk";
 import { IListOffering } from "./list-offering";
 
 export enum EntitlementStatus {
-  UNKNOWN,
-  ENTITLED,
-  GEO_BLOCKED,
-  STREAM_LIMIT,
-  IN_FUTURE,
-  LOGIN,
-  WAIT
+  UNKNOWN = "UNKNOWN",
+  ENTITLED = "ENTITLED",
+  GEO_BLOCKED = "GEO_BLOCKED",
+  STREAM_LIMIT = "STREAM_LIMIT",
+  IN_FUTURE = "IN_FUTURE",
+  LOGIN = "LOGIN",
+  WAIT = "WAIT"
 }
 
 export interface IEntitlementStatusResult {
+  // this combines all the booleans in IEntitlementStatusResult into a single enum
+  status: EntitlementStatus;
+
   // the user is already entitled
   isEntitled: boolean;
   isGeoBlocked: boolean;
@@ -27,9 +30,4 @@ export interface IEntitlementStatusResult {
   accessLater: IListOffering[];
   // return a date if all the user has to do is wait
   startTime: null | Date;
-}
-
-export interface IEntitlementResult extends IEntitlementStatusResult {
-  // this combines all the booleans in IEnntitlementStatusResult into a single enum
-  status: EntitlementStatus;
 }

@@ -1,5 +1,5 @@
 import { EntitlementActionType } from "@ericssonbroadcastservices/exposure-sdk";
-import { IEntitlementStatusResult, WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { EntitlementStatus, IEntitlementStatusResult, WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useRedBeeState } from "../RedBeeProvider";
@@ -20,6 +20,7 @@ interface IUseEntitlement {
 }
 
 export const defaultEntitlementStatus: IEntitlementStatusResult = {
+  status: EntitlementStatus.UNKNOWN,
   isEntitled: false,
   accessLater: [],
   accessNow: [],
