@@ -4,6 +4,8 @@ import { IListOffering } from "./list-offering";
 export enum EntitlementStatus {
   UNKNOWN = "UNKNOWN",
   ENTITLED = "ENTITLED",
+  BUY_WATCH_NOW = "BUY_WATCH_NOW",
+  BUY_WATCH_LATER = "BUY_WATCH_LATER",
   GEO_BLOCKED = "GEO_BLOCKED",
   STREAM_LIMIT = "STREAM_LIMIT",
   IN_FUTURE = "IN_FUTURE",

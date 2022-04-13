@@ -48,9 +48,14 @@ function getEntitlementStatus(entitlementStatusResult: IEntitlementStatusResult)
   if (entitlementStatusResult.isGeoBlocked) {
     return EntitlementStatus.GEO_BLOCKED;
   }
-
   if (entitlementStatusResult.loginToWatchForFree) {
     return EntitlementStatus.LOGIN;
+  }
+  if (entitlementStatusResult.accessNow.length) {
+    return EntitlementStatus.BUY_WATCH_NOW;
+  }
+  if (entitlementStatusResult.accessLater.length) {
+    return EntitlementStatus.BUY_WATCH_LATER;
   }
   if (entitlementStatusResult.shouldJustWait) {
     return EntitlementStatus.WAIT;
@@ -66,12 +71,14 @@ export function errorToEntitlementResult(
   asset: WLAsset,
   availableProductOfferings
 ): IEntitlementStatusResult {
+  const startTime = asset.getStartTime() || null;
   const legacyEntitlementResult: IEntitlementStatusResult = {
     status: EntitlementStatus.UNKNOWN,
     isEntitled: false,
-    isInFuture: !!entitlementError.actions?.every(a => {
-      return [EntitlementActionType.BUY_WATCH_LATER, EntitlementActionType.WAIT].includes(a.type);
-    }),
+    isInFuture:
+      !!entitlementError.actions?.every(a => {
+        return [EntitlementActionType.BUY_WATCH_LATER, EntitlementActionType.WAIT].includes(a.type);
+      }) || (startTime ? startTime.getTime() > Date.now() : false),
     isGeoBlocked: entitlementError?.message === "GEO_BLOCKED",
     isStreamLimitReached: entitlementError?.message === "CONCURRENT_STREAMS_LIMIT_REACHED",
     loginToWatchForFree: !!entitlementError.actions?.some(a => a.type === EntitlementActionType.LOGIN),
@@ -94,7 +101,7 @@ export function errorToEntitlementResult(
         const action = entitlementError.actions?.find(a => a.type === EntitlementActionType.BUY_WATCH_NOW);
         return action?.offerings?.some(o => o.offeringId === po.productOffering.id);
       }),
-    startTime: asset.getStartTime() || null // not sure i we should use err.availableAt instead.
+    startTime // not sure i we should use err.availableAt instead.
   };
   return {
     ...legacyEntitlementResult,
