@@ -1,5 +1,5 @@
 import { EntitlementActionType } from "@ericssonbroadcastservices/exposure-sdk";
-import { IEntitlementStatusResult, WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { EntitlementStatus, IEntitlementStatusResult, WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useRedBeeState } from "../RedBeeProvider";
@@ -20,12 +20,14 @@ interface IUseEntitlement {
 }
 
 export const defaultEntitlementStatus: IEntitlementStatusResult = {
+  status: EntitlementStatus.UNKNOWN,
   isEntitled: false,
   accessLater: [],
   accessNow: [],
   isInFuture: false,
   startTime: null,
   isGeoBlocked: false,
+  isStreamLimitReached: false,
   entitlementError: null,
   loginToWatchForFree: false,
   shouldJustWait: false
@@ -42,7 +44,13 @@ export function useEntitlementForAsset(
   const [result, setResult] = useState<IEntitlementStatusResult>(defaultEntitlementStatus);
   const setSession = useSetSession();
   const { data, isLoading, error } = useQuery(
-    [QueryKeys.ASSET_ENTITLEMENT, asset.assetId, session?.sessionToken, availableProductOfferings?.length, offeringsLoading],
+    [
+      QueryKeys.ASSET_ENTITLEMENT,
+      asset.assetId,
+      session?.sessionToken,
+      availableProductOfferings?.length,
+      offeringsLoading
+    ],
     () => {
       if (!session?.sessionToken || !customer || !businessUnit || !availableProductOfferings || offeringsLoading) {
         return defaultEntitlementStatus;

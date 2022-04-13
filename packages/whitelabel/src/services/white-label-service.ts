@@ -15,7 +15,7 @@ import { IWLAssetTag } from "../interfaces/wl-tag";
 import { WLPageModel } from "../models/wl-page";
 import { WLComponent } from "../models/wl-component";
 import { WLAsset } from "../models/wl-asset";
-import { IEntitlementStatusResult } from "../interfaces/entitlement-result";
+import { EntitlementStatus, IEntitlementStatusResult } from "../interfaces/entitlement-result";
 
 interface WhiteLabelServiceOptions extends ServiceOptions {
   deviceGroup: DeviceGroup;
@@ -362,12 +362,14 @@ export class WhiteLabelService extends BaseService {
       .getEntitlementForAsset({ assetId: asset.assetId, customer, businessUnit })
       .then(() => {
         return {
+          status: EntitlementStatus.ENTITLED,
           isEntitled: true,
           accessLater: [],
           accessNow: [],
           isInFuture: false,
           startTime: null,
           isGeoBlocked: false,
+          isStreamLimitReached: false,
           entitlementError: null,
           loginToWatchForFree: false,
           shouldJustWait: false
