@@ -72,7 +72,7 @@ export function errorToEntitlementResult(
   availableProductOfferings
 ): IEntitlementStatusResult {
   const startTime = asset.getStartTime() || null;
-  const legacyEntitlementResult: IEntitlementStatusResult = {
+  const entitlementResult: IEntitlementStatusResult = {
     status: EntitlementStatus.UNKNOWN,
     isEntitled: false,
     isInFuture:
@@ -104,7 +104,7 @@ export function errorToEntitlementResult(
     startTime // not sure i we should use err.availableAt instead.
   };
   return {
-    ...legacyEntitlementResult,
-    status: getEntitlementStatus(legacyEntitlementResult)
+    ...entitlementResult,
+    status: getEntitlementStatus(entitlementResult)
   };
 }
