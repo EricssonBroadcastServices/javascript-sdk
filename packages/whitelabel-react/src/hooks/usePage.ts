@@ -86,7 +86,8 @@ function getComponentConstructor(reference: WLReference) {
     case WLComponentType.TAG_TYPE:
       return WLCategoriesComponent;
     default:
-      throw `unknown component type ${reference.type} ${reference.subType}`;
+      console.warn(`unknown component type ${reference.type} ${reference.subType}`);
+      return null;
   }
 }
 export interface IResolvedComponent {
@@ -131,10 +132,12 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IR
               return;
             }
           }
+          const type = getComponentConstructor(reference);
+          if (!type) return;
           return {
             component: await wlApi.getComponentByInternalUrl<TWLComponent>({
               internalUrl,
-              type: getComponentConstructor(reference),
+              type,
               useAuthHeader: reference.authorized
             }),
             reference: reference
