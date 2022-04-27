@@ -132,10 +132,12 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IR
               return;
             }
           }
+          const type = getComponentConstructor(reference);
+          if (!type) return;
           return {
             component: await wlApi.getComponentByInternalUrl<TWLComponent>({
               internalUrl,
-              type: getComponentConstructor(reference),
+              type,
               useAuthHeader: reference.authorized
             }),
             reference: reference
