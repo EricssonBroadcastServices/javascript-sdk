@@ -1,5 +1,4 @@
-import { WLActionType } from "../interfaces/wl-action";
-import { deserialize } from "@ericssonbroadcastservices/exposure-sdk";
+import { deserialize, WLActionType } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAction } from "./wl-config";
 
 describe("WL config", () => {
