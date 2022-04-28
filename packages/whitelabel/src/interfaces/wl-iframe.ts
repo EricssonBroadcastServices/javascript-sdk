@@ -1,4 +1,4 @@
-import { WLComponentType } from "./wl-component";
+import { WLComponentType } from "@ericssonbroadcastservices/exposure-sdk";
 
 export interface IWLIframe {
   url: string;

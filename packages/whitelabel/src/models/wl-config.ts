@@ -1,5 +1,5 @@
 import { WLReference } from "./wl-reference";
-import { IWLAction, WLActionType } from "../interfaces/wl-action";
+import { IWLAction } from "../interfaces/wl-action";
 import { Theme } from "./wl-theme";
 import { IWLMenuItem, IWLFooter, IWLSocialMediaLink } from "../interfaces/wl-menu";
 import {
@@ -10,7 +10,7 @@ import {
   IContactInformation,
   IParameters
 } from "../interfaces/wl-config";
-import { IImage, jsonProperty, SystemConfig } from "@ericssonbroadcastservices/exposure-sdk";
+import { IImage, jsonProperty, SystemConfig, WLActionType } from "@ericssonbroadcastservices/exposure-sdk";
 
 export const breakpoints = {
   mobile: "600px",

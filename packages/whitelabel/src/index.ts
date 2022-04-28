@@ -20,13 +20,12 @@ export { IWLAssetTag, IWLAssetTag as WLTag } from "./interfaces/wl-tag";
 export { DeviceGroup } from "./interfaces/device-group";
 export { IWLCategoriesComponent } from "./interfaces/wl-categories-component";
 export { IWLCarouselItem, IWLSeason, IWLMarkerPoint } from "./interfaces/wl-carousel-item";
-export { IWLReference, CarouselLayout, PresentationImageOrientation } from "./interfaces/wl-reference";
-export { IWLAction, WLActionType, WLInternalActionType } from "./interfaces/wl-action";
+export { IWLReference } from "./interfaces/wl-reference";
+export { IWLAction } from "./interfaces/wl-action";
 export { IWLHeroBanner, IWLHeroBannerItem, WLHeroBannerItemType } from "./interfaces/wl-herobanner";
 export { IWLIframe, IWLIframeComponent } from "./interfaces/wl-iframe";
 export { IWLConfig, IWLSystemConfig, IAppConfig } from "./interfaces/wl-config";
 export { IWLMenuItem, IWLFooter, IWLSocialMediaLink } from "./interfaces/wl-menu";
-export { WLComponentType, WLComponentSubType } from "./interfaces/wl-component";
 export { IWLCarousel, IWLTagTitles } from "./interfaces/wl-carousel";
 export { IWLEPG, IWLEPGChannel, IWLEpgComponent } from "./interfaces/wl-epg";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
@@ -59,3 +58,12 @@ export {
 export { isWebPSupported } from "./utils/webp";
 export { getDayLocalized, getLocalDateFormat, FORMAT } from "./utils/date";
 export { wlProductOfferingUtils } from "./utils/offerings";
+// adding below export for backwards compatibility
+export {
+  WLComponentType,
+  WLComponentSubType,
+  WLActionType,
+  WLInternalActionType,
+  CarouselLayout,
+  PresentationImageOrientation
+} from "@ericssonbroadcastservices/exposure-sdk";
