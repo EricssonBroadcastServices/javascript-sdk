@@ -1,5 +1,4 @@
-import { WLComponentType } from "./wl-component";
-import { ImageModel } from "@ericssonbroadcastservices/exposure-sdk";
+import { ImageModel, WLComponentType } from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
 
 export interface IWLImageComponent {

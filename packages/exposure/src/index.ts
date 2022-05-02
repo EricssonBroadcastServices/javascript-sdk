@@ -17,15 +17,7 @@ import {
 import { SystemService } from "./services/system-service";
 
 /* Models */
-import {
-  SystemConfig,
-  PaymentType,
-  ILoginMethod,
-  ILoginMethodProvider,
-  LoginMethodType,
-  AccessModel,
-  SignupModel
-} from "./models/system-config-model";
+import { SystemConfig } from "./models/system-config-model";
 import { PreferencesService } from "./services/preferences-service";
 
 export { ILocalizedMetadata, ILocalizedMetadata as Localized } from "./interfaces/content/localized-metadata";
@@ -124,9 +116,18 @@ export {
   IPasswordAlgorithm,
   IPasswordAlgorithm as PasswordAlgorithm,
   IPasswordHashConfig,
-  IPasswordHashConfig as PasswordHashConfig
-} from "./models/system-config-model";
-export { IPasswordPolicy, IPasswordPolicy as PasswordPolicy } from "./models/system-config-model";
+  IPasswordHashConfig as PasswordHashConfig,
+  IPasswordPolicy,
+  IPasswordPolicy as PasswordPolicy,
+  PaymentType,
+  ILoginMethod,
+  ILoginMethod as LoginMethod,
+  ILoginMethodProvider,
+  ILoginMethodProvider as LoginMethodProvider,
+  LoginMethodType,
+  AccessModel,
+  SignupModel
+} from "./interfaces/config/system-config";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
 export { IPaymentMethod as PaymentMethod, IPaymentMethod } from "./interfaces/payment/payment-method";
@@ -137,17 +138,7 @@ export {
   UserPreferences
 } from "./models/preference-model";
 
-export {
-  SystemConfig,
-  PaymentType,
-  ILoginMethod,
-  ILoginMethod as LoginMethod,
-  ILoginMethodProvider,
-  ILoginMethodProvider as LoginMethodProvider,
-  LoginMethodType,
-  AccessModel,
-  SignupModel
-};
+export { SystemConfig };
 
 /* Services */
 export {
@@ -166,6 +157,13 @@ export { EntitlementService, TPlayDrm, TPlayFormat, TAdDeviceType } from "./serv
 
 /* InterFaces */
 export { CardPaymentDetails, VerifyPurchasePayload, IPurchaseSettings };
+export * from "./interfaces/white-label/exposure-wl-action";
+export * from "./interfaces/white-label/exposure-wl-component";
+export * from "./interfaces/white-label/exposure-wl-config";
+export * from "./interfaces/white-label/exposure-wl-menu";
+export * from "./interfaces/white-label/exposure-wl-page";
+export * from "./interfaces/white-label/exposure-wl-presentation";
+export * from "./interfaces/white-label/exposure-wl-reference";
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";

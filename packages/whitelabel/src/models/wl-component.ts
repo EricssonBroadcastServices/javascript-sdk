@@ -1,5 +1,5 @@
 import * as marked from "marked";
-import { jsonProperty, deserialize, IImage } from "@ericssonbroadcastservices/exposure-sdk";
+import { jsonProperty, deserialize, IImage, WLComponentType } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { ImageScaler } from "../utils/image-scaler";
 import { WLSeason } from "./wl-season";
@@ -7,7 +7,6 @@ import { WLAction } from "./wl-config";
 import { IWLCarousel, IWLTagTitles } from "../interfaces/wl-carousel";
 import { IWLHeroBannerItem, WLHeroBannerItemType, IWLHeroBanner } from "../interfaces/wl-herobanner";
 import { IWLImageComponent } from "../interfaces/wl-image-component";
-import { WLComponentType } from "../interfaces/wl-component";
 import { IWLTextComponent } from "../interfaces/wl-text-component";
 import { IWLEpgComponent } from "../interfaces/wl-epg";
 import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
