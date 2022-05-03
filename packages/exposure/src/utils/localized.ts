@@ -86,7 +86,7 @@ function getShortDescription(
   maxLength: number | null = null,
   defaultLocale?: string
 ): string {
-  return maxLengthString(getLocalizedValue(localized, "shortDescription", locale, defaultLocale), maxLength || 50);
+  return getLocalizedValue(localized, "shortDescription", locale, defaultLocale);
 }
 
 function getMediumDescription(localized: ILocalizedMetadata[], locale: string, defaultLocale?: string): string {
