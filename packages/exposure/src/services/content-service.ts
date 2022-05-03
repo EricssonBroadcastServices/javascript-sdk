@@ -5,7 +5,7 @@ import { Asset, AssetType } from "../models/asset-model";
 import { epgDateFormatter } from "../utils/date";
 import { IBookmark } from "../interfaces/content/bookmark";
 import { SeasonResponse } from "../models/season-model";
-import { EpgResponse, OnNowResponse } from "../models/program-model";
+import { EpgResponse, OnNowResponse, Program } from "../models/program-model";
 import { IEpisodesResponse } from "../interfaces/content/asset-response";
 import { IPaginatedResponse } from "../interfaces/content/paginated";
 import { IAssetResponse } from "../interfaces/content/asset-response";
@@ -64,6 +64,10 @@ export interface GetLiveEventsOptions extends CustomerAndBusinessUnitOptions, Pa
   date?: Date;
   daysBackward: number;
   daysForward: number;
+}
+
+interface IGetNextProgramByAssetIdOptions extends CustomerAndBusinessUnitOptions {
+  assetId: string;
 }
 
 export class ContentService extends BaseService {
@@ -363,6 +367,22 @@ export class ContentService extends BaseService {
     ).then(data => {
       const items = data.items.map(asset => deserialize(Asset, asset));
       return { items, ...data, seriesId: assetId, seasonNumber: seasonNumber };
+    });
+  }
+
+  public getNextProgramByAssetId({
+    customer,
+    businessUnit,
+    assetId
+  }: IGetNextProgramByAssetIdOptions): Promise<Program> {
+    return this.get(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v2"
+      })}/epg/asset/${assetId}/next`
+    ).then(data => {
+      return deserialize(Program, data);
     });
   }
 }

@@ -9,10 +9,13 @@ export class Program {
   public endTime: string;
   @jsonProperty()
   public programId: string;
+  @jsonProperty()
+  public channelId: string;
   @jsonProperty({
     type: Asset
   })
   public asset: Asset;
+  @jsonProperty()
   public blackout?: boolean;
 }
 
