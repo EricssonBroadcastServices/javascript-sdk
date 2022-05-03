@@ -30,6 +30,7 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
     appBundle?: string;
     appName?: string;
     appStoreUrl?: string;
+    [key: string]: any;
   };
   audioOnly?: boolean;
   maxResolution?: string;
