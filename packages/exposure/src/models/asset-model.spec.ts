@@ -26,7 +26,7 @@ describe("Asset", () => {
       asset.type = AssetType.EPISODE;
       asset.episode = 1;
       asset.season = 1;
-      expect(asset.getTitle("en")).toEqual("S1E1 enTitle");
+      expect(asset.getTitle("en")).toEqual("S1 E1 enTitle");
       expect(asset.getTitle("en", "en", false)).toEqual("enTitle");
     });
   });

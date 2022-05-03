@@ -225,7 +225,7 @@ export class Asset extends WithLocalized {
 
   public getTitle = (locale: string, defaultLocale?: string, enrichEpisodeTitles = true) => {
     if (this.episode && this.season && enrichEpisodeTitles) {
-      return (`S${this.season}E${this.episode} ` +
+      return (`S${this.season} E${this.episode} ` +
         localizedUtils.getLocalizedValue(this.localized, "title", locale, defaultLocale)) as string;
     }
     return localizedUtils.getLocalizedValue(this.localized, "title", locale, defaultLocale) as string;
