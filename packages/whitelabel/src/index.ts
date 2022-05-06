@@ -30,7 +30,6 @@ export { IWLCarousel, IWLTagTitles } from "./interfaces/wl-carousel";
 export { IWLEPG, IWLEPGChannel, IWLEpgComponent } from "./interfaces/wl-epg";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
 export { IWLPage } from "./interfaces/wl-page";
-export { Theme } from "./models/wl-theme";
 export { WLConfig, WLAction, WLMenuItem, WLSocialMediaLink } from "./models/wl-config";
 export { WLReference, WLReferencePresentation } from "./models/wl-reference";
 export { WhiteLabelService } from "./services/white-label-service";
@@ -39,7 +38,7 @@ export { IWLTextComponent } from "./interfaces/wl-text-component";
 export { EntitlementCase } from "./interfaces/entitlement-cases";
 export { IEntitlementStatusResult, EntitlementStatus } from "./interfaces/entitlement-result";
 export { IListOffering } from "./interfaces/list-offering";
-export { ITheme } from "./interfaces/wl-theme";
+export { ITheme, ITheme as Theme } from "./interfaces/wl-theme";
 export {
   parseISOStringToDuration,
   getDateObjectFromISOString,

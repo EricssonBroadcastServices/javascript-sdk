@@ -1,7 +1,7 @@
 import { IImage } from "@ericssonbroadcastservices/exposure-sdk";
 import { ISystemConfig } from "@ericssonbroadcastservices/exposure-sdk/dist/interfaces/config/system-config";
-import { Theme } from "../models/wl-theme";
 import { IWLMenuItem, IWLFooter } from "./wl-menu";
+import { ITheme } from "./wl-theme";
 
 export interface IWLLanguage {
   code: string;
@@ -126,7 +126,7 @@ export interface IWLConfig {
   backgroundImage?: string;
   systemConfig: IWLSystemConfig;
   parameters: IParameters;
-  theme: Theme;
+  theme: ITheme;
   appConfig: IAppConfig;
   apiConfig: IApiConfig;
   contactInformation: IContactInformation;
