@@ -1,4 +1,4 @@
-import { PurchaseResponse, purchaseUtils } from "@ericssonbroadcastservices/exposure-sdk";
+import { PurchaseResponse, purchaseUtils, systemConfigUtils } from "@ericssonbroadcastservices/exposure-sdk";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useExposureApi } from "./useApi";
@@ -11,7 +11,7 @@ const purchasesCacheTime = 1000 * 60 * 30;
 
 export function usePurchases(): TApiHook<PurchaseResponse> {
   const { customer, businessUnit, config } = useRedBeeState();
-  const paymentIsEnabled = config?.systemConfig.paymentsIsEnabled();
+  const paymentIsEnabled = systemConfigUtils.paymentsIsEnabled(config?.systemConfig.paymentType || "");
   const [login] = useUserSession();
   const exposureApi = useExposureApi();
 
