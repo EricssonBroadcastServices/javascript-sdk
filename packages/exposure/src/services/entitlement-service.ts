@@ -30,6 +30,10 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
     appBundle?: string;
     appName?: string;
     appStoreUrl?: string;
+    /**
+     * These custom parameters will be added to the querystring of the play request.
+     * e.g. ?customParam1=value1&customParam2=value2 etc
+     */
     [key: string]: any;
   };
   audioOnly?: boolean;
