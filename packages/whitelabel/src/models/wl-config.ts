@@ -1,38 +1,16 @@
 import { WLReference } from "./wl-reference";
 import { IWLAction } from "../interfaces/wl-action";
-import { Theme } from "./wl-theme";
 import { IWLMenuItem, IWLFooter, IWLSocialMediaLink } from "../interfaces/wl-menu";
 import {
-  IWLSystemConfig,
   IWLConfig,
   IAppConfig,
   IApiConfig,
   IContactInformation,
-  IParameters
+  IParameters,
+  IWLSystemConfig
 } from "../interfaces/wl-config";
-import { IImage, jsonProperty, SystemConfig, WLActionType } from "@ericssonbroadcastservices/exposure-sdk";
-
-export const breakpoints = {
-  mobile: "600px",
-  tablet: "839px",
-  desktop: "1200px",
-  mediumDesktop: "1300px",
-  mediumLargeDesktop: "1525px",
-  largeDesktop: "1800px"
-};
-
-export const paddings = {
-  half: "1rem",
-  basic: "2rem",
-  double: "4rem",
-  mobile: "0.5rem"
-};
-
-export class ThemeModel extends Theme {
-  public breakpoints = breakpoints;
-  public padding = paddings;
-}
-
+import { IImage, jsonProperty, WLActionType } from "@ericssonbroadcastservices/exposure-sdk";
+import { ITheme } from "../interfaces/wl-theme";
 export class WLAction implements IWLAction {
   @jsonProperty()
   public target: string;
@@ -93,21 +71,6 @@ export class WLSocialMediaLink implements IWLSocialMediaLink {
     return this.action.getLink();
   };
 }
-
-export class WLLanguage {
-  @jsonProperty()
-  public code: string;
-  @jsonProperty()
-  public name: string;
-  @jsonProperty()
-  public nativeName: string;
-}
-
-export class WLSystemConfig extends SystemConfig implements IWLSystemConfig {
-  @jsonProperty({ externalName: "displayLocales", type: WLLanguage })
-  public locales: WLLanguage[];
-}
-
 export class WLFooter implements IWLFooter {
   @jsonProperty({ type: WLMenuItem })
   public menuItems: WLMenuItem[];
@@ -137,9 +100,9 @@ export class WLConfig implements IWLConfig {
   @jsonProperty()
   public backgroundImage?: string;
   @jsonProperty()
-  public systemConfig: WLSystemConfig = new WLSystemConfig();
+  public systemConfig: IWLSystemConfig;
   @jsonProperty()
-  public theme: ThemeModel = new ThemeModel();
+  public theme: ITheme;
   @jsonProperty()
   public appConfig: IAppConfig;
   @jsonProperty()

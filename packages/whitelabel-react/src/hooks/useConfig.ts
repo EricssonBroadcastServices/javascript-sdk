@@ -1,4 +1,4 @@
-import { ThemeModel, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { ITheme, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useEffect } from "react";
 import { ActionType, useRedBeeState, useRedBeeStateDispatch, useSelectedLanguage } from "../";
 import { useWLApi } from "../";
@@ -40,7 +40,7 @@ export function useConfig(): TApiHook<WLConfig> {
   return [state.config, state.loading.includes(configLoadingId), null];
 }
 
-export function useTheme(): TApiHook<ThemeModel> {
+export function useTheme(): TApiHook<ITheme> {
   const [config, isLoading] = useConfig();
   return [config?.theme || null, isLoading, null];
 }

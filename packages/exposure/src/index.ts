@@ -126,7 +126,8 @@ export {
   ILoginMethodProvider as LoginMethodProvider,
   LoginMethodType,
   AccessModel,
-  SignupModel
+  SignupModel,
+  ISystemConfig
 } from "./interfaces/config/system-config";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
@@ -185,6 +186,7 @@ export { purchaseUtils } from "./utils/purchase";
 export { productOfferingUtils } from "./utils/product-offering";
 export { publicationUtils } from "./utils/publication";
 export { localizedUtils } from "./utils/localized";
+export { systemConfigUtils } from "./utils/system-config-utils";
 export class ExposureApi {
   constructor(public options: ServiceOptions) {}
   public authentication = new AuthenticationService(this.options);

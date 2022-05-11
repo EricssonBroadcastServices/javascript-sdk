@@ -24,22 +24,13 @@ export { IWLReference } from "./interfaces/wl-reference";
 export { IWLAction } from "./interfaces/wl-action";
 export { IWLHeroBanner, IWLHeroBannerItem, WLHeroBannerItemType } from "./interfaces/wl-herobanner";
 export { IWLIframe, IWLIframeComponent } from "./interfaces/wl-iframe";
-export { IWLConfig, IWLSystemConfig, IAppConfig } from "./interfaces/wl-config";
+export { IWLConfig, IWLSystemConfig, IAppConfig, IWLLanguage, IWLLanguage as WLLanguage } from "./interfaces/wl-config";
 export { IWLMenuItem, IWLFooter, IWLSocialMediaLink } from "./interfaces/wl-menu";
 export { IWLCarousel, IWLTagTitles } from "./interfaces/wl-carousel";
 export { IWLEPG, IWLEPGChannel, IWLEpgComponent } from "./interfaces/wl-epg";
 export { IExternalResponse, IExternalResponseOptions } from "./interfaces/externalResponse";
 export { IWLPage } from "./interfaces/wl-page";
-export { Theme } from "./models/wl-theme";
-export {
-  WLConfig,
-  WLAction,
-  WLLanguage,
-  WLMenuItem,
-  WLSocialMediaLink,
-  WLSystemConfig,
-  ThemeModel
-} from "./models/wl-config";
+export { WLConfig, WLAction, WLMenuItem, WLSocialMediaLink } from "./models/wl-config";
 export { WLReference, WLReferencePresentation } from "./models/wl-reference";
 export { WhiteLabelService } from "./services/white-label-service";
 export { IWLImageComponent } from "./interfaces/wl-image-component";
@@ -47,6 +38,7 @@ export { IWLTextComponent } from "./interfaces/wl-text-component";
 export { EntitlementCase } from "./interfaces/entitlement-cases";
 export { IEntitlementStatusResult, EntitlementStatus } from "./interfaces/entitlement-result";
 export { IListOffering } from "./interfaces/list-offering";
+export { ITheme, ITheme as Theme } from "./interfaces/wl-theme";
 export {
   parseISOStringToDuration,
   getDateObjectFromISOString,

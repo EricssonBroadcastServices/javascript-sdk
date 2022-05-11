@@ -1,13 +1,20 @@
-import { SystemConfig, IImage } from "@ericssonbroadcastservices/exposure-sdk";
-import { Theme } from "../models/wl-theme";
+import { IImage } from "@ericssonbroadcastservices/exposure-sdk";
+import { ISystemConfig } from "@ericssonbroadcastservices/exposure-sdk/dist/interfaces/config/system-config";
 import { IWLMenuItem, IWLFooter } from "./wl-menu";
+import { ITheme } from "./wl-theme";
+
+export interface IWLLanguage {
+  code: string;
+  name: string;
+  nativeName: string;
+}
 
 /**
  * @typedef {SystemConfig} IWLSystemConfig
  * @property {object} displayLocales
  */
-export interface IWLSystemConfig extends SystemConfig {
-  displayLocales: any;
+export interface IWLSystemConfig extends Omit<ISystemConfig, "displayLocales"> {
+  displayLocales: IWLLanguage[];
 }
 
 /**
@@ -119,7 +126,7 @@ export interface IWLConfig {
   backgroundImage?: string;
   systemConfig: IWLSystemConfig;
   parameters: IParameters;
-  theme: Theme;
+  theme: ITheme;
   appConfig: IAppConfig;
   apiConfig: IApiConfig;
   contactInformation: IContactInformation;
