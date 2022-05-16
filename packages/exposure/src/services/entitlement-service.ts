@@ -41,6 +41,7 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
   maxFrameRate?: number;
   supportedFormats?: TPlayFormat[];
   supportedDrms?: TPlayDrm[];
+  materialProfile?: string;
 }
 
 export class EntitlementService extends BaseService {
@@ -109,7 +110,8 @@ export class EntitlementService extends BaseService {
     maxFrameRate,
     maxResolution,
     supportedFormats,
-    supportedDrms
+    supportedDrms,
+    materialProfile
   }: PlayAssetOptions): Promise<IPlay> {
     const queryParameters = new URLSearchParams(adParameters as Record<string, string>);
     if (audioOnly) {
@@ -126,6 +128,9 @@ export class EntitlementService extends BaseService {
     }
     if (supportedDrms) {
       queryParameters.append("supportedDrms", supportedDrms.join(","));
+    }
+    if (materialProfile) {
+      queryParameters.append("materialProfile", materialProfile);
     }
     return this.get(
       `${this.cuBuUrl({
