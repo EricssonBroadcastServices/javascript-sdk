@@ -10,6 +10,8 @@ export interface IConfigParameters {
   phone?: string;
   website?: string;
   assetSearchTypes: string;
+  adsfile?: string;
+  googleTagManagerId?: string;
 }
 
 export interface IWLTheme {
