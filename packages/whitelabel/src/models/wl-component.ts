@@ -43,6 +43,13 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
   @jsonProperty()
   public tagTitles?: IWLTagTitles;
 
+  @jsonProperty()
+  public showAssetTitles = false;
+  @jsonProperty()
+  public backgroundColor?: string;
+  @jsonProperty()
+  public backgroundImage?: string;
+
   public static fromSeason = (season: WLSeason) => {
     const carousel = new WLCarousel();
     carousel.title = season.title;

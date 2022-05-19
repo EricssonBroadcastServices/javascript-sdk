@@ -13,4 +13,7 @@ export interface IWLCarousel {
   subTitle?: string;
   assets: IWLCarouselItem[];
   tagTitles?: IWLTagTitles;
+  showAssetTitles: boolean;
+  backgroundColor?: string;
+  backgroundImage?: string;
 }

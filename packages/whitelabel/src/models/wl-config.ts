@@ -9,8 +9,7 @@ import {
   IParameters,
   IWLSystemConfig
 } from "../interfaces/wl-config";
-import { IImage, jsonProperty, WLActionType } from "@ericssonbroadcastservices/exposure-sdk";
-import { ITheme } from "../interfaces/wl-theme";
+import { IImage, jsonProperty, WLActionType, IWLTheme } from "@ericssonbroadcastservices/exposure-sdk";
 export class WLAction implements IWLAction {
   @jsonProperty()
   public target: string;
@@ -102,7 +101,7 @@ export class WLConfig implements IWLConfig {
   @jsonProperty()
   public systemConfig: IWLSystemConfig;
   @jsonProperty()
-  public theme: ITheme;
+  public theme: IWLTheme;
   @jsonProperty()
   public appConfig: IAppConfig;
   @jsonProperty()
