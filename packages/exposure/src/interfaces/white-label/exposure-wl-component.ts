@@ -43,11 +43,18 @@ export enum WLComponentSubType {
   TAG_FEED_QUERY = "TagFeedQuery"
 }
 
+interface IExposureComponentParameters {
+  backgroundColor?: string;
+  assetSearchTypes?: string;
+  backgroundImage?: string;
+  assetTitles?: "show" | "hide";
+}
 export interface IExposureComponent {
   id: string;
   appType: WLComponentType;
   appSubType?: WLComponentSubType;
   presentation?: IExposureWLPresentation;
+  parameters?: IExposureComponentParameters;
 }
 
 interface IContentUrl {
