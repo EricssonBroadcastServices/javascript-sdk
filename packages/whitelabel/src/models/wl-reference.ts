@@ -17,7 +17,7 @@ export class WLReferencePresentation {
   @jsonProperty()
   public imageAspectRatio: AspectRatio;
   @jsonProperty()
-  public density: CarouselDensity = CarouselDensity.MEDIUM;
+  public density?: CarouselDensity;
 }
 
 export class WLReference implements IWLReference {

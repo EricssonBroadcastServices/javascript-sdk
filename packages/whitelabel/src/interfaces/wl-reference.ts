@@ -18,6 +18,6 @@ export interface IWLReference {
     imageOrientation: PresentationImageOrientation;
     layout?: CarouselLayout;
     imageAspectRatio: AspectRatio;
-    density: CarouselDensity;
+    density?: CarouselDensity;
   };
 }
