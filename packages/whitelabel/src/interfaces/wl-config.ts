@@ -92,12 +92,10 @@ export interface IParameters {
 /**
  * @typedef ISentryConfig
  * @property {boolean} enabled
- * @property {string} environment
  * @property {number} sampleRate
  */
 export interface ISentryConfig {
   enabled: boolean;
-  environment: string;
   sampleRate: number; // 0 - 1
 }
 
