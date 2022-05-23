@@ -7,7 +7,8 @@ import {
   IApiConfig,
   IContactInformation,
   IParameters,
-  IWLSystemConfig
+  IWLSystemConfig,
+  ISentryConfig
 } from "../interfaces/wl-config";
 import { IImage, jsonProperty, WLActionType } from "@ericssonbroadcastservices/exposure-sdk";
 import { ITheme } from "../interfaces/wl-theme";
@@ -117,6 +118,8 @@ export class WLConfig implements IWLConfig {
   public parameters: IParameters;
   @jsonProperty()
   public footer: WLFooter;
-
+  @jsonProperty()
+  public sentry: ISentryConfig;
+  
   public getShouldUseFreeForAll = () => this.systemConfig.frontendFeatures.shouldAlwaysUseAnonymousLogin;
 }

@@ -90,6 +90,18 @@ export interface IParameters {
 }
 
 /**
+ * @typedef ISentryConfig
+ * @property {boolean} enabled
+ * @property {string} environment
+ * @property {number} sampleRate
+ */
+export interface ISentryConfig {
+  enabled: boolean;
+  environment: string;
+  sampleRate: number; // 0 - 1
+}
+
+/**
  * @typedef IConfigHomePage
  * @property {string} id
  * @property {string} internalUrl - relative URL with the same baseUrl as the current request
@@ -110,6 +122,7 @@ export interface IParameters {
  * @property {Theme} theme
  * @property {ApiConfig} apiConfig
  * @property {ContactInformation} contactInformation
+ * @property {ISentryConfig} sentry
  */
 
 export interface IWLConfig {
@@ -133,4 +146,5 @@ export interface IWLConfig {
   apiConfig: IApiConfig;
   contactInformation: IContactInformation;
   footer: IWLFooter;
+  sentry: ISentryConfig;
 }
