@@ -48,7 +48,7 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
   @jsonProperty()
   public backgroundColor?: string;
   @jsonProperty()
-  public backgroundImage?: string;
+  public backgroundImage?: IImage;
 
   public static fromSeason = (season: WLSeason) => {
     const carousel = new WLCarousel();

@@ -1,5 +1,6 @@
 import { IWLCarouselItem } from "./wl-carousel-item";
 import { CarouselSubType } from "../models/wl-component";
+import { IImage } from "@ericssonbroadcastservices/exposure-sdk";
 
 export interface IWLTagTitles {
   [key: string]: string;
@@ -15,5 +16,5 @@ export interface IWLCarousel {
   tagTitles?: IWLTagTitles;
   showAssetTitles: boolean;
   backgroundColor?: string;
-  backgroundImage?: string;
+  backgroundImage?: IImage;
 }

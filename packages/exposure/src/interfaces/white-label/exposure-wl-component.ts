@@ -44,9 +44,7 @@ export enum WLComponentSubType {
 }
 
 interface IExposureComponentParameters {
-  backgroundColor?: string;
   assetSearchTypes?: string;
-  backgroundImage?: string;
   assetTitles?: "show" | "hide";
 }
 export interface IExposureComponent {

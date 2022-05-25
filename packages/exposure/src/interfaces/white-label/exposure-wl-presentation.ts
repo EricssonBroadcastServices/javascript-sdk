@@ -12,6 +12,7 @@ export interface IExposureWLLocalized {
   images?: IImage[];
   trailerAssetId?: string;
   iframe?: IWLIframe;
+  backgroundColor?: string;
 }
 
 export interface IExposureWLPresentation {
