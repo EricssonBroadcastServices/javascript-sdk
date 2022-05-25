@@ -1,5 +1,7 @@
 # JavaScript SDKs
 
+Make sure you read the [Working with git chapter](git.md) before getting started. 
+
 ## Development
 1. `npm install`, this will install all dependencies and link together all packages in this repo
 3. `npm run build` to build once and `npm run watch` to rebuild on changes
