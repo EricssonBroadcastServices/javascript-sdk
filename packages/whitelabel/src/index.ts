@@ -38,7 +38,6 @@ export { IWLTextComponent } from "./interfaces/wl-text-component";
 export { EntitlementCase } from "./interfaces/entitlement-cases";
 export { IEntitlementStatusResult, EntitlementStatus } from "./interfaces/entitlement-result";
 export { IListOffering } from "./interfaces/list-offering";
-export { ITheme, ITheme as Theme } from "./interfaces/wl-theme";
 export {
   parseISOStringToDuration,
   getDateObjectFromISOString,
@@ -57,5 +56,8 @@ export {
   WLActionType,
   WLInternalActionType,
   CarouselLayout,
-  PresentationImageOrientation
+  PresentationImageOrientation,
+  IWLTheme,
+  IWLTheme as ITheme,
+  IWLTheme as Theme
 } from "@ericssonbroadcastservices/exposure-sdk";

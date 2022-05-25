@@ -29,6 +29,7 @@ export interface IWLTheme {
   fontLight?: string;
   fontRegular?: string;
   fontBold?: string;
+  corners?: "rounded" | "square";
 }
 
 export interface IExposureWLConfig {

@@ -11,6 +11,12 @@ export enum PresentationImageOrientation {
   PORTRAIT = "portrait"
 }
 
+export enum CarouselDensity {
+  LOW = "LOW",
+  MEDIUM = "MEDIUM",
+  HIGH = "HIGH"
+}
+
 export interface IExposureWLReference {
   appType: WLComponentType;
   appSubType?: WLComponentSubType;
@@ -20,5 +26,6 @@ export interface IExposureWLReference {
   parameters?: {
     carouselLayout?: CarouselLayout;
     imageOrientation?: PresentationImageOrientation;
+    density?: CarouselDensity;
   };
 }
