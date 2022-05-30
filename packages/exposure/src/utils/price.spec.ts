@@ -22,4 +22,12 @@ describe("price", () => {
     };
     expect(priceUtils.getPriceStringWithCurrency(p)).toEqual("10.00 SEK");
   });
+  it("return price as number, without fraction", () => {
+    const p: IPrice = {
+      amount: 1000,
+      currency: "SEK",
+      fractionDigits: 2
+    };
+    expect(priceUtils.removePriceFraction(p.amount, p.fractionDigits)).toEqual(10);
+  });
 });
