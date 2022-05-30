@@ -23,9 +23,14 @@ export function useFetchConfig(disabled = false): void {
         customer,
         businessUnit
       })
-      .then(config => {
-        return dispatch({ type: ActionType.SET_CONFIG, config });
-      })
+      .then(
+        config => {
+          return dispatch({ type: ActionType.SET_CONFIG, config });
+        },
+        () => {
+          return dispatch({ type: ActionType.SET_APP_UNAVAILABLE });
+        }
+      )
       .finally(() => {
         dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
       });
