@@ -13,7 +13,15 @@ export function getPriceStringWithCurrency(price: IPrice) {
   return getPriceString(price) + " " + price.currency;
 }
 
+export function removePriceFraction(price: number, fractionDigits: number) {
+  if (!price) return 0;
+  if (!!price && !fractionDigits) return price;
+  const fraction = Math.floor(fractionDigits);
+  return price / 10 ** fraction;
+}
+
 export const priceUtils = {
   getPriceString,
-  getPriceStringWithCurrency
+  getPriceStringWithCurrency,
+  removePriceFraction
 };
