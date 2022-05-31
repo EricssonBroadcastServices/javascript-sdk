@@ -127,6 +127,7 @@ export function InitialPropsProvider({
         config: null,
         deviceGroup,
         exposureApi,
+        unavailable: false,
         whiteLabelApi: new WhiteLabelService({
           exposureApi,
           authHeader,
