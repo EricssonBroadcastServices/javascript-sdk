@@ -20,6 +20,7 @@ export interface IRedBeeState {
   deviceGroup: DeviceGroup;
   exposureApi: ExposureApi;
   whiteLabelApi: WhiteLabelService;
+  unavailable: boolean;
 }
 
 export enum ActionType {
@@ -27,7 +28,8 @@ export enum ActionType {
   SET_SESSION = "setSession",
   SET_SELECTED_LANGUAGE = "setSelectedLanguage",
   START_LOADING = "startLoading",
-  STOP_LOADING = "stopLoading"
+  STOP_LOADING = "stopLoading",
+  SET_APP_UNAVAILABLE = "setUnavailable"
 }
 
 interface IAction {
@@ -50,7 +52,7 @@ interface ILoadingAction extends IAction {
   id: string;
 }
 
-type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction | ILoadingAction;
+type TAction = ISetConfigAction | ISetSessionAction | ISetSelectedLanguageAction | ILoadingAction | IAction;
 
 // default state will be overwritten by proper values in RedBeeProvider, hence faulty values here.
 export const RedBeeContext = React.createContext<[IRedBeeState, Dispatch<TAction>]>([{} as IRedBeeState, () => ({})]);
@@ -102,6 +104,11 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         businessUnit,
         config,
         selectedLanguage: state.selectedLanguage || config.systemConfig.defaultLocale
+      };
+    case ActionType.SET_APP_UNAVAILABLE:
+      return {
+        ...state,
+        unavailable: true
       };
     default:
       return state;
