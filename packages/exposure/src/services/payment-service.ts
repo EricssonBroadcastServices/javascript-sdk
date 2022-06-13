@@ -9,6 +9,7 @@ import { IPurchaseResponse } from "../interfaces/payment/purchase";
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
   includeSelectAssetProducts?: boolean;
+  paymentProvider?: "stripe" | "braintree" | "googleplay" | "external" | "deny";
 }
 
 export interface CardPaymentDetails {
@@ -181,15 +182,21 @@ export class PaymentService extends BaseService {
     customer,
     businessUnit,
     countryCode,
-    includeSelectAssetProducts = true
+    includeSelectAssetProducts = true,
+    paymentProvider
   }: GetProductOfferingsByCountryOptions): Promise<IProductOffering[]> {
+    const searchParams = new URLSearchParams();
+    if (paymentProvider) {
+      searchParams.set("paymentProvider", paymentProvider);
+    }
+    searchParams.set("includeSelectAssetProducts", includeSelectAssetProducts.toString());
     return this.get(
       `${this.cuBuUrl({
-        apiVersion: "v2",
+        apiVersion: "v3",
         customer,
         businessUnit
-      })}/store/productoffering/country/${countryCode}?includeSelectAssetProducts=${includeSelectAssetProducts}`
-    ).then(data => data.productOfferings);
+      })}/store/productoffering/country/${countryCode}?${searchParams.toString()}`
+    );
   }
 
   public buyProductOffering({
