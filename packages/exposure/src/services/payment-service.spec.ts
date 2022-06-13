@@ -60,10 +60,10 @@ describe("Payment service", () => {
         customer: "CU",
         businessUnit: "BU",
         countryCode: "SE",
-        paymentProvider: "googlepay"
+        paymentProvider: "googleplay"
       });
       expect(axios.get).toHaveBeenCalledWith(
-        `${serviceOptions.baseUrl}/v3/customer/CU/businessunit/BU/store/productoffering/country/SE?paymentProvider=googlepay&includeSelectAssetProducts=true`,
+        `${serviceOptions.baseUrl}/v3/customer/CU/businessunit/BU/store/productoffering/country/SE?paymentProvider=googleplay&includeSelectAssetProducts=true`,
         {}
       );
     });
