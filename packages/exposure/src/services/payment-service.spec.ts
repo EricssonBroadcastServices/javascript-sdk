@@ -45,7 +45,7 @@ describe("Payment service", () => {
       }
     );
   });
-  describe("should product offerings with countryCode", () => {
+  describe("should fetch product offerings with countryCode", () => {
     it("should fetch offerings with countryCode only", async () => {
       jest.spyOn(axios, "get").mockReturnValue(Promise.resolve([]));
       await paymentService.getProductOfferingsByCountry({ customer: "CU", businessUnit: "BU", countryCode: "SE" });
