@@ -32,4 +32,7 @@ export interface IProductOffering {
   // activePurchase is not part of the exposure response. But is added by the web application
   // once the web removes that hack, this can be removed
   activePurchase?: IPurchase;
+  googlePlayReference?: {
+    skuId: string;
+  };
 }

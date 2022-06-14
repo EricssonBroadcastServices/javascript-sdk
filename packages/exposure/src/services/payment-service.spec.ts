@@ -45,4 +45,27 @@ describe("Payment service", () => {
       }
     );
   });
+  describe("should fetch product offerings with countryCode", () => {
+    it("should fetch offerings with countryCode only", async () => {
+      jest.spyOn(axios, "get").mockReturnValue(Promise.resolve([]));
+      await paymentService.getProductOfferingsByCountry({ customer: "CU", businessUnit: "BU", countryCode: "SE" });
+      expect(axios.get).toHaveBeenCalledWith(
+        `${serviceOptions.baseUrl}/v3/customer/CU/businessunit/BU/store/productoffering/country/SE?includeSelectAssetProducts=true`,
+        {}
+      );
+    });
+    it("should fetch offerings with countryCode and payment provider", async () => {
+      jest.spyOn(axios, "get").mockReturnValue(Promise.resolve([]));
+      await paymentService.getProductOfferingsByCountry({
+        customer: "CU",
+        businessUnit: "BU",
+        countryCode: "SE",
+        paymentProvider: "googleplay"
+      });
+      expect(axios.get).toHaveBeenCalledWith(
+        `${serviceOptions.baseUrl}/v3/customer/CU/businessunit/BU/store/productoffering/country/SE?paymentProvider=googleplay&includeSelectAssetProducts=true`,
+        {}
+      );
+    });
+  });
 });
