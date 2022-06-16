@@ -6,10 +6,12 @@ import { IPrice, IPromotion } from "../interfaces/payment/price";
 import { IProductOffering } from "../interfaces/payment/product-offering";
 import { IPurchaseResponse } from "../interfaces/payment/purchase";
 
+export type TPaymentProvider = "stripe" | "braintree" | "googleplay" | "external" | "deny";
+
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
   includeSelectAssetProducts?: boolean;
-  paymentProvider?: "stripe" | "braintree" | "googleplay" | "external" | "deny";
+  paymentProvider?: TPaymentProvider;
 }
 
 export interface CardPaymentDetails {

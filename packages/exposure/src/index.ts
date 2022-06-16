@@ -12,7 +12,8 @@ import {
   PaymentService,
   CardPaymentDetails,
   VerifyPurchasePayload,
-  IPurchaseSettings
+  IPurchaseSettings,
+  TPaymentProvider
 } from "./services/payment-service";
 import { SystemService } from "./services/system-service";
 
@@ -157,7 +158,7 @@ export {
 export { EntitlementService, TPlayDrm, TPlayFormat, TAdDeviceType } from "./services/entitlement-service";
 
 /* InterFaces */
-export { CardPaymentDetails, VerifyPurchasePayload, IPurchaseSettings };
+export { CardPaymentDetails, VerifyPurchasePayload, IPurchaseSettings, TPaymentProvider };
 export * from "./interfaces/white-label/exposure-wl-action";
 export * from "./interfaces/white-label/exposure-wl-component";
 export * from "./interfaces/white-label/exposure-wl-config";
