@@ -1,4 +1,4 @@
-import { EntitlementActionType } from "@ericssonbroadcastservices/exposure-sdk";
+import { EntitlementActionType, TPaymentProvider } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementStatus, IEntitlementStatusResult, WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
@@ -17,6 +17,7 @@ interface IUseEntitlement {
   confirmEntitlementOnStart?: boolean;
   // how much should we spread out different calls in case we do a new entitle call.
   startTimeAdjustmentSpread?: number;
+  paymentProvider?: TPaymentProvider;
 }
 
 export const defaultEntitlementStatus: IEntitlementStatusResult = {
@@ -35,7 +36,7 @@ export const defaultEntitlementStatus: IEntitlementStatusResult = {
 
 export function useEntitlementForAsset(
   asset: WLAsset,
-  { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlement
+  { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000, paymentProvider }: IUseEntitlement
 ): TApiHook<IEntitlementStatusResult> {
   const [availableProductOfferings, offeringsLoading] = useProductOfferings();
   const { customer, businessUnit } = useRedBeeState();
@@ -61,7 +62,8 @@ export function useEntitlementForAsset(
           asset,
           offerings: availableProductOfferings,
           customer,
-          businessUnit
+          businessUnit,
+          paymentProvider
         })
         .then(result => {
           if (

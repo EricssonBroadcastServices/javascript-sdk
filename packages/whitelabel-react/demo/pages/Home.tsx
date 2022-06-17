@@ -4,6 +4,7 @@ import {
   useConfig,
   useGeolocation,
   useRedBeeState,
+  useSystemConfigV2,
   useTranslations,
   useUserDetails,
   useUserSession,
@@ -20,6 +21,7 @@ export const Home = () => {
   const [session] = useUserSession();
   const [bookmarks] = useBookmarks();
   const validateSession = useValidateSession();
+  const [systemConfig] = useSystemConfigV2();
 
   if (state.unavailable) {
     return <h1>App unavailable 😭</h1>;
@@ -38,6 +40,7 @@ export const Home = () => {
       <JsonBox title={"User details"} json={JSON.stringify(userDetails, null, 2)}></JsonBox>
       <JsonBox title={"User session"} json={JSON.stringify(session, null, 2)}></JsonBox>
       <JsonBox title={"Bookmarks"} json={JSON.stringify(bookmarks, null, 2)}></JsonBox>
+      <JsonBox title={"System"} json={JSON.stringify(systemConfig, null, 2)}></JsonBox>
     </div>
   );
 };

@@ -23,5 +23,6 @@ export enum QueryKeys {
   PURCHASES = "purchases",
   PRODUCT_OFFERINGS = "productOfferings",
   FAVORITE_ASSET_IN_LIST = "favorite_asset_in_list",
-  BOOKMARKS = "bookmarks"
+  BOOKMARKS = "bookmarks",
+  SYSTEM_CONFIG_V2 = "systemConfigV2"
 }
