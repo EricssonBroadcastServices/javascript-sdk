@@ -5,6 +5,12 @@ import { IPaymentMethod } from "../interfaces/payment/payment-method";
 import { IPrice, IPromotion } from "../interfaces/payment/price";
 import { IProductOffering } from "../interfaces/payment/product-offering";
 import { IPurchaseResponse } from "../interfaces/payment/purchase";
+import {
+  IGooglePlayInitResponse,
+  IGooglePlayInitPayload,
+  IGooglePlayVerifyPayload,
+  IGooglePlayVerifyResponse
+} from "../interfaces/payment/google-play";
 
 export type TPaymentProvider = "stripe" | "braintree" | "googleplay" | "external" | "deny";
 
@@ -370,6 +376,43 @@ export class PaymentService extends BaseService {
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/store/purchase/initialize`,
       { productOfferingId, voucherCode },
       { ...this.options.authHeader() }
+    );
+  }
+
+  public initializeGooglePlayPurchase({
+    customer,
+    businessUnit,
+    productOfferingId,
+    voucherCode,
+    assetId
+  }: CustomerAndBusinessUnitOptions &
+    IGooglePlayInitPayload & { productOfferingId: string }): Promise<IGooglePlayInitResponse> {
+    return this.post(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v3"
+      })}/store/googleplay/purchase/init/${productOfferingId}`,
+      { voucherCode, assetId },
+      this.options.authHeader()
+    );
+  }
+
+  public verifyGooglePlayPurchase({
+    customer,
+    businessUnit,
+    purchaseId,
+    purchaseToken
+  }: CustomerAndBusinessUnitOptions &
+    IGooglePlayVerifyPayload & { purchaseId: string }): Promise<IGooglePlayVerifyResponse> {
+    return this.post(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v3"
+      })}/store/googleplay/purchase/${purchaseId}/verify`,
+      { purchaseToken },
+      this.options.authHeader()
     );
   }
 }

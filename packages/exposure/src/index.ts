@@ -166,6 +166,7 @@ export * from "./interfaces/white-label/exposure-wl-menu";
 export * from "./interfaces/white-label/exposure-wl-page";
 export * from "./interfaces/white-label/exposure-wl-presentation";
 export * from "./interfaces/white-label/exposure-wl-reference";
+export * from "./interfaces/payment/google-play";
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";
