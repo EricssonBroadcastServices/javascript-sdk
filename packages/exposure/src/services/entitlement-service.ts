@@ -2,9 +2,11 @@ import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { IProductResponse, IAvailabilityKeysResponse } from "../interfaces/entitlement/product";
 import { IPlay } from "../interfaces/entitlement/play";
 import { IEntitlementError, IEntitlementResponse } from "../interfaces/entitlement/entitlement";
+import { TPaymentProvider } from "./payment-service";
 
 interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
+  paymentProvider?: TPaymentProvider;
 }
 
 export type TPlayFormat = "dash" | "hls" | "mss";
@@ -49,14 +51,19 @@ export class EntitlementService extends BaseService {
     customer,
     businessUnit,
     headers,
-    assetId
+    assetId,
+    paymentProvider
   }: GetEntitlementForAssetOptions): Promise<IEntitlementResponse> {
+    const searchParams = new URLSearchParams({});
+    if (paymentProvider) {
+      searchParams.set("paymentProvider", paymentProvider);
+    }
     return this.get(
       `${this.cuBuUrl({
         apiVersion: "v2",
         customer,
         businessUnit
-      })}/entitlement/${assetId}/entitle`,
+      })}/entitlement/${assetId}/entitle?${searchParams.toString()}`,
       {
         ...this.options.authHeader(),
         ...headers
