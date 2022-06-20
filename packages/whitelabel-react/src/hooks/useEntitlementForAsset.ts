@@ -12,12 +12,11 @@ import { useSetSession, useUserSession } from "./useUserSession";
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
 }
-interface IUseEntitlement {
+interface IUseEntitlementSettings {
   // should we do a new entitlement call at asset starttime or not.
   confirmEntitlementOnStart?: boolean;
   // how much should we spread out different calls in case we do a new entitle call.
   startTimeAdjustmentSpread?: number;
-  paymentProvider?: TPaymentProvider;
 }
 
 export const defaultEntitlementStatus: IEntitlementStatusResult = {
@@ -35,8 +34,8 @@ export const defaultEntitlementStatus: IEntitlementStatusResult = {
 };
 
 export function useEntitlementForAsset(
-  asset: WLAsset,
-  { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000, paymentProvider }: IUseEntitlement
+  { asset, paymentProvider }: { asset: WLAsset; paymentProvider?: TPaymentProvider },
+  { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlementSettings
 ): TApiHook<IEntitlementStatusResult> {
   const [availableProductOfferings, offeringsLoading] = useProductOfferings();
   const { customer, businessUnit } = useRedBeeState();

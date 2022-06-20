@@ -9,7 +9,7 @@ import { AssetType } from "@ericssonbroadcastservices/exposure-sdk";
 import ChannelPicker from "../components/ChannelPicker";
 
 const Entitlements = ({ asset }: { asset: WLAsset }) => {
-  const [status] = useEntitlementForAsset(asset, {});
+  const [status] = useEntitlementForAsset({ asset }, {});
   return (
     <>
       <PlayButton entitlementResult={status} />
