@@ -43,7 +43,7 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
   @jsonProperty()
   public tagTitles?: IWLTagTitles;
 
-  @jsonProperty()
+  @jsonProperty({ deserializer: val => val })
   public showAssetTitles = false;
   @jsonProperty()
   public backgroundColor?: string;
