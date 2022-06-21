@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/whitelabel-sdk",
-  "version": "0.122.3",
+  "version": "0.122.4",
   "description": "",
   "scripts": {
     "prepare": "tsc",
