@@ -1,4 +1,4 @@
-import { EntitlementActionType } from "@ericssonbroadcastservices/exposure-sdk";
+import { EntitlementActionType, TPaymentProvider } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementStatus, IEntitlementStatusResult, WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
@@ -12,7 +12,7 @@ import { useSetSession, useUserSession } from "./useUserSession";
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
 }
-interface IUseEntitlement {
+interface IUseEntitlementSettings {
   // should we do a new entitlement call at asset starttime or not.
   confirmEntitlementOnStart?: boolean;
   // how much should we spread out different calls in case we do a new entitle call.
@@ -34,8 +34,8 @@ export const defaultEntitlementStatus: IEntitlementStatusResult = {
 };
 
 export function useEntitlementForAsset(
-  asset: WLAsset,
-  { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlement
+  { asset, paymentProvider }: { asset: WLAsset; paymentProvider?: TPaymentProvider },
+  { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlementSettings
 ): TApiHook<IEntitlementStatusResult> {
   const [availableProductOfferings, offeringsLoading] = useProductOfferings();
   const { customer, businessUnit } = useRedBeeState();
@@ -61,7 +61,8 @@ export function useEntitlementForAsset(
           asset,
           offerings: availableProductOfferings,
           customer,
-          businessUnit
+          businessUnit,
+          paymentProvider
         })
         .then(result => {
           if (

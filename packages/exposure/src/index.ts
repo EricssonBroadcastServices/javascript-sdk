@@ -128,7 +128,7 @@ export {
   LoginMethodType,
   AccessModel,
   SignupModel,
-  ISystemConfig
+  ISystemConfig,
 } from "./interfaces/config/system-config";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
@@ -166,6 +166,8 @@ export * from "./interfaces/white-label/exposure-wl-menu";
 export * from "./interfaces/white-label/exposure-wl-page";
 export * from "./interfaces/white-label/exposure-wl-presentation";
 export * from "./interfaces/white-label/exposure-wl-reference";
+export * from "./interfaces/payment/google-play";
+export * from "./interfaces/config/system-config-v2";
 
 /* Utils */
 export { deserialize } from "./decorators/property-mapper";

@@ -4,7 +4,8 @@ import {
   deserialize,
   ExposureApi,
   IEntitlementError,
-  IProductOffering
+  IProductOffering,
+  TPaymentProvider
 } from "@ericssonbroadcastservices/exposure-sdk";
 import * as querystring from "query-string";
 import { IWLEPG } from "../interfaces/wl-epg";
@@ -351,15 +352,17 @@ export class WhiteLabelService extends BaseService {
     asset,
     customer,
     businessUnit,
-    offerings
+    offerings,
+    paymentProvider
   }: {
     asset: WLAsset;
     customer: string;
     businessUnit: string;
     offerings: IProductOffering[];
+    paymentProvider?: TPaymentProvider;
   }): Promise<IEntitlementStatusResult> {
     return this.exposureApi.entitlements
-      .getEntitlementForAsset({ assetId: asset.assetId, customer, businessUnit })
+      .getEntitlementForAsset({ assetId: asset.assetId, customer, businessUnit, paymentProvider })
       .then(() => {
         return {
           status: EntitlementStatus.ENTITLED,
