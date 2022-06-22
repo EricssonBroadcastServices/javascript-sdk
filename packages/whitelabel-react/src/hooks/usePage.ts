@@ -110,7 +110,7 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IR
         queryKey: [
           selectedLanguage,
           reference.id,
-          reference.presentation.layout,
+          reference.presentation,
           reference.internalUrl,
           reference.authorized ? userSession?.sessionToken : null,
           reference?.subType === WLComponentSubType.TAG_FEED_QUERY ? tagList?.query : null
