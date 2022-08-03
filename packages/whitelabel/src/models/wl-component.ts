@@ -11,7 +11,8 @@ import { IWLTextComponent } from "../interfaces/wl-text-component";
 import { IWLEpgComponent } from "../interfaces/wl-epg";
 import { IWLIframe, IWLIframeComponent } from "../interfaces/wl-iframe";
 import { getIndexOfLiveOrClosestUpcomingDateInterval } from "../utils/date";
-import { IWLAssetTag, IWLCategoriesComponent } from "..";
+import { IWLCategoriesComponent } from "../interfaces/wl-categories-component";
+import { IWLAssetTag } from "../interfaces/wl-tag";
 
 marked.setOptions({
   mangle: false

@@ -4,8 +4,9 @@ import {
   IEntitlementError,
   IProductOffering
 } from "@ericssonbroadcastservices/exposure-sdk";
-import { IEntitlementStatusResult, IListOffering, WLAsset } from "..";
-import { EntitlementStatus } from "../interfaces/entitlement-result";
+import { EntitlementStatus, IEntitlementStatusResult } from "../interfaces/entitlement-result";
+import { IListOffering } from "../interfaces/list-offering";
+import { WLAsset } from "../models/wl-asset";
 
 function offeringToListOffering(
   productOffering: IProductOffering,
