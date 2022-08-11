@@ -1,4 +1,4 @@
-import { IPrice } from "..";
+import { IPrice } from "../interfaces/payment/price";
 
 export function getPriceString(price: IPrice) {
   const arr = price.amount.toString().split("");

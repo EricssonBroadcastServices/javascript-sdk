@@ -20,21 +20,13 @@ import {
   Product,
   IUserLocation,
   LoginResponse,
-  MarkerType,
   ProductOffering,
   IImage,
   publicationUtils
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
-import { IWLAssetTag } from "..";
-
-class ProductionCountry implements IProductionCountry {
-  @jsonProperty()
-  public code: string;
-  @jsonProperty()
-  public name: string;
-}
+import { IWLAssetTag } from "../interfaces/wl-tag";
 
 export class WLParticipant implements IWLParticipant {
   @jsonProperty()
@@ -43,33 +35,6 @@ export class WLParticipant implements IWLParticipant {
   public function?: string;
   @jsonProperty()
   public action?: WLAction;
-}
-
-class WLParentalRating implements IWLParentalRating {
-  @jsonProperty()
-  public country: string;
-  @jsonProperty()
-  public rating: string;
-  @jsonProperty()
-  public scheme: string;
-  @jsonProperty()
-  public countryName: string;
-}
-
-class WLOverlayWidget implements IWLOverlayWidget {
-  @jsonProperty()
-  public url: string;
-}
-
-class WLMarkerPoint implements IWLMarkerPoint {
-  @jsonProperty()
-  public type: MarkerType;
-  @jsonProperty()
-  public offset: number;
-  @jsonProperty()
-  public endOffset?: number;
-  @jsonProperty()
-  public title: string;
 }
 
 export class WLAsset implements IWLCarouselItem {
@@ -115,21 +80,23 @@ export class WLAsset implements IWLCarouselItem {
   public pushNextCuepoint?: number;
   @jsonProperty({ type: WLSeason })
   public seasons: WLSeason[] = [];
-  @jsonProperty({ type: ProductionCountry })
-  public productionCountries: ProductionCountry[];
+  @jsonProperty({ type: Object })
+  public productionCountries: IProductionCountry[];
   @jsonProperty()
   public bookmark?: {
     percentage: number;
     time: number;
   };
-  @jsonProperty({ type: WLParentalRating })
-  public parentalRatings: WLParentalRating[];
-  @jsonProperty({ type: WLOverlayWidget })
-  public overlayWidgets: WLOverlayWidget[];
+  @jsonProperty({ type: Object })
+  public parentalRatings: IWLParentalRating[];
+  @jsonProperty({ type: Object })
+  public overlayWidgets: IWLOverlayWidget[];
   @jsonProperty({ type: String })
   public slugs: string[];
-  @jsonProperty({ type: WLMarkerPoint })
-  public markerPoints?: WLMarkerPoint[];
+  @jsonProperty({ type: Object })
+  public markerPoints?: IWLMarkerPoint[];
+  @jsonProperty()
+  public seriesAssetAction?: WLAction;
 
   private getIdentifier = () => {
     return this.slugs?.length > 0 ? this.slugs[0] : this.assetId;

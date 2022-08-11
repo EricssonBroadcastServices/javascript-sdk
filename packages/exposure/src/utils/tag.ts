@@ -1,4 +1,4 @@
-import { IImage } from "..";
+import { IImage } from "../interfaces/content/image";
 import { ITag } from "../interfaces/tag/tag";
 
 function getTitle(tag: ITag, locale: string, defaultLocale?: string) {

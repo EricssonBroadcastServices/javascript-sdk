@@ -78,4 +78,5 @@ export interface IWLCarouselItem {
   overlayWidgets: IWLOverlayWidget[];
   slugs?: string[];
   markerPoints?: IWLMarkerPoint[];
+  seriesAssetAction?: IWLAction;
 }

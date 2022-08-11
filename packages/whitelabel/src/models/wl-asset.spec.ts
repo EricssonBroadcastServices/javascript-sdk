@@ -10,7 +10,7 @@ import {
   product1,
   mockMultiplePublicationWindows
 } from "@ericssonbroadcastservices/exposure-sdk/test-utils/mockPublication";
-// import { it } from "date-fns/locale";
+import { mockWLAsset } from "../../test-utils/mock-wl-asset";
 
 describe("wl asset", () => {
   describe("entitlement", () => {
@@ -56,9 +56,33 @@ describe("wl asset", () => {
       asset.startTime = mockTomorrow;
       expect(asset.getLocalStartDayString(mockTranslations)).toBe("Tomorrow");
     });
-    it("should deserialize production countries", () => {
-      const asset = deserialize(WLAsset, { productionCountries: [{ code: "SE", name: "Sweden" }] });
-      expect(asset.productionCountries).toEqual([{ code: "SE", name: "Sweden" }]);
+    it("should deserialize", () => {
+      const asset = deserialize(WLAsset, mockWLAsset);
+      expect(asset.productionCountries).toEqual([
+        {
+          code: "NL",
+          name: "Netherlands"
+        },
+        {
+          code: "US",
+          name: "United States"
+        }
+      ]);
+      expect(asset.parentalRatings).toEqual([
+        {
+          country: "BR",
+          rating: "12",
+          scheme: "Age",
+          countryName: "Brazil"
+        },
+        {
+          country: "SE",
+          rating: "11",
+          scheme: "Age",
+          countryName: "Sweden"
+        }
+      ]);
+      expect(asset.overlayWidgets).toEqual([{ url: "test" }]);
     });
   });
   describe("epg", () => {

@@ -1,5 +1,5 @@
 import { IImage } from "@ericssonbroadcastservices/exposure-sdk";
-import { IWLAction } from "..";
+import { IWLAction } from "./wl-action";
 
 export interface IWLAssetTag {
   title: string;
