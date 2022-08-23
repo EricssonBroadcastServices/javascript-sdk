@@ -62,6 +62,8 @@ export class WLAsset implements IWLCarouselItem {
   public channelId: string;
   @jsonProperty()
   public season: number;
+  @jsonProperty()
+  public episode?: number;
   @jsonProperty({ type: WLParticipant })
   public participants: WLParticipant[] = [];
   @jsonProperty()
