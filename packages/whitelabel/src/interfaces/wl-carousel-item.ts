@@ -63,7 +63,8 @@ export interface IWLCarouselItem {
   tags: IWLAssetTag[];
   tvShowId?: string;
   channelId?: string;
-  season: number;
+  season?: number;
+  episode?: number;
   externalReferences: ExternalReferences[];
   action: IWLAction;
   year: number;
