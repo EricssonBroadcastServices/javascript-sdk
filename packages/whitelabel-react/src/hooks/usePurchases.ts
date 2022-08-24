@@ -1,4 +1,4 @@
-import { PurchaseResponse, purchaseUtils, systemConfigUtils } from "@ericssonbroadcastservices/exposure-sdk";
+import { PurchaseResponse, purchaseUtils } from "@ericssonbroadcastservices/exposure-sdk";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useExposureApi } from "./useApi";
@@ -6,17 +6,20 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { useUserSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
+import { useSystemConfigV2 } from "./useSystemConfig";
 
 const purchasesCacheTime = 1000 * 60 * 30;
 
 export function usePurchases(): TApiHook<PurchaseResponse> {
-  const { customer, businessUnit, config } = useRedBeeState();
-  const paymentIsEnabled = systemConfigUtils.paymentsIsEnabled(config?.systemConfig.paymentType || "");
+  const { customer, businessUnit } = useRedBeeState();
   const [login] = useUserSession();
   const exposureApi = useExposureApi();
-
+  const [systemConfigV2] = useSystemConfigV2();
+  const paymentIsEnabled = Object.keys(systemConfigV2?.payments || "").find(paymentType => {
+    return systemConfigV2?.payments[paymentType].enabled;
+  });
   const { data, isLoading, error } = useQuery(
-    [QueryKeys.PURCHASES, login?.sessionToken],
+    [QueryKeys.PURCHASES, login?.sessionToken, paymentIsEnabled],
     () => {
       if (login?.isLoggedIn() && paymentIsEnabled) {
         return exposureApi.payment.getPurchases({ customer, businessUnit, includeOfferingDetails: true });
