@@ -1,4 +1,4 @@
-import { PurchaseResponse, purchaseUtils, systemConfigUtils } from "@ericssonbroadcastservices/exposure-sdk";
+import { PurchaseResponse, purchaseUtils } from "@ericssonbroadcastservices/exposure-sdk";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useExposureApi } from "./useApi";
