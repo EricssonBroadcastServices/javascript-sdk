@@ -1,9 +1,9 @@
-import { createLogger, format, transports } from "winston";
+import winston, { createLogger, format, transports } from "winston";
 import * as path from "path";
 import Transport from "winston-transport";
 import * as onFinished from "on-finished";
 import { Request, Response } from "express";
-import {TransformableInfo} from "logform";
+import { TransformableInfo } from "logform";
 
 export const Severity = {
   ERROR: "error",
@@ -17,24 +17,29 @@ export interface OrganisationUnit {
 }
 
 export interface LogMessage {
-  ou: OrganisationUnit,
-  message: String
+  ou: OrganisationUnit;
+  message: string;
 }
 
-const redBeeSimpleLogFormat = ({message, level}: TransformableInfo) => {
+const redBeeSimpleLogFormat = ({ message, level }: TransformableInfo) => {
   const now = new Date();
   return `[${now.toISOString()}]: ${level.toUpperCase()}  ${message}`;
 };
 
-const redBeeLogFormat = ({message, level}: TransformableInfo, ou: OrganisationUnit, appName: String) => {
+const redBeeLogFormat = ({ message, level }: TransformableInfo, ou: OrganisationUnit, appName: string) => {
   const now = new Date();
   const cu = ou?.customer || "";
   const bu = ou?.businessUnit || "";
   return `[${now.toISOString()}] [${cu}] [${bu}] [${appName}]: ${level.toUpperCase()}  ${message}`;
-}
+};
 
-let simpleFormatLogger;
+let simpleFormatLogger: winston.Logger;
 
+/**
+ * @param {string} logDir - the directory in which to write logs
+ * @param {boolean=} logToConsole - if logs should be printed to console
+ * @param {string=} logDir - app name to be added to log rows. If present, the logger can be used with payload { message: "", ou: { customer: "", businessUnit: ""}}
+ */
 export function setupLogger(logDir: string, logToConsole = false, appName = "") {
   const enabledTransports: Transport[] = [
     new transports.File({
@@ -51,16 +56,21 @@ export function setupLogger(logDir: string, logToConsole = false, appName = "") 
     });
   } else {
     simpleFormatLogger = createLogger({
-      format: format.printf((info) => redBeeLogFormat(info, info.ou, appName)),
+      format: format.printf(info => redBeeLogFormat(info, info.ou, appName)),
       transports: enabledTransports
     });
   }
 }
 
 export const logger = {
-  info: (args:String|LogMessage) => isString(args) ? simpleFormatLogger.info(args) : simpleFormatLogger.log({...args, level: "info"}),
-  warn: (args:String|LogMessage) => isString(args) ? simpleFormatLogger.warn(args) : simpleFormatLogger.log({...args, level: "warn"}),
-  error: (args:String|LogMessage) => isString(args) ? simpleFormatLogger.error(args) : simpleFormatLogger.log({...args, level: "error"}),
+  info: (args: string | LogMessage) =>
+    isString(args) ? simpleFormatLogger.info(args) : simpleFormatLogger.log({ ...(args as LogMessage), level: "info" }),
+  warn: (args: string | LogMessage) =>
+    isString(args) ? simpleFormatLogger.warn(args) : simpleFormatLogger.log({ ...(args as LogMessage), level: "warn" }),
+  error: (args: string | LogMessage) =>
+    isString(args)
+      ? simpleFormatLogger.error(args)
+      : simpleFormatLogger.log({ ...(args as LogMessage), level: "error" }),
 
   loggerMiddleware: (req: Request, res: Response, next, immediate = false) => {
     function log() {
@@ -108,4 +118,4 @@ export const logger = {
   }
 };
 
-const isString = obj => typeof obj === 'string' || obj instanceof String;
+const isString = obj => typeof obj === "string" || obj instanceof String;
