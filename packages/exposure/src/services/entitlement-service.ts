@@ -9,7 +9,7 @@ interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   paymentProvider?: TPaymentProvider;
 }
 
-export type TPlayFormat = "dash" | "hls" | "mss";
+export type TPlayFormat = "dash" | "hls" | "mss" | "mp3";
 export type TPlayDrm = "widevine" | "playready" | "fairplay";
 export type TAdDeviceType = "desktop" | "tablet" | "mobile" | "ctv" | "chromecast" | "airplay";
 
