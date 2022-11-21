@@ -129,6 +129,8 @@ export interface IAnalytics {
   postInterval?: number;
   bucket?: number;
   tag?: string;
+  baseUrl?: string;
+  percentage?: number;
 }
 
 export interface IPlay {
