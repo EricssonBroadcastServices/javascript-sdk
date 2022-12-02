@@ -61,9 +61,9 @@ export class WLAsset implements IWLCarouselItem {
   @jsonProperty()
   public channelId: string;
   @jsonProperty()
-  public season: number;
+  public seasonNumber?: number;
   @jsonProperty()
-  public episode?: number;
+  public episodeNumber?: number;
   @jsonProperty({ type: WLParticipant })
   public participants: WLParticipant[] = [];
   @jsonProperty()
@@ -174,6 +174,7 @@ export class WLAsset implements IWLCarouselItem {
    * @deprecated routing logic should preferably be kept in apps
    */
   public getPlayLink = (userEntitlements: Product[], availabilityKeys: string[]) => {
+    // TODO: remove this once we consider it safe.
     switch (this.type) {
       case AssetType.TV_SHOW:
         return `/asset/${this.getIdentifier()}`;
@@ -182,7 +183,7 @@ export class WLAsset implements IWLCarouselItem {
           ? `/play/${this.getIdentifier()}?playlist=season`
           : `/asset/${this.getIdentifier()}`;
       default:
-        if (this.tvShowId && this.season) {
+        if (this.tvShowId && this.seasonNumber) {
           return this.getIsEntitled(availabilityKeys)
             ? `/play/${this.getIdentifier()}?playlist=season`
             : `/asset/${this.getIdentifier()}`;
