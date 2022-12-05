@@ -65,6 +65,14 @@ export interface IWLCarouselItem {
   channelId?: string;
   seasonNumber?: number;
   episodeNumber?: number;
+  /**
+   * @deprecated use seasonNumber
+   */
+  season?: number;
+  /**
+   * @deprecated use episodeNumber
+   */
+  episode?: number;
   externalReferences: ExternalReferences[];
   action: IWLAction;
   year: number;
