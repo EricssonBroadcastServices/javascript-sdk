@@ -56,7 +56,6 @@ const storage: IStorage = {
 function AppProvider() {
   return (
     <RedBeeProvider
-      internalApiUrl={"https://bsbu.enigmatv.io"}
       exposureBaseUrl={"https://exposure.api.redbee.dev"}
       customer={"BSCU"}
       businessUnit={"BSBU"}

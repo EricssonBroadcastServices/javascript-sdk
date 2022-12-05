@@ -15,7 +15,6 @@ interface IInitialPropsProvider {
   exposureBaseUrl: string;
   device: IDeviceInfo;
   children?: React.ReactNode;
-  internalApiUrl: string;
   deviceGroup: DeviceGroup;
   onSessionValidationError?: (err: unknown) => void;
 }
@@ -82,7 +81,6 @@ export function InitialPropsProvider({
   businessUnit,
   exposureBaseUrl,
   device,
-  internalApiUrl,
   deviceGroup,
   onSessionValidationError
 }: IInitialPropsProvider) {
@@ -123,7 +121,6 @@ export function InitialPropsProvider({
         storage: storage || null,
         device,
         exposureBaseUrl,
-        internalApiUrl,
         config: null,
         deviceGroup,
         exposureApi,
@@ -134,7 +131,7 @@ export function InitialPropsProvider({
           deviceGroup,
           customer,
           businessUnit,
-          baseUrl: internalApiUrl
+          baseUrl: exposureBaseUrl
         })
       });
       setIsReady(true);
