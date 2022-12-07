@@ -23,3 +23,4 @@ export type { TWLComponent, IResolvedComponent } from "./hooks/usePage";
 export { usePushNextContentData } from "./hooks/usePushNextContentData";
 export { useSystemConfigV2 } from "./hooks/useSystemConfig";
 export { ErrorCode } from "./util/error";
+export { queryClient, QueryKeys } from "./util/react-query";
