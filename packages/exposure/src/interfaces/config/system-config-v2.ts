@@ -42,4 +42,8 @@ export interface ISystemConfigV2 {
   };
   playerUrl: string;
   production: boolean;
+  sentry: {
+    enabled: boolean;
+    sampleRate: number;
+  };
 }
