@@ -133,6 +133,11 @@ export interface IAnalytics {
   percentage?: number;
 }
 
+export interface IEpg {
+  enabled: boolean;
+  entitlementCheck: boolean;
+}
+
 export interface IPlay {
   assetId?: string;
   accountId: string;
@@ -142,6 +147,7 @@ export interface IPlay {
   playSessionId: string;
   playToken: string;
   playTokenExpiration: number;
+  epg: IEpg;
   formats: IFormat[];
   streamInfo: IStreamInfo;
   sprites?: ISprite[];
