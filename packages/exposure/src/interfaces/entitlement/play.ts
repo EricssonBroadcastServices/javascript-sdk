@@ -147,7 +147,7 @@ export interface IPlay {
   playSessionId: string;
   playToken: string;
   playTokenExpiration: number;
-  epg: IEpg;
+  epg?: IEpg;
   formats: IFormat[];
   streamInfo: IStreamInfo;
   sprites?: ISprite[];
