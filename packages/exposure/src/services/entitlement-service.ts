@@ -7,6 +7,7 @@ import { TPaymentProvider } from "./payment-service";
 interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
   paymentProvider?: TPaymentProvider;
+  time?: string;
 }
 
 export type TPlayFormat = "dash" | "hls" | "mss" | "mp3";
@@ -52,11 +53,15 @@ export class EntitlementService extends BaseService {
     businessUnit,
     headers,
     assetId,
+    time,
     paymentProvider
   }: GetEntitlementForAssetOptions): Promise<IEntitlementResponse> {
     const searchParams = new URLSearchParams({});
     if (paymentProvider) {
       searchParams.set("paymentProvider", paymentProvider);
+    }
+    if (time) {
+      searchParams.set("time", time);
     }
     return this.get(
       `${this.cuBuUrl({
