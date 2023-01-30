@@ -7,7 +7,7 @@ import { TPaymentProvider } from "./payment-service";
 interface GetEntitlementForAssetOptions extends CustomerAndBusinessUnitOptions {
   assetId: string;
   paymentProvider?: TPaymentProvider;
-  time?: string;
+  time?: Date;
 }
 
 export type TPlayFormat = "dash" | "hls" | "mss" | "mp3";
@@ -61,7 +61,7 @@ export class EntitlementService extends BaseService {
       searchParams.set("paymentProvider", paymentProvider);
     }
     if (time) {
-      searchParams.set("time", time);
+      searchParams.set("time", time.toISOString());
     }
     return this.get(
       `${this.cuBuUrl({
