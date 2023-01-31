@@ -61,8 +61,7 @@ export class EntitlementService extends BaseService {
       searchParams.set("paymentProvider", paymentProvider);
     }
     if (time) {
-      // Add one millisecond because time needs to be after publication time
-      searchParams.set("time", new Date(time.getTime() + 1).toISOString());
+      searchParams.set("time", time.toISOString());
     }
     return this.get(
       `${this.cuBuUrl({
