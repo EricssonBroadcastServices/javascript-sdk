@@ -38,7 +38,7 @@ export class OnNowAsset {
   @jsonProperty({
     type: Asset
   })
-  public asset: Asset;
+  public asset?: Asset;
 }
 
 export class OnNowResponse {
