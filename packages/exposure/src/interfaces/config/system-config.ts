@@ -109,8 +109,7 @@ export enum PaymentType {
   STRIPE = "stripe",
   EXTERNAL = "external",
   DENY = "deny",
-  VOUCHERS_ONLY = "vouchers",
-  BRAINTREE = "braintree"
+  VOUCHERS_ONLY = "vouchers"
 }
 
 export interface ISystemConfig {

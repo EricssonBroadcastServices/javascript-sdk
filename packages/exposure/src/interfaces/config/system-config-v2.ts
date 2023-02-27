@@ -22,9 +22,6 @@ export interface ISystemConfigV2 {
     defaultLocale: string;
   };
   payments: {
-    braintree: {
-      enabled: boolean;
-    };
     external: {
       enabled: boolean;
       externalPaymentUrl?: string;

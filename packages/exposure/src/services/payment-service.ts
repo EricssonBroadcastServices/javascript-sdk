@@ -12,7 +12,7 @@ import {
   IGooglePlayVerifyResponse
 } from "../interfaces/payment/google-play";
 
-export type TPaymentProvider = "stripe" | "braintree" | "googleplay" | "external" | "deny";
+export type TPaymentProvider = "stripe" | "googleplay" | "external" | "deny";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
@@ -65,10 +65,6 @@ export interface BuyProductOfferingOptions extends CustomerAndBusinessUnitOption
       storeCardDetails?: boolean; // deprecated
       paymentMethodId?: string;
     };
-    braintreePurchase?: {
-      paymentMethodId: string;
-      reusedPaymentMethod: boolean;
-    };
     voucherCode?: string;
     storePaymentMethod?: boolean;
   };
@@ -113,41 +109,6 @@ interface IPurchaseMethodType {
 }
 export interface IPurchaseSettings {
   clientToken: string;
-  braintreePaymentMethods?: {
-    card?: {
-      vault?: {
-        vaultCard: boolean;
-        allowVaultCardOverride: boolean;
-      };
-    };
-    applePay?: {
-      paymentRequest: {
-        total: {
-          amount: string;
-          label: string;
-        };
-      };
-    };
-    googlePay?: {
-      merchantId: string;
-      allowedPaymentMethods: [
-        {
-          type: string;
-        }
-      ];
-      googlePayVersion: number;
-      transactionInfo: {
-        totalPrice: string;
-        totalPriceStatus: string;
-        currencyCode: string;
-      };
-    };
-    paypal?: {
-      amount?: number;
-      currency?: string;
-      flow: string;
-    };
-  };
   stripe?: {
     methodTypes: IPurchaseMethodType[];
     wallets?: IPurchaseMethodType[];
@@ -156,11 +117,6 @@ export interface IPurchaseSettings {
 
 interface IAddPaymentMethodOptions extends CustomerAndBusinessUnitOptions {
   paymentMethodId?: string;
-}
-
-interface IInitializeBraintreeOptions extends CustomerAndBusinessUnitOptions {
-  productOfferingId?: string;
-  voucherCode?: string;
 }
 
 export class PaymentService extends BaseService {
@@ -363,19 +319,6 @@ export class PaymentService extends BaseService {
         paymentMethodId
       },
       this.options.authHeader()
-    );
-  }
-
-  public initializePurchase({
-    customer,
-    businessUnit,
-    productOfferingId,
-    voucherCode
-  }: IInitializeBraintreeOptions): Promise<IPurchaseSettings> {
-    return this.post(
-      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/store/purchase/initialize`,
-      { productOfferingId, voucherCode },
-      { ...this.options.authHeader() }
     );
   }
 
