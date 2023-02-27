@@ -119,6 +119,11 @@ interface IAddPaymentMethodOptions extends CustomerAndBusinessUnitOptions {
   paymentMethodId?: string;
 }
 
+interface IInitializePurchaseOptions extends CustomerAndBusinessUnitOptions {
+  productOfferingId?: string;
+  voucherCode?: string;
+}
+
 export class PaymentService extends BaseService {
   public getProductOfferingsByVoucherCode({
     customer,
@@ -319,6 +324,19 @@ export class PaymentService extends BaseService {
         paymentMethodId
       },
       this.options.authHeader()
+    );
+  }
+
+  public initializePurchase({
+    customer,
+    businessUnit,
+    productOfferingId,
+    voucherCode
+  }: IInitializePurchaseOptions): Promise<IPurchaseSettings> {
+    return this.post(
+      `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2" })}/store/purchase/initialize`,
+      { productOfferingId, voucherCode },
+      { ...this.options.authHeader() }
     );
   }
 
