@@ -62,12 +62,8 @@ export class SystemConfig implements ISystemConfig {
   @jsonProperty()
   public signupModel: SignupModel;
   public paymentsIsEnabled = () => {
-    return [
-      PaymentType.ADYEN,
-      PaymentType.EXTERNAL,
-      PaymentType.STRIPE,
-      PaymentType.VOUCHERS_ONLY,
-      PaymentType.BRAINTREE
-    ].includes(this.paymentType);
+    return [PaymentType.ADYEN, PaymentType.EXTERNAL, PaymentType.STRIPE, PaymentType.VOUCHERS_ONLY].includes(
+      this.paymentType
+    );
   };
 }
