@@ -1,0 +1,9 @@
+{{#if isPatch~}}
+  ##
+{{~else~}}
+  #
+{{~/if}} {{#if @root.linkCompare~}}
+  Release {{version}}
+{{~/if}}
+{{~#if date}} ({{date}})
+{{/if}}
