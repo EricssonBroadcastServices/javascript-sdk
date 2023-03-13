@@ -1,0 +1,29 @@
+{
+  "name": "@ericssonbroadcastservices/conventional-changelog-redbeemedia",
+  "version": "1.0.0",
+  "description": "conventional-changelog for RedBeeMedia release notes",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricssonBroadcastServices/javascript-sdk.git"
+  },
+  "keywords": [
+    "conventional-changelog",
+    "preset"
+  ],
+  "files": [
+    "conventional-changelog.js",
+    "conventional-recommended-bump.js",
+    "index.js",
+    "parser-opts.js",
+    "writer-opts.js",
+    "templates"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "compare-func": "^2.0.0"
+  }
+}
