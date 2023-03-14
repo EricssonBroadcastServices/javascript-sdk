@@ -1,9 +1,5 @@
-{{#if isPatch~}}
-  ##
-{{~else~}}
-  #
-{{~/if}} {{#if @root.linkCompare~}}
-  Release {{version}}
+{{#if @root.linkCompare~}}
+**v{{version}}**
 {{~/if}}
 {{~#if date}} ({{date}})
 {{/if}}
