@@ -86,7 +86,16 @@ function getWriterOpts () {
       return commit
     },
     groupBy: 'type',
-    commitGroupsSort: 'title',
+    commitGroupsSort: (a, b) => {
+      const commitGroupOrder = ['Reverts', 'Performance Improvements', 'Bug Fixes', 'Features']
+      const gRankA = commitGroupOrder.indexOf(a.title)
+      const gRankB = commitGroupOrder.indexOf(b.title)
+      if (gRankA >= gRankB) {
+        return -1
+      } else {
+        return 1
+      }
+    },
     commitsSort: ['scope', 'subject'],
     noteGroupsSort: 'title',
     notesSort: compareFunc
