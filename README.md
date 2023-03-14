@@ -5,9 +5,9 @@ Make sure you read [Working with git](https://github.com/EricssonBroadcastServic
 ## Development
 
 1. `npm install`, this will install all dependencies and link together all packages in this repo
-1. `npm run build` to build once and `npm run watch` to rebuild on changes
-1. `npm install <path-to-this-repo>/packages/<package-to-work-with>` run this from any project using these packages.
-1. `npm run demo` to run the demo appliction in the whitelabel-react package
+2. `npm run build` to build once and `npm run watch` to rebuild on changes
+3. `npm install <path-to-this-repo>/packages/<package-to-work-with>` run this from any project using these packages.
+4. `npm run demo` to run the demo appliction in the whitelabel-react package
 
 ## Release packages
 
