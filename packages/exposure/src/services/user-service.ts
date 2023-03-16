@@ -26,9 +26,9 @@ export interface SetNewPasswordOptions extends CustomerAndBusinessUnitOptions {
 
 export interface UpdateUserDetailsOptions extends CustomerAndBusinessUnitOptions {
   body: {
-    displayName: string | null;
-    newPassword: string | null;
-    language: string | null;
+    displayName?: string | null;
+    newPassword?: string | null;
+    language?: string | null;
   };
 }
 
@@ -149,7 +149,7 @@ export class UserService extends BaseService {
   public updateUserDetails({ customer, businessUnit, body }: UpdateUserDetailsOptions) {
     return this.put(
       `${this.cuBuUrl({
-        apiVersion: "v1",
+        apiVersion: "v2",
         customer,
         businessUnit
       })}/user/details`,
