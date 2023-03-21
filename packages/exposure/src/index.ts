@@ -16,10 +16,11 @@ import {
   TPaymentProvider
 } from "./services/payment-service";
 import { SystemService } from "./services/system-service";
+import { PreferencesService } from "./services/preferences-service";
+import { WhiteLabelService } from "./services/white-label-service";
 
 /* Models */
 import { SystemConfig } from "./models/system-config-model";
-import { PreferencesService } from "./services/preferences-service";
 
 export { ILocalizedMetadata, ILocalizedMetadata as Localized } from "./interfaces/content/localized-metadata";
 export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
@@ -98,6 +99,7 @@ export {
 export { ITag, ITag as TagResponse } from "./interfaces/tag/tag";
 export { IBookmark, IBookmark as Bookmark } from "./interfaces/content/bookmark";
 export { CustomerConfigFile } from "./models/customer-config-file-model";
+export { AppConfig } from "./models/app-config-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export {
   IPurchase,
@@ -128,7 +130,7 @@ export {
   LoginMethodType,
   AccessModel,
   SignupModel,
-  ISystemConfig,
+  ISystemConfig
 } from "./interfaces/config/system-config";
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
@@ -153,7 +155,8 @@ export {
   PaymentService,
   CustomerConfigService,
   DocumentService,
-  PreferencesService
+  PreferencesService,
+  WhiteLabelService
 };
 export { EntitlementService, TPlayDrm, TPlayFormat, TAdDeviceType } from "./services/entitlement-service";
 
@@ -204,4 +207,5 @@ export class ExposureApi {
   public payment = new PaymentService(this.options);
   public preferences = new PreferencesService(this.options);
   public system = new SystemService(this.options);
+  public whiteLabel = new WhiteLabelService(this.options);
 }
