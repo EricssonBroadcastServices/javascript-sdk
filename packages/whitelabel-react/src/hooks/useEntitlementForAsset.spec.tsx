@@ -37,8 +37,7 @@ function TestWrapper({ children }) {
   return (
     <RedBeeProvider
       deviceGroup={DeviceGroup.WEB}
-      exposureBaseUrl="internal"
-      internalApiUrl="exposure"
+      exposureBaseUrl="exposure"
       device={mockDevice}
       customer={"CU"}
       businessUnit={"BU"}

@@ -16,7 +16,6 @@ export interface IRedBeeState {
   customer: string;
   businessUnit: string;
   exposureBaseUrl: string;
-  internalApiUrl: string;
   deviceGroup: DeviceGroup;
   exposureApi: ExposureApi;
   whiteLabelApi: WhiteLabelService;
@@ -87,7 +86,7 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         // The only time we need to update the exposure api is when setting a new session
         exposureApi,
         whiteLabelApi: new WhiteLabelService({
-          baseUrl: state.internalApiUrl,
+          baseUrl: state.exposureBaseUrl,
           customer: state.customer,
           businessUnit: state.businessUnit,
           deviceGroup: state.deviceGroup,
@@ -134,7 +133,6 @@ interface IRedBeeProvider {
   customer: string;
   businessUnit: string;
   exposureBaseUrl: string;
-  internalApiUrl: string;
   children?: React.ReactNode;
   deviceGroup: DeviceGroup;
   storage?: IStorage;
@@ -171,7 +169,6 @@ export function RedBeeProvider({
   businessUnit,
   device,
   deviceGroup,
-  internalApiUrl,
   exposureBaseUrl,
   children,
   autoFetchConfig,
@@ -180,8 +177,8 @@ export function RedBeeProvider({
   if (!customer || !businessUnit) {
     throw "customer and businessUnit are required";
   }
-  if (!exposureBaseUrl || !internalApiUrl || !deviceGroup || !device) {
-    throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, internalApiUrl: ${internalApiUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
+  if (!exposureBaseUrl || !deviceGroup || !device) {
+    throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
   }
   if (!storage) {
     console.warn("not providing a storage module means no data will be persisted between sessions");
@@ -193,7 +190,6 @@ export function RedBeeProvider({
       businessUnit={businessUnit}
       device={device}
       deviceGroup={deviceGroup}
-      internalApiUrl={internalApiUrl}
       exposureBaseUrl={exposureBaseUrl}
       onSessionValidationError={onSessionValidationError}
     >
