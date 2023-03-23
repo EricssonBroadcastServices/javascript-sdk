@@ -30,7 +30,7 @@ export interface ServiceOptions {
 }
 
 interface CuBuUrlOptions extends CustomerAndBusinessUnitOptions {
-  apiVersion: "v1" | "v2" | "v1/whitelabel" | "v3";
+  apiVersion: "v1" | "v2" | "v1/whitelabel" | "v2/whitelabel" | "v3";
 }
 
 export const errorMapper = err => {
