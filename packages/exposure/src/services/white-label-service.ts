@@ -6,10 +6,13 @@ export class WhiteLabelService extends BaseService {
     customer,
     businessUnit,
     app
-  }: { app: App } & CustomerAndBusinessUnitOptions): Promise<AppConfig[App]> {
+  }: { app: App } & CustomerAndBusinessUnitOptions): Promise<AppConfig[App] | undefined> {
     return this.get(`${this.cuBuUrl({ customer, businessUnit, apiVersion: "v2/whitelabel" })}/config/appConfig`).then(
       data => {
-        const component = data.components[app][0];
+        const component = data.components[app]?.[0];
+        if (!component) {
+          return;
+        }
         const { assetSearchTypes, ...parameters } = component.parameters;
         const images = component.presentation.fallback.images.reduce((map: Record<string, string>, { url, tags }) => {
           map[tags[0]] = url;
