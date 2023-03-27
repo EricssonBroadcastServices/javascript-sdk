@@ -1,6 +1,8 @@
 interface SamsungConfig {
   appName: string;
   appIdentifier: string;
+  appBundle: string;
+  appStoreUrl: string;
   images: {
     splashScreenImage: string;
     appIcon: string;
@@ -10,6 +12,8 @@ interface SamsungConfig {
 interface LGConfig {
   appName: string;
   appIdentifier: string;
+  appBundle: string;
+  appStoreUrl: string;
   tileBackgroundColor: string;
   images: {
     splashScreenImage: string;
