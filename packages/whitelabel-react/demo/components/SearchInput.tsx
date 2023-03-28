@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSearch } from "../../src/index";
 
 export default function SearchInput() {
-  const [term, setTerm] = useState();
+  const [term, setTerm] = useState("");
   const [assets] = useSearch(term);
   return (
     <div>

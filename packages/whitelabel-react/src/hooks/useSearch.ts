@@ -14,5 +14,6 @@ export function useSearch(term: string, debounceTime = 300): TApiHook<WLAsset[]>
     if (!searchUrl || !debouncedTerm || term === "") return;
     return wlApi.search({ url: searchUrl, searchTerm: debouncedTerm });
   });
-  return [data || null, isLoading, error];
+  const isLoadingOrDebouncing = isLoading || term !== debouncedTerm;
+  return [data || null, term !== "" && isLoadingOrDebouncing, error];
 }
