@@ -5,7 +5,7 @@ export interface IAppStoreInitResponse {
 }
 
 export interface IAppStoreInitPayload {
-  assetId: string;
+  assetId?: string;
 }
 
 export type TAppStorePurchaseStatus = "pending" | "accepted" | "rejected" | "cancelled";
