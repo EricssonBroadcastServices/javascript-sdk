@@ -1,5 +1,7 @@
 import { IProductOffering } from "./product-offering";
 
+export type TPurchaseStatus = "pending" | "accepted" | "rejected" | "cancelled";
+
 export interface IPurchase {
   id: string;
   renewal: boolean;

@@ -1,3 +1,5 @@
+import { TPurchaseStatus } from "./purchase";
+
 export interface IGooglePlayInitResponse {
   skuId: string;
   obfuscatedAccountId: string;
@@ -11,10 +13,8 @@ export interface IGooglePlayInitPayload {
   voucherCode?: string;
 }
 
-export type TGooglePlayPurchaseStatus = "pending" | "accepted" | "rejected" | "cancelled";
-
 export interface IGooglePlayVerifyResponse {
-  transactionStatus: TGooglePlayPurchaseStatus;
+  transactionStatus: TPurchaseStatus;
 }
 
 export interface IGooglePlayVerifyPayload {

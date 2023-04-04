@@ -1,3 +1,5 @@
+import { TPurchaseStatus } from "./purchase";
+
 export interface IAppStoreInitResponse {
   appAccountToken: string; // UUID
   purchaseId: string;
@@ -8,12 +10,10 @@ export interface IAppStoreInitPayload {
   assetId?: string;
 }
 
-export type TAppStorePurchaseStatus = "pending" | "accepted" | "rejected" | "cancelled";
-
 export interface IAppStoreVerifyResponse {
-  transactionStatus: TAppStorePurchaseStatus;
+  transactionStatus: TPurchaseStatus;
 }
 
 export interface IAppStoreVerifyPayload {
-  transaction: TAppStorePurchaseStatus;
+  transaction: TPurchaseStatus;
 }
