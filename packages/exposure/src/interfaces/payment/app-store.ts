@@ -15,5 +15,5 @@ export interface IAppStoreVerifyResponse {
 }
 
 export interface IAppStoreVerifyPayload {
-  transaction: string;
+  transaction: TAppStorePurchaseStatus;
 }
