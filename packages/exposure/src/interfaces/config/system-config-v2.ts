@@ -29,7 +29,7 @@ export interface ISystemConfigV2 {
     googleplay: {
       enabled: boolean;
     };
-    appStore: {
+    appstore: {
       enabled: boolean;
     };
     stripe: {
