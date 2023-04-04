@@ -35,4 +35,7 @@ export interface IProductOffering {
   googlePlayReference?: {
     skuId: string;
   };
+  appStoreReference?: {
+    productId: string;
+  };
 }

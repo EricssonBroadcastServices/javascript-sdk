@@ -11,8 +11,14 @@ import {
   IGooglePlayVerifyPayload,
   IGooglePlayVerifyResponse
 } from "../interfaces/payment/google-play";
+import {
+  IAppStoreInitPayload,
+  IAppStoreInitResponse,
+  IAppStoreVerifyPayload,
+  IAppStoreVerifyResponse
+} from "../interfaces/payment/app-store";
 
-export type TPaymentProvider = "stripe" | "googleplay" | "external" | "deny";
+export type TPaymentProvider = "stripe" | "googleplay" | "appstore" | "external" | "deny";
 
 export interface GetProductOfferingsByCountryOptions extends CustomerAndBusinessUnitOptions {
   countryCode: string;
@@ -373,6 +379,42 @@ export class PaymentService extends BaseService {
         apiVersion: "v3"
       })}/store/googleplay/purchase/${purchaseId}/verify`,
       { purchaseToken },
+      this.options.authHeader()
+    );
+  }
+
+  public initializeAppStorePurchase({
+    customer,
+    businessUnit,
+    productOfferingId,
+    assetId
+  }: CustomerAndBusinessUnitOptions &
+    IAppStoreInitPayload & { productOfferingId: string }): Promise<IAppStoreInitResponse> {
+    return this.post(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v3"
+      })}/store/appstore/purchase/init/${productOfferingId}`,
+      { assetId },
+      this.options.authHeader()
+    );
+  }
+
+  public verifyAppStorePurchase({
+    customer,
+    businessUnit,
+    purchaseId,
+    transaction
+  }: CustomerAndBusinessUnitOptions &
+    IAppStoreVerifyPayload & { purchaseId: string }): Promise<IAppStoreVerifyResponse> {
+    return this.post(
+      `${this.cuBuUrl({
+        customer,
+        businessUnit,
+        apiVersion: "v3"
+      })}/store/appstore/purchase/${purchaseId}/verify`,
+      { transaction },
       this.options.authHeader()
     );
   }
