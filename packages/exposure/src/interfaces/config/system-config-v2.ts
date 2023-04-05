@@ -29,6 +29,9 @@ export interface ISystemConfigV2 {
     googleplay: {
       enabled: boolean;
     };
+    appstore: {
+      enabled: boolean;
+    };
     stripe: {
       enabled: boolean;
       stripePublicKey?: string;
