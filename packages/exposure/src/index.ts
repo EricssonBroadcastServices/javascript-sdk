@@ -170,6 +170,7 @@ export * from "./interfaces/white-label/exposure-wl-page";
 export * from "./interfaces/white-label/exposure-wl-presentation";
 export * from "./interfaces/white-label/exposure-wl-reference";
 export * from "./interfaces/payment/google-play";
+export * from "./interfaces/payment/app-store";
 export * from "./interfaces/config/system-config-v2";
 
 /* Utils */
