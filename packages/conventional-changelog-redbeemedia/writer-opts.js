@@ -4,6 +4,10 @@ const compareFunc = require('compare-func')
 const { readFile } = require('fs').promises
 const { resolve } = require('path')
 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 module.exports = Promise.all([
   readFile(resolve(__dirname, './templates/template.hbs'), 'utf-8'),
   readFile(resolve(__dirname, './templates/header.hbs'), 'utf-8'),
@@ -74,6 +78,8 @@ function getWriterOpts () {
           // Remove github issue references
           commit.subject = commit.subject.replace(/\(#([0-9]+)\)/g, '');
       }
+
+      commit.subject = capitalize(commit.subject)
 
       // remove references that already appear in the subject
       commit.references = commit.references.filter(reference => {
