@@ -1,12 +1,14 @@
-export enum DeviceType {
-  WEB = "WEB",
-  MOBILE = "MOBILE",
-  TABLET = "TABLET",
-  SMART_TV = "SMART_TV",
-  APPLE_TV = "APPLE_TV",
-  CONSOLE = "CONSOLE",
-  STB = "STB"
-}
+export const DeviceType = {
+  WEB: "WEB",
+  MOBILE: "MOBILE",
+  TABLET: "TABLET",
+  SMART_TV: "SMART_TV",
+  APPLE_TV: "APPLE_TV",
+  CONSOLE: "CONSOLE",
+  STB: "STB"
+} as const;
+// eslint-disable-next-line no-redeclare
+export type DeviceType = typeof DeviceType[keyof typeof DeviceType];
 
 export interface IDeviceInfo {
   type: DeviceType;

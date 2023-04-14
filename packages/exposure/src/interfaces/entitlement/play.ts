@@ -1,26 +1,35 @@
-export enum DRMType {
-  PLAYREADY = "com.microsoft.playready",
-  WIDEVINE = "com.widevine.alpha",
-  FAIRPLAY = "com.apple.fps"
-}
+export const DRMType = {
+  PLAYREADY: "com.microsoft.playready",
+  WIDEVINE: "com.widevine.alpha",
+  FAIRPLAY: "com.apple.fps"
+} as const;
 
-export enum FormatType {
-  DASH = "DASH",
-  HLS = "HLS",
-  SMOOTHSTREAMING = "SMOOTHSTREAMING",
-  MP4 = "MP4",
-  MP3 = "MP3"
-}
+// eslint-disable-next-line no-redeclare
+export type DRMType = typeof DRMType[keyof typeof DRMType];
 
-export enum Stitcher {
-  GENERIC = "GENERIC",
-  NOWTILUS = "NOWTILUS"
-}
+export const FormatType = {
+  DASH: "DASH",
+  HLS: "HLS",
+  SMOOTHSTREAMING: "SMOOTHSTREAMING",
+  MP4: "MP4",
+  MP3: "MP3"
+} as const;
+// eslint-disable-next-line no-redeclare
+export type FormatType = typeof FormatType[keyof typeof FormatType];
 
-export enum AdClipCategory {
-  VOD = "vod",
-  AD = "ad"
-}
+export const Stitcher = {
+  GENERIC: "GENERIC",
+  NOWTILUS: "NOWTILUS"
+} as const;
+// eslint-disable-next-line no-redeclare
+export type Stitcher = typeof Stitcher[keyof typeof Stitcher];
+
+export const AdClipCategory = {
+  VOD: "vod",
+  AD: "ad"
+} as const;
+// eslint-disable-next-line no-redeclare
+export type AdClipCategory = typeof AdClipCategory[keyof typeof AdClipCategory];
 
 export class IDRM {
   licenseServerUrl: string;

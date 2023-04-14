@@ -89,12 +89,14 @@ export interface LinkedEntity {
   linkType: LinkType;
 }
 
-export enum MarkerType {
-  INTRO = "INTRO",
-  CREDITS = "CREDITS",
-  POINT = "POINT",
-  CHAPTER = "CHAPTER"
-}
+export const MarkerType = {
+  INTRO: "INTRO",
+  CREDITS: "CREDITS",
+  POINT: "POINT",
+  CHAPTER: "CHAPTER"
+} as const;
+// eslint-disable-next-line no-redeclare
+export type MarkerType = typeof MarkerType[keyof typeof MarkerType];
 
 interface IEventTimes {
   startTime: string;
