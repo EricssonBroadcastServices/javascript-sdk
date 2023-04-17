@@ -1,8 +1,9 @@
-export enum ImageOrientation {
-  LANDSCAPE = "LANDSCAPE",
-  PORTRAIT = "PORTRAIT",
-  SQUARE = "SQUARE"
-}
+export const ImageOrientation = {
+  LANDSCAPE: "LANDSCAPE",
+  PORTRAIT: "PORTRAIT",
+  SQUARE: "SQUARE"
+} as const;
+export type ImageOrientation = typeof ImageOrientation[keyof typeof ImageOrientation];
 
 export enum ImageType {
   POSTER = "poster",

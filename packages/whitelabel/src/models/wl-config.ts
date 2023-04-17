@@ -119,6 +119,6 @@ export class WLConfig implements IWLConfig {
   public footer: WLFooter;
   @jsonProperty()
   public sentry: ISentryConfig;
-  
+
   public getShouldUseFreeForAll = () => this.systemConfig.frontendFeatures.shouldAlwaysUseAnonymousLogin;
 }
