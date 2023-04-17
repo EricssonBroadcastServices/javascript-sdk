@@ -7,7 +7,6 @@ export const DeviceType = {
   CONSOLE: "CONSOLE",
   STB: "STB"
 } as const;
-// eslint-disable-next-line no-redeclare
 export type DeviceType = typeof DeviceType[keyof typeof DeviceType];
 
 export interface IDeviceInfo {

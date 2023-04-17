@@ -3,8 +3,6 @@ export const DRMType = {
   WIDEVINE: "com.widevine.alpha",
   FAIRPLAY: "com.apple.fps"
 } as const;
-
-// eslint-disable-next-line no-redeclare
 export type DRMType = typeof DRMType[keyof typeof DRMType];
 
 export const FormatType = {
@@ -14,21 +12,18 @@ export const FormatType = {
   MP4: "MP4",
   MP3: "MP3"
 } as const;
-// eslint-disable-next-line no-redeclare
 export type FormatType = typeof FormatType[keyof typeof FormatType];
 
 export const Stitcher = {
   GENERIC: "GENERIC",
   NOWTILUS: "NOWTILUS"
 } as const;
-// eslint-disable-next-line no-redeclare
 export type Stitcher = typeof Stitcher[keyof typeof Stitcher];
 
 export const AdClipCategory = {
   VOD: "vod",
   AD: "ad"
 } as const;
-// eslint-disable-next-line no-redeclare
 export type AdClipCategory = typeof AdClipCategory[keyof typeof AdClipCategory];
 
 export class IDRM {

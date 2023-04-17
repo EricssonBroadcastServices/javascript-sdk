@@ -95,7 +95,6 @@ export const MarkerType = {
   POINT: "POINT",
   CHAPTER: "CHAPTER"
 } as const;
-// eslint-disable-next-line no-redeclare
 export type MarkerType = typeof MarkerType[keyof typeof MarkerType];
 
 interface IEventTimes {
