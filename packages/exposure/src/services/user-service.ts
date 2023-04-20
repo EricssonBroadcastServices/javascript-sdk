@@ -3,7 +3,7 @@ import { deserialize } from "../decorators/property-mapper";
 import { SignupResponse } from "../models/signup-response-model";
 import { IUserDetails } from "../interfaces/user/user-details";
 import { LoginResponse } from "../models/login-response-model";
-import { IDeviceInfo } from "../interfaces/device";
+import { DeviceType, IDeviceInfo } from "../interfaces/device";
 
 interface SignupOptions extends CustomerAndBusinessUnitOptions {
   emailAddress: string;
@@ -35,6 +35,8 @@ export interface UpdateUserDetailsOptions extends CustomerAndBusinessUnitOptions
 export interface ConfirmSignupOptions extends CustomerAndBusinessUnitOptions {
   token: string;
   deviceId: string;
+  name: string;
+  type: DeviceType;
 }
 
 export interface DeleteUserOptions extends CustomerAndBusinessUnitOptions {
@@ -158,16 +160,18 @@ export class UserService extends BaseService {
     );
   }
 
-  public confirmSignup({ customer, businessUnit, token, deviceId }: ConfirmSignupOptions) {
+  public confirmSignup({ customer, businessUnit, token, deviceId, name, type }: ConfirmSignupOptions) {
     return this.put(
       `${this.cuBuUrl({
-        apiVersion: "v1",
+        apiVersion: "v2",
         customer,
         businessUnit
       })}/user/signup/confirm/${token}`,
       {
         deviceRegistration: {
-          deviceId
+          deviceId,
+          name,
+          type
         }
       }
     ).then(data => deserialize(LoginResponse, data.loginResponse));
