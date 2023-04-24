@@ -51,9 +51,10 @@ export class WLCarousel extends WLComponent implements IWLCarousel {
   @jsonProperty()
   public backgroundImage?: IImage;
 
-  public static fromSeason = (season: WLSeason) => {
+  public static fromSeason = (season: WLSeason, showAssetTitles = true) => {
     const carousel = new WLCarousel();
     carousel.title = season.title;
+    carousel.showAssetTitles = showAssetTitles;
     carousel.assets = season.episodes.map(e => {
       /* Hack due to bug in deserialize */
       return Array.isArray(e) ? deserialize(WLAsset, e[0]) : e;
