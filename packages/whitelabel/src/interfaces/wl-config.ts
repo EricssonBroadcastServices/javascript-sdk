@@ -84,6 +84,7 @@ export interface IParameters {
   googleAnalyticsId?: string;
   googlePlayStorePackageId?: string;
   adsfile?: string;
+  appadsfile?: string;
   googleTagManagerId?: string;
 }
 
