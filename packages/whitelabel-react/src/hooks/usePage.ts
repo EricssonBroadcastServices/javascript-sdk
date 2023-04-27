@@ -86,7 +86,6 @@ function getComponentConstructor(reference: WLReference) {
     case WLComponentType.TAG_TYPE:
       return WLCategoriesComponent;
     default:
-      console.warn(`unknown component type ${reference.type} ${reference.subType}`);
       return null;
   }
 }

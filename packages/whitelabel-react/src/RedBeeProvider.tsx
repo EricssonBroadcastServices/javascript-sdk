@@ -181,7 +181,7 @@ export function RedBeeProvider({
     throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
   }
   if (!storage) {
-    console.warn("not providing a storage module means no data will be persisted between sessions");
+    console.warn("[RedBeeProvider] not providing a storage module means no data will be persisted between sessions");
   }
   return (
     <InitialPropsProvider
