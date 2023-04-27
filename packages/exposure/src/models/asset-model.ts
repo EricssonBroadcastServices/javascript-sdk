@@ -172,6 +172,10 @@ export class Asset extends WithLocalized {
   public event?: IEventTimes;
   @jsonProperty({ type: Object })
   public localized: ILocalizedMetadata[] = [];
+  @jsonProperty({ type: String })
+  public subtitles: string[] = [];
+  @jsonProperty({ type: String })
+  public audioTracks: string[] = [];
 
   public series = () => {
     return this.tags.some(t => t.type === "series");
