@@ -1,0 +1,19 @@
+{
+  "name": "@ericssonbroadcastservices/exposure-api",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
+  "main": "src/index.ts",
+  "scripts": {
+    "generate-from-swagger": "npx swagger-typescript-api --modular --extract-enums --union-enums -p http://exposure.api.redbee.dev/docs/api-docs/exposure -o ./src/generated"
+  },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricssonBroadcastServices/javascript-sdk.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
