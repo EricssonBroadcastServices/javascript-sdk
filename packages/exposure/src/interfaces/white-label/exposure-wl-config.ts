@@ -11,6 +11,7 @@ export interface IConfigParameters {
   website?: string;
   assetSearchTypes: string;
   adsfile?: string;
+  appadsfile?: string;
   googleTagManagerId?: string;
 }
 
