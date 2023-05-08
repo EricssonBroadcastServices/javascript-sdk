@@ -1,7 +1,5 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import * as querystring from "query-string";
-import { deserialize } from "../decorators/property-mapper";
-import { DocumentModel } from "../models/document-model";
 
 export interface GetDocumentOptions extends CustomerAndBusinessUnitOptions {
   documentId: string;
@@ -16,7 +14,7 @@ export class DocumentService extends BaseService {
     documentId,
     customDocumentName,
     preferredLanguage
-  }: GetDocumentOptions) {
+  }: GetDocumentOptions): Promise<{ body: string }> {
     const requestQuery = {
       documentId,
       customDocumentName,
@@ -28,6 +26,6 @@ export class DocumentService extends BaseService {
         customer,
         businessUnit
       })}/document?${querystring.stringify(requestQuery)}`
-    ).then(data => deserialize(DocumentModel, data));
+    );
   }
 }

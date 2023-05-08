@@ -3,7 +3,6 @@ import { ServiceOptions } from "./services/base-service";
 import { LocationService } from "./services/location-service";
 import { EntitlementService } from "./services/entitlement-service";
 import { TagService } from "./services/tag-service";
-import { CustomerConfigService } from "./services/customer-config-service";
 import { AuthenticationService } from "./services/authentication-service";
 import { DocumentService } from "./services/document-service";
 import { SearchService } from "./services/search-service";
@@ -20,7 +19,6 @@ import { PreferencesService } from "./services/preferences-service";
 import { WhiteLabelService } from "./services/white-label-service";
 
 /* Models */
-import { SystemConfig } from "./models/system-config-model";
 
 export { ILocalizedMetadata, ILocalizedMetadata as Localized } from "./interfaces/content/localized-metadata";
 export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
@@ -98,7 +96,6 @@ export {
 } from "./interfaces/content/asset-tag";
 export { ITag, ITag as TagResponse } from "./interfaces/tag/tag";
 export { IBookmark, IBookmark as Bookmark } from "./interfaces/content/bookmark";
-export { CustomerConfigFile } from "./models/customer-config-file-model";
 export { AppConfig } from "./models/app-config-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export {
@@ -142,8 +139,6 @@ export {
   UserPreferences
 } from "./models/preference-model";
 
-export { SystemConfig };
-
 /* Services */
 export {
   ContentService,
@@ -153,7 +148,6 @@ export {
   AuthenticationService,
   SearchService,
   PaymentService,
-  CustomerConfigService,
   DocumentService,
   PreferencesService,
   WhiteLabelService
@@ -202,7 +196,6 @@ export class ExposureApi {
   public location = new LocationService(this.options);
   public tag = new TagService(this.options);
   public entitlements = new EntitlementService(this.options);
-  public config = new CustomerConfigService(this.options);
   public search = new SearchService(this.options);
   public user = new UserService(this.options);
   public payment = new PaymentService(this.options);
