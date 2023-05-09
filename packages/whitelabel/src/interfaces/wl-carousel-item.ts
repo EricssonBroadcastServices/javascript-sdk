@@ -3,7 +3,8 @@ import {
   Publication,
   ExternalReferences,
   ImageModel,
-  MarkerType
+  MarkerType,
+  IAssetFeature
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
 import { IWLAssetTag } from "./wl-tag";
@@ -88,4 +89,5 @@ export interface IWLCarouselItem {
   slugs?: string[];
   markerPoints?: IWLMarkerPoint[];
   seriesAssetAction?: IWLAction;
+  assetFeatures?: IAssetFeature[];
 }

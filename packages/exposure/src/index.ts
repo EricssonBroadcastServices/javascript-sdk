@@ -22,6 +22,7 @@ import { WhiteLabelService } from "./services/white-label-service";
 
 export { ILocalizedMetadata, ILocalizedMetadata as Localized } from "./interfaces/content/localized-metadata";
 export { ImageOrientation, ImageType, IImage, IImage as ImageModel } from "./interfaces/content/image";
+export { IAssetFeature, IAssetFeatureImage } from "./interfaces/content/asset-feature";
 export { IAssetResponse, IAssetResponse as AssetResponse } from "./interfaces/content/asset-response";
 export { IDeviceInfo, DeviceType } from "./interfaces/device";
 export {
