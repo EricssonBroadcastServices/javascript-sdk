@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { useRedBeeState } from "../RedBeeProvider";
 import { useWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
-import { QueryKeys } from "..";
+import { QueryKeys } from "../util/react-query";
 
 export function useContinueWatching(tvShowId?: string): TApiHook<WLAsset> {
   const wlApi = useWLApi();
