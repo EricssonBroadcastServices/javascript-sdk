@@ -27,6 +27,9 @@ function isPrimitive(obj: any) {
   );
 }
 
+/**
+ * @deprecated should be avoided. Planned to be removed in the future
+ */
 export function deserialize<T>(type: IConstructable<T>, json: any): T {
   if (!type || !json) {
     return json;
