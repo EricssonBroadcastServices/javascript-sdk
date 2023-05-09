@@ -5,16 +5,21 @@ import { useWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "..";
 
-export function useAsset(identifier: string): TApiHook<WLAsset> {
+export function useContinueWatching(tvShowId?: string): TApiHook<WLAsset> {
   const wlApi = useWLApi();
   const { customer, businessUnit, selectedLanguage } = useRedBeeState();
   const { data, isLoading, error } = useQuery(
-    [QueryKeys.ASSET, identifier, customer, businessUnit, selectedLanguage],
+    [QueryKeys.CONTINUE_WATCHING, tvShowId, customer, businessUnit, selectedLanguage],
     () => {
-      if (!customer || !businessUnit) return;
-      return wlApi.getAssetById({ assetId: identifier, customer, businessUnit, locale: selectedLanguage as string });
+      if (!customer || !businessUnit || !tvShowId) return;
+      return wlApi.getContinueWatchingForTvShow({
+        tvShowId,
+        customer,
+        businessUnit,
+        locale: selectedLanguage as string
+      });
     },
-    { staleTime: 1000 * 60 * 10 }
+    { staleTime: 1000 * 60 * 5 }
   );
   return [data || null, isLoading, error];
 }
