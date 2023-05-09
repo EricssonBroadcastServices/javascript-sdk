@@ -18,8 +18,7 @@ export function useContinueWatching(tvShowId?: string): TApiHook<WLAsset> {
         businessUnit,
         locale: selectedLanguage as string
       });
-    },
-    { staleTime: 1000 * 60 * 5 }
+    }
   );
   return [data || null, isLoading, error];
 }
