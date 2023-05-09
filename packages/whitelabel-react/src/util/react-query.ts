@@ -11,6 +11,8 @@ export const queryClient = new QueryClient({
 });
 
 export enum QueryKeys {
+  ASSET = "asset",
+  CONTINUE_WATCHING = "continueWatching",
   COMPONENT = "component",
   CONFIG = "config",
   PAGE = "PAGE",

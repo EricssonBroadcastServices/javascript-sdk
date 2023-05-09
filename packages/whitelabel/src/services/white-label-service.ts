@@ -382,4 +382,23 @@ export class WhiteLabelService extends BaseService {
         return errorToEntitlementResult(err as IEntitlementError, asset, offerings);
       });
   }
+
+  public getContinueWatchingForTvShow({
+    customer,
+    businessUnit,
+    tvShowId,
+    locale
+  }: {
+    customer: string;
+    businessUnit: string;
+    tvShowId: string;
+    locale: string;
+  }) {
+    return this.get(
+      `/api/internal/exposure/v1/customer/${customer}/businessunit/${businessUnit}/userplayhistory/continue/tvshow/${tvShowId}?locale=${locale}`,
+      this.options.authHeader()
+    ).then(data => {
+      return deserialize(WLAsset, data);
+    });
+  }
 }
