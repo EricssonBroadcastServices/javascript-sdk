@@ -1,7 +1,8 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { deserialize } from "../decorators/property-mapper";
-import { LoginResponse, ISessionResponse } from "../models/login-response-model";
+import { LoginResponse } from "../models/login-response-model";
 import { IDeviceInfo } from "../interfaces/device";
+import { IValidateSessionResponse } from "../interfaces/auth/session";
+
 export interface LoginOptions extends CustomerAndBusinessUnitOptions {
   username: string;
   password: string;
@@ -49,7 +50,7 @@ export class AuthenticationService extends BaseService {
         device,
         informationCollectionConsentGivenNow
       }
-    ).then(data => deserialize(LoginResponse, data));
+    ).then(data => new LoginResponse(data));
   }
 
   public async loginAnonymous({ customer, businessUnit, device }: LoginAnonymousOptions) {
@@ -61,7 +62,7 @@ export class AuthenticationService extends BaseService {
       })}/auth/anonymous`,
       { device, deviceId: device.deviceId }
     ).then(data => {
-      return deserialize(LoginResponse, Object.assign({}, data, { isAnonymous: true }));
+      return new LoginResponse({ ...data, isAnonymous: true });
     });
   }
 
@@ -76,7 +77,7 @@ export class AuthenticationService extends BaseService {
       token,
       device
     };
-    return this.post(url, payload).then(data => deserialize(LoginResponse, data));
+    return this.post(url, payload).then(data => new LoginResponse(data));
   }
 
   public async loginFirebase({
@@ -106,7 +107,7 @@ export class AuthenticationService extends BaseService {
         apiVersion: "v2"
       })}/auth/firebaseLogin`,
       payload
-    ).then(data => deserialize(LoginResponse, data));
+    ).then(data => new LoginResponse(data));
   }
 
   public async logout({
@@ -128,7 +129,7 @@ export class AuthenticationService extends BaseService {
     customer,
     businessUnit,
     headers
-  }: CustomerAndBusinessUnitOptions): Promise<ISessionResponse> {
+  }: CustomerAndBusinessUnitOptions): Promise<IValidateSessionResponse> {
     return this.get(
       `${this.cuBuUrl({
         customer,

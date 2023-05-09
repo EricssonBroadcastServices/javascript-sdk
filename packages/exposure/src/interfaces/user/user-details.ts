@@ -16,17 +16,17 @@ interface IUserProfileAttributesEnum {
 }
 export interface IUserProfileAttribute {
   attributeId: string;
-  type: UserAttributeType;
+  type: UserAttributeType | string;
   range?: {
     min: number;
     max: number;
   };
   enums?: IUserProfileAttributesEnum[];
   requiredAtSignup: boolean;
-  defaultValue: any;
+  defaultValue?: any;
   value: any;
   valueSet: boolean;
-  localized: {
+  localized?: {
     locale: string;
     title?: string;
     description?: string;

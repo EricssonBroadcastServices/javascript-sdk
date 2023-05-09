@@ -1,4 +1,4 @@
-import { deserialize, ExposureApi, IDeviceInfo, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { ExposureApi, IDeviceInfo, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 import { DeviceGroup, WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
@@ -47,7 +47,7 @@ async function getValidatedPersistedSession({
       storage?.removeItem(StorageKey.SESSION);
       session = null;
     } else {
-      session = deserialize(LoginResponse, persistedSessionJSON);
+      session = new LoginResponse(persistedSessionJSON);
       try {
         // this will throw if session is invalid
         await tempExposureApi.authentication.validateSession({

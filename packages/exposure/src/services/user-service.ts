@@ -1,6 +1,4 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { deserialize } from "../decorators/property-mapper";
-import { SignupResponse } from "../models/signup-response-model";
 import { IUserDetails } from "../interfaces/user/user-details";
 import { LoginResponse } from "../models/login-response-model";
 import { DeviceType, IDeviceInfo } from "../interfaces/device";
@@ -104,7 +102,7 @@ export class UserService extends BaseService {
       {
         "Content-Type": "application/json"
       }
-    ).then(data => deserialize(SignupResponse, data));
+    ).then(data => ({ ...data, loginResponse: new LoginResponse(data.loginResponse) }));
   }
 
   public reset({ customer, businessUnit, username }: ResetOptions) {
@@ -174,7 +172,7 @@ export class UserService extends BaseService {
           type
         }
       }
-    ).then(data => deserialize(LoginResponse, data.loginResponse));
+    ).then(data => new LoginResponse(data.loginResponse));
   }
 
   public deleteUser({ customer, businessUnit, password }: DeleteUserOptions) {
@@ -210,7 +208,7 @@ export class UserService extends BaseService {
         device
       },
       this.options.authHeader()
-    ).then(data => deserialize(LoginResponse, data.loginResponse));
+    ).then(data => new LoginResponse(data.loginResponse));
   }
 
   public confirmActivationCode({ customer, businessUnit, code }: ConfirmActivationCodeOptions) {
@@ -252,7 +250,7 @@ export class UserService extends BaseService {
         activationCode: code,
         device
       }
-    ).then(data => deserialize(LoginResponse, data));
+    ).then(data => new LoginResponse(data));
   }
 
   public changeEmail({ newEmailAddress, customer, businessUnit }: ChangeEmailOptions) {

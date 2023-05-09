@@ -1,6 +1,9 @@
-import { LoginResponse } from "./login-response-model";
+import { LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
 
-function generateLoginResponse(isAnonymous = false, expirationDateTime: Date = new Date(Date.now() + 1000 * 60 * 60)) {
+export function generateLoginResponse(
+  isAnonymous = false,
+  expirationDateTime: Date = new Date(Date.now() + 1000 * 60 * 60)
+) {
   return new LoginResponse({
     isAnonymous,
     accountId: "03-047-61DD-3B0C_82162E",
@@ -46,25 +49,3 @@ function generateLoginResponse(isAnonymous = false, expirationDateTime: Date = n
     crmToken: "ses_f2f10183-96f3-44b9-9f66-dcefaad19be8p"
   } as any);
 }
-
-describe("login response", () => {
-  it("is logged in", () => {
-    const loginResponse = generateLoginResponse(false);
-    expect(loginResponse.isLoggedIn()).toBe(true);
-    expect(loginResponse.hasSession()).toBe(true);
-    expect(loginResponse.isAnonymous).toBe(false);
-    expect(loginResponse.isFirebase()).toBe(false);
-  });
-  it("has a session and is anonymous", () => {
-    const loginResponse = generateLoginResponse(true);
-    expect(loginResponse.isLoggedIn()).toBe(false);
-    expect(loginResponse.hasSession()).toBe(true);
-    expect(loginResponse.isAnonymous).toBe(true);
-    expect(loginResponse.isFirebase()).toBe(false);
-  });
-  it("isFirebase", () => {
-    const loginResponse = generateLoginResponse(true);
-    loginResponse.accountId = "firebase..somethingSomething";
-    expect(loginResponse.isFirebase()).toBe(true);
-  });
-});

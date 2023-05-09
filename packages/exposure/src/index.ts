@@ -82,7 +82,12 @@ export {
   EntitlementActionType,
   IEntitlementActions
 } from "./interfaces/entitlement/entitlement";
-export { LoginResponse, ISessionResponse } from "./models/login-response-model";
+export { LoginResponse } from "./models/login-response-model";
+export {
+  ISession,
+  IValidateSessionResponse,
+  IValidateSessionResponse as ISessionResponse
+} from "./interfaces/auth/session";
 export {
   ICardPaymentResponse,
   ICardPaymentResponse as CardPaymentResponse,
