@@ -22,7 +22,8 @@ import {
   LoginResponse,
   ProductOffering,
   IImage,
-  publicationUtils
+  publicationUtils,
+  IAssetFeature
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
@@ -109,6 +110,8 @@ export class WLAsset implements IWLCarouselItem {
   public markerPoints?: IWLMarkerPoint[];
   @jsonProperty()
   public seriesAssetAction?: WLAction;
+  @jsonProperty({ type: Object })
+  public assetFeatures?: IAssetFeature[];
 
   private getIdentifier = () => {
     return this.slugs?.length > 0 ? this.slugs[0] : this.assetId;

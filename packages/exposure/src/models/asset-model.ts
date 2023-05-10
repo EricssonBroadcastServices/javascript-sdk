@@ -7,6 +7,7 @@ import { IPublication } from "../interfaces/content/publication";
 import { localizedUtils } from "../utils/localized";
 import { WithLocalized } from "./localized-model";
 import { jsonProperty } from "../decorators/json-property";
+import { IAssetFeature } from "../interfaces/content/asset-feature";
 
 export enum mediumResBoundaries {
   lower = 500,
@@ -176,6 +177,8 @@ export class Asset extends WithLocalized {
   public subtitles: string[] = [];
   @jsonProperty({ type: String })
   public audioTracks: string[] = [];
+  @jsonProperty({ type: Object })
+  public assetFeatures?: IAssetFeature[];
 
   public series = () => {
     return this.tags.some(t => t.type === "series");
