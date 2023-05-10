@@ -135,9 +135,12 @@ export { IPaymentMethod as PaymentMethod, IPaymentMethod } from "./interfaces/pa
 export { PreferenceListItem } from "./models/preference-model";
 export {
   IUserPreferences,
+  IUserPreferences as UserPreferences,
   IPreferenceListItem,
   IPreferenceListTagItem,
-  IPreferenceListTags
+  IPreferenceListTagItem as PreferenceListTagItem,
+  IPreferenceListTags,
+  IPreferenceListTags as PreferenceListTags
 } from "./interfaces/preferences/preferences";
 
 /* Services */
