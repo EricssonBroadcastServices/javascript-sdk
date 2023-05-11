@@ -66,7 +66,7 @@ describe("Content service", () => {
       .get(
         `/v2/customer/CU/businessunit/BU/epg/123/date/${epgDateFormatter(
           new Date()
-        )}?daysBackward=1&daysForward=1&pageNumber=1&pageSize=500`
+        )}?daysBackward=0&daysForward=0&pageNumber=1&pageSize=500`
       )
       .reply(200, epgJson)
       .get(
