@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run prepare",
+    "build": "lerna run build",
     "watch": "lerna run watch --parallel",
     "lerna:version": "lerna version --conventional-commits --no-changelog",
     "publish": "is-ci && lerna publish -y --no-verify-access from-package",

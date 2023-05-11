@@ -3,7 +3,7 @@
   "version": "0.106.0",
   "description": "",
   "scripts": {
-    "prepare": "tsc",
+    "build": "tsc",
     "watch": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",
