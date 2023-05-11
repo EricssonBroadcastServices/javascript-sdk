@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/conventional-changelog-redbeemedia",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "conventional-changelog for RedBeeMedia release notes",
   "main": "index.js",
   "repository": {
