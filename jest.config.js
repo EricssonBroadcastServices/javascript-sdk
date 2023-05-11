@@ -8,7 +8,7 @@ module.exports = {
   },
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  collectCoverage: true,
+  collectCoverage: false,
   coverageReporters: ["text", "text-summary", "html"],
   collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"],
   testEnvironment: "node",
