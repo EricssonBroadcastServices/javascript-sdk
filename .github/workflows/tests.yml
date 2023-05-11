@@ -17,5 +17,5 @@ jobs:
         registry-url: https://npm.pkg.github.com/
     - name: npm install and test
       run: |
-        npm ci
+        npm ci --foreground-scripts
         npm test

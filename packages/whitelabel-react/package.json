@@ -26,8 +26,8 @@
     "url": "https://github.com/EricssonBroadcastServices/javascript-sdk/issues"
   },
   "dependencies": {
-    "@ericssonbroadcastservices/exposure-sdk": "^0.106.0",
-    "@ericssonbroadcastservices/whitelabel-sdk": "^0.139.0"
+    "@ericssonbroadcastservices/exposure-sdk": "*",
+    "@ericssonbroadcastservices/whitelabel-sdk": "*"
   },
   "peerDependencies": {
     "react": ">=17",
