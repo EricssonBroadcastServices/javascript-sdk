@@ -27,8 +27,10 @@
   "license": "ISC",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "peerDependencies": {
+    "@ericssonbroadcastservices/exposure-sdk": ">= 0.96"
+  },
   "dependencies": {
-    "@ericssonbroadcastservices/exposure-sdk": "^0.105.0",
     "axios": "^0.24.0",
     "date-fns": "^2.27.0",
     "humanize-duration": "^3.27.1",
@@ -36,6 +38,9 @@
     "marked": "^2.0.1",
     "query-string": "^7.0.1",
     "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@ericssonbroadcastservices/exposure-sdk": "*"
   },
   "browserslist": [
     "defaults"
