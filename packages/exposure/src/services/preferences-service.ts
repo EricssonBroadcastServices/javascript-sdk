@@ -1,6 +1,6 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
-import { PreferenceListTags, PreferenceListItem, UserPreferences } from "../models/preference-model";
+import { IPreferenceListTags, PreferenceListItem, IUserPreferences } from "../models/preference-model";
 
 interface GetListByIdOptions extends CustomerAndBusinessUnitOptions {
   listId: string;
@@ -48,7 +48,7 @@ export class PreferencesService extends BaseService {
         apiVersion: "v1"
       })}/preferences/list/${listId}/asset`,
       this.options.authHeader()
-    ).then(data => data.map(item => deserialize(PreferenceListItem, item)));
+    ).then(data => data.map(item => new PreferenceListItem(item)));
   }
   public addAssetToList({ customer, businessUnit, listId, assetId, order }: AddAssetToListOptions) {
     return this.post(
@@ -101,14 +101,14 @@ export class PreferencesService extends BaseService {
     );
   }
 
-  public getTagsFromList({ customer, businessUnit, listId }: GetTagsFromList): Promise<PreferenceListTags> {
+  public getTagsFromList({ customer, businessUnit, listId }: GetTagsFromList): Promise<IPreferenceListTags> {
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences/list/${listId}/tag`,
       this.options.authHeader()
     );
   }
 
-  public getPreferences({ customer, businessUnit }: GetPreferencesOptions): Promise<UserPreferences> {
+  public getPreferences({ customer, businessUnit }: GetPreferencesOptions): Promise<IUserPreferences> {
     return this.get(
       `${this.cuBuUrl({ customer, businessUnit, apiVersion: "v1" })}/preferences`,
       this.options.authHeader()

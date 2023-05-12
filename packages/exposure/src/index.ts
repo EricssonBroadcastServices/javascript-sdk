@@ -133,12 +133,16 @@ export {
 export { AspectRatio } from "./interfaces/aspect-ratio";
 export { ApiError } from "./models/api-error-model";
 export { IPaymentMethod as PaymentMethod, IPaymentMethod } from "./interfaces/payment/payment-method";
+export { PreferenceListItem } from "./models/preference-model";
 export {
-  PreferenceListItem,
-  PreferenceListTags,
-  PreferenceListTagItem,
-  UserPreferences
-} from "./models/preference-model";
+  IUserPreferences,
+  IUserPreferences as UserPreferences,
+  IPreferenceListItem,
+  IPreferenceListTagItem,
+  IPreferenceListTagItem as PreferenceListTagItem,
+  IPreferenceListTags,
+  IPreferenceListTags as PreferenceListTags
+} from "./interfaces/preferences/preferences";
 
 /* Services */
 export {
