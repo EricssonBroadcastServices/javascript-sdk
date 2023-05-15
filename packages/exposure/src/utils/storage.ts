@@ -2,6 +2,7 @@ const _storage = {};
 
 const store = (key: string, value: string): void => {
   if (typeof sessionStorage !== "undefined") {
+    if (!value) return sessionStorage.removeItem(key);
     sessionStorage.setItem(key, value);
   } else {
     _storage[key] = value;
