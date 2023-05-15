@@ -19,6 +19,21 @@ export function useLogin() {
   );
 }
 
+export function useOauthLogin() {
+  const exposureApi = useExposureApi();
+  const { device, customer, businessUnit } = useRedBeeState();
+  const setSession = useSetSession();
+  return useCallback(
+    (token: string) => {
+      if (!device) throw "No device";
+      return exposureApi.authentication.loginByOauthToken({ customer, businessUnit, token, device }).then(session => {
+        setSession(session);
+      });
+    },
+    [device, exposureApi, customer, businessUnit]
+  );
+}
+
 export function useLogout() {
   const setSession = useSetSession();
   const exposureApi = useExposureApi();

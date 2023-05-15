@@ -5,7 +5,7 @@ export { useGeolocation } from "./hooks/useGeolocation";
 export { useConfig, useFetchConfig, useTheme } from "./hooks/useConfig";
 export { useTranslations } from "./hooks/useTranslations";
 export { useActivationCode } from "./hooks/useActivationCode";
-export { useLogout, useValidateSession, useLogin } from "./hooks/useLogin";
+export { useLogout, useValidateSession, useLogin, useOauthLogin } from "./hooks/useLogin";
 export { useSearch } from "./hooks/useSearch";
 export { useUserDetails, refetchUserDetails } from "./hooks/useUserDetails";
 export { useUserSession, useSetSession } from "./hooks/useUserSession";
