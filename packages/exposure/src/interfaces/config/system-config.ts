@@ -71,6 +71,7 @@ export interface IConsentManagement {
     apiKey: string;
     noticeId: string;
     tvNoticeId?: string;
+    appNoticeId?: string;
   };
 }
 
