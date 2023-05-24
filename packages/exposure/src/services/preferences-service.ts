@@ -1,5 +1,4 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import { deserialize } from "../decorators/property-mapper";
 import { IPreferenceListTags, PreferenceListItem, IUserPreferences } from "../models/preference-model";
 
 interface GetListByIdOptions extends CustomerAndBusinessUnitOptions {
@@ -81,7 +80,7 @@ export class PreferencesService extends BaseService {
         apiVersion: "v1"
       })}/preferences/list/${listId}/asset/${assetId}`,
       this.options.authHeader()
-    ).then(data => deserialize(PreferenceListItem, data));
+    ).then(data => new PreferenceListItem(data));
   }
 
   public addTagToList({ customer, businessUnit, listId, tagId, order }: AddTagToListOptions) {
