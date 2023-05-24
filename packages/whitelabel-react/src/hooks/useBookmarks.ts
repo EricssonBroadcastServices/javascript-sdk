@@ -17,7 +17,7 @@ export function refetchBookmarks() {
   return queryClient.invalidateQueries([QueryKeys.BOOKMARKS]);
 }
 
-export function useBookmarkPercentage(assetId: string): TApiHook<number> {
+export function useBookmarkPercentage(assetId?: string): TApiHook<number> {
   const [asset, assetIsLoading, assetError] = useAsset(assetId);
   const [bookmarks, bookmarksIsLoading, bookmarksError] = useBookmarks();
   const bookmark = bookmarks?.find(b => b.assetId === assetId);
