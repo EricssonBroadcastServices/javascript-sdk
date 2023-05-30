@@ -4,7 +4,7 @@ import { ITransactionsWithProductOffering } from "../interfaces/payment/transact
 import { IPaymentMethod } from "../interfaces/payment/payment-method";
 import { IPrice, IPromotion } from "../interfaces/payment/price";
 import { IProductOffering } from "../interfaces/payment/product-offering";
-import { IPurchaseResponse } from "../interfaces/payment/purchase";
+import { IAccountPurchase, IPurchaseResponse } from "../interfaces/payment/purchase";
 import {
   IGooglePlayInitResponse,
   IGooglePlayInitPayload,
@@ -244,6 +244,17 @@ export class PaymentService extends BaseService {
       const transactions: ITransactionsWithProductOffering[] = data.transactionsProductOfferingPairs;
       return transactions;
     });
+  }
+
+  public getAccountPurchases({ customer, businessUnit }: CustomerAndBusinessUnitOptions): Promise<IAccountPurchase[]> {
+    return this.get(
+      `${this.cuBuUrl({
+        apiVersion: "v2",
+        customer,
+        businessUnit
+      })}/store/account/purchases`,
+      this.options.authHeader()
+    );
   }
 
   public getPurchases({
