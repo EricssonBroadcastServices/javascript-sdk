@@ -17,9 +17,11 @@ export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>
           setError(err);
           throw err;
         })
+        .then(() => {
+          setSession(null);
+        })
         .finally(() => {
           setLoading(false);
-          setSession(null);
         });
     },
     [setSession, exposureApi]
