@@ -15,6 +15,7 @@ export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>
         .deleteUser({ password })
         .catch(err => {
           setError(err);
+          throw err;
         })
         .finally(() => {
           setLoading(false);
