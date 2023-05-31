@@ -34,7 +34,7 @@ export const defaultEntitlementStatus: IEntitlementStatusResult = {
 };
 
 export function useEntitlementForAsset(
-  { asset, paymentProvider }: { asset: WLAsset; paymentProvider?: TPaymentProvider },
+  { asset, paymentProvider }: { asset?: WLAsset; paymentProvider?: TPaymentProvider },
   { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlementSettings
 ): TApiHook<IEntitlementStatusResult> {
   const [availableProductOfferings, offeringsLoading] = useProductOfferings({ paymentProvider: paymentProvider });
@@ -46,13 +46,20 @@ export function useEntitlementForAsset(
   const { data, isLoading, error } = useQuery(
     [
       QueryKeys.ASSET_ENTITLEMENT,
-      asset.assetId,
+      asset?.assetId,
       session?.sessionToken,
       availableProductOfferings?.length,
       offeringsLoading
     ],
     () => {
-      if (!session?.sessionToken || !customer || !businessUnit || !availableProductOfferings || offeringsLoading) {
+      if (
+        !asset ||
+        !session?.sessionToken ||
+        !customer ||
+        !businessUnit ||
+        !availableProductOfferings ||
+        offeringsLoading
+      ) {
         return defaultEntitlementStatus;
       }
 

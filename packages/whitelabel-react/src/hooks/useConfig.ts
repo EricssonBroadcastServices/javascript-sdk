@@ -7,6 +7,20 @@ import { useGeolocation } from "./useGeolocation";
 
 const configLoadingId = "configLoading";
 
+const DEFAULT_THEME: ITheme = {
+  dark: "#000000",
+  light: "#ffffff",
+  error: "#ff0000",
+  success: "#00ff00",
+  warning: "#ffff00",
+  primaryTextColor: "#ffffff",
+  secondaryTextColor: "#d3d3d3",
+  primaryBackgroundColor: "#000000",
+  secondaryBackgroundColor: "#5a5a5a",
+  primaryBrandColor: "#000000",
+  heroBannerTextColor: "#ffffff"
+};
+
 export function useFetchConfig(disabled = false): void {
   const dispatch = useRedBeeStateDispatch();
   const { customer, businessUnit } = useRedBeeState();
@@ -45,7 +59,7 @@ export function useConfig(): TApiHook<WLConfig> {
   return [state.config, state.loading.includes(configLoadingId), null];
 }
 
-export function useTheme(): TApiHook<ITheme> {
+export function useTheme(): TApiHook<ITheme, ITheme> {
   const [config, isLoading] = useConfig();
-  return [config?.theme || null, isLoading, null];
+  return [config?.theme || DEFAULT_THEME, isLoading, null];
 }

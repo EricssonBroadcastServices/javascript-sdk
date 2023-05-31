@@ -172,8 +172,8 @@ export class ContentService extends BaseService {
     date
   }: GetEpgOptions) {
     const requestQuery = {
-      daysBackward: daysBackward || 1,
-      daysForward: daysForward || 1,
+      daysBackward: daysBackward ?? 0,
+      daysForward: daysForward ?? 0,
       pageSize: pageSize || 500,
       pageNumber: pageNumber || 1
     };

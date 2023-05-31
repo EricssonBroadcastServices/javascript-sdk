@@ -16,7 +16,7 @@ import { useQueries, useQuery, UseQueryResult } from "react-query";
 import { QueryKeys } from "../util/react-query";
 import { useWLApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
-import { useTagList } from "../hooks/useTagList";
+import { useTagList } from "../hooks/useTags";
 import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";

@@ -45,6 +45,8 @@ interface PlayAssetOptions extends GetEntitlementForAssetOptions {
   supportedFormats?: TPlayFormat[];
   supportedDrms?: TPlayDrm[];
   materialProfile?: string;
+  start?: number;
+  end?: number;
 }
 
 export class EntitlementService extends BaseService {
@@ -123,7 +125,9 @@ export class EntitlementService extends BaseService {
     maxResolution,
     supportedFormats,
     supportedDrms,
-    materialProfile
+    materialProfile,
+    start,
+    end
   }: PlayAssetOptions): Promise<IPlay> {
     const queryParameters = new URLSearchParams(adParameters as Record<string, string>);
     if (audioOnly) {
@@ -143,6 +147,12 @@ export class EntitlementService extends BaseService {
     }
     if (materialProfile) {
       queryParameters.append("materialProfile", materialProfile);
+    }
+    if (start) {
+      queryParameters.append("start", `${start}`);
+    }
+    if (end) {
+      queryParameters.append("end", `${end}`);
     }
     return this.get(
       `${this.cuBuUrl({
