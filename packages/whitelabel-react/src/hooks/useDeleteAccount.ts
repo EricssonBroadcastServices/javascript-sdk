@@ -3,7 +3,7 @@ import { useExposureApi } from "./useApi";
 import { useSetSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 
-export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>> {
+export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>, (password: string) => Promise<void>> {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const setSession = useSetSession();
