@@ -33,16 +33,20 @@ describe("Payment service", () => {
       {}
     );
   });
-  it("should fetch purchases with correct url", async () => {
+  it("should fetch getAccountPurchases with correct url", async () => {
+    jest.spyOn(axios, "get").mockReturnValue(Promise.resolve({}));
+    await paymentService.getAccountPurchases({ customer: "CU", businessUnit: "BU" });
+    expect(axios.get).toHaveBeenCalledWith(
+      `${serviceOptions.baseUrl}/v2/customer/CU/businessunit/BU/store/account/purchases`,
+      { headers: { Authorization: "" } }
+    );
+  });
+  it("should fetch getPurchases with correct url", async () => {
     jest.spyOn(axios, "get").mockReturnValue(Promise.resolve({}));
     await paymentService.getPurchases({ customer: "CU", businessUnit: "BU" });
     expect(axios.get).toHaveBeenCalledWith(
       `${serviceOptions.baseUrl}/v2/customer/CU/businessunit/BU/store/purchase?includeOfferingDetails=false`,
-      {
-        headers: {
-          Authorization: ""
-        }
-      }
+      { headers: { Authorization: "" } }
     );
   });
   describe("should fetch product offerings with countryCode", () => {

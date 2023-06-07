@@ -100,6 +100,7 @@ export { IBookmark, IBookmark as Bookmark } from "./interfaces/content/bookmark"
 export { AppConfig } from "./models/app-config-model";
 export { Program, EpgResponse, OnNowAsset } from "./models/program-model";
 export {
+  IAccountPurchase as AccountPurchase,
   IPurchase,
   IPurchase as Purchase,
   IPurchaseResponse,
