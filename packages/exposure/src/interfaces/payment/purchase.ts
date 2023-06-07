@@ -44,7 +44,6 @@ export interface IAccountPurchase {
     productOfferingId?: string;
   }[];
   voucherCode?: string;
-  // Only new purchases will have localizedAsset and localizedProductOffering
   localizedAsset: {
     locale: string;
     title: string;
