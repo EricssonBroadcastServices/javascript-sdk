@@ -16,6 +16,7 @@ export type FormatType = typeof FormatType[keyof typeof FormatType];
 
 export const Stitcher = {
   GENERIC: "GENERIC",
+  INTERNAL: "INTERNAL",
   NOWTILUS: "NOWTILUS"
 } as const;
 export type Stitcher = typeof Stitcher[keyof typeof Stitcher];
