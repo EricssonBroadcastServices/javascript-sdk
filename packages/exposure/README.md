@@ -1,9 +1,6 @@
-# Red bee exposure api javascript sdk
-
+## Red bee exposure api javascript sdk
 This sdk provides methods for interacting with Red Bee Medias exposure api.
-
-## Usage
-
+### Usage
 ```js
 import { ExposureApi } from "placeholder-package-name";
 
