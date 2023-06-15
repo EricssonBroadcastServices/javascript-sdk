@@ -21,6 +21,8 @@ export interface LoginFireBaseOptions extends CustomerAndBusinessUnitOptions {
   accessToken: string;
   emailVerified: boolean;
   device: IDeviceInfo;
+  expiration?: string;
+  language?: string;
 }
 
 interface LoginByOauthTokenOptions extends CustomerAndBusinessUnitOptions {
@@ -79,26 +81,7 @@ export class AuthenticationService extends BaseService {
     return this.post(url, payload).then(data => deserialize(LoginResponse, data));
   }
 
-  public async loginFirebase({
-    username,
-    email,
-    displayName,
-    providerId,
-    accessToken,
-    customer,
-    businessUnit,
-    emailVerified,
-    device
-  }: LoginFireBaseOptions) {
-    const payload = {
-      username,
-      email,
-      displayName,
-      emailVerified,
-      providerId,
-      accessToken,
-      device
-    };
+  public async loginFirebase({ customer, businessUnit, ...payload }: LoginFireBaseOptions) {
     return this.post(
       `${this.cuBuUrl({
         customer,
