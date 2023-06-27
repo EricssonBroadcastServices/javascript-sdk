@@ -76,7 +76,7 @@ function getWriterOpts () {
 
       if (typeof commit.subject === 'string') {
         // Remove github issue references
-        commit.subject = capitalize(commit.subject.replace(/\(#([0-9]+)\)/g, ''))
+        commit.subject = capitalize(commit.subject.replace(/\(#([0-9]+)\)/g, '').trim())
       }
 
       // remove references that already appear in the subject
