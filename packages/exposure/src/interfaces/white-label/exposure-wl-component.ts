@@ -40,7 +40,9 @@ export enum WLComponentType {
 }
 
 export enum WLComponentSubType {
-  TAG_FEED_QUERY = "TagFeedQuery"
+  TAG_FEED_QUERY = "TagFeedQuery",
+  FAVORITES = "Favourites",
+  CONTINUE_WATCHING = "ContinueWatching"
 }
 
 interface IExposureComponentParameters {

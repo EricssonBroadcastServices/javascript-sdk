@@ -4,8 +4,14 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { useExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
+import { WLComponentSubType } from "@ericssonbroadcastservices/whitelabel-sdk";
 
 const FAVORITES_LIST_ID = "favorites";
+
+function invalidateFavourites() {
+  queryClient.invalidateQueries(QueryKeys.FAVORITE_ASSET_IN_LIST);
+  queryClient.invalidateQueries(WLComponentSubType.FAVORITES);
+}
 
 export function useAddAssetToFavorites(assetId: string): TApiHook<() => void> {
   const exposureApi = useExposureApi();
@@ -23,7 +29,7 @@ export function useAddAssetToFavorites(assetId: string): TApiHook<() => void> {
         businessUnit
       })
       .then(() => {
-        queryClient.invalidateQueries(QueryKeys.FAVORITE_ASSET_IN_LIST);
+        invalidateFavourites();
         setLoading(false);
       })
       .catch((e: any) => {
@@ -51,7 +57,7 @@ export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => voi
         businessUnit
       })
       .then(() => {
-        queryClient.invalidateQueries(QueryKeys.FAVORITE_ASSET_IN_LIST);
+        invalidateFavourites();
         setLoading(false);
       })
       .catch((e: any) => {
