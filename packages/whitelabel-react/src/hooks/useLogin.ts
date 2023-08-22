@@ -51,10 +51,10 @@ export function useValidateSession() {
   return useCallback(async () => {
     if (session?.sessionToken) {
       return exposureApi.authentication.validateSession({}).catch(err => {
-        setSession(null);
         if ((err as any)?.httpCode !== 401) {
           throw { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
         }
+        setSession(null);
       });
     }
     return Promise.resolve();
