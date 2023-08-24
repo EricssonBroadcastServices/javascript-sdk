@@ -58,10 +58,10 @@ async function getValidatedPersistedSession({
       } catch (err) {
         if ((err as any).httpCode === 401) {
           storage?.removeItem(StorageKey.SESSION);
+          session = null;
         } else {
           error = { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
         }
-        session = null;
       }
     }
   }
