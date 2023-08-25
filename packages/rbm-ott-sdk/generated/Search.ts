@@ -580,7 +580,7 @@ export async function searchV3(
   });
 }
 
-const SearchService = (context: ServiceContext) =>
+export const SearchService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     autocomplete,
@@ -596,5 +596,3 @@ const SearchService = (context: ServiceContext) =>
     searchV2,
     searchV3
   }) as const;
-
-export default SearchService;

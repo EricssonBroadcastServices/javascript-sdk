@@ -42,11 +42,9 @@ export async function getTimeAnonymous(params: RequestParams = {}) {
   });
 }
 
-const TimeService = (context: ServiceContext) =>
+export const TimeService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getTime,
     getTimeAnonymous
   }) as const;
-
-export default TimeService;

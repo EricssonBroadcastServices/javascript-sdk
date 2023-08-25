@@ -41,11 +41,9 @@ export async function getLocationFromReferer(params: RequestParams = {}) {
   });
 }
 
-const LocationService = (context: ServiceContext) =>
+export const LocationService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getLocation,
     getLocationFromReferer
   }) as const;
-
-export default LocationService;

@@ -302,7 +302,7 @@ export async function validateSessionToken(params: RequestParams = {}) {
   });
 }
 
-const AuthenticationService = (context: ServiceContext) =>
+export const AuthenticationService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     anonymousSession,
@@ -320,5 +320,3 @@ const AuthenticationService = (context: ServiceContext) =>
     session,
     validateSessionToken
   }) as const;
-
-export default AuthenticationService;

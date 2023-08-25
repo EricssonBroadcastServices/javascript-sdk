@@ -127,12 +127,10 @@ export async function listTags(
   });
 }
 
-const TagService = (context: ServiceContext) =>
+export const TagService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getTagById,
     getUniqueTagsFromAssets,
     listTags
   }) as const;
-
-export default TagService;

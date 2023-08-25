@@ -131,12 +131,10 @@ export async function getCarouselsForGroup(
   });
 }
 
-const CarouselService = (context: ServiceContext) =>
+export const CarouselService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getCarousel,
     getCarouselGroups,
     getCarouselsForGroup
   }) as const;
-
-export default CarouselService;

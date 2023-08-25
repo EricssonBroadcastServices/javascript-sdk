@@ -256,17 +256,21 @@ generateApi({
       writeFileSync(`${OUTPUT_PATH}/${fileName}.ts`, FILE_PREFIX + fileContent);
     });
     // Create and write an index file
-    let imports = "export * from \"./data-contracts\";\nexport { ServiceContext } from \"./http-client\"\n"
+    let importStatements: Record<string, string> = { "http-client": "ServiceContext" };
+    let serviceNames: string[] = [];
     let typeDeclarations: string[] = [];
     let props: string[] = [];
 
-    for (let {moduleName} of configuration.routes.combined || []) {
-      const pascalCaseName = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
-      imports += `export ${pascalCaseName}Service from "./${pascalCaseName}"\n`;
-      typeDeclarations.push(`${moduleName}: ReturnType<typeof ${pascalCaseName}Service>`);
-      props.push(`this.${moduleName} = ${pascalCaseName}Service(context)`);
+    for (let moduleName of (configuration.routes.combined || []).map(({ moduleName }) => moduleName).sort()) {
+      const PascalName = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
+      const serviceName = PascalName + "Service";
+      importStatements[PascalName] = serviceName;
+      serviceNames.push(serviceName);
+      typeDeclarations.push(`${moduleName}: ReturnType<typeof ${serviceName}>`);
+      props.push(`this.${moduleName} = ${serviceName}(context)`);
     }
-    const indexFileData = `${imports}\n\nclass APIService {\n  ${typeDeclarations.join(";\n  ")}\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")}\n  }\n}\n\nexport default APIService;`;
+    const allImports = Object.entries(importStatements).sort().map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join("\n");
+    const indexFileData = `${allImports}\n\nclass APIService {\n  ${typeDeclarations.join(";\n  ")}\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")}\n  }\n}\n\nexport { ${serviceNames.join(", ")} };\nexport default APIService;\nexport * from \"./data-contracts\";\n`;
 
     writeFileSync(`${OUTPUT_PATH}/index.ts`, indexFileData, "utf8");
   })

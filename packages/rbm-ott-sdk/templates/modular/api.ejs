@@ -19,11 +19,9 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 
 <% } %>
 
-const <%= apiClassName %>Service = (context: ServiceContext) => ({
+export const <%= apiClassName %>Service = (context: ServiceContext) => ({
   [Symbol.for("_rbm_ctx_")]: context,
   <% for (const route of routes) { %>
     <%~ route.routeName.usage %>,
   <% } %>
 } as const);
-
-export default <%= apiClassName %>Service

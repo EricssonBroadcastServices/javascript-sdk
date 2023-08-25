@@ -261,7 +261,7 @@ export async function play(
   });
 }
 
-const EntitlementsService = (context: ServiceContext) =>
+export const EntitlementsService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     accountProducts,
@@ -269,5 +269,3 @@ const EntitlementsService = (context: ServiceContext) =>
     entitle,
     play
   }) as const;
-
-export default EntitlementsService;

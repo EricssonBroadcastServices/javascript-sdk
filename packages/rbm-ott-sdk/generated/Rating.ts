@@ -106,7 +106,7 @@ export async function putUserContentRating(
   });
 }
 
-const RatingService = (context: ServiceContext) =>
+export const RatingService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     deleteUserContentRating,
@@ -115,5 +115,3 @@ const RatingService = (context: ServiceContext) =>
     getUserContentRating,
     putUserContentRating
   }) as const;
-
-export default RatingService;

@@ -47,11 +47,9 @@ export async function getDevicesForAccount(params: RequestParams = {}) {
   });
 }
 
-const DeviceService = (context: ServiceContext) =>
+export const DeviceService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     deleteDeviceForAccount,
     getDevicesForAccount
   }) as const;
-
-export default DeviceService;

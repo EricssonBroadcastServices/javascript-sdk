@@ -56,11 +56,9 @@ export async function getSystemConfigV2(
   });
 }
 
-const SystemService = (context: ServiceContext) =>
+export const SystemService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getSystemConfig,
     getSystemConfigV2
   }) as const;
-
-export default SystemService;

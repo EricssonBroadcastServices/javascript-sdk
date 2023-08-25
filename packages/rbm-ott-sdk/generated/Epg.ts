@@ -340,7 +340,7 @@ export async function getXmlTvEpgForChannel(
   });
 }
 
-const EpgService = (context: ServiceContext) =>
+export const EpgService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getActiveChannels,
@@ -353,5 +353,3 @@ const EpgService = (context: ServiceContext) =>
     getProgram,
     getXmlTvEpgForChannel
   }) as const;
-
-export default EpgService;

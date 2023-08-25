@@ -553,7 +553,7 @@ export async function voucherSignup(data: UserSelfServiceCreateWithVoucherReques
   });
 }
 
-const UserService = (context: ServiceContext) =>
+export const UserService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     addProfile,
@@ -585,5 +585,3 @@ const UserService = (context: ServiceContext) =>
     validatePinCodes,
     voucherSignup
   }) as const;
-
-export default UserService;

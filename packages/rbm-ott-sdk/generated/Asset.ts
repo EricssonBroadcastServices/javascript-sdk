@@ -462,7 +462,7 @@ export async function getSeasonsForTvShow(
   });
 }
 
-const AssetService = (context: ServiceContext) =>
+export const AssetService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getAsset,
@@ -477,5 +477,3 @@ const AssetService = (context: ServiceContext) =>
     getSeason,
     getSeasonsForTvShow
   }) as const;
-
-export default AssetService;

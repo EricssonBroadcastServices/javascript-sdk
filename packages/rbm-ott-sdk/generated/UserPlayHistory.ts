@@ -97,12 +97,10 @@ export async function getLastViewedOffsetList(
   });
 }
 
-const UserPlayHistoryService = (context: ServiceContext) =>
+export const UserPlayHistoryService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     deleteFromLastViewedAssetList,
     getContinueWatchingTvShow,
     getLastViewedOffsetList
   }) as const;
-
-export default UserPlayHistoryService;

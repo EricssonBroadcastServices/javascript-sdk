@@ -105,11 +105,9 @@ export async function getSeasons(
   });
 }
 
-const SeasonService = (context: ServiceContext) =>
+export const SeasonService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getSeasonById,
     getSeasons
   }) as const;
-
-export default SeasonService;

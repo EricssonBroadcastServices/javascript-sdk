@@ -67,10 +67,8 @@ export async function getEvents(
   });
 }
 
-const EventService = (context: ServiceContext) =>
+export const EventService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getEvents
   }) as const;
-
-export default EventService;

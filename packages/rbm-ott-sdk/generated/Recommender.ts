@@ -93,12 +93,10 @@ export async function getRecommendationsForUser(
   });
 }
 
-const RecommenderService = (context: ServiceContext) =>
+export const RecommenderService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getContinueWatching,
     getRecommendationsForAsset,
     getRecommendationsForUser
   }) as const;
-
-export default RecommenderService;

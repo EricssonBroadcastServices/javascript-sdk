@@ -112,7 +112,7 @@ export async function getConfigFilesCu(params: RequestParams = {}) {
   });
 }
 
-const CustomerConfigService = (context: ServiceContext) =>
+export const CustomerConfigService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getConfigCuFile,
@@ -121,5 +121,3 @@ const CustomerConfigService = (context: ServiceContext) =>
     getConfigFiles,
     getConfigFilesCu
   }) as const;
-
-export default CustomerConfigService;

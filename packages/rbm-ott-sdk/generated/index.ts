@@ -1,82 +1,82 @@
-export * from "./data-contracts";
-export { ServiceContext } from "./http-client"
-export TimeService from "./Time"
-export LocationService from "./Location"
-export SystemService from "./System"
-export StoreService from "./Store"
-export CustomerConfigService from "./CustomerConfig"
-export EventSinkService from "./EventSink"
-export DocumentService from "./Document"
-export ClientConfigService from "./ClientConfig"
-export DeviceService from "./Device"
-export EventService from "./Event"
-export DownloadsService from "./Downloads"
-export PreferencesService from "./Preferences"
-export CarouselService from "./Carousel"
-export EpgService from "./Epg"
-export EntitlementsService from "./Entitlements"
-export AssetService from "./Asset"
-export TagService from "./Tag"
-export RatingService from "./Rating"
-export AuthenticationService from "./Authentication"
-export RecommenderService from "./Recommender"
-export SeasonService from "./Season"
-export UserPlayHistoryService from "./UserPlayHistory"
-export UserService from "./User"
-export SearchService from "./Search"
-
+import { AssetService } from "./Asset"
+import { AuthenticationService } from "./Authentication"
+import { CarouselService } from "./Carousel"
+import { ClientConfigService } from "./ClientConfig"
+import { CustomerConfigService } from "./CustomerConfig"
+import { DeviceService } from "./Device"
+import { DocumentService } from "./Document"
+import { DownloadsService } from "./Downloads"
+import { EntitlementsService } from "./Entitlements"
+import { EpgService } from "./Epg"
+import { EventService } from "./Event"
+import { EventSinkService } from "./EventSink"
+import { LocationService } from "./Location"
+import { PreferencesService } from "./Preferences"
+import { RatingService } from "./Rating"
+import { RecommenderService } from "./Recommender"
+import { SearchService } from "./Search"
+import { SeasonService } from "./Season"
+import { StoreService } from "./Store"
+import { SystemService } from "./System"
+import { TagService } from "./Tag"
+import { TimeService } from "./Time"
+import { UserService } from "./User"
+import { UserPlayHistoryService } from "./UserPlayHistory"
+import { ServiceContext } from "./http-client"
 
 class APIService {
-  time: ReturnType<typeof TimeService>;
-  location: ReturnType<typeof LocationService>;
-  system: ReturnType<typeof SystemService>;
-  store: ReturnType<typeof StoreService>;
-  customerConfig: ReturnType<typeof CustomerConfigService>;
-  eventSink: ReturnType<typeof EventSinkService>;
-  document: ReturnType<typeof DocumentService>;
-  clientConfig: ReturnType<typeof ClientConfigService>;
-  device: ReturnType<typeof DeviceService>;
-  event: ReturnType<typeof EventService>;
-  downloads: ReturnType<typeof DownloadsService>;
-  preferences: ReturnType<typeof PreferencesService>;
-  carousel: ReturnType<typeof CarouselService>;
-  epg: ReturnType<typeof EpgService>;
-  entitlements: ReturnType<typeof EntitlementsService>;
   asset: ReturnType<typeof AssetService>;
-  tag: ReturnType<typeof TagService>;
-  rating: ReturnType<typeof RatingService>;
   authentication: ReturnType<typeof AuthenticationService>;
+  carousel: ReturnType<typeof CarouselService>;
+  clientConfig: ReturnType<typeof ClientConfigService>;
+  customerConfig: ReturnType<typeof CustomerConfigService>;
+  device: ReturnType<typeof DeviceService>;
+  document: ReturnType<typeof DocumentService>;
+  downloads: ReturnType<typeof DownloadsService>;
+  entitlements: ReturnType<typeof EntitlementsService>;
+  epg: ReturnType<typeof EpgService>;
+  event: ReturnType<typeof EventService>;
+  eventSink: ReturnType<typeof EventSinkService>;
+  location: ReturnType<typeof LocationService>;
+  preferences: ReturnType<typeof PreferencesService>;
+  rating: ReturnType<typeof RatingService>;
   recommender: ReturnType<typeof RecommenderService>;
+  search: ReturnType<typeof SearchService>;
   season: ReturnType<typeof SeasonService>;
-  userPlayHistory: ReturnType<typeof UserPlayHistoryService>;
+  store: ReturnType<typeof StoreService>;
+  system: ReturnType<typeof SystemService>;
+  tag: ReturnType<typeof TagService>;
+  time: ReturnType<typeof TimeService>;
   user: ReturnType<typeof UserService>;
-  search: ReturnType<typeof SearchService>
+  userPlayHistory: ReturnType<typeof UserPlayHistoryService>
   constructor(public context: ServiceContext) {
-    this.time = TimeService(context);
-    this.location = LocationService(context);
-    this.system = SystemService(context);
-    this.store = StoreService(context);
-    this.customerConfig = CustomerConfigService(context);
-    this.eventSink = EventSinkService(context);
-    this.document = DocumentService(context);
-    this.clientConfig = ClientConfigService(context);
-    this.device = DeviceService(context);
-    this.event = EventService(context);
-    this.downloads = DownloadsService(context);
-    this.preferences = PreferencesService(context);
-    this.carousel = CarouselService(context);
-    this.epg = EpgService(context);
-    this.entitlements = EntitlementsService(context);
     this.asset = AssetService(context);
-    this.tag = TagService(context);
-    this.rating = RatingService(context);
     this.authentication = AuthenticationService(context);
+    this.carousel = CarouselService(context);
+    this.clientConfig = ClientConfigService(context);
+    this.customerConfig = CustomerConfigService(context);
+    this.device = DeviceService(context);
+    this.document = DocumentService(context);
+    this.downloads = DownloadsService(context);
+    this.entitlements = EntitlementsService(context);
+    this.epg = EpgService(context);
+    this.event = EventService(context);
+    this.eventSink = EventSinkService(context);
+    this.location = LocationService(context);
+    this.preferences = PreferencesService(context);
+    this.rating = RatingService(context);
     this.recommender = RecommenderService(context);
+    this.search = SearchService(context);
     this.season = SeasonService(context);
-    this.userPlayHistory = UserPlayHistoryService(context);
+    this.store = StoreService(context);
+    this.system = SystemService(context);
+    this.tag = TagService(context);
+    this.time = TimeService(context);
     this.user = UserService(context);
-    this.search = SearchService(context)
+    this.userPlayHistory = UserPlayHistoryService(context)
   }
 }
 
+export { AssetService, AuthenticationService, CarouselService, ClientConfigService, CustomerConfigService, DeviceService, DocumentService, DownloadsService, EntitlementsService, EpgService, EventService, EventSinkService, LocationService, PreferencesService, RatingService, RecommenderService, SearchService, SeasonService, StoreService, SystemService, TagService, TimeService, UserService, UserPlayHistoryService };
 export default APIService;
+export * from "./data-contracts";

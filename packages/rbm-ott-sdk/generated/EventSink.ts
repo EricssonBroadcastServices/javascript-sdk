@@ -39,11 +39,9 @@ export async function postEvents(data: AnalyticsBatch, params: RequestParams = {
   });
 }
 
-const EventSinkService = (context: ServiceContext) =>
+export const EventSinkService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     intialize,
     postEvents
   }) as const;
-
-export default EventSinkService;

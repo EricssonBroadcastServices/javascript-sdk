@@ -47,10 +47,8 @@ export async function getDocument(
   });
 }
 
-const DocumentService = (context: ServiceContext) =>
+export const DocumentService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getDocument
   }) as const;
-
-export default DocumentService;

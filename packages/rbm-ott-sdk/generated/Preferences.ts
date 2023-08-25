@@ -232,7 +232,7 @@ export async function setPreferences(data: SetUserPreferenceRequest, params: Req
   });
 }
 
-const PreferencesService = (context: ServiceContext) =>
+export const PreferencesService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     addToAssetList,
@@ -245,5 +245,3 @@ const PreferencesService = (context: ServiceContext) =>
     getPreferences,
     setPreferences
   }) as const;
-
-export default PreferencesService;

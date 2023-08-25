@@ -173,7 +173,7 @@ export async function getDownloadsForAsset(assetId: string, params: RequestParam
   });
 }
 
-const DownloadsService = (context: ServiceContext) =>
+export const DownloadsService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     deleteDownloadsForAccount,
@@ -185,5 +185,3 @@ const DownloadsService = (context: ServiceContext) =>
     getDownloadsForAccount,
     getDownloadsForAsset
   }) as const;
-
-export default DownloadsService;

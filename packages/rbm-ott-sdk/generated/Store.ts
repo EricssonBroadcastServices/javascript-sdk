@@ -524,7 +524,7 @@ export async function verifyPayment(purchaseId: string, data: PurchaseVerificati
   });
 }
 
-const StoreService = (context: ServiceContext) =>
+export const StoreService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     addPaymentMethod,
@@ -551,5 +551,3 @@ const StoreService = (context: ServiceContext) =>
     verifyGooglePlayPurchase,
     verifyPayment
   }) as const;
-
-export default StoreService;

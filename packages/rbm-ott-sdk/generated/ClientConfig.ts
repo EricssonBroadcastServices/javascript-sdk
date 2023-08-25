@@ -123,7 +123,7 @@ export async function getWLConfigWithDomain(
   });
 }
 
-const ClientConfigService = (context: ServiceContext) =>
+export const ClientConfigService = (context: ServiceContext) =>
   ({
     [Symbol.for("_rbm_ctx_")]: context,
     getComponentFilters,
@@ -132,5 +132,3 @@ const ClientConfigService = (context: ServiceContext) =>
     getWLConfig,
     getWLConfigWithDomain
   }) as const;
-
-export default ClientConfigService;
