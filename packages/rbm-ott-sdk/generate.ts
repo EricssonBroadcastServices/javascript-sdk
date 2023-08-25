@@ -256,13 +256,13 @@ generateApi({
       writeFileSync(`${OUTPUT_PATH}/${fileName}.ts`, FILE_PREFIX + fileContent);
     });
     // Create and write an index file
-    let imports = "import { ServiceContext } from \"./http-client\"\n"
+    let imports = "export * from \"./data-contracts\";\nexport { ServiceContext } from \"./http-client\"\n"
     let typeDeclarations: string[] = [];
     let props: string[] = [];
 
     for (let {moduleName} of configuration.routes.combined || []) {
       const pascalCaseName = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
-      imports += `import ${pascalCaseName}Service from "./${pascalCaseName}"\n`;
+      imports += `export ${pascalCaseName}Service from "./${pascalCaseName}"\n`;
       typeDeclarations.push(`${moduleName}: ReturnType<typeof ${pascalCaseName}Service>`);
       props.push(`this.${moduleName} = ${pascalCaseName}Service(context)`);
     }
