@@ -1,0 +1,63 @@
+<%
+const { utils, route, config } = it;
+const { requestBodyInfo, responseBodyInfo, specificArgNameResolver } = route;
+const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
+const { parameters, path, method, payload, query, formData, security, requestParams } = route.request;
+const { type, errorType, contentTypes } = route.response;
+const { HTTP_CLIENT, RESERVED_REQ_PARAMS_ARG_NAMES } = config.constants;
+const routeDocs = includeFile("../base/route-docs", { config, route, utils });
+const queryName = (query && query.name) || "query";
+const pathParams = parameters.filter(({ name }) => !["customer", "businessUnit"].includes(name));
+const pathParamsNames = _.map(pathParams, "name");
+
+const isFetchTemplate = config.httpClientType === HTTP_CLIENT.FETCH;
+
+const requestConfigParam = {
+    name: specificArgNameResolver.resolve(RESERVED_REQ_PARAMS_ARG_NAMES),
+    optional: true,
+    type: 'RequestParams',
+    defaultValue: "{}",
+}
+
+const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
+
+const rawWrapperArgs = config.extractRequestParams ?
+    _.compact([
+        requestParams && {
+          name: pathParams.length ? `{ ${_.join(pathParamsNames, ", ")}, ...${queryName} }` : queryName,
+          optional: false,
+          type: getInlineParseContent(requestParams),
+        },
+        ...(!requestParams ? pathParams : []),
+        payload,
+        requestConfigParam,
+    ]) :
+    _.compact([
+        ...pathParams,
+        query,
+        payload,
+        requestConfigParam,
+    ])
+
+const wrapperArgs = _
+    // Sort by optionality
+    .sortBy(rawWrapperArgs, [o => o.optional])
+    .map(argToTmpl)
+    .join(', ')
+
+%>
+/**
+<%~ routeDocs.lines %>
+
+ */
+export async function <%~ route.routeName.usage %> (<%~ wrapperArgs %>) {
+    // @ts-ignore
+    const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+    return request<<%~ type %>>({
+      method: "<%~ _.upperCase(method) %>",
+      url: new URL(`<%~ path.replace("${customer}", "${ctx.customer}").replace("${businessUnit}", "${ctx.businessUnit}") %>`, ctx.baseUrl),
+      headers: <%~ _.get(requestConfigParam, "name") %>,
+      <% if (query) { %>query: <%~ queryName %>,<% } %>
+      <% if (payload?.name) { %>body: <%~ payload.name %>,<% } %>
+    })
+}
