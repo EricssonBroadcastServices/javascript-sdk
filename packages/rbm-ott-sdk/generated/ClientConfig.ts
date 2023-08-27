@@ -15,20 +15,20 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/filters
  * @response `default` `ComponentFilters` success
  */
-export async function getComponentFilters(params: RequestParams = {}) {
+export async function getComponentFilters(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ComponentFilters>({
     method: "GET",
     url: new URL(`/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/filters`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/file/{folder}/{fileName}
  * @response `default` `void` success
  */
-export async function getFile(folder: string, fileName: string, params: RequestParams = {}) {
+export async function getFile(folder: string, fileName: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
@@ -37,7 +37,7 @@ export async function getFile(folder: string, fileName: string, params: RequestP
       `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/file/${folder}/${fileName}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -54,7 +54,7 @@ export async function getWLComponent(
     /** Comma separated list of filters. I.e: "type:value,type2:value2" */
     filters?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -64,7 +64,7 @@ export async function getWLComponent(
       `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -82,7 +82,7 @@ export async function getWLConfig(
     /** @default false */
     paymentMethodPreview?: boolean;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -92,7 +92,7 @@ export async function getWLConfig(
       `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -111,14 +111,14 @@ export async function getWLConfigWithDomain(
     /** @default false */
     paymentMethodPreview?: boolean;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
     url: new URL(`/v2/whitelabel/origin/${host}/config/${configId}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

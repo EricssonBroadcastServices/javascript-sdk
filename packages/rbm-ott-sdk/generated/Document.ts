@@ -35,14 +35,14 @@ export async function getDocument(
     /** ISO 639-1 language code. If not stated or not supported fall back to other languages will be performed. */
     preferredLanguage?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<HtmlDocument>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/document`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

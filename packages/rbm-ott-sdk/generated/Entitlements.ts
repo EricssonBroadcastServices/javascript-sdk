@@ -21,7 +21,7 @@ export async function accountProducts(
     /** The time to be used when checking entitlement. */
     time?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -31,7 +31,7 @@ export async function accountProducts(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -45,7 +45,7 @@ export async function availabilityKeys(
     /** The time to be used when checking entitlement. */
     time?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -55,7 +55,7 @@ export async function availabilityKeys(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -80,7 +80,7 @@ export async function entitle(
     /** The time to be used when checking entitlement. */
     time?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -90,7 +90,7 @@ export async function entitle(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -246,7 +246,7 @@ export async function play(
      */
     width?: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -256,7 +256,7 @@ export async function play(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

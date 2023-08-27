@@ -18,7 +18,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteFromLastViewedAssetList(assetId: string, params: RequestParams = {}) {
+export async function deleteFromLastViewedAssetList(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string>({
@@ -27,7 +27,7 @@ export async function deleteFromLastViewedAssetList(assetId: string, params: Req
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewed/asset/${assetId}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -39,7 +39,7 @@ Get the episode in progress
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_ASSET. If the asset with id tvShowId cannot be found.
  */
-export async function getContinueWatchingTvShow(tvshowid: string, params: RequestParams = {}) {
+export async function getContinueWatchingTvShow(tvshowid: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<WatchedTvShowResponse>({
@@ -48,7 +48,7 @@ export async function getContinueWatchingTvShow(tvshowid: string, params: Reques
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/continue/tvshow/${tvshowid}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -82,7 +82,7 @@ export async function getLastViewedOffsetList(
      */
     pageSize?: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -92,7 +92,7 @@ export async function getLastViewedOffsetList(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewedoffset`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

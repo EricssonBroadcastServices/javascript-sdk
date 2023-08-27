@@ -34,7 +34,7 @@ export async function getSeasonById(
     onlyPublished?: boolean;
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -44,7 +44,7 @@ export async function getSeasonById(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -93,14 +93,14 @@ export async function getSeasons(
     /** The sort parameter in the format of first,-second. */
     sort?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<SeasonList>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

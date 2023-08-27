@@ -45,14 +45,14 @@ export async function getAsset(
     parentalRatings?: string;
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -140,14 +140,14 @@ export async function getAssets(
     /** The sort parameter in the format of first,-second. */
     sort?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<AssetList>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -179,7 +179,7 @@ export async function getAssetThumbnail(
      */
     w?: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -189,7 +189,7 @@ export async function getAssetThumbnail(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/thumbnail`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -234,7 +234,7 @@ export async function getCollectionEntries(
      */
     sortOrder?: "ASC" | "DESC";
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -244,7 +244,7 @@ export async function getCollectionEntries(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -283,7 +283,7 @@ export async function getEpisodes(
     pageSize?: number;
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -293,7 +293,7 @@ export async function getEpisodes(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -306,7 +306,7 @@ export async function getEpisodes(
 export async function getNextCollectionEntry(
   collectionId: string,
   referenceEntryId: string,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -316,7 +316,7 @@ export async function getNextCollectionEntry(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/next`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -325,7 +325,7 @@ export async function getNextCollectionEntry(
  * @response `200` `Asset` success
  * @response `404` `void` NO_EPISODE_FOUND. If the provided episode does not exist, or if there is no next episode available.
  */
-export async function getNextEpisode(assetId: string, params: RequestParams = {}) {
+export async function getNextEpisode(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Asset>({
@@ -334,7 +334,7 @@ export async function getNextEpisode(assetId: string, params: RequestParams = {}
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/next`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -346,7 +346,7 @@ export async function getNextEpisode(assetId: string, params: RequestParams = {}
 export async function getPreviousCollectionEntry(
   collectionId: string,
   referenceEntryId: string,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -356,7 +356,7 @@ export async function getPreviousCollectionEntry(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/previous`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -365,7 +365,7 @@ export async function getPreviousCollectionEntry(
  * @response `200` `Asset` success
  * @response `404` `void` NO_EPISODE_FOUND. If the provided episode does not exist or if there is no previous episode available.
  */
-export async function getPreviousEpisode(assetId: string, params: RequestParams = {}) {
+export async function getPreviousEpisode(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Asset>({
@@ -374,7 +374,7 @@ export async function getPreviousEpisode(assetId: string, params: RequestParams 
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/previous`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -400,7 +400,7 @@ export async function getSeason(
     onlyPublished?: boolean;
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -410,7 +410,7 @@ export async function getSeason(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -447,7 +447,7 @@ export async function getSeasonsForTvShow(
     service?: string;
     sort?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -457,7 +457,7 @@ export async function getSeasonsForTvShow(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

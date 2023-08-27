@@ -16,13 +16,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @secure
  * @response `default` `Message` success
  */
-export async function deleteDownloadsForAccount(params: RequestParams = {}) {
+export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Message>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -31,7 +31,7 @@ export async function deleteDownloadsForAccount(params: RequestParams = {}) {
  * @secure
  * @response `default` `Message` success
  */
-export async function deleteDownloadsForAsset(assetId: string, params: RequestParams = {}) {
+export async function deleteDownloadsForAsset(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Message>({
@@ -40,7 +40,7 @@ export async function deleteDownloadsForAsset(assetId: string, params: RequestPa
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -58,7 +58,7 @@ export async function download(
     /** The time to be used when checking download info. */
     time?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -68,7 +68,7 @@ export async function download(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -78,7 +78,7 @@ export async function download(
  * @secure
  * @response `default` `BookkeeperAsset` success
  */
-export async function downloadCompleted(assetId: string, params: RequestParams = {}) {
+export async function downloadCompleted(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
@@ -87,7 +87,7 @@ export async function downloadCompleted(assetId: string, params: RequestParams =
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadcompleted`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -106,7 +106,7 @@ export async function downloadInfo(
     /** The time to be used when checking download info. */
     time?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -116,7 +116,7 @@ export async function downloadInfo(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -127,7 +127,7 @@ export async function downloadInfo(
  * @secure
  * @response `default` `BookkeeperAsset` success
  */
-export async function downloadRenewed(assetId: string, params: RequestParams = {}) {
+export async function downloadRenewed(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
@@ -136,7 +136,7 @@ export async function downloadRenewed(assetId: string, params: RequestParams = {
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadrenewed`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -145,13 +145,13 @@ export async function downloadRenewed(assetId: string, params: RequestParams = {
  * @secure
  * @response `default` `BookkeeperAccount` success
  */
-export async function getDownloadsForAccount(params: RequestParams = {}) {
+export async function getDownloadsForAccount(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<BookkeeperAccount>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -160,7 +160,7 @@ export async function getDownloadsForAccount(params: RequestParams = {}) {
  * @secure
  * @response `default` `BookkeeperAsset` success
  */
-export async function getDownloadsForAsset(assetId: string, params: RequestParams = {}) {
+export async function getDownloadsForAsset(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
@@ -169,7 +169,7 @@ export async function getDownloadsForAsset(assetId: string, params: RequestParam
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 

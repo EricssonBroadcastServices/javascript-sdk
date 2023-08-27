@@ -24,14 +24,14 @@ export async function getConfigCuFile(
      */
     version?: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/config/${fileName}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -48,14 +48,14 @@ export async function getConfigFile(
     /** @format int32 */
     version?: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -72,14 +72,14 @@ export async function getConfigFileCustomDomainInPath(
     /** @default false */
     paymentMethodPreview?: boolean;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
     url: new URL(`/v1/config/${fileId}/origin/${host}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -88,13 +88,13 @@ export async function getConfigFileCustomDomainInPath(
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/config
  * @response `default` `ConfigFilesResponse` success
  */
-export async function getConfigFiles(params: RequestParams = {}) {
+export async function getConfigFiles(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -102,13 +102,13 @@ export async function getConfigFiles(params: RequestParams = {}) {
  * @request GET:/v1/customer/{customer}/config
  * @response `default` `ConfigFilesResponse` success
  */
-export async function getConfigFilesCu(params: RequestParams = {}) {
+export async function getConfigFilesCu(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/config`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 

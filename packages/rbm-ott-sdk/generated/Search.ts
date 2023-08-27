@@ -21,7 +21,7 @@ export async function autocomplete(
     /** The locale to autocomplete in. */
     locale?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -31,7 +31,7 @@ export async function autocomplete(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/autocomplete/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -54,7 +54,7 @@ export async function autocompleteAssetTitle(
      */
     types?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -64,7 +64,7 @@ export async function autocompleteAssetTitle(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/title/autocomplete/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -82,7 +82,7 @@ export async function autocompleteTagTitle(
     /** The schemes to autocomplete in. */
     scheme?: string[];
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -92,7 +92,7 @@ export async function autocompleteTagTitle(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/title/autocomplete/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -107,7 +107,7 @@ export async function getSuggestions(
     /** The locale to autocomplete in. */
     locale?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -117,7 +117,7 @@ export async function getSuggestions(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/suggestions/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -165,7 +165,7 @@ export async function search(
      */
     types?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -175,7 +175,7 @@ export async function search(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -224,7 +224,7 @@ export async function searchAsset(
      */
     types?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -234,7 +234,7 @@ export async function searchAsset(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -285,7 +285,7 @@ export async function searchEpg(
      */
     to: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -295,7 +295,7 @@ export async function searchEpg(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -356,14 +356,14 @@ export async function searchNoQuery(
      */
     types?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -388,7 +388,7 @@ export async function searchParticipants(
      */
     pageSize?: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -398,7 +398,7 @@ export async function searchParticipants(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/participant/query/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -433,7 +433,7 @@ export async function searchTags(
     /** The schemes to autocomplete in. */
     scheme?: string[];
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -443,7 +443,7 @@ export async function searchTags(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -509,7 +509,7 @@ export async function searchV2(
      */
     types?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -519,7 +519,7 @@ export async function searchV2(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }
@@ -565,7 +565,7 @@ export async function searchV3(
      */
     types?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -575,7 +575,7 @@ export async function searchV3(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: queryParams
   });
 }

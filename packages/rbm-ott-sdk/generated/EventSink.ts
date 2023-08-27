@@ -14,13 +14,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/eventsink/init
  * @response `default` `void` success
  */
-export async function intialize(params: RequestParams = {}) {
+export async function intialize(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/init`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -28,13 +28,13 @@ export async function intialize(params: RequestParams = {}) {
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/eventsink/send
  * @response `default` `void` success
  */
-export async function postEvents(data: AnalyticsBatch, params: RequestParams = {}) {
+export async function postEvents(data: AnalyticsBatch, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/send`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }

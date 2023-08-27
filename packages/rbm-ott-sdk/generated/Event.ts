@@ -55,14 +55,14 @@ export async function getEvents(
     /** Publication filters applied on publications tagged with service. */
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<EventList>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

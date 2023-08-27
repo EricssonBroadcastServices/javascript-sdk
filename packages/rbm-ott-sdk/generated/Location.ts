@@ -16,13 +16,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/location
  * @response `200` `Location` Successful
  */
-export async function getLocation(params: RequestParams = {}) {
+export async function getLocation(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Location>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/location`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -31,13 +31,13 @@ export async function getLocation(params: RequestParams = {}) {
  * @request GET:/v2/location
  * @response `200` `Location` Successful
  */
-export async function getLocationFromReferer(params: RequestParams = {}) {
+export async function getLocationFromReferer(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Location>({
     method: "GET",
     url: new URL(`/v2/location`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 

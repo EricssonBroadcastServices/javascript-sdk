@@ -40,14 +40,14 @@ export async function getActiveChannels(
     /** Sort by the sorting title property of the given locale */
     sortingLocale?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ActiveChannels>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -68,7 +68,7 @@ export async function getChannelStatus(
      */
     minutesForward?: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -78,7 +78,7 @@ export async function getChannelStatus(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow/${channelId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -123,14 +123,14 @@ export async function getEpg(
      */
     startDateSort?: "ASC" | "DESC";
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ChannelEPGResponse[]>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -175,7 +175,7 @@ export async function getEpgForChannel(
      */
     startDateSort?: "ASC" | "DESC";
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -185,7 +185,7 @@ export async function getEpgForChannel(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -230,7 +230,7 @@ export async function getEpgForChannels(
      */
     startDateSort?: "ASC" | "DESC";
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -240,7 +240,7 @@ export async function getEpgForChannels(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -250,7 +250,7 @@ export async function getEpgForChannels(
  * @response `200` `ProgramResponse` success
  * @response `404` `void` PROGRAM_NOT_FOUND. If the program cannot be found. NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.
  */
-export async function getNextProgram(channelId: string, programId: string, params: RequestParams = {}) {
+export async function getNextProgram(channelId: string, programId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ProgramResponse>({
@@ -259,7 +259,7 @@ export async function getNextProgram(channelId: string, programId: string, param
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}/next`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -269,7 +269,7 @@ export async function getNextProgram(channelId: string, programId: string, param
  * @response `200` `ProgramResponse` success
  * @response `404` `void` PROGRAM_NOT_FOUND. If the program cannot be found. NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.
  */
-export async function getNextProgramForAsset(assetId: string, params: RequestParams = {}) {
+export async function getNextProgramForAsset(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ProgramResponse>({
@@ -278,7 +278,7 @@ export async function getNextProgramForAsset(assetId: string, params: RequestPar
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/asset/${assetId}/next`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -293,7 +293,7 @@ export async function getProgram(
   query?: {
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -303,7 +303,7 @@ export async function getProgram(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -328,14 +328,14 @@ export async function getXmlTvEpgForChannel(
      */
     daysForward?: number;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ChannelEPGResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

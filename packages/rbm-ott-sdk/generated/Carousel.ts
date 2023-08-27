@@ -50,7 +50,7 @@ export async function getCarousel(
     /** If we should only return assets that have publications on this service */
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -60,7 +60,7 @@ export async function getCarousel(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -69,13 +69,13 @@ export async function getCarousel(
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup
  * @response `default` `(string)[]` success
  */
-export async function getCarouselGroups(params: RequestParams = {}) {
+export async function getCarouselGroups(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string[]>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -119,14 +119,14 @@ export async function getCarouselsForGroup(
     /** If we should only return assets that have publications on this service */
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Carousel[]>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

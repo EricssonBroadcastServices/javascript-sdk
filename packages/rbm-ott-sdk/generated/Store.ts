@@ -45,13 +45,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `200` `AddPaymentMethodResponse` Successful
  * @response `403` `AddPaymentMethodResponse` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
-export async function addPaymentMethod(params: RequestParams = {}) {
+export async function addPaymentMethod(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<AddPaymentMethodResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -60,7 +60,7 @@ export async function addPaymentMethod(params: RequestParams = {}) {
  * @secure
  * @response `default` `void` success
  */
-export async function cancelPurchaseSubscription(purchaseId: string, params: RequestParams = {}) {
+export async function cancelPurchaseSubscription(purchaseId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
@@ -69,7 +69,7 @@ export async function cancelPurchaseSubscription(purchaseId: string, params: Req
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/subscriptions/${purchaseId}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -79,7 +79,7 @@ export async function cancelPurchaseSubscription(purchaseId: string, params: Req
  * @response `200` `void` Successful
  * @response `403` `void` FEATURE_NOT_ENABLED_FOR_BUSINESS_UNIT the business unit is not integrated with a payment provider
  */
-export async function deleteStoredPaymentMethod(paymentMethodId: string, params: RequestParams = {}) {
+export async function deleteStoredPaymentMethod(paymentMethodId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
@@ -88,7 +88,7 @@ export async function deleteStoredPaymentMethod(paymentMethodId: string, params:
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -97,13 +97,13 @@ export async function deleteStoredPaymentMethod(paymentMethodId: string, params:
  * @secure
  * @response `default` `(Asset)[]` success
  */
-export async function getAccountAssetPurchases(params: RequestParams = {}) {
+export async function getAccountAssetPurchases(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Asset[]>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/assets`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -112,7 +112,7 @@ export async function getAccountAssetPurchases(params: RequestParams = {}) {
  * @secure
  * @response `default` `ProductOfferingTransactions` success
  */
-export async function getAccountTransactions(params: RequestParams = {}) {
+export async function getAccountTransactions(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ProductOfferingTransactions>({
@@ -121,7 +121,7 @@ export async function getAccountTransactions(params: RequestParams = {}) {
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -130,7 +130,7 @@ export async function getAccountTransactions(params: RequestParams = {}) {
  * @secure
  * @response `default` `ProductOfferingTransactionsProductOfferingPairList` success
  */
-export async function getAccountTransactionsWithProductOffering(params: RequestParams = {}) {
+export async function getAccountTransactionsWithProductOffering(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ProductOfferingTransactionsProductOfferingPairList>({
@@ -139,7 +139,7 @@ export async function getAccountTransactionsWithProductOffering(params: RequestP
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions/productoffering`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -151,7 +151,7 @@ export async function getAccountTransactionsWithProductOffering(params: RequestP
 export async function getCountryOfferingsByVoucher(
   countryCode: string,
   voucherCode: string,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -161,7 +161,7 @@ export async function getCountryOfferingsByVoucher(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/country/${countryCode}/voucher/${voucherCode}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -175,14 +175,14 @@ export async function getOfferingPurchases(
     /** @default false */
     includeOfferingDetails?: boolean;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ProductOfferingPurchases>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -203,7 +203,7 @@ export async function getOfferings(
     /** Payment provider */
     paymentProvider?: "appstore" | "external" | "googleplay" | "stripe";
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -213,7 +213,7 @@ export async function getOfferings(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -232,7 +232,7 @@ export async function getOfferingsByCountry(
      */
     includeSelectAssetProducts?: boolean;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -242,7 +242,7 @@ export async function getOfferingsByCountry(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -253,7 +253,7 @@ export async function getOfferingsByCountry(
  * @response `200` `StoreProductOfferings` success
  * @response `404` `void` LABEL_FILTER_NOT_FOUND The provided labelFilterId was not found
  */
-export async function getOfferingsByLabels(labelFilterId: string, params: RequestParams = {}) {
+export async function getOfferingsByLabels(labelFilterId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<StoreProductOfferings>({
@@ -262,7 +262,7 @@ export async function getOfferingsByLabels(labelFilterId: string, params: Reques
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/label/${labelFilterId}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -272,7 +272,7 @@ export async function getOfferingsByLabels(labelFilterId: string, params: Reques
  * @secure
  * @response `default` `(StorePromotionProductOfferings)[]` success
  */
-export async function getOfferingsByVoucher(voucherCode: string, params: RequestParams = {}) {
+export async function getOfferingsByVoucher(voucherCode: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<StorePromotionProductOfferings[]>({
@@ -281,7 +281,7 @@ export async function getOfferingsByVoucher(voucherCode: string, params: Request
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/voucher/${voucherCode}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -290,13 +290,13 @@ export async function getOfferingsByVoucher(voucherCode: string, params: Request
  * @secure
  * @response `default` `(StorePurchaseTransaction)[]` success
  */
-export async function getPurchaseTransactions(params: RequestParams = {}) {
+export async function getPurchaseTransactions(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<StorePurchaseTransaction[]>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/purchases`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -306,13 +306,13 @@ export async function getPurchaseTransactions(params: RequestParams = {}) {
  * @response `200` `PaymentMethods` Successful
  * @response `403` `PaymentMethods` FEATURE_NOT_ENABLED_FOR_BUSINESS_UNIT the business unit is not integrated with a payment provider
  */
-export async function getStoredPaymentMethods(params: RequestParams = {}) {
+export async function getStoredPaymentMethods(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<PaymentMethods>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -323,7 +323,7 @@ Called to before initiating a new payment.
  * @secure
  * @response `default` `InitializePaymentResponse` success
  */
-export async function initialize(data: InitialisePayment, params: RequestParams = {}) {
+export async function initialize(data: InitialisePayment, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<InitializePaymentResponse>({
@@ -332,7 +332,7 @@ export async function initialize(data: InitialisePayment, params: RequestParams 
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/initialize`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -347,7 +347,7 @@ export async function initialize(data: InitialisePayment, params: RequestParams 
 export async function initializeAppStorePurchase(
   productOfferingId: string,
   data: AppStorePurchaseInitializeRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -357,7 +357,7 @@ export async function initializeAppStorePurchase(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/init/${productOfferingId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -372,7 +372,7 @@ export async function initializeAppStorePurchase(
 export async function initializeGooglePlayPurchase(
   productOfferingId: string,
   data: GooglePlayPurchaseInitializeRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -382,7 +382,7 @@ export async function initializeGooglePlayPurchase(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/init/${productOfferingId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -395,7 +395,7 @@ export async function initializeGooglePlayPurchase(
 export async function purchaseProductOffering(
   productOfferingId: string,
   data: PurchaseRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -405,7 +405,7 @@ export async function purchaseProductOffering(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${productOfferingId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -419,7 +419,7 @@ export async function purchaseProductOffering(
 export async function updatePaymentMethod(
   paymentMethodId: string,
   data: UpdatePaymentMethodRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -429,7 +429,7 @@ export async function updatePaymentMethod(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -442,14 +442,14 @@ export async function updatePaymentMethod(
  */
 export async function updatePreferredPaymentMethod(
   data: UpdatePrederredPaymentMethodRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<JsonAccount>({
     method: "PUT",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/preferred`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -464,7 +464,7 @@ export async function updatePreferredPaymentMethod(
 export async function verifyAppStorePurchase(
   purchaseId: string,
   data: AppStorePurchaseVerifyRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -474,7 +474,7 @@ export async function verifyAppStorePurchase(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/${purchaseId}/verify`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -489,7 +489,7 @@ export async function verifyAppStorePurchase(
 export async function verifyGooglePlayPurchase(
   purchaseId: string,
   data: GooglePlayPurchaseVerifyRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -499,7 +499,7 @@ export async function verifyGooglePlayPurchase(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/${purchaseId}/verify`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -510,7 +510,11 @@ export async function verifyGooglePlayPurchase(
  * @secure
  * @response `default` `PurchaseResponse` success
  */
-export async function verifyPayment(purchaseId: string, data: PurchaseVerificationRequest, params: RequestParams = {}) {
+export async function verifyPayment(
+  purchaseId: string,
+  data: PurchaseVerificationRequest,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<PurchaseResponse>({
@@ -519,7 +523,7 @@ export async function verifyPayment(purchaseId: string, data: PurchaseVerificati
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${purchaseId}/verify`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }

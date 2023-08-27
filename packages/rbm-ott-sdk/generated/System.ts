@@ -21,14 +21,14 @@ export async function getSystemConfig(
     /** @default false */
     paymentMethodPreview?: boolean;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<SystemConfig>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -44,14 +44,14 @@ export async function getSystemConfigV2(
     /** countryCode */
     countryCode: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<SystemConfig>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

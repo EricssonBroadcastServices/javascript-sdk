@@ -34,13 +34,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `403` `void` FORBIDDEN. If the business unit is not configured to support anonymous sessions.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function anonymousSession(data: AnonymousSessionRequest, params: RequestParams = {}) {
+export async function anonymousSession(data: AnonymousSessionRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<AnonymousSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -53,13 +53,13 @@ export async function anonymousSession(data: AnonymousSessionRequest, params: Re
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function deleteSessions(data: DeleteUsersSessionsRequest, params: RequestParams = {}) {
+export async function deleteSessions(data: DeleteUsersSessionsRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -73,13 +73,13 @@ export async function deleteSessions(data: DeleteUsersSessionsRequest, params: R
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function externalUserSession(data: ExternalUserSessionRequest, params: RequestParams = {}) {
+export async function externalUserSession(data: ExternalUserSessionRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/externalusersession`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -92,14 +92,14 @@ export async function getOauthAuth(
     client_id?: string;
     redirect_uri?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/auth`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -112,14 +112,14 @@ export async function getOauthRedir(
     code?: string;
     state?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/redir`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -134,13 +134,13 @@ export async function getOauthRedir(
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function login(data: AuthRequestV3, params: RequestParams = {}) {
+export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -156,13 +156,13 @@ export async function login(data: AuthRequestV3, params: RequestParams = {}) {
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function loginAnonymous(data: AuthenticationRequest, params: RequestParams = {}) {
+export async function loginAnonymous(data: AuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -176,13 +176,13 @@ export async function loginAnonymous(data: AuthenticationRequest, params: Reques
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function loginFirebase(data: FirebaseAuthenticationRequest, params: RequestParams = {}) {
+export async function loginFirebase(data: FirebaseAuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/firebaseLogin`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -195,13 +195,13 @@ export async function loginFirebase(data: FirebaseAuthenticationRequest, params:
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function loginGigya(data: GigyaAuthenticationRequest, params: RequestParams = {}) {
+export async function loginGigya(data: GigyaAuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/gigyaLogin`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -209,13 +209,13 @@ export async function loginGigya(data: GigyaAuthenticationRequest, params: Reque
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin
  * @response `default` `void` success
  */
-export async function loginOauth(data: OauthAuthenticationRequest, params: RequestParams = {}) {
+export async function loginOauth(data: OauthAuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauthLogin`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -229,13 +229,13 @@ export async function loginOauth(data: OauthAuthenticationRequest, params: Reque
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function loginPrimetime(data: PrimetimeAuthenticationRequest, params: RequestParams = {}) {
+export async function loginPrimetime(data: PrimetimeAuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/adobePrimetimeLogin`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -252,14 +252,14 @@ export async function logout(
     /** @default false */
     fromAllDevice?: boolean;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<EmptyResponse>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -273,13 +273,13 @@ export async function logout(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function session(data: ApiKeyUserSessionRequest, params: RequestParams = {}) {
+export async function session(data: ApiKeyUserSessionRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -292,13 +292,13 @@ export async function session(data: ApiKeyUserSessionRequest, params: RequestPar
  * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function validateSessionToken(params: RequestParams = {}) {
+export async function validateSessionToken(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<SessionResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 

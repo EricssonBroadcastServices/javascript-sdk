@@ -24,14 +24,14 @@ export async function getContinueWatching(
     service?: string;
     tagIds?: string[];
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ContinueUph2Assets>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -51,7 +51,7 @@ export async function getRecommendationsForAsset(
     service?: string;
     tagIds?: string[];
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -61,7 +61,7 @@ export async function getRecommendationsForAsset(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/watchNext/${assetId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -81,14 +81,14 @@ export async function getRecommendationsForUser(
     service?: string;
     tagIds?: string[];
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<RecommendedAssets>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

@@ -13,7 +13,7 @@ const pathParamsNames = _.map(pathParams, "name");
 const isFetchTemplate = config.httpClientType === HTTP_CLIENT.FETCH;
 
 const requestConfigParam = {
-    name: specificArgNameResolver.resolve(RESERVED_REQ_PARAMS_ARG_NAMES),
+    name: "headers",
     optional: true,
     type: 'RequestParams',
     defaultValue: "{}",

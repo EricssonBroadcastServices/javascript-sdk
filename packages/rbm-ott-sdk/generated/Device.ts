@@ -19,13 +19,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `403` `void` DELETE_SELF_NOT_ALLOWED. The device of this session may not be deleted.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteDeviceForAccount(deviceId: string, params: RequestParams = {}) {
+export async function deleteDeviceForAccount(deviceId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device/${deviceId}`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -37,13 +37,13 @@ export async function deleteDeviceForAccount(deviceId: string, params: RequestPa
  * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getDevicesForAccount(params: RequestParams = {}) {
+export async function getDevicesForAccount(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<DevicesResponseV2>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 

@@ -22,13 +22,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteUserContentRating(assetId: string, params: RequestParams = {}) {
+export async function deleteUserContentRating(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -37,7 +37,7 @@ export async function deleteUserContentRating(assetId: string, params: RequestPa
  * @response `200` `(GetAllUserContentRatingsForAssetResponse)[]` success
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getAllUserContentRatingsForAsset(assetId: string, params: RequestParams = {}) {
+export async function getAllUserContentRatingsForAsset(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForAssetResponse[]>({
@@ -46,7 +46,7 @@ export async function getAllUserContentRatingsForAsset(assetId: string, params: 
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}/all`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -57,13 +57,13 @@ export async function getAllUserContentRatingsForAsset(assetId: string, params: 
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getAllUserContentRatingsForUser(params: RequestParams = {}) {
+export async function getAllUserContentRatingsForUser(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForUserResponse[]>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/all`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -74,13 +74,13 @@ export async function getAllUserContentRatingsForUser(params: RequestParams = {}
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getUserContentRating(assetId: string, params: RequestParams = {}) {
+export async function getUserContentRating(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<GetUserContentRatingResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -94,14 +94,14 @@ export async function getUserContentRating(assetId: string, params: RequestParam
 export async function putUserContentRating(
   assetId: string,
   data: PutUserContentRatingRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }

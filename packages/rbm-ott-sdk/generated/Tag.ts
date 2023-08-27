@@ -16,13 +16,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `200` `TagType` success
  * @response `404` `void` UNKNOWN_TAG. If a tag with the id cannot be found. UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  */
-export async function getTagById(tagId: string, params: RequestParams = {}) {
+export async function getTagById(tagId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<TagType>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/${tagId}`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -79,14 +79,14 @@ export async function getUniqueTagsFromAssets(
     service?: string;
     tagType: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<TagList>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/asset`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -115,14 +115,14 @@ export async function listTags(
     /** The sort parameter in the format of first,-second. */
     sort?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<TagList>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     query: query
   });
 }

@@ -30,7 +30,7 @@ export async function addToAssetList(
   list: string,
   assetId: string,
   data: AssetListItemRequest,
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -40,7 +40,7 @@ export async function addToAssetList(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -54,7 +54,7 @@ export async function addToAssetList(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  * @response `409` `void` LIMIT_REACHED. If the maximum number of items in the list have been reached.
  */
-export async function addToList(list: string, id: string, data: AssetListItemRequest, params: RequestParams = {}) {
+export async function addToList(list: string, id: string, data: AssetListItemRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string>({
@@ -63,7 +63,7 @@ export async function addToList(list: string, id: string, data: AssetListItemReq
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -75,7 +75,7 @@ export async function addToList(list: string, id: string, data: AssetListItemReq
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function deleteFromAssetList(list: string, assetId: string, params: RequestParams = {}) {
+export async function deleteFromAssetList(list: string, assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string>({
@@ -84,7 +84,7 @@ export async function deleteFromAssetList(list: string, assetId: string, params:
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -95,7 +95,7 @@ export async function deleteFromAssetList(list: string, assetId: string, params:
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function deleteFromList(list: string, id: string, params: RequestParams = {}) {
+export async function deleteFromList(list: string, id: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string>({
@@ -104,7 +104,7 @@ export async function deleteFromList(list: string, id: string, params: RequestPa
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -126,7 +126,7 @@ export async function getAssetList(
     service?: string;
     tagIds?: string[];
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -136,7 +136,7 @@ export async function getAssetList(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -154,7 +154,7 @@ export async function getFromAssetList(
   query?: {
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -164,7 +164,7 @@ export async function getFromAssetList(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -181,7 +181,7 @@ export async function getList(
   query?: {
     service?: string;
   },
-  params: RequestParams = {}
+  headers: RequestParams = {}
 ) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
@@ -191,7 +191,7 @@ export async function getList(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     query: query
   });
 }
@@ -203,13 +203,13 @@ export async function getList(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getPreferences(params: RequestParams = {}) {
+export async function getPreferences(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<UserPreferenceResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -221,13 +221,13 @@ export async function getPreferences(params: RequestParams = {}) {
  * @response `403` `void` TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences. TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function setPreferences(data: SetUserPreferenceRequest, params: RequestParams = {}) {
+export async function setPreferences(data: SetUserPreferenceRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string>({
     method: "POST",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }

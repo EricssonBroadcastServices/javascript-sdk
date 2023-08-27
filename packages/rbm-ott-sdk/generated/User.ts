@@ -42,13 +42,13 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_OWNER. Only the owner may create profiles.
  */
-export async function addProfile(data: UserProfileCreateRequest, params: RequestParams = {}) {
+export async function addProfile(data: UserProfileCreateRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<UserProfiles>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -61,13 +61,13 @@ export async function addProfile(data: UserProfileCreateRequest, params: Request
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER NOT_ALLOWED_IN_ANONYMOUS_SESSION. EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  * @response `422` `void` BAD_EMAIL_ADDRESS. The new email address is malformed.
  */
-export async function changeEmail(data: ChangeEmailRequestV3, params: RequestParams = {}) {
+export async function changeEmail(data: ChangeEmailRequestV3, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmail`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -79,7 +79,7 @@ export async function changeEmail(data: ChangeEmailRequestV3, params: RequestPar
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER NOT_ALLOWED_IN_ANONYMOUS_SESSION. EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  * @response `422` `void` BAD_EMAIL_ADDRESS. The new email address is malformed.
  */
-export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, params: RequestParams = {}) {
+export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -88,7 +88,7 @@ export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, par
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmailAndUsername`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -101,13 +101,13 @@ export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, par
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER OLD_PASSWORD_IS_NOT_CORRECT, the old password is not correct. NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  * @response `422` `void` BAD_PASSWORD. The new password is non-compliant to policy
  */
-export async function changePassword(data: ChangePwdV3, params: RequestParams = {}) {
+export async function changePassword(data: ChangePwdV3, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ChangePasswordResponse>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changePassword`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -119,7 +119,7 @@ export async function changePassword(data: ChangePwdV3, params: RequestParams = 
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  * @response `404` `void` NOT_FOUND. The code is not found or has expired.
  */
-export async function confirmActivationCode(code: string, params: RequestParams = {}) {
+export async function confirmActivationCode(code: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -128,7 +128,7 @@ export async function confirmActivationCode(code: string, params: RequestParams 
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/activation/confirm/${code}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -139,7 +139,7 @@ export async function confirmActivationCode(code: string, params: RequestParams 
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  * @response `404` `void` NOT_FOUND. If the token is not found or is expired.
  */
-export async function confirmUserWithToken(token: string, data: ConfirmAccountData, params: RequestParams = {}) {
+export async function confirmUserWithToken(token: string, data: ConfirmAccountData, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ConfirmAccountResponse>({
@@ -148,7 +148,7 @@ export async function confirmUserWithToken(token: string, data: ConfirmAccountDa
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/confirm/${token}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -158,13 +158,13 @@ export async function confirmUserWithToken(token: string, data: ConfirmAccountDa
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/userActivation/consume
  * @response `default` `LoginResponse` success
  */
-export async function consumeActivationCode(data: ActivationRequestV2, params: RequestParams = {}) {
+export async function consumeActivationCode(data: ActivationRequestV2, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/consume`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -174,7 +174,7 @@ export async function consumeActivationCode(data: ActivationRequestV2, params: R
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/userActivation/activationCode
  * @response `default` `ActivationCodeResponse` success
  */
-export async function createActivationCode(params: RequestParams = {}) {
+export async function createActivationCode(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ActivationCodeResponse>({
@@ -183,7 +183,7 @@ export async function createActivationCode(params: RequestParams = {}) {
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/activationCode`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -194,13 +194,13 @@ export async function createActivationCode(params: RequestParams = {}) {
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved.
  * @response `422` `void` EMAIL_OR_MOBILE_REQUIRED. EmailAddress must be supplied. BAD_EMAIL_ADDRESS. The email address is malformed.
  */
-export async function createNewAccount(data: UserSignupRequestV3, params: RequestParams = {}) {
+export async function createNewAccount(data: UserSignupRequestV3, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<UserSelfServiceCreateResponse>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -213,13 +213,13 @@ export async function createNewAccount(data: UserSignupRequestV3, params: Reques
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function createPinCode(data: PinCodeSetRequest, params: RequestParams = {}) {
+export async function createPinCode(data: PinCodeSetRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -230,7 +230,7 @@ export async function createPinCode(data: PinCodeSetRequest, params: RequestPara
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function deletePinCode(pincodeId: string, params: RequestParams = {}) {
+export async function deletePinCode(pincodeId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -239,7 +239,7 @@ export async function deletePinCode(pincodeId: string, params: RequestParams = {
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -249,13 +249,13 @@ export async function deletePinCode(pincodeId: string, params: RequestParams = {
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired. BAD_PASSWORD. The provided password is faulty.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION STORED_PAYMENT_DETAILS, the account cannot be deleted as there are stored payment details for the account. OWNER_OF_ACCOUNT_WITH_NON_OWNER_USER, this user can not be deleted as there are other non-owners in the account. NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION. NOT_SUPPORTED_FOR_FEDERATED_USER
  */
-export async function deleteUserDetails(data: CredentialsV3, params: RequestParams = {}) {
+export async function deleteUserDetails(data: CredentialsV3, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -267,13 +267,13 @@ export async function deleteUserDetails(data: CredentialsV3, params: RequestPara
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION DELETE_CURRENT_PROFILE_NOT_ALLOWED NOT_OWNER. Only the owner may delete profiles.
  */
-export async function deleteUserProfile(userId: string, params: RequestParams = {}) {
+export async function deleteUserProfile(userId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -283,13 +283,13 @@ export async function deleteUserProfile(userId: string, params: RequestParams = 
  * @secure
  * @response `default` `LabelFilter` success
  */
-export async function getAccountLabels(params: RequestParams = {}) {
+export async function getAccountLabels(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LabelFilter>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -300,13 +300,13 @@ export async function getAccountLabels(params: RequestParams = {}) {
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function getPinCodes(params: RequestParams = {}) {
+export async function getPinCodes(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
     method: "GET",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -317,13 +317,13 @@ export async function getPinCodes(params: RequestParams = {}) {
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  */
-export async function getProfiles(params: RequestParams = {}) {
+export async function getProfiles(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<UserProfiles>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -335,13 +335,13 @@ export async function getProfiles(params: RequestParams = {}) {
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  * @response `404` `void` NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here
  */
-export async function getUserDetails(params: RequestParams = {}) {
+export async function getUserDetails(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<UserDetailsResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -351,13 +351,13 @@ export async function getUserDetails(params: RequestParams = {}) {
  * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  */
-export async function giveConsent(params: RequestParams = {}) {
+export async function giveConsent(headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`, ctx.baseUrl),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -369,13 +369,13 @@ export async function giveConsent(params: RequestParams = {}) {
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function putUserAttributes(data: UserAttributeRequest[], params: RequestParams = {}) {
+export async function putUserAttributes(data: UserAttributeRequest[], headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<UserDetailsResponse>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/attributes`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -385,7 +385,7 @@ export async function putUserAttributes(data: UserAttributeRequest[], params: Re
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/user/password/reset/{username}
  * @response `default` `void` success
  */
-export async function resetPassword(username: string, params: RequestParams = {}) {
+export async function resetPassword(username: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
@@ -394,7 +394,7 @@ export async function resetPassword(username: string, params: RequestParams = {}
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/password/reset/${username}`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -406,7 +406,7 @@ export async function resetPassword(username: string, params: RequestParams = {}
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  */
-export async function selectUserProfile(userId: string, params: RequestParams = {}) {
+export async function selectUserProfile(userId: string, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -415,7 +415,7 @@ export async function selectUserProfile(userId: string, params: RequestParams = 
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}/select`,
       ctx.baseUrl
     ),
-    headers: params
+    headers: headers
   });
 }
 /**
@@ -424,7 +424,7 @@ export async function selectUserProfile(userId: string, params: RequestParams = 
  * @response `404` `void` NOT_FOUND. If the token is not found or is expired.
  * @response `422` `void` BAD_PASSWORD. The password does not comply to the password policy.
  */
-export async function setPasswordWithToken(token: string, data: SetPwdWithTokenV3, params: RequestParams = {}) {
+export async function setPasswordWithToken(token: string, data: SetPwdWithTokenV3, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -433,7 +433,7 @@ export async function setPasswordWithToken(token: string, data: SetPwdWithTokenV
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/password/${token}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -445,7 +445,7 @@ export async function setPasswordWithToken(token: string, data: SetPwdWithTokenV
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function setPinCode(pincodeId: string, data: PinCodeSetRequest, params: RequestParams = {}) {
+export async function setPinCode(pincodeId: string, data: PinCodeSetRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
@@ -454,7 +454,7 @@ export async function setPinCode(pincodeId: string, data: PinCodeSetRequest, par
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -466,13 +466,13 @@ export async function setPinCode(pincodeId: string, data: PinCodeSetRequest, par
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here
  * @response `422` `void` BAD_PASSWORD. The new password is non-compliant to policy
  */
-export async function userDetailsUpdate(data: UserDetailsUpdateRequest, params: RequestParams = {}) {
+export async function userDetailsUpdate(data: UserDetailsUpdateRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -483,13 +483,13 @@ export async function userDetailsUpdate(data: UserDetailsUpdateRequest, params: 
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here NOT_OWNER. Only the owner may update profiles.
  */
-export async function userProfileUpdate(userId: string, data: UserDetailsUpdateRequest, params: RequestParams = {}) {
+export async function userProfileUpdate(userId: string, data: UserDetailsUpdateRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -502,7 +502,7 @@ export async function userProfileUpdate(userId: string, data: UserDetailsUpdateR
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function validatePinCode(pincodeId: string, data: PinCodeValidationRequest, params: RequestParams = {}) {
+export async function validatePinCode(pincodeId: string, data: PinCodeValidationRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string[]>({
@@ -511,7 +511,7 @@ export async function validatePinCode(pincodeId: string, data: PinCodeValidation
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}/validate`,
       ctx.baseUrl
     ),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -524,13 +524,13 @@ export async function validatePinCode(pincodeId: string, data: PinCodeValidation
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function validatePinCodes(data: PinCodeValidationRequest, params: RequestParams = {}) {
+export async function validatePinCodes(data: PinCodeValidationRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string[]>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/validate`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
@@ -542,13 +542,13 @@ export async function validatePinCodes(data: PinCodeValidationRequest, params: R
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved.
  * @response `422` `void` EMAIL_OR_MOBILE_REQUIRED. EmailAddress must be supplied. BAD_EMAIL_ADDRESS. The email address is malformed.
  */
-export async function voucherSignup(data: UserSelfServiceCreateWithVoucherRequestV2, params: RequestParams = {}) {
+export async function voucherSignup(data: UserSelfServiceCreateWithVoucherRequestV2, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<UserSelfServiceCreateResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/vouchersignup`, ctx.baseUrl),
-    headers: params,
+    headers: headers,
     body: data
   });
 }
