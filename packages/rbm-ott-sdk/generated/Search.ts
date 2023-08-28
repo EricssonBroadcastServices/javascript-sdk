@@ -368,41 +368,6 @@ export async function searchNoQuery(
   });
 }
 /**
- * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}
- * @response `default` `void` success
- */
-export async function searchParticipants(
-  query: string,
-  queryParams?: {
-    excludeFields?: string;
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    includeFields?: string;
-    /**
-     * @format int32
-     * @default 1
-     */
-    pageNumber?: number;
-    /**
-     * @format int32
-     * @default 50
-     */
-    pageSize?: number;
-  },
-  headers: RequestParams = {}
-) {
-  // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
-  return request<void>({
-    method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/participant/query/${query}`,
-      ctx.baseUrl
-    ),
-    headers: headers,
-    query: queryParams
-  });
-}
-/**
  * @description EXPERMIENTAL. May change without notice.
  * @summary Prefix search on tag titles.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/tag/query/{query}
@@ -591,7 +556,6 @@ export const SearchService = (context: ServiceContext) =>
     searchAsset,
     searchEpg,
     searchNoQuery,
-    searchParticipants,
     searchTags,
     searchV2,
     searchV3

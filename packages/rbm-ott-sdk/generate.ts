@@ -153,6 +153,9 @@ delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{f
 delete spec.paths["/eventsink/init"];
 delete spec.paths["/eventsink/send"];
 
+// doesn't specify any return type schema, and doesn't seem to work anyway (always returns "Unknown error" 500)
+delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get;
+
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
   for (let methodSpec of Object.values(methods || {}) as any[]) {
     // Remove extra space around description and summary
