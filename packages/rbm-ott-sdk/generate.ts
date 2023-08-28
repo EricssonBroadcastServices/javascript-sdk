@@ -94,6 +94,7 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
 }
 
 
+const getVoidRoutes: string[] = [];
 const unhandledEnumTypes: Record<string, string> = {};
 
 for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [string, any][]) {
@@ -157,7 +158,7 @@ delete spec.paths["/eventsink/send"];
 delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get;
 
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
-  for (let methodSpec of Object.values(methods || {}) as any[]) {
+  for (let [methodType, methodSpec] of Object.entries(methods || {}) as any[]) {
     // Remove extra space around description and summary
     if (methodSpec.description) {
       methodSpec.description = methodSpec.description.trim();
@@ -193,7 +194,16 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
         }
       }
     }
+    const content = methodSpec.responses["200"]?.content || methodSpec.responses.default?.content || {};
+    if (methodType === "get" && !Object.keys(content).length) {
+      getVoidRoutes.push(`${methodSpec.tags[0]}.${methodSpec.operationId} (${path})`);
+    }
   }
+}
+
+if (getVoidRoutes.length) {
+  const formattedRoutes = ["", ...getVoidRoutes].join("\n -  ");
+  console.warn(`\n⚠️   The following GET routes do not specify a return type specification, and will be declared as void:${formattedRoutes}\n`);
 }
 
 // De-comment to add recursive sorting the whole spec (this is not needed,
