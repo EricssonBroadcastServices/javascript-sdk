@@ -254,7 +254,6 @@ generateApi({
       }
       // Must override hard coded base path which swagger-typescript-api uses for some templates
       apiConfig.config.templatePaths.base = resolve(process.cwd(), "./templates/base");
-      Object.assign((apiConfig.config as any)?.constants, { FILE_PREFIX });
       return apiConfig;
     },
   }
