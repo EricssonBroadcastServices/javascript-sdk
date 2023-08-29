@@ -288,7 +288,10 @@ export interface AssetListItemResponse {
   order?: number;
 }
 
-export type AssetMaterialType = "LOW_LATENCY_CHANNEL";
+export const AssetMaterialType = {
+  LOW_LATENCY_CHANNEL: "LOW_LATENCY_CHANNEL"
+} as const;
+export type AssetMaterialType = (typeof AssetMaterialType)[keyof typeof AssetMaterialType];
 
 export interface AssetResponse {
   adminDisplayName?: string;
@@ -376,19 +379,21 @@ export interface AssetRights {
   wifiBlocked?: boolean;
 }
 
-export type AssetType =
-  | "AD"
-  | "CLIP"
-  | "COLLECTION"
-  | "EPISODE"
-  | "EVENT"
-  | "LIVE_EVENT"
-  | "MOVIE"
-  | "OTHER"
-  | "PODCAST"
-  | "PODCAST_EPISODE"
-  | "TV_CHANNEL"
-  | "TV_SHOW";
+export const AssetType = {
+  AD: "AD",
+  CLIP: "CLIP",
+  COLLECTION: "COLLECTION",
+  EPISODE: "EPISODE",
+  EVENT: "EVENT",
+  LIVE_EVENT: "LIVE_EVENT",
+  MOVIE: "MOVIE",
+  OTHER: "OTHER",
+  PODCAST: "PODCAST",
+  PODCAST_EPISODE: "PODCAST_EPISODE",
+  TV_CHANNEL: "TV_CHANNEL",
+  TV_SHOW: "TV_SHOW"
+} as const;
+export type AssetType = (typeof AssetType)[keyof typeof AssetType];
 
 export interface AudioTrackInfo {
   language?: string;
@@ -772,7 +777,16 @@ export interface DeviceRights {
   type?: DeviceType;
 }
 
-export type DeviceType = "APPLE_TV" | "CONSOLE" | "MOBILE" | "SMART_TV" | "STB" | "TABLET" | "WEB";
+export const DeviceType = {
+  APPLE_TV: "APPLE_TV",
+  CONSOLE: "CONSOLE",
+  MOBILE: "MOBILE",
+  SMART_TV: "SMART_TV",
+  STB: "STB",
+  TABLET: "TABLET",
+  WEB: "WEB"
+} as const;
+export type DeviceType = (typeof DeviceType)[keyof typeof DeviceType];
 
 export interface DevicesResponseV2 {
   /** The list of current devices for the account. */
@@ -890,19 +904,21 @@ export interface EntitlementResponse {
   validTo?: string;
 }
 
-export type EntitlementStatus =
-  | "ANONYMOUS_IP_BLOCKED"
-  | "CONCURRENT_STREAMS_LIMIT_REACHED"
-  | "DEVICE_BLOCKED"
-  | "DOWNLOAD_BLOCKED"
-  | "EPG_PLAY_MAX_HOURS"
-  | "GAP_IN_EPG"
-  | "GEO_BLOCKED"
-  | "LICENSE_EXPIRED"
-  | "NOT_AVAILABLE_IN_FORMAT"
-  | "NOT_ENABLED"
-  | "NOT_ENTITLED"
-  | "SUCCESS";
+export const EntitlementStatus = {
+  ANONYMOUS_IP_BLOCKED: "ANONYMOUS_IP_BLOCKED",
+  CONCURRENT_STREAMS_LIMIT_REACHED: "CONCURRENT_STREAMS_LIMIT_REACHED",
+  DEVICE_BLOCKED: "DEVICE_BLOCKED",
+  DOWNLOAD_BLOCKED: "DOWNLOAD_BLOCKED",
+  EPG_PLAY_MAX_HOURS: "EPG_PLAY_MAX_HOURS",
+  GAP_IN_EPG: "GAP_IN_EPG",
+  GEO_BLOCKED: "GEO_BLOCKED",
+  LICENSE_EXPIRED: "LICENSE_EXPIRED",
+  NOT_AVAILABLE_IN_FORMAT: "NOT_AVAILABLE_IN_FORMAT",
+  NOT_ENABLED: "NOT_ENABLED",
+  NOT_ENTITLED: "NOT_ENTITLED",
+  SUCCESS: "SUCCESS"
+} as const;
+export type EntitlementStatus = (typeof EntitlementStatus)[keyof typeof EntitlementStatus];
 
 export interface EpgInfo {
   enabled?: boolean;
@@ -1103,7 +1119,13 @@ export interface Image {
   width?: number;
 }
 
-export type ImageOrientation = "LANDSCAPE" | "PORTRAIT" | "SQUARE" | "UNKNOWN";
+export const ImageOrientation = {
+  LANDSCAPE: "LANDSCAPE",
+  PORTRAIT: "PORTRAIT",
+  SQUARE: "SQUARE",
+  UNKNOWN: "UNKNOWN"
+} as const;
+export type ImageOrientation = (typeof ImageOrientation)[keyof typeof ImageOrientation];
 
 export interface ImageResponse {
   caption?: string;
@@ -1391,7 +1413,16 @@ export interface MediaFormatDownload {
   mediaLocator?: string;
 }
 
-export type MediaFormatType = "AAC" | "DASH" | "HLS" | "MP3" | "MP4" | "SMOOTHSTREAMING" | "SYNDICATED";
+export const MediaFormatType = {
+  AAC: "AAC",
+  DASH: "DASH",
+  HLS: "HLS",
+  MP3: "MP3",
+  MP4: "MP4",
+  SMOOTHSTREAMING: "SMOOTHSTREAMING",
+  SYNDICATED: "SYNDICATED"
+} as const;
+export type MediaFormatType = (typeof MediaFormatType)[keyof typeof MediaFormatType];
 
 export interface MediaResponse {
   bitrates?: number[];
@@ -1729,7 +1760,13 @@ export interface ProductOfferingPurchase {
   until?: string;
 }
 
-export type ProductOfferingPurchaseStatus = "FULFILLED" | "PENDING" | "REJECTED";
+export const ProductOfferingPurchaseStatus = {
+  FULFILLED: "FULFILLED",
+  PENDING: "PENDING",
+  REJECTED: "REJECTED"
+} as const;
+export type ProductOfferingPurchaseStatus =
+  (typeof ProductOfferingPurchaseStatus)[keyof typeof ProductOfferingPurchaseStatus];
 
 export interface ProductOfferingPurchases {
   consumedProductOfferingDiscounts?: string[];
@@ -2218,7 +2255,13 @@ export interface StoreTransaction {
   transactionId?: string;
 }
 
-export type StoreTransactionStatus = "accepted" | "cancelled" | "pending" | "rejected";
+export const StoreTransactionStatus = {
+  Accepted: "accepted",
+  Cancelled: "cancelled",
+  Pending: "pending",
+  Rejected: "rejected"
+} as const;
+export type StoreTransactionStatus = (typeof StoreTransactionStatus)[keyof typeof StoreTransactionStatus];
 
 export interface StoreVat {
   included?: boolean;

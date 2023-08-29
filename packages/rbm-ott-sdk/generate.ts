@@ -229,7 +229,6 @@ generateApi({
   // cleanOutput: true, // we manually delete and recreate the dir now
   modular: true,
   moduleNameFirstTag: true,
-  generateUnionEnums: true, // This is safer in case a type is duplicated 
   sortTypes: true,
   sortRoutes: true,
   hooks: {
