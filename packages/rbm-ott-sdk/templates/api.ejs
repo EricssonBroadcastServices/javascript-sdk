@@ -14,14 +14,44 @@ import { RequestParams, ServiceContext, request } from "./<%~ config.fileNames.h
 import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
 <% } %>
 
-<% for (const route of routes) { %>
-  <%~ includeFile('./procedure-call.ejs', { ...it, route }) %>
-
+<% for (const route of routes) {
+  // We removed the fieldSet, excludeFields and includeFields query arguments for all routes,
+  // because with them we can not know the type we return
+  // For this reason we create two methods for these routes (marked with partial true)
+  // We also change the default for fieldSet to ALL for all of them.
+  const { query } = route.request;
+  const partial = route?.queryObjectSchema?.partial;
+  let queryParamValue = (query && query.name) || "query";
+  if (queryParamValue && partial) {
+    queryParamValue = `{ fieldSet: "ALL", ...(${queryParamValue}||{}) }`;
+  }
+%>
+  <%~ includeFile('./procedure-call.ejs', { ...it, route, query, queryParamValue }) %>
+  <% if (partial) {
+    // Patch the arguments back for the partial method
+    // it was easier to remove and restore them than to write a regex to remove them after they had been processes
+    query.type = query.type.replace(/\s*\}$/, "") + `
+    /**
+     *The set of fields to include by default.
+     * @default "ALL"
+     */
+    fieldSet?: "ALL" | "NONE" | "PARTIAL";
+    /** Comma separated list of fields to remove from the response. */
+    excludeFields?: string;
+    /** Comma separated list of fields to add to the response. */
+    includeFields?: string;
+    }`
+  %>
+    <%~ includeFile('./procedure-call.ejs', { ...it, route, query, queryParamValue, partial: true }) %>
+  <% } %>
 <% } %>
 
 export const <%= apiClassName %>Service = (context: ServiceContext) => ({
   [Symbol.for("_rbm_ctx_")]: context,
   <% for (const route of routes) { %>
     <%~ route.routeName.usage %>,
+    <% if (route?.queryObjectSchema?.partial) { %>
+      <%~ route.routeName.usage + "Partial" %>,
+    <% } %>
   <% } %>
 } as const);
