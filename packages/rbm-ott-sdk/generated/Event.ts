@@ -16,8 +16,8 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `default` `EventList` success
  */
 export async function getEvents(
-  /** The date for which to base the event query. (Format: yyyy-mm-dd). */
-  date: string,
+  /** The date for which to base the event query. */
+  date: Date,
   query?: {
     /** Only include events that are allowed in provided country. */
     allowedCountry?: string;
@@ -58,7 +58,10 @@ export async function getEvents(
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<EventList>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date}`, ctx.baseUrl),
+    url: new URL(
+      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date.toISOString().substring(0, 10)}`,
+      ctx.baseUrl
+    ),
     headers: headers,
     query: query
   });

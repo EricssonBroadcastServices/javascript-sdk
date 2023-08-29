@@ -8,6 +8,7 @@ const { HTTP_CLIENT, RESERVED_REQ_PARAMS_ARG_NAMES } = config.constants;
 const routeDocs = includeFile("../base/route-docs", { config, route, utils });
 const pathParams = parameters.filter(({ name }) => !["customer", "businessUnit"].includes(name));
 const pathParamsNames = _.map(pathParams, "name");
+let normalizeDate = false;
 
 const isFetchTemplate = config.httpClientType === HTTP_CLIENT.FETCH;
 
@@ -19,6 +20,11 @@ const requestConfigParam = {
 }
 
 function argToTmpl({ name, optional, type, defaultValue, description }) {
+    if (name === "date" && type === "string" && description.toLowerCase().includes("yyyy-mm-dd")) {
+        type = "Date";
+        description = description.replace(/\s*\(?(format)?\:?\s*yyyy-mm-dd\)?\.?\s*/i, "");
+        normalizeDate = true;
+    }
     const comment = description ? `/** ${description} */\n` : "";
     return `${comment}${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''},`;
 }
@@ -47,6 +53,11 @@ const wrapperArgs = _
     .map(argToTmpl)
     .join("\n")
 
+
+let processedPath = path.replace("${customer}", "${ctx.customer}").replace("${businessUnit}", "${ctx.businessUnit}");
+if (normalizeDate) {
+    processedPath = processedPath.replace("${date}", "${date.toISOString().substring(0, 10)}")
+}
 %>
 /**
 <%~ routeDocs.lines %>
@@ -59,7 +70,7 @@ const wrapperArgs = _
     const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
     return request<<%~ partial ? "T" : type %>>({
       method: "<%~ _.upperCase(method) %>",
-      url: new URL(`<%~ path.replace("${customer}", "${ctx.customer}").replace("${businessUnit}", "${ctx.businessUnit}") %>`, ctx.baseUrl),
+      url: new URL(`<%~ processedPath %>`, ctx.baseUrl),
       headers: <%~ _.get(requestConfigParam, "name") %>,
       <% if (query) { %>query: <%~ queryParamValue %>,<% } %>
       <% if (payload?.name) { %>body: <%~ payload.name %>,<% } %>

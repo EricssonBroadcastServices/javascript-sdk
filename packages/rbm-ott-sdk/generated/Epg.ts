@@ -88,8 +88,8 @@ export async function getChannelStatus(
  * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
  */
 export async function getEpg(
-  /** The date (YYYY-MM-DD) */
-  date: string,
+  /** The date */
+  date: Date,
   query?: {
     /**
      * Days back compared to midnight of the date to get EPG for.
@@ -123,7 +123,10 @@ export async function getEpg(
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ChannelEPGResponse[]>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date}`, ctx.baseUrl),
+    url: new URL(
+      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date.toISOString().substring(0, 10)}`,
+      ctx.baseUrl
+    ),
     headers: headers,
     query: query
   });
@@ -138,8 +141,8 @@ export async function getEpg(
 export async function getEpgForChannel(
   /** The id of the channel to get EPG for. Slugs supported. */
   channelId: string,
-  /** The date (YYYY-MM-DD) */
-  date: string,
+  /** The date */
+  date: Date,
   query?: {
     /**
      * Days back compared to midnight of the date to get EPG for.
@@ -174,7 +177,9 @@ export async function getEpgForChannel(
   return request<ChannelEPGResponse>({
     method: "GET",
     url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date}`,
+      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date
+        .toISOString()
+        .substring(0, 10)}`,
       ctx.baseUrl
     ),
     headers: headers,
@@ -191,8 +196,8 @@ export async function getEpgForChannel(
 export async function getEpgForChannels(
   /** The comma separated list of the ids the channels to get EPG for. */
   channelIds: string,
-  /** The date (YYYY-MM-DD) */
-  date: string,
+  /** The date */
+  date: Date,
   query?: {
     /**
      * Days back compared to midnight of the date to get EPG for.
@@ -227,7 +232,9 @@ export async function getEpgForChannels(
   return request<ChannelEPGResponse[]>({
     method: "GET",
     url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date}`,
+      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date
+        .toISOString()
+        .substring(0, 10)}`,
       ctx.baseUrl
     ),
     headers: headers,
