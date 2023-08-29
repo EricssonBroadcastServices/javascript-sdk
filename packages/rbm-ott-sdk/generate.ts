@@ -217,7 +217,7 @@ writeFileSync(FORMATTED_SPEC, JSON.stringify(spec, null, 2), "utf8");
 generateApi({
   output: false, // Don't write files (handle that ourselves later)
   input: resolve(process.cwd(), FORMATTED_SPEC),
-  templates: resolve(process.cwd(), './templates/modular'),
+  templates: resolve(process.cwd(), './templates'),
   defaultResponseAsSuccess: true, // We need this because we sometimes use "default" as a server status code for 2xx
   generateClient: true, // Otherwise we just generate the data-contract file
   generateResponses: true, // This puts the server error code in the method docblock
@@ -233,7 +233,12 @@ generateApi({
   sortTypes: true,
   sortRoutes: true,
   hooks: {
-    onFormatRouteName: (routeInfo) => {
+    onInit(config) {
+      // Must override hard coded base path which swagger-typescript-api uses for some templates
+      config.templatePaths.base = resolve(process.cwd(), "./templates/base");
+      return config;
+    },
+    onFormatRouteName (routeInfo) {
       // allow duplicates for search (because we did before)
       if (["searchV2", "searchV3", "getSystemConfigV2"].includes(routeInfo.operationId)) {
         return routeInfo.operationId
@@ -247,14 +252,11 @@ generateApi({
       }
       return cleanedId;
     },
-    onPrepareConfig: (apiConfig) => {
+    onPrepareConfig(apiConfig) {
       const dupes = [...apiConfig.config.routeNameDuplicatesMap].filter(([, val]) => Number(val) > 1);
       if (dupes.length) {
         throw new Error(`Duplicate routs found: ${dupes}`);
       }
-      // Must override hard coded base path which swagger-typescript-api uses for some templates
-      apiConfig.config.templatePaths.base = resolve(process.cwd(), "./templates/base");
-      return apiConfig;
     },
   }
 })

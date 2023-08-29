@@ -1505,7 +1505,6 @@ export interface LoginResponse {
   userProfile?: UserProfile;
 }
 
-/** A key value Map */
 export type Map = object;
 
 export interface Marker {
@@ -1651,7 +1650,6 @@ export interface OauthAuthenticationRequest {
   token: string;
 }
 
-/** An object */
 export type Object = object;
 
 export interface OverlayWidget {
@@ -2460,7 +2458,6 @@ export interface StoreProductOffering {
   rentalLength?: string;
 }
 
-/** The one-time discounted price on a product offering */
 export type StoreProductOfferingDiscount = {
   freePeriod?: {
     chronology?: {
