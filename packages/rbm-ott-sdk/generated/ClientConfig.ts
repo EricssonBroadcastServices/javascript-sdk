@@ -21,7 +21,7 @@ export async function getComponentFilters(headers: RequestParams = {}) {
   return request<ComponentFilters>({
     method: "GET",
     url: new URL(`/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/filters`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -37,7 +37,7 @@ export async function getFile(folder: string, fileName: string, headers: Request
       `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/file/${folder}/${fileName}`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -66,7 +66,7 @@ export async function getWLComponent(
       `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -95,7 +95,7 @@ export async function getWLConfig(
       `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -123,7 +123,7 @@ export async function getWLConfigWithDomain(
   return request<any>({
     method: "GET",
     url: new URL(`/v2/whitelabel/origin/${host}/config/${configId}`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }

@@ -62,7 +62,7 @@ export async function getEvents(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date.toISOString().substring(0, 10)}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }

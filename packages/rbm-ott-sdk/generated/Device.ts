@@ -25,7 +25,7 @@ export async function deleteDeviceForAccount(deviceId: string, headers: RequestP
   return request<any>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device/${deviceId}`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -43,7 +43,7 @@ export async function getDevicesForAccount(headers: RequestParams = {}) {
   return request<DevicesResponseV2>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 

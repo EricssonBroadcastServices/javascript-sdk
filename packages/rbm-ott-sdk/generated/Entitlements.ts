@@ -31,7 +31,7 @@ export async function accountProducts(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -55,7 +55,7 @@ export async function availabilityKeys(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -91,7 +91,7 @@ export async function entitle(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -241,7 +241,7 @@ export async function play(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }

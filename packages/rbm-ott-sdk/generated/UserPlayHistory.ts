@@ -27,7 +27,7 @@ export async function deleteFromLastViewedAssetList(assetId: string, headers: Re
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewed/asset/${assetId}`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -52,7 +52,7 @@ export async function getContinueWatchingTvShow(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/continue/tvshow/${tvshowid}`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -94,7 +94,7 @@ export async function getLastViewedOffsetList(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewedoffset`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }

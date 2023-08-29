@@ -71,7 +71,7 @@ if (normalizeDate) {
     return request<<%~ partial ? "T" : type %>>({
       method: "<%~ _.upperCase(method) %>",
       url: new URL(`<%~ processedPath %>`, ctx.baseUrl),
-      headers: <%~ _.get(requestConfigParam, "name") %>,
+      headers,
       <% if (query) { %>query: <%~ queryParamValue %>,<% } %>
       <% if (payload?.name) { %>body: <%~ payload.name %>,<% } %>
     })

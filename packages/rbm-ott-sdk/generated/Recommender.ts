@@ -31,7 +31,7 @@ export async function getContinueWatching(
   return request<ContinueUph2Assets>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -62,7 +62,7 @@ export async function getRecommendationsForAsset(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/watchNext/${assetId}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -89,7 +89,7 @@ export async function getRecommendationsForUser(
   return request<RecommendedAssets>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }

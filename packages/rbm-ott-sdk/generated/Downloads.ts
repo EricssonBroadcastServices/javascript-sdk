@@ -22,7 +22,7 @@ export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
   return request<Message>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -44,7 +44,7 @@ export async function deleteDownloadsForAsset(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -72,7 +72,7 @@ export async function download(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -95,7 +95,7 @@ export async function downloadCompleted(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadcompleted`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -124,7 +124,7 @@ export async function downloadInfo(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -148,7 +148,7 @@ export async function downloadRenewed(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadrenewed`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -163,7 +163,7 @@ export async function getDownloadsForAccount(headers: RequestParams = {}) {
   return request<BookkeeperAccount>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -185,7 +185,7 @@ export async function getDownloadsForAsset(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 

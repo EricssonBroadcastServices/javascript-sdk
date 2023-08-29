@@ -42,7 +42,7 @@ export async function getDocument(
   return request<HtmlDocument>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/document`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }

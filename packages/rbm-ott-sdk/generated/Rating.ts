@@ -32,7 +32,7 @@ export async function deleteUserContentRating(
   return request<any>({
     method: "DELETE",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -54,7 +54,7 @@ export async function getAllUserContentRatingsForAsset(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}/all`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -71,7 +71,7 @@ export async function getAllUserContentRatingsForUser(headers: RequestParams = {
   return request<GetAllUserContentRatingsForUserResponse[]>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/all`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -92,7 +92,7 @@ export async function getUserContentRating(
   return request<GetUserContentRatingResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -114,7 +114,7 @@ export async function putUserContentRating(
   return request<any>({
     method: "PUT",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }

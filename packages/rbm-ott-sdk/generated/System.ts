@@ -28,7 +28,7 @@ export async function getSystemConfig(
   return request<SystemConfig>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -51,7 +51,7 @@ export async function getSystemConfigV2(
   return request<SystemConfig>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }

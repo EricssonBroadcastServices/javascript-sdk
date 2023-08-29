@@ -48,7 +48,7 @@ export async function addProfile(data: UserProfileCreateRequest, headers: Reques
   return request<UserProfiles>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -67,7 +67,7 @@ export async function changeEmail(data: ChangeEmailRequestV3, headers: RequestPa
   return request<any>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmail`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -88,7 +88,7 @@ export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, hea
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmailAndUsername`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -107,7 +107,7 @@ export async function changePassword(data: ChangePwdV3, headers: RequestParams =
   return request<ChangePasswordResponse>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changePassword`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -132,7 +132,7 @@ export async function confirmActivationCode(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/activation/confirm/${code}`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -157,7 +157,7 @@ export async function confirmUserWithToken(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/confirm/${token}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -173,7 +173,7 @@ export async function consumeActivationCode(data: ActivationRequestV2, headers: 
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/consume`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -192,7 +192,7 @@ export async function createActivationCode(headers: RequestParams = {}) {
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/activationCode`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -209,7 +209,7 @@ export async function createNewAccount(data: UserSignupRequestV3, headers: Reque
   return request<UserSelfServiceCreateResponse>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -228,7 +228,7 @@ export async function createPinCode(data: PinCodeSetRequest, headers: RequestPar
   return request<PinCodeResponse[]>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -252,7 +252,7 @@ export async function deletePinCode(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -268,7 +268,7 @@ export async function deleteUserDetails(data: CredentialsV3, headers: RequestPar
   return request<any>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -290,7 +290,7 @@ export async function deleteUserProfile(
   return request<any>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -306,7 +306,7 @@ export async function getAccountLabels(headers: RequestParams = {}) {
   return request<LabelFilter>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -323,7 +323,7 @@ export async function getPinCodes(headers: RequestParams = {}) {
   return request<PinCodeResponse[]>({
     method: "GET",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -340,7 +340,7 @@ export async function getProfiles(headers: RequestParams = {}) {
   return request<UserProfiles>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -358,7 +358,7 @@ export async function getUserDetails(headers: RequestParams = {}) {
   return request<UserDetailsResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -374,7 +374,7 @@ export async function giveConsent(headers: RequestParams = {}) {
   return request<any>({
     method: "PUT",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 /**
@@ -392,7 +392,7 @@ export async function putUserAttributes(data: UserAttributeRequest[], headers: R
   return request<UserDetailsResponse>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/attributes`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -415,7 +415,7 @@ export async function resetPassword(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/password/reset/${username}`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -440,7 +440,7 @@ export async function selectUserProfile(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}/select`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -463,7 +463,7 @@ export async function setPasswordWithToken(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/password/${token}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -489,7 +489,7 @@ export async function setPinCode(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -507,7 +507,7 @@ export async function userDetailsUpdate(data: UserDetailsUpdateRequest, headers:
   return request<any>({
     method: "PUT",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -529,7 +529,7 @@ export async function userProfileUpdate(
   return request<any>({
     method: "PUT",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -556,7 +556,7 @@ export async function validatePinCode(
       `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}/validate`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -575,7 +575,7 @@ export async function validatePinCodes(data: PinCodeValidationRequest, headers: 
   return request<string[]>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/validate`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -593,7 +593,7 @@ export async function voucherSignup(data: UserSelfServiceCreateWithVoucherReques
   return request<UserSelfServiceCreateResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/vouchersignup`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }

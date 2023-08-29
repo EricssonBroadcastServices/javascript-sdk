@@ -44,7 +44,7 @@ export async function getActiveChannels(
   return request<ActiveChannels>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -75,7 +75,7 @@ export async function getChannelStatus(
       `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow/${channelId}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -127,7 +127,7 @@ export async function getEpg(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date.toISOString().substring(0, 10)}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -182,7 +182,7 @@ export async function getEpgForChannel(
         .substring(0, 10)}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -237,7 +237,7 @@ export async function getEpgForChannels(
         .substring(0, 10)}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -262,7 +262,7 @@ export async function getNextProgram(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}/next`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -285,7 +285,7 @@ export async function getNextProgramForAsset(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/asset/${assetId}/next`,
       ctx.baseUrl
     ),
-    headers: headers
+    headers
   });
 }
 /**
@@ -312,7 +312,7 @@ export async function getProgram(
       `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}`,
       ctx.baseUrl
     ),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -343,7 +343,7 @@ export async function getXmlTvEpgForChannel(
   return request<ChannelEPGResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }

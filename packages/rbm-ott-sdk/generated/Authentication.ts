@@ -40,7 +40,7 @@ export async function anonymousSession(data: AnonymousSessionRequest, headers: R
   return request<AnonymousSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -59,7 +59,7 @@ export async function deleteSessions(data: DeleteUsersSessionsRequest, headers: 
   return request<any>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -79,7 +79,7 @@ export async function externalUserSession(data: ExternalUserSessionRequest, head
   return request<CreateSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/externalusersession`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -99,7 +99,7 @@ export async function getOauthAuth(
   return request<void>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/auth`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -119,7 +119,7 @@ export async function getOauthRedir(
   return request<void>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/redir`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -140,7 +140,7 @@ export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -162,7 +162,7 @@ export async function loginAnonymous(data: AuthenticationRequest, headers: Reque
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -182,7 +182,7 @@ export async function loginFirebase(data: FirebaseAuthenticationRequest, headers
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/firebaseLogin`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -201,7 +201,7 @@ export async function loginGigya(data: GigyaAuthenticationRequest, headers: Requ
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/gigyaLogin`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -215,7 +215,7 @@ export async function loginOauth(data: OauthAuthenticationRequest, headers: Requ
   return request<void>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauthLogin`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -235,7 +235,7 @@ export async function loginPrimetime(data: PrimetimeAuthenticationRequest, heade
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/adobePrimetimeLogin`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -259,7 +259,7 @@ export async function logout(
   return request<EmptyResponse>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
-    headers: headers,
+    headers,
     query: query
   });
 }
@@ -279,7 +279,7 @@ export async function session(data: ApiKeyUserSessionRequest, headers: RequestPa
   return request<CreateSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`, ctx.baseUrl),
-    headers: headers,
+    headers,
     body: data
   });
 }
@@ -298,7 +298,7 @@ export async function validateSessionToken(headers: RequestParams = {}) {
   return request<SessionResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`, ctx.baseUrl),
-    headers: headers
+    headers
   });
 }
 
