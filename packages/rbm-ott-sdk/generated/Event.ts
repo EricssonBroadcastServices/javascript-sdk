@@ -22,13 +22,11 @@ export async function getEvents(
     allowedCountry?: string;
     /**
      * Days back from the date parameter for events to include in the query.
-     * @format int32
      * @default 0
      */
     daysBackward?: number;
     /**
      * Days forward from the date parameter for events to include in the query.
-     * @format int32
      * @default 0
      */
     daysForward?: number;
@@ -40,13 +38,11 @@ export async function getEvents(
     hideEnded?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;

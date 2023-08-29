@@ -18,10 +18,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 export async function getConfigCuFile(
   fileName: string,
   query?: {
-    /**
-     * The version of the file to get.
-     * @format int32
-     */
+    /** The version of the file to get. */
     version?: number;
   },
   headers: RequestParams = {}
@@ -45,7 +42,6 @@ export async function getConfigFile(
   query?: {
     /** @default false */
     paymentMethodPreview?: boolean;
-    /** @format int32 */
     version?: number;
   },
   headers: RequestParams = {}

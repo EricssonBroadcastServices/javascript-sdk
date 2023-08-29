@@ -71,13 +71,11 @@ export async function getSeasons(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;

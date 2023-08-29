@@ -10,10 +10,7 @@
 export interface APIErrorMessage {
   /** Extended error message */
   extendedMessage?: string;
-  /**
-   * HTTP Code
-   * @format int32
-   */
+  /** HTTP Code */
   httpCode?: number;
   /** Error message */
   message?: string;
@@ -24,7 +21,6 @@ export interface AccessConfig {
   consentManagement?: ConsentManagement;
   loginMethods?: object;
   passwordPolicy?: PasswordPolicy;
-  /** @format int32 */
   signupMinimumAge?: number;
   signupModel?: "confirmed" | "provisioned" | "unconfirmed";
 }
@@ -32,7 +28,6 @@ export interface AccessConfig {
 export interface ActivationCodeResponse {
   /** 6 characters drawn from set 123456789ABCDEF */
   code?: string;
-  /** @format date-time */
   expires?: string;
 }
 
@@ -55,11 +50,8 @@ export interface ActivationResult {
   businessUnitId?: string;
   customerId?: string;
   extendedMessage?: string;
-  /** @format date-time */
   informationCollectionConsentGiven?: string;
-  /** @format date-time */
   informationCollectionConsentRequiredDate?: string;
-  /** @format date-time */
   sessionExpiryDateTime?: string;
   sessionToken?: string;
   status?:
@@ -78,15 +70,12 @@ export interface ActivationResult {
 
 export interface ActiveChannels {
   apiChannelStatuses?: ChannelStatus[];
-  /** @format int32 */
   pageNumber?: number;
-  /** @format int32 */
   pageSize?: number;
 }
 
 export interface AdClips {
   category?: string;
-  /** @format double */
   duration?: number;
   impressionUrlTemplates?: string[];
   title?: string;
@@ -98,7 +87,6 @@ export interface AdClips {
 export interface AdMarker {
   duration?: string;
   id?: string;
-  /** @format int32 */
   offset?: number;
   type?: string;
 }
@@ -122,9 +110,7 @@ export interface AddPaymentMethodResponse {
 export interface Ads {
   adMarkers?: AdMarker[];
   clips?: AdClips[];
-  /** @format int32 */
   insertionDuration?: number;
-  /** @format int32 */
   insertionMaxCount?: number;
   stitcher?: string;
   stitcherProfileId?: string;
@@ -132,18 +118,14 @@ export interface Ads {
 }
 
 export interface Algorithm {
-  /** @format int32 */
   pbkdf2Iterations?: number;
   algorithmName?: "CLEAR" | "NO_PASSWORD" | "PBKDF2";
 }
 
 export interface Analytics {
   baseUrl?: string;
-  /** @format int32 */
   bucket?: number;
-  /** @format int32 */
   percentage?: number;
-  /** @format int32 */
   postInterval?: number;
   tag?: string;
 }
@@ -152,10 +134,8 @@ export interface AnalyticsBatch {
   AccountId?: string;
   BusinessUnit?: string;
   ClientIp?: string;
-  /** @format int32 */
   ClockOffset?: number;
   Customer?: string;
-  /** @format int64 */
   DispatchTime: number;
   Payload?: string;
   SessionId?: string;
@@ -164,7 +144,6 @@ export interface AnalyticsBatch {
 
 export interface AnalyticsConfig {
   analyticsBaseUrl?: string;
-  /** @format int32 */
   analyticsPercentage?: number;
 }
 
@@ -175,10 +154,7 @@ export interface AnonymousSessionRequest {
 }
 
 export interface AnonymousSessionResponse {
-  /**
-   * The time when the session expires
-   * @format date-time
-   */
+  /** The time when the session expires */
   expirationDateTime?: string;
   /** The session token to use for subsequent requests. */
   sessionToken?: string;
@@ -215,10 +191,7 @@ export interface AppStorePurchaseInitializeRequest {
 }
 
 export interface AppStorePurchaseInitializeResponse {
-  /**
-   * To used as appAccountToken
-   * @format uuid
-   */
+  /** To used as appAccountToken */
   appAccountToken?: string;
   purchaseId?: string;
   transactionId?: string;
@@ -237,20 +210,16 @@ export interface Asset {
   assetFeatures?: SystemTag[];
   assetId: string;
   audioTracks: string[];
-  /** @format date-time */
   changed: string;
   channelFeatures?: ("VIRTUAL" | "VC_CURATED" | "VC_PERSONALIZED" | "VC_SCHEDULED" | "EPG")[];
   collections: CollectionReference[];
-  /** @format date-time */
   created: string;
   cuePoints: MarkerPoint[];
   customData: JsonNode;
   defaultAudioTrack?: string;
-  /** @format int64 */
   duration: number;
   episode?: string;
   event?: Event;
-  /** @format date-time */
   expires?: string;
   externalReferences: ExternalReference[];
   linkedEntities: LinkedEntity[];
@@ -267,18 +236,12 @@ export interface Asset {
   /** A key value Map */
   popularityScores?: Map;
   productionCountries: string[];
-  /** @format int32 */
   productionYear?: number;
   programs?: Program[];
   publications: Publication[];
-  /** @format double */
   rating?: number;
-  /** @format date */
   releaseDate?: string;
-  /**
-   * The duration of the asset in seconds.
-   * @format int64
-   */
+  /** The duration of the asset in seconds. */
   runtime?: number;
   season?: string;
   seasonId?: string;
@@ -297,42 +260,31 @@ export interface Asset {
 
 export interface AssetList {
   items: Asset[];
-  /** @format int32 */
   pageNumber: number;
-  /** @format int32 */
   pageSize: number;
-  /** @format int64 */
   totalCount: number;
 }
 
 export interface AssetListBulk {
   items?: Asset[];
-  /** @format int64 */
   lastCreatedEpochMillis?: number;
-  /** @format int32 */
   pageSize?: number;
-  /** @format int64 */
   totalCount?: number;
 }
 
 export interface AssetListItemRequest {
   /** A key value Map */
   metadata?: Map;
-  /**
-   * The order to sort by.
-   * @format int32
-   */
+  /** The order to sort by. */
   order?: number;
 }
 
 export interface AssetListItemResponse {
   asset?: Asset;
   assetId?: string;
-  /** @format date-time */
   lastUpdated?: string;
   /** A key value Map */
   metadata?: Map;
-  /** @format int32 */
   order?: number;
 }
 
@@ -342,18 +294,15 @@ export interface AssetResponse {
   adminDisplayName?: string;
   assetId?: string;
   audioTracks?: string[];
-  /** @format date-time */
   changed?: string;
   channelFeatures?: ("VIRTUAL" | "VC_CURATED" | "VC_PERSONALIZED" | "VC_SCHEDULED" | "EPG")[];
   collections?: CollectionReferenceResponse[];
-  /** @format date-time */
   created?: string;
   customData?: JsonNode;
   defaultAudioTrack?: string;
   duration?: string;
   episode?: string;
   event?: EventDataResponse;
-  /** @format date-time */
   expires?: string;
   externalReferences?: ExternalReferenceResponse[];
   geoCountries?: string[];
@@ -375,16 +324,12 @@ export interface AssetResponse {
   /** A key value Map */
   popularityScores?: Map;
   productionCountries?: string[];
-  /** @format int32 */
   productionYear?: number;
   programs?: ProgramListEntryResponse[];
   publicCustomData?: JsonNode;
   publications?: PublicationResponse[];
-  /** @format double */
   rating?: number;
-  /** @format date */
   releaseDate?: string;
-  /** @format int32 */
   runtime?: number;
   season?: string;
   seasonId?: string;
@@ -402,41 +347,27 @@ export interface AssetResponse {
 
 export interface AssetRights {
   HDMIBlocked?: boolean;
-  /** @format date-time */
   activation?: string;
   airplayBlocked?: boolean;
   amcDebugLogEnabled?: boolean;
   analyticsEnabled?: boolean;
   downloadBlocked?: boolean;
-  /** @format int32 */
   downloadMaxSecondsAfterDownload?: number;
-  /** @format int32 */
   downloadMaxSecondsAfterPlay?: number;
-  /** @format date-time */
   expiration?: string;
   ffEnabled?: boolean;
   fourGBlocked?: boolean;
   jailbrokenBlocked?: boolean;
   locationEnabled?: boolean;
-  /** @format int32 */
   maxAds?: number;
-  /** @format int32 */
   maxBitrate?: number;
-  /** @format int32 */
   maxDownloadCount?: number;
-  /** @format int64 */
   maxFileSize?: number;
-  /** @format int32 */
   maxPlayPosition?: number;
-  /** @format int32 */
   maxResHeight?: number;
-  /** @format int32 */
   maxResWidth?: number;
-  /** @format int32 */
   minBitrate?: number;
-  /** @format int32 */
   minPlayPosition?: number;
-  /** @format int32 */
   playCount?: number;
   rwEnabled?: boolean;
   sessionShiftEnabled?: boolean;
@@ -513,7 +444,6 @@ export interface AvailabilityKeys {
   availabilityKeys?: string[];
   currentAvailabilityKeys?: string[];
   entitleExposure?: boolean;
-  /** @format date-time */
   expiryDate?: string;
   futureAvailabilityKeys?: string[];
 }
@@ -525,9 +455,7 @@ export interface BookkeeperAccount {
 
 export interface BookkeeperAsset {
   assetId?: string;
-  /** @format date-time */
   changed?: string;
-  /** @format int32 */
   downloadCount?: number;
   downloads?: BookkeeperDownload[];
 }
@@ -537,7 +465,6 @@ export interface BookkeeperDownload {
   deviceId?: string;
   deviceModelId?: string;
   deviceType?: string;
-  /** @format date-time */
   time?: string;
   type?: string;
   userId?: string;
@@ -547,14 +474,12 @@ export interface Bookmarks {
   /**
    * Only relevant for VOD.
    * This is the offset from the start off the VOD is ms
-   * @format int64
    */
   lastViewedOffset?: number;
   /**
    * Only relevant for LIVE.
    * This is the offset from the start of the stream in ms.
    * Since we always use unix epoch as start for our channels this will be a UNIX timestamp when the user hit pause while watching live
-   * @format int64
    */
   liveTime?: number;
 }
@@ -576,7 +501,6 @@ export interface CardSummary {
 export interface Carousel {
   carouselId?: string;
   items?: AssetList;
-  /** @format int32 */
   sortOrder?: number;
   titles?: LocalizedTitle[];
 }
@@ -641,10 +565,7 @@ export interface ChannelAsset {
 export interface ChannelEPGResponse {
   channelId?: string;
   programs?: ProgramResponse[];
-  /**
-   * This is the total number of hits for all channels, not only this.
-   * @format int64
-   */
+  /** This is the total number of hits for all channels, not only this. */
   totalHitsAllChannels?: number;
 }
 
@@ -660,7 +581,6 @@ export interface CollectionReference {
 
 export interface CollectionReferenceResponse {
   collectionId?: string;
-  /** @format int32 */
   sortOrder?: number;
 }
 
@@ -676,7 +596,6 @@ export interface ConfigFile {
   customer?: string;
   fileName?: string;
   systemConfig?: SystemConfig;
-  /** @format int32 */
   version?: number;
 }
 
@@ -712,17 +631,13 @@ export interface ContinueUph2Assets {
 export interface ContinueWatchingAsset {
   assetId?: string;
   audioTracks?: string[];
-  /** @format date-time */
   changed?: string;
   collections?: CollectionReference[];
-  /** @format date-time */
   created?: string;
   customData?: JsonNode;
   defaultAudioTrack?: string;
-  /** @format int64 */
   duration?: number;
   episode?: string;
-  /** @format date-time */
   expires?: string;
   externalReferences?: ExternalReferenceResponse[];
   geoCountries?: string[];
@@ -739,14 +654,10 @@ export interface ContinueWatchingAsset {
   /** A key value Map */
   popularityScores?: Map;
   productionCountries?: string[];
-  /** @format int32 */
   productionYear?: number;
   publications?: Publication[];
-  /** @format double */
   rating?: number;
-  /** @format date */
   releaseDate?: string;
-  /** @format int32 */
   runtime?: number;
   season?: string;
   seasonId?: string;
@@ -766,20 +677,11 @@ export interface ContractRestrictions {
   airplayEnabled?: boolean;
   /** Is the user allowed to fast forward */
   ffEnabled?: boolean;
-  /**
-   * What is the highest bitrate that should be used
-   * @format int32
-   */
+  /** What is the highest bitrate that should be used */
   maxBitrate?: number;
-  /**
-   * What is the highest resolution allowed
-   * @format int32
-   */
+  /** What is the highest resolution allowed */
   maxResHeight?: number;
-  /**
-   * What is the lowest bitrate that should be used
-   * @format int32
-   */
+  /** What is the lowest bitrate that should be used */
   minBitrate?: number;
   /** Is the user allowed to rewind */
   rwEnabled?: boolean;
@@ -794,19 +696,13 @@ export interface CreateSessionRequest {
   device?: Device;
   /** The device id. */
   deviceId: string;
-  /**
-   * The time that the session should expire.
-   * @format date-time
-   */
+  /** The time that the session should expire. */
   expiration: string;
   userId: string;
 }
 
 export interface CreateSessionResponse {
-  /**
-   * The time when the session expires
-   * @format date-time
-   */
+  /** The time when the session expires */
   expirationDateTime?: string;
   /** The session token to use for subsequent requests. */
   sessionToken?: string;
@@ -824,15 +720,9 @@ export interface DRMLicense {
   "com.apple.fps"?: DrmUrls;
   "com.microsoft.playready"?: DrmUrls;
   "com.widevine.alpha"?: DrmUrls;
-  /**
-   * The datetime of activation of the drm license.
-   * @format int64
-   */
+  /** The datetime of activation of the drm license. */
   licenseActivation?: number;
-  /**
-   * The datetime of expiration of the drm license.
-   * @format int64
-   */
+  /** The datetime of expiration of the drm license. */
   licenseExpiration?: number;
   /** The reason of expiration of the drm license. */
   licenseExpirationReason?: EntitlementStatus;
@@ -844,7 +734,6 @@ export interface DeleteUsersSessionsRequest {
 }
 
 export interface Device {
-  /** @format int32 */
   height?: number;
   manufacturer?: string;
   model?: string;
@@ -852,7 +741,6 @@ export interface Device {
   os?: string;
   osVersion?: string;
   type: DeviceType;
-  /** @format int32 */
   width?: number;
 }
 
@@ -867,14 +755,11 @@ export interface DeviceRegistration {
 export interface DeviceResponseV2 {
   aboveDeviceLimit?: boolean;
   currentDevice?: boolean;
-  /** @format date-time */
   deviceCreated?: string;
   deviceId?: string;
   deviceName?: string;
   deviceType?: string;
-  /** @format date-time */
   sessionCreated?: string;
-  /** @format date-time */
   sessionExpires?: string;
 }
 
@@ -905,11 +790,8 @@ export interface DownloadInfoResponse {
   accountId?: string;
   assetId?: string;
   audios?: Track[];
-  /** @format int32 */
   downloadCount?: number;
-  /** @format int64 */
   durationInMs?: number;
-  /** @format int32 */
   maxDownloadCount?: number;
   productId?: string;
   publicationId?: string;
@@ -923,19 +805,14 @@ export interface DownloadResponse {
   analytics?: Analytics;
   assetId?: string;
   cdn?: CDN;
-  /** @format int32 */
   downloadCount?: number;
-  /** @format int64 */
   durationInMs?: number;
   formats?: MediaFormatDownload[];
   materialId?: string;
-  /** @format int32 */
   materialVersion?: number;
-  /** @format int32 */
   maxDownloadCount?: number;
   playSessionId?: string;
   playToken?: string;
-  /** @format int64 */
   playTokenExpiration?: number;
   playTokenExpirationReason?: string;
   productId?: string;
@@ -965,32 +842,20 @@ export interface EntitleResponseV2 {
   /** The account id */
   accountId?: string;
   entitleExposure?: boolean;
-  /**
-   * The entitlement end time
-   * @format date-time
-   */
+  /** The entitlement end time */
   entitlementEnd?: string;
   /** Identity of the entitlement that permitted playback of the asset. */
   entitlementId?: string;
-  /**
-   * The entitlement start time
-   * @format date-time
-   */
+  /** The entitlement start time */
   entitlementStart?: string;
   formats?: MediaFormat[];
   /** Identity of the product that permitted playback of the asset */
   productId?: string;
-  /**
-   * The publication end time
-   * @format date-time
-   */
+  /** The publication end time */
   publicationEnd?: string;
   /** Identity of the publication that permitted playback of the asset. */
   publicationId?: string;
-  /**
-   * The publication start time
-   * @format date-time
-   */
+  /** The publication start time */
   publicationStart?: string;
   /** The request id, used for internal debugging. */
   requestId?: string;
@@ -1000,10 +865,7 @@ export interface EntitleResponseV2 {
    */
   status?: string;
   streamInfo?: StreamInfo;
-  /**
-   * The time the entitle was made for
-   * @format date-time
-   */
+  /** The time the entitle was made for */
   time?: string;
 }
 
@@ -1022,15 +884,9 @@ export interface EntitlementResponse {
   productId?: string;
   /** The type of the entitlement. */
   type?: "AVOD" | "FVOD" | "INTERNAL" | "SVOD" | "TVOD";
-  /**
-   * The start date of the validity of the entitlement.
-   * @format date-time
-   */
+  /** The start date of the validity of the entitlement. */
   validFrom?: string;
-  /**
-   * The end date of the validity of the entitlement.
-   * @format date-time
-   */
+  /** The end date of the validity of the entitlement. */
   validTo?: string;
 }
 
@@ -1055,12 +911,9 @@ export interface EpgInfo {
 
 export interface EpgSearchHits {
   items?: ChannelEPGResponse[];
-  /** @format int32 */
   pageNumber?: number;
-  /** @format int32 */
   pageSize?: number;
   suggestion?: string;
-  /** @format int64 */
   totalCount?: number;
 }
 
@@ -1068,32 +921,23 @@ export interface Event {
   asset?: Asset;
   /** The id of the asset this program is for. */
   assetId?: string;
-  /** @format date-time */
   endTime?: string;
-  /** @format date-time */
   startTime?: string;
 }
 
 export interface EventDataResponse {
   channelId?: string;
-  /** @format date-time */
   endTime?: string;
   id?: string;
-  /** @format date-time */
   publicEndTime?: string;
-  /** @format date-time */
   publicStartTime?: string;
-  /** @format date-time */
   startTime?: string;
 }
 
 export interface EventList {
   items?: Event[];
-  /** @format int32 */
   pageNumber?: number;
-  /** @format int32 */
   pageSize?: number;
-  /** @format int64 */
   totalCount?: number;
 }
 
@@ -1126,10 +970,7 @@ export interface ExternalUserSessionRequest {
   /** Will be used as accountId and, if userId is not provided, as userId */
   accountId: string;
   device: DeviceRegistration;
-  /**
-   * The time that the session should expire.
-   * @format date-time
-   */
+  /** The time that the session should expire. */
   expiration: string;
   /** Optional userId, if not provided accountId will be used also as userId */
   userId?: string;
@@ -1194,31 +1035,22 @@ export interface FrontendFeatures {
 
 export interface GetAllUserContentRatingsForAssetResponse {
   assetId?: string;
-  /** @format date-time */
   creationDate?: string;
-  /** @format date-time */
   lastModificationDate?: string;
-  /** @format double */
   rating?: number;
   userId?: string;
 }
 
 export interface GetAllUserContentRatingsForUserResponse {
   assetId?: string;
-  /** @format date-time */
   creationDate?: string;
-  /** @format date-time */
   lastModificationDate?: string;
-  /** @format double */
   rating?: number;
 }
 
 export interface GetUserContentRatingResponse {
-  /** @format date-time */
   creationDate?: string;
-  /** @format date-time */
   lastModificationDate?: string;
-  /** @format double */
   rating?: number;
 }
 
@@ -1263,14 +1095,11 @@ export interface HtmlDocument {
 }
 
 export interface Image {
-  /** @format int32 */
   height?: number;
   orientation?: ImageOrientation;
-  /** @format int32 */
   priority?: number;
   type?: string;
   url?: string;
-  /** @format int32 */
   width?: number;
 }
 
@@ -1279,14 +1108,11 @@ export type ImageOrientation = "LANDSCAPE" | "PORTRAIT" | "SQUARE" | "UNKNOWN";
 export interface ImageResponse {
   caption?: string;
   copyright?: string;
-  /** @format int32 */
   height?: number;
   orientation?: ImageOrientation;
-  /** @format int32 */
   priority?: number;
   type?: string;
   url?: string;
-  /** @format int32 */
   width?: number;
 }
 
@@ -1311,13 +1137,10 @@ export interface IsEntitledResponse {
 export interface JsonAccount {
   accountId?: string;
   businessUnit?: string;
-  /** @format date-time */
   created?: string;
   customer?: string;
-  /** @format date-time */
   expires?: string;
   labels?: Record<string, string>;
-  /** @format date-time */
   modified?: string;
   monitoringAccount?: boolean;
   ownerUserId?: string;
@@ -1365,23 +1188,17 @@ export interface LastViewedAssetList {
 export interface LastViewedOffset {
   assetId?: string;
   channelId?: string;
-  /** @format int64 */
   lastViewedOffset?: number;
-  /** @format int64 */
   lastViewedTime?: number;
-  /** @format int64 */
   liveTime?: number;
   programId?: string;
   userId?: string;
 }
 
 export interface LastViewedOffsetList {
-  /** @format int32 */
   count?: number;
   items?: LastViewedOffset[];
-  /** @format int32 */
   pageNumber?: number;
-  /** @format int32 */
   pageSize?: number;
 }
 
@@ -1483,14 +1300,9 @@ export interface LoginResponse {
   configReloadQueryParameter?: QueryParameter;
   /** The token of the underlying CRM to use if talking directly to the CRM. */
   crmToken?: string;
-  /**
-   * The time when the session expires
-   * @format date-time
-   */
+  /** The time when the session expires */
   expirationDateTime?: string;
-  /** @format date-time */
   informationCollectionConsentGiven?: string;
-  /** @format date-time */
   informationCollectionConsentRequiredDate?: string;
   /** If true to many devices are logged in and this session can not be used to play. */
   isOverDeviceLimit?: boolean;
@@ -1509,16 +1321,13 @@ export type Map = object;
 
 export interface Marker {
   adMarkerType?: string;
-  /** @format int32 */
   offset?: number;
   url?: string;
 }
 
 export interface MarkerPoint {
-  /** @format int64 */
   endOffset?: number;
   localized?: SimpleLocalizedData[];
-  /** @format int64 */
   offset?: number;
   thumbnail?: string;
   type?: string;
@@ -1541,28 +1350,19 @@ export interface MaterialResponse {
   materialType?: AssetMaterialType;
   profile?: string[];
   subtitles?: string[];
-  /** @format date-time */
   validFrom?: string;
-  /** @format date-time */
   validTo?: string;
-  /** @format int32 */
   version?: number;
 }
 
 export interface Media {
   /** The DRM of the media. */
   drm?: string;
-  /**
-   * The duration of the media in milliseconds.
-   * @format int64
-   */
+  /** The duration of the media in milliseconds. */
   durationMillis?: number;
   /** The streaming format of the media. */
   format?: string;
-  /**
-   * The height in pixels.
-   * @format int32
-   */
+  /** The height in pixels. */
   height?: number;
   /** The id of the media. */
   mediaId?: string;
@@ -1572,17 +1372,13 @@ export interface Media {
   programId?: string;
   /** The status of the media. "enabled" if playable. */
   status?: string;
-  /**
-   * The width in pixels.
-   * @format int32
-   */
+  /** The width in pixels. */
   width?: number;
 }
 
 export interface MediaFormat {
   drm?: DRMLicense;
   format?: MediaFormatType;
-  /** @format int32 */
   liveDelay?: number;
   mediaLocator?: string;
   orgMediaLocator?: string;
@@ -1599,15 +1395,11 @@ export type MediaFormatType = "AAC" | "DASH" | "HLS" | "MP3" | "MP4" | "SMOOTHST
 
 export interface MediaResponse {
   bitrates?: number[];
-  /** @format date-time */
   changed?: string;
-  /** @format date-time */
   created?: string;
   drm?: string;
-  /** @format int64 */
   duration?: number;
   format?: string;
-  /** @format int32 */
   height?: number;
   ingestionProfile?: string;
   keyId?: string;
@@ -1617,7 +1409,6 @@ export interface MediaResponse {
   programId?: string;
   status?: string;
   subtitles?: SubtitleResponse[];
-  /** @format int32 */
   width?: number;
 }
 
@@ -1677,15 +1468,9 @@ export interface PasswordHashConfig {
 }
 
 export interface PasswordPolicy {
-  /**
-   * Minimum number character groups used, eg. alfa, ALFA, 0..9, separators
-   * @format int32
-   */
+  /** Minimum number character groups used, eg. alfa, ALFA, 0..9, separators */
   minimumGroups?: number;
-  /**
-   * Minimum number of characters in passwords
-   * @format int32
-   */
+  /** Minimum number of characters in passwords */
   minimumLength?: number;
 }
 
@@ -1713,9 +1498,7 @@ export interface PaymentMethods {
 }
 
 export interface Person {
-  /** @format date */
   dateOfBirth?: string;
-  /** @format date */
   dateOfDeath?: string;
   function?: string;
   localized?: LocalizedPersonData[];
@@ -1725,9 +1508,7 @@ export interface Person {
 }
 
 export interface PersonResponse {
-  /** @format date */
   dateOfBirth?: string;
-  /** @format date */
   dateOfDeath?: string;
   function?: string;
   localizedPersonData?: LocalizedPersonDataResponse[];
@@ -1776,44 +1557,23 @@ export interface PlayResponse {
   fairplayConfig?: FairplayConfigurationResponse;
   /** If fast forward is enabled */
   ffEnabled?: boolean;
-  /**
-   * Last viewed offset
-   * @format int64
-   */
+  /** Last viewed offset */
   lastViewedOffset?: number;
-  /**
-   * Last viewed time
-   * @format int64
-   */
+  /** Last viewed time */
   lastViewedTime?: number;
-  /**
-   * The datetime of activation of the drm license.
-   * @format date-time
-   */
+  /** The datetime of activation of the drm license. */
   licenseActivation?: string;
-  /**
-   * The datetime of expiration of the drm license.
-   * @format date-time
-   */
+  /** The datetime of expiration of the drm license. */
   licenseExpiration?: string;
   /** The reason of expiration of the drm license. */
   licenseExpirationReason?: EntitlementStatus;
   /** If this is a live entitlement. */
   live?: boolean;
-  /**
-   * Live time
-   * @format int64
-   */
+  /** Live time */
   liveTime?: number;
-  /**
-   * Max bitrate to use
-   * @format int32
-   */
+  /** Max bitrate to use */
   maxBitrate?: number;
-  /**
-   * Max height resolution
-   * @format int32
-   */
+  /** Max height resolution */
   maxResHeight?: number;
   /** MDN Request Router Url */
   mdnRequestRouterUrl?: string;
@@ -1822,10 +1582,7 @@ export interface PlayResponse {
    * of the media.
    */
   mediaLocator?: string;
-  /**
-   * Min bitrate to use
-   * @format int32
-   */
+  /** Min bitrate to use */
   minBitrate?: number;
   /** Unique id of this playback session, all analytics events for this session should be reported on with this id */
   playSessionId?: string;
@@ -1834,10 +1591,7 @@ export interface PlayResponse {
    * Will be empty if the status is not SUCCESS.
    */
   playToken?: string;
-  /**
-   * The expiration of the the play token. The player needs to be initialized and done the play call before this.
-   * @format date-time
-   */
+  /** The expiration of the the play token. The player needs to be initialized and done the play call before this. */
   playTokenExpiration?: string;
   /** Identity of the product that permitted playback of the asset */
   productId?: string;
@@ -1860,21 +1614,12 @@ export interface PlayResponseV2 {
   /** Base64 encoded Authentication XML for buyDRM playback. Should be passed on by the player in the customdata field */
   buyDrmEncodedAuthXml?: string;
   cdn?: CDN;
-  /**
-   * Number of concurrent sessions
-   * @format int32
-   */
+  /** Number of concurrent sessions */
   concurrentSessionsCount?: number;
   contractRestrictions?: ContractRestrictions;
-  /**
-   * Duration of the material. This is the new value that MUST be and should stay as milliseconds
-   * @format int64
-   */
+  /** Duration of the material. This is the new value that MUST be and should stay as milliseconds */
   durationInMilliseconds?: number;
-  /**
-   * Duration of the material. This is deprecated and must contain duratin in micro seconds and not milliseconds
-   * @format int64
-   */
+  /** Duration of the material. This is deprecated and must contain duratin in micro seconds and not milliseconds */
   durationInMs?: number;
   entitleExposure?: boolean;
   /** The type of entitlement that granted access to this play. */
@@ -1886,19 +1631,13 @@ export interface PlayResponseV2 {
   materialId?: string;
   /** The material profile, materials can be used for different purposes using profiles */
   materialProfile?: string;
-  /**
-   * The material version for the material used in this play response. Just available for testing purposes.
-   * @format int32
-   */
+  /** The material version for the material used in this play response. Just available for testing purposes. */
   materialVersion?: number;
   /** Unique id of this playback session, all analytics events for this session should be reported on with this id */
   playSessionId?: string;
   /** The play token */
   playToken?: string;
-  /**
-   * The expiration of the the play token. The player needs to be initialized and have done the play call before this.
-   * @format int64
-   */
+  /** The expiration of the the play token. The player needs to be initialized and have done the play call before this. */
   playTokenExpiration?: number;
   /** Why does the play token expire */
   playTokenExpirationReason?: string;
@@ -1916,19 +1655,15 @@ export interface PlayResponseV2 {
 }
 
 export interface Popularity {
-  /** @format double */
   month?: number;
-  /** @format double */
   week?: number;
 }
 
 export interface PreferencesListItem {
   id?: string;
-  /** @format date-time */
   lastUpdated?: string;
   /** A key value Map */
   metadata?: Map;
-  /** @format int32 */
   order?: number;
 }
 
@@ -1949,7 +1684,6 @@ export interface Product {
   anonymousAllowed?: boolean;
   blocked?: boolean;
   businessUnit?: string;
-  /** @format date-time */
   changed?: string;
   customer?: string;
   description?: string;
@@ -1957,7 +1691,6 @@ export interface Product {
   hasAds?: boolean;
   id?: string;
   name?: string;
-  /** @format int32 */
   priority?: number;
 }
 
@@ -1971,7 +1704,6 @@ export interface ProductOfferingPurchase {
   /**
    * Start of entitlement.
    * ISO 8601 Date and time
-   * @format date-time
    */
   from?: string;
   /** Id of the purchased product offering. */
@@ -1981,13 +1713,11 @@ export interface ProductOfferingPurchase {
   /**
    * If present, next time for renewal.
    * ISO 8601 Date and time
-   * @format date-time
    */
   renewAt?: string;
   /**
    * Time of purchase.
    * ISO 8601 Date and time
-   * @format date-time
    */
   startedAt?: string;
   status?: ProductOfferingPurchaseStatus;
@@ -1995,7 +1725,6 @@ export interface ProductOfferingPurchase {
   /**
    * End of entitlement.
    * ISO 8601 Date and time
-   * @format date-time
    */
   until?: string;
 }
@@ -2026,24 +1755,18 @@ export interface Products {
 
 export interface Program {
   channelId?: string;
-  /** @format date-time */
   endTime: string;
   programId?: string;
-  /** @format date-time */
   startTime: string;
 }
 
 export interface ProgramListEntryResponse {
   catchupBlocked?: boolean;
   channelId?: string;
-  /** @format date-time */
   endTime?: string;
   programId?: string;
-  /** @format date-time */
   publicEndTime?: string;
-  /** @format date-time */
   publicStartTime?: string;
-  /** @format date-time */
   startTime?: string;
 }
 
@@ -2060,23 +1783,15 @@ export interface ProgramResponse {
   catchup?: boolean;
   /** If this asset is currently blocked for catchup. */
   catchupBlocked?: boolean;
-  /**
-   * The date the program was changed.
-   * @format date-time
-   */
+  /** The date the program was changed. */
   changed?: string;
   /** The id of the channel this program is on. */
   channelId?: string;
-  /**
-   * The date the program was created.
-   * @format date-time
-   */
+  /** The date the program was created. */
   created?: string;
-  /** @format date-time */
   endTime?: string;
   /** The id of the program. */
   programId?: string;
-  /** @format date-time */
   startTime?: string;
   /** If this asset is currently available as VOD. */
   vodAvailable?: boolean;
@@ -2087,15 +1802,12 @@ export interface Publication {
   countries?: string[];
   customData?: JsonNode;
   devices?: DeviceRights[];
-  /** @format date-time */
   fromDate?: string;
   products?: string[];
-  /** @format date-time */
   publicationDate?: string;
   publicationId?: string;
   rights?: AssetRights;
   services?: string[];
-  /** @format date-time */
   toDate?: string;
 }
 
@@ -2104,15 +1816,12 @@ export interface PublicationResponse {
   countries?: string[];
   customData?: JsonNode;
   devices?: Device[];
-  /** @format date-time */
   fromDate?: string;
   products?: string[];
-  /** @format date-time */
   publicationDate?: string;
   publicationId?: string;
   rights?: Rights;
   services?: string[];
-  /** @format date-time */
   toDate?: string;
 }
 
@@ -2140,7 +1849,6 @@ export interface PurchaseResponse {
 export type PurchaseVerificationRequest = object;
 
 export interface PutUserContentRatingRequest {
-  /** @format double */
   rating?: number;
 }
 
@@ -2163,13 +1871,11 @@ export interface Result {
 }
 
 export interface Rights {
-  /** @format date-time */
   activation?: string;
   airplayBlocked?: boolean;
   amcDebugLogEnabled?: boolean;
   analyticsEnabled?: boolean;
   downloadBlocked?: boolean;
-  /** @format date-time */
   expiration?: string;
   ffEnabled?: boolean;
   fourGBlocked?: boolean;
@@ -2177,25 +1883,15 @@ export interface Rights {
   hDMIBlocked?: boolean;
   jailbrokenBlocked?: boolean;
   locationEnabled?: boolean;
-  /** @format int32 */
   maxAds?: number;
-  /** @format int32 */
   maxBitrate?: number;
-  /** @format int32 */
   maxDownloadCount?: number;
-  /** @format int64 */
   maxFileSize?: number;
-  /** @format int32 */
   maxPlayPosition?: number;
-  /** @format int32 */
   maxResHeight?: number;
-  /** @format int32 */
   maxResWidth?: number;
-  /** @format int32 */
   minBitrate?: number;
-  /** @format int32 */
   minPlayPosition?: number;
-  /** @format int32 */
   playCount?: number;
   rwEnabled?: boolean;
   sessionShiftEnabled?: boolean;
@@ -2212,36 +1908,26 @@ export interface Search {
 
 export interface SearchList {
   items?: Search[];
-  /** @format int32 */
   pageNumber?: number;
-  /** @format int32 */
   pageSize?: number;
   suggestion?: string;
-  /** @format int64 */
   totalCount?: number;
 }
 
 export interface Season {
-  /** @format date-time */
   availableDate?: string;
-  /** @format date-time */
   changed?: string;
-  /** @format date-time */
   created?: string;
   customData?: JsonNode;
-  /** @format int32 */
   endYear?: number;
-  /** @format int32 */
   episodeCount?: number;
   episodes?: Asset[];
   externalReferences?: ExternalReference[];
   linkedEntities?: LinkedEntity[];
   localized?: LocalizedData[];
-  /** @format date-time */
   publishedDate?: string;
   season?: string;
   seasonId?: string;
-  /** @format int32 */
   startYear?: number;
   tags?: Tag[];
   tvShowId?: string;
@@ -2249,25 +1935,17 @@ export interface Season {
 
 export interface SeasonList {
   items?: Season[];
-  /** @format int32 */
   pageNumber?: number;
-  /** @format int32 */
   pageSize?: number;
-  /** @format int64 */
   totalCount?: number;
 }
 
 export interface SeasonResponse {
-  /** @format date-time */
   availableDate?: string;
-  /** @format date-time */
   changed?: string;
-  /** @format date-time */
   created?: string;
   customData?: JsonNode;
-  /** @format int32 */
   endYear?: number;
-  /** @format int32 */
   episodeCount?: number;
   episodes?: AssetResponse[];
   externalReferences?: ExternalReferenceResponse[];
@@ -2278,13 +1956,10 @@ export interface SeasonResponse {
   parentalRatings?: ParentalRatingResponse[];
   participants?: PersonResponse[];
   productionCountries?: string[];
-  /** @format int32 */
   productionYear?: number;
-  /** @format date-time */
   publishedDate?: string;
   season?: string;
   seasonId?: string;
-  /** @format int32 */
   startYear?: number;
   studio?: string;
   tags?: TagResponse[];
@@ -2294,10 +1969,7 @@ export interface SeasonResponse {
 export interface SentryConfig {
   /** If Sentry is to be enabled */
   enabled?: boolean;
-  /**
-   * How much reporting to do. 0.0 - 1.0.  0.0 report nothing, 0.5 means report every second session etc.
-   * @format double
-   */
+  /** How much reporting to do. 0.0 - 1.0.  0.0 report nothing, 0.5 means report every second session etc. */
   sampleRate?: number;
 }
 
@@ -2339,7 +2011,6 @@ export interface SetUserPreferenceRequest {
 }
 
 export interface SimpleDateParam {
-  /** @format date */
   date?: string;
   originalValue?: string;
 }
@@ -2357,10 +2028,8 @@ export interface SimpleLocalizedResponse {
 }
 
 export interface Sprites {
-  /** @format int64 */
   offsetInMs?: number;
   vtt?: string;
-  /** @format int32 */
   width?: number;
 }
 
@@ -2399,15 +2068,12 @@ export interface StorePrice {
   recurrence?: "NO_RECURRENCE" | "P1M" | "P1Y" | "P3M" | "P6M" | "P7D";
   rentalLength?: "NO_RENTAL" | "PT120H" | "PT144H" | "PT168H" | "PT24H" | "PT48H" | "PT720H" | "PT72H" | "PT96H";
   vatIncluded?: boolean;
-  /** @format double */
   vatPercentage?: number;
 }
 
 export interface StorePriceTag {
-  /** @format int64 */
   amount?: number;
   currency?: string;
-  /** @format int32 */
   fractionDigits?: number;
 }
 
@@ -2418,7 +2084,6 @@ export interface StoreProduct {
   preRequisiteProducts?: StoreProduct[];
   prices?: StorePrice[];
   productType?: "AVOD" | "FVOD" | "PACKAGE" | "SVOD" | "TVOD";
-  /** @format date-time */
   startTime?: string;
   subProducts?: StoreProduct[];
 }
@@ -2428,10 +2093,7 @@ export interface StoreProductOffering {
   appStoreReference?: StoreAppStoreReference;
   /** The one-time discounted price on a product offering */
   discount?: StoreProductOfferingDiscount;
-  /**
-   * If present the time at which entitlement starts, if not present entitlement starts ar time of purchase, ISO 8601 Date and time
-   * @format date-time
-   */
+  /** If present the time at which entitlement starts, if not present entitlement starts ar time of purchase, ISO 8601 Date and time */
   entitlementStart?: string | null;
   googlePlayReference?: StoreGooglePlayReference;
   /**
@@ -2464,29 +2126,23 @@ export type StoreProductOfferingDiscount = {
       calendarType?: string;
       id?: string;
     };
-    /** @format int32 */
     days?: number;
-    /** @format int32 */
     months?: number;
     negative?: boolean;
     units?: {
       dateBased?: boolean;
       duration?: {
-        /** @format int32 */
         nano?: number;
         negative?: boolean;
-        /** @format int64 */
         seconds?: number;
         zero?: boolean;
       };
       durationEstimated?: boolean;
       timeBased?: boolean;
     }[];
-    /** @format int32 */
     years?: number;
     zero?: boolean;
   };
-  /** @format int32 */
   numberOfRecurringPayments?: number;
   price?: StorePriceTag;
 } | null;
@@ -2519,25 +2175,20 @@ export interface StorePurchase {
   amount?: string;
   assetId?: string;
   currency?: string;
-  /** @format date-time */
   from?: string;
   id?: string;
   product?: StoreProduct;
   purchaseStatus?: ProductOfferingPurchaseStatus;
-  /** @format date-time */
   renewAt?: string;
   status?: ProductOfferingPurchaseStatus;
   transactionId?: string;
   transactions?: StoreTransaction[];
-  /** @format date-time */
   until?: string;
 }
 
 export interface StorePurchaseTransaction {
   assetId?: string;
-  /** @format date-time */
   created?: string;
-  /** @format date-time */
   from?: string;
   localizedAsset?: StoreLocalizedTitle[];
   localizedProductOffering?: StoreLocalizedName[];
@@ -2545,11 +2196,9 @@ export interface StorePurchaseTransaction {
   productOfferingId?: string;
   /** Type of offering: purchase, rental, event, subscription */
   productOfferingType?: string;
-  /** @format date-time */
   renewAt?: string;
   status?: string;
   transactions?: StoreTransaction[];
-  /** @format date-time */
   until?: string;
   voucherCode?: string;
 }
@@ -2573,15 +2222,12 @@ export type StoreTransactionStatus = "accepted" | "cancelled" | "pending" | "rej
 
 export interface StoreVat {
   included?: boolean;
-  /** @format double */
   percentage?: number;
 }
 
 export interface StreamInfo {
   channelId?: string;
-  /** @format int64 */
   end?: number;
-  /** @format int32 */
   endPadding?: number;
   event?: boolean;
   live?: boolean;
@@ -2591,9 +2237,7 @@ export interface StreamInfo {
   persistent?: boolean;
   programId?: string;
   ssai?: boolean;
-  /** @format int64 */
   start?: number;
-  /** @format int32 */
   startPadding?: number;
   static?: boolean;
   timeShift?: boolean;
@@ -2603,9 +2247,7 @@ export interface StripeCard {
   last4?: string;
   brand?: string;
   country?: string;
-  /** @format int32 */
   exp_month?: number;
-  /** @format int32 */
   exp_year?: number;
 }
 
@@ -2672,7 +2314,6 @@ export interface SubtitleResponse {
 }
 
 export interface SubtitleTrackInfo {
-  /** @format int64 */
   fileSize?: number;
   language?: string;
 }
@@ -2699,9 +2340,7 @@ export interface SystemTagImage {
 }
 
 export interface Tag {
-  /** @format date-time */
   changed?: string;
-  /** @format date-time */
   created?: string;
   tagValues?: TagValues[];
   type?: string;
@@ -2709,18 +2348,13 @@ export interface Tag {
 
 export interface TagList {
   items?: TagType[];
-  /** @format int32 */
   pageNumber?: number;
-  /** @format int32 */
   pageSize?: number;
-  /** @format int64 */
   totalCount?: number;
 }
 
 export interface TagResponse {
-  /** @format date-time */
   changed?: string;
-  /** @format date-time */
   created?: string;
   tagValues?: TagValuesResponse[];
   type?: string;
@@ -2733,12 +2367,9 @@ export interface TagSearch {
 
 export interface TagSearchList {
   items?: TagSearch[];
-  /** @format int32 */
   pageNumber?: number;
-  /** @format int32 */
   pageSize?: number;
   suggestion?: string;
-  /** @format int64 */
   totalCount?: number;
 }
 
@@ -2759,19 +2390,15 @@ export interface TagValuesResponse {
 }
 
 export interface TimeResponse {
-  /** @format date-time */
   iso8601?: string;
-  /** @format int64 */
   epochMillis?: number;
 }
 
 export interface Track {
-  /** @format int64 */
   bitrate?: number;
   dashChannels?: string;
   dashLang?: string;
   dashRole?: string;
-  /** @format int64 */
   fileSize?: number;
   hlsName?: string;
   language?: string;
@@ -2779,7 +2406,6 @@ export interface Track {
 }
 
 export interface TrackInfo {
-  /** @format int64 */
   fileSize?: number;
   targetBitrate?: string;
 }
@@ -2797,17 +2423,13 @@ export interface TvShowInfo {
 export interface UPHAsset {
   assetId?: string;
   audioTracks?: string[];
-  /** @format date-time */
   changed?: string;
   collections?: CollectionReference[];
-  /** @format date-time */
   created?: string;
   customData?: JsonNode;
   defaultAudioTrack?: string;
-  /** @format int64 */
   duration?: number;
   episode?: string;
-  /** @format date-time */
   expires?: string;
   externalReferences?: ExternalReferenceResponse[];
   geoCountries?: string[];
@@ -2824,14 +2446,10 @@ export interface UPHAsset {
   /** A key value Map */
   popularityScores?: Map;
   productionCountries?: string[];
-  /** @format int32 */
   productionYear?: number;
   publications?: Publication[];
-  /** @format double */
   rating?: number;
-  /** @format date */
   releaseDate?: string;
-  /** @format int32 */
   runtime?: number;
   season?: string;
   seasonId?: string;
@@ -2846,9 +2464,7 @@ export interface UPHAsset {
 }
 
 export interface UpdatePaymentMethodRequest {
-  /** @format int32 */
   expiryMonth?: number;
-  /** @format int32 */
   expiryYear?: number;
   paymentMethodId?: string;
 }
@@ -2869,10 +2485,7 @@ export interface UserAssetPlayHistory {
    * If no problem this property is not set.
    */
   errorMessage?: string;
-  /**
-   * Last viewed offset, offset in the last play of the asset.
-   * @format int64
-   */
+  /** Last viewed offset, offset in the last play of the asset. */
   lastViewedOffset?: number;
   /** The program id if the asset was viewed as catchup or live. */
   programId?: string;
@@ -2995,10 +2608,7 @@ export interface UserDetailsUpdateRequest {
 }
 
 export interface UserPreferenceResponse {
-  /**
-   * Last time the preferences where changed.
-   * @format date-time
-   */
+  /** Last time the preferences where changed. */
   lastUpdated?: string;
   /** A key value Map */
   preferences?: Map;
@@ -3142,26 +2752,20 @@ export interface ValidateCredentialsResponse {
 }
 
 export interface VideoTrack {
-  /** @format int64 */
   bitrate?: number;
   dashChannels?: string;
   dashLang?: string;
   dashRole?: string;
-  /** @format int64 */
   fileSize?: number;
-  /** @format int64 */
   height?: number;
   hlsName?: string;
   language?: string;
   name?: string;
-  /** @format int64 */
   width?: number;
 }
 
 export interface VideoTrackInfo {
-  /** @format int64 */
   fileSize?: number;
-  /** @format int32 */
   height?: number;
   targetBitrate?: string;
 }
@@ -3172,7 +2776,6 @@ export interface VouchersConfig {
 
 export interface WatchedTvShowResponse {
   asset?: UPHAsset;
-  /** @format int64 */
   lastViewedOffset?: number;
   startedWatching?: boolean;
 }

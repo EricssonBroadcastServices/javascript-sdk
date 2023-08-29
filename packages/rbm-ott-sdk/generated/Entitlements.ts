@@ -143,10 +143,7 @@ export async function play(
     deviceType?: string;
     /** Channel Partner. Domain where player is embedded. Used for SSAI. */
     domain?: string;
-    /**
-     * End time in number of seconds in the playback manifest.
-     * @format int32
-     */
+    /** End time in number of seconds in the playback manifest. */
     end?: number;
     /**
      * Use this to provide an end time when playing a channel. Should be used when there
@@ -158,17 +155,13 @@ export async function play(
     endTime?: string;
     /** A flag for European Union traffic consenting to advertising. Used for SSAI. */
     gdprOptin?: boolean;
-    /**
-     * Screen Resolution (height). Used for SSAI.
-     * @format int32
-     */
+    /** Screen Resolution (height). Used for SSAI. */
     height?: number;
     /** User device ID. Used for SSAI. */
     ifa?: string;
     /**
      * Provide GPS based geo-location for location based ad targeting (optional) e.g.
      * latitude=33.543682. Used for SSAI.
-     * @format double
      */
     latitude?: number;
     /** True if the user opted-out of ad tracking. Used for SSAI. */
@@ -182,15 +175,11 @@ export async function play(
     /**
      * Provide GPS based geo-location for location based ad targeting (optional) e.g.
      * longitude=-86.779633. Used for SSAI.
-     * @format double
      */
     longitude?: number;
     /** Provide material profile if you want to play a version used for a specific purpose. You need to know what profile to use. */
     materialProfile?: string;
-    /**
-     * Use this if you want to include only video tracks with a max frame rate.
-     * @format int32
-     */
+    /** Use this if you want to include only video tracks with a max frame rate. */
     maxFrameRate?: number;
     /**
      * Use this to filter out higher bitrates. Note that this requires backend
@@ -208,10 +197,7 @@ export async function play(
      * licenses.
      */
     persistent?: boolean;
-    /**
-     * Start time in number of seconds in the playback manifest.
-     * @format int32
-     */
+    /** Start time in number of seconds in the playback manifest. */
     start?: number;
     /**
      * Use this to provide a start time when playing a channel. Should be used when
@@ -240,10 +226,7 @@ export async function play(
     timeShift?: boolean;
     /** User id. Used for SSAI. */
     uid?: string;
-    /**
-     * Screen Resolution (width). Used for SSAI.
-     * @format int32
-     */
+    /** Screen Resolution (width). Used for SSAI. */
     width?: number;
   },
   headers: RequestParams = {}

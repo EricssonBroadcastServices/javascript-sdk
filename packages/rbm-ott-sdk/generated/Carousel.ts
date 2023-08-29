@@ -35,13 +35,11 @@ export async function getCarousel(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 20
      */
     pageSize?: number;
@@ -103,14 +101,12 @@ export async function getCarouselsForGroup(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page. This controls the number of items in each
      * carousel, all carousels are always returned.
-     * @format int32
      * @default 20
      */
     pageSize?: number;

@@ -21,19 +21,16 @@ export async function getActiveChannels(
   query?: {
     /**
      * Include future assets that start sooner than this many minutes ahead. Default value 0 returns only the currently playing asset of each channel
-     * @format int32
      * @default 0
      */
     minutesForward?: number;
     /**
      * Page number. Currently only supports one page
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * Number of channels per page
-     * @format int32
      * @default 100
      */
     pageSize?: number;
@@ -63,7 +60,6 @@ export async function getChannelStatus(
   query?: {
     /**
      * Include future assets that start sooner than this many minutes ahead. Default value 0 returns only the currently playing asset of each channel
-     * @format int32
      * @default 0
      */
     minutesForward?: number;
@@ -95,25 +91,21 @@ export async function getEpg(
   query?: {
     /**
      * Days back compared to midnight of the date to get EPG for.
-     * @format int32
      * @default 0
      */
     daysBackward?: number;
     /**
      * Days forward compared to midnight of the date to get EPG for.
-     * @format int32
      * @default 0
      */
     daysForward?: number;
     /**
      * The page number. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -147,25 +139,21 @@ export async function getEpgForChannel(
   query?: {
     /**
      * Days back compared to midnight of the date to get EPG for.
-     * @format int32
      * @default 0
      */
     daysBackward?: number;
     /**
      * Days forward compared to midnight of the date to get EPG for.
-     * @format int32
      * @default 0
      */
     daysForward?: number;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -202,25 +190,21 @@ export async function getEpgForChannels(
   query?: {
     /**
      * Days back compared to midnight of the date to get EPG for.
-     * @format int32
      * @default 0
      */
     daysBackward?: number;
     /**
      * Days forward compared to midnight of the date to get EPG for.
-     * @format int32
      * @default 0
      */
     daysForward?: number;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -317,13 +301,11 @@ export async function getXmlTvEpgForChannel(
   query?: {
     /**
      * Days back compared to midnight of the date to get EPG for.
-     * @format int32
      * @default 0
      */
     daysBackward?: number;
     /**
      * Days forward compared to midnight of the date to get EPG for.
-     * @format int32
      * @default 10
      */
     daysForward?: number;

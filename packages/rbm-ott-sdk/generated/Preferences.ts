@@ -118,10 +118,7 @@ export async function deleteFromList(list: string, id: string, headers: RequestP
 export async function getAssetList(
   list: string,
   query?: {
-    /**
-     * The maximum number of assets to return.
-     * @format int32
-     */
+    /** The maximum number of assets to return. */
     limit?: number;
     service?: string;
     tagIds?: string[];

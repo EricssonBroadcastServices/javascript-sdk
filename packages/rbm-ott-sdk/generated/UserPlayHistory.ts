@@ -71,13 +71,11 @@ export async function getLastViewedOffsetList(
     assetIds?: string[];
     /**
      * The page number. Default is 1.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page. Default value is 200.
-     * @format int32
      * @default 200
      */
     pageSize?: number;

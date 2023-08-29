@@ -141,13 +141,11 @@ export async function search(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -200,13 +198,11 @@ export async function searchAsset(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -250,10 +246,7 @@ export async function searchEpg(
     excludeFields?: string;
     /** @default "PARTIAL" */
     fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /**
-     * The millis to get from.
-     * @format int64
-     */
+    /** The millis to get from. */
     from: number;
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
@@ -263,13 +256,11 @@ export async function searchEpg(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -279,10 +270,7 @@ export async function searchEpg(
      * relevance.
      */
     sort?: string;
-    /**
-     * The millis to get to.
-     * @format int64
-     */
+    /** The millis to get to. */
     to: number;
   },
   headers: RequestParams = {}
@@ -308,15 +296,9 @@ export async function searchNoQuery(
   query?: {
     /** Filter on allowed in country. */
     allowedCountry?: string;
-    /**
-     * Filter for material duration. Lower limit.
-     * @format int32
-     */
+    /** Filter for material duration. Lower limit. */
     durationLower?: number;
-    /**
-     * Filter for material duration. Upper limit.
-     * @format int32
-     */
+    /** Filter for material duration. Upper limit. */
     durationUpper?: number;
     /** Comma separated list of fields to remove from the response. */
     excludeFields?: string;
@@ -333,13 +315,11 @@ export async function searchNoQuery(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -385,13 +365,11 @@ export async function searchTags(
     locales?: string[];
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -422,15 +400,9 @@ export async function searchV2(
   queryParams?: {
     /** Filter on allowed in country. */
     allowedCountry?: string;
-    /**
-     * Filter for material duration. Lower limit.
-     * @format int32
-     */
+    /** Filter for material duration. Lower limit. */
     durationLower?: number;
-    /**
-     * Filter for material duration. Upper limit.
-     * @format int32
-     */
+    /** Filter for material duration. Upper limit. */
     durationUpper?: number;
     /** Comma separated list of fields to remove from the response. */
     excludeFields?: string;
@@ -449,13 +421,11 @@ export async function searchV2(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -514,7 +484,6 @@ export async function searchV3(
     onlyPublished?: boolean;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;

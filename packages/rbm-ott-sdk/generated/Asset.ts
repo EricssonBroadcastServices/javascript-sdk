@@ -101,14 +101,12 @@ export async function getAssets(
     /**
      * The page number. Note that pageNumber * pageSize cannot exceed 10000 or an error
      * will occur.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page. Note that pageNumber * pageSize cannot exceed
      * 10000 or an error will occur.
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -117,7 +115,6 @@ export async function getAssets(
     /**
      * Only return assets that are playable (has a publication.from) earlier than from
      * now+X hours and are published at the moment.
-     * @format int32
      */
     playableWithinHours?: number;
     /** If we should only return assets that have publications on any of these products */
@@ -161,10 +158,7 @@ export async function getAssets(
 export async function getAssetThumbnail(
   assetId: string,
   query?: {
-    /**
-     * An optional height
-     * @format int32
-     */
+    /** An optional height */
     h?: number;
     /**
      * The time to use when creating the thumbnail. It can have two different formats. It can be
@@ -173,10 +167,7 @@ export async function getAssetThumbnail(
      * then it will be used as an actual time in th video.
      */
     time?: string;
-    /**
-     * An optional width.
-     * @format int32
-     */
+    /** An optional width. */
     w?: number;
   },
   headers: RequestParams = {}
@@ -215,13 +206,11 @@ export async function getCollectionEntries(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -271,13 +260,11 @@ export async function getEpisodes(
     onlyPublished?: boolean;
     /**
      * The page number.
-     * @format int32
      * @default 1
      */
     pageNumber?: number;
     /**
      * The number of items to show per page
-     * @format int32
      * @default 50
      */
     pageSize?: number;
@@ -434,15 +421,9 @@ export async function getSeasonsForTvShow(
     includeFields?: string;
     /** @default true */
     onlyPublished?: boolean;
-    /**
-     * @format int32
-     * @default 1
-     */
+    /** @default 1 */
     pageNumber?: number;
-    /**
-     * @format int32
-     * @default 50
-     */
+    /** @default 50 */
     pageSize?: number;
     service?: string;
     sort?: string;
