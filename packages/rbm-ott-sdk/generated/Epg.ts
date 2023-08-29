@@ -56,6 +56,7 @@ export async function getActiveChannels(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. CHANNEL_STATUS_NOT_FOUND. Channel is personalized or the channel type could not be found.
  */
 export async function getChannelStatus(
+  /** The channel id. */
   channelId: string,
   query?: {
     /**
@@ -87,6 +88,7 @@ export async function getChannelStatus(
  * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
  */
 export async function getEpg(
+  /** The date (YYYY-MM-DD) */
   date: string,
   query?: {
     /**
@@ -134,7 +136,9 @@ export async function getEpg(
  * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
  */
 export async function getEpgForChannel(
+  /** The id of the channel to get EPG for. Slugs supported. */
   channelId: string,
+  /** The date (YYYY-MM-DD) */
   date: string,
   query?: {
     /**
@@ -185,7 +189,9 @@ export async function getEpgForChannel(
  * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
  */
 export async function getEpgForChannels(
+  /** The comma separated list of the ids the channels to get EPG for. */
   channelIds: string,
+  /** The date (YYYY-MM-DD) */
   date: string,
   query?: {
     /**
@@ -234,7 +240,13 @@ export async function getEpgForChannels(
  * @response `200` `ProgramResponse` success
  * @response `404` `void` PROGRAM_NOT_FOUND. If the program cannot be found. NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.
  */
-export async function getNextProgram(channelId: string, programId: string, headers: RequestParams = {}) {
+export async function getNextProgram(
+  /** The id of the channel. */
+  channelId: string,
+  /** The id of the program. */
+  programId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ProgramResponse>({
@@ -253,7 +265,11 @@ export async function getNextProgram(channelId: string, programId: string, heade
  * @response `200` `ProgramResponse` success
  * @response `404` `void` PROGRAM_NOT_FOUND. If the program cannot be found. NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.
  */
-export async function getNextProgramForAsset(assetId: string, headers: RequestParams = {}) {
+export async function getNextProgramForAsset(
+  /** The asset id */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ProgramResponse>({
@@ -272,7 +288,9 @@ export async function getNextProgramForAsset(assetId: string, headers: RequestPa
  * @response `404` `void` UNKNOWN_PROGRAM. If the program cannot be found.
  */
 export async function getProgram(
+  /** The id of the channel. */
   channelId: string,
+  /** The id of the program. */
   programId: string,
   query?: {
     service?: string;
@@ -297,6 +315,7 @@ export async function getProgram(
  * @response `default` `ChannelEPGResponse` success
  */
 export async function getXmlTvEpgForChannel(
+  /** The id of the channel to get EPG for. Slugs supported. */
   channelId: string,
   query?: {
     /**

@@ -17,6 +17,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `404` `void` UNKNOWN_ASSET. If the asset cannot be found.
  */
 export async function getAsset(
+  /** The id of the asset. Slugs supported. */
   assetId: string,
   query?: {
     /** Filter results on if the asset (or episodes) are published in the country specified by this parameter. */
@@ -54,6 +55,7 @@ export async function getAsset(
  * @response `404` `void` UNKNOWN_ASSET. If the asset cannot be found.
  */
 export async function getAssetPartial<T = any>(
+  /** The id of the asset. Slugs supported. */
   assetId: string,
   query?: {
     /** Filter results on if the asset (or episodes) are published in the country specified by this parameter. */
@@ -276,6 +278,7 @@ export async function getAssetsPartial<T = any>(
  * @response `404` `void` UNKNOWN_ASSET. If the asset cannot be found.
  */
 export async function getAssetThumbnail(
+  /** The id of the asset. */
   assetId: string,
   query?: {
     /** An optional height */
@@ -311,6 +314,7 @@ export async function getAssetThumbnail(
  * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
  */
 export async function getCollectionEntries(
+  /** The id of the collection. Slugs supported. */
   assetId: string,
   query?: {
     /** @default true */
@@ -355,6 +359,7 @@ export async function getCollectionEntries(
  * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
  */
 export async function getCollectionEntriesPartial<T = any>(
+  /** The id of the collection. Slugs supported. */
   assetId: string,
   query?: {
     /** @default true */
@@ -408,7 +413,9 @@ export async function getCollectionEntriesPartial<T = any>(
  * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
  */
 export async function getEpisodes(
+  /** The id of the tv show. Slugs supported. */
   assetId: string,
+  /** An integer season number. */
   season: number,
   query?: {
     /** @default true */
@@ -446,7 +453,9 @@ export async function getEpisodes(
  * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
  */
 export async function getEpisodesPartial<T = any>(
+  /** The id of the tv show. Slugs supported. */
   assetId: string,
+  /** An integer season number. */
   season: number,
   query?: {
     /** @default true */
@@ -493,7 +502,9 @@ export async function getEpisodesPartial<T = any>(
  * @response `404` `void` NO_ENTRY_FOUND. If the provided episode does not exist, or if there is no next episode available.
  */
 export async function getNextCollectionEntry(
+  /** The id of the collection. */
   collectionId: string,
+  /** The id of reference collection entry. */
   referenceEntryId: string,
   headers: RequestParams = {}
 ) {
@@ -514,7 +525,11 @@ export async function getNextCollectionEntry(
  * @response `200` `Asset` success
  * @response `404` `void` NO_EPISODE_FOUND. If the provided episode does not exist, or if there is no next episode available.
  */
-export async function getNextEpisode(assetId: string, headers: RequestParams = {}) {
+export async function getNextEpisode(
+  /** The id of the current episode. */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Asset>({
@@ -533,7 +548,9 @@ export async function getNextEpisode(assetId: string, headers: RequestParams = {
  * @response `404` `void` NO_ENTRY_FOUND. If the provided episode does not exist, or if there is no next episode available.
  */
 export async function getPreviousCollectionEntry(
+  /** The id of the collection. */
   collectionId: string,
+  /** The id of reference collection entry. */
   referenceEntryId: string,
   headers: RequestParams = {}
 ) {
@@ -554,7 +571,11 @@ export async function getPreviousCollectionEntry(
  * @response `200` `Asset` success
  * @response `404` `void` NO_EPISODE_FOUND. If the provided episode does not exist or if there is no previous episode available.
  */
-export async function getPreviousEpisode(assetId: string, headers: RequestParams = {}) {
+export async function getPreviousEpisode(
+  /** The id of the current episode. */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Asset>({
@@ -573,7 +594,9 @@ export async function getPreviousEpisode(assetId: string, headers: RequestParams
  * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
  */
 export async function getSeason(
+  /** The id of the tv show. Slugs supported. */
   assetId: string,
+  /** An integer season number. */
   season: number,
   query?: {
     /** @default true */
@@ -601,7 +624,9 @@ export async function getSeason(
  * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
  */
 export async function getSeasonPartial<T = any>(
+  /** The id of the tv show. Slugs supported. */
   assetId: string,
+  /** An integer season number. */
   season: number,
   query?: {
     /** @default true */
@@ -637,6 +662,7 @@ export async function getSeasonPartial<T = any>(
  * @response `default` `SeasonList` success
  */
 export async function getSeasonsForTvShow(
+  /** The id of the asset. Slugs supported. */
   assetId: string,
   query?: {
     includeEpisodes?: boolean;
@@ -669,6 +695,7 @@ export async function getSeasonsForTvShow(
  * @response `default` `SeasonList` success
  */
 export async function getSeasonsForTvShowPartial<T = any>(
+  /** The id of the asset. Slugs supported. */
   assetId: string,
   query?: {
     includeEpisodes?: boolean;

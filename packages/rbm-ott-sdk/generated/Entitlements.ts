@@ -73,6 +73,7 @@ export async function availabilityKeys(
  * @response `500` `void` INTERNAL_TIMEOUT.
  */
 export async function entitle(
+  /** The id of the asset to play. */
   assetId: string,
   query?: {
     /** Payment provider. */
@@ -108,6 +109,7 @@ export async function entitle(
  * @response `500` `void` INTERNAL_TIMEOUT.
  */
 export async function play(
+  /** The id of the asset to play. */
   assetId: string,
   query?: {
     AdSID?: string;

@@ -39,7 +39,11 @@ Get the episode in progress
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_ASSET. If the asset with id tvShowId cannot be found.
  */
-export async function getContinueWatchingTvShow(tvshowid: string, headers: RequestParams = {}) {
+export async function getContinueWatchingTvShow(
+  /** The tvShowId */
+  tvshowid: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<WatchedTvShowResponse>({

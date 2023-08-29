@@ -31,7 +31,11 @@ export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
  * @secure
  * @response `default` `Message` success
  */
-export async function deleteDownloadsForAsset(assetId: string, headers: RequestParams = {}) {
+export async function deleteDownloadsForAsset(
+  /** The id of the asset. */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<Message>({
@@ -78,7 +82,11 @@ export async function download(
  * @secure
  * @response `default` `BookkeeperAsset` success
  */
-export async function downloadCompleted(assetId: string, headers: RequestParams = {}) {
+export async function downloadCompleted(
+  /** The id of the asset. */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
@@ -127,7 +135,11 @@ export async function downloadInfo(
  * @secure
  * @response `default` `BookkeeperAsset` success
  */
-export async function downloadRenewed(assetId: string, headers: RequestParams = {}) {
+export async function downloadRenewed(
+  /** The id of the asset. */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
@@ -160,7 +172,11 @@ export async function getDownloadsForAccount(headers: RequestParams = {}) {
  * @secure
  * @response `default` `BookkeeperAsset` success
  */
-export async function getDownloadsForAsset(assetId: string, headers: RequestParams = {}) {
+export async function getDownloadsForAsset(
+  /** The id of the asset. */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({

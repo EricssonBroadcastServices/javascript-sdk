@@ -16,7 +16,11 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `200` `TagType` success
  * @response `404` `void` UNKNOWN_TAG. If a tag with the id cannot be found. UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  */
-export async function getTagById(tagId: string, headers: RequestParams = {}) {
+export async function getTagById(
+  /** The id of the tag. */
+  tagId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<TagType>({

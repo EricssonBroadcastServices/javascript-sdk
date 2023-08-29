@@ -22,7 +22,11 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteUserContentRating(assetId: string, headers: RequestParams = {}) {
+export async function deleteUserContentRating(
+  /** The asset id */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -37,7 +41,11 @@ export async function deleteUserContentRating(assetId: string, headers: RequestP
  * @response `200` `(GetAllUserContentRatingsForAssetResponse)[]` success
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getAllUserContentRatingsForAsset(assetId: string, headers: RequestParams = {}) {
+export async function getAllUserContentRatingsForAsset(
+  /** The asset id */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForAssetResponse[]>({
@@ -74,7 +82,11 @@ export async function getAllUserContentRatingsForUser(headers: RequestParams = {
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getUserContentRating(assetId: string, headers: RequestParams = {}) {
+export async function getUserContentRating(
+  /** The asset id */
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<GetUserContentRatingResponse>({
@@ -92,6 +104,7 @@ export async function getUserContentRating(assetId: string, headers: RequestPara
  * @response `422` `void` RATING_BELOW_ZERO. If the supplied rating is below 0.0. RATING_ABOVE_ONE. If the supplied rating is above 1.0.
  */
 export async function putUserContentRating(
+  /** The asset id */
   assetId: string,
   data: PutUserContentRatingRequest,
   headers: RequestParams = {}

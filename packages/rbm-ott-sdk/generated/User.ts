@@ -119,7 +119,11 @@ export async function changePassword(data: ChangePwdV3, headers: RequestParams =
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  * @response `404` `void` NOT_FOUND. The code is not found or has expired.
  */
-export async function confirmActivationCode(code: string, headers: RequestParams = {}) {
+export async function confirmActivationCode(
+  /** Activation code to confirm, 6 characters drawn from set 123456789ABCDEF as received from create end-point. */
+  code: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -139,7 +143,12 @@ export async function confirmActivationCode(code: string, headers: RequestParams
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  * @response `404` `void` NOT_FOUND. If the token is not found or is expired.
  */
-export async function confirmUserWithToken(token: string, data: ConfirmAccountData, headers: RequestParams = {}) {
+export async function confirmUserWithToken(
+  /** Token received out of band, e.g by mail */
+  token: string,
+  data: ConfirmAccountData,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<ConfirmAccountResponse>({
@@ -230,7 +239,11 @@ export async function createPinCode(data: PinCodeSetRequest, headers: RequestPar
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function deletePinCode(pincodeId: string, headers: RequestParams = {}) {
+export async function deletePinCode(
+  /** the id of the pin to delete. */
+  pincodeId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -267,7 +280,11 @@ export async function deleteUserDetails(data: CredentialsV3, headers: RequestPar
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION DELETE_CURRENT_PROFILE_NOT_ALLOWED NOT_OWNER. Only the owner may delete profiles.
  */
-export async function deleteUserProfile(userId: string, headers: RequestParams = {}) {
+export async function deleteUserProfile(
+  /** user id of profile to delete */
+  userId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -385,7 +402,11 @@ export async function putUserAttributes(data: UserAttributeRequest[], headers: R
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/user/password/reset/{username}
  * @response `default` `void` success
  */
-export async function resetPassword(username: string, headers: RequestParams = {}) {
+export async function resetPassword(
+  /** Username of user */
+  username: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
@@ -406,7 +427,11 @@ export async function resetPassword(username: string, headers: RequestParams = {
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  */
-export async function selectUserProfile(userId: string, headers: RequestParams = {}) {
+export async function selectUserProfile(
+  /** user id of profile to select */
+  userId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -424,7 +449,12 @@ export async function selectUserProfile(userId: string, headers: RequestParams =
  * @response `404` `void` NOT_FOUND. If the token is not found or is expired.
  * @response `422` `void` BAD_PASSWORD. The password does not comply to the password policy.
  */
-export async function setPasswordWithToken(token: string, data: SetPwdWithTokenV3, headers: RequestParams = {}) {
+export async function setPasswordWithToken(
+  /** Token received out of band, e.g by mail */
+  token: string,
+  data: SetPwdWithTokenV3,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -445,7 +475,12 @@ export async function setPasswordWithToken(token: string, data: SetPwdWithTokenV
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function setPinCode(pincodeId: string, data: PinCodeSetRequest, headers: RequestParams = {}) {
+export async function setPinCode(
+  /** the id of the pin to update or if non-exiting to be created. */
+  pincodeId: string,
+  data: PinCodeSetRequest,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
@@ -483,7 +518,12 @@ export async function userDetailsUpdate(data: UserDetailsUpdateRequest, headers:
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here NOT_OWNER. Only the owner may update profiles.
  */
-export async function userProfileUpdate(userId: string, data: UserDetailsUpdateRequest, headers: RequestParams = {}) {
+export async function userProfileUpdate(
+  /** user id of profile to update */
+  userId: string,
+  data: UserDetailsUpdateRequest,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<any>({
@@ -502,7 +542,12 @@ export async function userProfileUpdate(userId: string, data: UserDetailsUpdateR
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function validatePinCode(pincodeId: string, data: PinCodeValidationRequest, headers: RequestParams = {}) {
+export async function validatePinCode(
+  /** the id of the pin to delete. */
+  pincodeId: string,
+  data: PinCodeValidationRequest,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string[]>({

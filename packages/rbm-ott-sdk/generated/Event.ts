@@ -16,6 +16,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `default` `EventList` success
  */
 export async function getEvents(
+  /** The date for which to base the event query. (Format: yyyy-mm-dd). */
   date: string,
   query?: {
     /** Only include events that are allowed in provided country. */

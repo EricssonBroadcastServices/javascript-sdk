@@ -16,6 +16,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `default` `(AutocompleteItem)[]` success
  */
 export async function autocomplete(
+  /** The query to autocomplete. */
   query: string,
   queryParams?: {
     /** The locale to autocomplete in. */
@@ -42,6 +43,7 @@ export async function autocomplete(
  * @response `default` `(AutocompleteItem2)[]` success
  */
 export async function autocompleteAssetTitle(
+  /** The query to autocomplete. */
   query: string,
   queryParams?: {
     /** The locale to autocomplete in. */
@@ -75,6 +77,7 @@ export async function autocompleteAssetTitle(
  * @response `default` `(AutocompleteItem2)[]` success
  */
 export async function autocompleteTagTitle(
+  /** The query to autocomplete. */
   query: string,
   queryParams?: {
     /** The locales to autocomplete in. */
@@ -102,6 +105,7 @@ export async function autocompleteTagTitle(
  * @response `default` `(AutocompleteItem)[]` success
  */
 export async function getSuggestions(
+  /** The query to autocomplete. */
   query: string,
   queryParams?: {
     /** The locale to autocomplete in. */
@@ -127,6 +131,7 @@ export async function getSuggestions(
  * @response `default` `SearchList` success
  */
 export async function search(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     allowedCountry?: string;
@@ -178,6 +183,7 @@ export async function search(
  * @response `default` `SearchList` success
  */
 export async function searchPartial<T = any>(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     allowedCountry?: string;
@@ -239,6 +245,7 @@ export async function searchPartial<T = any>(
  * @response `default` `SearchList` success
  */
 export async function searchAsset(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     allowedCountry?: string;
@@ -291,6 +298,7 @@ export async function searchAsset(
  * @response `default` `SearchList` success
  */
 export async function searchAssetPartial<T = any>(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     allowedCountry?: string;
@@ -351,6 +359,7 @@ export async function searchAssetPartial<T = any>(
  * @response `default` `EpgSearchHits` success
  */
 export async function searchEpg(
+  /** The query to search for. */
   query: string,
   queryParams: {
     /** The millis to get from. */
@@ -398,6 +407,7 @@ export async function searchEpg(
  * @response `default` `EpgSearchHits` success
  */
 export async function searchEpgPartial<T = any>(
+  /** The query to search for. */
   query: string,
   queryParams: {
     /** The millis to get from. */
@@ -572,6 +582,7 @@ export async function searchNoQueryPartial<T = any>(
  * @response `default` `SearchList` success
  */
 export async function searchTags(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     /** The locales to search in. */
@@ -610,6 +621,7 @@ export async function searchTags(
  * @response `default` `SearchList` success
  */
 export async function searchTagsPartial<T = any>(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     /** The locales to search in. */
@@ -656,6 +668,7 @@ export async function searchTagsPartial<T = any>(
  * @response `default` `SearchList` success
  */
 export async function searchV2(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     /** Filter on allowed in country. */
@@ -718,6 +731,7 @@ export async function searchV2(
  * @response `default` `SearchList` success
  */
 export async function searchV2Partial<T = any>(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     /** Filter on allowed in country. */
@@ -790,6 +804,7 @@ export async function searchV2Partial<T = any>(
  * @response `default` `MultiSearchResponse` success
  */
 export async function searchV3(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     /** Filter on allowed in country. */
@@ -839,6 +854,7 @@ export async function searchV3(
  * @response `default` `MultiSearchResponse` success
  */
 export async function searchV3Partial<T = any>(
+  /** The query to search for. */
   query: string,
   queryParams?: {
     /** Filter on allowed in country. */

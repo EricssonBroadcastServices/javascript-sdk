@@ -46,7 +46,9 @@ export async function getFile(folder: string, fileName: string, headers: Request
  * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
  */
 export async function getWLComponent(
+  /** The config id. */
   configId: string,
+  /** The component id. */
   componentId: string,
   query?: {
     /** Add allowed country parameter to any server side asset searches that are made. */
@@ -74,6 +76,7 @@ export async function getWLComponent(
  * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
  */
 export async function getWLConfig(
+  /** The id of the config. */
   configId: string,
   query?: {
     allowedCountry?: string;
@@ -102,7 +105,9 @@ export async function getWLConfig(
  * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
  */
 export async function getWLConfigWithDomain(
+  /** The host that will be mapped to a business unit. */
   host: string,
+  /** The id of the config. */
   configId: string,
   query?: {
     allowedCountry?: string;

@@ -18,7 +18,10 @@ const requestConfigParam = {
     defaultValue: "{}",
 }
 
-const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
+function argToTmpl({ name, optional, type, defaultValue, description }) {
+    const comment = description ? `/** ${description} */\n` : "";
+    return `${comment}${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''},`;
+}
 
 const rawWrapperArgs = config.extractRequestParams ?
     _.compact([
@@ -42,14 +45,16 @@ const wrapperArgs = _
     // Sort by optionality
     .sortBy(rawWrapperArgs, [o => o.optional])
     .map(argToTmpl)
-    .join(', ')
+    .join("\n")
 
 %>
 /**
 <%~ routeDocs.lines %>
 
  */
- export async function <%~ route.routeName.usage + (partial ? "Partial<T = any>" : "") %>(<%~ wrapperArgs %>) {
+ export async function <%~ route.routeName.usage + (partial ? "Partial<T = any>" : "") %>(
+    <%~ wrapperArgs %>
+) {
     // @ts-ignore
     const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
     return request<<%~ partial ? "T" : type %>>({

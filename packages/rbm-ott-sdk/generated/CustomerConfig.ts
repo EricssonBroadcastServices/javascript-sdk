@@ -16,6 +16,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `default` `ConfigFile` success
  */
 export async function getConfigCuFile(
+  /** The file to get. */
   fileName: string,
   query?: {
     /** The version of the file to get. */
@@ -38,6 +39,7 @@ export async function getConfigCuFile(
  * @response `default` `ConfigFile` success
  */
 export async function getConfigFile(
+  /** The file to get. */
   fileName: string,
   query?: {
     /** @default false */
@@ -62,7 +64,9 @@ export async function getConfigFile(
  * @response `default` `ConfigFile` success
  */
 export async function getConfigFileCustomDomainInPath(
+  /** The file to get. */
   fileId: string,
+  /** The host that will be mapped to a business unit. */
   host: string,
   query?: {
     /** @default false */

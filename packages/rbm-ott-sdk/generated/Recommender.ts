@@ -43,6 +43,7 @@ export async function getContinueWatching(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
 export async function getRecommendationsForAsset(
+  /** The assetId that you have just played. */
   assetId: string,
   query?: {
     /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */

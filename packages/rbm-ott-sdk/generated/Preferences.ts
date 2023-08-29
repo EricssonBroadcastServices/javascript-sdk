@@ -27,6 +27,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `409` `void` LIMIT_REACHED. If the maximum number of items in the list have been reached.
  */
 export async function addToAssetList(
+  /** The name of the list. */
   list: string,
   assetId: string,
   data: AssetListItemRequest,
@@ -54,7 +55,14 @@ export async function addToAssetList(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  * @response `409` `void` LIMIT_REACHED. If the maximum number of items in the list have been reached.
  */
-export async function addToList(list: string, id: string, data: AssetListItemRequest, headers: RequestParams = {}) {
+export async function addToList(
+  /** The name of the list. */
+  list: string,
+  /** The list item id */
+  id: string,
+  data: AssetListItemRequest,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string>({
@@ -75,7 +83,12 @@ export async function addToList(list: string, id: string, data: AssetListItemReq
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function deleteFromAssetList(list: string, assetId: string, headers: RequestParams = {}) {
+export async function deleteFromAssetList(
+  /** The name of the list. */
+  list: string,
+  assetId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string>({
@@ -95,7 +108,13 @@ export async function deleteFromAssetList(list: string, assetId: string, headers
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function deleteFromList(list: string, id: string, headers: RequestParams = {}) {
+export async function deleteFromList(
+  /** The name of the list. */
+  list: string,
+  /** The id of the item */
+  id: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<string>({
@@ -116,6 +135,7 @@ export async function deleteFromList(list: string, id: string, headers: RequestP
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
 export async function getAssetList(
+  /** The name of the list. */
   list: string,
   query?: {
     /** The maximum number of assets to return. */
@@ -146,6 +166,7 @@ export async function getAssetList(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
 export async function getFromAssetList(
+  /** The name of the list. */
   list: string,
   assetId: string,
   query?: {
@@ -174,6 +195,7 @@ export async function getFromAssetList(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
 export async function getList(
+  /** The name of the list. */
   list: string,
   query?: {
     service?: string;

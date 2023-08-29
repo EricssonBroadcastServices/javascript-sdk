@@ -60,7 +60,11 @@ export async function addPaymentMethod(headers: RequestParams = {}) {
  * @secure
  * @response `default` `void` success
  */
-export async function cancelPurchaseSubscription(purchaseId: string, headers: RequestParams = {}) {
+export async function cancelPurchaseSubscription(
+  /** The product offering to purchase. */
+  purchaseId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
@@ -79,7 +83,11 @@ export async function cancelPurchaseSubscription(purchaseId: string, headers: Re
  * @response `200` `void` Successful
  * @response `403` `void` FEATURE_NOT_ENABLED_FOR_BUSINESS_UNIT the business unit is not integrated with a payment provider
  */
-export async function deleteStoredPaymentMethod(paymentMethodId: string, headers: RequestParams = {}) {
+export async function deleteStoredPaymentMethod(
+  /** The id of the stored payment method */
+  paymentMethodId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<void>({
@@ -149,7 +157,9 @@ export async function getAccountTransactionsWithProductOffering(headers: Request
  * @response `default` `(StorePromotionProductOfferings)[]` success
  */
 export async function getCountryOfferingsByVoucher(
+  /** The country code. */
   countryCode: string,
+  /** The voucher code. */
   voucherCode: string,
   headers: RequestParams = {}
 ) {
@@ -193,6 +203,7 @@ export async function getOfferingPurchases(
  * @response `200` `(StoreProductOffering)[]` Successful
  */
 export async function getOfferings(
+  /** Current location ISO 3166 alpha-2 */
   countryCode: string,
   query?: {
     /**
@@ -224,6 +235,7 @@ offerings.
  * @response `default` `StoreProductOfferings` success
  */
 export async function getOfferingsByCountry(
+  /** The country code received with the location resource. */
   countryCode: string,
   query?: {
     /**
@@ -253,7 +265,11 @@ export async function getOfferingsByCountry(
  * @response `200` `StoreProductOfferings` success
  * @response `404` `void` LABEL_FILTER_NOT_FOUND The provided labelFilterId was not found
  */
-export async function getOfferingsByLabels(labelFilterId: string, headers: RequestParams = {}) {
+export async function getOfferingsByLabels(
+  /** The labelFilterId received with the Label Resource. */
+  labelFilterId: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<StoreProductOfferings>({
@@ -272,7 +288,11 @@ export async function getOfferingsByLabels(labelFilterId: string, headers: Reque
  * @secure
  * @response `default` `(StorePromotionProductOfferings)[]` success
  */
-export async function getOfferingsByVoucher(voucherCode: string, headers: RequestParams = {}) {
+export async function getOfferingsByVoucher(
+  /** The voucher code. */
+  voucherCode: string,
+  headers: RequestParams = {}
+) {
   // @ts-ignore
   const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
   return request<StorePromotionProductOfferings[]>({
@@ -345,6 +365,7 @@ export async function initialize(data: InitialisePayment, headers: RequestParams
  * @response `400` `AppStorePurchaseInitializeResponse` Bad request
  */
 export async function initializeAppStorePurchase(
+  /** Id of product offering to purchase */
   productOfferingId: string,
   data: AppStorePurchaseInitializeRequest,
   headers: RequestParams = {}
@@ -370,6 +391,7 @@ export async function initializeAppStorePurchase(
  * @response `400` `GooglePlayPurchaseInitializeResponse` Bad request
  */
 export async function initializeGooglePlayPurchase(
+  /** Id of product offering to purchase */
   productOfferingId: string,
   data: GooglePlayPurchaseInitializeRequest,
   headers: RequestParams = {}
@@ -393,6 +415,7 @@ export async function initializeGooglePlayPurchase(
  * @response `default` `PurchaseResponse` success
  */
 export async function purchaseProductOffering(
+  /** The product offering to purchase. */
   productOfferingId: string,
   data: PurchaseRequest,
   headers: RequestParams = {}
@@ -417,6 +440,7 @@ export async function purchaseProductOffering(
  * @response `403` `PaymentMethod` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
 export async function updatePaymentMethod(
+  /** The id of the stored payment method */
   paymentMethodId: string,
   data: UpdatePaymentMethodRequest,
   headers: RequestParams = {}
@@ -462,6 +486,7 @@ export async function updatePreferredPaymentMethod(
  * @response `400` `AppStorePurchaseVerifyResponse` Bad request
  */
 export async function verifyAppStorePurchase(
+  /** The purchase id */
   purchaseId: string,
   data: AppStorePurchaseVerifyRequest,
   headers: RequestParams = {}
@@ -487,6 +512,7 @@ export async function verifyAppStorePurchase(
  * @response `400` `GooglePlayPurchaseVerifyResponse` Bad request
  */
 export async function verifyGooglePlayPurchase(
+  /** The purchase id */
   purchaseId: string,
   data: GooglePlayPurchaseVerifyRequest,
   headers: RequestParams = {}
@@ -511,6 +537,7 @@ export async function verifyGooglePlayPurchase(
  * @response `default` `PurchaseResponse` success
  */
 export async function verifyPayment(
+  /** The purchase id. */
   purchaseId: string,
   data: PurchaseVerificationRequest,
   headers: RequestParams = {}

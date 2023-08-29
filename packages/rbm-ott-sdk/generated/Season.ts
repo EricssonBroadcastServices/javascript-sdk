@@ -17,6 +17,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
  */
 export async function getSeasonById(
+  /** The id of the season. Slugs supported. */
   seasonId: string,
   query?: {
     /** Set to true to include episodes for the season in the response. */
@@ -46,6 +47,7 @@ export async function getSeasonById(
  * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
  */
 export async function getSeasonByIdPartial<T = any>(
+  /** The id of the season. Slugs supported. */
   seasonId: string,
   query?: {
     /** Set to true to include episodes for the season in the response. */
