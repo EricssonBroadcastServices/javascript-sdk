@@ -130,11 +130,6 @@ export async function search(
   query: string,
   queryParams?: {
     allowedCountry?: string;
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** The locale to search in. */
     locale?: string;
     /** @default true */
@@ -174,7 +169,7 @@ export async function search(
       ctx.baseUrl
     ),
     headers: headers,
-    query: queryParams
+    query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
 /**
@@ -187,11 +182,6 @@ export async function searchAsset(
   query: string,
   queryParams?: {
     allowedCountry?: string;
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** The locales to search in. */
     locales?: string[];
     /** @default true */
@@ -231,7 +221,7 @@ export async function searchAsset(
       ctx.baseUrl
     ),
     headers: headers,
-    query: queryParams
+    query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
 /**
@@ -242,14 +232,8 @@ export async function searchAsset(
 export async function searchEpg(
   query: string,
   queryParams: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /** @default "PARTIAL" */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
     /** The millis to get from. */
     from: number;
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** The locale to search in. */
     locale?: string;
     /** @default true */
@@ -284,7 +268,7 @@ export async function searchEpg(
       ctx.baseUrl
     ),
     headers: headers,
-    query: queryParams
+    query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
 /**
@@ -300,12 +284,6 @@ export async function searchNoQuery(
     durationLower?: number;
     /** Filter for material duration. Upper limit. */
     durationUpper?: number;
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /** The set of fields to include by default. */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** Only return assets that has downloadBlocked set to false in a publication. */
     onlyDownloadable?: boolean;
     /**
@@ -344,7 +322,7 @@ export async function searchNoQuery(
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`, ctx.baseUrl),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -356,11 +334,6 @@ export async function searchNoQuery(
 export async function searchTags(
   query: string,
   queryParams?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** The locales to search in. */
     locales?: string[];
     /**
@@ -387,7 +360,7 @@ export async function searchTags(
       ctx.baseUrl
     ),
     headers: headers,
-    query: queryParams
+    query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
 /**
@@ -404,12 +377,6 @@ export async function searchV2(
     durationLower?: number;
     /** Filter for material duration. Upper limit. */
     durationUpper?: number;
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /** The set of fields to include by default. */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** The locales to search in. */
     locale?: string[];
     /** Only return assets that has downloadBlocked set to false in a publication. */
@@ -455,7 +422,7 @@ export async function searchV2(
       ctx.baseUrl
     ),
     headers: headers,
-    query: queryParams
+    query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
 /**
@@ -469,12 +436,6 @@ export async function searchV3(
   queryParams?: {
     /** Filter on allowed in country. */
     allowedCountry?: string;
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /** The set of fields to include by default. */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** The locales to search in. */
     locale?: string[];
     /**
@@ -510,7 +471,7 @@ export async function searchV3(
       ctx.baseUrl
     ),
     headers: headers,
-    query: queryParams
+    query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
 

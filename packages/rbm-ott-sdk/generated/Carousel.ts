@@ -19,15 +19,6 @@ export async function getCarousel(
   groupId: string,
   carouselId: string,
   query?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "PARTIAL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /**
      * If we should only return assets that are at the moment published. Default = false, of compatibility reasons
      * @default false
@@ -59,7 +50,7 @@ export async function getCarousel(
       ctx.baseUrl
     ),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -85,15 +76,6 @@ export async function getCarouselGroups(headers: RequestParams = {}) {
 export async function getCarouselsForGroup(
   groupId: string,
   query?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "PARTIAL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /**
      * If we should only return assets that are at the moment published. Default = false, of compatibility reasons
      * @default false
@@ -123,7 +105,7 @@ export async function getCarouselsForGroup(
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`, ctx.baseUrl),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 

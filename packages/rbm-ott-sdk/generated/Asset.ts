@@ -21,20 +21,11 @@ export async function getAsset(
   query?: {
     /** Filter results on if the asset (or episodes) are published in the country specified by this parameter. */
     allowedCountry?: string;
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "ALL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
     /**
      * Set to true to include episodes for the asset in the response. Only applicable if the
      * asset is a tv show. Setting this to true will cause seasons to be includeSeasons true.
      */
     includeEpisodes?: boolean;
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /**
      * Set to true to include seasons for the asset in the response. Only applicable if the
      * asset is a tv show.
@@ -53,7 +44,7 @@ export async function getAsset(
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`, ctx.baseUrl),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -80,15 +71,6 @@ export async function getAssets(
     deviceQuery?: string;
     /** If we should only return assets that are allowed to play on this device */
     deviceType?: DeviceType;
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "PARTIAL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** @default false */
     includeTvShow?: boolean;
     /** Will only return assets that has an empty value in the field specified in this field */
@@ -145,7 +127,7 @@ export async function getAssets(
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`, ctx.baseUrl),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -193,15 +175,6 @@ export async function getAssetThumbnail(
 export async function getCollectionEntries(
   assetId: string,
   query?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "PARTIAL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** @default true */
     onlyPublished?: boolean;
     /**
@@ -234,7 +207,7 @@ export async function getCollectionEntries(
       ctx.baseUrl
     ),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -247,15 +220,6 @@ export async function getEpisodes(
   assetId: string,
   season: number,
   query?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "PARTIAL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** @default true */
     onlyPublished?: boolean;
     /**
@@ -281,7 +245,7 @@ export async function getEpisodes(
       ctx.baseUrl
     ),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -374,15 +338,6 @@ export async function getSeason(
   assetId: string,
   season: number,
   query?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "ALL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** @default true */
     onlyPublished?: boolean;
     service?: string;
@@ -398,7 +353,7 @@ export async function getSeason(
       ctx.baseUrl
     ),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -409,16 +364,7 @@ export async function getSeason(
 export async function getSeasonsForTvShow(
   assetId: string,
   query?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "PARTIAL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
     includeEpisodes?: boolean;
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** @default true */
     onlyPublished?: boolean;
     /** @default 1 */
@@ -439,7 +385,7 @@ export async function getSeasonsForTvShow(
       ctx.baseUrl
     ),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 

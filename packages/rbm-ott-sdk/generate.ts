@@ -238,6 +238,16 @@ generateApi({
       config.templatePaths.base = resolve(process.cwd(), "./templates/base");
       return config;
     },
+    onParseSchema(originalSchema, parsedSchema) {
+      const { fieldSet } = originalSchema?.properties || {};
+      if (fieldSet) {
+        originalSchema.partial = true;
+        parsedSchema.content = parsedSchema.content.filter((param: any) => {
+          return !["fieldSet", "includeFields", "excludeFields"].includes(param.name);
+        });
+      }
+      return parsedSchema;
+    },
     onFormatRouteName (routeInfo) {
       // allow duplicates for search (because we did before)
       if (["searchV2", "searchV3", "getSystemConfigV2"].includes(routeInfo.operationId)) {

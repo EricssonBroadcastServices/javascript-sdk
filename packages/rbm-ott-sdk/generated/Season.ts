@@ -19,17 +19,8 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 export async function getSeasonById(
   seasonId: string,
   query?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "ALL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
     /** Set to true to include episodes for the season in the response. */
     includeEpisodes?: boolean;
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** @default true */
     onlyPublished?: boolean;
     service?: string;
@@ -45,7 +36,7 @@ export async function getSeasonById(
       ctx.baseUrl
     ),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -56,17 +47,8 @@ export async function getSeasonById(
  */
 export async function getSeasons(
   query?: {
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /**
-     * The set of fields to include by default.
-     * @default "ALL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
     /** Set to true to include episodes for the seasons in the response. */
     includeEpisodes?: boolean;
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
     /** @default true */
     onlyPublished?: boolean;
     /**
@@ -99,7 +81,7 @@ export async function getSeasons(
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`, ctx.baseUrl),
     headers: headers,
-    query: query
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 
