@@ -78,7 +78,7 @@ class APIService {
 }
 
 export default APIService;
-export { ServiceContext };
+export type { ServiceContext };
 export * from "./data-contracts";
 export * from "./Asset";
 export * from "./Authentication";

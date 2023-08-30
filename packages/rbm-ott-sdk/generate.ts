@@ -296,7 +296,7 @@ generateApi({
     const exports = Object.entries(importStatements).map(([fileName]) => `export * from "./${fileName}"`).join(";\n");
     const sortedImports = Object.entries(Object.assign(importStatements, { "http-client": "ServiceContext" })).sort(([fileA], [fileB]) => fileA.localeCompare(fileB));
     const imports = sortedImports.map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join(";\n");
-    const indexFileData = `${imports};\n\nclass APIService {\n  ${typeDeclarations.join(";\n  ")};\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")};\n  }\n}\n\nexport default APIService;\nexport { ServiceContext };\nexport * from \"./data-contracts\";\n${exports};\n`;
+    const indexFileData = `${imports};\n\nclass APIService {\n  ${typeDeclarations.join(";\n  ")};\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")};\n  }\n}\n\nexport default APIService;\nexport type { ServiceContext };\nexport * from \"./data-contracts\";\n${exports};\n`;
 
     writeFileSync(`${OUTPUT_PATH}/index.ts`, indexFileData, "utf8");
   })
