@@ -27,6 +27,7 @@ interface TvOSConfig {
   itcTeamId: string;
   appName: string;
   appIdentifier: string;
+  appStoreUrl: string;
   splashColor: string;
   images: {
     appIconBackgroundImage: string;
@@ -38,6 +39,7 @@ interface TvOSConfig {
 interface AndroidConfig {
   appName: string;
   appIdentifier: string;
+  appStoreUrl: string;
   splashColor: string;
   images: {
     splashScreenImage: string;
