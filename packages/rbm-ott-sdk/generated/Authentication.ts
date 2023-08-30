@@ -12,7 +12,6 @@ import {
   AnonymousSessionResponse,
   ApiKeyUserSessionRequest,
   AuthRequestV3,
-  AuthenticationRequest,
   CreateSessionResponse,
   DeleteUsersSessionsRequest,
   EmptyResponse,
@@ -26,24 +25,6 @@ import {
 } from "./data-contracts";
 import { RequestParams, ServiceContext, request } from "./http-client";
 
-/**
- * @summary Creates an anonymous session.
- * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous
- * @response `200` `AnonymousSessionResponse` success
- * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
- * @response `403` `void` FORBIDDEN. If the business unit is not configured to support anonymous sessions.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
- */
-export async function anonymousSession(data: AnonymousSessionRequest, headers: RequestParams = {}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request<AnonymousSessionResponse>({
-    method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`, ctx.baseUrl),
-    headers,
-    body: data
-  });
-}
 /**
  * @description If the user is the account's owner, then all the sessions of the account will be deleted. If a deleted session was created with 'userSession' : true, then the history of that session will not be revealed in any forthcoming sessions with this username. This request is privileged and thus needs server to server authentication.
  * @summary Deletes all sessions created by a user.
@@ -145,23 +126,19 @@ export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
   });
 }
 /**
- * @description The password algotithms to use is retrieved vu the System resource, get system configuration API.
- * @summary Performs a login.
- * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/login
- * @response `200` `LoginResponse` success
- * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
- * @response `401` `void` INCORRECT_CREDENTIALS. If the underlying CRM does not deem the credentials valid. MIGRATED_USER. The user is migrated from another platform and has yet no password. The "new user email" has been resent.
- * @response `403` `void` INFORMATION_COLLECTION_CONSENT_MISSING. The user is required to give consent to collect NOT_CONFIGURED. The OU is not configured to use the v2 API e.g EE2
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
- * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
+ * @summary Creates an anonymous session.
+ * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous
+ * @response `200` `AnonymousSessionResponse` success
+ * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
+ * @response `403` `void` FORBIDDEN. If the business unit is not configured to support anonymous sessions.
+ * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function loginAnonymous(data: AuthenticationRequest, headers: RequestParams = {}) {
+export async function loginAnonymous(data: AnonymousSessionRequest, headers: RequestParams = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LoginResponse>({
+  return request<AnonymousSessionResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
+    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`, ctx.baseUrl),
     headers,
     body: data
   });
@@ -304,7 +281,6 @@ export async function validateSessionToken(headers: RequestParams = {}) {
 
 export class AuthenticationService {
   constructor(private context: ServiceContext) {}
-  anonymousSession = anonymousSession;
   deleteSessions = deleteSessions;
   externalUserSession = externalUserSession;
   getOauthAuth = getOauthAuth;

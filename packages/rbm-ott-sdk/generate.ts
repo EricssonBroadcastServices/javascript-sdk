@@ -136,12 +136,13 @@ spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"]
 spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"].get.operationId = "getOfferingsByCountry"
 spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/time"].get.operationId = "getTime"
 spec.paths["/v2/time"].get.operationId = "getTimeAnonymous"
-spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/login"].post.operationId = "loginAnonymous"
+spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous"
 
 // delete the api docs and export endpoints
 delete spec.paths["/docs/api-docs/{api}"];
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/asset"];
 // deprecated and unused (we use newer versions of these)
+delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/login"].post;
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/changeEmail"].put;
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/changePassword"].put;
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/delete"].post;
