@@ -289,8 +289,8 @@ generateApi({
       const serviceName = PascalName + "Service";
       importStatements[PascalName] = serviceName;
       serviceNames.push(serviceName);
-      typeDeclarations.push(`${moduleName}: ReturnType<typeof ${serviceName}>`);
-      props.push(`this.${moduleName} = ${serviceName}(context)`);
+      typeDeclarations.push(`${moduleName}: ${serviceName}`);
+      props.push(`this.${moduleName} = new ${serviceName}(context)`);
     }
     const allImports = Object.entries(importStatements).sort().map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join("\n");
     const indexFileData = `${allImports}\n\nclass APIService {\n  ${typeDeclarations.join(";\n  ")}\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")}\n  }\n}\n\nexport { ${serviceNames.join(", ")} };\nexport default APIService;\nexport * from \"./data-contracts\";\n`;

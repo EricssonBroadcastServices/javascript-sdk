@@ -67,7 +67,7 @@ if (normalizeDate) {
     <%~ wrapperArgs %>
 ) {
     // @ts-ignore
-    const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+    const ctx = (this.context || this) as ServiceContext;
     return request<<%~ partial ? "T" : type %>>({
       method: "<%~ _.upperCase(method) %>",
       url: new URL(`<%~ processedPath %>`, ctx.baseUrl),

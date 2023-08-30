@@ -17,7 +17,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function getComponentFilters(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ComponentFilters>({
     method: "GET",
     url: new URL(`/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/filters`, ctx.baseUrl),
@@ -30,7 +30,7 @@ export async function getComponentFilters(headers: RequestParams = {}) {
  */
 export async function getFile(folder: string, fileName: string, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
     url: new URL(
@@ -59,7 +59,7 @@ export async function getWLComponent(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
     url: new URL(
@@ -88,7 +88,7 @@ export async function getWLConfig(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
     url: new URL(
@@ -119,7 +119,7 @@ export async function getWLConfigWithDomain(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
     url: new URL(`/v2/whitelabel/origin/${host}/config/${configId}`, ctx.baseUrl),
@@ -128,12 +128,11 @@ export async function getWLConfigWithDomain(
   });
 }
 
-export const ClientConfigService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getComponentFilters,
-    getFile,
-    getWLComponent,
-    getWLConfig,
-    getWLConfigWithDomain
-  }) as const;
+export class ClientConfigService {
+  constructor(private context: ServiceContext) {}
+  getComponentFilters = getComponentFilters;
+  getFile = getFile;
+  getWLComponent = getWLComponent;
+  getWLConfig = getWLConfig;
+  getWLConfigWithDomain = getWLConfigWithDomain;
+}

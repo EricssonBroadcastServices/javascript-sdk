@@ -40,7 +40,7 @@ export async function getAsset(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`, ctx.baseUrl),
@@ -87,7 +87,7 @@ export async function getAssetPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`, ctx.baseUrl),
@@ -170,7 +170,7 @@ export async function getAssets(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AssetList>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`, ctx.baseUrl),
@@ -262,7 +262,7 @@ export async function getAssetsPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`, ctx.baseUrl),
@@ -296,7 +296,7 @@ export async function getAssetThumbnail(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
     url: new URL(
@@ -341,7 +341,7 @@ export async function getCollectionEntries(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AssetList>({
     method: "GET",
     url: new URL(
@@ -395,7 +395,7 @@ export async function getCollectionEntriesPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -435,7 +435,7 @@ export async function getEpisodes(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AssetList>({
     method: "GET",
     url: new URL(
@@ -484,7 +484,7 @@ export async function getEpisodesPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -509,7 +509,7 @@ export async function getNextCollectionEntry(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
     url: new URL(
@@ -531,7 +531,7 @@ export async function getNextEpisode(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
     url: new URL(
@@ -555,7 +555,7 @@ export async function getPreviousCollectionEntry(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
     url: new URL(
@@ -577,7 +577,7 @@ export async function getPreviousEpisode(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
     url: new URL(
@@ -606,7 +606,7 @@ export async function getSeason(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Season>({
     method: "GET",
     url: new URL(
@@ -645,7 +645,7 @@ export async function getSeasonPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -678,7 +678,7 @@ export async function getSeasonsForTvShow(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SeasonList>({
     method: "GET",
     url: new URL(
@@ -720,7 +720,7 @@ export async function getSeasonsForTvShowPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -732,24 +732,23 @@ export async function getSeasonsForTvShowPartial<T = any>(
   });
 }
 
-export const AssetService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getAsset,
-    getAssetPartial,
-    getAssets,
-    getAssetsPartial,
-    getAssetThumbnail,
-    getCollectionEntries,
-    getCollectionEntriesPartial,
-    getEpisodes,
-    getEpisodesPartial,
-    getNextCollectionEntry,
-    getNextEpisode,
-    getPreviousCollectionEntry,
-    getPreviousEpisode,
-    getSeason,
-    getSeasonPartial,
-    getSeasonsForTvShow,
-    getSeasonsForTvShowPartial
-  }) as const;
+export class AssetService {
+  constructor(private context: ServiceContext) {}
+  getAsset = getAsset;
+  getAssetPartial = getAssetPartial;
+  getAssets = getAssets;
+  getAssetsPartial = getAssetsPartial;
+  getAssetThumbnail = getAssetThumbnail;
+  getCollectionEntries = getCollectionEntries;
+  getCollectionEntriesPartial = getCollectionEntriesPartial;
+  getEpisodes = getEpisodes;
+  getEpisodesPartial = getEpisodesPartial;
+  getNextCollectionEntry = getNextCollectionEntry;
+  getNextEpisode = getNextEpisode;
+  getPreviousCollectionEntry = getPreviousCollectionEntry;
+  getPreviousEpisode = getPreviousEpisode;
+  getSeason = getSeason;
+  getSeasonPartial = getSeasonPartial;
+  getSeasonsForTvShow = getSeasonsForTvShow;
+  getSeasonsForTvShowPartial = getSeasonsForTvShowPartial;
+}

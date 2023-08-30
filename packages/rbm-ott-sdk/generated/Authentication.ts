@@ -36,7 +36,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function anonymousSession(data: AnonymousSessionRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AnonymousSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`, ctx.baseUrl),
@@ -55,7 +55,7 @@ export async function anonymousSession(data: AnonymousSessionRequest, headers: R
  */
 export async function deleteSessions(data: DeleteUsersSessionsRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`, ctx.baseUrl),
@@ -75,7 +75,7 @@ export async function deleteSessions(data: DeleteUsersSessionsRequest, headers: 
  */
 export async function externalUserSession(data: ExternalUserSessionRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/externalusersession`, ctx.baseUrl),
@@ -95,7 +95,7 @@ export async function getOauthAuth(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/auth`, ctx.baseUrl),
@@ -115,7 +115,7 @@ export async function getOauthRedir(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/redir`, ctx.baseUrl),
@@ -136,7 +136,7 @@ export async function getOauthRedir(
  */
 export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
@@ -158,7 +158,7 @@ export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
  */
 export async function loginAnonymous(data: AuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
@@ -178,7 +178,7 @@ export async function loginAnonymous(data: AuthenticationRequest, headers: Reque
  */
 export async function loginFirebase(data: FirebaseAuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/firebaseLogin`, ctx.baseUrl),
@@ -197,7 +197,7 @@ export async function loginFirebase(data: FirebaseAuthenticationRequest, headers
  */
 export async function loginGigya(data: GigyaAuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/gigyaLogin`, ctx.baseUrl),
@@ -211,7 +211,7 @@ export async function loginGigya(data: GigyaAuthenticationRequest, headers: Requ
  */
 export async function loginOauth(data: OauthAuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauthLogin`, ctx.baseUrl),
@@ -231,7 +231,7 @@ export async function loginOauth(data: OauthAuthenticationRequest, headers: Requ
  */
 export async function loginPrimetime(data: PrimetimeAuthenticationRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/adobePrimetimeLogin`, ctx.baseUrl),
@@ -255,7 +255,7 @@ export async function logout(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<EmptyResponse>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
@@ -275,7 +275,7 @@ export async function logout(
  */
 export async function session(data: ApiKeyUserSessionRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`, ctx.baseUrl),
@@ -294,7 +294,7 @@ export async function session(data: ApiKeyUserSessionRequest, headers: RequestPa
  */
 export async function validateSessionToken(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SessionResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`, ctx.baseUrl),
@@ -302,21 +302,20 @@ export async function validateSessionToken(headers: RequestParams = {}) {
   });
 }
 
-export const AuthenticationService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    anonymousSession,
-    deleteSessions,
-    externalUserSession,
-    getOauthAuth,
-    getOauthRedir,
-    login,
-    loginAnonymous,
-    loginFirebase,
-    loginGigya,
-    loginOauth,
-    loginPrimetime,
-    logout,
-    session,
-    validateSessionToken
-  }) as const;
+export class AuthenticationService {
+  constructor(private context: ServiceContext) {}
+  anonymousSession = anonymousSession;
+  deleteSessions = deleteSessions;
+  externalUserSession = externalUserSession;
+  getOauthAuth = getOauthAuth;
+  getOauthRedir = getOauthRedir;
+  login = login;
+  loginAnonymous = loginAnonymous;
+  loginFirebase = loginFirebase;
+  loginGigya = loginGigya;
+  loginOauth = loginOauth;
+  loginPrimetime = loginPrimetime;
+  logout = logout;
+  session = session;
+  validateSessionToken = validateSessionToken;
+}

@@ -20,7 +20,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function deleteFromLastViewedAssetList(assetId: string, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "DELETE",
     url: new URL(
@@ -45,7 +45,7 @@ export async function getContinueWatchingTvShow(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<WatchedTvShowResponse>({
     method: "GET",
     url: new URL(
@@ -87,7 +87,7 @@ export async function getLastViewedOffsetList(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LastViewedOffsetList[]>({
     method: "GET",
     url: new URL(
@@ -99,10 +99,9 @@ export async function getLastViewedOffsetList(
   });
 }
 
-export const UserPlayHistoryService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    deleteFromLastViewedAssetList,
-    getContinueWatchingTvShow,
-    getLastViewedOffsetList
-  }) as const;
+export class UserPlayHistoryService {
+  constructor(private context: ServiceContext) {}
+  deleteFromLastViewedAssetList = deleteFromLastViewedAssetList;
+  getContinueWatchingTvShow = getContinueWatchingTvShow;
+  getLastViewedOffsetList = getLastViewedOffsetList;
+}

@@ -44,7 +44,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function addProfile(data: UserProfileCreateRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<UserProfiles>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`, ctx.baseUrl),
@@ -63,7 +63,7 @@ export async function addProfile(data: UserProfileCreateRequest, headers: Reques
  */
 export async function changeEmail(data: ChangeEmailRequestV3, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmail`, ctx.baseUrl),
@@ -81,7 +81,7 @@ export async function changeEmail(data: ChangeEmailRequestV3, headers: RequestPa
  */
 export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(
@@ -103,7 +103,7 @@ export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, hea
  */
 export async function changePassword(data: ChangePwdV3, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ChangePasswordResponse>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changePassword`, ctx.baseUrl),
@@ -125,7 +125,7 @@ export async function confirmActivationCode(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(
@@ -150,7 +150,7 @@ export async function confirmUserWithToken(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ConfirmAccountResponse>({
     method: "PUT",
     url: new URL(
@@ -169,7 +169,7 @@ export async function confirmUserWithToken(
  */
 export async function consumeActivationCode(data: ActivationRequestV2, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/consume`, ctx.baseUrl),
@@ -185,7 +185,7 @@ export async function consumeActivationCode(data: ActivationRequestV2, headers: 
  */
 export async function createActivationCode(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ActivationCodeResponse>({
     method: "GET",
     url: new URL(
@@ -205,7 +205,7 @@ export async function createActivationCode(headers: RequestParams = {}) {
  */
 export async function createNewAccount(data: UserSignupRequestV3, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<UserSelfServiceCreateResponse>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup`, ctx.baseUrl),
@@ -224,7 +224,7 @@ export async function createNewAccount(data: UserSignupRequestV3, headers: Reque
  */
 export async function createPinCode(data: PinCodeSetRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`, ctx.baseUrl),
@@ -245,7 +245,7 @@ export async function deletePinCode(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
     url: new URL(
@@ -264,7 +264,7 @@ export async function deletePinCode(
  */
 export async function deleteUserDetails(data: CredentialsV3, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`, ctx.baseUrl),
@@ -286,7 +286,7 @@ export async function deleteUserProfile(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`, ctx.baseUrl),
@@ -302,7 +302,7 @@ export async function deleteUserProfile(
  */
 export async function getAccountLabels(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LabelFilter>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`, ctx.baseUrl),
@@ -319,7 +319,7 @@ export async function getAccountLabels(headers: RequestParams = {}) {
  */
 export async function getPinCodes(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
     method: "GET",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`, ctx.baseUrl),
@@ -336,7 +336,7 @@ export async function getPinCodes(headers: RequestParams = {}) {
  */
 export async function getProfiles(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<UserProfiles>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`, ctx.baseUrl),
@@ -354,7 +354,7 @@ export async function getProfiles(headers: RequestParams = {}) {
  */
 export async function getUserDetails(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<UserDetailsResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`, ctx.baseUrl),
@@ -370,7 +370,7 @@ export async function getUserDetails(headers: RequestParams = {}) {
  */
 export async function giveConsent(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`, ctx.baseUrl),
@@ -388,7 +388,7 @@ export async function giveConsent(headers: RequestParams = {}) {
  */
 export async function putUserAttributes(data: UserAttributeRequest[], headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<UserDetailsResponse>({
     method: "PUT",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/attributes`, ctx.baseUrl),
@@ -408,7 +408,7 @@ export async function resetPassword(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
     url: new URL(
@@ -433,7 +433,7 @@ export async function selectUserProfile(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "GET",
     url: new URL(
@@ -456,7 +456,7 @@ export async function setPasswordWithToken(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(
@@ -482,7 +482,7 @@ export async function setPinCode(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
     method: "PUT",
     url: new URL(
@@ -503,7 +503,7 @@ export async function setPinCode(
  */
 export async function userDetailsUpdate(data: UserDetailsUpdateRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`, ctx.baseUrl),
@@ -525,7 +525,7 @@ export async function userProfileUpdate(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`, ctx.baseUrl),
@@ -549,7 +549,7 @@ export async function validatePinCode(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string[]>({
     method: "POST",
     url: new URL(
@@ -571,7 +571,7 @@ export async function validatePinCode(
  */
 export async function validatePinCodes(data: PinCodeValidationRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string[]>({
     method: "POST",
     url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/validate`, ctx.baseUrl),
@@ -589,7 +589,7 @@ export async function validatePinCodes(data: PinCodeValidationRequest, headers: 
  */
 export async function voucherSignup(data: UserSelfServiceCreateWithVoucherRequestV2, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<UserSelfServiceCreateResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/vouchersignup`, ctx.baseUrl),
@@ -598,35 +598,34 @@ export async function voucherSignup(data: UserSelfServiceCreateWithVoucherReques
   });
 }
 
-export const UserService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    addProfile,
-    changeEmail,
-    changeEmailAndUsername,
-    changePassword,
-    confirmActivationCode,
-    confirmUserWithToken,
-    consumeActivationCode,
-    createActivationCode,
-    createNewAccount,
-    createPinCode,
-    deletePinCode,
-    deleteUserDetails,
-    deleteUserProfile,
-    getAccountLabels,
-    getPinCodes,
-    getProfiles,
-    getUserDetails,
-    giveConsent,
-    putUserAttributes,
-    resetPassword,
-    selectUserProfile,
-    setPasswordWithToken,
-    setPinCode,
-    userDetailsUpdate,
-    userProfileUpdate,
-    validatePinCode,
-    validatePinCodes,
-    voucherSignup
-  }) as const;
+export class UserService {
+  constructor(private context: ServiceContext) {}
+  addProfile = addProfile;
+  changeEmail = changeEmail;
+  changeEmailAndUsername = changeEmailAndUsername;
+  changePassword = changePassword;
+  confirmActivationCode = confirmActivationCode;
+  confirmUserWithToken = confirmUserWithToken;
+  consumeActivationCode = consumeActivationCode;
+  createActivationCode = createActivationCode;
+  createNewAccount = createNewAccount;
+  createPinCode = createPinCode;
+  deletePinCode = deletePinCode;
+  deleteUserDetails = deleteUserDetails;
+  deleteUserProfile = deleteUserProfile;
+  getAccountLabels = getAccountLabels;
+  getPinCodes = getPinCodes;
+  getProfiles = getProfiles;
+  getUserDetails = getUserDetails;
+  giveConsent = giveConsent;
+  putUserAttributes = putUserAttributes;
+  resetPassword = resetPassword;
+  selectUserProfile = selectUserProfile;
+  setPasswordWithToken = setPasswordWithToken;
+  setPinCode = setPinCode;
+  userDetailsUpdate = userDetailsUpdate;
+  userProfileUpdate = userProfileUpdate;
+  validatePinCode = validatePinCode;
+  validatePinCodes = validatePinCodes;
+  voucherSignup = voucherSignup;
+}

@@ -34,7 +34,7 @@ export async function addToAssetList(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "POST",
     url: new URL(
@@ -64,7 +64,7 @@ export async function addToList(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "POST",
     url: new URL(
@@ -90,7 +90,7 @@ export async function deleteFromAssetList(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "DELETE",
     url: new URL(
@@ -116,7 +116,7 @@ export async function deleteFromList(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "DELETE",
     url: new URL(
@@ -146,7 +146,7 @@ export async function getAssetList(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AssetListItemResponse[]>({
     method: "GET",
     url: new URL(
@@ -175,7 +175,7 @@ export async function getFromAssetList(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AssetListItemResponse>({
     method: "GET",
     url: new URL(
@@ -203,7 +203,7 @@ export async function getList(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PreferencesListResponse[]>({
     method: "GET",
     url: new URL(
@@ -224,7 +224,7 @@ export async function getList(
  */
 export async function getPreferences(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<UserPreferenceResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`, ctx.baseUrl),
@@ -242,7 +242,7 @@ export async function getPreferences(headers: RequestParams = {}) {
  */
 export async function setPreferences(data: SetUserPreferenceRequest, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "POST",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`, ctx.baseUrl),
@@ -251,16 +251,15 @@ export async function setPreferences(data: SetUserPreferenceRequest, headers: Re
   });
 }
 
-export const PreferencesService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    addToAssetList,
-    addToList,
-    deleteFromAssetList,
-    deleteFromList,
-    getAssetList,
-    getFromAssetList,
-    getList,
-    getPreferences,
-    setPreferences
-  }) as const;
+export class PreferencesService {
+  constructor(private context: ServiceContext) {}
+  addToAssetList = addToAssetList;
+  addToList = addToList;
+  deleteFromAssetList = deleteFromAssetList;
+  deleteFromList = deleteFromList;
+  getAssetList = getAssetList;
+  getFromAssetList = getFromAssetList;
+  getList = getList;
+  getPreferences = getPreferences;
+  setPreferences = setPreferences;
+}

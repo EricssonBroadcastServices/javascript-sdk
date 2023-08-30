@@ -25,7 +25,7 @@ export async function autocomplete(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AutocompleteItem[]>({
     method: "GET",
     url: new URL(
@@ -59,7 +59,7 @@ export async function autocompleteAssetTitle(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AutocompleteItem2[]>({
     method: "GET",
     url: new URL(
@@ -88,7 +88,7 @@ export async function autocompleteTagTitle(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AutocompleteItem2[]>({
     method: "GET",
     url: new URL(
@@ -114,7 +114,7 @@ export async function getSuggestions(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AutocompleteItem[]>({
     method: "GET",
     url: new URL(
@@ -166,7 +166,7 @@ export async function search(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
     url: new URL(
@@ -227,7 +227,7 @@ export async function searchPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -280,7 +280,7 @@ export async function searchAsset(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
     url: new URL(
@@ -342,7 +342,7 @@ export async function searchAssetPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -390,7 +390,7 @@ export async function searchEpg(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<EpgSearchHits>({
     method: "GET",
     url: new URL(
@@ -447,7 +447,7 @@ export async function searchEpgPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -504,7 +504,7 @@ export async function searchNoQuery(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`, ctx.baseUrl),
@@ -567,7 +567,7 @@ export async function searchNoQueryPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`, ctx.baseUrl),
@@ -603,7 +603,7 @@ export async function searchTags(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
     url: new URL(
@@ -651,7 +651,7 @@ export async function searchTagsPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -714,7 +714,7 @@ export async function searchV2(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
     url: new URL(
@@ -786,7 +786,7 @@ export async function searchV2Partial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -836,7 +836,7 @@ export async function searchV3(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<MultiSearchResponse>({
     method: "GET",
     url: new URL(
@@ -895,7 +895,7 @@ export async function searchV3Partial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -907,25 +907,24 @@ export async function searchV3Partial<T = any>(
   });
 }
 
-export const SearchService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    autocomplete,
-    autocompleteAssetTitle,
-    autocompleteTagTitle,
-    getSuggestions,
-    search,
-    searchPartial,
-    searchAsset,
-    searchAssetPartial,
-    searchEpg,
-    searchEpgPartial,
-    searchNoQuery,
-    searchNoQueryPartial,
-    searchTags,
-    searchTagsPartial,
-    searchV2,
-    searchV2Partial,
-    searchV3,
-    searchV3Partial
-  }) as const;
+export class SearchService {
+  constructor(private context: ServiceContext) {}
+  autocomplete = autocomplete;
+  autocompleteAssetTitle = autocompleteAssetTitle;
+  autocompleteTagTitle = autocompleteTagTitle;
+  getSuggestions = getSuggestions;
+  search = search;
+  searchPartial = searchPartial;
+  searchAsset = searchAsset;
+  searchAssetPartial = searchAssetPartial;
+  searchEpg = searchEpg;
+  searchEpgPartial = searchEpgPartial;
+  searchNoQuery = searchNoQuery;
+  searchNoQueryPartial = searchNoQueryPartial;
+  searchTags = searchTags;
+  searchTagsPartial = searchTagsPartial;
+  searchV2 = searchV2;
+  searchV2Partial = searchV2Partial;
+  searchV3 = searchV3;
+  searchV3Partial = searchV3Partial;
+}

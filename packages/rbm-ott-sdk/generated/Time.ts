@@ -19,7 +19,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function getTime(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<TimeResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/time`, ctx.baseUrl),
@@ -34,7 +34,7 @@ export async function getTime(headers: RequestParams = {}) {
  */
 export async function getTimeAnonymous(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<TimeResponse>({
     method: "GET",
     url: new URL(`/v2/time`, ctx.baseUrl),
@@ -42,9 +42,8 @@ export async function getTimeAnonymous(headers: RequestParams = {}) {
   });
 }
 
-export const TimeService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getTime,
-    getTimeAnonymous
-  }) as const;
+export class TimeService {
+  constructor(private context: ServiceContext) {}
+  getTime = getTime;
+  getTimeAnonymous = getTimeAnonymous;
+}

@@ -25,55 +25,55 @@ import { UserPlayHistoryService } from "./UserPlayHistory"
 import { ServiceContext } from "./http-client"
 
 class APIService {
-  asset: ReturnType<typeof AssetService>;
-  authentication: ReturnType<typeof AuthenticationService>;
-  carousel: ReturnType<typeof CarouselService>;
-  clientConfig: ReturnType<typeof ClientConfigService>;
-  customerConfig: ReturnType<typeof CustomerConfigService>;
-  device: ReturnType<typeof DeviceService>;
-  document: ReturnType<typeof DocumentService>;
-  downloads: ReturnType<typeof DownloadsService>;
-  entitlements: ReturnType<typeof EntitlementsService>;
-  epg: ReturnType<typeof EpgService>;
-  event: ReturnType<typeof EventService>;
-  eventSink: ReturnType<typeof EventSinkService>;
-  location: ReturnType<typeof LocationService>;
-  preferences: ReturnType<typeof PreferencesService>;
-  rating: ReturnType<typeof RatingService>;
-  recommender: ReturnType<typeof RecommenderService>;
-  search: ReturnType<typeof SearchService>;
-  season: ReturnType<typeof SeasonService>;
-  store: ReturnType<typeof StoreService>;
-  system: ReturnType<typeof SystemService>;
-  tag: ReturnType<typeof TagService>;
-  time: ReturnType<typeof TimeService>;
-  user: ReturnType<typeof UserService>;
-  userPlayHistory: ReturnType<typeof UserPlayHistoryService>
+  asset: AssetService;
+  authentication: AuthenticationService;
+  carousel: CarouselService;
+  clientConfig: ClientConfigService;
+  customerConfig: CustomerConfigService;
+  device: DeviceService;
+  document: DocumentService;
+  downloads: DownloadsService;
+  entitlements: EntitlementsService;
+  epg: EpgService;
+  event: EventService;
+  eventSink: EventSinkService;
+  location: LocationService;
+  preferences: PreferencesService;
+  rating: RatingService;
+  recommender: RecommenderService;
+  search: SearchService;
+  season: SeasonService;
+  store: StoreService;
+  system: SystemService;
+  tag: TagService;
+  time: TimeService;
+  user: UserService;
+  userPlayHistory: UserPlayHistoryService
   constructor(public context: ServiceContext) {
-    this.asset = AssetService(context);
-    this.authentication = AuthenticationService(context);
-    this.carousel = CarouselService(context);
-    this.clientConfig = ClientConfigService(context);
-    this.customerConfig = CustomerConfigService(context);
-    this.device = DeviceService(context);
-    this.document = DocumentService(context);
-    this.downloads = DownloadsService(context);
-    this.entitlements = EntitlementsService(context);
-    this.epg = EpgService(context);
-    this.event = EventService(context);
-    this.eventSink = EventSinkService(context);
-    this.location = LocationService(context);
-    this.preferences = PreferencesService(context);
-    this.rating = RatingService(context);
-    this.recommender = RecommenderService(context);
-    this.search = SearchService(context);
-    this.season = SeasonService(context);
-    this.store = StoreService(context);
-    this.system = SystemService(context);
-    this.tag = TagService(context);
-    this.time = TimeService(context);
-    this.user = UserService(context);
-    this.userPlayHistory = UserPlayHistoryService(context)
+    this.asset = new AssetService(context);
+    this.authentication = new AuthenticationService(context);
+    this.carousel = new CarouselService(context);
+    this.clientConfig = new ClientConfigService(context);
+    this.customerConfig = new CustomerConfigService(context);
+    this.device = new DeviceService(context);
+    this.document = new DocumentService(context);
+    this.downloads = new DownloadsService(context);
+    this.entitlements = new EntitlementsService(context);
+    this.epg = new EpgService(context);
+    this.event = new EventService(context);
+    this.eventSink = new EventSinkService(context);
+    this.location = new LocationService(context);
+    this.preferences = new PreferencesService(context);
+    this.rating = new RatingService(context);
+    this.recommender = new RecommenderService(context);
+    this.search = new SearchService(context);
+    this.season = new SeasonService(context);
+    this.store = new StoreService(context);
+    this.system = new SystemService(context);
+    this.tag = new TagService(context);
+    this.time = new TimeService(context);
+    this.user = new UserService(context);
+    this.userPlayHistory = new UserPlayHistoryService(context)
   }
 }
 

@@ -22,7 +22,7 @@ export async function getTagById(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<TagType>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/${tagId}`, ctx.baseUrl),
@@ -84,7 +84,7 @@ export async function getUniqueTagsFromAssets(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<TagList>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/asset`, ctx.baseUrl),
@@ -118,7 +118,7 @@ export async function listTags(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<TagList>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag`, ctx.baseUrl),
@@ -127,10 +127,9 @@ export async function listTags(
   });
 }
 
-export const TagService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getTagById,
-    getUniqueTagsFromAssets,
-    listTags
-  }) as const;
+export class TagService {
+  constructor(private context: ServiceContext) {}
+  getTagById = getTagById;
+  getUniqueTagsFromAssets = getUniqueTagsFromAssets;
+  listTags = listTags;
+}

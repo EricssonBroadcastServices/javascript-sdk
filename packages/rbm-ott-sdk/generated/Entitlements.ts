@@ -24,7 +24,7 @@ export async function accountProducts(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
     url: new URL(
@@ -48,7 +48,7 @@ export async function availabilityKeys(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AvailabilityKeys>({
     method: "GET",
     url: new URL(
@@ -84,7 +84,7 @@ export async function entitle(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<EntitleResponseV2>({
     method: "GET",
     url: new URL(
@@ -234,7 +234,7 @@ export async function play(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PlayResponseV2>({
     method: "GET",
     url: new URL(
@@ -246,11 +246,10 @@ export async function play(
   });
 }
 
-export const EntitlementsService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    accountProducts,
-    availabilityKeys,
-    entitle,
-    play
-  }) as const;
+export class EntitlementsService {
+  constructor(private context: ServiceContext) {}
+  accountProducts = accountProducts;
+  availabilityKeys = availabilityKeys;
+  entitle = entitle;
+  play = play;
+}

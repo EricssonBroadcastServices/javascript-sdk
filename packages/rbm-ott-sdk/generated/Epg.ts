@@ -40,7 +40,7 @@ export async function getActiveChannels(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ActiveChannels>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`, ctx.baseUrl),
@@ -68,7 +68,7 @@ export async function getChannelStatus(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ChannelStatus>({
     method: "GET",
     url: new URL(
@@ -120,7 +120,7 @@ export async function getEpg(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse[]>({
     method: "GET",
     url: new URL(
@@ -173,7 +173,7 @@ export async function getEpgForChannel(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse>({
     method: "GET",
     url: new URL(
@@ -228,7 +228,7 @@ export async function getEpgForChannels(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse[]>({
     method: "GET",
     url: new URL(
@@ -255,7 +255,7 @@ export async function getNextProgram(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
     method: "GET",
     url: new URL(
@@ -278,7 +278,7 @@ export async function getNextProgramForAsset(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
     method: "GET",
     url: new URL(
@@ -305,7 +305,7 @@ export async function getProgram(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
     method: "GET",
     url: new URL(
@@ -339,7 +339,7 @@ export async function getXmlTvEpgForChannel(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`, ctx.baseUrl),
@@ -348,16 +348,15 @@ export async function getXmlTvEpgForChannel(
   });
 }
 
-export const EpgService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getActiveChannels,
-    getChannelStatus,
-    getEpg,
-    getEpgForChannel,
-    getEpgForChannels,
-    getNextProgram,
-    getNextProgramForAsset,
-    getProgram,
-    getXmlTvEpgForChannel
-  }) as const;
+export class EpgService {
+  constructor(private context: ServiceContext) {}
+  getActiveChannels = getActiveChannels;
+  getChannelStatus = getChannelStatus;
+  getEpg = getEpg;
+  getEpgForChannel = getEpgForChannel;
+  getEpgForChannels = getEpgForChannels;
+  getNextProgram = getNextProgram;
+  getNextProgramForAsset = getNextProgramForAsset;
+  getProgram = getProgram;
+  getXmlTvEpgForChannel = getXmlTvEpgForChannel;
+}

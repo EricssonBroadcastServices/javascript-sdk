@@ -21,7 +21,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function deleteDeviceForAccount(deviceId: string, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device/${deviceId}`, ctx.baseUrl),
@@ -39,7 +39,7 @@ export async function deleteDeviceForAccount(deviceId: string, headers: RequestP
  */
 export async function getDevicesForAccount(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<DevicesResponseV2>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device`, ctx.baseUrl),
@@ -47,9 +47,8 @@ export async function getDevicesForAccount(headers: RequestParams = {}) {
   });
 }
 
-export const DeviceService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    deleteDeviceForAccount,
-    getDevicesForAccount
-  }) as const;
+export class DeviceService {
+  constructor(private context: ServiceContext) {}
+  deleteDeviceForAccount = deleteDeviceForAccount;
+  getDevicesForAccount = getDevicesForAccount;
+}

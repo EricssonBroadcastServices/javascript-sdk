@@ -27,7 +27,7 @@ export async function getContinueWatching(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ContinueUph2Assets>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`, ctx.baseUrl),
@@ -55,7 +55,7 @@ export async function getRecommendationsForAsset(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<RecommendedWatchNext>({
     method: "GET",
     url: new URL(
@@ -85,7 +85,7 @@ export async function getRecommendationsForUser(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<RecommendedAssets>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`, ctx.baseUrl),
@@ -94,10 +94,9 @@ export async function getRecommendationsForUser(
   });
 }
 
-export const RecommenderService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getContinueWatching,
-    getRecommendationsForAsset,
-    getRecommendationsForUser
-  }) as const;
+export class RecommenderService {
+  constructor(private context: ServiceContext) {}
+  getContinueWatching = getContinueWatching;
+  getRecommendationsForAsset = getRecommendationsForAsset;
+  getRecommendationsForUser = getRecommendationsForUser;
+}

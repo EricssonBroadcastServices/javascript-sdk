@@ -47,7 +47,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function addPaymentMethod(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AddPaymentMethodResponse>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`, ctx.baseUrl),
@@ -66,7 +66,7 @@ export async function cancelPurchaseSubscription(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "DELETE",
     url: new URL(
@@ -89,7 +89,7 @@ export async function deleteStoredPaymentMethod(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "DELETE",
     url: new URL(
@@ -107,7 +107,7 @@ export async function deleteStoredPaymentMethod(
  */
 export async function getAccountAssetPurchases(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Asset[]>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/assets`, ctx.baseUrl),
@@ -122,7 +122,7 @@ export async function getAccountAssetPurchases(headers: RequestParams = {}) {
  */
 export async function getAccountTransactions(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingTransactions>({
     method: "GET",
     url: new URL(
@@ -140,7 +140,7 @@ export async function getAccountTransactions(headers: RequestParams = {}) {
  */
 export async function getAccountTransactionsWithProductOffering(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingTransactionsProductOfferingPairList>({
     method: "GET",
     url: new URL(
@@ -164,7 +164,7 @@ export async function getCountryOfferingsByVoucher(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<StorePromotionProductOfferings[]>({
     method: "GET",
     url: new URL(
@@ -188,7 +188,7 @@ export async function getOfferingPurchases(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingPurchases>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`, ctx.baseUrl),
@@ -217,7 +217,7 @@ export async function getOfferings(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOffering[]>({
     method: "GET",
     url: new URL(
@@ -247,7 +247,7 @@ export async function getOfferingsByCountry(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOfferings>({
     method: "GET",
     url: new URL(
@@ -271,7 +271,7 @@ export async function getOfferingsByLabels(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOfferings>({
     method: "GET",
     url: new URL(
@@ -294,7 +294,7 @@ export async function getOfferingsByVoucher(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<StorePromotionProductOfferings[]>({
     method: "GET",
     url: new URL(
@@ -312,7 +312,7 @@ export async function getOfferingsByVoucher(
  */
 export async function getPurchaseTransactions(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<StorePurchaseTransaction[]>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/purchases`, ctx.baseUrl),
@@ -328,7 +328,7 @@ export async function getPurchaseTransactions(headers: RequestParams = {}) {
  */
 export async function getStoredPaymentMethods(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PaymentMethods>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`, ctx.baseUrl),
@@ -345,7 +345,7 @@ Called to before initiating a new payment.
  */
 export async function initialize(data: InitialisePayment, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<InitializePaymentResponse>({
     method: "POST",
     url: new URL(
@@ -371,7 +371,7 @@ export async function initializeAppStorePurchase(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AppStorePurchaseInitializeResponse>({
     method: "POST",
     url: new URL(
@@ -397,7 +397,7 @@ export async function initializeGooglePlayPurchase(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<GooglePlayPurchaseInitializeResponse>({
     method: "POST",
     url: new URL(
@@ -421,7 +421,7 @@ export async function purchaseProductOffering(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PurchaseResponse>({
     method: "POST",
     url: new URL(
@@ -446,7 +446,7 @@ export async function updatePaymentMethod(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PaymentMethod>({
     method: "PUT",
     url: new URL(
@@ -469,7 +469,7 @@ export async function updatePreferredPaymentMethod(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<JsonAccount>({
     method: "PUT",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/preferred`, ctx.baseUrl),
@@ -492,7 +492,7 @@ export async function verifyAppStorePurchase(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<AppStorePurchaseVerifyResponse>({
     method: "POST",
     url: new URL(
@@ -518,7 +518,7 @@ export async function verifyGooglePlayPurchase(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<GooglePlayPurchaseVerifyResponse>({
     method: "POST",
     url: new URL(
@@ -543,7 +543,7 @@ export async function verifyPayment(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<PurchaseResponse>({
     method: "POST",
     url: new URL(
@@ -555,30 +555,29 @@ export async function verifyPayment(
   });
 }
 
-export const StoreService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    addPaymentMethod,
-    cancelPurchaseSubscription,
-    deleteStoredPaymentMethod,
-    getAccountAssetPurchases,
-    getAccountTransactions,
-    getAccountTransactionsWithProductOffering,
-    getCountryOfferingsByVoucher,
-    getOfferingPurchases,
-    getOfferings,
-    getOfferingsByCountry,
-    getOfferingsByLabels,
-    getOfferingsByVoucher,
-    getPurchaseTransactions,
-    getStoredPaymentMethods,
-    initialize,
-    initializeAppStorePurchase,
-    initializeGooglePlayPurchase,
-    purchaseProductOffering,
-    updatePaymentMethod,
-    updatePreferredPaymentMethod,
-    verifyAppStorePurchase,
-    verifyGooglePlayPurchase,
-    verifyPayment
-  }) as const;
+export class StoreService {
+  constructor(private context: ServiceContext) {}
+  addPaymentMethod = addPaymentMethod;
+  cancelPurchaseSubscription = cancelPurchaseSubscription;
+  deleteStoredPaymentMethod = deleteStoredPaymentMethod;
+  getAccountAssetPurchases = getAccountAssetPurchases;
+  getAccountTransactions = getAccountTransactions;
+  getAccountTransactionsWithProductOffering = getAccountTransactionsWithProductOffering;
+  getCountryOfferingsByVoucher = getCountryOfferingsByVoucher;
+  getOfferingPurchases = getOfferingPurchases;
+  getOfferings = getOfferings;
+  getOfferingsByCountry = getOfferingsByCountry;
+  getOfferingsByLabels = getOfferingsByLabels;
+  getOfferingsByVoucher = getOfferingsByVoucher;
+  getPurchaseTransactions = getPurchaseTransactions;
+  getStoredPaymentMethods = getStoredPaymentMethods;
+  initialize = initialize;
+  initializeAppStorePurchase = initializeAppStorePurchase;
+  initializeGooglePlayPurchase = initializeGooglePlayPurchase;
+  purchaseProductOffering = purchaseProductOffering;
+  updatePaymentMethod = updatePaymentMethod;
+  updatePreferredPaymentMethod = updatePreferredPaymentMethod;
+  verifyAppStorePurchase = verifyAppStorePurchase;
+  verifyGooglePlayPurchase = verifyGooglePlayPurchase;
+  verifyPayment = verifyPayment;
+}

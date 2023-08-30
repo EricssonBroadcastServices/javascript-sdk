@@ -28,7 +28,7 @@ export async function deleteUserContentRating(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
@@ -47,7 +47,7 @@ export async function getAllUserContentRatingsForAsset(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForAssetResponse[]>({
     method: "GET",
     url: new URL(
@@ -67,7 +67,7 @@ export async function getAllUserContentRatingsForAsset(
  */
 export async function getAllUserContentRatingsForUser(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForUserResponse[]>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/all`, ctx.baseUrl),
@@ -88,7 +88,7 @@ export async function getUserContentRating(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<GetUserContentRatingResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
@@ -110,7 +110,7 @@ export async function putUserContentRating(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
@@ -119,12 +119,11 @@ export async function putUserContentRating(
   });
 }
 
-export const RatingService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    deleteUserContentRating,
-    getAllUserContentRatingsForAsset,
-    getAllUserContentRatingsForUser,
-    getUserContentRating,
-    putUserContentRating
-  }) as const;
+export class RatingService {
+  constructor(private context: ServiceContext) {}
+  deleteUserContentRating = deleteUserContentRating;
+  getAllUserContentRatingsForAsset = getAllUserContentRatingsForAsset;
+  getAllUserContentRatingsForUser = getAllUserContentRatingsForUser;
+  getUserContentRating = getUserContentRating;
+  putUserContentRating = putUserContentRating;
+}

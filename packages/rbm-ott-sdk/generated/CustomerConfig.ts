@@ -25,7 +25,7 @@ export async function getConfigCuFile(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/config/${fileName}`, ctx.baseUrl),
@@ -49,7 +49,7 @@ export async function getConfigFile(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`, ctx.baseUrl),
@@ -75,7 +75,7 @@ export async function getConfigFileCustomDomainInPath(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
     url: new URL(`/v1/config/${fileId}/origin/${host}`, ctx.baseUrl),
@@ -90,7 +90,7 @@ export async function getConfigFileCustomDomainInPath(
  */
 export async function getConfigFiles(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config`, ctx.baseUrl),
@@ -104,7 +104,7 @@ export async function getConfigFiles(headers: RequestParams = {}) {
  */
 export async function getConfigFilesCu(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/config`, ctx.baseUrl),
@@ -112,12 +112,11 @@ export async function getConfigFilesCu(headers: RequestParams = {}) {
   });
 }
 
-export const CustomerConfigService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getConfigCuFile,
-    getConfigFile,
-    getConfigFileCustomDomainInPath,
-    getConfigFiles,
-    getConfigFilesCu
-  }) as const;
+export class CustomerConfigService {
+  constructor(private context: ServiceContext) {}
+  getConfigCuFile = getConfigCuFile;
+  getConfigFile = getConfigFile;
+  getConfigFileCustomDomainInPath = getConfigFileCustomDomainInPath;
+  getConfigFiles = getConfigFiles;
+  getConfigFilesCu = getConfigFilesCu;
+}

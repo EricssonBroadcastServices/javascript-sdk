@@ -42,7 +42,7 @@ export async function getCarousel(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Carousel[]>({
     method: "GET",
     url: new URL(
@@ -94,7 +94,7 @@ export async function getCarouselPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -112,7 +112,7 @@ export async function getCarouselPartial<T = any>(
  */
 export async function getCarouselGroups(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<string[]>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup`, ctx.baseUrl),
@@ -152,7 +152,7 @@ export async function getCarouselsForGroup(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Carousel[]>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`, ctx.baseUrl),
@@ -202,7 +202,7 @@ export async function getCarouselsForGroupPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`, ctx.baseUrl),
@@ -211,12 +211,11 @@ export async function getCarouselsForGroupPartial<T = any>(
   });
 }
 
-export const CarouselService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getCarousel,
-    getCarouselPartial,
-    getCarouselGroups,
-    getCarouselsForGroup,
-    getCarouselsForGroupPartial
-  }) as const;
+export class CarouselService {
+  constructor(private context: ServiceContext) {}
+  getCarousel = getCarousel;
+  getCarouselPartial = getCarouselPartial;
+  getCarouselGroups = getCarouselGroups;
+  getCarouselsForGroup = getCarouselsForGroup;
+  getCarouselsForGroupPartial = getCarouselsForGroupPartial;
+}

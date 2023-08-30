@@ -29,7 +29,7 @@ export async function getSeasonById(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Season>({
     method: "GET",
     url: new URL(
@@ -68,7 +68,7 @@ export async function getSeasonByIdPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(
@@ -116,7 +116,7 @@ export async function getSeasons(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SeasonList>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`, ctx.baseUrl),
@@ -170,7 +170,7 @@ export async function getSeasonsPartial<T = any>(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`, ctx.baseUrl),
@@ -179,11 +179,10 @@ export async function getSeasonsPartial<T = any>(
   });
 }
 
-export const SeasonService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getSeasonById,
-    getSeasonByIdPartial,
-    getSeasons,
-    getSeasonsPartial
-  }) as const;
+export class SeasonService {
+  constructor(private context: ServiceContext) {}
+  getSeasonById = getSeasonById;
+  getSeasonByIdPartial = getSeasonByIdPartial;
+  getSeasons = getSeasons;
+  getSeasonsPartial = getSeasonsPartial;
+}

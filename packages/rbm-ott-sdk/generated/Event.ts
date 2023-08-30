@@ -55,7 +55,7 @@ export async function getEvents(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<EventList>({
     method: "GET",
     url: new URL(
@@ -67,8 +67,7 @@ export async function getEvents(
   });
 }
 
-export const EventService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getEvents
-  }) as const;
+export class EventService {
+  constructor(private context: ServiceContext) {}
+  getEvents = getEvents;
+}

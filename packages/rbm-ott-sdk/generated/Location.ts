@@ -18,7 +18,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function getLocation(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Location>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/location`, ctx.baseUrl),
@@ -33,7 +33,7 @@ export async function getLocation(headers: RequestParams = {}) {
  */
 export async function getLocationFromReferer(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Location>({
     method: "GET",
     url: new URL(`/v2/location`, ctx.baseUrl),
@@ -41,9 +41,8 @@ export async function getLocationFromReferer(headers: RequestParams = {}) {
   });
 }
 
-export const LocationService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getLocation,
-    getLocationFromReferer
-  }) as const;
+export class LocationService {
+  constructor(private context: ServiceContext) {}
+  getLocation = getLocation;
+  getLocationFromReferer = getLocationFromReferer;
+}

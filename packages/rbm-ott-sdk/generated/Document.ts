@@ -38,7 +38,7 @@ export async function getDocument(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<HtmlDocument>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/document`, ctx.baseUrl),
@@ -47,8 +47,7 @@ export async function getDocument(
   });
 }
 
-export const DocumentService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getDocument
-  }) as const;
+export class DocumentService {
+  constructor(private context: ServiceContext) {}
+  getDocument = getDocument;
+}

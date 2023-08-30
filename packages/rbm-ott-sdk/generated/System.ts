@@ -24,7 +24,7 @@ export async function getSystemConfig(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SystemConfig>({
     method: "GET",
     url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`, ctx.baseUrl),
@@ -47,7 +47,7 @@ export async function getSystemConfigV2(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<SystemConfig>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`, ctx.baseUrl),
@@ -56,9 +56,8 @@ export async function getSystemConfigV2(
   });
 }
 
-export const SystemService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    getSystemConfig,
-    getSystemConfigV2
-  }) as const;
+export class SystemService {
+  constructor(private context: ServiceContext) {}
+  getSystemConfig = getSystemConfig;
+  getSystemConfigV2 = getSystemConfigV2;
+}

@@ -16,7 +16,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function intialize(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/init`, ctx.baseUrl),
@@ -30,7 +30,7 @@ export async function intialize(headers: RequestParams = {}) {
  */
 export async function postEvents(data: AnalyticsBatch, headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/send`, ctx.baseUrl),
@@ -39,9 +39,8 @@ export async function postEvents(data: AnalyticsBatch, headers: RequestParams = 
   });
 }
 
-export const EventSinkService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    intialize,
-    postEvents
-  }) as const;
+export class EventSinkService {
+  constructor(private context: ServiceContext) {}
+  intialize = intialize;
+  postEvents = postEvents;
+}

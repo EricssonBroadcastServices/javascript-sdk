@@ -46,12 +46,12 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
   <% } %>
 <% } %>
 
-export const <%= apiClassName %>Service = (context: ServiceContext) => ({
-  [Symbol.for("_rbm_ctx_")]: context,
+export class <%= apiClassName %>Service {
+  constructor(private context: ServiceContext) {}
   <% for (const route of routes) { %>
-    <%~ route.routeName.usage %>,
+    <%~ `${route.routeName.usage} = ${route.routeName.usage}` %>;
     <% if (route?.queryObjectSchema?.partial) { %>
-      <%~ route.routeName.usage + "Partial" %>,
+      <%~ `${route.routeName.usage}Partial = ${route.routeName.usage}Partial;` %>;
     <% } %>
   <% } %>
-} as const);
+}

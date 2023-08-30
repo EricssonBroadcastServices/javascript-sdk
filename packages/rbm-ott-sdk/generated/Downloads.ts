@@ -18,7 +18,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  */
 export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Message>({
     method: "DELETE",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`, ctx.baseUrl),
@@ -37,7 +37,7 @@ export async function deleteDownloadsForAsset(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<Message>({
     method: "DELETE",
     url: new URL(
@@ -65,7 +65,7 @@ export async function download(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<DownloadResponse>({
     method: "GET",
     url: new URL(
@@ -88,7 +88,7 @@ export async function downloadCompleted(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
     method: "POST",
     url: new URL(
@@ -117,7 +117,7 @@ export async function downloadInfo(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<DownloadInfoResponse>({
     method: "GET",
     url: new URL(
@@ -141,7 +141,7 @@ export async function downloadRenewed(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
     method: "POST",
     url: new URL(
@@ -159,7 +159,7 @@ export async function downloadRenewed(
  */
 export async function getDownloadsForAccount(headers: RequestParams = {}) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAccount>({
     method: "GET",
     url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`, ctx.baseUrl),
@@ -178,7 +178,7 @@ export async function getDownloadsForAsset(
   headers: RequestParams = {}
 ) {
   // @ts-ignore
-  const ctx = (this[Symbol.for("_rbm_ctx_")] || this.context || this) as ServiceContext;
+  const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
     method: "GET",
     url: new URL(
@@ -189,15 +189,14 @@ export async function getDownloadsForAsset(
   });
 }
 
-export const DownloadsService = (context: ServiceContext) =>
-  ({
-    [Symbol.for("_rbm_ctx_")]: context,
-    deleteDownloadsForAccount,
-    deleteDownloadsForAsset,
-    download,
-    downloadCompleted,
-    downloadInfo,
-    downloadRenewed,
-    getDownloadsForAccount,
-    getDownloadsForAsset
-  }) as const;
+export class DownloadsService {
+  constructor(private context: ServiceContext) {}
+  deleteDownloadsForAccount = deleteDownloadsForAccount;
+  deleteDownloadsForAsset = deleteDownloadsForAsset;
+  download = download;
+  downloadCompleted = downloadCompleted;
+  downloadInfo = downloadInfo;
+  downloadRenewed = downloadRenewed;
+  getDownloadsForAccount = getDownloadsForAccount;
+  getDownloadsForAsset = getDownloadsForAsset;
+}
