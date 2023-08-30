@@ -1,28 +1,28 @@
-import { AssetService } from "./Asset"
-import { AuthenticationService } from "./Authentication"
-import { CarouselService } from "./Carousel"
-import { ClientConfigService } from "./ClientConfig"
-import { CustomerConfigService } from "./CustomerConfig"
-import { DeviceService } from "./Device"
-import { DocumentService } from "./Document"
-import { DownloadsService } from "./Downloads"
-import { EntitlementsService } from "./Entitlements"
-import { EpgService } from "./Epg"
-import { EventService } from "./Event"
-import { EventSinkService } from "./EventSink"
-import { LocationService } from "./Location"
-import { PreferencesService } from "./Preferences"
-import { RatingService } from "./Rating"
-import { RecommenderService } from "./Recommender"
-import { SearchService } from "./Search"
-import { SeasonService } from "./Season"
-import { StoreService } from "./Store"
-import { SystemService } from "./System"
-import { TagService } from "./Tag"
-import { TimeService } from "./Time"
-import { UserService } from "./User"
-import { UserPlayHistoryService } from "./UserPlayHistory"
-import { ServiceContext } from "./http-client"
+import { AssetService } from "./Asset";
+import { AuthenticationService } from "./Authentication";
+import { CarouselService } from "./Carousel";
+import { ClientConfigService } from "./ClientConfig";
+import { CustomerConfigService } from "./CustomerConfig";
+import { DeviceService } from "./Device";
+import { DocumentService } from "./Document";
+import { DownloadsService } from "./Downloads";
+import { EntitlementsService } from "./Entitlements";
+import { EpgService } from "./Epg";
+import { EventService } from "./Event";
+import { EventSinkService } from "./EventSink";
+import { ServiceContext } from "./http-client";
+import { LocationService } from "./Location";
+import { PreferencesService } from "./Preferences";
+import { RatingService } from "./Rating";
+import { RecommenderService } from "./Recommender";
+import { SearchService } from "./Search";
+import { SeasonService } from "./Season";
+import { StoreService } from "./Store";
+import { SystemService } from "./System";
+import { TagService } from "./Tag";
+import { TimeService } from "./Time";
+import { UserService } from "./User";
+import { UserPlayHistoryService } from "./UserPlayHistory";
 
 class APIService {
   asset: AssetService;
@@ -48,7 +48,7 @@ class APIService {
   tag: TagService;
   time: TimeService;
   user: UserService;
-  userPlayHistory: UserPlayHistoryService
+  userPlayHistory: UserPlayHistoryService;
   constructor(public context: ServiceContext) {
     this.asset = new AssetService(context);
     this.authentication = new AuthenticationService(context);
@@ -73,10 +73,34 @@ class APIService {
     this.tag = new TagService(context);
     this.time = new TimeService(context);
     this.user = new UserService(context);
-    this.userPlayHistory = new UserPlayHistoryService(context)
+    this.userPlayHistory = new UserPlayHistoryService(context);
   }
 }
 
-export { AssetService, AuthenticationService, CarouselService, ClientConfigService, CustomerConfigService, DeviceService, DocumentService, DownloadsService, EntitlementsService, EpgService, EventService, EventSinkService, LocationService, PreferencesService, RatingService, RecommenderService, SearchService, SeasonService, StoreService, SystemService, TagService, TimeService, UserService, UserPlayHistoryService };
 export default APIService;
+export { ServiceContext };
 export * from "./data-contracts";
+export * from "./Asset";
+export * from "./Authentication";
+export * from "./Carousel";
+export * from "./ClientConfig";
+export * from "./CustomerConfig";
+export * from "./Device";
+export * from "./Document";
+export * from "./Downloads";
+export * from "./Entitlements";
+export * from "./Epg";
+export * from "./Event";
+export * from "./EventSink";
+export * from "./Location";
+export * from "./Preferences";
+export * from "./Rating";
+export * from "./Recommender";
+export * from "./Search";
+export * from "./Season";
+export * from "./Store";
+export * from "./System";
+export * from "./Tag";
+export * from "./Time";
+export * from "./User";
+export * from "./UserPlayHistory";

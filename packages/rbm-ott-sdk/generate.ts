@@ -279,7 +279,7 @@ generateApi({
       writeFileSync(`${OUTPUT_PATH}/${fileName}.ts`, FILE_PREFIX + fileContent);
     });
     // Create and write an index file
-    let importStatements: Record<string, string> = { "http-client": "ServiceContext" };
+    let importStatements: Record<string, string> = { };
     let serviceNames: string[] = [];
     let typeDeclarations: string[] = [];
     let props: string[] = [];
@@ -292,8 +292,10 @@ generateApi({
       typeDeclarations.push(`${moduleName}: ${serviceName}`);
       props.push(`this.${moduleName} = new ${serviceName}(context)`);
     }
-    const allImports = Object.entries(importStatements).sort().map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join("\n");
-    const indexFileData = `${allImports}\n\nclass APIService {\n  ${typeDeclarations.join(";\n  ")}\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")}\n  }\n}\n\nexport { ${serviceNames.join(", ")} };\nexport default APIService;\nexport * from \"./data-contracts\";\n`;
+    const exports = Object.entries(importStatements).map(([fileName]) => `export * from "./${fileName}"`).join(";\n");
+    const sortedImports = Object.entries(Object.assign(importStatements, { "http-client": "ServiceContext" })).sort(([fileA], [fileB]) => fileA.localeCompare(fileB));
+    const imports = sortedImports.map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join(";\n");
+    const indexFileData = `${imports};\n\nclass APIService {\n  ${typeDeclarations.join(";\n  ")};\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")};\n  }\n}\n\nexport default APIService;\nexport { ServiceContext };\nexport * from \"./data-contracts\";\n${exports};\n`;
 
     writeFileSync(`${OUTPUT_PATH}/index.ts`, indexFileData, "utf8");
   })
