@@ -91,12 +91,7 @@ export interface AdMarker {
   type?: string;
 }
 
-export interface AdTrackingEvents {
-  complete?: string[];
-  firstQuartile?: string[];
-  midpoint?: string[];
-  thirdQuartile?: string[];
-}
+export type AdTrackingEvents = Record<"complete" | "firstQuartile" | "midpoint" | "thirdQuartile", string[]>;
 
 export interface AdVideoClicks {
   clickThroughUrl?: string;
@@ -435,15 +430,9 @@ export interface AuthenticationRequest {
   username: string;
 }
 
-export interface AutocompleteItem {
-  assetId?: string;
-  text?: string;
-}
+export type AutocompleteItem = Record<"assetId" | "text", string>;
 
-export interface AutocompleteItem2 {
-  hitFieldValue?: string;
-  hitText?: string;
-}
+export type AutocompleteItem2 = Record<"hitFieldValue" | "hitText", string>;
 
 export interface AvailabilityKeys {
   availabilityKeys?: string[];
@@ -465,15 +454,10 @@ export interface BookkeeperAsset {
   downloads?: BookkeeperDownload[];
 }
 
-export interface BookkeeperDownload {
-  clientIp?: string;
-  deviceId?: string;
-  deviceModelId?: string;
-  deviceType?: string;
-  time?: string;
-  type?: string;
-  userId?: string;
-}
+export type BookkeeperDownload = Record<
+  "clientIp" | "deviceId" | "deviceModelId" | "deviceType" | "time" | "type" | "userId",
+  string
+>;
 
 export interface Bookmarks {
   /**
@@ -489,19 +473,9 @@ export interface Bookmarks {
   liveTime?: number;
 }
 
-export interface CDN {
-  host?: string;
-  profile?: string;
-  provider?: string;
-}
+export type CDN = Record<"host" | "profile" | "provider", string>;
 
-export interface CardSummary {
-  last4?: string;
-  brand?: string;
-  expiryMonth?: string;
-  expiryYear?: string;
-  origin?: string;
-}
+export type CardSummary = Record<"last4" | "brand" | "expiryMonth" | "expiryYear" | "origin", string>;
 
 export interface Carousel {
   carouselId?: string;
@@ -510,10 +484,7 @@ export interface Carousel {
   titles?: LocalizedTitle[];
 }
 
-export interface CencConfigurationResponse {
-  "com.microsoft.playready"?: string;
-  "com.widevine.alpha"?: string;
-}
+export type CencConfigurationResponse = Record<"com.microsoft.playready" | "com.widevine.alpha", string>;
 
 export interface ChangeEmailAndUserNameV3 {
   /** The new email address and user name */
@@ -622,12 +593,7 @@ export interface ConsentManagement {
   didomi?: Didomi;
 }
 
-export interface ConsentManagementDidomi {
-  apiKey?: string;
-  appNoticeId?: string;
-  noticeId?: string;
-  tvNoticeId?: string;
-}
+export type ConsentManagementDidomi = Record<"apiKey" | "appNoticeId" | "noticeId" | "tvNoticeId", string>;
 
 export interface ContinueUph2Assets {
   items?: ContinueWatchingAsset[];
@@ -793,12 +759,7 @@ export interface DevicesResponseV2 {
   devices?: DeviceResponseV2[];
 }
 
-export interface Didomi {
-  apiKey?: string;
-  appNoticeId?: string;
-  noticeId?: string;
-  tvNoticeId?: string;
-}
+export type Didomi = Record<"apiKey" | "appNoticeId" | "noticeId" | "tvNoticeId", string>;
 
 export interface DownloadInfoResponse {
   accountId?: string;
@@ -834,10 +795,7 @@ export interface DownloadResponse {
   requestId?: string;
 }
 
-export interface DrmUrls {
-  certificateUrl?: string;
-  licenseServerUrl?: string;
-}
+export type DrmUrls = Record<"certificateUrl" | "licenseServerUrl", string>;
 
 export interface EDRMConfigurationResponse {
   /** The ad parameter to use. */
@@ -920,10 +878,7 @@ export const EntitlementStatus = {
 } as const;
 export type EntitlementStatus = (typeof EntitlementStatus)[keyof typeof EntitlementStatus];
 
-export interface EpgInfo {
-  enabled?: boolean;
-  entitlementCheck?: boolean;
-}
+export type EpgInfo = Record<"enabled" | "entitlementCheck", boolean>;
 
 export interface EpgSearchHits {
   items?: ChannelEPGResponse[];
@@ -941,14 +896,10 @@ export interface Event {
   startTime?: string;
 }
 
-export interface EventDataResponse {
-  channelId?: string;
-  endTime?: string;
-  id?: string;
-  publicEndTime?: string;
-  publicStartTime?: string;
-  startTime?: string;
-}
+export type EventDataResponse = Record<
+  "channelId" | "endTime" | "id" | "publicEndTime" | "publicStartTime" | "startTime",
+  string
+>;
 
 export interface EventList {
   items?: Event[];
@@ -970,17 +921,9 @@ export interface ExternalPaymentConfig {
   externalPaymentUrl?: string;
 }
 
-export interface ExternalReference {
-  locator?: string;
-  type?: string;
-  value?: string;
-}
+export type ExternalReference = Record<"locator" | "type" | "value", string>;
 
-export interface ExternalReferenceResponse {
-  locator?: string;
-  type?: string;
-  value?: string;
-}
+export type ExternalReferenceResponse = Record<"locator" | "type" | "value", string>;
 
 export interface ExternalUserSessionRequest {
   /** Will be used as accountId and, if userId is not provided, as userId */
@@ -1002,20 +945,16 @@ export interface FacebookLoginRequest {
   rememberMe?: boolean;
 }
 
-export interface FairplayConfigurationResponse {
-  certificateUrl?: string;
-  licenseAcquisitionUrl?: string;
-  secondaryMediaLocator?: string;
-}
+export type FairplayConfigurationResponse = Record<
+  "certificateUrl" | "licenseAcquisitionUrl" | "secondaryMediaLocator",
+  string
+>;
 
 export interface Filters {
   filters?: FiltersFilter[];
 }
 
-export interface FiltersFilter {
-  type?: string;
-  value?: string;
-}
+export type FiltersFilter = Record<"type" | "value", string>;
 
 export interface FirebaseAuthenticationRequest {
   /** Firebase access token. */
@@ -1105,10 +1044,7 @@ export interface GooglePlayPurchaseVerifyResponse {
   transactionStatus?: StoreTransactionStatus;
 }
 
-export interface HtmlDocument {
-  body?: string;
-  url?: string;
-}
+export type HtmlDocument = Record<"body" | "url", string>;
 
 export interface Image {
   height?: number;
@@ -1224,17 +1160,9 @@ export interface LastViewedOffsetList {
   pageSize?: number;
 }
 
-export interface LinkedEntity {
-  entityId?: string;
-  entityType?: string;
-  linkType?: string;
-}
+export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string>;
 
-export interface LinkedEntityResponse {
-  entityId?: string;
-  entityType?: string;
-  linkType?: string;
-}
+export type LinkedEntityResponse = Record<"entityId" | "entityType" | "linkType", string>;
 
 export interface LocaleConfig {
   currencies?: string[];
@@ -1266,15 +1194,9 @@ export interface LocalizedDataResponse {
   title?: string;
 }
 
-export interface LocalizedPersonData {
-  bio?: string;
-  locale?: string;
-}
+export type LocalizedPersonData = Record<"bio" | "locale", string>;
 
-export interface LocalizedPersonDataResponse {
-  bio?: string;
-  locale?: string;
-}
+export type LocalizedPersonDataResponse = Record<"bio" | "locale", string>;
 
 export interface LocalizedTag {
   description?: string;
@@ -1283,10 +1205,7 @@ export interface LocalizedTag {
   title?: string;
 }
 
-export interface LocalizedTitle {
-  locale?: string;
-  title?: string;
-}
+export type LocalizedTitle = Record<"locale" | "title", string>;
 
 export interface Location {
   /** ISO country code or null if unknown. */
@@ -1487,11 +1406,7 @@ export interface ParentalRating {
   scheme?: string;
 }
 
-export interface ParentalRatingResponse {
-  country?: string;
-  rating?: string;
-  scheme?: string;
-}
+export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", string>;
 
 export interface PasswordHashConfig {
   algorithms?: Algorithm[];
@@ -1685,10 +1600,7 @@ export interface PlayResponseV2 {
   streamInfo?: StreamInfo;
 }
 
-export interface Popularity {
-  month?: number;
-  week?: number;
-}
+export type Popularity = Record<"month" | "week", number>;
 
 export interface PreferencesListItem {
   id?: string;
@@ -1889,10 +1801,7 @@ export interface PutUserContentRatingRequest {
   rating?: number;
 }
 
-export interface QueryParameter {
-  name?: string;
-  value?: string;
-}
+export type QueryParameter = Record<"name" | "value", string>;
 
 export interface RecommendedAssets {
   items?: Asset[];
@@ -1902,10 +1811,7 @@ export interface RecommendedWatchNext {
   items?: Asset[];
 }
 
-export interface Result {
-  type?: string;
-  value?: string;
-}
+export type Result = Record<"type" | "value", string>;
 
 export interface Rights {
   activation?: string;
@@ -2047,10 +1953,7 @@ export interface SetUserPreferenceRequest {
   preferences: Map;
 }
 
-export interface SimpleDateParam {
-  date?: string;
-  originalValue?: string;
-}
+export type SimpleDateParam = Record<"date" | "originalValue", string>;
 
 export interface SimpleLocalizedData {
   image?: Image;
@@ -2082,21 +1985,11 @@ export interface StoreGooglePlayReference {
   skuId?: string;
 }
 
-export interface StoreLocalizedMetaData {
-  description?: string;
-  locale?: string;
-  name?: string;
-}
+export type StoreLocalizedMetaData = Record<"description" | "locale" | "name", string>;
 
-export interface StoreLocalizedName {
-  locale?: string;
-  name?: string;
-}
+export type StoreLocalizedName = Record<"locale" | "name", string>;
 
-export interface StoreLocalizedTitle {
-  locale?: string;
-  title?: string;
-}
+export type StoreLocalizedTitle = Record<"locale" | "title", string>;
 
 export interface StorePrice {
   amount?: string;
@@ -2337,10 +2230,7 @@ export interface StripePurchaseResponse {
   stripeCustomerId?: string;
 }
 
-export interface StripeSetupIntentResponse {
-  clientSecret?: string;
-  id?: string;
-}
+export type StripeSetupIntentResponse = Record<"clientSecret" | "id", string>;
 
 export interface StripeWalletAndPrice {
   /** Name of wallet e.g apple or google */
@@ -2350,11 +2240,7 @@ export interface StripeWalletAndPrice {
   recurring?: boolean;
 }
 
-export interface SubtitleResponse {
-  language?: string;
-  location?: string;
-  name?: string;
-}
+export type SubtitleResponse = Record<"language" | "location" | "name", string>;
 
 export interface SubtitleTrackInfo {
   fileSize?: number;
