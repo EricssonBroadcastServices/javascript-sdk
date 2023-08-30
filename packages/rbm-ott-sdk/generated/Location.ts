@@ -21,7 +21,7 @@ export async function getLocation(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<Location>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/location`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/location`,
     headers
   });
 }
@@ -36,7 +36,7 @@ export async function getLocationFromReferer(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<Location>({
     method: "GET",
-    url: new URL(`/v2/location`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/location`,
     headers
   });
 }

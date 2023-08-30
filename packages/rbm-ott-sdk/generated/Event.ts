@@ -58,10 +58,9 @@ export async function getEvents(
   const ctx = (this.context || this) as ServiceContext;
   return request<EventList>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date.toISOString().substring(0, 10)}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date
+      .toISOString()
+      .substring(0, 10)}`,
     headers,
     query: query
   });

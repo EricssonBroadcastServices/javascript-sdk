@@ -70,7 +70,7 @@ if (normalizeDate) {
     const ctx = (this.context || this) as ServiceContext;
     return request<<%~ partial ? "T" : type %>>({
       method: "<%~ _.upperCase(method) %>",
-      url: new URL(`<%~ processedPath %>`, ctx.baseUrl),
+      url: `${ctx.baseUrl}<%~ processedPath %>`,
       headers,
       <% if (query) { %>query: <%~ queryParamValue %>,<% } %>
       <% if (payload?.name) { %>body: <%~ payload.name %>,<% } %>

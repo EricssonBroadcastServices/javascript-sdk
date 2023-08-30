@@ -39,7 +39,7 @@ export async function deleteSessions(data: DeleteUsersSessionsRequest, headers: 
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`,
     headers,
     body: data
   });
@@ -59,7 +59,7 @@ export async function externalUserSession(data: ExternalUserSessionRequest, head
   const ctx = (this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/externalusersession`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/externalusersession`,
     headers,
     body: data
   });
@@ -79,7 +79,7 @@ export async function getOauthAuth(
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/auth`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/auth`,
     headers,
     query: query
   });
@@ -99,7 +99,7 @@ export async function getOauthRedir(
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/redir`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/redir`,
     headers,
     query: query
   });
@@ -120,7 +120,7 @@ export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`,
     headers,
     body: data
   });
@@ -138,7 +138,7 @@ export async function loginAnonymous(data: AnonymousSessionRequest, headers: Req
   const ctx = (this.context || this) as ServiceContext;
   return request<AnonymousSessionResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`,
     headers,
     body: data
   });
@@ -158,7 +158,7 @@ export async function loginFirebase(data: FirebaseAuthenticationRequest, headers
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/firebaseLogin`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/firebaseLogin`,
     headers,
     body: data
   });
@@ -177,7 +177,7 @@ export async function loginGigya(data: GigyaAuthenticationRequest, headers: Requ
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/gigyaLogin`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/gigyaLogin`,
     headers,
     body: data
   });
@@ -191,7 +191,7 @@ export async function loginOauth(data: OauthAuthenticationRequest, headers: Requ
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauthLogin`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauthLogin`,
     headers,
     body: data
   });
@@ -211,7 +211,7 @@ export async function loginPrimetime(data: PrimetimeAuthenticationRequest, heade
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/adobePrimetimeLogin`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/adobePrimetimeLogin`,
     headers,
     body: data
   });
@@ -235,7 +235,7 @@ export async function logout(
   const ctx = (this.context || this) as ServiceContext;
   return request<EmptyResponse>({
     method: "DELETE",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`,
     headers,
     query: query
   });
@@ -255,7 +255,7 @@ export async function session(data: ApiKeyUserSessionRequest, headers: RequestPa
   const ctx = (this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`,
     headers,
     body: data
   });
@@ -274,7 +274,7 @@ export async function validateSessionToken(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<SessionResponse>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`,
     headers
   });
 }

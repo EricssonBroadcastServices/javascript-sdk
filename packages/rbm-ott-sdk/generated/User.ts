@@ -47,7 +47,7 @@ export async function addProfile(data: UserProfileCreateRequest, headers: Reques
   const ctx = (this.context || this) as ServiceContext;
   return request<UserProfiles>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`,
     headers,
     body: data
   });
@@ -66,7 +66,7 @@ export async function changeEmail(data: ChangeEmailRequestV3, headers: RequestPa
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmail`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmail`,
     headers,
     body: data
   });
@@ -84,10 +84,7 @@ export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, hea
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmailAndUsername`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmailAndUsername`,
     headers,
     body: data
   });
@@ -106,7 +103,7 @@ export async function changePassword(data: ChangePwdV3, headers: RequestParams =
   const ctx = (this.context || this) as ServiceContext;
   return request<ChangePasswordResponse>({
     method: "PUT",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changePassword`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changePassword`,
     headers,
     body: data
   });
@@ -128,10 +125,7 @@ export async function confirmActivationCode(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/activation/confirm/${code}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/activation/confirm/${code}`,
     headers
   });
 }
@@ -153,10 +147,7 @@ export async function confirmUserWithToken(
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfirmAccountResponse>({
     method: "PUT",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/confirm/${token}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/confirm/${token}`,
     headers,
     body: data
   });
@@ -172,7 +163,7 @@ export async function consumeActivationCode(data: ActivationRequestV2, headers: 
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/consume`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/consume`,
     headers,
     body: data
   });
@@ -188,10 +179,7 @@ export async function createActivationCode(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<ActivationCodeResponse>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/activationCode`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/activationCode`,
     headers
   });
 }
@@ -208,7 +196,7 @@ export async function createNewAccount(data: UserSignupRequestV3, headers: Reque
   const ctx = (this.context || this) as ServiceContext;
   return request<UserSelfServiceCreateResponse>({
     method: "POST",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup`,
     headers,
     body: data
   });
@@ -227,7 +215,7 @@ export async function createPinCode(data: PinCodeSetRequest, headers: RequestPar
   const ctx = (this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
     method: "POST",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`,
     headers,
     body: data
   });
@@ -248,10 +236,7 @@ export async function deletePinCode(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
     headers
   });
 }
@@ -267,7 +252,7 @@ export async function deleteUserDetails(data: CredentialsV3, headers: RequestPar
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "POST",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`,
     headers,
     body: data
   });
@@ -289,7 +274,7 @@ export async function deleteUserProfile(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
     headers
   });
 }
@@ -305,7 +290,7 @@ export async function getAccountLabels(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<LabelFilter>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`,
     headers
   });
 }
@@ -322,7 +307,7 @@ export async function getPinCodes(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
     method: "GET",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`,
     headers
   });
 }
@@ -339,7 +324,7 @@ export async function getProfiles(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<UserProfiles>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`,
     headers
   });
 }
@@ -357,7 +342,7 @@ export async function getUserDetails(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<UserDetailsResponse>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`,
     headers
   });
 }
@@ -373,7 +358,7 @@ export async function giveConsent(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`,
     headers
   });
 }
@@ -391,7 +376,7 @@ export async function putUserAttributes(data: UserAttributeRequest[], headers: R
   const ctx = (this.context || this) as ServiceContext;
   return request<UserDetailsResponse>({
     method: "PUT",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/attributes`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/attributes`,
     headers,
     body: data
   });
@@ -411,10 +396,7 @@ export async function resetPassword(
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/password/reset/${username}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/password/reset/${username}`,
     headers
   });
 }
@@ -436,10 +418,7 @@ export async function selectUserProfile(
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}/select`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}/select`,
     headers
   });
 }
@@ -459,10 +438,7 @@ export async function setPasswordWithToken(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/password/${token}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/password/${token}`,
     headers,
     body: data
   });
@@ -485,10 +461,7 @@ export async function setPinCode(
   const ctx = (this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
     method: "PUT",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
     headers,
     body: data
   });
@@ -506,7 +479,7 @@ export async function userDetailsUpdate(data: UserDetailsUpdateRequest, headers:
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`,
     headers,
     body: data
   });
@@ -528,7 +501,7 @@ export async function userProfileUpdate(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
     headers,
     body: data
   });
@@ -552,10 +525,7 @@ export async function validatePinCode(
   const ctx = (this.context || this) as ServiceContext;
   return request<string[]>({
     method: "POST",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}/validate`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}/validate`,
     headers,
     body: data
   });
@@ -574,7 +544,7 @@ export async function validatePinCodes(data: PinCodeValidationRequest, headers: 
   const ctx = (this.context || this) as ServiceContext;
   return request<string[]>({
     method: "POST",
-    url: new URL(`/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/validate`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/validate`,
     headers,
     body: data
   });
@@ -592,7 +562,7 @@ export async function voucherSignup(data: UserSelfServiceCreateWithVoucherReques
   const ctx = (this.context || this) as ServiceContext;
   return request<UserSelfServiceCreateResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/vouchersignup`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/vouchersignup`,
     headers,
     body: data
   });

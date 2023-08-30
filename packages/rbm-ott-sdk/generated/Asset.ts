@@ -43,7 +43,7 @@ export async function getAsset(
   const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -90,7 +90,7 @@ export async function getAssetPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -173,7 +173,7 @@ export async function getAssets(
   const ctx = (this.context || this) as ServiceContext;
   return request<AssetList>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -265,7 +265,7 @@ export async function getAssetsPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -299,10 +299,7 @@ export async function getAssetThumbnail(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/thumbnail`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/thumbnail`,
     headers,
     query: query
   });
@@ -344,10 +341,7 @@ export async function getCollectionEntries(
   const ctx = (this.context || this) as ServiceContext;
   return request<AssetList>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -398,10 +392,7 @@ export async function getCollectionEntriesPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -438,10 +429,7 @@ export async function getEpisodes(
   const ctx = (this.context || this) as ServiceContext;
   return request<AssetList>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -487,10 +475,7 @@ export async function getEpisodesPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -512,10 +497,7 @@ export async function getNextCollectionEntry(
   const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/next`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/next`,
     headers
   });
 }
@@ -534,10 +516,7 @@ export async function getNextEpisode(
   const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/next`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/next`,
     headers
   });
 }
@@ -558,10 +537,7 @@ export async function getPreviousCollectionEntry(
   const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/previous`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/previous`,
     headers
   });
 }
@@ -580,10 +556,7 @@ export async function getPreviousEpisode(
   const ctx = (this.context || this) as ServiceContext;
   return request<Asset>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/previous`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/previous`,
     headers
   });
 }
@@ -609,10 +582,7 @@ export async function getSeason(
   const ctx = (this.context || this) as ServiceContext;
   return request<Season>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -648,10 +618,7 @@ export async function getSeasonPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -681,10 +648,7 @@ export async function getSeasonsForTvShow(
   const ctx = (this.context || this) as ServiceContext;
   return request<SeasonList>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -723,10 +687,7 @@ export async function getSeasonsForTvShowPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });

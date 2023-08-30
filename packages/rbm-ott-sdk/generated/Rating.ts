@@ -31,7 +31,7 @@ export async function deleteUserContentRating(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "DELETE",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
     headers
   });
 }
@@ -50,10 +50,7 @@ export async function getAllUserContentRatingsForAsset(
   const ctx = (this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForAssetResponse[]>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}/all`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}/all`,
     headers
   });
 }
@@ -70,7 +67,7 @@ export async function getAllUserContentRatingsForUser(headers: RequestParams = {
   const ctx = (this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForUserResponse[]>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/all`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/all`,
     headers
   });
 }
@@ -91,7 +88,7 @@ export async function getUserContentRating(
   const ctx = (this.context || this) as ServiceContext;
   return request<GetUserContentRatingResponse>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
     headers
   });
 }
@@ -113,7 +110,7 @@ export async function putUserContentRating(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "PUT",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
     headers,
     body: data
   });

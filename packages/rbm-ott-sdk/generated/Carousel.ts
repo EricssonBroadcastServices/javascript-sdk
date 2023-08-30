@@ -45,10 +45,7 @@ export async function getCarousel(
   const ctx = (this.context || this) as ServiceContext;
   return request<Carousel[]>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -97,10 +94,7 @@ export async function getCarouselPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -115,7 +109,7 @@ export async function getCarouselGroups(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<string[]>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup`,
     headers
   });
 }
@@ -155,7 +149,7 @@ export async function getCarouselsForGroup(
   const ctx = (this.context || this) as ServiceContext;
   return request<Carousel[]>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -205,7 +199,7 @@ export async function getCarouselsForGroupPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });

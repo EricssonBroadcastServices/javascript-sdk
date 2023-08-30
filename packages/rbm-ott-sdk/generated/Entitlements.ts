@@ -27,10 +27,7 @@ export async function accountProducts(
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
     headers,
     query: query
   });
@@ -51,10 +48,7 @@ export async function availabilityKeys(
   const ctx = (this.context || this) as ServiceContext;
   return request<AvailabilityKeys>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
     headers,
     query: query
   });
@@ -87,10 +81,7 @@ export async function entitle(
   const ctx = (this.context || this) as ServiceContext;
   return request<EntitleResponseV2>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
     headers,
     query: query
   });
@@ -237,10 +228,7 @@ export async function play(
   const ctx = (this.context || this) as ServiceContext;
   return request<PlayResponseV2>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
     headers,
     query: query
   });

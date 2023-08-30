@@ -41,7 +41,7 @@ export async function getDocument(
   const ctx = (this.context || this) as ServiceContext;
   return request<HtmlDocument>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/document`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/document`,
     headers,
     query: query
   });

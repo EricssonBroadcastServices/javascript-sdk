@@ -19,7 +19,7 @@ export async function intialize(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/init`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/init`,
     headers
   });
 }
@@ -33,7 +33,7 @@ export async function postEvents(data: AnalyticsBatch, headers: RequestParams = 
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/send`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/send`,
     headers,
     body: data
   });

@@ -37,10 +37,7 @@ export async function addToAssetList(
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "POST",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
     body: data
   });
@@ -67,10 +64,7 @@ export async function addToList(
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "POST",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
     headers,
     body: data
   });
@@ -93,10 +87,7 @@ export async function deleteFromAssetList(
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "DELETE",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers
   });
 }
@@ -119,10 +110,7 @@ export async function deleteFromList(
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "DELETE",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
     headers
   });
 }
@@ -149,10 +137,7 @@ export async function getAssetList(
   const ctx = (this.context || this) as ServiceContext;
   return request<AssetListItemResponse[]>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset`,
     headers,
     query: query
   });
@@ -178,10 +163,7 @@ export async function getFromAssetList(
   const ctx = (this.context || this) as ServiceContext;
   return request<AssetListItemResponse>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
     query: query
   });
@@ -206,10 +188,7 @@ export async function getList(
   const ctx = (this.context || this) as ServiceContext;
   return request<PreferencesListResponse[]>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
     headers,
     query: query
   });
@@ -227,7 +206,7 @@ export async function getPreferences(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<UserPreferenceResponse>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
     headers
   });
 }
@@ -245,7 +224,7 @@ export async function setPreferences(data: SetUserPreferenceRequest, headers: Re
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "POST",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
     headers,
     body: data
   });

@@ -22,7 +22,7 @@ export async function getTime(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<TimeResponse>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/time`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/time`,
     headers
   });
 }
@@ -37,7 +37,7 @@ export async function getTimeAnonymous(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<TimeResponse>({
     method: "GET",
-    url: new URL(`/v2/time`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/time`,
     headers
   });
 }

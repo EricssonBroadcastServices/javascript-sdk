@@ -25,7 +25,7 @@ export async function getTagById(
   const ctx = (this.context || this) as ServiceContext;
   return request<TagType>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/${tagId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/${tagId}`,
     headers
   });
 }
@@ -87,7 +87,7 @@ export async function getUniqueTagsFromAssets(
   const ctx = (this.context || this) as ServiceContext;
   return request<TagList>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/asset`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/asset`,
     headers,
     query: query
   });
@@ -121,7 +121,7 @@ export async function listTags(
   const ctx = (this.context || this) as ServiceContext;
   return request<TagList>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag`,
     headers,
     query: query
   });

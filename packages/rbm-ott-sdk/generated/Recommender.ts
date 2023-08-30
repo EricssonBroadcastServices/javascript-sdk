@@ -30,7 +30,7 @@ export async function getContinueWatching(
   const ctx = (this.context || this) as ServiceContext;
   return request<ContinueUph2Assets>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`,
     headers,
     query: query
   });
@@ -58,10 +58,7 @@ export async function getRecommendationsForAsset(
   const ctx = (this.context || this) as ServiceContext;
   return request<RecommendedWatchNext>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/watchNext/${assetId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/watchNext/${assetId}`,
     headers,
     query: query
   });
@@ -88,7 +85,7 @@ export async function getRecommendationsForUser(
   const ctx = (this.context || this) as ServiceContext;
   return request<RecommendedAssets>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`,
     headers,
     query: query
   });

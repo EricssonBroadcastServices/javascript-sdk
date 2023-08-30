@@ -28,10 +28,7 @@ export async function autocomplete(
   const ctx = (this.context || this) as ServiceContext;
   return request<AutocompleteItem[]>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/autocomplete/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/autocomplete/${query}`,
     headers,
     query: queryParams
   });
@@ -62,10 +59,7 @@ export async function autocompleteAssetTitle(
   const ctx = (this.context || this) as ServiceContext;
   return request<AutocompleteItem2[]>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/title/autocomplete/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/title/autocomplete/${query}`,
     headers,
     query: queryParams
   });
@@ -91,10 +85,7 @@ export async function autocompleteTagTitle(
   const ctx = (this.context || this) as ServiceContext;
   return request<AutocompleteItem2[]>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/title/autocomplete/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/title/autocomplete/${query}`,
     headers,
     query: queryParams
   });
@@ -117,10 +108,7 @@ export async function getSuggestions(
   const ctx = (this.context || this) as ServiceContext;
   return request<AutocompleteItem[]>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/suggestions/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/suggestions/${query}`,
     headers,
     query: queryParams
   });
@@ -169,10 +157,7 @@ export async function search(
   const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -230,10 +215,7 @@ export async function searchPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -283,10 +265,7 @@ export async function searchAsset(
   const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -345,10 +324,7 @@ export async function searchAssetPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -393,10 +369,7 @@ export async function searchEpg(
   const ctx = (this.context || this) as ServiceContext;
   return request<EpgSearchHits>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -450,10 +423,7 @@ export async function searchEpgPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -507,7 +477,7 @@ export async function searchNoQuery(
   const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -570,7 +540,7 @@ export async function searchNoQueryPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -606,10 +576,7 @@ export async function searchTags(
   const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -654,10 +621,7 @@ export async function searchTagsPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -717,10 +681,7 @@ export async function searchV2(
   const ctx = (this.context || this) as ServiceContext;
   return request<SearchList>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -789,10 +750,7 @@ export async function searchV2Partial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -839,10 +797,7 @@ export async function searchV3(
   const ctx = (this.context || this) as ServiceContext;
   return request<MultiSearchResponse>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
@@ -898,10 +853,7 @@ export async function searchV3Partial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });

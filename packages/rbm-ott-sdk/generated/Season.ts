@@ -32,10 +32,7 @@ export async function getSeasonById(
   const ctx = (this.context || this) as ServiceContext;
   return request<Season>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -71,10 +68,7 @@ export async function getSeasonByIdPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -119,7 +113,7 @@ export async function getSeasons(
   const ctx = (this.context || this) as ServiceContext;
   return request<SeasonList>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
@@ -173,7 +167,7 @@ export async function getSeasonsPartial<T = any>(
   const ctx = (this.context || this) as ServiceContext;
   return request<T>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
     headers,
     query: { fieldSet: "ALL", ...(query || {}) }
   });

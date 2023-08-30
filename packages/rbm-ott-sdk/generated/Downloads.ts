@@ -21,7 +21,7 @@ export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<Message>({
     method: "DELETE",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
     headers
   });
 }
@@ -40,10 +40,7 @@ export async function deleteDownloadsForAsset(
   const ctx = (this.context || this) as ServiceContext;
   return request<Message>({
     method: "DELETE",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
     headers
   });
 }
@@ -68,10 +65,7 @@ export async function download(
   const ctx = (this.context || this) as ServiceContext;
   return request<DownloadResponse>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
     headers,
     query: query
   });
@@ -91,10 +85,7 @@ export async function downloadCompleted(
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
     method: "POST",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadcompleted`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadcompleted`,
     headers
   });
 }
@@ -120,10 +111,7 @@ export async function downloadInfo(
   const ctx = (this.context || this) as ServiceContext;
   return request<DownloadInfoResponse>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
     headers,
     query: query
   });
@@ -144,10 +132,7 @@ export async function downloadRenewed(
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
     method: "POST",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadrenewed`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadrenewed`,
     headers
   });
 }
@@ -162,7 +147,7 @@ export async function getDownloadsForAccount(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAccount>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
     headers
   });
 }
@@ -181,10 +166,7 @@ export async function getDownloadsForAsset(
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
     headers
   });
 }

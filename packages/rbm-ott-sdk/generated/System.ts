@@ -27,7 +27,7 @@ export async function getSystemConfig(
   const ctx = (this.context || this) as ServiceContext;
   return request<SystemConfig>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`,
     headers,
     query: query
   });
@@ -50,7 +50,7 @@ export async function getSystemConfigV2(
   const ctx = (this.context || this) as ServiceContext;
   return request<SystemConfig>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`,
     headers,
     query: query
   });

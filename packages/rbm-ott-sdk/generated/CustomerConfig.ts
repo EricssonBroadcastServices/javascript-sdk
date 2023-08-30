@@ -28,7 +28,7 @@ export async function getConfigCuFile(
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/config/${fileName}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config/${fileName}`,
     headers,
     query: query
   });
@@ -52,7 +52,7 @@ export async function getConfigFile(
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`,
     headers,
     query: query
   });
@@ -78,7 +78,7 @@ export async function getConfigFileCustomDomainInPath(
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
     method: "GET",
-    url: new URL(`/v1/config/${fileId}/origin/${host}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/config/${fileId}/origin/${host}`,
     headers,
     query: query
   });
@@ -93,7 +93,7 @@ export async function getConfigFiles(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config`,
     headers
   });
 }
@@ -107,7 +107,7 @@ export async function getConfigFilesCu(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/config`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config`,
     headers
   });
 }

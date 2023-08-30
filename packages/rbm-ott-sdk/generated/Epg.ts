@@ -43,7 +43,7 @@ export async function getActiveChannels(
   const ctx = (this.context || this) as ServiceContext;
   return request<ActiveChannels>({
     method: "GET",
-    url: new URL(`/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`,
     headers,
     query: query
   });
@@ -71,10 +71,7 @@ export async function getChannelStatus(
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelStatus>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow/${channelId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow/${channelId}`,
     headers,
     query: query
   });
@@ -123,10 +120,9 @@ export async function getEpg(
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse[]>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date.toISOString().substring(0, 10)}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date
+      .toISOString()
+      .substring(0, 10)}`,
     headers,
     query: query
   });
@@ -176,12 +172,9 @@ export async function getEpgForChannel(
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date
-        .toISOString()
-        .substring(0, 10)}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date
+      .toISOString()
+      .substring(0, 10)}`,
     headers,
     query: query
   });
@@ -231,12 +224,9 @@ export async function getEpgForChannels(
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse[]>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date
-        .toISOString()
-        .substring(0, 10)}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date
+      .toISOString()
+      .substring(0, 10)}`,
     headers,
     query: query
   });
@@ -258,10 +248,7 @@ export async function getNextProgram(
   const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}/next`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}/next`,
     headers
   });
 }
@@ -281,10 +268,7 @@ export async function getNextProgramForAsset(
   const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/asset/${assetId}/next`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/asset/${assetId}/next`,
     headers
   });
 }
@@ -308,10 +292,7 @@ export async function getProgram(
   const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}`,
     headers,
     query: query
   });
@@ -342,7 +323,7 @@ export async function getXmlTvEpgForChannel(
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`,
     headers,
     query: query
   });

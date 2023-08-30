@@ -20,7 +20,7 @@ export async function getComponentFilters(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<ComponentFilters>({
     method: "GET",
-    url: new URL(`/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/filters`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/filters`,
     headers
   });
 }
@@ -33,10 +33,7 @@ export async function getFile(folder: string, fileName: string, headers: Request
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "GET",
-    url: new URL(
-      `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/file/${folder}/${fileName}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/file/${folder}/${fileName}`,
     headers
   });
 }
@@ -62,10 +59,7 @@ export async function getWLComponent(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
-    url: new URL(
-      `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
     headers,
     query: query
   });
@@ -91,10 +85,7 @@ export async function getWLConfig(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
-    url: new URL(
-      `/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
     headers,
     query: query
   });
@@ -122,7 +113,7 @@ export async function getWLConfigWithDomain(
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
     method: "GET",
-    url: new URL(`/v2/whitelabel/origin/${host}/config/${configId}`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/whitelabel/origin/${host}/config/${configId}`,
     headers,
     query: query
   });

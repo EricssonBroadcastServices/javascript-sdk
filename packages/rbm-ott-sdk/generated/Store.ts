@@ -50,7 +50,7 @@ export async function addPaymentMethod(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<AddPaymentMethodResponse>({
     method: "POST",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`,
     headers
   });
 }
@@ -69,10 +69,7 @@ export async function cancelPurchaseSubscription(
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "DELETE",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/subscriptions/${purchaseId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/subscriptions/${purchaseId}`,
     headers
   });
 }
@@ -92,10 +89,7 @@ export async function deleteStoredPaymentMethod(
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
     method: "DELETE",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
     headers
   });
 }
@@ -110,7 +104,7 @@ export async function getAccountAssetPurchases(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<Asset[]>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/assets`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/assets`,
     headers
   });
 }
@@ -125,10 +119,7 @@ export async function getAccountTransactions(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingTransactions>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions`,
     headers
   });
 }
@@ -143,10 +134,7 @@ export async function getAccountTransactionsWithProductOffering(headers: Request
   const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingTransactionsProductOfferingPairList>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions/productoffering`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions/productoffering`,
     headers
   });
 }
@@ -167,10 +155,7 @@ export async function getCountryOfferingsByVoucher(
   const ctx = (this.context || this) as ServiceContext;
   return request<StorePromotionProductOfferings[]>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/country/${countryCode}/voucher/${voucherCode}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/country/${countryCode}/voucher/${voucherCode}`,
     headers
   });
 }
@@ -191,7 +176,7 @@ export async function getOfferingPurchases(
   const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingPurchases>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`,
     headers,
     query: query
   });
@@ -220,10 +205,7 @@ export async function getOfferings(
   const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOffering[]>({
     method: "GET",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
     query: query
   });
@@ -250,10 +232,7 @@ export async function getOfferingsByCountry(
   const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOfferings>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
     query: query
   });
@@ -274,10 +253,7 @@ export async function getOfferingsByLabels(
   const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOfferings>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/label/${labelFilterId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/label/${labelFilterId}`,
     headers
   });
 }
@@ -297,10 +273,7 @@ export async function getOfferingsByVoucher(
   const ctx = (this.context || this) as ServiceContext;
   return request<StorePromotionProductOfferings[]>({
     method: "GET",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/voucher/${voucherCode}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/voucher/${voucherCode}`,
     headers
   });
 }
@@ -315,7 +288,7 @@ export async function getPurchaseTransactions(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<StorePurchaseTransaction[]>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/purchases`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/purchases`,
     headers
   });
 }
@@ -331,7 +304,7 @@ export async function getStoredPaymentMethods(headers: RequestParams = {}) {
   const ctx = (this.context || this) as ServiceContext;
   return request<PaymentMethods>({
     method: "GET",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`,
     headers
   });
 }
@@ -348,10 +321,7 @@ export async function initialize(data: InitialisePayment, headers: RequestParams
   const ctx = (this.context || this) as ServiceContext;
   return request<InitializePaymentResponse>({
     method: "POST",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/initialize`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/initialize`,
     headers,
     body: data
   });
@@ -374,10 +344,7 @@ export async function initializeAppStorePurchase(
   const ctx = (this.context || this) as ServiceContext;
   return request<AppStorePurchaseInitializeResponse>({
     method: "POST",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/init/${productOfferingId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/init/${productOfferingId}`,
     headers,
     body: data
   });
@@ -400,10 +367,7 @@ export async function initializeGooglePlayPurchase(
   const ctx = (this.context || this) as ServiceContext;
   return request<GooglePlayPurchaseInitializeResponse>({
     method: "POST",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/init/${productOfferingId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/init/${productOfferingId}`,
     headers,
     body: data
   });
@@ -424,10 +388,7 @@ export async function purchaseProductOffering(
   const ctx = (this.context || this) as ServiceContext;
   return request<PurchaseResponse>({
     method: "POST",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${productOfferingId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${productOfferingId}`,
     headers,
     body: data
   });
@@ -449,10 +410,7 @@ export async function updatePaymentMethod(
   const ctx = (this.context || this) as ServiceContext;
   return request<PaymentMethod>({
     method: "PUT",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
     headers,
     body: data
   });
@@ -472,7 +430,7 @@ export async function updatePreferredPaymentMethod(
   const ctx = (this.context || this) as ServiceContext;
   return request<JsonAccount>({
     method: "PUT",
-    url: new URL(`/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/preferred`, ctx.baseUrl),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/preferred`,
     headers,
     body: data
   });
@@ -495,10 +453,7 @@ export async function verifyAppStorePurchase(
   const ctx = (this.context || this) as ServiceContext;
   return request<AppStorePurchaseVerifyResponse>({
     method: "POST",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/${purchaseId}/verify`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/${purchaseId}/verify`,
     headers,
     body: data
   });
@@ -521,10 +476,7 @@ export async function verifyGooglePlayPurchase(
   const ctx = (this.context || this) as ServiceContext;
   return request<GooglePlayPurchaseVerifyResponse>({
     method: "POST",
-    url: new URL(
-      `/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/${purchaseId}/verify`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/${purchaseId}/verify`,
     headers,
     body: data
   });
@@ -546,10 +498,7 @@ export async function verifyPayment(
   const ctx = (this.context || this) as ServiceContext;
   return request<PurchaseResponse>({
     method: "POST",
-    url: new URL(
-      `/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${purchaseId}/verify`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${purchaseId}/verify`,
     headers,
     body: data
   });

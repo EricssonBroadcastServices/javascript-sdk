@@ -23,10 +23,7 @@ export async function deleteFromLastViewedAssetList(assetId: string, headers: Re
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
     method: "DELETE",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewed/asset/${assetId}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewed/asset/${assetId}`,
     headers
   });
 }
@@ -48,10 +45,7 @@ export async function getContinueWatchingTvShow(
   const ctx = (this.context || this) as ServiceContext;
   return request<WatchedTvShowResponse>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/continue/tvshow/${tvshowid}`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/continue/tvshow/${tvshowid}`,
     headers
   });
 }
@@ -90,10 +84,7 @@ export async function getLastViewedOffsetList(
   const ctx = (this.context || this) as ServiceContext;
   return request<LastViewedOffsetList[]>({
     method: "GET",
-    url: new URL(
-      `/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewedoffset`,
-      ctx.baseUrl
-    ),
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewedoffset`,
     headers,
     query: query
   });
