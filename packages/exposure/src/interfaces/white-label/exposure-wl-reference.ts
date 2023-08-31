@@ -30,5 +30,5 @@ export interface IExposureWLReference {
     density?: CarouselDensity;
     backgroundColor?: string;
   };
-  images: IImage[];
+  images?: IImage[];
 }
