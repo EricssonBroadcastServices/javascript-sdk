@@ -1,3 +1,4 @@
+import { IImage } from "../content/image";
 import { WLComponentSubType, WLComponentType } from "./exposure-wl-component";
 
 export enum CarouselLayout {
@@ -27,5 +28,7 @@ export interface IExposureWLReference {
     carouselLayout?: CarouselLayout;
     imageOrientation?: PresentationImageOrientation;
     density?: CarouselDensity;
+    backgroundColor?: string;
   };
+  images: IImage[];
 }

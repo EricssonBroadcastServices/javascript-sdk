@@ -4,8 +4,9 @@ import { IResolvedComponent, PageType, useResolvedPage } from "../../src";
 import { JsonBox } from "../components/JsonBox";
 
 function PagePresentation(props: IResolvedComponent) {
+  const bgImage = props.reference.images.find(i => i.tags?.includes("background"))?.url;
   return (
-    <div>
+    <div style={{ backgroundImage: bgImage ? `url("${bgImage}")` : undefined }}>
       <h3>{props.component.id}</h3>
       <p>{props.component.type}</p>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}

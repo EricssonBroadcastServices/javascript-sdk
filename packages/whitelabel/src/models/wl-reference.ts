@@ -6,7 +6,8 @@ import {
   PresentationImageOrientation,
   WLComponentType,
   WLComponentSubType,
-  CarouselDensity
+  CarouselDensity,
+  IImage
 } from "@ericssonbroadcastservices/exposure-sdk";
 
 export class WLReferencePresentation {
@@ -18,6 +19,8 @@ export class WLReferencePresentation {
   public imageAspectRatio: AspectRatio;
   @jsonProperty()
   public density?: CarouselDensity;
+  @jsonProperty()
+  public backgroundColor?: string;
 }
 
 export class WLReference implements IWLReference {
@@ -35,6 +38,8 @@ export class WLReference implements IWLReference {
   public authorized: boolean;
   @jsonProperty()
   public reloadInterval?: number;
+  @jsonProperty({ type: Object })
+  public images: IImage[];
   @jsonProperty()
   public presentation: WLReferencePresentation = {
     layout: CarouselLayout.CAROUSEL, // default values
