@@ -39,6 +39,7 @@ export async function addToAssetList(
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -66,6 +67,7 @@ export async function addToList(
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -88,7 +90,8 @@ export async function deleteFromAssetList(
   return request<string>({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -111,7 +114,8 @@ export async function deleteFromList(
   return request<string>({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -139,6 +143,7 @@ export async function getAssetList(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -165,6 +170,7 @@ export async function getFromAssetList(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -190,6 +196,7 @@ export async function getList(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -207,7 +214,8 @@ export async function getPreferences(headers: RequestParams = {}) {
   return request<UserPreferenceResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -226,6 +234,7 @@ export async function setPreferences(data: SetUserPreferenceRequest, headers: Re
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
     headers,
+    ctx,
     body: data
   });
 }

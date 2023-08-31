@@ -22,7 +22,8 @@ export async function getLocation(headers: RequestParams = {}) {
   return request<Location>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/location`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -37,7 +38,8 @@ export async function getLocationFromReferer(headers: RequestParams = {}) {
   return request<Location>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/location`,
-    headers
+    headers,
+    ctx
   });
 }
 

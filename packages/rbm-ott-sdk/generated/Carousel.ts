@@ -47,6 +47,7 @@ export async function getCarousel(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -96,6 +97,7 @@ export async function getCarouselPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -110,7 +112,8 @@ export async function getCarouselGroups(headers: RequestParams = {}) {
   return request<string[]>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -151,6 +154,7 @@ export async function getCarouselsForGroup(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -201,6 +205,7 @@ export async function getCarouselsForGroupPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }

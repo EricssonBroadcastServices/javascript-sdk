@@ -62,6 +62,7 @@ export async function getEvents(
       .toISOString()
       .substring(0, 10)}`,
     headers,
+    ctx,
     query: query
   });
 }

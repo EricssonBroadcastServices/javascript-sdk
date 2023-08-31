@@ -26,7 +26,8 @@ export async function getTagById(
   return request<TagType>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/${tagId}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -89,6 +90,7 @@ export async function getUniqueTagsFromAssets(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/asset`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -123,6 +125,7 @@ export async function listTags(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag`,
     headers,
+    ctx,
     query: query
   });
 }

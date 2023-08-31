@@ -45,6 +45,7 @@ export async function getActiveChannels(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -73,6 +74,7 @@ export async function getChannelStatus(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow/${channelId}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -124,6 +126,7 @@ export async function getEpg(
       .toISOString()
       .substring(0, 10)}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -176,6 +179,7 @@ export async function getEpgForChannel(
       .toISOString()
       .substring(0, 10)}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -228,6 +232,7 @@ export async function getEpgForChannels(
       .toISOString()
       .substring(0, 10)}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -249,7 +254,8 @@ export async function getNextProgram(
   return request<ProgramResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}/next`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -269,7 +275,8 @@ export async function getNextProgramForAsset(
   return request<ProgramResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/asset/${assetId}/next`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -294,6 +301,7 @@ export async function getProgram(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -325,6 +333,7 @@ export async function getXmlTvEpgForChannel(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`,
     headers,
+    ctx,
     query: query
   });
 }

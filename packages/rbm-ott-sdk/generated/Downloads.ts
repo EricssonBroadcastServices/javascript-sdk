@@ -22,7 +22,8 @@ export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
   return request<Message>({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -41,7 +42,8 @@ export async function deleteDownloadsForAsset(
   return request<Message>({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -67,6 +69,7 @@ export async function download(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -86,7 +89,8 @@ export async function downloadCompleted(
   return request<BookkeeperAsset>({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadcompleted`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -113,6 +117,7 @@ export async function downloadInfo(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -133,7 +138,8 @@ export async function downloadRenewed(
   return request<BookkeeperAsset>({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadrenewed`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -148,7 +154,8 @@ export async function getDownloadsForAccount(headers: RequestParams = {}) {
   return request<BookkeeperAccount>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -167,7 +174,8 @@ export async function getDownloadsForAsset(
   return request<BookkeeperAsset>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
-    headers
+    headers,
+    ctx
   });
 }
 

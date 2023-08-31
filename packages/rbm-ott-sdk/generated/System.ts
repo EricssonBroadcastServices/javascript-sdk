@@ -29,6 +29,7 @@ export async function getSystemConfig(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -52,6 +53,7 @@ export async function getSystemConfigV2(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`,
     headers,
+    ctx,
     query: query
   });
 }

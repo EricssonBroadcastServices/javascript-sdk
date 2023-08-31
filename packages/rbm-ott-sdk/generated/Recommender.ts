@@ -32,6 +32,7 @@ export async function getContinueWatching(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -60,6 +61,7 @@ export async function getRecommendationsForAsset(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/watchNext/${assetId}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -87,6 +89,7 @@ export async function getRecommendationsForUser(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`,
     headers,
+    ctx,
     query: query
   });
 }

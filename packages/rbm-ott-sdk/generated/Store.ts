@@ -51,7 +51,8 @@ export async function addPaymentMethod(headers: RequestParams = {}) {
   return request<AddPaymentMethodResponse>({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -70,7 +71,8 @@ export async function cancelPurchaseSubscription(
   return request<void>({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/subscriptions/${purchaseId}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -90,7 +92,8 @@ export async function deleteStoredPaymentMethod(
   return request<void>({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -105,7 +108,8 @@ export async function getAccountAssetPurchases(headers: RequestParams = {}) {
   return request<Asset[]>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/assets`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -120,7 +124,8 @@ export async function getAccountTransactions(headers: RequestParams = {}) {
   return request<ProductOfferingTransactions>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -135,7 +140,8 @@ export async function getAccountTransactionsWithProductOffering(headers: Request
   return request<ProductOfferingTransactionsProductOfferingPairList>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions/productoffering`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -156,7 +162,8 @@ export async function getCountryOfferingsByVoucher(
   return request<StorePromotionProductOfferings[]>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/country/${countryCode}/voucher/${voucherCode}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -178,6 +185,7 @@ export async function getOfferingPurchases(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -207,6 +215,7 @@ export async function getOfferings(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -234,6 +243,7 @@ export async function getOfferingsByCountry(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -254,7 +264,8 @@ export async function getOfferingsByLabels(
   return request<StoreProductOfferings>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/label/${labelFilterId}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -274,7 +285,8 @@ export async function getOfferingsByVoucher(
   return request<StorePromotionProductOfferings[]>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/voucher/${voucherCode}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -289,7 +301,8 @@ export async function getPurchaseTransactions(headers: RequestParams = {}) {
   return request<StorePurchaseTransaction[]>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/purchases`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -305,7 +318,8 @@ export async function getStoredPaymentMethods(headers: RequestParams = {}) {
   return request<PaymentMethods>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -323,6 +337,7 @@ export async function initialize(data: InitialisePayment, headers: RequestParams
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/initialize`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -346,6 +361,7 @@ export async function initializeAppStorePurchase(
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/init/${productOfferingId}`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -369,6 +385,7 @@ export async function initializeGooglePlayPurchase(
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/init/${productOfferingId}`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -390,6 +407,7 @@ export async function purchaseProductOffering(
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${productOfferingId}`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -412,6 +430,7 @@ export async function updatePaymentMethod(
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -432,6 +451,7 @@ export async function updatePreferredPaymentMethod(
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/preferred`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -455,6 +475,7 @@ export async function verifyAppStorePurchase(
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/${purchaseId}/verify`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -478,6 +499,7 @@ export async function verifyGooglePlayPurchase(
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/${purchaseId}/verify`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -500,6 +522,7 @@ export async function verifyPayment(
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${purchaseId}/verify`,
     headers,
+    ctx,
     body: data
   });
 }

@@ -20,7 +20,8 @@ export async function intialize(headers: RequestParams = {}) {
   return request<void>({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/init`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -35,6 +36,7 @@ export async function postEvents(data: AnalyticsBatch, headers: RequestParams = 
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/send`,
     headers,
+    ctx,
     body: data
   });
 }

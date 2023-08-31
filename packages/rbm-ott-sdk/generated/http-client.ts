@@ -15,6 +15,7 @@ export type ServiceContext = {
   baseUrl: string;
   customer: string;
   businessUnit: string;
+  errorFactory?: (response: Response) => Error;
 };
 
 export type requestArgs = {
@@ -23,6 +24,7 @@ export type requestArgs = {
   headers?: Record<string, string>;
   query?: QueryParams;
   body?: Record<string, any>;
+  ctx?: ServiceContext;
 };
 
 function toQueryString(query: QueryParams = {}): string {
@@ -33,7 +35,11 @@ function toQueryString(query: QueryParams = {}): string {
   return String(new URLSearchParams(Object.fromEntries(sanitized)));
 }
 
-export async function request<T = any>({ method, url, headers = {}, query = {}, body }: requestArgs): Promise<T> {
+function defaultErrorFactory(response: Response) {
+  return new Error(`HTTP Error: ${response.statusText} (${response.status})`);
+}
+
+export async function request<T = any>({ method, url, headers = {}, query = {}, body, ctx }: requestArgs): Promise<T> {
   const fullUrl = Object.keys(query).length ? `${url}/?${toQueryString(query)}` : url;
   if (!Object.keys(headers).some(key => key.toLowerCase() === "content-type")) {
     headers["content-type"] = "application/json";
@@ -44,7 +50,7 @@ export async function request<T = any>({ method, url, headers = {}, query = {}, 
   }
   const response = await fetch(fullUrl, params);
   if (!response.ok) {
-    throw new Error(`HTTP Error: ${response.statusText} (${response.status})`);
+    throw (ctx?.errorFactory || defaultErrorFactory)(response);
   }
   return response.json();
 }

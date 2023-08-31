@@ -41,6 +41,7 @@ export async function deleteSessions(data: DeleteUsersSessionsRequest, headers: 
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -61,6 +62,7 @@ export async function externalUserSession(data: ExternalUserSessionRequest, head
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/externalusersession`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -81,6 +83,7 @@ export async function getOauthAuth(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/auth`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -101,6 +104,7 @@ export async function getOauthRedir(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/redir`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -122,6 +126,7 @@ export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -140,6 +145,7 @@ export async function loginAnonymous(data: AnonymousSessionRequest, headers: Req
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -160,6 +166,7 @@ export async function loginFirebase(data: FirebaseAuthenticationRequest, headers
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/firebaseLogin`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -179,6 +186,7 @@ export async function loginGigya(data: GigyaAuthenticationRequest, headers: Requ
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/gigyaLogin`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -193,6 +201,7 @@ export async function loginOauth(data: OauthAuthenticationRequest, headers: Requ
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauthLogin`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -213,6 +222,7 @@ export async function loginPrimetime(data: PrimetimeAuthenticationRequest, heade
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/adobePrimetimeLogin`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -237,6 +247,7 @@ export async function logout(
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -257,6 +268,7 @@ export async function session(data: ApiKeyUserSessionRequest, headers: RequestPa
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`,
     headers,
+    ctx,
     body: data
   });
 }
@@ -275,7 +287,8 @@ export async function validateSessionToken(headers: RequestParams = {}) {
   return request<SessionResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`,
-    headers
+    headers,
+    ctx
   });
 }
 

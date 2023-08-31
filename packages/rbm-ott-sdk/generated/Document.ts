@@ -43,6 +43,7 @@ export async function getDocument(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/document`,
     headers,
+    ctx,
     query: query
   });
 }

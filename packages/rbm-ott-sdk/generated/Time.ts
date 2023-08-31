@@ -23,7 +23,8 @@ export async function getTime(headers: RequestParams = {}) {
   return request<TimeResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/time`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -38,7 +39,8 @@ export async function getTimeAnonymous(headers: RequestParams = {}) {
   return request<TimeResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v2/time`,
-    headers
+    headers,
+    ctx
   });
 }
 

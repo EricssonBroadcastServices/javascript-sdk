@@ -24,7 +24,8 @@ export async function deleteFromLastViewedAssetList(assetId: string, headers: Re
   return request<string>({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewed/asset/${assetId}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -46,7 +47,8 @@ export async function getContinueWatchingTvShow(
   return request<WatchedTvShowResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/continue/tvshow/${tvshowid}`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -86,6 +88,7 @@ export async function getLastViewedOffsetList(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewedoffset`,
     headers,
+    ctx,
     query: query
   });
 }

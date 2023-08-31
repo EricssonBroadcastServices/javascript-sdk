@@ -29,6 +29,7 @@ export async function accountProducts(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -50,6 +51,7 @@ export async function availabilityKeys(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -83,6 +85,7 @@ export async function entitle(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -230,6 +233,7 @@ export async function play(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
     headers,
+    ctx,
     query: query
   });
 }

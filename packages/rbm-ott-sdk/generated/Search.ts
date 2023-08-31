@@ -30,6 +30,7 @@ export async function autocomplete(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/autocomplete/${query}`,
     headers,
+    ctx,
     query: queryParams
   });
 }
@@ -61,6 +62,7 @@ export async function autocompleteAssetTitle(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/title/autocomplete/${query}`,
     headers,
+    ctx,
     query: queryParams
   });
 }
@@ -87,6 +89,7 @@ export async function autocompleteTagTitle(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/title/autocomplete/${query}`,
     headers,
+    ctx,
     query: queryParams
   });
 }
@@ -110,6 +113,7 @@ export async function getSuggestions(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/suggestions/${query}`,
     headers,
+    ctx,
     query: queryParams
   });
 }
@@ -159,6 +163,7 @@ export async function search(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -217,6 +222,7 @@ export async function searchPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -267,6 +273,7 @@ export async function searchAsset(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -326,6 +333,7 @@ export async function searchAssetPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -371,6 +379,7 @@ export async function searchEpg(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -425,6 +434,7 @@ export async function searchEpgPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -479,6 +489,7 @@ export async function searchNoQuery(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -542,6 +553,7 @@ export async function searchNoQueryPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -578,6 +590,7 @@ export async function searchTags(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -623,6 +636,7 @@ export async function searchTagsPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -683,6 +697,7 @@ export async function searchV2(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -752,6 +767,7 @@ export async function searchV2Partial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -799,6 +815,7 @@ export async function searchV3(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }
@@ -855,6 +872,7 @@ export async function searchV3Partial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(queryParams || {}) }
   });
 }

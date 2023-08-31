@@ -45,6 +45,7 @@ export async function getAsset(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -92,6 +93,7 @@ export async function getAssetPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -175,6 +177,7 @@ export async function getAssets(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -267,6 +270,7 @@ export async function getAssetsPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -301,6 +305,7 @@ export async function getAssetThumbnail(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/thumbnail`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -343,6 +348,7 @@ export async function getCollectionEntries(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -394,6 +400,7 @@ export async function getCollectionEntriesPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -431,6 +438,7 @@ export async function getEpisodes(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -477,6 +485,7 @@ export async function getEpisodesPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -498,7 +507,8 @@ export async function getNextCollectionEntry(
   return request<Asset>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/next`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -517,7 +527,8 @@ export async function getNextEpisode(
   return request<Asset>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/next`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -538,7 +549,8 @@ export async function getPreviousCollectionEntry(
   return request<Asset>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/previous`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -557,7 +569,8 @@ export async function getPreviousEpisode(
   return request<Asset>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/previous`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -584,6 +597,7 @@ export async function getSeason(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -620,6 +634,7 @@ export async function getSeasonPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -650,6 +665,7 @@ export async function getSeasonsForTvShow(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
@@ -689,6 +705,7 @@ export async function getSeasonsForTvShowPartial<T = any>(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
     headers,
+    ctx,
     query: { fieldSet: "ALL", ...(query || {}) }
   });
 }

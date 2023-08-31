@@ -30,6 +30,7 @@ export async function getConfigCuFile(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config/${fileName}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -54,6 +55,7 @@ export async function getConfigFile(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -80,6 +82,7 @@ export async function getConfigFileCustomDomainInPath(
     method: "GET",
     url: `${ctx.baseUrl}/v1/config/${fileId}/origin/${host}`,
     headers,
+    ctx,
     query: query
   });
 }
@@ -94,7 +97,8 @@ export async function getConfigFiles(headers: RequestParams = {}) {
   return request<ConfigFilesResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config`,
-    headers
+    headers,
+    ctx
   });
 }
 /**
@@ -108,7 +112,8 @@ export async function getConfigFilesCu(headers: RequestParams = {}) {
   return request<ConfigFilesResponse>({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config`,
-    headers
+    headers,
+    ctx
   });
 }
 
