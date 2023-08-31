@@ -35,7 +35,8 @@ export async function getSeasonById(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) }
+    query: { fieldSet: "ALL", ...(query || {}) },
+    addAuthHeader: true
   });
 }
 /**
@@ -72,7 +73,8 @@ export async function getSeasonByIdPartial<T = any>(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) }
+    query: { fieldSet: "ALL", ...(query || {}) },
+    addAuthHeader: true
   });
 }
 /**
@@ -118,7 +120,8 @@ export async function getSeasons(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) }
+    query: { fieldSet: "ALL", ...(query || {}) },
+    addAuthHeader: true
   });
 }
 /**
@@ -173,7 +176,8 @@ export async function getSeasonsPartial<T = any>(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) }
+    query: { fieldSet: "ALL", ...(query || {}) },
+    addAuthHeader: true
   });
 }
 

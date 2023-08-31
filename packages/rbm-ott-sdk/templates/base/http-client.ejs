@@ -21,6 +21,7 @@ export type requestArgs = {
   query?: QueryParams;
   body?: Record<string, any>;
   ctx?: ServiceContext;
+  addAuthHeader?: boolean;
 };
 
 const keyStorage = new Map<string, string>();
@@ -43,7 +44,8 @@ export async function request<T = any>({
   headers = {},
   query = {},
   body,
-  ctx
+  ctx,
+  addAuthHeader,
 }: requestArgs): Promise<T> {
   const fullUrl = Object.keys(query).length ? `${url}/?${toQueryString(query)}` : url;
   const headerKeys = Object.keys(headers).map(key => key.toLowerCase());
@@ -52,7 +54,7 @@ export async function request<T = any>({
   if (!headerKeys.includes("content-type")) {
     headers["content-type"] = "application/json";
   }
-  if (ctxIdent && !headerKeys.includes("authorization")) {
+  if (addAuthHeader && ctxIdent && !headerKeys.includes("authorization")) {
     const sessionToken = keyStorage.get(ctxIdent);
     if (sessionToken) {
       headers.authorization = `Bearer ${sessionToken}`;

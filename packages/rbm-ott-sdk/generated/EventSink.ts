@@ -37,7 +37,8 @@ export async function postEvents(data: AnalyticsBatch, headers: RequestParams = 
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/send`,
     headers,
     ctx,
-    body: data
+    body: data,
+    addAuthHeader: true
   });
 }
 

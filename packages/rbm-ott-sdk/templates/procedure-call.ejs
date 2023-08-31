@@ -75,5 +75,6 @@ if (normalizeDate) {
       ctx,
       <% if (query) { %>query: <%~ queryParamValue %>,<% } %>
       <% if (payload?.name) { %>body: <%~ payload.name %>,<% } %>
+      <% if (route.headersObjectSchema.properties?.Authorization?.in === "header") { %>addAuthHeader: true,<% } %>
     })
 }
