@@ -41,7 +41,6 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 /**
  * @summary Add payment method
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods
- * @secure
  * @response `200` `AddPaymentMethodResponse` Successful
  * @response `403` `AddPaymentMethodResponse` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
@@ -58,7 +57,6 @@ export async function addPaymentMethod(headers: RequestParams = {}) {
 /**
  * @summary Cancel a subscription purchase, no more renewals will be done.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/subscriptions/{purchaseId}
- * @secure
  * @response `default` `void` success
  */
 export async function cancelPurchaseSubscription(
@@ -78,7 +76,6 @@ export async function cancelPurchaseSubscription(
 /**
  * @summary Delete payment method
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods/{paymentMethodId}
- * @secure
  * @response `200` `void` Successful
  * @response `403` `void` FEATURE_NOT_ENABLED_FOR_BUSINESS_UNIT the business unit is not integrated with a payment provider
  */
@@ -99,7 +96,6 @@ export async function deleteStoredPaymentMethod(
 /**
  * @summary Get all active asset purchases for account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/assets
- * @secure
  * @response `default` `(Asset)[]` success
  */
 export async function getAccountAssetPurchases(headers: RequestParams = {}) {
@@ -115,7 +111,6 @@ export async function getAccountAssetPurchases(headers: RequestParams = {}) {
 /**
  * @summary Get all transactions for account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/transactions
- * @secure
  * @response `default` `ProductOfferingTransactions` success
  */
 export async function getAccountTransactions(headers: RequestParams = {}) {
@@ -131,7 +126,6 @@ export async function getAccountTransactions(headers: RequestParams = {}) {
 /**
  * @summary Get all transactions for account paired with product offerings.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/transactions/productoffering
- * @secure
  * @response `default` `ProductOfferingTransactionsProductOfferingPairList` success
  */
 export async function getAccountTransactionsWithProductOffering(headers: RequestParams = {}) {
@@ -169,7 +163,6 @@ export async function getCountryOfferingsByVoucher(
 /**
  * @summary Get currently active purchases of the user's account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase
- * @secure
  * @response `default` `ProductOfferingPurchases` success
  */
 export async function getOfferingPurchases(
@@ -272,7 +265,6 @@ export async function getOfferingsByLabels(
  * @description EXPERIMENTAL
  * @summary Get product offerings available for the specific voucher code.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productofferings/voucher/{voucherCode}
- * @secure
  * @response `default` `(StorePromotionProductOfferings)[]` success
  */
 export async function getOfferingsByVoucher(
@@ -292,7 +284,6 @@ export async function getOfferingsByVoucher(
 /**
  * @summary Get all purchases for account including transactions
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases
- * @secure
  * @response `default` `(StorePurchaseTransaction)[]` success
  */
 export async function getPurchaseTransactions(headers: RequestParams = {}) {
@@ -308,7 +299,6 @@ export async function getPurchaseTransactions(headers: RequestParams = {}) {
 /**
  * @summary Get stored payment methods
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods
- * @secure
  * @response `200` `PaymentMethods` Successful
  * @response `403` `PaymentMethods` FEATURE_NOT_ENABLED_FOR_BUSINESS_UNIT the business unit is not integrated with a payment provider
  */
@@ -327,7 +317,6 @@ export async function getStoredPaymentMethods(headers: RequestParams = {}) {
  * @summary EXPERIMENTAL
 Called to before initiating a new payment.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/initialize
- * @secure
  * @response `default` `InitializePaymentResponse` success
  */
 export async function initialize(data: InitialisePayment, headers: RequestParams = {}) {
@@ -345,7 +334,6 @@ export async function initialize(data: InitialisePayment, headers: RequestParams
  * @description Set up a purchase of specified Product Offering, using App Store. If the Product Offerings field productRequiresSelectAsset is true then a assetId must be provided.
  * @summary Initialize a App Store purchase
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/store/appstore/purchase/init/{productOfferingId}
- * @secure
  * @response `200` `AppStorePurchaseInitializeResponse` Successful
  * @response `400` `AppStorePurchaseInitializeResponse` Bad request
  */
@@ -369,7 +357,6 @@ export async function initializeAppStorePurchase(
  * @description Set up a purchase of specified Product Offering, using Google Play. If the Product Offerings field productRequiresSelectAsset is true then a assetId must be provided.
  * @summary Initialize a Google Play purchase
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/store/googleplay/purchase/init/{productOfferingId}
- * @secure
  * @response `200` `GooglePlayPurchaseInitializeResponse` Successful
  * @response `400` `GooglePlayPurchaseInitializeResponse` Bad request
  */
@@ -392,7 +379,6 @@ export async function initializeGooglePlayPurchase(
 /**
  * @summary Purchase a productOffering.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/{productOfferingId}
- * @secure
  * @response `default` `PurchaseResponse` success
  */
 export async function purchaseProductOffering(
@@ -414,7 +400,6 @@ export async function purchaseProductOffering(
 /**
  * @summary Update payment method
  * @request PUT:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods/{paymentMethodId}
- * @secure
  * @response `200` `PaymentMethod` Successful
  * @response `403` `PaymentMethod` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
@@ -437,7 +422,6 @@ export async function updatePaymentMethod(
 /**
  * @summary Update the preferred payment method
  * @request PUT:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods/preferred
- * @secure
  * @response `200` `JsonAccount` Successful
  * @response `403` `JsonAccount` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
@@ -459,7 +443,6 @@ export async function updatePreferredPaymentMethod(
  * @description Verifies that the purchase was successful and makes entilement if so.
  * @summary Verify a App Store purchase
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/store/appstore/purchase/{purchaseId}/verify
- * @secure
  * @response `200` `AppStorePurchaseVerifyResponse` Successful
  * @response `400` `AppStorePurchaseVerifyResponse` Bad request
  */
@@ -483,7 +466,6 @@ export async function verifyAppStorePurchase(
  * @description Verifies that the purchase was successful and makes entilement if so.
  * @summary Verify a Google Play purchase
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/store/googleplay/purchase/{purchaseId}/verify
- * @secure
  * @response `200` `GooglePlayPurchaseVerifyResponse` Successful
  * @response `400` `GooglePlayPurchaseVerifyResponse` Bad request
  */
@@ -507,7 +489,6 @@ export async function verifyGooglePlayPurchase(
  * @description E.g. a redirect flow, where the purchaser has to authenticate to the card issuer. * Also, used to send additional data from the shopper if that's required.
  * @summary Verify a purchase of a productOffering if a "AUTHORIZED/REJECTED"-status is not given directly.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/{purchaseId}/verify
- * @secure
  * @response `default` `PurchaseResponse` success
  */
 export async function verifyPayment(

@@ -18,7 +18,6 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 /**
  * @summary Delete an asset rating given by currently logged in user.
  * @request DELETE:/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
@@ -59,7 +58,6 @@ export async function getAllUserContentRatingsForAsset(
 /**
  * @summary Give all asset ratings given by currently logged in user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/rating/all
- * @secure
  * @response `200` `(GetAllUserContentRatingsForUserResponse)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
@@ -77,7 +75,6 @@ export async function getAllUserContentRatingsForUser(headers: RequestParams = {
 /**
  * @summary Get rating of an asset given by the currently logged in user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}
- * @secure
  * @response `200` `GetUserContentRatingResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
@@ -99,7 +96,6 @@ export async function getUserContentRating(
 /**
  * @summary Create/Update a rating for an asset given by currently logged in user.
  * @request PUT:/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  * @response `422` `void` RATING_BELOW_ZERO. If the supplied rating is below 0.0. RATING_ABOVE_ONE. If the supplied rating is above 1.0.

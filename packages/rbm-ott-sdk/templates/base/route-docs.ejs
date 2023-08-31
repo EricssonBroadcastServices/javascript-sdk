@@ -10,7 +10,6 @@ const jsDocLines = _.compact([
     raw.deprecated && ` * @deprecated`,
     routeName.duplicate && ` * @originalName ${routeName.original}`,
     routeName.duplicate && ` * @duplicate`,
-    request.security && ` * @secure`,
     ...(config.generateResponses && raw.responsesTypes.length
     ? raw.responsesTypes.map(
         ({ type, status, description, isSuccess }) =>

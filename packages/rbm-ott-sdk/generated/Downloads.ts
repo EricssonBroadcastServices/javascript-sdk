@@ -13,7 +13,6 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 /**
  * @summary Unregister all downloads done by an account.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
- * @secure
  * @response `default` `Message` success
  */
 export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
@@ -29,7 +28,6 @@ export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
 /**
  * @summary Unregister all downloads for an asset done by an account.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
- * @secure
  * @response `default` `Message` success
  */
 export async function deleteDownloadsForAsset(
@@ -49,7 +47,6 @@ export async function deleteDownloadsForAsset(
 /**
  * @summary Perform a download operation that will give the client media locators and license information.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/download
- * @secure
  * @response `200` `DownloadResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `403` `void` MAX_DOWNLOAD_COUNT_LIMIT_REACHED. Max number of downloads for this asset reached. FORBIDDEN. Operation is not allowed.
@@ -76,7 +73,6 @@ export async function download(
 /**
  * @summary Register a completed download of an asset.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadcompleted
- * @secure
  * @response `default` `BookkeeperAsset` success
  */
 export async function downloadCompleted(
@@ -97,7 +93,6 @@ export async function downloadCompleted(
  * @description It will also return information about different download alternatives.
  * @summary Checks if the user is entitled to download the asset.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadinfo
- * @secure
  * @response `200` `DownloadInfoResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `403` `void` MAX_DOWNLOAD_COUNT_LIMIT_REACHED. Max number of downloads for this asset reached. FORBIDDEN. Operation is not allowed.
@@ -125,7 +120,6 @@ export async function downloadInfo(
  * @description This will count as a new download.
  * @summary Register license renewed for a downloaded asset.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadrenewed
- * @secure
  * @response `default` `BookkeeperAsset` success
  */
 export async function downloadRenewed(
@@ -145,7 +139,6 @@ export async function downloadRenewed(
 /**
  * @summary Get information about all downloads done by an account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
- * @secure
  * @response `default` `BookkeeperAccount` success
  */
 export async function getDownloadsForAccount(headers: RequestParams = {}) {
@@ -161,7 +154,6 @@ export async function getDownloadsForAccount(headers: RequestParams = {}) {
 /**
  * @summary Get information for all downloads for an asset done by an account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
- * @secure
  * @response `default` `BookkeeperAsset` success
  */
 export async function getDownloadsForAsset(

@@ -59,7 +59,6 @@ export async function availabilityKeys(
  * @description Check if the user is/will be allowed to play using current configuration.
  * @summary Do an entitlement check.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle
- * @secure
  * @response `200` `EntitleResponseV2` success
  * @response `400` `void` INVALID_JSON. If JSON received is not valid JSON.
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
@@ -93,7 +92,6 @@ export async function entitle(
  * @description If the entitlement checks pass it will return the information needed to initialize the player.
  * @summary Do a play call.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/play
- * @secure
  * @response `200` `PlayResponseV2` success
  * @response `400` `void` INVALID_JSON. If JSON received is not valid JSON. INVALID_START_TIME. Invalid startTime. INVALID_END_TIME. Invalid endTime. END_TIME_WITHOUT_START_TIME_IS_NOT_ALLOWED. Only endTime without startTime is not allowed. START_TIME_MUST_BE_BEFORE_END_TIME. StartTime must be before endTime. START_TIME_OLD. StartTime is not accepted. It is too old. START_TIME_OLD_WHEN_NO_END_TIME. StartTime is not accepted. It is too old when no endTime is provided. START_TIME_IN_THE_FUTURE. StartTime cannot be in the future. START_END_TIME_DURATION_TO_LONG. The duration between startTime and endTime is to long.
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid. INVALID_ADOBE_AUTH. The provided adobe play token is not valid.

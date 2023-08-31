@@ -229,7 +229,6 @@ export async function loginPrimetime(data: PrimetimeAuthenticationRequest, heade
 /**
  * @summary Logout.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/auth/login
- * @secure
  * @response `200` `EmptyResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If Bearer is missing in authorization header.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
@@ -276,7 +275,6 @@ export async function session(data: ApiKeyUserSessionRequest, headers: RequestPa
  * @description Checks if the session is still valid. If the session is marked "overTheDeviceLimit" ths session is valid but may only be used to list and delete devices. By deleting another device the "overTheDeviceLimit" will be cleared.
  * @summary Validate session.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/auth/session
- * @secure
  * @response `200` `SessionResponse` success
  * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.

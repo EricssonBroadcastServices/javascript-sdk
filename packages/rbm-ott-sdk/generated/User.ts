@@ -37,7 +37,6 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 /**
  * @summary Add a user profile.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/user/profile
- * @secure
  * @response `200` `UserProfiles` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_OWNER. Only the owner may create profiles.
@@ -56,7 +55,6 @@ export async function addProfile(data: UserProfileCreateRequest, headers: Reques
 /**
  * @summary Change email address that is not used as username.
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/changeEmail
- * @secure
  * @response `400` `void` EMAIL_ADDRESS_USED_AS_USERNAME. The user uses email as username, consider using the changeEmailAndUsername endpoint.
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired. BAD_PASSWORD. Entered password is not correct.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER NOT_ALLOWED_IN_ANONYMOUS_SESSION. EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved. NOT_ALLOWED_IN_SESSION_USER_SESSION.
@@ -76,7 +74,6 @@ export async function changeEmail(data: ChangeEmailRequestV3, headers: RequestPa
 /**
  * @summary Change email address and username.
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/changeEmailAndUsername
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired. BAD_PASSWORD. Entered password is not correct.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER NOT_ALLOWED_IN_ANONYMOUS_SESSION. EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  * @response `422` `void` BAD_EMAIL_ADDRESS. The new email address is malformed.
@@ -95,7 +92,6 @@ export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, hea
 /**
  * @summary Change password.
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/changePassword
- * @secure
  * @response `200` `ChangePasswordResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER OLD_PASSWORD_IS_NOT_CORRECT, the old password is not correct. NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
@@ -116,7 +112,6 @@ export async function changePassword(data: ChangePwdV3, headers: RequestParams =
  * @description The code can then be consumed to yield a valid session. This is intended for devices like AppleTV and SmartTVs in which entering credentials is cumbersome. This end point requires the "EH" subscriber management feature.
  * @summary Confirms an activation code.
  * @request PUT:/v2/customer/{customer}/businessunit/{businessUnit}/user/activation/confirm/{code}
- * @secure
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  * @response `404` `void` NOT_FOUND. The code is not found or has expired.
  */
@@ -214,7 +209,6 @@ export async function createNewAccount(data: UserSignupRequestV3, headers: Reque
  * @description The id will be generated. If yoy want to specify the id, then instead create the code using the Update end point.
  * @summary Create a pin code.
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/user/pincode
- * @secure
  * @response `200` `(PinCodeResponse)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
@@ -233,7 +227,6 @@ export async function createPinCode(data: PinCodeSetRequest, headers: RequestPar
 /**
  * @summary Delete a pin code.
  * @request DELETE:/v3/customer/{customer}/businessunit/{businessUnit}/user/pincode/pin/{pincodeId}
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
@@ -254,7 +247,6 @@ export async function deletePinCode(
 /**
  * @summary Delete personal data.
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/user/delete
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired. BAD_PASSWORD. The provided password is faulty.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION STORED_PAYMENT_DETAILS, the account cannot be deleted as there are stored payment details for the account. OWNER_OF_ACCOUNT_WITH_NON_OWNER_USER, this user can not be deleted as there are other non-owners in the account. NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION. NOT_SUPPORTED_FOR_FEDERATED_USER
  */
@@ -273,7 +265,6 @@ export async function deleteUserDetails(data: CredentialsV3, headers: RequestPar
  * @description It's not allowed to delete the profile used in the current session.
  * @summary Delete a user profile.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION DELETE_CURRENT_PROFILE_NOT_ALLOWED NOT_OWNER. Only the owner may delete profiles.
  */
@@ -295,7 +286,6 @@ export async function deleteUserProfile(
  * @description This can be used in special applications to e.g. get appropriate product offerings.
  * @summary Get current accounts labelFilter.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/label/filter
- * @secure
  * @response `default` `LabelFilter` success
  */
 export async function getAccountLabels(headers: RequestParams = {}) {
@@ -311,7 +301,6 @@ export async function getAccountLabels(headers: RequestParams = {}) {
 /**
  * @summary Get pin codes.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/user/pincode
- * @secure
  * @response `200` `(PinCodeResponse)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
@@ -329,7 +318,6 @@ export async function getPinCodes(headers: RequestParams = {}) {
 /**
  * @summary Get user profiles.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/user/profile
- * @secure
  * @response `200` `UserProfiles` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
@@ -347,7 +335,6 @@ export async function getProfiles(headers: RequestParams = {}) {
 /**
  * @summary Get user details.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/user/details
- * @secure
  * @response `200` `UserDetailsResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
@@ -367,7 +354,6 @@ export async function getUserDetails(headers: RequestParams = {}) {
  * @description The user has given consent to collection of personal information.
  * @summary EXPERIMENTAL.
  * @request PUT:/v1/customer/{customer}/businessunit/{businessUnit}/user/consent
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  */
 export async function giveConsent(headers: RequestParams = {}) {
@@ -384,7 +370,6 @@ export async function giveConsent(headers: RequestParams = {}) {
  * @description Attributes NOT in the provided list will be untouched.
  * @summary Update provided user attributes.
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/attributes
- * @secure
  * @response `200` `UserDetailsResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
@@ -424,7 +409,6 @@ export async function resetPassword(
  * @description The current session token will be replaced.
  * @summary Select a user profile.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}/select
- * @secure
  * @response `200` `LoginResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
@@ -468,7 +452,6 @@ export async function setPasswordWithToken(
 /**
  * @summary Update (or Create) a pin code.
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/pincode/pin/{pincodeId}
- * @secure
  * @response `200` `(PinCodeResponse)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
@@ -492,7 +475,6 @@ export async function setPinCode(
 /**
  * @summary Update user details.
  * @request PUT:/v2/customer/{customer}/businessunit/{businessUnit}/user/details
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here
  * @response `422` `void` BAD_PASSWORD. The new password is non-compliant to policy
@@ -511,7 +493,6 @@ export async function userDetailsUpdate(data: UserDetailsUpdateRequest, headers:
 /**
  * @summary Update user profile.
  * @request PUT:/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}
- * @secure
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here NOT_OWNER. Only the owner may update profiles.
  */
@@ -535,7 +516,6 @@ export async function userProfileUpdate(
  * @description Returns a list of application specified grants if successfully validated, else an empty list [].
  * @summary Validate a pin code.
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/user/pincode/pin/{pincodeId}/validate
- * @secure
  * @response `200` `(string)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
@@ -560,7 +540,6 @@ export async function validatePinCode(
  * @description The provided code is matched with all defined pin codes. Returns a list of application specified grants of all successfully validated pin codes, if no one matches an empty list [] is returned.
  * @summary Validate all pin codes.
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/user/pincode/validate
- * @secure
  * @response `200` `(string)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.

@@ -19,7 +19,6 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 /**
  * @summary Adds an item to the asset list.
  * @request POST:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/asset/{assetId}
- * @secure
  * @response `200` `string` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `403` `void` TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences. TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.
@@ -46,7 +45,6 @@ export async function addToAssetList(
 /**
  * @summary Adds an item to a list.
  * @request POST:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}
- * @secure
  * @response `200` `string` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `403` `void` TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences. TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.
@@ -74,7 +72,6 @@ export async function addToList(
 /**
  * @summary Deletes an item from the asset list.
  * @request DELETE:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/asset/{assetId}
- * @secure
  * @response `200` `string` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
@@ -97,7 +94,6 @@ export async function deleteFromAssetList(
 /**
  * @summary Deletes an item from a list.
  * @request DELETE:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}
- * @secure
  * @response `200` `string` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
@@ -121,7 +117,6 @@ export async function deleteFromList(
 /**
  * @summary Gets an asset list for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/asset
- * @secure
  * @response `200` `(AssetListItemResponse)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
@@ -150,7 +145,6 @@ export async function getAssetList(
 /**
  * @summary Gets an item from the asset list.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/asset/{assetId}
- * @secure
  * @response `200` `AssetListItemResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
@@ -177,7 +171,6 @@ export async function getFromAssetList(
 /**
  * @summary Gets a list for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag
- * @secure
  * @response `200` `(PreferencesListResponse)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
@@ -203,7 +196,6 @@ export async function getList(
 /**
  * @summary Gets key value pair of preferences for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences
- * @secure
  * @response `200` `UserPreferenceResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
@@ -221,7 +213,6 @@ export async function getPreferences(headers: RequestParams = {}) {
 /**
  * @summary Set key value pair of preferences for a user.
  * @request POST:/v1/customer/{customer}/businessunit/{businessUnit}/preferences
- * @secure
  * @response `200` `string` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `403` `void` TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences. TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.

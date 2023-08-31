@@ -13,7 +13,6 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 /**
  * @summary Deletes an asset from the last viewed asset list.
  * @request DELETE:/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewed/asset/{assetId}
- * @secure
  * @response `200` `string` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
@@ -32,7 +31,6 @@ export async function deleteFromLastViewedAssetList(assetId: string, headers: Re
  * @summary EXPERIMENTAL
 Get the episode in progress
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/continue/tvshow/{tvshowid}
- * @secure
  * @response `200` `WatchedTvShowResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_ASSET. If the asset with id tvShowId cannot be found.
@@ -54,7 +52,6 @@ export async function getContinueWatchingTvShow(
 /**
  * @summary Gets last viewed offset for assets for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset
- * @secure
  * @response `200` `(LastViewedOffsetList)[]` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
