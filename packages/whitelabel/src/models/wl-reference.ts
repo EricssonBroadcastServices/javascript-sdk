@@ -39,7 +39,7 @@ export class WLReference implements IWLReference {
   @jsonProperty()
   public reloadInterval?: number;
   @jsonProperty({ type: Object })
-  public images: IImage[];
+  public images: IImage[] = [];
   @jsonProperty()
   public presentation: WLReferencePresentation = {
     layout: CarouselLayout.CAROUSEL, // default values
