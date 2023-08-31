@@ -33,14 +33,11 @@ function toQueryString(query: QueryParams = {}): string {
   return String(new URLSearchParams(Object.fromEntries(sanitized)));
 }
 
-export async function request<T = any>({
-  method,
-  url,
-  headers = { "Content-Type": "application/json" },
-  query = {},
-  body
-}: requestArgs): Promise<T> {
+export async function request<T = any>({ method, url, headers = {}, query = {}, body }: requestArgs): Promise<T> {
   const fullUrl = Object.keys(query).length ? `${url}/?${toQueryString(query)}` : url;
+  if (!Object.keys(headers).some(key => key.toLowerCase() === "content-type")) {
+    headers["content-type"] = "application/json";
+  }
   const params = { method, headers };
   if (body) {
     Object.assign(params, { body: JSON.stringify(body) });
