@@ -30,8 +30,7 @@ export async function accountProducts(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
     headers,
     ctx,
-    query: query,
-    addAuthHeader: true
+    query: query
   });
 }
 /**
@@ -53,8 +52,7 @@ export async function availabilityKeys(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
     headers,
     ctx,
-    query: query,
-    addAuthHeader: true
+    query: query
   });
 }
 /**

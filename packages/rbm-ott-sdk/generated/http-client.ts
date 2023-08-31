@@ -26,7 +26,6 @@ export type requestArgs = {
   query?: QueryParams;
   body?: Record<string, any>;
   ctx?: ServiceContext;
-  addAuthHeader?: boolean;
 };
 
 const keyStorage = new Map<string, string>();
@@ -43,15 +42,7 @@ function defaultErrorFactory(response: Response) {
   return new Error(`HTTP Error: ${response.statusText} (${response.status})`);
 }
 
-export async function request<T = any>({
-  method,
-  url,
-  headers = {},
-  query = {},
-  body,
-  ctx,
-  addAuthHeader
-}: requestArgs): Promise<T> {
+export async function request<T = any>({ method, url, headers = {}, query = {}, body, ctx }: requestArgs): Promise<T> {
   const fullUrl = Object.keys(query).length ? `${url}/?${toQueryString(query)}` : url;
   const headerKeys = Object.keys(headers).map(key => key.toLowerCase());
   let ctxIdent = ctx ? [ctx.baseUrl, ctx.customer, ctx.businessUnit].join(":") : "";
@@ -59,7 +50,7 @@ export async function request<T = any>({
   if (!headerKeys.includes("content-type")) {
     headers["content-type"] = "application/json";
   }
-  if (addAuthHeader && ctxIdent && !headerKeys.includes("authorization")) {
+  if (ctxIdent && !headerKeys.includes("authorization")) {
     const sessionToken = keyStorage.get(ctxIdent);
     if (sessionToken) {
       headers.authorization = `Bearer ${sessionToken}`;

@@ -46,8 +46,7 @@ export async function getAsset(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -95,8 +94,7 @@ export async function getAssetPartial<T = any>(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -180,8 +178,7 @@ export async function getAssets(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -274,8 +271,7 @@ export async function getAssetsPartial<T = any>(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -443,8 +439,7 @@ export async function getEpisodes(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -491,8 +486,7 @@ export async function getEpisodesPartial<T = any>(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -514,8 +508,7 @@ export async function getNextCollectionEntry(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/next`,
     headers,
-    ctx,
-    addAuthHeader: true
+    ctx
   });
 }
 /**
@@ -535,8 +528,7 @@ export async function getNextEpisode(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/next`,
     headers,
-    ctx,
-    addAuthHeader: true
+    ctx
   });
 }
 /**
@@ -558,8 +550,7 @@ export async function getPreviousCollectionEntry(
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/previous`,
     headers,
-    ctx,
-    addAuthHeader: true
+    ctx
   });
 }
 /**
@@ -607,8 +598,7 @@ export async function getSeason(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -645,8 +635,7 @@ export async function getSeasonPartial<T = any>(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -677,8 +666,7 @@ export async function getSeasonsForTvShow(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 /**
@@ -718,8 +706,7 @@ export async function getSeasonsForTvShowPartial<T = any>(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ...(query || {}) },
-    addAuthHeader: true
+    query: { fieldSet: "ALL", ...(query || {}) }
   });
 }
 
