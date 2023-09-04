@@ -2,7 +2,7 @@
 
 Red Bee Media OTT SDK is generated from the Red Bee Media OTT [Exposure API OpenAPI (Swagger) specification](https://exposure.api.redbee.live/docs/).
 
-You can import and use thw whole API or just the parts you need:
+You can import and use the whole API or just the parts you need:
 
 ## Status
 
