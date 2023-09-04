@@ -4,7 +4,8 @@ import {
   PresentationImageOrientation,
   WLComponentType,
   WLComponentSubType,
-  CarouselDensity
+  CarouselDensity,
+  IImage
 } from "@ericssonbroadcastservices/exposure-sdk";
 export interface IWLReference {
   id: string;
@@ -14,10 +15,12 @@ export interface IWLReference {
   urlVariables?: string[];
   authorized: boolean;
   reloadInterval?: number;
+  images?: IImage[];
   presentation?: {
     imageOrientation: PresentationImageOrientation;
     layout?: CarouselLayout;
     imageAspectRatio: AspectRatio;
     density?: CarouselDensity;
+    backgroundColor?: string;
   };
 }

@@ -15,6 +15,12 @@ export interface IWLCarousel {
   assets: IWLCarouselItem[];
   tagTitles?: IWLTagTitles;
   showAssetTitles: boolean;
+  /**
+   * @deprecated use background color from reference instead
+   */
   backgroundColor?: string;
+  /**
+   * @deprecated use background image from reference instead
+   */
   backgroundImage?: IImage;
 }
