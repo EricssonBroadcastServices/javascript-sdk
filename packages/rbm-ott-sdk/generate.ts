@@ -60,11 +60,6 @@ delete spec.servers;
  * Process components.schemas
  */
 
-// Delete useless custom wrapper schemas (that we removed all references to above)
-delete spec.components.schemas.string;
-delete spec.components.schemas.Object;
-delete spec.components.schemas.Map;
-
 function getRefSpec(path?: string) {
   if (path?.startsWith(SCHEMA_PREFIX)) {
     return spec.components.schemas?.[path.slice(SCHEMA_PREFIX.length)];
@@ -212,6 +207,17 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
       getVoidRoutes.push(`${methodSpec.tags[0]}.${methodSpec.operationId} (${path})`);
     }
   }
+}
+
+data = JSON.stringify(spec);
+const unusedComponents = Object.keys(spec.components.schemas).filter(name => !data.includes(`${SCHEMA_PREFIX}${name}`));
+
+for (let name of unusedComponents) {
+  delete spec.components.schemas[name];
+}
+
+if (unusedComponents.length) {
+  console.log(`\nPruned now unreferenced components (types): ${unusedComponents}`);
 }
 
 if (getVoidRoutes.length) {

@@ -31,43 +31,6 @@ export interface ActivationCodeResponse {
   expires?: string;
 }
 
-export interface ActivationRequest {
-  activationCode: string;
-  device: Device;
-  /** The device id. */
-  deviceId: string;
-}
-
-export interface ActivationRequestV2 {
-  /** 6 characters drawn from set 123456789ABCDEF as received from create end-point. */
-  activationCode: string;
-  device: DeviceRegistration;
-}
-
-export interface ActivationResult {
-  accountId?: string;
-  accountStatus?: string;
-  businessUnitId?: string;
-  customerId?: string;
-  extendedMessage?: string;
-  informationCollectionConsentGiven?: string;
-  informationCollectionConsentRequiredDate?: string;
-  sessionExpiryDateTime?: string;
-  sessionToken?: string;
-  status?:
-    | "DEVICE_LIMIT_EXCEEDED"
-    | "INCORRECT_CREDENTIALS"
-    | "INFORMATION_COLLECTION_CONSENT_MISSING"
-    | "LOGIN_LOCKED"
-    | "MIGRATED_NO_PASSWORD"
-    | "SESSION_LIMIT_EXCEEDED"
-    | "SUCCESS"
-    | "THIRD_PARTY_ERROR";
-  userDisplayName?: string;
-  userId?: string;
-  userName?: string;
-}
-
 export interface ActiveChannels {
   apiChannelStatuses?: ChannelStatus[];
   pageNumber?: number;
@@ -125,27 +88,9 @@ export interface Analytics {
   tag?: string;
 }
 
-export interface AnalyticsBatch {
-  AccountId?: string;
-  BusinessUnit?: string;
-  ClientIp?: string;
-  ClockOffset?: number;
-  Customer?: string;
-  DispatchTime: number;
-  Payload?: string;
-  SessionId?: string;
-  UserId?: string;
-}
-
 export interface AnalyticsConfig {
   analyticsBaseUrl?: string;
   analyticsPercentage?: number;
-}
-
-export interface AnonymousSessionRequest {
-  device: Device;
-  /** The device id. */
-  deviceId: string;
 }
 
 export interface AnonymousSessionResponse {
@@ -155,34 +100,8 @@ export interface AnonymousSessionResponse {
   sessionToken?: string;
 }
 
-export interface ApiKeyUserSessionRequest {
-  device: DeviceRegistration;
-  /**
-   * When should the session created by this authentication request expire
-   * and force the user to log in again.
-   */
-  expiration?: string;
-  /**
-   * TRUE: Consent to collect personal information is given.
-   * FALSE or null: consent is not given now. This may be fine if consent already is given.
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /**
-   * Should the session be unique or connected to a userId.
-   * If true the session will only be connected to an account but not to a user
-   */
-  sessionUser?: boolean;
-  /** The users login name */
-  username: string;
-}
-
 export interface AppStoreConfig {
   enabled?: boolean;
-}
-
-export interface AppStorePurchaseInitializeRequest {
-  /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
-  assetId?: string;
 }
 
 export interface AppStorePurchaseInitializeResponse {
@@ -190,11 +109,6 @@ export interface AppStorePurchaseInitializeResponse {
   appAccountToken?: string;
   purchaseId?: string;
   transactionId?: string;
-}
-
-export interface AppStorePurchaseVerifyRequest {
-  /** As received in the App Store Purchase. */
-  transaction: string;
 }
 
 export interface AppStorePurchaseVerifyResponse {
@@ -258,20 +172,6 @@ export interface AssetList {
   pageNumber: number;
   pageSize: number;
   totalCount: number;
-}
-
-export interface AssetListBulk {
-  items?: Asset[];
-  lastCreatedEpochMillis?: number;
-  pageSize?: number;
-  totalCount?: number;
-}
-
-export interface AssetListItemRequest {
-  /** A key value object */
-  metadata?: object;
-  /** The order to sort by. */
-  order?: number;
 }
 
 export interface AssetListItemResponse {
@@ -395,41 +295,6 @@ export interface AudioTrackInfo {
   trackInfoList?: TrackInfo[];
 }
 
-export interface AuthRequestV3 {
-  device: DeviceRegistration;
-  /**
-   * TRUE: Consent to collect personal information is given.
-   * FALSE or null: consent is not given now. This may be fine if consent already is given.
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /** Password. */
-  password?: string;
-  /** The users login name, e.g. email */
-  username: string;
-}
-
-export interface AuthenticationRequest {
-  credentials?: Credentials;
-  device: DeviceRegistration;
-  /**
-   * When should the session created by this authentication request expire
-   * and force the user to log in again.
-   */
-  expiration?: string;
-  /**
-   * TRUE: Consent to collect personal information is given.
-   * FALSE or null: consent is not given now. This may be fine if consent already is given.
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /**
-   * Should the session be unique or connected to a userId.
-   * If true the session will only be connected to an account but not to a user
-   */
-  sessionUser?: boolean;
-  /** The users login name, e.g. email */
-  username: string;
-}
-
 export type AutocompleteItem = Record<"assetId" | "text", string>;
 
 export type AutocompleteItem2 = Record<"hitFieldValue" | "hitText", string>;
@@ -486,50 +351,8 @@ export interface Carousel {
 
 export type CencConfigurationResponse = Record<"com.microsoft.playready" | "com.widevine.alpha", string>;
 
-export interface ChangeEmailAndUserNameV3 {
-  /** The new email address and user name */
-  newEmailAddressAndUsername?: string;
-  /** Current Password. */
-  password: string;
-}
-
-export interface ChangeEmailRequest {
-  credentials: Credentials;
-  /** The new email address */
-  newEmailAddress?: string;
-}
-
-export interface ChangeEmailRequestV3 {
-  /** The new email address */
-  newEmailAddress?: string;
-}
-
-export interface ChangePasswordRequest {
-  device: DeviceRegistration;
-  /**
-   * true: All existing sessions will be cleared
-   * false : other devices' sessions are still valid
-   */
-  logoutOnAllDevices?: boolean;
-  newCredentials: Credentials;
-  oldCredentials: Credentials;
-}
-
 export interface ChangePasswordResponse {
   loginResponse?: LoginResponse;
-}
-
-export interface ChangePwdV3 {
-  device: DeviceRegistration;
-  /**
-   * true: All existing sessions will be cleared
-   * false : other devices' sessions are still valid
-   */
-  logoutOnAllDevices?: boolean;
-  /** New Password. */
-  newPassword: string;
-  /** Old Password. */
-  oldPassword: string;
 }
 
 export interface ChannelAsset {
@@ -581,10 +404,6 @@ export interface ConfigFilesResponse {
   fileNames?: string[];
 }
 
-export interface ConfirmAccountData {
-  deviceRegistration?: DeviceRegistration;
-}
-
 export interface ConfirmAccountResponse {
   loginResponse?: LoginResponse;
 }
@@ -592,8 +411,6 @@ export interface ConfirmAccountResponse {
 export interface ConsentManagement {
   didomi?: Didomi;
 }
-
-export type ConsentManagementDidomi = Record<"apiKey" | "appNoticeId" | "noticeId" | "tvNoticeId", string>;
 
 export interface ContinueUph2Assets {
   items?: ContinueWatchingAsset[];
@@ -660,18 +477,6 @@ export interface ContractRestrictions {
   timeshiftEnabled?: boolean;
 }
 
-export interface CreateSessionRequest {
-  accountId: string;
-  /** If this is an anonymous user. */
-  anonymous?: boolean;
-  device?: Device;
-  /** The device id. */
-  deviceId: string;
-  /** The time that the session should expire. */
-  expiration: string;
-  userId: string;
-}
-
 export interface CreateSessionResponse {
   /** The time when the session expires */
   expirationDateTime?: string;
@@ -681,10 +486,6 @@ export interface CreateSessionResponse {
 
 export interface Credentials {
   passwordTuples: PasswordTuple[];
-}
-
-export interface CredentialsV3 {
-  password: string;
 }
 
 export interface DRMLicense {
@@ -697,11 +498,6 @@ export interface DRMLicense {
   licenseExpiration?: number;
   /** The reason of expiration of the drm license. */
   licenseExpirationReason?: EntitlementStatus;
-}
-
-export interface DeleteUsersSessionsRequest {
-  /** The users login name */
-  username: string;
 }
 
 export interface Device {
@@ -841,27 +637,6 @@ export interface EntitleResponseV2 {
   time?: string;
 }
 
-export interface EntitlementResponse {
-  /** The ID of the asset for TVOD. */
-  assetId?: string;
-  /** The external ID of the asset for TVOD. */
-  externalAssetId?: string;
-  /** The id of the order this entitlement is part of. */
-  orderId?: string;
-  /** The id of the package. */
-  packageId?: string;
-  /** The flag to show if payment is done. */
-  paymentDone?: boolean;
-  /** The id of the product. */
-  productId?: string;
-  /** The type of the entitlement. */
-  type?: "AVOD" | "FVOD" | "INTERNAL" | "SVOD" | "TVOD";
-  /** The start date of the validity of the entitlement. */
-  validFrom?: string;
-  /** The end date of the validity of the entitlement. */
-  validTo?: string;
-}
-
 export const EntitlementStatus = {
   ANONYMOUS_IP_BLOCKED: "ANONYMOUS_IP_BLOCKED",
   CONCURRENT_STREAMS_LIMIT_REACHED: "CONCURRENT_STREAMS_LIMIT_REACHED",
@@ -908,14 +683,6 @@ export interface EventList {
   totalCount?: number;
 }
 
-export interface ExchangeTokenRequest {
-  /** The CRM token to exchange. */
-  crmToken: string;
-  device: Device;
-  /** The device id. */
-  deviceId: string;
-}
-
 export interface ExternalPaymentConfig {
   enabled?: boolean;
   externalPaymentUrl?: string;
@@ -924,26 +691,6 @@ export interface ExternalPaymentConfig {
 export type ExternalReference = Record<"locator" | "type" | "value", string>;
 
 export type ExternalReferenceResponse = Record<"locator" | "type" | "value", string>;
-
-export interface ExternalUserSessionRequest {
-  /** Will be used as accountId and, if userId is not provided, as userId */
-  accountId: string;
-  device: DeviceRegistration;
-  /** The time that the session should expire. */
-  expiration: string;
-  /** Optional userId, if not provided accountId will be used also as userId */
-  userId?: string;
-}
-
-export interface FacebookLoginRequest {
-  /** Facebook access token (oauth2). */
-  accessToken: string;
-  device: Device;
-  /** The device id. */
-  deviceId: string;
-  /** If the session should have a longer lifetime. */
-  rememberMe?: boolean;
-}
 
 export type FairplayConfigurationResponse = Record<
   "certificateUrl" | "licenseAcquisitionUrl" | "secondaryMediaLocator",
@@ -955,29 +702,6 @@ export interface Filters {
 }
 
 export type FiltersFilter = Record<"type" | "value", string>;
-
-export interface FirebaseAuthenticationRequest {
-  /** Firebase access token. */
-  accessToken?: string;
-  device: DeviceRegistration;
-  /** Display name, used for Firebase user creation. */
-  displayName?: string;
-  /** Email, used for Firebase user creation. */
-  email?: string;
-  /** Email verified, used for Firebase user creation. */
-  emailVerified?: boolean;
-  /**
-   * When should the session created by this authentication request expire
-   * and force the user to log in again.
-   */
-  expiration?: string;
-  /** The user's preferred language. Only used if first login when creating the user */
-  language?: string;
-  /** Firebase provider, used for Firebase user creation. */
-  providerId?: string;
-  /** The users login name, 'firebase..&lt;uid&gt;' */
-  username: string;
-}
 
 export interface FrontendFeatures {
   customAccountPageUrl?: string;
@@ -1009,21 +733,8 @@ export interface GetUserContentRatingResponse {
   rating?: number;
 }
 
-export interface GigyaAuthenticationRequest {
-  device: DeviceRegistration;
-  /** Gigya JWT. */
-  jwt: string;
-  /** The user's preferred language. Only used if first login when creating the user */
-  language?: string;
-}
-
 export interface GooglePlayConfig {
   enabled?: boolean;
-}
-
-export interface GooglePlayPurchaseInitializeRequest {
-  /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
-  assetId?: string;
 }
 
 export interface GooglePlayPurchaseInitializeResponse {
@@ -1033,11 +744,6 @@ export interface GooglePlayPurchaseInitializeResponse {
   obfuscatedProfileId?: string;
   purchaseId?: string;
   transactionId?: string;
-}
-
-export interface GooglePlayPurchaseVerifyRequest {
-  /** As received in the Google Play Purchase. */
-  purchaseToken: string;
 }
 
 export interface GooglePlayPurchaseVerifyResponse {
@@ -1074,22 +780,8 @@ export interface ImageResponse {
   width?: number;
 }
 
-export interface InitialisePayment {
-  /** id of the product offering to get methods and price for. */
-  productOfferingId?: string;
-  /** Optional voucher code. */
-  voucherCode?: string;
-}
-
 export interface InitializePaymentResponse {
   stripe?: StripePaymentMethodsAndPrice;
-}
-
-export interface IsEntitledResponse {
-  /** The status of the payment. */
-  paymentDone?: boolean;
-  /** The status of the entitlement. */
-  status?: EntitlementStatus;
 }
 
 export interface JsonAccount {
@@ -1137,10 +829,6 @@ export interface JsonNode {
 
 export interface LabelFilter {
   labelFilterId: string;
-}
-
-export interface LastViewedAssetList {
-  items?: Asset[];
 }
 
 export interface LastViewedOffset {
@@ -1212,23 +900,6 @@ export interface Location {
   countryCode?: string;
   /** true if location is known. */
   locationKnown: boolean;
-}
-
-export interface LoginRequest {
-  device: Device;
-  /** The device id. */
-  deviceId: string;
-  /**
-   * TRUE: Consent to collect personal information is given.
-   * FALSE or null: consent is not given now. This may be fine if consent already is given.
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /** The password of the user. */
-  password: string;
-  /** If the session should have a longer lifetime. */
-  rememberMe?: boolean;
-  /** The username to login. */
-  username: string;
 }
 
 export interface LoginResponse {
@@ -1369,26 +1040,6 @@ export interface MultiSearchResponse {
   tagHits?: TagSearchList;
 }
 
-export interface OAuthLoginRequest {
-  /** OAuth access token (oauth2). */
-  accessToken: string;
-  device: Device;
-  /** The device id. */
-  deviceId: string;
-  /** If the session should have a longer lifetime. */
-  rememberMe?: boolean;
-  /** The OAuth provider type. */
-  type: string;
-}
-
-export interface OauthAuthenticationRequest {
-  device: DeviceRegistration;
-  /** The user's preferred language. Only used if firebase login creating the user */
-  language?: string;
-  /** OAuth access token. */
-  token: string;
-}
-
 export interface OverlayWidget {
   url?: string;
 }
@@ -1403,11 +1054,6 @@ export interface ParentalRating {
 }
 
 export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", string>;
-
-export interface PasswordHashConfig {
-  algorithms?: Algorithm[];
-  sharedRandom?: string;
-}
 
 export interface PasswordPolicy {
   /** Minimum number character groups used, eg. alfa, ALFA, 0..9, separators */
@@ -1466,25 +1112,6 @@ export interface PinCodeResponse {
   modified: string;
   /** Id of PIN */
   pinId: string;
-}
-
-export interface PinCodeSetRequest {
-  /** List of application specified grants returned if PIN is successfully validated. */
-  grants: string[];
-  /** PIN in clear text. */
-  inClear: string;
-}
-
-export interface PinCodeValidationRequest {
-  /** PIN in clear text to validate. */
-  inClear: string;
-}
-
-export interface PlayRequest {
-  /** The requested DRM. The token will be adapted according to this parameter. */
-  drm: "CENC" | "EDRM" | "EDRM_FAIRPLAY" | "FAIRPLAY" | "PLAYREADY" | "UNENCRYPTED";
-  /** The requested format. The server will make sure that the asset is available in this format. */
-  format: MediaFormatType;
 }
 
 export interface PlayResponse {
@@ -1611,14 +1238,6 @@ export interface PreferencesListResponse {
   query?: string;
 }
 
-export interface PrimetimeAuthenticationRequest {
-  device: DeviceRegistration;
-  /** The user's preferred language. Only used if first login when creating the user */
-  language?: string;
-  /** Adobe Primetime AuthZ media token. */
-  mediaToken: string;
-}
-
 export interface Product {
   anonymousAllowed?: boolean;
   blocked?: boolean;
@@ -1694,10 +1313,6 @@ export interface ProductOfferingTransactionsProductOfferingPairList {
   transactionsProductOfferingPairs?: ProductOfferingTransactionsProductOfferingPair[];
 }
 
-export interface Products {
-  products?: Product[];
-}
-
 export interface Program {
   channelId?: string;
   endTime: string;
@@ -1770,31 +1385,9 @@ export interface PublicationResponse {
   toDate?: string;
 }
 
-export interface PurchaseRequest {
-  /**
-   * Single asset id that the purchase will entitle.
-   * Requires that the product offering requires "direct asset purchases"
-   */
-  assetId?: string;
-  /**
-   * Store payment method for future usage.
-   * The details is stored within the used payment provider.
-   */
-  storePaymentMethod?: boolean;
-  stripePurchase?: StripePurchaseRequest;
-  /** Voucher code that should be applied to the purchase */
-  voucherCode?: string;
-}
-
 export interface PurchaseResponse {
   apiStripePurchaseResponse?: StripePurchaseResponse;
   purchase?: StorePurchase;
-}
-
-export type PurchaseVerificationRequest = object;
-
-export interface PutUserContentRatingRequest {
-  rating?: number;
 }
 
 export type QueryParameter = Record<"name" | "value", string>;
@@ -1924,32 +1517,6 @@ export interface SessionResponse {
   userId?: string;
   userProfile?: UserProfile;
 }
-
-export interface SetPasswordWithTokenRequestV2 {
-  credentials: Credentials;
-  /**
-   * If TRUE consent to information collection is given now
-   * If FALSE or null no consent given now. Which is fine if consent is not required or already given
-   */
-  informationCollectionConsentGivenNow?: boolean;
-}
-
-export interface SetPwdWithTokenV3 {
-  /**
-   * If TRUE consent to information collection is given now
-   * If FALSE or null no consent given now. Which is fine if consent is not required or already given
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /** Password. */
-  password: string;
-}
-
-export interface SetUserPreferenceRequest {
-  /** A key value object */
-  preferences: object;
-}
-
-export type SimpleDateParam = Record<"date" | "originalValue", string>;
 
 export interface SimpleLocalizedData {
   image?: Image;
@@ -2388,16 +1955,6 @@ export interface UPHAsset {
   type?: AssetType;
 }
 
-export interface UpdatePaymentMethodRequest {
-  expiryMonth?: number;
-  expiryYear?: number;
-  paymentMethodId?: string;
-}
-
-export interface UpdatePrederredPaymentMethodRequest {
-  paymentMethodId?: string;
-}
-
 export interface UserAssetData {
   playHistory?: UserAssetPlayHistory;
 }
@@ -2414,12 +1971,6 @@ export interface UserAssetPlayHistory {
   lastViewedOffset?: number;
   /** The program id if the asset was viewed as catchup or live. */
   programId?: string;
-}
-
-export interface UserAttributeRequest {
-  /** id of the attribute */
-  attributeId: string;
-  value?: object;
 }
 
 export interface UserAttributeResponse {
@@ -2502,28 +2053,6 @@ export interface UserDetailsResponse {
   username?: string;
 }
 
-export interface UserDetailsUpdateRequest {
-  /** True if user is a child. */
-  child?: boolean;
-  /**
-   * Name used e.g. as email display name, null if not changed.
-   * If value is not provided any existing value is unchanged.
-   */
-  displayName?: string;
-  /**
-   * Preferred language.
-   * If value is not provided any existing value is unchanged.
-   */
-  language?: string;
-  /** A key value object */
-  metadata?: object;
-  /**
-   * Application defined value. Can be used e.g. to carry mapping to parental rating configuration.
-   * If value is not provided any existing value is unchanged.
-   */
-  profileType?: string;
-}
-
 export interface UserPreferenceResponse {
   /** Last time the preferences where changed. */
   lastUpdated?: string;
@@ -2564,47 +2093,11 @@ export interface UserProfile {
   username?: string;
 }
 
-export interface UserProfileCreateRequest {
-  /** True if user is a child. */
-  child?: boolean;
-  /** Name. */
-  displayName: string;
-  /** Preferred language. */
-  language?: string;
-  /** A key value object */
-  metadata?: object;
-  /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
-  profileType?: string;
-}
-
 export interface UserProfiles {
   /** List of pin codes, which may or may not be related to profile management. */
   pinCodes?: PinCodeResponse[];
   /** List user profiles. */
   profiles?: UserProfile[];
-}
-
-export interface UserSelfServiceCreateRequestV2 {
-  credentials: Credentials;
-  device: DeviceRegistration;
-  /** Name used e.g. as email display name */
-  displayName: string;
-  /**
-   * Used for e.g. password reset mails
-   * Maybe required depending on customer settings
-   * EmailAddress must be provided
-   */
-  emailAddress?: string;
-  /**
-   * If TRUE consent to information collection is given now
-   * If FALSE or null no consent given now.
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /**
-   * Preferred language. If not set fall back to business unit's default language
-   * Valid iso 639-1 language code
-   */
-  language?: string;
 }
 
 export interface UserSelfServiceCreateResponse {
@@ -2614,58 +2107,6 @@ export interface UserSelfServiceCreateResponse {
    * If FALSE the account is good to go.
    */
   unConfirmed?: boolean;
-}
-
-export interface UserSelfServiceCreateWithVoucherRequestV2 {
-  credentials: Credentials;
-  device: DeviceRegistration;
-  /**
-   * Used for e.g. password reset mails
-   * Maybe required depending on customer settings
-   * EmailAddress must be provided
-   */
-  emailAddress?: string;
-  /**
-   * If TRUE consent to information collection is given now
-   * If FALSE or null no consent given now.
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /** Voucher code */
-  voucherCode: string;
-}
-
-export interface UserSignupRequestV3 {
-  device: DeviceRegistration;
-  /** Name used e.g. as email display name */
-  displayName: string;
-  /**
-   * Used for e.g. password reset mails
-   * Maybe required depending on customer settings
-   * EmailAddress must be provided
-   */
-  emailAddress?: string;
-  /**
-   * If TRUE consent to information collection is given now
-   * If FALSE or null no consent given now.
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /**
-   * Preferred language. If not set fall back to business unit's default language
-   * Valid iso 639-1 language code
-   */
-  language?: string;
-  /** Password. */
-  password: string;
-}
-
-export interface ValidateCredentialsRequest {
-  /** The password to verify if it's the correct one. */
-  password: string;
-}
-
-export interface ValidateCredentialsResponse {
-  /** If the password was valid or not. */
-  valid?: boolean;
 }
 
 export interface VideoTrack {
