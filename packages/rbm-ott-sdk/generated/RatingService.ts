@@ -10,8 +10,7 @@
 import {
   GetAllUserContentRatingsForAssetResponse,
   GetAllUserContentRatingsForUserResponse,
-  GetUserContentRatingResponse,
-  PutUserContentRatingRequest
+  GetUserContentRatingResponse
 } from "./data-contracts";
 import { request, ServiceContext } from "./http-client";
 
@@ -103,7 +102,9 @@ export async function getUserContentRating(
 export async function putUserContentRating(
   /** The asset id */
   assetId: string,
-  data: PutUserContentRatingRequest,
+  data: {
+    rating?: number;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore

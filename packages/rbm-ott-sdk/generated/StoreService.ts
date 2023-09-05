@@ -9,16 +9,12 @@
 
 import {
   AddPaymentMethodResponse,
-  AppStorePurchaseInitializeRequest,
   AppStorePurchaseInitializeResponse,
-  AppStorePurchaseVerifyRequest,
   AppStorePurchaseVerifyResponse,
   Asset,
-  GooglePlayPurchaseInitializeRequest,
+  EmptyResponse,
   GooglePlayPurchaseInitializeResponse,
-  GooglePlayPurchaseVerifyRequest,
   GooglePlayPurchaseVerifyResponse,
-  InitialisePayment,
   InitializePaymentResponse,
   JsonAccount,
   PaymentMethod,
@@ -26,15 +22,12 @@ import {
   ProductOfferingPurchases,
   ProductOfferingTransactions,
   ProductOfferingTransactionsProductOfferingPairList,
-  PurchaseRequest,
   PurchaseResponse,
-  PurchaseVerificationRequest,
   StoreProductOffering,
   StoreProductOfferings,
   StorePromotionProductOfferings,
   StorePurchaseTransaction,
-  UpdatePaymentMethodRequest,
-  UpdatePrederredPaymentMethodRequest
+  StripePurchaseRequest
 } from "./data-contracts";
 import { request, ServiceContext } from "./http-client";
 
@@ -319,7 +312,15 @@ Called to before initiating a new payment.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/initialize
  * @response `default` `InitializePaymentResponse` success
  */
-export async function initialize(data: InitialisePayment, headers?: HeadersInit) {
+export async function initialize(
+  data: {
+    /** id of the product offering to get methods and price for. */
+    productOfferingId?: string;
+    /** Optional voucher code. */
+    voucherCode?: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<InitializePaymentResponse>({
@@ -340,7 +341,10 @@ export async function initialize(data: InitialisePayment, headers?: HeadersInit)
 export async function initializeAppStorePurchase(
   /** Id of product offering to purchase */
   productOfferingId: string,
-  data: AppStorePurchaseInitializeRequest,
+  data: {
+    /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
+    assetId?: string;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore
@@ -363,7 +367,10 @@ export async function initializeAppStorePurchase(
 export async function initializeGooglePlayPurchase(
   /** Id of product offering to purchase */
   productOfferingId: string,
-  data: GooglePlayPurchaseInitializeRequest,
+  data: {
+    /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
+    assetId?: string;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore
@@ -384,7 +391,21 @@ export async function initializeGooglePlayPurchase(
 export async function purchaseProductOffering(
   /** The product offering to purchase. */
   productOfferingId: string,
-  data: PurchaseRequest,
+  data: {
+    /**
+     * Single asset id that the purchase will entitle.
+     * Requires that the product offering requires "direct asset purchases"
+     */
+    assetId?: string;
+    /**
+     * Store payment method for future usage.
+     * The details is stored within the used payment provider.
+     */
+    storePaymentMethod?: boolean;
+    stripePurchase?: StripePurchaseRequest;
+    /** Voucher code that should be applied to the purchase */
+    voucherCode?: string;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore
@@ -406,7 +427,11 @@ export async function purchaseProductOffering(
 export async function updatePaymentMethod(
   /** The id of the stored payment method */
   paymentMethodId: string,
-  data: UpdatePaymentMethodRequest,
+  data: {
+    expiryMonth?: number;
+    expiryYear?: number;
+    paymentMethodId?: string;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore
@@ -425,7 +450,12 @@ export async function updatePaymentMethod(
  * @response `200` `JsonAccount` Successful
  * @response `403` `JsonAccount` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
-export async function updatePreferredPaymentMethod(data: UpdatePrederredPaymentMethodRequest, headers?: HeadersInit) {
+export async function updatePreferredPaymentMethod(
+  data: {
+    paymentMethodId?: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<JsonAccount>({
@@ -446,7 +476,10 @@ export async function updatePreferredPaymentMethod(data: UpdatePrederredPaymentM
 export async function verifyAppStorePurchase(
   /** The purchase id */
   purchaseId: string,
-  data: AppStorePurchaseVerifyRequest,
+  data: {
+    /** As received in the App Store Purchase. */
+    transaction: string;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore
@@ -469,7 +502,10 @@ export async function verifyAppStorePurchase(
 export async function verifyGooglePlayPurchase(
   /** The purchase id */
   purchaseId: string,
-  data: GooglePlayPurchaseVerifyRequest,
+  data: {
+    /** As received in the Google Play Purchase. */
+    purchaseToken: string;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore
@@ -491,7 +527,7 @@ export async function verifyGooglePlayPurchase(
 export async function verifyPayment(
   /** The purchase id. */
   purchaseId: string,
-  data: PurchaseVerificationRequest,
+  data: EmptyResponse,
   headers?: HeadersInit
 ) {
   // @ts-ignore

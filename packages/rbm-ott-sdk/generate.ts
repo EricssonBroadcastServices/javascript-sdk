@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, rmdirSync, writeFileSync, unlinkSync } from "f
 import { resolve } from "path";
 import { generateApi } from "swagger-typescript-api";
 
+const SCHEMA_PREFIX = "#/components/schemas/";
 const INPUT_FILE = resolve(process.cwd(), "./exposure-spec.json")
 const FORMATTED_SPEC = resolve(process.cwd(), "./exposure-spec-patched.json")
 const OUTPUT_PATH = resolve(process.cwd(), "./generated");
@@ -64,6 +65,12 @@ delete spec.components.schemas.string;
 delete spec.components.schemas.Object;
 delete spec.components.schemas.Map;
 
+function getRefSpec(path?: string) {
+  if (path?.startsWith(SCHEMA_PREFIX)) {
+    return spec.components.schemas?.[path.slice(SCHEMA_PREFIX.length)];
+  }
+}
+
 // Fix invalid names that would lead to bad type names
 for (let [originalName, schemasSpec] of Object.entries(spec.components.schemas)) {
   const name = formatTypeName(originalName);
@@ -115,7 +122,7 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
         unhandledEnumTypes[`${name}.${propName}`] = dataStr;
       }
       if (refName) {
-        propSpec.$ref = `#/components/schemas/${refName}`;
+        propSpec.$ref = `${SCHEMA_PREFIX}${refName}`;
         delete propSpec.enum;
         delete propSpec.type;
       }
@@ -173,6 +180,14 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
     if (methodSpec.summary) {
       methodSpec.summary = methodSpec.summary.trim();
     }
+    const requestBodySchema = methodSpec.requestBody?.content?.["application/json"].schema;
+    // For arrays use the item instead
+    const schemaContext = requestBodySchema?.items || requestBodySchema;
+    let refSpec;
+    if (refSpec = getRefSpec(schemaContext?.$ref)) {
+      delete schemaContext.$ref;
+      Object.assign(schemaContext, refSpec);
+    }
     for (let { name, schema } of (methodSpec?.parameters || []) as any[]) {
       // fix invalid type "ref"
       if (schema?.type === "ref") {
@@ -184,7 +199,7 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
         const refName = ENUM_SCHEMAS.get(dataStr);
         if (refName) {
           console.log(`Deduplicating path enum: "${name}.${name}" => ${refName}`);
-          schema.$ref = `#/components/schemas/${refName}`;
+          schema.$ref = `${SCHEMA_PREFIX}${refName}`;
           delete schema.enum;
           delete schema.type;
         } else {

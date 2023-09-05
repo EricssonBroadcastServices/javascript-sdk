@@ -7,13 +7,7 @@
  * ----------------------------------------------------------------
  */
 
-import {
-  AssetListItemRequest,
-  AssetListItemResponse,
-  PreferencesListResponse,
-  SetUserPreferenceRequest,
-  UserPreferenceResponse
-} from "./data-contracts";
+import { AssetListItemResponse, PreferencesListResponse, UserPreferenceResponse } from "./data-contracts";
 import { request, ServiceContext } from "./http-client";
 
 /**
@@ -29,7 +23,12 @@ export async function addToAssetList(
   /** The name of the list. */
   list: string,
   assetId: string,
-  data: AssetListItemRequest,
+  data: {
+    /** A key value object */
+    metadata?: object;
+    /** The order to sort by. */
+    order?: number;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore
@@ -56,7 +55,12 @@ export async function addToList(
   list: string,
   /** The list item id */
   id: string,
-  data: AssetListItemRequest,
+  data: {
+    /** A key value object */
+    metadata?: object;
+    /** The order to sort by. */
+    order?: number;
+  },
   headers?: HeadersInit
 ) {
   // @ts-ignore
@@ -218,7 +222,13 @@ export async function getPreferences(headers?: HeadersInit) {
  * @response `403` `void` TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences. TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function setPreferences(data: SetUserPreferenceRequest, headers?: HeadersInit) {
+export async function setPreferences(
+  data: {
+    /** A key value object */
+    preferences: object;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({

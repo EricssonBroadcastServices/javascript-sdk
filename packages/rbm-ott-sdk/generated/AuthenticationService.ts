@@ -8,19 +8,12 @@
  */
 
 import {
-  AnonymousSessionRequest,
   AnonymousSessionResponse,
-  ApiKeyUserSessionRequest,
-  AuthRequestV3,
   CreateSessionResponse,
-  DeleteUsersSessionsRequest,
+  Device,
+  DeviceRegistration,
   EmptyResponse,
-  ExternalUserSessionRequest,
-  FirebaseAuthenticationRequest,
-  GigyaAuthenticationRequest,
   LoginResponse,
-  OauthAuthenticationRequest,
-  PrimetimeAuthenticationRequest,
   SessionResponse
 } from "./data-contracts";
 import { request, ServiceContext } from "./http-client";
@@ -34,7 +27,13 @@ import { request, ServiceContext } from "./http-client";
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function deleteSessions(data: DeleteUsersSessionsRequest, headers?: HeadersInit) {
+export async function deleteSessions(
+  data: {
+    /** The users login name */
+    username: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -55,7 +54,18 @@ export async function deleteSessions(data: DeleteUsersSessionsRequest, headers?:
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function externalUserSession(data: ExternalUserSessionRequest, headers?: HeadersInit) {
+export async function externalUserSession(
+  data: {
+    /** Will be used as accountId and, if userId is not provided, as userId */
+    accountId: string;
+    device: DeviceRegistration;
+    /** The time that the session should expire. */
+    expiration: string;
+    /** Optional userId, if not provided accountId will be used also as userId */
+    userId?: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
@@ -119,7 +129,21 @@ export async function getOauthRedir(
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function login(data: AuthRequestV3, headers?: HeadersInit) {
+export async function login(
+  data: {
+    device: DeviceRegistration;
+    /**
+     * TRUE: Consent to collect personal information is given.
+     * FALSE or null: consent is not given now. This may be fine if consent already is given.
+     */
+    informationCollectionConsentGivenNow?: boolean;
+    /** Password. */
+    password?: string;
+    /** The users login name, e.g. email */
+    username: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -138,7 +162,14 @@ export async function login(data: AuthRequestV3, headers?: HeadersInit) {
  * @response `403` `void` FORBIDDEN. If the business unit is not configured to support anonymous sessions.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function loginAnonymous(data: AnonymousSessionRequest, headers?: HeadersInit) {
+export async function loginAnonymous(
+  data: {
+    device: Device;
+    /** The device id. */
+    deviceId: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AnonymousSessionResponse>({
@@ -159,7 +190,31 @@ export async function loginAnonymous(data: AnonymousSessionRequest, headers?: He
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function loginFirebase(data: FirebaseAuthenticationRequest, headers?: HeadersInit) {
+export async function loginFirebase(
+  data: {
+    /** Firebase access token. */
+    accessToken?: string;
+    device: DeviceRegistration;
+    /** Display name, used for Firebase user creation. */
+    displayName?: string;
+    /** Email, used for Firebase user creation. */
+    email?: string;
+    /** Email verified, used for Firebase user creation. */
+    emailVerified?: boolean;
+    /**
+     * When should the session created by this authentication request expire
+     * and force the user to log in again.
+     */
+    expiration?: string;
+    /** The user's preferred language. Only used if first login when creating the user */
+    language?: string;
+    /** Firebase provider, used for Firebase user creation. */
+    providerId?: string;
+    /** The users login name, 'firebase..&lt;uid&gt;' */
+    username: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -179,7 +234,16 @@ export async function loginFirebase(data: FirebaseAuthenticationRequest, headers
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function loginGigya(data: GigyaAuthenticationRequest, headers?: HeadersInit) {
+export async function loginGigya(
+  data: {
+    device: DeviceRegistration;
+    /** Gigya JWT. */
+    jwt: string;
+    /** The user's preferred language. Only used if first login when creating the user */
+    language?: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -194,7 +258,16 @@ export async function loginGigya(data: GigyaAuthenticationRequest, headers?: Hea
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin
  * @response `default` `void` success
  */
-export async function loginOauth(data: OauthAuthenticationRequest, headers?: HeadersInit) {
+export async function loginOauth(
+  data: {
+    device: DeviceRegistration;
+    /** The user's preferred language. Only used if firebase login creating the user */
+    language?: string;
+    /** OAuth access token. */
+    token: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
@@ -215,7 +288,16 @@ export async function loginOauth(data: OauthAuthenticationRequest, headers?: Hea
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function loginPrimetime(data: PrimetimeAuthenticationRequest, headers?: HeadersInit) {
+export async function loginPrimetime(
+  data: {
+    device: DeviceRegistration;
+    /** The user's preferred language. Only used if first login when creating the user */
+    language?: string;
+    /** Adobe Primetime AuthZ media token. */
+    mediaToken: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -260,7 +342,29 @@ export async function logout(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function session(data: ApiKeyUserSessionRequest, headers?: HeadersInit) {
+export async function session(
+  data: {
+    device: DeviceRegistration;
+    /**
+     * When should the session created by this authentication request expire
+     * and force the user to log in again.
+     */
+    expiration?: string;
+    /**
+     * TRUE: Consent to collect personal information is given.
+     * FALSE or null: consent is not given now. This may be fine if consent already is given.
+     */
+    informationCollectionConsentGivenNow?: boolean;
+    /**
+     * Should the session be unique or connected to a userId.
+     * If true the session will only be connected to an account but not to a user
+     */
+    sessionUser?: boolean;
+    /** The users login name */
+    username: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({

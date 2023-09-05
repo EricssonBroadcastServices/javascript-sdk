@@ -7,7 +7,6 @@
  * ----------------------------------------------------------------
  */
 
-import { AnalyticsBatch } from "./data-contracts";
 import { request, ServiceContext } from "./http-client";
 
 /**
@@ -29,7 +28,20 @@ export async function intialize(headers?: HeadersInit) {
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/eventsink/send
  * @response `default` `void` success
  */
-export async function postEvents(data: AnalyticsBatch, headers?: HeadersInit) {
+export async function postEvents(
+  data: {
+    AccountId?: string;
+    BusinessUnit?: string;
+    ClientIp?: string;
+    ClockOffset?: number;
+    Customer?: string;
+    DispatchTime: number;
+    Payload?: string;
+    SessionId?: string;
+    UserId?: string;
+  },
+  headers?: HeadersInit
+) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
