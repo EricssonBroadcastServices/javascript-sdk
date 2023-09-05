@@ -1,30 +1,39 @@
-import { AssetService } from "./Asset";
-import { AuthenticationService } from "./Authentication";
-import { CarouselService } from "./Carousel";
-import { ClientConfigService } from "./ClientConfig";
-import { CustomerConfigService } from "./CustomerConfig";
-import { DeviceService } from "./Device";
-import { DocumentService } from "./Document";
-import { DownloadsService } from "./Downloads";
-import { EntitlementsService } from "./Entitlements";
-import { EpgService } from "./Epg";
-import { EventService } from "./Event";
-import { EventSinkService } from "./EventSink";
-import { ServiceContext } from "./http-client";
-import { LocationService } from "./Location";
-import { PreferencesService } from "./Preferences";
-import { RatingService } from "./Rating";
-import { RecommenderService } from "./Recommender";
-import { SearchService } from "./Search";
-import { SeasonService } from "./Season";
-import { StoreService } from "./Store";
-import { SystemService } from "./System";
-import { TagService } from "./Tag";
-import { TimeService } from "./Time";
-import { UserService } from "./User";
-import { UserPlayHistoryService } from "./UserPlayHistory";
+/* eslint-disable */
+/* tslint:disable */
+/*
+ * ----------------------------------------------------------------
+ * ## THIS FILE IS GENERATED FROM THE RED BEE MEDIA OPENAPI SPEC ##
+ * ## DO NOT EDIT IT DIRECTLY                                    ##
+ * ----------------------------------------------------------------
+ */
 
-class APIService {
+import { AssetService } from "./AssetService";
+import { AuthenticationService } from "./AuthenticationService";
+import { CarouselService } from "./CarouselService";
+import { ClientConfigService } from "./ClientConfigService";
+import { CustomerConfigService } from "./CustomerConfigService";
+import { DeviceService } from "./DeviceService";
+import { DocumentService } from "./DocumentService";
+import { DownloadsService } from "./DownloadsService";
+import { EntitlementsService } from "./EntitlementsService";
+import { EpgService } from "./EpgService";
+import { EventService } from "./EventService";
+import { EventSinkService } from "./EventSinkService";
+import { ServiceContext } from "./http-client";
+import { LocationService } from "./LocationService";
+import { PreferencesService } from "./PreferencesService";
+import { RatingService } from "./RatingService";
+import { RecommenderService } from "./RecommenderService";
+import { SearchService } from "./SearchService";
+import { SeasonService } from "./SeasonService";
+import { StoreService } from "./StoreService";
+import { SystemService } from "./SystemService";
+import { TagService } from "./TagService";
+import { TimeService } from "./TimeService";
+import { UserPlayHistoryService } from "./UserPlayHistoryService";
+import { UserService } from "./UserService";
+
+class RBMOTTSDK {
   asset: AssetService;
   authentication: AuthenticationService;
   carousel: CarouselService;
@@ -77,30 +86,30 @@ class APIService {
   }
 }
 
-export default APIService;
+export default RBMOTTSDK;
 export type { ServiceContext };
 export * from "./data-contracts";
-export * from "./Asset";
-export * from "./Authentication";
-export * from "./Carousel";
-export * from "./ClientConfig";
-export * from "./CustomerConfig";
-export * from "./Device";
-export * from "./Document";
-export * from "./Downloads";
-export * from "./Entitlements";
-export * from "./Epg";
-export * from "./Event";
-export * from "./EventSink";
-export * from "./Location";
-export * from "./Preferences";
-export * from "./Rating";
-export * from "./Recommender";
-export * from "./Search";
-export * from "./Season";
-export * from "./Store";
-export * from "./System";
-export * from "./Tag";
-export * from "./Time";
-export * from "./User";
-export * from "./UserPlayHistory";
+export * from "./AssetService";
+export * from "./AuthenticationService";
+export * from "./CarouselService";
+export * from "./ClientConfigService";
+export * from "./CustomerConfigService";
+export * from "./DeviceService";
+export * from "./DocumentService";
+export * from "./DownloadsService";
+export * from "./EntitlementsService";
+export * from "./EpgService";
+export * from "./EventService";
+export * from "./EventSinkService";
+export * from "./LocationService";
+export * from "./PreferencesService";
+export * from "./RatingService";
+export * from "./RecommenderService";
+export * from "./SearchService";
+export * from "./SeasonService";
+export * from "./StoreService";
+export * from "./SystemService";
+export * from "./TagService";
+export * from "./TimeService";
+export * from "./UserService";
+export * from "./UserPlayHistoryService";

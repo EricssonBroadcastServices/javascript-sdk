@@ -271,33 +271,34 @@ generateApi({
   }
 })
   .then(({configuration, files}) => {
-    rmdirSync(OUTPUT_PATH, { recursive: true});
-    mkdirSync(OUTPUT_PATH);
-    // Delete the temporary formatted spec
-    unlinkSync(FORMATTED_SPEC);
-    // Write generated files
-    files.forEach(({ fileName, fileContent }) => {
-      writeFileSync(`${OUTPUT_PATH}/${fileName}.ts`, FILE_PREFIX + fileContent);
-    });
-    // Create and write an index file
-    let importStatements: Record<string, string> = { };
-    let serviceNames: string[] = [];
+    // Generate index file data
+    let moduleNames: Record<string, string> = {};
     let typeDeclarations: string[] = [];
     let props: string[] = [];
 
-    for (let moduleName of (configuration.routes.combined || []).map(({ moduleName }) => moduleName).sort()) {
-      const PascalName = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
-      const serviceName = PascalName + "Service";
-      importStatements[PascalName] = serviceName;
-      serviceNames.push(serviceName);
-      typeDeclarations.push(`${moduleName}: ${serviceName}`);
-      props.push(`this.${moduleName} = new ${serviceName}(context)`);
+    for (let moduleNS of (configuration.routes.combined || []).map(({ moduleName }) => moduleName).sort()) {
+      const PascalName = moduleNS.charAt(0).toUpperCase() + moduleNS.slice(1);
+      const moduleName = PascalName + "Service";
+      moduleNames[PascalName] = moduleName;
+      typeDeclarations.push(`${moduleNS}: ${moduleName}`);
+      props.push(`this.${moduleNS} = new ${moduleName}(context)`);
     }
-    const exports = Object.entries(importStatements).map(([fileName]) => `export * from "./${fileName}"`).join(";\n");
-    const sortedImports = Object.entries(Object.assign(importStatements, { "http-client": "ServiceContext" })).sort(([fileA], [fileB]) => fileA.localeCompare(fileB));
-    const imports = sortedImports.map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join(";\n");
-    const indexFileData = `${imports};\n\nclass APIService {\n  ${typeDeclarations.join(";\n  ")};\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")};\n  }\n}\n\nexport default APIService;\nexport type { ServiceContext };\nexport * from \"./data-contracts\";\n${exports};\n`;
+    const exports = Object.values(moduleNames).map((fileName) => `export * from "./${fileName}"`).join(";\n");
+    const importStatements = ["http-client", ...Object.values(moduleNames)].sort(Intl.Collator().compare).map(name => [name, name === "http-client" ? "ServiceContext" : name ]);
+    const imports = importStatements.map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join(";\n");
+    const fileContent = `${imports};\n\nclass RBMOTTSDK {\n  ${typeDeclarations.join(";\n  ")};\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport * from \"./data-contracts\";\n${exports};\n`;
 
-    writeFileSync(`${OUTPUT_PATH}/index.ts`, indexFileData, "utf8");
+    files.push({ fileName: "index", fileExtension: "ts", fileContent });
+
+    // Delete the temporary formatted spec
+    unlinkSync(FORMATTED_SPEC);
+    // Clear output path
+    rmdirSync(OUTPUT_PATH, { recursive: true });
+    mkdirSync(OUTPUT_PATH);
+    // Write generated files
+    files.forEach(({ fileName, fileContent }) => {
+      // Add a suffix to the service modules only, not the data-contracts or http-client
+      writeFileSync(`${OUTPUT_PATH}/${moduleNames[fileName] || fileName}.ts`, FILE_PREFIX + fileContent);
+    });
   })
   .catch((err: any) => console.error(err))
