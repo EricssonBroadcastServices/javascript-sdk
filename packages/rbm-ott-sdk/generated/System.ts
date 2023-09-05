@@ -8,7 +8,7 @@
  */
 
 import { SystemConfig } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @description paymentType. accountConfirmationRequired, if true, the user need to confirm the self service created user with token from mail/sms. allowAccessWithoutLogin, if true, the user may get limited access without being logged in. currencies, valid currencies. displayLocales, valid locales. informationCollectionConsentDate, date which teh user should hav give consent after. environment, PRESTAGE or PRODUCTION
@@ -21,7 +21,7 @@ export async function getSystemConfig(
     /** @default false */
     paymentMethodPreview?: boolean;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -45,7 +45,7 @@ export async function getSystemConfigV2(
     /** countryCode */
     countryCode: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

@@ -23,7 +23,7 @@ import {
   PrimetimeAuthenticationRequest,
   SessionResponse
 } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @description If the user is the account's owner, then all the sessions of the account will be deleted. If a deleted session was created with 'userSession' : true, then the history of that session will not be revealed in any forthcoming sessions with this username. This request is privileged and thus needs server to server authentication.
@@ -34,7 +34,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function deleteSessions(data: DeleteUsersSessionsRequest, headers: RequestParams = {}) {
+export async function deleteSessions(data: DeleteUsersSessionsRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -55,7 +55,7 @@ export async function deleteSessions(data: DeleteUsersSessionsRequest, headers: 
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function externalUserSession(data: ExternalUserSessionRequest, headers: RequestParams = {}) {
+export async function externalUserSession(data: ExternalUserSessionRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
@@ -75,7 +75,7 @@ export async function getOauthAuth(
     client_id?: string;
     redirect_uri?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -96,7 +96,7 @@ export async function getOauthRedir(
     code?: string;
     state?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -119,7 +119,7 @@ export async function getOauthRedir(
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
+export async function login(data: AuthRequestV3, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -138,7 +138,7 @@ export async function login(data: AuthRequestV3, headers: RequestParams = {}) {
  * @response `403` `void` FORBIDDEN. If the business unit is not configured to support anonymous sessions.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function loginAnonymous(data: AnonymousSessionRequest, headers: RequestParams = {}) {
+export async function loginAnonymous(data: AnonymousSessionRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AnonymousSessionResponse>({
@@ -159,7 +159,7 @@ export async function loginAnonymous(data: AnonymousSessionRequest, headers: Req
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function loginFirebase(data: FirebaseAuthenticationRequest, headers: RequestParams = {}) {
+export async function loginFirebase(data: FirebaseAuthenticationRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -179,7 +179,7 @@ export async function loginFirebase(data: FirebaseAuthenticationRequest, headers
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function loginGigya(data: GigyaAuthenticationRequest, headers: RequestParams = {}) {
+export async function loginGigya(data: GigyaAuthenticationRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -194,7 +194,7 @@ export async function loginGigya(data: GigyaAuthenticationRequest, headers: Requ
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin
  * @response `default` `void` success
  */
-export async function loginOauth(data: OauthAuthenticationRequest, headers: RequestParams = {}) {
+export async function loginOauth(data: OauthAuthenticationRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
@@ -215,7 +215,7 @@ export async function loginOauth(data: OauthAuthenticationRequest, headers: Requ
  * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
  */
-export async function loginPrimetime(data: PrimetimeAuthenticationRequest, headers: RequestParams = {}) {
+export async function loginPrimetime(data: PrimetimeAuthenticationRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -238,7 +238,7 @@ export async function logout(
     /** @default false */
     fromAllDevice?: boolean;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -260,7 +260,7 @@ export async function logout(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  */
-export async function session(data: ApiKeyUserSessionRequest, headers: RequestParams = {}) {
+export async function session(data: ApiKeyUserSessionRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<CreateSessionResponse>({
@@ -279,7 +279,7 @@ export async function session(data: ApiKeyUserSessionRequest, headers: RequestPa
  * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function validateSessionToken(headers: RequestParams = {}) {
+export async function validateSessionToken(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<SessionResponse>({

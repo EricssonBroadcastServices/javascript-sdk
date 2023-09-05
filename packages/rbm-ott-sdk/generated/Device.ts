@@ -8,7 +8,7 @@
  */
 
 import { DevicesResponseV2 } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @description If the session from which this call is made is marked as "overTheDeviceLimit" this marking will be cleared, which can be checked by validating the session.
@@ -18,7 +18,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `403` `void` DELETE_SELF_NOT_ALLOWED. The device of this session may not be deleted.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteDeviceForAccount(deviceId: string, headers: RequestParams = {}) {
+export async function deleteDeviceForAccount(deviceId: string, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -36,7 +36,7 @@ export async function deleteDeviceForAccount(deviceId: string, headers: RequestP
  * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getDevicesForAccount(headers: RequestParams = {}) {
+export async function getDevicesForAccount(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<DevicesResponseV2>({

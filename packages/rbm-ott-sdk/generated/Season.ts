@@ -8,7 +8,7 @@
  */
 
 import { Season, SeasonList } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Gets a specific season by id.
@@ -26,7 +26,7 @@ export async function getSeasonById(
     onlyPublished?: boolean;
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -63,7 +63,7 @@ export async function getSeasonByIdPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -109,7 +109,7 @@ export async function getSeasons(
     /** The sort parameter in the format of first,-second. */
     sort?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -164,7 +164,7 @@ export async function getSeasonsPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

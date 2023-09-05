@@ -7,7 +7,6 @@
  * ----------------------------------------------------------------
  */
 
-export type RequestParams = Record<string, any>;
 export type UriComponent = string | number | boolean;
 export type QueryParams = Record<string, UriComponent | UriComponent[]>;
 
@@ -21,7 +20,7 @@ export type ServiceContext = {
 export type requestArgs = {
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   url: string | URL;
-  headers?: Record<string, string>;
+  headers?: HeadersInit;
   query?: QueryParams;
   body?: Record<string, any>;
   ctx?: ServiceContext;
@@ -40,10 +39,11 @@ function defaultErrorFactory(response: Response) {
   return new Error(`HTTP Error: ${response.statusText} (${response.status})`);
 }
 
-export async function request<T = any>({ method, url, headers = {}, query = {}, body, ctx }: requestArgs): Promise<T> {
+export async function request<T = any>({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<T> {
   const fullUrl = Object.keys(query).length ? `${url}/?${new URLSearchParams(sanitizeParams(query))}` : url;
-  if (!Object.keys(headers).some(key => key.toLowerCase() === "content-type")) {
-    headers["content-type"] = "application/json";
+  const headersObject = new Headers(headers);
+  if (!headersObject.has("content-type")) {
+    headersObject.set("content-type", "application/json");
   }
   const params = { method, headers };
   if (body) {

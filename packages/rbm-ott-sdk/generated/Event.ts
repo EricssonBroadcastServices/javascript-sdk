@@ -8,7 +8,7 @@
  */
 
 import { EventList } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Get events.
@@ -52,7 +52,7 @@ export async function getEvents(
     /** Publication filters applied on publications tagged with service. */
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

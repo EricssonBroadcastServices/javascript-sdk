@@ -8,7 +8,7 @@
  */
 
 import { Location } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @description Get location information based on caller IP-address.
@@ -16,7 +16,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/location
  * @response `200` `Location` Successful
  */
-export async function getLocation(headers: RequestParams = {}) {
+export async function getLocation(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Location>({
@@ -32,7 +32,7 @@ export async function getLocation(headers: RequestParams = {}) {
  * @request GET:/v2/location
  * @response `200` `Location` Successful
  */
-export async function getLocationFromReferer(headers: RequestParams = {}) {
+export async function getLocationFromReferer(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Location>({

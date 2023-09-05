@@ -36,7 +36,7 @@ import {
   UpdatePaymentMethodRequest,
   UpdatePrederredPaymentMethodRequest
 } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Add payment method
@@ -44,7 +44,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `200` `AddPaymentMethodResponse` Successful
  * @response `403` `AddPaymentMethodResponse` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
-export async function addPaymentMethod(headers: RequestParams = {}) {
+export async function addPaymentMethod(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AddPaymentMethodResponse>({
@@ -62,7 +62,7 @@ export async function addPaymentMethod(headers: RequestParams = {}) {
 export async function cancelPurchaseSubscription(
   /** The product offering to purchase. */
   purchaseId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -82,7 +82,7 @@ export async function cancelPurchaseSubscription(
 export async function deleteStoredPaymentMethod(
   /** The id of the stored payment method */
   paymentMethodId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -98,7 +98,7 @@ export async function deleteStoredPaymentMethod(
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/assets
  * @response `default` `(Asset)[]` success
  */
-export async function getAccountAssetPurchases(headers: RequestParams = {}) {
+export async function getAccountAssetPurchases(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Asset[]>({
@@ -113,7 +113,7 @@ export async function getAccountAssetPurchases(headers: RequestParams = {}) {
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/transactions
  * @response `default` `ProductOfferingTransactions` success
  */
-export async function getAccountTransactions(headers: RequestParams = {}) {
+export async function getAccountTransactions(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingTransactions>({
@@ -128,7 +128,7 @@ export async function getAccountTransactions(headers: RequestParams = {}) {
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/transactions/productoffering
  * @response `default` `ProductOfferingTransactionsProductOfferingPairList` success
  */
-export async function getAccountTransactionsWithProductOffering(headers: RequestParams = {}) {
+export async function getAccountTransactionsWithProductOffering(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingTransactionsProductOfferingPairList>({
@@ -149,7 +149,7 @@ export async function getCountryOfferingsByVoucher(
   countryCode: string,
   /** The voucher code. */
   voucherCode: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -170,7 +170,7 @@ export async function getOfferingPurchases(
     /** @default false */
     includeOfferingDetails?: boolean;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -200,7 +200,7 @@ export async function getOfferings(
     /** Payment provider */
     paymentProvider?: "appstore" | "external" | "googleplay" | "stripe";
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -228,7 +228,7 @@ export async function getOfferingsByCountry(
      */
     includeSelectAssetProducts?: boolean;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -250,7 +250,7 @@ export async function getOfferingsByCountry(
 export async function getOfferingsByLabels(
   /** The labelFilterId received with the Label Resource. */
   labelFilterId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -270,7 +270,7 @@ export async function getOfferingsByLabels(
 export async function getOfferingsByVoucher(
   /** The voucher code. */
   voucherCode: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -286,7 +286,7 @@ export async function getOfferingsByVoucher(
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases
  * @response `default` `(StorePurchaseTransaction)[]` success
  */
-export async function getPurchaseTransactions(headers: RequestParams = {}) {
+export async function getPurchaseTransactions(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<StorePurchaseTransaction[]>({
@@ -302,7 +302,7 @@ export async function getPurchaseTransactions(headers: RequestParams = {}) {
  * @response `200` `PaymentMethods` Successful
  * @response `403` `PaymentMethods` FEATURE_NOT_ENABLED_FOR_BUSINESS_UNIT the business unit is not integrated with a payment provider
  */
-export async function getStoredPaymentMethods(headers: RequestParams = {}) {
+export async function getStoredPaymentMethods(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PaymentMethods>({
@@ -319,7 +319,7 @@ Called to before initiating a new payment.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/initialize
  * @response `default` `InitializePaymentResponse` success
  */
-export async function initialize(data: InitialisePayment, headers: RequestParams = {}) {
+export async function initialize(data: InitialisePayment, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<InitializePaymentResponse>({
@@ -341,7 +341,7 @@ export async function initializeAppStorePurchase(
   /** Id of product offering to purchase */
   productOfferingId: string,
   data: AppStorePurchaseInitializeRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -364,7 +364,7 @@ export async function initializeGooglePlayPurchase(
   /** Id of product offering to purchase */
   productOfferingId: string,
   data: GooglePlayPurchaseInitializeRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -385,7 +385,7 @@ export async function purchaseProductOffering(
   /** The product offering to purchase. */
   productOfferingId: string,
   data: PurchaseRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -407,7 +407,7 @@ export async function updatePaymentMethod(
   /** The id of the stored payment method */
   paymentMethodId: string,
   data: UpdatePaymentMethodRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -425,10 +425,7 @@ export async function updatePaymentMethod(
  * @response `200` `JsonAccount` Successful
  * @response `403` `JsonAccount` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
-export async function updatePreferredPaymentMethod(
-  data: UpdatePrederredPaymentMethodRequest,
-  headers: RequestParams = {}
-) {
+export async function updatePreferredPaymentMethod(data: UpdatePrederredPaymentMethodRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<JsonAccount>({
@@ -450,7 +447,7 @@ export async function verifyAppStorePurchase(
   /** The purchase id */
   purchaseId: string,
   data: AppStorePurchaseVerifyRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -473,7 +470,7 @@ export async function verifyGooglePlayPurchase(
   /** The purchase id */
   purchaseId: string,
   data: GooglePlayPurchaseVerifyRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -495,7 +492,7 @@ export async function verifyPayment(
   /** The purchase id. */
   purchaseId: string,
   data: PurchaseVerificationRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

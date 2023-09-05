@@ -8,7 +8,7 @@
  */
 
 import { Asset, AssetList, AssetType, DeviceType, Season, SeasonList } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Gets an asset by asset id.
@@ -37,7 +37,7 @@ export async function getAsset(
     parentalRatings?: string;
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -85,7 +85,7 @@ export async function getAssetPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -169,7 +169,7 @@ export async function getAssets(
     /** The sort parameter in the format of first,-second. */
     sort?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -262,7 +262,7 @@ export async function getAssetsPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -297,7 +297,7 @@ export async function getAssetThumbnail(
     /** An optional width. */
     w?: number;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -340,7 +340,7 @@ export async function getCollectionEntries(
      */
     sortOrder?: "ASC" | "DESC";
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -392,7 +392,7 @@ export async function getCollectionEntriesPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -430,7 +430,7 @@ export async function getEpisodes(
     pageSize?: number;
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -477,7 +477,7 @@ export async function getEpisodesPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -500,7 +500,7 @@ export async function getNextCollectionEntry(
   collectionId: string,
   /** The id of reference collection entry. */
   referenceEntryId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -520,7 +520,7 @@ export async function getNextCollectionEntry(
 export async function getNextEpisode(
   /** The id of the current episode. */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -542,7 +542,7 @@ export async function getPreviousCollectionEntry(
   collectionId: string,
   /** The id of reference collection entry. */
   referenceEntryId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -562,7 +562,7 @@ export async function getPreviousCollectionEntry(
 export async function getPreviousEpisode(
   /** The id of the current episode. */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -589,7 +589,7 @@ export async function getSeason(
     onlyPublished?: boolean;
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -626,7 +626,7 @@ export async function getSeasonPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -657,7 +657,7 @@ export async function getSeasonsForTvShow(
     service?: string;
     sort?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -697,7 +697,7 @@ export async function getSeasonsForTvShowPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

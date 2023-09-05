@@ -13,7 +13,7 @@ import {
   GetUserContentRatingResponse,
   PutUserContentRatingRequest
 } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Delete an asset rating given by currently logged in user.
@@ -24,7 +24,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 export async function deleteUserContentRating(
   /** The asset id */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -44,7 +44,7 @@ export async function deleteUserContentRating(
 export async function getAllUserContentRatingsForAsset(
   /** The asset id */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -62,7 +62,7 @@ export async function getAllUserContentRatingsForAsset(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getAllUserContentRatingsForUser(headers: RequestParams = {}) {
+export async function getAllUserContentRatingsForUser(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForUserResponse[]>({
@@ -82,7 +82,7 @@ export async function getAllUserContentRatingsForUser(headers: RequestParams = {
 export async function getUserContentRating(
   /** The asset id */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -104,7 +104,7 @@ export async function putUserContentRating(
   /** The asset id */
   assetId: string,
   data: PutUserContentRatingRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

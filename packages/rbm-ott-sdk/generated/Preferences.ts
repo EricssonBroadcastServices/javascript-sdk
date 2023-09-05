@@ -14,7 +14,7 @@ import {
   SetUserPreferenceRequest,
   UserPreferenceResponse
 } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Adds an item to the asset list.
@@ -30,7 +30,7 @@ export async function addToAssetList(
   list: string,
   assetId: string,
   data: AssetListItemRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -57,7 +57,7 @@ export async function addToList(
   /** The list item id */
   id: string,
   data: AssetListItemRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -80,7 +80,7 @@ export async function deleteFromAssetList(
   /** The name of the list. */
   list: string,
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -103,7 +103,7 @@ export async function deleteFromList(
   list: string,
   /** The id of the item */
   id: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -130,7 +130,7 @@ export async function getAssetList(
     service?: string;
     tagIds?: string[];
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -156,7 +156,7 @@ export async function getFromAssetList(
   query?: {
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -181,7 +181,7 @@ export async function getList(
   query?: {
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -200,7 +200,7 @@ export async function getList(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getPreferences(headers: RequestParams = {}) {
+export async function getPreferences(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<UserPreferenceResponse>({
@@ -218,7 +218,7 @@ export async function getPreferences(headers: RequestParams = {}) {
  * @response `403` `void` TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences. TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function setPreferences(data: SetUserPreferenceRequest, headers: RequestParams = {}) {
+export async function setPreferences(data: SetUserPreferenceRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({

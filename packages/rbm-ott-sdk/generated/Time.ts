@@ -8,7 +8,7 @@
  */
 
 import { TimeResponse } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @description Gets the current server UTC time.
@@ -17,7 +17,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `200` `TimeResponse` Successful
  * @response `4xx` `APIErrorMessage` Failed
  */
-export async function getTime(headers: RequestParams = {}) {
+export async function getTime(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<TimeResponse>({
@@ -33,7 +33,7 @@ export async function getTime(headers: RequestParams = {}) {
  * @request GET:/v2/time
  * @response `200` `TimeResponse` Successful
  */
-export async function getTimeAnonymous(headers: RequestParams = {}) {
+export async function getTimeAnonymous(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<TimeResponse>({

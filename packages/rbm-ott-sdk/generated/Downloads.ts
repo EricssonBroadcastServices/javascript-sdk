@@ -8,14 +8,14 @@
  */
 
 import { BookkeeperAccount, BookkeeperAsset, DownloadInfoResponse, DownloadResponse, Message } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Unregister all downloads done by an account.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
  * @response `default` `Message` success
  */
-export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
+export async function deleteDownloadsForAccount(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Message>({
@@ -33,7 +33,7 @@ export async function deleteDownloadsForAccount(headers: RequestParams = {}) {
 export async function deleteDownloadsForAsset(
   /** The id of the asset. */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -58,7 +58,7 @@ export async function download(
     /** The time to be used when checking download info. */
     time?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -78,7 +78,7 @@ export async function download(
 export async function downloadCompleted(
   /** The id of the asset. */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -104,7 +104,7 @@ export async function downloadInfo(
     /** The time to be used when checking download info. */
     time?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -125,7 +125,7 @@ export async function downloadInfo(
 export async function downloadRenewed(
   /** The id of the asset. */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -141,7 +141,7 @@ export async function downloadRenewed(
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
  * @response `default` `BookkeeperAccount` success
  */
-export async function getDownloadsForAccount(headers: RequestParams = {}) {
+export async function getDownloadsForAccount(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAccount>({
@@ -159,7 +159,7 @@ export async function getDownloadsForAccount(headers: RequestParams = {}) {
 export async function getDownloadsForAsset(
   /** The id of the asset. */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

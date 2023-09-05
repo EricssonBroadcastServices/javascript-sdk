@@ -32,7 +32,7 @@ import {
   UserSelfServiceCreateWithVoucherRequestV2,
   UserSignupRequestV3
 } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Add a user profile.
@@ -41,7 +41,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_OWNER. Only the owner may create profiles.
  */
-export async function addProfile(data: UserProfileCreateRequest, headers: RequestParams = {}) {
+export async function addProfile(data: UserProfileCreateRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<UserProfiles>({
@@ -60,7 +60,7 @@ export async function addProfile(data: UserProfileCreateRequest, headers: Reques
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER NOT_ALLOWED_IN_ANONYMOUS_SESSION. EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  * @response `422` `void` BAD_EMAIL_ADDRESS. The new email address is malformed.
  */
-export async function changeEmail(data: ChangeEmailRequestV3, headers: RequestParams = {}) {
+export async function changeEmail(data: ChangeEmailRequestV3, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -78,7 +78,7 @@ export async function changeEmail(data: ChangeEmailRequestV3, headers: RequestPa
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER NOT_ALLOWED_IN_ANONYMOUS_SESSION. EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  * @response `422` `void` BAD_EMAIL_ADDRESS. The new email address is malformed.
  */
-export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, headers: RequestParams = {}) {
+export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -97,7 +97,7 @@ export async function changeEmailAndUsername(data: ChangeEmailAndUserNameV3, hea
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER OLD_PASSWORD_IS_NOT_CORRECT, the old password is not correct. NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  * @response `422` `void` BAD_PASSWORD. The new password is non-compliant to policy
  */
-export async function changePassword(data: ChangePwdV3, headers: RequestParams = {}) {
+export async function changePassword(data: ChangePwdV3, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ChangePasswordResponse>({
@@ -118,7 +118,7 @@ export async function changePassword(data: ChangePwdV3, headers: RequestParams =
 export async function confirmActivationCode(
   /** Activation code to confirm, 6 characters drawn from set 123456789ABCDEF as received from create end-point. */
   code: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -141,7 +141,7 @@ export async function confirmUserWithToken(
   /** Token received out of band, e.g by mail */
   token: string,
   data: ConfirmAccountData,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -159,7 +159,7 @@ export async function confirmUserWithToken(
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/userActivation/consume
  * @response `default` `LoginResponse` success
  */
-export async function consumeActivationCode(data: ActivationRequestV2, headers: RequestParams = {}) {
+export async function consumeActivationCode(data: ActivationRequestV2, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LoginResponse>({
@@ -176,7 +176,7 @@ export async function consumeActivationCode(data: ActivationRequestV2, headers: 
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/userActivation/activationCode
  * @response `default` `ActivationCodeResponse` success
  */
-export async function createActivationCode(headers: RequestParams = {}) {
+export async function createActivationCode(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ActivationCodeResponse>({
@@ -194,7 +194,7 @@ export async function createActivationCode(headers: RequestParams = {}) {
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved.
  * @response `422` `void` EMAIL_OR_MOBILE_REQUIRED. EmailAddress must be supplied. BAD_EMAIL_ADDRESS. The email address is malformed.
  */
-export async function createNewAccount(data: UserSignupRequestV3, headers: RequestParams = {}) {
+export async function createNewAccount(data: UserSignupRequestV3, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<UserSelfServiceCreateResponse>({
@@ -213,7 +213,7 @@ export async function createNewAccount(data: UserSignupRequestV3, headers: Reque
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function createPinCode(data: PinCodeSetRequest, headers: RequestParams = {}) {
+export async function createPinCode(data: PinCodeSetRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
@@ -233,7 +233,7 @@ export async function createPinCode(data: PinCodeSetRequest, headers: RequestPar
 export async function deletePinCode(
   /** the id of the pin to delete. */
   pincodeId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -250,7 +250,7 @@ export async function deletePinCode(
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired. BAD_PASSWORD. The provided password is faulty.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION STORED_PAYMENT_DETAILS, the account cannot be deleted as there are stored payment details for the account. OWNER_OF_ACCOUNT_WITH_NON_OWNER_USER, this user can not be deleted as there are other non-owners in the account. NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION. NOT_SUPPORTED_FOR_FEDERATED_USER
  */
-export async function deleteUserDetails(data: CredentialsV3, headers: RequestParams = {}) {
+export async function deleteUserDetails(data: CredentialsV3, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -271,7 +271,7 @@ export async function deleteUserDetails(data: CredentialsV3, headers: RequestPar
 export async function deleteUserProfile(
   /** user id of profile to delete */
   userId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -288,7 +288,7 @@ export async function deleteUserProfile(
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/label/filter
  * @response `default` `LabelFilter` success
  */
-export async function getAccountLabels(headers: RequestParams = {}) {
+export async function getAccountLabels(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LabelFilter>({
@@ -305,7 +305,7 @@ export async function getAccountLabels(headers: RequestParams = {}) {
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function getPinCodes(headers: RequestParams = {}) {
+export async function getPinCodes(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PinCodeResponse[]>({
@@ -322,7 +322,7 @@ export async function getPinCodes(headers: RequestParams = {}) {
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  */
-export async function getProfiles(headers: RequestParams = {}) {
+export async function getProfiles(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<UserProfiles>({
@@ -340,7 +340,7 @@ export async function getProfiles(headers: RequestParams = {}) {
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION
  * @response `404` `void` NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here
  */
-export async function getUserDetails(headers: RequestParams = {}) {
+export async function getUserDetails(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<UserDetailsResponse>({
@@ -356,7 +356,7 @@ export async function getUserDetails(headers: RequestParams = {}) {
  * @request PUT:/v1/customer/{customer}/businessunit/{businessUnit}/user/consent
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  */
-export async function giveConsent(headers: RequestParams = {}) {
+export async function giveConsent(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -374,7 +374,7 @@ export async function giveConsent(headers: RequestParams = {}) {
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function putUserAttributes(data: UserAttributeRequest[], headers: RequestParams = {}) {
+export async function putUserAttributes(data: UserAttributeRequest[], headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<UserDetailsResponse>({
@@ -394,7 +394,7 @@ export async function putUserAttributes(data: UserAttributeRequest[], headers: R
 export async function resetPassword(
   /** Username of user */
   username: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -416,7 +416,7 @@ export async function resetPassword(
 export async function selectUserProfile(
   /** user id of profile to select */
   userId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -437,7 +437,7 @@ export async function setPasswordWithToken(
   /** Token received out of band, e.g by mail */
   token: string,
   data: SetPwdWithTokenV3,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -460,7 +460,7 @@ export async function setPinCode(
   /** the id of the pin to update or if non-exiting to be created. */
   pincodeId: string,
   data: PinCodeSetRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -479,7 +479,7 @@ export async function setPinCode(
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here
  * @response `422` `void` BAD_PASSWORD. The new password is non-compliant to policy
  */
-export async function userDetailsUpdate(data: UserDetailsUpdateRequest, headers: RequestParams = {}) {
+export async function userDetailsUpdate(data: UserDetailsUpdateRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -500,7 +500,7 @@ export async function userProfileUpdate(
   /** user id of profile to update */
   userId: string,
   data: UserDetailsUpdateRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -524,7 +524,7 @@ export async function validatePinCode(
   /** the id of the pin to delete. */
   pincodeId: string,
   data: PinCodeValidationRequest,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -544,7 +544,7 @@ export async function validatePinCode(
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
  */
-export async function validatePinCodes(data: PinCodeValidationRequest, headers: RequestParams = {}) {
+export async function validatePinCodes(data: PinCodeValidationRequest, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string[]>({
@@ -563,7 +563,7 @@ export async function validatePinCodes(data: PinCodeValidationRequest, headers: 
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved.
  * @response `422` `void` EMAIL_OR_MOBILE_REQUIRED. EmailAddress must be supplied. BAD_EMAIL_ADDRESS. The email address is malformed.
  */
-export async function voucherSignup(data: UserSelfServiceCreateWithVoucherRequestV2, headers: RequestParams = {}) {
+export async function voucherSignup(data: UserSelfServiceCreateWithVoucherRequestV2, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<UserSelfServiceCreateResponse>({

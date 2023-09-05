@@ -8,7 +8,7 @@
  */
 
 import { AvailabilityKeys, EntitleResponseV2, PlayResponseV2 } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @description Should at the moment only be used in white label apps on the web. Needs to be formalized and approved before used by any other client than MOTT white label app for the web. Returns two lists. All available products for the organization unit will be in any of them. The account can be null. This means that only products allowed for anonymous will be returned in entitled list. - entitled. Contains all the products the account has access to. - notEntitled. Contains all the products the account has not access to.
@@ -21,7 +21,7 @@ export async function accountProducts(
     /** The time to be used when checking entitlement. */
     time?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -43,7 +43,7 @@ export async function availabilityKeys(
     /** The time to be used when checking entitlement. */
     time?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -76,7 +76,7 @@ export async function entitle(
     /** The time to be used when checking entitlement. */
     time?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -223,7 +223,7 @@ export async function play(
     /** Screen Resolution (width). Used for SSAI. */
     width?: number;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

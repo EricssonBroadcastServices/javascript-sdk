@@ -8,7 +8,7 @@
  */
 
 import { AssetType, TagList, TagType } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Gets a tag by id.
@@ -19,7 +19,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
 export async function getTagById(
   /** The id of the tag. */
   tagId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -82,7 +82,7 @@ export async function getUniqueTagsFromAssets(
     service?: string;
     tagType: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -117,7 +117,7 @@ export async function listTags(
     /** The sort parameter in the format of first,-second. */
     sort?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

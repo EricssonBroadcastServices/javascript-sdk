@@ -8,7 +8,7 @@
  */
 
 import { ActiveChannels, ChannelEPGResponse, ChannelStatus, ProgramResponse } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @description Status of a channel includes whether it is available (in the case of virtual channels) and the currently playing assets. This endpoint only considers active virtual channels.
@@ -37,7 +37,7 @@ export async function getActiveChannels(
     /** Sort by the sorting title property of the given locale */
     sortingLocale?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -66,7 +66,7 @@ export async function getChannelStatus(
      */
     minutesForward?: number;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -116,7 +116,7 @@ export async function getEpg(
      */
     startDateSort?: "ASC" | "DESC";
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -169,7 +169,7 @@ export async function getEpgForChannel(
      */
     startDateSort?: "ASC" | "DESC";
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -222,7 +222,7 @@ export async function getEpgForChannels(
      */
     startDateSort?: "ASC" | "DESC";
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -247,7 +247,7 @@ export async function getNextProgram(
   channelId: string,
   /** The id of the program. */
   programId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -268,7 +268,7 @@ export async function getNextProgram(
 export async function getNextProgramForAsset(
   /** The asset id */
   assetId: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -293,7 +293,7 @@ export async function getProgram(
   query?: {
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -325,7 +325,7 @@ export async function getXmlTvEpgForChannel(
      */
     daysForward?: number;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

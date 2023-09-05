@@ -8,7 +8,7 @@
  */
 
 import { Carousel } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Gets a specific carousel by id.
@@ -39,7 +39,7 @@ export async function getCarousel(
     /** If we should only return assets that have publications on this service */
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -89,7 +89,7 @@ export async function getCarouselPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -106,7 +106,7 @@ export async function getCarouselPartial<T = any>(
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup
  * @response `default` `(string)[]` success
  */
-export async function getCarouselGroups(headers: RequestParams = {}) {
+export async function getCarouselGroups(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string[]>({
@@ -146,7 +146,7 @@ export async function getCarouselsForGroup(
     /** If we should only return assets that have publications on this service */
     service?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -197,7 +197,7 @@ export async function getCarouselsForGroupPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

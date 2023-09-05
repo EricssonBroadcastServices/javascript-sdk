@@ -8,7 +8,7 @@
  */
 
 import { ContinueUph2Assets, RecommendedAssets, RecommendedWatchNext } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Get list of assets to continue watching
@@ -23,7 +23,7 @@ export async function getContinueWatching(
     service?: string;
     tagIds?: string[];
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -52,7 +52,7 @@ export async function getRecommendationsForAsset(
     service?: string;
     tagIds?: string[];
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -79,7 +79,7 @@ export async function getRecommendationsForUser(
     service?: string;
     tagIds?: string[];
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

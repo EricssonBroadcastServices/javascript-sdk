@@ -2,7 +2,7 @@
 const { utils, route, methodName, partial, query, queryParamValue, config } = it;
 const { requestBodyInfo, responseBodyInfo, specificArgNameResolver } = route;
 const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
-const { parameters, path, method, payload, formData, security, requestParams } = route.request;
+const { parameters, path, method, payload, formData, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
 const { HTTP_CLIENT, RESERVED_REQ_PARAMS_ARG_NAMES } = config.constants;
 const routeDocs = includeFile("../base/route-docs", { config, route, utils });
@@ -15,18 +15,18 @@ const isFetchTemplate = config.httpClientType === HTTP_CLIENT.FETCH;
 const requestConfigParam = {
     name: "headers",
     optional: true,
-    type: 'RequestParams',
-    defaultValue: "{}",
+    type: "HeadersInit"
 }
 
-function argToTmpl({ name, optional, type, defaultValue, description }) {
+function argToTmpl({ name, optional, type, description }) {
     if (name === "date" && type === "string" && description.toLowerCase().includes("yyyy-mm-dd")) {
         type = "Date";
         description = description.replace(/\s*\(?(format)?\:?\s*yyyy-mm-dd\)?\.?\s*/i, "");
         normalizeDate = true;
     }
     const comment = description ? `/** ${description} */\n` : "";
-    return `${comment}${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''},`;
+    const optionalAnnotation = optional ? "?" : "";
+    return `${comment}${name}${optionalAnnotation}: ${type},`;
 }
 
 const rawWrapperArgs = config.extractRequestParams ?

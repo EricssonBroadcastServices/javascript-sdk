@@ -8,14 +8,14 @@
  */
 
 import { ComponentFilters } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Get user location and the filters to use in calls to the client configuration endpoints.
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/filters
  * @response `default` `ComponentFilters` success
  */
-export async function getComponentFilters(headers: RequestParams = {}) {
+export async function getComponentFilters(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ComponentFilters>({
@@ -29,7 +29,7 @@ export async function getComponentFilters(headers: RequestParams = {}) {
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/file/{folder}/{fileName}
  * @response `default` `void` success
  */
-export async function getFile(folder: string, fileName: string, headers: RequestParams = {}) {
+export async function getFile(folder: string, fileName: string, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
@@ -55,7 +55,7 @@ export async function getWLComponent(
     /** Comma separated list of filters. I.e: "type:value,type2:value2" */
     filters?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -82,7 +82,7 @@ export async function getWLConfig(
     /** @default false */
     paymentMethodPreview?: boolean;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -111,7 +111,7 @@ export async function getWLConfigWithDomain(
     /** @default false */
     paymentMethodPreview?: boolean;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

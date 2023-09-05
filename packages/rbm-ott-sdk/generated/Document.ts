@@ -8,7 +8,7 @@
  */
 
 import { HtmlDocument } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Gets document.
@@ -35,7 +35,7 @@ export async function getDocument(
     /** ISO 639-1 language code. If not stated or not supported fall back to other languages will be performed. */
     preferredLanguage?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

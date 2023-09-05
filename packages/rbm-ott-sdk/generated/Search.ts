@@ -8,7 +8,7 @@
  */
 
 import { AutocompleteItem, AutocompleteItem2, EpgSearchHits, MultiSearchResponse, SearchList } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Does prefix autocomplete for a query.
@@ -22,7 +22,7 @@ export async function autocomplete(
     /** The locale to autocomplete in. */
     locale?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -54,7 +54,7 @@ export async function autocompleteAssetTitle(
      */
     types?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -81,7 +81,7 @@ export async function autocompleteTagTitle(
     /** The schemes to autocomplete in. */
     scheme?: string[];
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -105,7 +105,7 @@ export async function getSuggestions(
     /** The locale to autocomplete in. */
     locale?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -155,7 +155,7 @@ export async function search(
      */
     types?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -214,7 +214,7 @@ export async function searchPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -265,7 +265,7 @@ export async function searchAsset(
      */
     types?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -325,7 +325,7 @@ export async function searchAssetPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -371,7 +371,7 @@ export async function searchEpg(
     /** The millis to get to. */
     to: number;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -426,7 +426,7 @@ export async function searchEpgPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -481,7 +481,7 @@ export async function searchNoQuery(
      */
     types?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -545,7 +545,7 @@ export async function searchNoQueryPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -582,7 +582,7 @@ export async function searchTags(
     /** The schemes to autocomplete in. */
     scheme?: string[];
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -628,7 +628,7 @@ export async function searchTagsPartial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -689,7 +689,7 @@ export async function searchV2(
      */
     types?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -759,7 +759,7 @@ export async function searchV2Partial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -807,7 +807,7 @@ export async function searchV3(
      */
     types?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -864,7 +864,7 @@ export async function searchV3Partial<T = any>(
     /** Comma separated list of fields to add to the response. */
     includeFields?: string;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;

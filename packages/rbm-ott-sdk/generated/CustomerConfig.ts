@@ -8,7 +8,7 @@
  */
 
 import { ConfigFile, ConfigFilesResponse } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Gets a JSON configuration file stored on customer level.
@@ -22,7 +22,7 @@ export async function getConfigCuFile(
     /** The version of the file to get. */
     version?: number;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -47,7 +47,7 @@ export async function getConfigFile(
     paymentMethodPreview?: boolean;
     version?: number;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -74,7 +74,7 @@ export async function getConfigFileCustomDomainInPath(
     /** @default false */
     paymentMethodPreview?: boolean;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -91,7 +91,7 @@ export async function getConfigFileCustomDomainInPath(
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/config
  * @response `default` `ConfigFilesResponse` success
  */
-export async function getConfigFiles(headers: RequestParams = {}) {
+export async function getConfigFiles(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({
@@ -106,7 +106,7 @@ export async function getConfigFiles(headers: RequestParams = {}) {
  * @request GET:/v1/customer/{customer}/config
  * @response `default` `ConfigFilesResponse` success
  */
-export async function getConfigFilesCu(headers: RequestParams = {}) {
+export async function getConfigFilesCu(headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({

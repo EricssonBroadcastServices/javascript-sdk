@@ -8,7 +8,7 @@
  */
 
 import { LastViewedOffsetList, WatchedTvShowResponse } from "./data-contracts";
-import { RequestParams, ServiceContext, request } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 
 /**
  * @summary Deletes an asset from the last viewed asset list.
@@ -17,7 +17,7 @@ import { RequestParams, ServiceContext, request } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteFromLastViewedAssetList(assetId: string, headers: RequestParams = {}) {
+export async function deleteFromLastViewedAssetList(assetId: string, headers?: HeadersInit) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
@@ -38,7 +38,7 @@ Get the episode in progress
 export async function getContinueWatchingTvShow(
   /** The tvShowId */
   tvshowid: string,
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
@@ -77,7 +77,7 @@ export async function getLastViewedOffsetList(
      */
     pageSize?: number;
   },
-  headers: RequestParams = {}
+  headers?: HeadersInit
 ) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
