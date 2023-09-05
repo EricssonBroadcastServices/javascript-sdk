@@ -44,6 +44,10 @@ data = data.replaceAll(/\s*<p>\s*/g, "") // strip <p> in comments
 data = data.replaceAll(/\s*<br>\s*/g, "\\n") // replace <br> with space
 data = data.replaceAll(/\s*\\n\s*/g, "\\n"); // strip spaces around line breaks
 data = data.replaceAll(/(?<="#\/components\/schemas\/)[^"]*/g, formatTypeName);
+// delete references to useless schemas wrapping and shadowing native types
+data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/string\"/g, '"type" : "string"');
+data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Map\"/g, '"description": "A key value object", "type" : "object"');
+data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
 
 let spec = JSON.parse(data);
 
@@ -55,8 +59,10 @@ delete spec.servers;
  * Process components.schemas
  */
 
-// Delete custom string schema (useless wrapperaround string)
-delete spec.components.schemas.string
+// Delete useless custom wrapper schemas (that we removed all references to above)
+delete spec.components.schemas.string;
+delete spec.components.schemas.Object;
+delete spec.components.schemas.Map;
 
 // Fix invalid names that would lead to bad type names
 for (let [originalName, schemasSpec] of Object.entries(spec.components.schemas)) {
@@ -183,15 +189,6 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
           delete schema.type;
         } else {
           console.log(`Path param enum: ${name}: ${dataStr}`);
-        }
-      }
-    }
-    for (let response of Object.values(methodSpec.responses) as any[]) {
-      for (let mimetypeResponse of Object.values(response?.content || {}) as any[]) {
-        if (mimetypeResponse.schema?.items?.$ref === "#/components/schemas/string") {
-          console.log(`Replacing custom 'string' schema with string`);
-          delete mimetypeResponse.schema.items.$ref;
-          mimetypeResponse.schema.items.type = "string";
         }
       }
     }

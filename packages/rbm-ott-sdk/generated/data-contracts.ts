@@ -228,8 +228,8 @@ export interface Asset {
   overlayWidgets?: OverlayWidget[];
   parentalRatings: ParentalRating[];
   participants: Person[];
-  /** A key value Map */
-  popularityScores?: Map;
+  /** A key value object */
+  popularityScores?: object;
   productionCountries: string[];
   productionYear?: number;
   programs?: Program[];
@@ -268,8 +268,8 @@ export interface AssetListBulk {
 }
 
 export interface AssetListItemRequest {
-  /** A key value Map */
-  metadata?: Map;
+  /** A key value object */
+  metadata?: object;
   /** The order to sort by. */
   order?: number;
 }
@@ -278,8 +278,8 @@ export interface AssetListItemResponse {
   asset?: Asset;
   assetId?: string;
   lastUpdated?: string;
-  /** A key value Map */
-  metadata?: Map;
+  /** A key value object */
+  metadata?: object;
   order?: number;
 }
 
@@ -319,8 +319,8 @@ export interface AssetResponse {
   parentalRatings?: ParentalRatingResponse[];
   participants?: PersonResponse[];
   popularity?: Popularity;
-  /** A key value Map */
-  popularityScores?: Map;
+  /** A key value object */
+  popularityScores?: object;
   productionCountries?: string[];
   productionYear?: number;
   programs?: ProgramListEntryResponse[];
@@ -622,8 +622,8 @@ export interface ContinueWatchingAsset {
   originalTitleLanguage?: string;
   parentalRatings?: ParentalRatingResponse[];
   participants?: PersonResponse[];
-  /** A key value Map */
-  popularityScores?: Map;
+  /** A key value object */
+  popularityScores?: object;
   productionCountries?: string[];
   productionYear?: number;
   publications?: Publication[];
@@ -1258,8 +1258,6 @@ export interface LoginResponse {
   userProfile?: UserProfile;
 }
 
-export type Map = object;
-
 export interface Marker {
   adMarkerType?: string;
   offset?: number;
@@ -1390,8 +1388,6 @@ export interface OauthAuthenticationRequest {
   /** OAuth access token. */
   token: string;
 }
-
-export type Object = object;
 
 export interface OverlayWidget {
   url?: string;
@@ -1605,8 +1601,8 @@ export type Popularity = Record<"month" | "week", number>;
 export interface PreferencesListItem {
   id?: string;
   lastUpdated?: string;
-  /** A key value Map */
-  metadata?: Map;
+  /** A key value object */
+  metadata?: object;
   order?: number;
 }
 
@@ -1949,8 +1945,8 @@ export interface SetPwdWithTokenV3 {
 }
 
 export interface SetUserPreferenceRequest {
-  /** A key value Map */
-  preferences: Map;
+  /** A key value object */
+  preferences: object;
 }
 
 export type SimpleDateParam = Record<"date" | "originalValue", string>;
@@ -2135,8 +2131,8 @@ export interface StorePurchaseTransaction {
 
 export interface StoreTransaction {
   amount?: string;
-  /** A key value Map */
-  attributes?: Map;
+  /** A key value object */
+  attributes?: object;
   completedTime?: string;
   paymentProviderRequestId?: string;
   paymentProviderTransactionId?: string;
@@ -2372,8 +2368,8 @@ export interface UPHAsset {
   originalTitleLanguage?: string;
   parentalRatings?: ParentalRatingResponse[];
   participants?: PersonResponse[];
-  /** A key value Map */
-  popularityScores?: Map;
+  /** A key value object */
+  popularityScores?: object;
   productionCountries?: string[];
   productionYear?: number;
   publications?: Publication[];
@@ -2423,15 +2419,13 @@ export interface UserAssetPlayHistory {
 export interface UserAttributeRequest {
   /** id of the attribute */
   attributeId: string;
-  /** An object */
-  value?: Object;
+  value?: object;
 }
 
 export interface UserAttributeResponse {
   /** id of the attribute */
   attributeId?: string;
-  /** An object */
-  defaultValue?: Object;
+  defaultValue?: object;
   /** If type = "enum": The enums value set */
   enums?: UserAttributesEnumValue[];
   /** Localized titles and descriptions */
@@ -2448,8 +2442,7 @@ export interface UserAttributeResponse {
    * "real": Real/decimal number e.g 1.1
    */
   type?: string;
-  /** An object */
-  value?: Object;
+  value?: object;
   /** If true the attribute has been set, potentially with a null/undefined value, in which case the default value is used */
   valueSet?: boolean;
 }
@@ -2469,12 +2462,7 @@ export interface UserAttributesLocalizedMetadata {
   title?: string;
 }
 
-export interface UserAttributesRange {
-  /** An object */
-  max?: Object;
-  /** An object */
-  min?: Object;
-}
+export type UserAttributesRange = Record<"max" | "min", object>;
 
 export interface UserCapabilities {
   /** True if user name is not equal to the user's email address and the user may change the email address. */
@@ -2506,8 +2494,8 @@ export interface UserDetailsResponse {
   email?: string;
   /** Set Language */
   language?: string;
-  /** A key value Map */
-  metadata?: Map;
+  /** A key value object */
+  metadata?: object;
   /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
   profileType?: string;
   /** username */
@@ -2527,8 +2515,8 @@ export interface UserDetailsUpdateRequest {
    * If value is not provided any existing value is unchanged.
    */
   language?: string;
-  /** A key value Map */
-  metadata?: Map;
+  /** A key value object */
+  metadata?: object;
   /**
    * Application defined value. Can be used e.g. to carry mapping to parental rating configuration.
    * If value is not provided any existing value is unchanged.
@@ -2539,8 +2527,8 @@ export interface UserDetailsUpdateRequest {
 export interface UserPreferenceResponse {
   /** Last time the preferences where changed. */
   lastUpdated?: string;
-  /** A key value Map */
-  preferences?: Map;
+  /** A key value object */
+  preferences?: object;
 }
 
 export interface UserProfile {
@@ -2564,8 +2552,8 @@ export interface UserProfile {
   emailAddressRequired?: boolean;
   /** preferred language. */
   language?: string;
-  /** A key value Map */
-  metadata?: Map;
+  /** A key value object */
+  metadata?: object;
   /** True if user is owner of the account. */
   owner?: boolean;
   /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
@@ -2583,8 +2571,8 @@ export interface UserProfileCreateRequest {
   displayName: string;
   /** Preferred language. */
   language?: string;
-  /** A key value Map */
-  metadata?: Map;
+  /** A key value object */
+  metadata?: object;
   /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
   profileType?: string;
 }
