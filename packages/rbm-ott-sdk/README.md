@@ -59,18 +59,7 @@ getAssets.call(context, { assetIds: [...] }).then(...);
 
 ## Authentication
 
-Some routes require authentication via session tokens. You can add this to the context object as a string named `sessionToken`.
-
-```ts
-import RBMSDK from "@ericssonbroadcastservices/rbm-ott-sdk";
-
-const api = new RBMSDK({ customer, businessUnit, baseUrl, sessionToken });
-
-// This call will be made authenticated with your session token.
-api.asset.getAsset(assetId)
-```
-
-If you don't have a session token, then you need to use an authentication method
+Some routes require authentication via session tokens. If you don't have a session token, then you need to use an authentication method to get it:
 
 ```ts
 import { AuthenticationService } from "@ericssonbroadcastservices/rbm-ott-sdk";
@@ -79,11 +68,10 @@ const context = { customer, businessUnit, baseUrl };
 
 const authService = new AuthenticationService(context);
 
-authService.login({ username, password, device })
-  .then(() => {
-    // You are now logged in, and further requests will be authenticated with your session token.
-  });
+const { sessionToken } = await authService.login({ username, password, device });
 ```
+
+After that for any request you want to make authenticated with this session token, include an `Authorization` header with the value `Bearer ${sessionToken}`
 
 ## Error handling
 

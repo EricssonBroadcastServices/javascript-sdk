@@ -15,7 +15,6 @@ export type ServiceContext = {
   baseUrl: string;
   customer: string;
   businessUnit: string;
-  sessionToken?: string;
   errorFactory?: (response: Response) => Error;
 };
 
@@ -27,8 +26,6 @@ export type requestArgs = {
   body?: Record<string, any>;
   ctx?: ServiceContext;
 };
-
-const keyStorage = new Map<string, string>();
 
 function toQueryString(query: QueryParams = {}): string {
   const sanitized = Object.entries(query)
@@ -44,17 +41,8 @@ function defaultErrorFactory(response: Response) {
 
 export async function request<T = any>({ method, url, headers = {}, query = {}, body, ctx }: requestArgs): Promise<T> {
   const fullUrl = Object.keys(query).length ? `${url}/?${toQueryString(query)}` : url;
-  const headerKeys = Object.keys(headers).map(key => key.toLowerCase());
-  let ctxIdent = ctx ? [ctx.baseUrl, ctx.customer, ctx.businessUnit].join(":") : "";
-
-  if (!headerKeys.includes("content-type")) {
+  if (!Object.keys(headers).some(key => key.toLowerCase() === "content-type")) {
     headers["content-type"] = "application/json";
-  }
-  if (ctxIdent && !headerKeys.includes("authorization")) {
-    const sessionToken = keyStorage.get(ctxIdent);
-    if (sessionToken) {
-      headers.authorization = `Bearer ${sessionToken}`;
-    }
   }
   const params = { method, headers };
   if (body) {
@@ -64,9 +52,5 @@ export async function request<T = any>({ method, url, headers = {}, query = {}, 
   if (!response.ok) {
     throw (ctx?.errorFactory || defaultErrorFactory)(response);
   }
-  const data = await response.json();
-  if (ctxIdent && data?.sessionToken) {
-    keyStorage.set(ctxIdent, data.sessionToken);
-  }
-  return data;
+  return response.json();
 }
