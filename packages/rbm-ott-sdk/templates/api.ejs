@@ -1,57 +1,34 @@
 <%
 const { utils, route, config, modelTypes } = it;
 const { _, pascalCase, require } = utils;
+const { routes } = it.route;
 const apiClassName = pascalCase(route.moduleName);
-const routes = route.routes;
+const methods = [];
 const dataContracts = _.map(modelTypes, "name");
-//console.warn(routes[0].routeName)
-%>
 
-<% if (config.httpClientType === config.constants.HTTP_CLIENT.AXIOS) { %> import type { AxiosRequestConfig, AxiosResponse } from "axios"; <% } %>
+// Duplicate the methods if they have partial arguments so we can make
+// one predictable normal method and one that actually supports partials where we cant know the return type.
+for (const route of routes) {
+  let methodName = route.routeName.usage;
+  methods.push({ route, methodName })
+  if (route.queryObjectSchema?.properties?.fieldSet) {
+    methods.push({ route, methodName: `${methodName}Partial`, isPartial: true });
+  }
+}
+%>
 
 import { request, ServiceContext } from "./<%~ config.fileNames.httpClient %>";
 <% if (dataContracts.length) { %>
 import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
 <% } %>
 
-<% for (const route of routes) {
-  // We removed the fieldSet, excludeFields and includeFields query arguments for all routes,
-  // because with them we can not know the type we return
-  // For this reason we create two methods for these routes (marked with partial true)
-  // We also change the default for fieldSet to ALL for all of them.
-  const { query } = route.request;
-  const partial = route?.queryObjectSchema?.partial;
-  let queryParamValue = (query && query.name) || "query";
-  if (queryParamValue && partial) {
-    queryParamValue = `{ fieldSet: "ALL", ...(${queryParamValue}||{}) }`;
-  }
-%>
-  <%~ includeFile('./procedure-call.ejs', { ...it, route, query, queryParamValue }) %>
-  <% if (partial) {
-    // Patch the arguments back for the partial method
-    // it was easier to remove and restore them than to write a regex to remove them after they had been processes
-    query.type = query.type.replace(/\s*\}$/, "") + `
-    /**
-     *The set of fields to include by default.
-     * @default "ALL"
-     */
-    fieldSet?: "ALL" | "NONE" | "PARTIAL";
-    /** Comma separated list of fields to remove from the response. */
-    excludeFields?: string;
-    /** Comma separated list of fields to add to the response. */
-    includeFields?: string;
-    }`
-  %>
-    <%~ includeFile('./procedure-call.ejs', { ...it, route, query, queryParamValue, partial: true }) %>
-  <% } %>
+<% for (const { route, isPartial, methodName } of methods) { %>
+  <%~ includeFile('./procedure-call.ejs', { ...it, route, isPartial, methodName }) %>
 <% } %>
 
 export class <%= apiClassName %>Service {
   constructor(private context: ServiceContext) {}
-  <% for (const route of routes) { %>
-    <%~ `${route.routeName.usage} = ${route.routeName.usage}` %>;
-    <% if (route?.queryObjectSchema?.partial) { %>
-      <%~ `${route.routeName.usage}Partial = ${route.routeName.usage}Partial;` %>;
-    <% } %>
+  <% for (const { methodName } of methods) { %>
+    <%~ `${methodName} = ${methodName}` %>;
   <% } %>
 }

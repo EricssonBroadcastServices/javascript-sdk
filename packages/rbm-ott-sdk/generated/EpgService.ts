@@ -17,28 +17,30 @@ import { request, ServiceContext } from "./http-client";
  * @response `200` `ActiveChannels` success
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getActiveChannels(
-  query?: {
-    /**
-     * Include future assets that start sooner than this many minutes ahead. Default value 0 returns only the currently playing asset of each channel
-     * @default 0
-     */
-    minutesForward?: number;
-    /**
-     * Page number. Currently only supports one page
-     * @default 1
-     */
-    pageNumber?: number;
-    /**
-     * Number of channels per page
-     * @default 100
-     */
-    pageSize?: number;
-    /** Sort by the sorting title property of the given locale */
-    sortingLocale?: string;
-  },
-  headers?: HeadersInit
-) {
+export async function getActiveChannels({
+  headers,
+  ..._data
+}: {
+  /**
+   * Include future assets that start sooner than this many minutes ahead. Default value 0 returns only the currently playing asset of each channel
+   * @default 0
+   */
+  minutesForward?: number;
+  /**
+   * Page number. Currently only supports one page
+   * @default 1
+   */
+  pageNumber?: number;
+  /**
+   * Number of channels per page
+   * @default 100
+   */
+  pageSize?: number;
+  /** Sort by the sorting title property of the given locale */
+  sortingLocale?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ActiveChannels>({
@@ -46,9 +48,10 @@ export async function getActiveChannels(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description Status of a channel includes whether it is available (in the case of virtual channels) and the currently playing assets.
  * @summary Gets channel status.
@@ -56,18 +59,21 @@ export async function getActiveChannels(
  * @response `200` `ChannelStatus` success
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. CHANNEL_STATUS_NOT_FOUND. Channel is personalized or the channel type could not be found.
  */
-export async function getChannelStatus(
+export async function getChannelStatus({
+  channelId,
+  headers,
+  ..._data
+}: {
   /** The channel id. */
-  channelId: string,
-  query?: {
-    /**
-     * Include future assets that start sooner than this many minutes ahead. Default value 0 returns only the currently playing asset of each channel
-     * @default 0
-     */
-    minutesForward?: number;
-  },
-  headers?: HeadersInit
-) {
+  channelId: string;
+  /**
+   * Include future assets that start sooner than this many minutes ahead. Default value 0 returns only the currently playing asset of each channel
+   * @default 0
+   */
+  minutesForward?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelStatus>({
@@ -75,9 +81,10 @@ export async function getChannelStatus(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow/${channelId}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description This endpoint finds all published programs and partitions them in channel buckets. Only channels has programs in the page that has been requested will have a bucket. Programs sorted ascending on startTime by default.
  * @summary Gets epg data for all channels.
@@ -86,38 +93,41 @@ export async function getChannelStatus(
  * @response `400` `void` Result window is too large. If the pageSize * pageNumber is greater than 10000.
  * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
  */
-export async function getEpg(
+export async function getEpg({
+  date,
+  headers,
+  ..._data
+}: {
   /** The date */
-  date: Date,
-  query?: {
-    /**
-     * Days back compared to midnight of the date to get EPG for.
-     * @default 0
-     */
-    daysBackward?: number;
-    /**
-     * Days forward compared to midnight of the date to get EPG for.
-     * @default 0
-     */
-    daysForward?: number;
-    /**
-     * The page number. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.
-     * @default 1
-     */
-    pageNumber?: number;
-    /**
-     * The number of items to show per page
-     * @default 50
-     */
-    pageSize?: number;
-    /**
-     * The sort order. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.
-     * @default "ASC"
-     */
-    startDateSort?: "ASC" | "DESC";
-  },
-  headers?: HeadersInit
-) {
+  date: Date;
+  /**
+   * Days back compared to midnight of the date to get EPG for.
+   * @default 0
+   */
+  daysBackward?: number;
+  /**
+   * Days forward compared to midnight of the date to get EPG for.
+   * @default 0
+   */
+  daysForward?: number;
+  /**
+   * The page number. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.
+   * @default 1
+   */
+  pageNumber?: number;
+  /**
+   * The number of items to show per page
+   * @default 50
+   */
+  pageSize?: number;
+  /**
+   * The sort order. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.
+   * @default "ASC"
+   */
+  startDateSort?: "ASC" | "DESC";
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse[]>({
@@ -127,9 +137,10 @@ export async function getEpg(
       .substring(0, 10)}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description Programs sorted ascending on startTime by default.
  * @summary Gets epg data for a specific channel.
@@ -137,40 +148,44 @@ export async function getEpg(
  * @response `200` `ChannelEPGResponse` success
  * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
  */
-export async function getEpgForChannel(
+export async function getEpgForChannel({
+  channelId,
+  date,
+  headers,
+  ..._data
+}: {
   /** The id of the channel to get EPG for. Slugs supported. */
-  channelId: string,
+  channelId: string;
   /** The date */
-  date: Date,
-  query?: {
-    /**
-     * Days back compared to midnight of the date to get EPG for.
-     * @default 0
-     */
-    daysBackward?: number;
-    /**
-     * Days forward compared to midnight of the date to get EPG for.
-     * @default 0
-     */
-    daysForward?: number;
-    /**
-     * The page number.
-     * @default 1
-     */
-    pageNumber?: number;
-    /**
-     * The number of items to show per page
-     * @default 50
-     */
-    pageSize?: number;
-    /**
-     * The sort order.
-     * @default "ASC"
-     */
-    startDateSort?: "ASC" | "DESC";
-  },
-  headers?: HeadersInit
-) {
+  date: Date;
+  /**
+   * Days back compared to midnight of the date to get EPG for.
+   * @default 0
+   */
+  daysBackward?: number;
+  /**
+   * Days forward compared to midnight of the date to get EPG for.
+   * @default 0
+   */
+  daysForward?: number;
+  /**
+   * The page number.
+   * @default 1
+   */
+  pageNumber?: number;
+  /**
+   * The number of items to show per page
+   * @default 50
+   */
+  pageSize?: number;
+  /**
+   * The sort order.
+   * @default "ASC"
+   */
+  startDateSort?: "ASC" | "DESC";
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse>({
@@ -180,9 +195,10 @@ export async function getEpgForChannel(
       .substring(0, 10)}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description Programs sorted ascending on startTime by default.
  * @summary Gets epg data for a specific set of channels.
@@ -190,40 +206,44 @@ export async function getEpgForChannel(
  * @response `200` `(ChannelEPGResponse)[]` success
  * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
  */
-export async function getEpgForChannels(
+export async function getEpgForChannels({
+  channelIds,
+  date,
+  headers,
+  ..._data
+}: {
   /** The comma separated list of the ids the channels to get EPG for. */
-  channelIds: string,
+  channelIds: string;
   /** The date */
-  date: Date,
-  query?: {
-    /**
-     * Days back compared to midnight of the date to get EPG for.
-     * @default 0
-     */
-    daysBackward?: number;
-    /**
-     * Days forward compared to midnight of the date to get EPG for.
-     * @default 0
-     */
-    daysForward?: number;
-    /**
-     * The page number.
-     * @default 1
-     */
-    pageNumber?: number;
-    /**
-     * The number of items to show per page
-     * @default 50
-     */
-    pageSize?: number;
-    /**
-     * The sort order.
-     * @default "ASC"
-     */
-    startDateSort?: "ASC" | "DESC";
-  },
-  headers?: HeadersInit
-) {
+  date: Date;
+  /**
+   * Days back compared to midnight of the date to get EPG for.
+   * @default 0
+   */
+  daysBackward?: number;
+  /**
+   * Days forward compared to midnight of the date to get EPG for.
+   * @default 0
+   */
+  daysForward?: number;
+  /**
+   * The page number.
+   * @default 1
+   */
+  pageNumber?: number;
+  /**
+   * The number of items to show per page
+   * @default 50
+   */
+  pageSize?: number;
+  /**
+   * The sort order.
+   * @default "ASC"
+   */
+  startDateSort?: "ASC" | "DESC";
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse[]>({
@@ -233,22 +253,28 @@ export async function getEpgForChannels(
       .substring(0, 10)}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Gets next program for a specific program for a channel.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/program/{programId}/next
  * @response `200` `ProgramResponse` success
  * @response `404` `void` PROGRAM_NOT_FOUND. If the program cannot be found. NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.
  */
-export async function getNextProgram(
+export async function getNextProgram({
+  channelId,
+  programId,
+  headers
+}: {
   /** The id of the channel. */
-  channelId: string,
+  channelId: string;
   /** The id of the program. */
-  programId: string,
-  headers?: HeadersInit
-) {
+  programId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
@@ -258,6 +284,7 @@ export async function getNextProgram(
     ctx
   });
 }
+
 /**
  * @description If the asset has been showed multiple times there is a unspecified logic to select one program.
  * @summary Gets next program for a specific asset.
@@ -265,11 +292,15 @@ export async function getNextProgram(
  * @response `200` `ProgramResponse` success
  * @response `404` `void` PROGRAM_NOT_FOUND. If the program cannot be found. NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.
  */
-export async function getNextProgramForAsset(
+export async function getNextProgramForAsset({
+  assetId,
+  headers
+}: {
   /** The asset id */
-  assetId: string,
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
@@ -279,22 +310,27 @@ export async function getNextProgramForAsset(
     ctx
   });
 }
+
 /**
  * @summary Gets a specific program for a channel by id.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/program/{programId}
  * @response `200` `ProgramResponse` success
  * @response `404` `void` UNKNOWN_PROGRAM. If the program cannot be found.
  */
-export async function getProgram(
+export async function getProgram({
+  channelId,
+  programId,
+  headers,
+  ..._data
+}: {
   /** The id of the channel. */
-  channelId: string,
+  channelId: string;
   /** The id of the program. */
-  programId: string,
-  query?: {
-    service?: string;
-  },
-  headers?: HeadersInit
-) {
+  programId: string;
+  service?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ProgramResponse>({
@@ -302,31 +338,35 @@ export async function getProgram(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Gets epg data for a specific channel in XML TV format.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/xmltv
  * @response `default` `ChannelEPGResponse` success
  */
-export async function getXmlTvEpgForChannel(
+export async function getXmlTvEpgForChannel({
+  channelId,
+  headers,
+  ..._data
+}: {
   /** The id of the channel to get EPG for. Slugs supported. */
-  channelId: string,
-  query?: {
-    /**
-     * Days back compared to midnight of the date to get EPG for.
-     * @default 0
-     */
-    daysBackward?: number;
-    /**
-     * Days forward compared to midnight of the date to get EPG for.
-     * @default 10
-     */
-    daysForward?: number;
-  },
-  headers?: HeadersInit
-) {
+  channelId: string;
+  /**
+   * Days back compared to midnight of the date to get EPG for.
+   * @default 0
+   */
+  daysBackward?: number;
+  /**
+   * Days forward compared to midnight of the date to get EPG for.
+   * @default 10
+   */
+  daysForward?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ChannelEPGResponse>({
@@ -334,7 +374,7 @@ export async function getXmlTvEpgForChannel(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
 

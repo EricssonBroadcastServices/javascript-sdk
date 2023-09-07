@@ -15,15 +15,18 @@ import { request, ServiceContext } from "./http-client";
  * @request GET:/v1/customer/{customer}/config/{fileName}
  * @response `default` `ConfigFile` success
  */
-export async function getConfigCuFile(
+export async function getConfigCuFile({
+  fileName,
+  headers,
+  ..._data
+}: {
   /** The file to get. */
-  fileName: string,
-  query?: {
-    /** The version of the file to get. */
-    version?: number;
-  },
-  headers?: HeadersInit
-) {
+  fileName: string;
+  /** The version of the file to get. */
+  version?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
@@ -31,24 +34,28 @@ export async function getConfigCuFile(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config/${fileName}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Gets a JSON configuration file.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/config/{fileName}
  * @response `default` `ConfigFile` success
  */
-export async function getConfigFile(
+export async function getConfigFile({
+  fileName,
+  headers,
+  ..._data
+}: {
   /** The file to get. */
-  fileName: string,
-  query?: {
-    /** @default false */
-    paymentMethodPreview?: boolean;
-    version?: number;
-  },
-  headers?: HeadersInit
-) {
+  fileName: string;
+  /** @default false */
+  paymentMethodPreview?: boolean;
+  version?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
@@ -56,26 +63,31 @@ export async function getConfigFile(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description Uses the host parameter to figure out the business unit.
  * @summary Gets a JSON configuration file.
  * @request GET:/v1/config/{fileId}/origin/{host}
  * @response `default` `ConfigFile` success
  */
-export async function getConfigFileCustomDomainInPath(
+export async function getConfigFileCustomDomainInPath({
+  fileId,
+  host,
+  headers,
+  ..._data
+}: {
   /** The file to get. */
-  fileId: string,
+  fileId: string;
   /** The host that will be mapped to a business unit. */
-  host: string,
-  query?: {
-    /** @default false */
-    paymentMethodPreview?: boolean;
-  },
-  headers?: HeadersInit
-) {
+  host: string;
+  /** @default false */
+  paymentMethodPreview?: boolean;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFile>({
@@ -83,15 +95,21 @@ export async function getConfigFileCustomDomainInPath(
     url: `${ctx.baseUrl}/v1/config/${fileId}/origin/${host}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Lists existing configuration files.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/config
  * @response `default` `ConfigFilesResponse` success
  */
-export async function getConfigFiles(headers?: HeadersInit) {
+export async function getConfigFiles({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({
@@ -101,12 +119,18 @@ export async function getConfigFiles(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Lists existing configuration files on customer level.
  * @request GET:/v1/customer/{customer}/config
  * @response `default` `ConfigFilesResponse` success
  */
-export async function getConfigFilesCu(headers?: HeadersInit) {
+export async function getConfigFilesCu({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ConfigFilesResponse>({

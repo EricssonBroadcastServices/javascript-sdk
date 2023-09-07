@@ -17,14 +17,16 @@ import { request, ServiceContext } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getContinueWatching(
-  query?: {
-    /** If we should only return assets that have publications on this service */
-    service?: string;
-    tagIds?: string[];
-  },
-  headers?: HeadersInit
-) {
+export async function getContinueWatching({
+  headers,
+  ..._data
+}: {
+  /** If we should only return assets that have publications on this service */
+  service?: string;
+  tagIds?: string[];
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ContinueUph2Assets>({
@@ -32,9 +34,10 @@ export async function getContinueWatching(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description Gets a list of assets to watch next in for example a playlist Not depending on user. Can be used for not logged in.
  * @summary Watch next.
@@ -42,18 +45,21 @@ export async function getContinueWatching(
  * @response `200` `RecommendedWatchNext` success
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getRecommendationsForAsset(
+export async function getRecommendationsForAsset({
+  assetId,
+  headers,
+  ..._data
+}: {
   /** The assetId that you have just played. */
-  assetId: string,
-  query?: {
-    /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
-    parentalRatings?: string;
-    /** If we should only return assets that have publications on this service */
-    service?: string;
-    tagIds?: string[];
-  },
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
+  parentalRatings?: string;
+  /** If we should only return assets that have publications on this service */
+  service?: string;
+  tagIds?: string[];
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<RecommendedWatchNext>({
@@ -61,9 +67,10 @@ export async function getRecommendationsForAsset(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/watchNext/${assetId}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Get recommendations for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/recommend/user
@@ -71,16 +78,18 @@ export async function getRecommendationsForAsset(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getRecommendationsForUser(
-  query?: {
-    /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
-    parentalRatings?: string;
-    /** If we should only return assets that have publications on this service */
-    service?: string;
-    tagIds?: string[];
-  },
-  headers?: HeadersInit
-) {
+export async function getRecommendationsForUser({
+  headers,
+  ..._data
+}: {
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
+  parentalRatings?: string;
+  /** If we should only return assets that have publications on this service */
+  service?: string;
+  tagIds?: string[];
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<RecommendedAssets>({
@@ -88,7 +97,7 @@ export async function getRecommendationsForUser(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
 

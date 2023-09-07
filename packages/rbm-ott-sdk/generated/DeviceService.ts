@@ -18,7 +18,14 @@ import { request, ServiceContext } from "./http-client";
  * @response `403` `void` DELETE_SELF_NOT_ALLOWED. The device of this session may not be deleted.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteDeviceForAccount(deviceId: string, headers?: HeadersInit) {
+export async function deleteDeviceForAccount({
+  deviceId,
+  headers
+}: {
+  deviceId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -28,6 +35,7 @@ export async function deleteDeviceForAccount(deviceId: string, headers?: Headers
     ctx
   });
 }
+
 /**
  * @description Can be called even when the current session is "overTheDeviceLimit", if so, use this call to let the user select which device to delete.
  * @summary List devices.
@@ -36,7 +44,12 @@ export async function deleteDeviceForAccount(deviceId: string, headers?: Headers
  * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getDevicesForAccount(headers?: HeadersInit) {
+export async function getDevicesForAccount({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<DevicesResponseV2>({

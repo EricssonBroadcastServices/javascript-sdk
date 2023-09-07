@@ -17,7 +17,14 @@ import { request, ServiceContext } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteFromLastViewedAssetList(assetId: string, headers?: HeadersInit) {
+export async function deleteFromLastViewedAssetList({
+  assetId,
+  headers
+}: {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
@@ -27,6 +34,7 @@ export async function deleteFromLastViewedAssetList(assetId: string, headers?: H
     ctx
   });
 }
+
 /**
  * @summary EXPERIMENTAL
 Get the episode in progress
@@ -35,11 +43,15 @@ Get the episode in progress
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_ASSET. If the asset with id tvShowId cannot be found.
  */
-export async function getContinueWatchingTvShow(
+export async function getContinueWatchingTvShow({
+  tvshowid,
+  headers
+}: {
   /** The tvShowId */
-  tvshowid: string,
-  headers?: HeadersInit
-) {
+  tvshowid: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<WatchedTvShowResponse>({
@@ -49,6 +61,7 @@ export async function getContinueWatchingTvShow(
     ctx
   });
 }
+
 /**
  * @summary Gets last viewed offset for assets for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset
@@ -56,29 +69,31 @@ export async function getContinueWatchingTvShow(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getLastViewedOffsetList(
-  query?: {
-    /**
-     * Return all bookmarks for the account and not only the ones for current user.
-     * Default value false.
-     * @default false
-     */
-    account?: boolean;
-    /** The asset ids to filter by. */
-    assetIds?: string[];
-    /**
-     * The page number. Default is 1.
-     * @default 1
-     */
-    pageNumber?: number;
-    /**
-     * The number of items to show per page. Default value is 200.
-     * @default 200
-     */
-    pageSize?: number;
-  },
-  headers?: HeadersInit
-) {
+export async function getLastViewedOffsetList({
+  headers,
+  ..._data
+}: {
+  /**
+   * Return all bookmarks for the account and not only the ones for current user.
+   * Default value false.
+   * @default false
+   */
+  account?: boolean;
+  /** The asset ids to filter by. */
+  assetIds?: string[];
+  /**
+   * The page number. Default is 1.
+   * @default 1
+   */
+  pageNumber?: number;
+  /**
+   * The number of items to show per page. Default value is 200.
+   * @default 200
+   */
+  pageSize?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<LastViewedOffsetList[]>({
@@ -86,7 +101,7 @@ export async function getLastViewedOffsetList(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewedoffset`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
 

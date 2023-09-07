@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, rmdirSync, writeFileSync, unlinkSync } from "fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync, unlinkSync } from "fs";
 import { resolve } from "path";
 import { generateApi } from "swagger-typescript-api";
 
@@ -252,19 +252,10 @@ generateApi({
   sortRoutes: true,
   hooks: {
     onInit(config) {
+      console.log(""); // Add line break before any logs from the template
       // Must override hard coded base path which swagger-typescript-api uses for some templates
       config.templatePaths.base = resolve(process.cwd(), "./templates/base");
       return config;
-    },
-    onParseSchema(originalSchema, parsedSchema) {
-      const { fieldSet } = originalSchema?.properties || {};
-      if (fieldSet) {
-        originalSchema.partial = true;
-        parsedSchema.content = parsedSchema.content.filter((param: any) => {
-          return !["fieldSet", "includeFields", "excludeFields"].includes(param.name);
-        });
-      }
-      return parsedSchema;
     },
     onFormatRouteName (routeInfo) {
       // allow duplicates for search (because we did before)
@@ -311,7 +302,7 @@ generateApi({
     // Delete the temporary formatted spec
     unlinkSync(FORMATTED_SPEC);
     // Clear output path
-    rmdirSync(OUTPUT_PATH, { recursive: true });
+    rmSync(OUTPUT_PATH, { recursive: true });
     mkdirSync(OUTPUT_PATH);
     // Write generated files
     files.forEach(({ fileName, fileContent }) => {

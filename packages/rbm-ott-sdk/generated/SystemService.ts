@@ -16,13 +16,15 @@ import { request, ServiceContext } from "./http-client";
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/systemConfig
  * @response `default` `SystemConfig` success
  */
-export async function getSystemConfig(
-  query?: {
-    /** @default false */
-    paymentMethodPreview?: boolean;
-  },
-  headers?: HeadersInit
-) {
+export async function getSystemConfig({
+  headers,
+  ..._data
+}: {
+  /** @default false */
+  paymentMethodPreview?: boolean;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<SystemConfig>({
@@ -30,9 +32,10 @@ export async function getSystemConfig(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description Gets the system confiuration for specified country.
  * @summary Get System Configuration.
@@ -40,13 +43,15 @@ export async function getSystemConfig(
  * @response `200` `SystemConfig` Successful
  * @response `4xx` `APIErrorMessage` Failed
  */
-export async function getSystemConfigV2(
-  query: {
-    /** countryCode */
-    countryCode: string;
-  },
-  headers?: HeadersInit
-) {
+export async function getSystemConfigV2({
+  headers,
+  ..._data
+}: {
+  /** countryCode */
+  countryCode: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<SystemConfig>({
@@ -54,7 +59,7 @@ export async function getSystemConfigV2(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
 

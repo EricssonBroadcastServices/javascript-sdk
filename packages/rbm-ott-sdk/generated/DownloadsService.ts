@@ -15,7 +15,12 @@ import { request, ServiceContext } from "./http-client";
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
  * @response `default` `Message` success
  */
-export async function deleteDownloadsForAccount(headers?: HeadersInit) {
+export async function deleteDownloadsForAccount({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Message>({
@@ -25,16 +30,21 @@ export async function deleteDownloadsForAccount(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Unregister all downloads for an asset done by an account.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
  * @response `default` `Message` success
  */
-export async function deleteDownloadsForAsset(
+export async function deleteDownloadsForAsset({
+  assetId,
+  headers
+}: {
   /** The id of the asset. */
-  assetId: string,
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Message>({
@@ -44,6 +54,7 @@ export async function deleteDownloadsForAsset(
     ctx
   });
 }
+
 /**
  * @summary Perform a download operation that will give the client media locators and license information.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/download
@@ -52,14 +63,17 @@ export async function deleteDownloadsForAsset(
  * @response `403` `void` MAX_DOWNLOAD_COUNT_LIMIT_REACHED. Max number of downloads for this asset reached. FORBIDDEN. Operation is not allowed.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is no found. UNKNOWN_ASSET. If the asset is not found.
  */
-export async function download(
-  assetId: string,
-  query?: {
-    /** The time to be used when checking download info. */
-    time?: string;
-  },
-  headers?: HeadersInit
-) {
+export async function download({
+  assetId,
+  headers,
+  ..._data
+}: {
+  assetId: string;
+  /** The time to be used when checking download info. */
+  time?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<DownloadResponse>({
@@ -67,19 +81,24 @@ export async function download(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Register a completed download of an asset.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadcompleted
  * @response `default` `BookkeeperAsset` success
  */
-export async function downloadCompleted(
+export async function downloadCompleted({
+  assetId,
+  headers
+}: {
   /** The id of the asset. */
-  assetId: string,
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
@@ -89,6 +108,7 @@ export async function downloadCompleted(
     ctx
   });
 }
+
 /**
  * @description It will also return information about different download alternatives.
  * @summary Checks if the user is entitled to download the asset.
@@ -98,14 +118,17 @@ export async function downloadCompleted(
  * @response `403` `void` MAX_DOWNLOAD_COUNT_LIMIT_REACHED. Max number of downloads for this asset reached. FORBIDDEN. Operation is not allowed.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is no found. UNKNOWN_ASSET. If the asset is not found.
  */
-export async function downloadInfo(
-  assetId: string,
-  query?: {
-    /** The time to be used when checking download info. */
-    time?: string;
-  },
-  headers?: HeadersInit
-) {
+export async function downloadInfo({
+  assetId,
+  headers,
+  ..._data
+}: {
+  assetId: string;
+  /** The time to be used when checking download info. */
+  time?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<DownloadInfoResponse>({
@@ -113,20 +136,25 @@ export async function downloadInfo(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description This will count as a new download.
  * @summary Register license renewed for a downloaded asset.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadrenewed
  * @response `default` `BookkeeperAsset` success
  */
-export async function downloadRenewed(
+export async function downloadRenewed({
+  assetId,
+  headers
+}: {
   /** The id of the asset. */
-  assetId: string,
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({
@@ -136,12 +164,18 @@ export async function downloadRenewed(
     ctx
   });
 }
+
 /**
  * @summary Get information about all downloads done by an account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
  * @response `default` `BookkeeperAccount` success
  */
-export async function getDownloadsForAccount(headers?: HeadersInit) {
+export async function getDownloadsForAccount({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAccount>({
@@ -151,16 +185,21 @@ export async function getDownloadsForAccount(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Get information for all downloads for an asset done by an account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
  * @response `default` `BookkeeperAsset` success
  */
-export async function getDownloadsForAsset(
+export async function getDownloadsForAsset({
+  assetId,
+  headers
+}: {
   /** The id of the asset. */
-  assetId: string,
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<BookkeeperAsset>({

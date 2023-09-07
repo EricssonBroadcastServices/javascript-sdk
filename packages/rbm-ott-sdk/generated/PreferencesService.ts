@@ -19,18 +19,22 @@ import { request, ServiceContext } from "./http-client";
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured. UNKNOWN_ASSET. If the asset is not found.
  * @response `409` `void` LIMIT_REACHED. If the maximum number of items in the list have been reached.
  */
-export async function addToAssetList(
+export async function addToAssetList({
+  list,
+  assetId,
+  headers,
+  ..._data
+}: {
   /** The name of the list. */
-  list: string,
-  assetId: string,
-  data: {
-    /** A key value object */
-    metadata?: object;
-    /** The order to sort by. */
-    order?: number;
-  },
-  headers?: HeadersInit
-) {
+  list: string;
+  assetId: string;
+  /** A key value object */
+  metadata?: object;
+  /** The order to sort by. */
+  order?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
@@ -38,9 +42,10 @@ export async function addToAssetList(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @summary Adds an item to a list.
  * @request POST:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}
@@ -50,19 +55,23 @@ export async function addToAssetList(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  * @response `409` `void` LIMIT_REACHED. If the maximum number of items in the list have been reached.
  */
-export async function addToList(
+export async function addToList({
+  list,
+  id,
+  headers,
+  ..._data
+}: {
   /** The name of the list. */
-  list: string,
+  list: string;
   /** The list item id */
-  id: string,
-  data: {
-    /** A key value object */
-    metadata?: object;
-    /** The order to sort by. */
-    order?: number;
-  },
-  headers?: HeadersInit
-) {
+  id: string;
+  /** A key value object */
+  metadata?: object;
+  /** The order to sort by. */
+  order?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
@@ -70,9 +79,10 @@ export async function addToList(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @summary Deletes an item from the asset list.
  * @request DELETE:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/asset/{assetId}
@@ -80,12 +90,17 @@ export async function addToList(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function deleteFromAssetList(
+export async function deleteFromAssetList({
+  list,
+  assetId,
+  headers
+}: {
   /** The name of the list. */
-  list: string,
-  assetId: string,
-  headers?: HeadersInit
-) {
+  list: string;
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
@@ -95,6 +110,7 @@ export async function deleteFromAssetList(
     ctx
   });
 }
+
 /**
  * @summary Deletes an item from a list.
  * @request DELETE:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}
@@ -102,13 +118,18 @@ export async function deleteFromAssetList(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function deleteFromList(
+export async function deleteFromList({
+  list,
+  id,
+  headers
+}: {
   /** The name of the list. */
-  list: string,
+  list: string;
   /** The id of the item */
-  id: string,
-  headers?: HeadersInit
-) {
+  id: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
@@ -118,6 +139,7 @@ export async function deleteFromList(
     ctx
   });
 }
+
 /**
  * @summary Gets an asset list for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/asset
@@ -125,17 +147,20 @@ export async function deleteFromList(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function getAssetList(
+export async function getAssetList({
+  list,
+  headers,
+  ..._data
+}: {
   /** The name of the list. */
-  list: string,
-  query?: {
-    /** The maximum number of assets to return. */
-    limit?: number;
-    service?: string;
-    tagIds?: string[];
-  },
-  headers?: HeadersInit
-) {
+  list: string;
+  /** The maximum number of assets to return. */
+  limit?: number;
+  service?: string;
+  tagIds?: string[];
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AssetListItemResponse[]>({
@@ -143,9 +168,10 @@ export async function getAssetList(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Gets an item from the asset list.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/asset/{assetId}
@@ -153,15 +179,19 @@ export async function getAssetList(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function getFromAssetList(
+export async function getFromAssetList({
+  list,
+  assetId,
+  headers,
+  ..._data
+}: {
   /** The name of the list. */
-  list: string,
-  assetId: string,
-  query?: {
-    service?: string;
-  },
-  headers?: HeadersInit
-) {
+  list: string;
+  assetId: string;
+  service?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AssetListItemResponse>({
@@ -169,9 +199,10 @@ export async function getFromAssetList(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Gets a list for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag
@@ -179,14 +210,17 @@ export async function getFromAssetList(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
-export async function getList(
+export async function getList({
+  list,
+  headers,
+  ..._data
+}: {
   /** The name of the list. */
-  list: string,
-  query?: {
-    service?: string;
-  },
-  headers?: HeadersInit
-) {
+  list: string;
+  service?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PreferencesListResponse[]>({
@@ -194,9 +228,10 @@ export async function getList(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Gets key value pair of preferences for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences
@@ -204,7 +239,12 @@ export async function getList(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getPreferences(headers?: HeadersInit) {
+export async function getPreferences({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<UserPreferenceResponse>({
@@ -214,6 +254,7 @@ export async function getPreferences(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Set key value pair of preferences for a user.
  * @request POST:/v1/customer/{customer}/businessunit/{businessUnit}/preferences
@@ -222,13 +263,15 @@ export async function getPreferences(headers?: HeadersInit) {
  * @response `403` `void` TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences. TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function setPreferences(
-  data: {
-    /** A key value object */
-    preferences: object;
-  },
-  headers?: HeadersInit
-) {
+export async function setPreferences({
+  headers,
+  ..._data
+}: {
+  /** A key value object */
+  preferences: object;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<string>({
@@ -236,7 +279,7 @@ export async function setPreferences(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
 

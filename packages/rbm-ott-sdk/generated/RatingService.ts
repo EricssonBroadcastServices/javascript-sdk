@@ -20,11 +20,15 @@ import { request, ServiceContext } from "./http-client";
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function deleteUserContentRating(
+export async function deleteUserContentRating({
+  assetId,
+  headers
+}: {
   /** The asset id */
-  assetId: string,
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -34,17 +38,22 @@ export async function deleteUserContentRating(
     ctx
   });
 }
+
 /**
  * @summary Get all ratings for an asset.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}/all
  * @response `200` `(GetAllUserContentRatingsForAssetResponse)[]` success
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getAllUserContentRatingsForAsset(
+export async function getAllUserContentRatingsForAsset({
+  assetId,
+  headers
+}: {
   /** The asset id */
-  assetId: string,
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForAssetResponse[]>({
@@ -54,6 +63,7 @@ export async function getAllUserContentRatingsForAsset(
     ctx
   });
 }
+
 /**
  * @summary Give all asset ratings given by currently logged in user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/rating/all
@@ -61,7 +71,12 @@ export async function getAllUserContentRatingsForAsset(
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getAllUserContentRatingsForUser(headers?: HeadersInit) {
+export async function getAllUserContentRatingsForUser({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<GetAllUserContentRatingsForUserResponse[]>({
@@ -71,6 +86,7 @@ export async function getAllUserContentRatingsForUser(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Get rating of an asset given by the currently logged in user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}
@@ -78,11 +94,15 @@ export async function getAllUserContentRatingsForUser(headers?: HeadersInit) {
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
-export async function getUserContentRating(
+export async function getUserContentRating({
+  assetId,
+  headers
+}: {
   /** The asset id */
-  assetId: string,
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<GetUserContentRatingResponse>({
@@ -92,6 +112,7 @@ export async function getUserContentRating(
     ctx
   });
 }
+
 /**
  * @summary Create/Update a rating for an asset given by currently logged in user.
  * @request PUT:/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}
@@ -99,14 +120,17 @@ export async function getUserContentRating(
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  * @response `422` `void` RATING_BELOW_ZERO. If the supplied rating is below 0.0. RATING_ABOVE_ONE. If the supplied rating is above 1.0.
  */
-export async function putUserContentRating(
+export async function putUserContentRating({
+  assetId,
+  headers,
+  ..._data
+}: {
   /** The asset id */
-  assetId: string,
-  data: {
-    rating?: number;
-  },
-  headers?: HeadersInit
-) {
+  assetId: string;
+  rating?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -114,7 +138,7 @@ export async function putUserContentRating(
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
 

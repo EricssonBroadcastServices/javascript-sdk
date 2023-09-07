@@ -94,9 +94,15 @@ const context = {
 
 ## Fetching partial data
 
-The query parameters `fieldSet`, `excludeFields` and `includeFields` have been removed from all methods because make the return type inconsistent. Instead we added dedicated methods for when you need to use these arguments. These have the same name but the suffix `Partial`.
+Some of our endpoint have the query parameters `fieldSet`, `excludeFields` and `includeFields` for requesting partial data (smaller responses).
 
-If you for example want to use `getAsset(...)` with these partial arguments, you instead need to use `getAssetPartial<ExpectedType>(...)`.
+Because these parameters make it impossible for us to know the return type, we have moved them to separate methods with the `Partial` suffix.
+
+The way this works is `fieldSet` specifies if you want to fetch either `ALL`, `NONE` or `PARTIAL` fields by default, and then you can add or remove to this data set with `includeFields` or `excludeFields`. The fields that are included in the `PARTIAL` set differs per endpoint.
+
+These methods will return `Promise<any>` unless you pass in a generic type.
+
+Example use:
 
 ```ts
 import { AssetService, Asset } from "@ericssonbroadcastservices/rbm-ott-sdk";
@@ -105,12 +111,19 @@ const context = { customer, businessUnit, baseUrl };
 
 const assetService = new AssetService(context);
 
-type PartialAsset = Partial<Asset>;
+type PartalAsset = Pick<Asset, "type" | "slugs" | "created" | "changed">;
 
-assetService.getAssetPartial<PartialAsset>("asdf1234", { fieldSet: "PARTIAL", excludeFields: "..." })
+interface PartialAssetList extends Omit<AssetList, "items"> {
+  items: PartalAsset[];
+}
+
+assetService.getAssetPartial<PartialAsset>({ assetId: "asdf1234", fieldSet: "NONE", includeFields: "type,slugs,created,changed" })
   .then((partialAsset) => {
     console.log("Fetched partial asset", partialAsset);
   });
-```
 
-Note that if you don't pass the type in to the generic, it will still work, but will return `Promise<any>`.
+assetService.getAssetsPartial<PartialAssetList>({ fieldSet: "NONE", includeFields: "type,slugs,created,changed" })
+  .then((partialAssetList) => {
+    console.log("Fetched partial asset list", partialAssetList);
+  });
+```

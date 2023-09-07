@@ -16,13 +16,15 @@ import { request, ServiceContext } from "./http-client";
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/accountproduct
  * @response `default` `void` success
  */
-export async function accountProducts(
-  query?: {
-    /** The time to be used when checking entitlement. */
-    time?: string;
-  },
-  headers?: HeadersInit
-) {
+export async function accountProducts({
+  headers,
+  ..._data
+}: {
+  /** The time to be used when checking entitlement. */
+  time?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
@@ -30,21 +32,24 @@ export async function accountProducts(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Returns all the availability keys for a given account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/availabilitykey
  * @response `default` `AvailabilityKeys` success
  */
-export async function availabilityKeys(
-  query?: {
-    /** The time to be used when checking entitlement. */
-    time?: string;
-  },
-  headers?: HeadersInit
-) {
+export async function availabilityKeys({
+  headers,
+  ..._data
+}: {
+  /** The time to be used when checking entitlement. */
+  time?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AvailabilityKeys>({
@@ -52,9 +57,10 @@ export async function availabilityKeys(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description Check if the user is/will be allowed to play using current configuration.
  * @summary Do an entitlement check.
@@ -67,17 +73,20 @@ export async function availabilityKeys(
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `500` `void` INTERNAL_TIMEOUT.
  */
-export async function entitle(
+export async function entitle({
+  assetId,
+  headers,
+  ..._data
+}: {
   /** The id of the asset to play. */
-  assetId: string,
-  query?: {
-    /** Payment provider. */
-    paymentProvider?: string;
-    /** The time to be used when checking entitlement. */
-    time?: string;
-  },
-  headers?: HeadersInit
-) {
+  assetId: string;
+  /** Payment provider. */
+  paymentProvider?: string;
+  /** The time to be used when checking entitlement. */
+  time?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<EntitleResponseV2>({
@@ -85,9 +94,10 @@ export async function entitle(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description If the entitlement checks pass it will return the information needed to initialize the player.
  * @summary Do a play call.
@@ -100,131 +110,134 @@ export async function entitle(
  * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
  * @response `500` `void` INTERNAL_TIMEOUT.
  */
-export async function play(
+export async function play({
+  assetId,
+  headers,
+  ..._data
+}: {
   /** The id of the asset to play. */
-  assetId: string,
-  query?: {
-    AdSID?: string;
-    AdZID?: string;
-    /** App bundle. Used for SSAI. */
-    appBundle?: string;
-    /** App name. Used for SSAI. */
-    appName?: string;
-    /** App store URL. Used for SSAI. */
-    appStoreUrl?: string;
-    /**
-     * Use this with value true if you only want to include audio tracks in the
-     * response.
-     * @default false
-     */
-    audioOnly?: boolean;
-    /** Auto play. Used for SSAI. */
-    autoplay?: boolean;
-    /** A flag for US consent for advertising. Used for SSAI. */
-    ccpaConsent?: boolean;
-    /**
-     * A consent string passed from various Consent Management Platforms (CMP’s). Used
-     * for SSAI.
-     */
-    consent?: string;
-    /** A comma-seperated list for sending additional custom non-SDK supported SSAI paramaters. Used for SSAI. */
-    custom?: string[];
-    /** Manufacturer of device such as Apple or Samsung. Used for SSAI. */
-    deviceMake?: string;
-    /** Device model. Used for SSAI. */
-    deviceModel?: string;
-    /** Device type. Used for SSAI. */
-    deviceType?: string;
-    /** Channel Partner. Domain where player is embedded. Used for SSAI. */
-    domain?: string;
-    /** End time in number of seconds in the playback manifest. */
-    end?: number;
-    /**
-     * Use this to provide an end time when playing a channel. Should be used when there
-     * is no epg
-     * available.
-     * Format: ISO_DATE_TIME example 2021-01-31T00:00:00Z
-     * Experimental, do not use unless told so.
-     */
-    endTime?: string;
-    /** A flag for European Union traffic consenting to advertising. Used for SSAI. */
-    gdprOptin?: boolean;
-    /** Screen Resolution (height). Used for SSAI. */
-    height?: number;
-    /** User device ID. Used for SSAI. */
-    ifa?: string;
-    /**
-     * Provide GPS based geo-location for location based ad targeting (optional) e.g.
-     * latitude=33.543682. Used for SSAI.
-     */
-    latitude?: number;
-    /** True if the user opted-out of ad tracking. Used for SSAI. */
-    limitAdTracking?: boolean;
-    /**
-     * Use this if you really want to play live and does not care about the epg even if
-     * one exist.
-     * DO NOT USE unless you are told so.
-     */
-    live?: boolean;
-    /**
-     * Provide GPS based geo-location for location based ad targeting (optional) e.g.
-     * longitude=-86.779633. Used for SSAI.
-     */
-    longitude?: number;
-    /** Provide material profile if you want to play a version used for a specific purpose. You need to know what profile to use. */
-    materialProfile?: string;
-    /** Use this if you want to include only video tracks with a max frame rate. */
-    maxFrameRate?: number;
-    /**
-     * Use this to filter out higher bitrates. Note that this requires backend
-     * configuration for
-     * your organization.
-     */
-    maxResolution?: string;
-    /** Indicate whether player is muted or not. Used for SSAI. */
-    mute?: boolean;
-    /** Page Url. Used for SSAI. */
-    pageUrl?: string;
-    /**
-     * To be used if we for one business unit can deliver both persistent and
-     * non-persistent
-     * licenses.
-     */
-    persistent?: boolean;
-    /** Start time in number of seconds in the playback manifest. */
-    start?: number;
-    /**
-     * Use this to provide a start time when playing a channel. Should be used when
-     * there is no
-     * epg available.
-     * Format: ISO_DATE_TIME example 2021-01-31T00:00:00Z
-     * Experimental, do not use unless told so.
-     */
-    startTime?: string;
-    /**
-     * A comma-separated list for supported DRM providers for playback.
-     * Supported values are widevine, fairplay, playready.
-     */
-    supportedDrms?: string;
-    /**
-     * A comma-separated priority list for supported formats for playback, first value
-     * has highest priority. Supported values are hls, dash, mss, mp3, aac. First value
-     * will
-     * always be used for SSAI.
-     */
-    supportedFormats?: string;
-    /**
-     * Very special, we can deliver a time shift for smooth. DO NOT USE unless you are
-     * told so.
-     */
-    timeShift?: boolean;
-    /** User id. Used for SSAI. */
-    uid?: string;
-    /** Screen Resolution (width). Used for SSAI. */
-    width?: number;
-  },
-  headers?: HeadersInit
-) {
+  assetId: string;
+  AdSID?: string;
+  AdZID?: string;
+  /** App bundle. Used for SSAI. */
+  appBundle?: string;
+  /** App name. Used for SSAI. */
+  appName?: string;
+  /** App store URL. Used for SSAI. */
+  appStoreUrl?: string;
+  /**
+   * Use this with value true if you only want to include audio tracks in the
+   * response.
+   * @default false
+   */
+  audioOnly?: boolean;
+  /** Auto play. Used for SSAI. */
+  autoplay?: boolean;
+  /** A flag for US consent for advertising. Used for SSAI. */
+  ccpaConsent?: boolean;
+  /**
+   * A consent string passed from various Consent Management Platforms (CMP’s). Used
+   * for SSAI.
+   */
+  consent?: string;
+  /** A comma-seperated list for sending additional custom non-SDK supported SSAI paramaters. Used for SSAI. */
+  custom?: string[];
+  /** Manufacturer of device such as Apple or Samsung. Used for SSAI. */
+  deviceMake?: string;
+  /** Device model. Used for SSAI. */
+  deviceModel?: string;
+  /** Device type. Used for SSAI. */
+  deviceType?: string;
+  /** Channel Partner. Domain where player is embedded. Used for SSAI. */
+  domain?: string;
+  /** End time in number of seconds in the playback manifest. */
+  end?: number;
+  /**
+   * Use this to provide an end time when playing a channel. Should be used when there
+   * is no epg
+   * available.
+   * Format: ISO_DATE_TIME example 2021-01-31T00:00:00Z
+   * Experimental, do not use unless told so.
+   */
+  endTime?: string;
+  /** A flag for European Union traffic consenting to advertising. Used for SSAI. */
+  gdprOptin?: boolean;
+  /** Screen Resolution (height). Used for SSAI. */
+  height?: number;
+  /** User device ID. Used for SSAI. */
+  ifa?: string;
+  /**
+   * Provide GPS based geo-location for location based ad targeting (optional) e.g.
+   * latitude=33.543682. Used for SSAI.
+   */
+  latitude?: number;
+  /** True if the user opted-out of ad tracking. Used for SSAI. */
+  limitAdTracking?: boolean;
+  /**
+   * Use this if you really want to play live and does not care about the epg even if
+   * one exist.
+   * DO NOT USE unless you are told so.
+   */
+  live?: boolean;
+  /**
+   * Provide GPS based geo-location for location based ad targeting (optional) e.g.
+   * longitude=-86.779633. Used for SSAI.
+   */
+  longitude?: number;
+  /** Provide material profile if you want to play a version used for a specific purpose. You need to know what profile to use. */
+  materialProfile?: string;
+  /** Use this if you want to include only video tracks with a max frame rate. */
+  maxFrameRate?: number;
+  /**
+   * Use this to filter out higher bitrates. Note that this requires backend
+   * configuration for
+   * your organization.
+   */
+  maxResolution?: string;
+  /** Indicate whether player is muted or not. Used for SSAI. */
+  mute?: boolean;
+  /** Page Url. Used for SSAI. */
+  pageUrl?: string;
+  /**
+   * To be used if we for one business unit can deliver both persistent and
+   * non-persistent
+   * licenses.
+   */
+  persistent?: boolean;
+  /** Start time in number of seconds in the playback manifest. */
+  start?: number;
+  /**
+   * Use this to provide a start time when playing a channel. Should be used when
+   * there is no
+   * epg available.
+   * Format: ISO_DATE_TIME example 2021-01-31T00:00:00Z
+   * Experimental, do not use unless told so.
+   */
+  startTime?: string;
+  /**
+   * A comma-separated list for supported DRM providers for playback.
+   * Supported values are widevine, fairplay, playready.
+   */
+  supportedDrms?: string;
+  /**
+   * A comma-separated priority list for supported formats for playback, first value
+   * has highest priority. Supported values are hls, dash, mss, mp3, aac. First value
+   * will
+   * always be used for SSAI.
+   */
+  supportedFormats?: string;
+  /**
+   * Very special, we can deliver a time shift for smooth. DO NOT USE unless you are
+   * told so.
+   */
+  timeShift?: boolean;
+  /** User id. Used for SSAI. */
+  uid?: string;
+  /** Screen Resolution (width). Used for SSAI. */
+  width?: number;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PlayResponseV2>({
@@ -232,7 +245,7 @@ export async function play(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
 

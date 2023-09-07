@@ -16,7 +16,12 @@ import { request, ServiceContext } from "./http-client";
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/location
  * @response `200` `Location` Successful
  */
-export async function getLocation(headers?: HeadersInit) {
+export async function getLocation({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Location>({
@@ -26,13 +31,19 @@ export async function getLocation(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @description Get location information based on caller IP-address.
  * @summary Get location.
  * @request GET:/v2/location
  * @response `200` `Location` Successful
  */
-export async function getLocationFromReferer(headers?: HeadersInit) {
+export async function getLocationFromReferer({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Location>({

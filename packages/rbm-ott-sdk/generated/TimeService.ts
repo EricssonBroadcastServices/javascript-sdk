@@ -17,7 +17,12 @@ import { request, ServiceContext } from "./http-client";
  * @response `200` `TimeResponse` Successful
  * @response `4xx` `APIErrorMessage` Failed
  */
-export async function getTime(headers?: HeadersInit) {
+export async function getTime({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<TimeResponse>({
@@ -27,13 +32,19 @@ export async function getTime(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @description Gets the current server UTC time.
  * @summary Get time.
  * @request GET:/v2/time
  * @response `200` `TimeResponse` Successful
  */
-export async function getTimeAnonymous(headers?: HeadersInit) {
+export async function getTimeAnonymous({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<TimeResponse>({

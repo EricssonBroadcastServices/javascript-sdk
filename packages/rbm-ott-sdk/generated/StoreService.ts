@@ -12,7 +12,6 @@ import {
   AppStorePurchaseInitializeResponse,
   AppStorePurchaseVerifyResponse,
   Asset,
-  EmptyResponse,
   GooglePlayPurchaseInitializeResponse,
   GooglePlayPurchaseVerifyResponse,
   InitializePaymentResponse,
@@ -37,7 +36,12 @@ import { request, ServiceContext } from "./http-client";
  * @response `200` `AddPaymentMethodResponse` Successful
  * @response `403` `AddPaymentMethodResponse` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
-export async function addPaymentMethod(headers?: HeadersInit) {
+export async function addPaymentMethod({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AddPaymentMethodResponse>({
@@ -47,16 +51,21 @@ export async function addPaymentMethod(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Cancel a subscription purchase, no more renewals will be done.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/subscriptions/{purchaseId}
  * @response `default` `void` success
  */
-export async function cancelPurchaseSubscription(
+export async function cancelPurchaseSubscription({
+  purchaseId,
+  headers
+}: {
   /** The product offering to purchase. */
-  purchaseId: string,
-  headers?: HeadersInit
-) {
+  purchaseId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
@@ -66,17 +75,22 @@ export async function cancelPurchaseSubscription(
     ctx
   });
 }
+
 /**
  * @summary Delete payment method
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods/{paymentMethodId}
  * @response `200` `void` Successful
  * @response `403` `void` FEATURE_NOT_ENABLED_FOR_BUSINESS_UNIT the business unit is not integrated with a payment provider
  */
-export async function deleteStoredPaymentMethod(
+export async function deleteStoredPaymentMethod({
+  paymentMethodId,
+  headers
+}: {
   /** The id of the stored payment method */
-  paymentMethodId: string,
-  headers?: HeadersInit
-) {
+  paymentMethodId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
@@ -86,12 +100,18 @@ export async function deleteStoredPaymentMethod(
     ctx
   });
 }
+
 /**
  * @summary Get all active asset purchases for account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/assets
  * @response `default` `(Asset)[]` success
  */
-export async function getAccountAssetPurchases(headers?: HeadersInit) {
+export async function getAccountAssetPurchases({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<Asset[]>({
@@ -101,12 +121,18 @@ export async function getAccountAssetPurchases(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Get all transactions for account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/transactions
  * @response `default` `ProductOfferingTransactions` success
  */
-export async function getAccountTransactions(headers?: HeadersInit) {
+export async function getAccountTransactions({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingTransactions>({
@@ -116,12 +142,18 @@ export async function getAccountTransactions(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Get all transactions for account paired with product offerings.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/transactions/productoffering
  * @response `default` `ProductOfferingTransactionsProductOfferingPairList` success
  */
-export async function getAccountTransactionsWithProductOffering(headers?: HeadersInit) {
+export async function getAccountTransactionsWithProductOffering({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingTransactionsProductOfferingPairList>({
@@ -131,19 +163,25 @@ export async function getAccountTransactionsWithProductOffering(headers?: Header
     ctx
   });
 }
+
 /**
  * @description The end point will not reduce the offerings if they have unique products. { Product offering 1 -  Products: Animated Movies, Country: SE Product offering 2 - Products: Sci-Fi Movies, Country: Global Product offering 1 & 2 and will be returned. }
  * @summary Get country product offerings available for the specific voucher code.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productofferings/country/{countryCode}/voucher/{voucherCode}
  * @response `default` `(StorePromotionProductOfferings)[]` success
  */
-export async function getCountryOfferingsByVoucher(
+export async function getCountryOfferingsByVoucher({
+  countryCode,
+  voucherCode,
+  headers
+}: {
   /** The country code. */
-  countryCode: string,
+  countryCode: string;
   /** The voucher code. */
-  voucherCode: string,
-  headers?: HeadersInit
-) {
+  voucherCode: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<StorePromotionProductOfferings[]>({
@@ -153,18 +191,21 @@ export async function getCountryOfferingsByVoucher(
     ctx
   });
 }
+
 /**
  * @summary Get currently active purchases of the user's account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase
  * @response `default` `ProductOfferingPurchases` success
  */
-export async function getOfferingPurchases(
-  query?: {
-    /** @default false */
-    includeOfferingDetails?: boolean;
-  },
-  headers?: HeadersInit
-) {
+export async function getOfferingPurchases({
+  headers,
+  ..._data
+}: {
+  /** @default false */
+  includeOfferingDetails?: boolean;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ProductOfferingPurchases>({
@@ -172,29 +213,33 @@ export async function getOfferingPurchases(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description Get available product offerings for location and payment service
  * @summary Get product offerings.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}
  * @response `200` `(StoreProductOffering)[]` Successful
  */
-export async function getOfferings(
+export async function getOfferings({
+  countryCode,
+  headers,
+  ..._data
+}: {
   /** Current location ISO 3166 alpha-2 */
-  countryCode: string,
-  query?: {
-    /**
-     * Include product offerings that requires AssetId at purchase
-     * @default true
-     */
-    includeSelectAssetProducts?: boolean;
-    /** Payment provider */
-    paymentProvider?: "appstore" | "external" | "googleplay" | "stripe";
-  },
-  headers?: HeadersInit
-) {
+  countryCode: string;
+  /**
+   * Include product offerings that requires AssetId at purchase
+   * @default true
+   */
+  includeSelectAssetProducts?: boolean;
+  /** Payment provider */
+  paymentProvider?: "appstore" | "external" | "googleplay" | "stripe";
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOffering[]>({
@@ -202,27 +247,31 @@ export async function getOfferings(
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Get product offerings available in the specified country, which also includes globally available product
 offerings.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}
  * @response `default` `StoreProductOfferings` success
  */
-export async function getOfferingsByCountry(
+export async function getOfferingsByCountry({
+  countryCode,
+  headers,
+  ..._data
+}: {
   /** The country code received with the location resource. */
-  countryCode: string,
-  query?: {
-    /**
-     * Filter on product offerings that requires assetId upon purchase
-     * @default true
-     */
-    includeSelectAssetProducts?: boolean;
-  },
-  headers?: HeadersInit
-) {
+  countryCode: string;
+  /**
+   * Filter on product offerings that requires assetId upon purchase
+   * @default true
+   */
+  includeSelectAssetProducts?: boolean;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOfferings>({
@@ -230,9 +279,10 @@ export async function getOfferingsByCountry(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @description This endpoint is to be only used if labels are used, which will be far from normal.
  * @summary Get product offerings available for this account's labels.
@@ -240,11 +290,15 @@ export async function getOfferingsByCountry(
  * @response `200` `StoreProductOfferings` success
  * @response `404` `void` LABEL_FILTER_NOT_FOUND The provided labelFilterId was not found
  */
-export async function getOfferingsByLabels(
+export async function getOfferingsByLabels({
+  labelFilterId,
+  headers
+}: {
   /** The labelFilterId received with the Label Resource. */
-  labelFilterId: string,
-  headers?: HeadersInit
-) {
+  labelFilterId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<StoreProductOfferings>({
@@ -254,17 +308,22 @@ export async function getOfferingsByLabels(
     ctx
   });
 }
+
 /**
  * @description EXPERIMENTAL
  * @summary Get product offerings available for the specific voucher code.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productofferings/voucher/{voucherCode}
  * @response `default` `(StorePromotionProductOfferings)[]` success
  */
-export async function getOfferingsByVoucher(
+export async function getOfferingsByVoucher({
+  voucherCode,
+  headers
+}: {
   /** The voucher code. */
-  voucherCode: string,
-  headers?: HeadersInit
-) {
+  voucherCode: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<StorePromotionProductOfferings[]>({
@@ -274,12 +333,18 @@ export async function getOfferingsByVoucher(
     ctx
   });
 }
+
 /**
  * @summary Get all purchases for account including transactions
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases
  * @response `default` `(StorePurchaseTransaction)[]` success
  */
-export async function getPurchaseTransactions(headers?: HeadersInit) {
+export async function getPurchaseTransactions({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<StorePurchaseTransaction[]>({
@@ -289,13 +354,19 @@ export async function getPurchaseTransactions(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @summary Get stored payment methods
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods
  * @response `200` `PaymentMethods` Successful
  * @response `403` `PaymentMethods` FEATURE_NOT_ENABLED_FOR_BUSINESS_UNIT the business unit is not integrated with a payment provider
  */
-export async function getStoredPaymentMethods(headers?: HeadersInit) {
+export async function getStoredPaymentMethods({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PaymentMethods>({
@@ -305,6 +376,7 @@ export async function getStoredPaymentMethods(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @description Returns valid payment types and price after any discount. Note: The behaviour and the result can change during the time.
  * @summary EXPERIMENTAL
@@ -312,15 +384,17 @@ Called to before initiating a new payment.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/initialize
  * @response `default` `InitializePaymentResponse` success
  */
-export async function initialize(
-  data: {
-    /** id of the product offering to get methods and price for. */
-    productOfferingId?: string;
-    /** Optional voucher code. */
-    voucherCode?: string;
-  },
-  headers?: HeadersInit
-) {
+export async function initialize({
+  headers,
+  ..._data
+}: {
+  /** id of the product offering to get methods and price for. */
+  productOfferingId?: string;
+  /** Optional voucher code. */
+  voucherCode?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<InitializePaymentResponse>({
@@ -328,9 +402,10 @@ export async function initialize(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/initialize`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @description Set up a purchase of specified Product Offering, using App Store. If the Product Offerings field productRequiresSelectAsset is true then a assetId must be provided.
  * @summary Initialize a App Store purchase
@@ -338,15 +413,18 @@ export async function initialize(
  * @response `200` `AppStorePurchaseInitializeResponse` Successful
  * @response `400` `AppStorePurchaseInitializeResponse` Bad request
  */
-export async function initializeAppStorePurchase(
+export async function initializeAppStorePurchase({
+  productOfferingId,
+  headers,
+  ..._data
+}: {
   /** Id of product offering to purchase */
-  productOfferingId: string,
-  data: {
-    /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
-    assetId?: string;
-  },
-  headers?: HeadersInit
-) {
+  productOfferingId: string;
+  /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
+  assetId?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AppStorePurchaseInitializeResponse>({
@@ -354,9 +432,10 @@ export async function initializeAppStorePurchase(
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/init/${productOfferingId}`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @description Set up a purchase of specified Product Offering, using Google Play. If the Product Offerings field productRequiresSelectAsset is true then a assetId must be provided.
  * @summary Initialize a Google Play purchase
@@ -364,15 +443,18 @@ export async function initializeAppStorePurchase(
  * @response `200` `GooglePlayPurchaseInitializeResponse` Successful
  * @response `400` `GooglePlayPurchaseInitializeResponse` Bad request
  */
-export async function initializeGooglePlayPurchase(
+export async function initializeGooglePlayPurchase({
+  productOfferingId,
+  headers,
+  ..._data
+}: {
   /** Id of product offering to purchase */
-  productOfferingId: string,
-  data: {
-    /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
-    assetId?: string;
-  },
-  headers?: HeadersInit
-) {
+  productOfferingId: string;
+  /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
+  assetId?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<GooglePlayPurchaseInitializeResponse>({
@@ -380,34 +462,38 @@ export async function initializeGooglePlayPurchase(
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/init/${productOfferingId}`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @summary Purchase a productOffering.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/{productOfferingId}
  * @response `default` `PurchaseResponse` success
  */
-export async function purchaseProductOffering(
+export async function purchaseProductOffering({
+  productOfferingId,
+  headers,
+  ..._data
+}: {
   /** The product offering to purchase. */
-  productOfferingId: string,
-  data: {
-    /**
-     * Single asset id that the purchase will entitle.
-     * Requires that the product offering requires "direct asset purchases"
-     */
-    assetId?: string;
-    /**
-     * Store payment method for future usage.
-     * The details is stored within the used payment provider.
-     */
-    storePaymentMethod?: boolean;
-    stripePurchase?: StripePurchaseRequest;
-    /** Voucher code that should be applied to the purchase */
-    voucherCode?: string;
-  },
-  headers?: HeadersInit
-) {
+  productOfferingId: string;
+  stripePurchase?: StripePurchaseRequest;
+  /** Voucher code that should be applied to the purchase */
+  voucherCode?: string;
+  /**
+   * Single asset id that the purchase will entitle.
+   * Requires that the product offering requires "direct asset purchases"
+   */
+  assetId?: string;
+  /**
+   * Store payment method for future usage.
+   * The details is stored within the used payment provider.
+   */
+  storePaymentMethod?: boolean;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PurchaseResponse>({
@@ -415,25 +501,30 @@ export async function purchaseProductOffering(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${productOfferingId}`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @summary Update payment method
  * @request PUT:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods/{paymentMethodId}
  * @response `200` `PaymentMethod` Successful
  * @response `403` `PaymentMethod` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
-export async function updatePaymentMethod(
+export async function updatePaymentMethod({
+  paymentMethodId,
+  newPaymentMethodId,
+  headers,
+  ..._data
+}: {
   /** The id of the stored payment method */
-  paymentMethodId: string,
-  data: {
-    expiryMonth?: number;
-    expiryYear?: number;
-    paymentMethodId?: string;
-  },
-  headers?: HeadersInit
-) {
+  paymentMethodId: string;
+  expiryMonth?: number;
+  expiryYear?: number;
+  newPaymentMethodId?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PaymentMethod>({
@@ -441,21 +532,24 @@ export async function updatePaymentMethod(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
     headers,
     ctx,
-    body: data
+    body: { newPaymentMethodId: paymentMethodId, ..._data }
   });
 }
+
 /**
  * @summary Update the preferred payment method
  * @request PUT:/v2/customer/{customer}/businessunit/{businessUnit}/paymentmethods/preferred
  * @response `200` `JsonAccount` Successful
  * @response `403` `JsonAccount` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION the business unit's CRM is not supported with this operation
  */
-export async function updatePreferredPaymentMethod(
-  data: {
-    paymentMethodId?: string;
-  },
-  headers?: HeadersInit
-) {
+export async function updatePreferredPaymentMethod({
+  headers,
+  ..._data
+}: {
+  paymentMethodId?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<JsonAccount>({
@@ -463,9 +557,10 @@ export async function updatePreferredPaymentMethod(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/preferred`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @description Verifies that the purchase was successful and makes entilement if so.
  * @summary Verify a App Store purchase
@@ -473,15 +568,18 @@ export async function updatePreferredPaymentMethod(
  * @response `200` `AppStorePurchaseVerifyResponse` Successful
  * @response `400` `AppStorePurchaseVerifyResponse` Bad request
  */
-export async function verifyAppStorePurchase(
+export async function verifyAppStorePurchase({
+  purchaseId,
+  headers,
+  ..._data
+}: {
   /** The purchase id */
-  purchaseId: string,
-  data: {
-    /** As received in the App Store Purchase. */
-    transaction: string;
-  },
-  headers?: HeadersInit
-) {
+  purchaseId: string;
+  /** As received in the App Store Purchase. */
+  transaction: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<AppStorePurchaseVerifyResponse>({
@@ -489,9 +587,10 @@ export async function verifyAppStorePurchase(
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/${purchaseId}/verify`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @description Verifies that the purchase was successful and makes entilement if so.
  * @summary Verify a Google Play purchase
@@ -499,15 +598,18 @@ export async function verifyAppStorePurchase(
  * @response `200` `GooglePlayPurchaseVerifyResponse` Successful
  * @response `400` `GooglePlayPurchaseVerifyResponse` Bad request
  */
-export async function verifyGooglePlayPurchase(
+export async function verifyGooglePlayPurchase({
+  purchaseId,
+  headers,
+  ..._data
+}: {
   /** The purchase id */
-  purchaseId: string,
-  data: {
-    /** As received in the Google Play Purchase. */
-    purchaseToken: string;
-  },
-  headers?: HeadersInit
-) {
+  purchaseId: string;
+  /** As received in the Google Play Purchase. */
+  purchaseToken: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<GooglePlayPurchaseVerifyResponse>({
@@ -515,21 +617,26 @@ export async function verifyGooglePlayPurchase(
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/${purchaseId}/verify`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
+
 /**
  * @description E.g. a redirect flow, where the purchaser has to authenticate to the card issuer. * Also, used to send additional data from the shopper if that's required.
  * @summary Verify a purchase of a productOffering if a "AUTHORIZED/REJECTED"-status is not given directly.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/{purchaseId}/verify
  * @response `default` `PurchaseResponse` success
  */
-export async function verifyPayment(
+export async function verifyPayment({
+  purchaseId,
+  headers,
+  ..._data
+}: {
   /** The purchase id. */
-  purchaseId: string,
-  data: EmptyResponse,
-  headers?: HeadersInit
-) {
+  purchaseId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<PurchaseResponse>({
@@ -537,7 +644,7 @@ export async function verifyPayment(
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${purchaseId}/verify`,
     headers,
     ctx,
-    body: data
+    body: _data
   });
 }
 

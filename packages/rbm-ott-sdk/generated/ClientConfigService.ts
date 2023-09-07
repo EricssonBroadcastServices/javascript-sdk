@@ -15,7 +15,12 @@ import { request, ServiceContext } from "./http-client";
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/filters
  * @response `default` `ComponentFilters` success
  */
-export async function getComponentFilters(headers?: HeadersInit) {
+export async function getComponentFilters({
+  headers
+}: {
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<ComponentFilters>({
@@ -25,11 +30,21 @@ export async function getComponentFilters(headers?: HeadersInit) {
     ctx
   });
 }
+
 /**
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/file/{folder}/{fileName}
  * @response `default` `void` success
  */
-export async function getFile(folder: string, fileName: string, headers?: HeadersInit) {
+export async function getFile({
+  folder,
+  fileName,
+  headers
+}: {
+  folder: string;
+  fileName: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<void>({
@@ -39,24 +54,29 @@ export async function getFile(folder: string, fileName: string, headers?: Header
     ctx
   });
 }
+
 /**
  * @summary Get config component
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/config/{configId}/component/{componentId}
  * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
  */
-export async function getWLComponent(
+export async function getWLComponent({
+  configId,
+  componentId,
+  headers,
+  ..._data
+}: {
   /** The config id. */
-  configId: string,
+  configId: string;
   /** The component id. */
-  componentId: string,
-  query?: {
-    /** Add allowed country parameter to any server side asset searches that are made. */
-    allowedCountry?: string;
-    /** Comma separated list of filters. I.e: "type:value,type2:value2" */
-    filters?: string;
-  },
-  headers?: HeadersInit
-) {
+  componentId: string;
+  /** Add allowed country parameter to any server side asset searches that are made. */
+  allowedCountry?: string;
+  /** Comma separated list of filters. I.e: "type:value,type2:value2" */
+  filters?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -64,26 +84,30 @@ export async function getWLComponent(
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Get the top level config object.
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/config/{configId}
  * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
  */
-export async function getWLConfig(
+export async function getWLConfig({
+  configId,
+  headers,
+  ..._data
+}: {
   /** The id of the config. */
-  configId: string,
-  query?: {
-    allowedCountry?: string;
-    /** Comma separated list of filters. I.e: "type:value,type2:value2" */
-    filters?: string;
-    /** @default false */
-    paymentMethodPreview?: boolean;
-  },
-  headers?: HeadersInit
-) {
+  configId: string;
+  allowedCountry?: string;
+  /** Comma separated list of filters. I.e: "type:value,type2:value2" */
+  filters?: string;
+  /** @default false */
+  paymentMethodPreview?: boolean;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -91,28 +115,33 @@ export async function getWLConfig(
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
+
 /**
  * @summary Get the top level config object.
  * @request GET:/v2/whitelabel/origin/{host}/config/{configId}
  * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
  */
-export async function getWLConfigWithDomain(
+export async function getWLConfigWithDomain({
+  host,
+  configId,
+  headers,
+  ..._data
+}: {
   /** The host that will be mapped to a business unit. */
-  host: string,
+  host: string;
   /** The id of the config. */
-  configId: string,
-  query?: {
-    allowedCountry?: string;
-    /** Comma separated list of filters. I.e: "type:value,type2:value2" */
-    filters?: string;
-    /** @default false */
-    paymentMethodPreview?: boolean;
-  },
-  headers?: HeadersInit
-) {
+  configId: string;
+  allowedCountry?: string;
+  /** Comma separated list of filters. I.e: "type:value,type2:value2" */
+  filters?: string;
+  /** @default false */
+  paymentMethodPreview?: boolean;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request<any>({
@@ -120,7 +149,7 @@ export async function getWLConfigWithDomain(
     url: `${ctx.baseUrl}/v2/whitelabel/origin/${host}/config/${configId}`,
     headers,
     ctx,
-    query: query
+    query: _data
   });
 }
 
