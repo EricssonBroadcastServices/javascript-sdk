@@ -16,7 +16,8 @@
     "url": "git+https://github.com/EricssonBroadcastServices/javascript-sdk.git"
   },
   "author": "Albin Larsson <albin.larsson@eyevinn.se>",
-  "license": "ISC",
+  "license": "UNLICENSED",
+  "private": true,
   "devDependencies": {
     "swagger-typescript-api": "^13.0.3",
     "ts-node": "^10.9.1",
