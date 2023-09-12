@@ -27,7 +27,7 @@ const dataContractTemplates = {
     // Try to make a record if the interface has the same type, all optional and no descriptions
     const firstValue = contract.$content[0].value;
     if (contract.$content.length > 1 && contract.$content.every(c => !c.isRequired && !c.description && c.value === firstValue)) {
-      // using the name from $$raw instead of prop.name becasue name can be quoted already
+      // using the name from $$raw instead of prop.name because name can be quoted already
       const keyType = contract.$content.map(prop => `"${prop.$$raw.$parsed.$schemaPath[1]}"`).join(" | ");
       return `export type ${contract.name} = Record<${keyType}, ${firstValue}>;`;
     }
