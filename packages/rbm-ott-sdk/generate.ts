@@ -149,6 +149,8 @@ spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"]
 // delete the api docs and export endpoints
 delete spec.paths["/docs/api-docs/{api}"];
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/asset"];
+// delete 307 redirect endpoint (cannot be used in an SDK)
+delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail"];
 // deprecated and unused (we use newer versions of these)
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/login"].post;
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/changeEmail"].put;

@@ -289,45 +289,6 @@ export async function getAssetsPartial<T = any>({
 }
 
 /**
- * @description The thumbnail will be generated from the video belonging to the asset and based on provided time. This endpoint will always return a 307 redirect to another url where the thumbnail is actually available.
- * @summary Get a thumbnail for an asset.
- * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail
- * @response `400` `void` INVALID_TIME_DURATION. The provided time is not a valid duration. INVALID_TIME_WALL_CLOCK. The provided time is not a valid wall clock time.
- * @response `404` `void` UNKNOWN_ASSET. If the asset cannot be found.
- */
-export async function getAssetThumbnail({
-  assetId,
-  headers,
-  ..._data
-}: {
-  /** The id of the asset. */
-  assetId: string;
-  /** An optional height */
-  h?: number;
-  /**
-   * The time to use when creating the thumbnail. It can have two different formats. It can be
-   * a wall clock time like '2021-02-02T10:53:35.400Z'. This assumes that the
-   * asset has a wall clock time. It can also be a duration, like PT30M20S, and
-   * then it will be used as an actual time in th video.
-   */
-  time?: string;
-  /** An optional width. */
-  w?: number;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
-    method: "GET",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/thumbnail`,
-    headers,
-    ctx,
-    query: _data
-  });
-}
-
-/**
  * @summary Gets the entries of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/collectionentries
  * @response `200` `AssetList` success
@@ -791,7 +752,6 @@ export class AssetService {
   getAssetPartial = getAssetPartial;
   getAssets = getAssets;
   getAssetsPartial = getAssetsPartial;
-  getAssetThumbnail = getAssetThumbnail;
   getCollectionEntries = getCollectionEntries;
   getCollectionEntriesPartial = getCollectionEntriesPartial;
   getEpisodes = getEpisodes;
