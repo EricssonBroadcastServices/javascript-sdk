@@ -27,13 +27,13 @@ export async function accountProducts({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -52,13 +52,13 @@ export async function availabilityKeys({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AvailabilityKeys>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<AvailabilityKeys>);
 }
 
 /**
@@ -89,13 +89,13 @@ export async function entitle({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<EntitleResponseV2>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<EntitleResponseV2>);
 }
 
 /**
@@ -240,13 +240,13 @@ export async function play({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PlayResponseV2>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<PlayResponseV2>);
 }
 
 export class EntitlementsService {

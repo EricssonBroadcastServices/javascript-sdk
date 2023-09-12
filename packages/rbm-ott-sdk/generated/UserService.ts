@@ -48,13 +48,13 @@ export async function addProfile({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<UserProfiles>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<UserProfiles>);
 }
 
 /**
@@ -76,13 +76,13 @@ export async function changeEmail({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmail`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -105,13 +105,13 @@ export async function changeEmailAndUsername({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmailAndUsername`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -141,13 +141,13 @@ export async function changePassword({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ChangePasswordResponse>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changePassword`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<ChangePasswordResponse>);
 }
 
 /**
@@ -168,12 +168,12 @@ export async function confirmActivationCode({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/activation/confirm/${code}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -197,13 +197,13 @@ export async function confirmUserWithToken({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ConfirmAccountResponse>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/confirm/${token}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<ConfirmAccountResponse>);
 }
 
 /**
@@ -224,13 +224,13 @@ export async function consumeActivationCode({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LoginResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/consume`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
@@ -247,12 +247,12 @@ export async function createActivationCode({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ActivationCodeResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/activationCode`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<ActivationCodeResponse>);
 }
 
 /**
@@ -293,13 +293,13 @@ export async function createNewAccount({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<UserSelfServiceCreateResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<UserSelfServiceCreateResponse>);
 }
 
 /**
@@ -323,13 +323,13 @@ export async function createPinCode({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PinCodeResponse[]>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<PinCodeResponse[]>);
 }
 
 /**
@@ -349,12 +349,12 @@ export async function deletePinCode({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -373,13 +373,13 @@ export async function deleteUserDetails({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -400,12 +400,12 @@ export async function deleteUserProfile({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -422,12 +422,12 @@ export async function getAccountLabels({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LabelFilter>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<LabelFilter>);
 }
 
 /**
@@ -445,12 +445,12 @@ export async function getPinCodes({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PinCodeResponse[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<PinCodeResponse[]>);
 }
 
 /**
@@ -468,12 +468,12 @@ export async function getProfiles({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<UserProfiles>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<UserProfiles>);
 }
 
 /**
@@ -492,12 +492,12 @@ export async function getUserDetails({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<UserDetailsResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<UserDetailsResponse>);
 }
 
 /**
@@ -514,12 +514,12 @@ export async function giveConsent({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -539,13 +539,13 @@ export async function putUserAttributes({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<UserDetailsResponse>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/attributes`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<UserDetailsResponse>);
 }
 
 /**
@@ -565,12 +565,12 @@ export async function resetPassword({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/password/reset/${username}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -592,12 +592,12 @@ export async function selectUserProfile({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LoginResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}/select`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
@@ -625,13 +625,13 @@ export async function setPasswordWithToken({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/password/${token}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -657,13 +657,13 @@ export async function setPinCode({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PinCodeResponse[]>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<PinCodeResponse[]>);
 }
 
 /**
@@ -701,13 +701,13 @@ export async function userDetailsUpdate({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -747,13 +747,13 @@ export async function userProfileUpdate({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -778,13 +778,13 @@ export async function validatePinCode({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string[]>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}/validate`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<string[]>);
 }
 
 /**
@@ -806,13 +806,13 @@ export async function validatePinCodes({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string[]>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/validate`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<string[]>);
 }
 
 /**
@@ -847,13 +847,13 @@ export async function voucherSignup({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<UserSelfServiceCreateResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/vouchersignup`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<UserSelfServiceCreateResponse>);
 }
 
 export class UserService {

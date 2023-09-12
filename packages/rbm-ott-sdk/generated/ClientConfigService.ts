@@ -23,12 +23,12 @@ export async function getComponentFilters({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ComponentFilters>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/filters`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<ComponentFilters>);
 }
 
 /**
@@ -47,12 +47,12 @@ export async function getFile({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/file/${folder}/${fileName}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -79,13 +79,13 @@ export async function getWLComponent({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -110,13 +110,13 @@ export async function getWLConfig({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -144,13 +144,13 @@ export async function getWLConfigWithDomain({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/origin/${host}/config/${configId}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 export class ClientConfigService {

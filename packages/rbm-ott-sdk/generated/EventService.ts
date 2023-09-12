@@ -59,7 +59,7 @@ export async function getEvents({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<EventList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date
       .toISOString()
@@ -67,7 +67,7 @@ export async function getEvents({
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<EventList>);
 }
 
 export class EventService {

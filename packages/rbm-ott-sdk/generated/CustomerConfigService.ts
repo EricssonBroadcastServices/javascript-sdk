@@ -29,13 +29,13 @@ export async function getConfigCuFile({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ConfigFile>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config/${fileName}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ConfigFile>);
 }
 
 /**
@@ -58,13 +58,13 @@ export async function getConfigFile({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ConfigFile>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ConfigFile>);
 }
 
 /**
@@ -90,13 +90,13 @@ export async function getConfigFileCustomDomainInPath({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ConfigFile>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/config/${fileId}/origin/${host}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ConfigFile>);
 }
 
 /**
@@ -112,12 +112,12 @@ export async function getConfigFiles({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ConfigFilesResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<ConfigFilesResponse>);
 }
 
 /**
@@ -133,12 +133,12 @@ export async function getConfigFilesCu({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ConfigFilesResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<ConfigFilesResponse>);
 }
 
 export class CustomerConfigService {

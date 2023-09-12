@@ -21,12 +21,12 @@ export async function intialize({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/init`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -52,13 +52,13 @@ export async function postEvents({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/eventsink/send`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 export class EventSinkService {

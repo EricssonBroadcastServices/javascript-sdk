@@ -43,13 +43,13 @@ export async function getActiveChannels({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ActiveChannels>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ActiveChannels>);
 }
 
 /**
@@ -76,13 +76,13 @@ export async function getChannelStatus({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ChannelStatus>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow/${channelId}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ChannelStatus>);
 }
 
 /**
@@ -130,7 +130,7 @@ export async function getEpg({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ChannelEPGResponse[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date
       .toISOString()
@@ -138,7 +138,7 @@ export async function getEpg({
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ChannelEPGResponse[]>);
 }
 
 /**
@@ -188,7 +188,7 @@ export async function getEpgForChannel({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ChannelEPGResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date
       .toISOString()
@@ -196,7 +196,7 @@ export async function getEpgForChannel({
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ChannelEPGResponse>);
 }
 
 /**
@@ -246,7 +246,7 @@ export async function getEpgForChannels({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ChannelEPGResponse[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date
       .toISOString()
@@ -254,7 +254,7 @@ export async function getEpgForChannels({
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ChannelEPGResponse[]>);
 }
 
 /**
@@ -277,12 +277,12 @@ export async function getNextProgram({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ProgramResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}/next`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<ProgramResponse>);
 }
 
 /**
@@ -303,12 +303,12 @@ export async function getNextProgramForAsset({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ProgramResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/asset/${assetId}/next`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<ProgramResponse>);
 }
 
 /**
@@ -333,13 +333,13 @@ export async function getProgram({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ProgramResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ProgramResponse>);
 }
 
 /**
@@ -369,13 +369,13 @@ export async function getXmlTvEpgForChannel({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ChannelEPGResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ChannelEPGResponse>);
 }
 
 export class EpgService {

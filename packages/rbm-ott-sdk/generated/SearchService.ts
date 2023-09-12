@@ -29,13 +29,13 @@ export async function autocomplete({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AutocompleteItem[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/autocomplete/${query}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<AutocompleteItem[]>);
 }
 
 /**
@@ -65,13 +65,13 @@ export async function autocompleteAssetTitle({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AutocompleteItem2[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/title/autocomplete/${query}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<AutocompleteItem2[]>);
 }
 
 /**
@@ -96,13 +96,13 @@ export async function autocompleteTagTitle({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AutocompleteItem2[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/title/autocomplete/${query}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<AutocompleteItem2[]>);
 }
 
 /**
@@ -124,13 +124,13 @@ export async function getSuggestions({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AutocompleteItem[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/suggestions/${query}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<AutocompleteItem[]>);
 }
 
 /**
@@ -178,13 +178,13 @@ export async function search({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SearchList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<SearchList>);
 }
 
 /**
@@ -238,13 +238,13 @@ export async function searchPartial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 /**
@@ -293,13 +293,13 @@ export async function searchAsset({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SearchList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<SearchList>);
 }
 
 /**
@@ -354,13 +354,13 @@ export async function searchAssetPartial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 /**
@@ -404,13 +404,13 @@ export async function searchEpg({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<EpgSearchHits>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<EpgSearchHits>);
 }
 
 /**
@@ -460,13 +460,13 @@ export async function searchEpgPartial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 /**
@@ -518,13 +518,13 @@ export async function searchNoQuery({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SearchList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<SearchList>);
 }
 
 /**
@@ -585,13 +585,13 @@ export async function searchNoQueryPartial<T = any>({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 /**
@@ -626,13 +626,13 @@ export async function searchTags({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SearchList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<SearchList>);
 }
 
 /**
@@ -673,13 +673,13 @@ export async function searchTagsPartial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 /**
@@ -738,13 +738,13 @@ export async function searchV2({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SearchList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<SearchList>);
 }
 
 /**
@@ -812,13 +812,13 @@ export async function searchV2Partial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 /**
@@ -864,13 +864,13 @@ export async function searchV3({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<MultiSearchResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<MultiSearchResponse>);
 }
 
 /**
@@ -925,13 +925,13 @@ export async function searchV3Partial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 export class SearchService {

@@ -38,13 +38,13 @@ export async function deleteSessions({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -73,13 +73,13 @@ export async function externalUserSession({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<CreateSessionResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/externalusersession`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<CreateSessionResponse>);
 }
 
 /**
@@ -97,13 +97,13 @@ export async function getOauthAuth({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/auth`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -121,13 +121,13 @@ export async function getOauthRedir({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/redir`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -160,13 +160,13 @@ export async function login({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LoginResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
@@ -189,13 +189,13 @@ export async function loginAnonymous({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AnonymousSessionResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<AnonymousSessionResponse>);
 }
 
 /**
@@ -237,13 +237,13 @@ export async function loginFirebase({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LoginResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/firebaseLogin`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
@@ -269,13 +269,13 @@ export async function loginGigya({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LoginResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/gigyaLogin`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
@@ -296,13 +296,13 @@ export async function loginOauth({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauthLogin`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -329,13 +329,13 @@ export async function loginPrimetime({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LoginResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/adobePrimetimeLogin`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
@@ -356,13 +356,13 @@ export async function logout({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<EmptyResponse>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<EmptyResponse>);
 }
 
 /**
@@ -402,13 +402,13 @@ export async function session({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<CreateSessionResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<CreateSessionResponse>);
 }
 
 /**
@@ -427,12 +427,12 @@ export async function validateSessionToken({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SessionResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<SessionResponse>);
 }
 
 export class AuthenticationService {

@@ -44,12 +44,12 @@ export async function addPaymentMethod({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AddPaymentMethodResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<AddPaymentMethodResponse>);
 }
 
 /**
@@ -68,12 +68,12 @@ export async function cancelPurchaseSubscription({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/subscriptions/${purchaseId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -93,12 +93,12 @@ export async function deleteStoredPaymentMethod({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<void>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<void>);
 }
 
 /**
@@ -114,12 +114,12 @@ export async function getAccountAssetPurchases({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<Asset[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/assets`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<Asset[]>);
 }
 
 /**
@@ -135,12 +135,12 @@ export async function getAccountTransactions({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ProductOfferingTransactions>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<ProductOfferingTransactions>);
 }
 
 /**
@@ -156,12 +156,12 @@ export async function getAccountTransactionsWithProductOffering({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ProductOfferingTransactionsProductOfferingPairList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions/productoffering`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<ProductOfferingTransactionsProductOfferingPairList>);
 }
 
 /**
@@ -184,12 +184,12 @@ export async function getCountryOfferingsByVoucher({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<StorePromotionProductOfferings[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/country/${countryCode}/voucher/${voucherCode}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<StorePromotionProductOfferings[]>);
 }
 
 /**
@@ -208,13 +208,13 @@ export async function getOfferingPurchases({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ProductOfferingPurchases>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ProductOfferingPurchases>);
 }
 
 /**
@@ -242,13 +242,13 @@ export async function getOfferings({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<StoreProductOffering[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<StoreProductOffering[]>);
 }
 
 /**
@@ -274,13 +274,13 @@ export async function getOfferingsByCountry({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<StoreProductOfferings>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<StoreProductOfferings>);
 }
 
 /**
@@ -301,12 +301,12 @@ export async function getOfferingsByLabels({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<StoreProductOfferings>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/label/${labelFilterId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<StoreProductOfferings>);
 }
 
 /**
@@ -326,12 +326,12 @@ export async function getOfferingsByVoucher({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<StorePromotionProductOfferings[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/voucher/${voucherCode}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<StorePromotionProductOfferings[]>);
 }
 
 /**
@@ -347,12 +347,12 @@ export async function getPurchaseTransactions({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<StorePurchaseTransaction[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/purchases`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<StorePurchaseTransaction[]>);
 }
 
 /**
@@ -369,12 +369,12 @@ export async function getStoredPaymentMethods({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PaymentMethods>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<PaymentMethods>);
 }
 
 /**
@@ -397,13 +397,13 @@ export async function initialize({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<InitializePaymentResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/initialize`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<InitializePaymentResponse>);
 }
 
 /**
@@ -427,13 +427,13 @@ export async function initializeAppStorePurchase({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AppStorePurchaseInitializeResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/init/${productOfferingId}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<AppStorePurchaseInitializeResponse>);
 }
 
 /**
@@ -457,13 +457,13 @@ export async function initializeGooglePlayPurchase({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<GooglePlayPurchaseInitializeResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/init/${productOfferingId}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<GooglePlayPurchaseInitializeResponse>);
 }
 
 /**
@@ -496,13 +496,13 @@ export async function purchaseProductOffering({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PurchaseResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${productOfferingId}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<PurchaseResponse>);
 }
 
 /**
@@ -527,13 +527,13 @@ export async function updatePaymentMethod({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PaymentMethod>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
     headers,
     ctx,
     body: { newPaymentMethodId: paymentMethodId, ..._data }
-  });
+  }).then(response => response.json() as Promise<PaymentMethod>);
 }
 
 /**
@@ -552,13 +552,13 @@ export async function updatePreferredPaymentMethod({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<JsonAccount>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/preferred`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<JsonAccount>);
 }
 
 /**
@@ -582,13 +582,13 @@ export async function verifyAppStorePurchase({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AppStorePurchaseVerifyResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/${purchaseId}/verify`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<AppStorePurchaseVerifyResponse>);
 }
 
 /**
@@ -612,13 +612,13 @@ export async function verifyGooglePlayPurchase({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<GooglePlayPurchaseVerifyResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/${purchaseId}/verify`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<GooglePlayPurchaseVerifyResponse>);
 }
 
 /**
@@ -639,13 +639,13 @@ export async function verifyPayment({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PurchaseResponse>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${purchaseId}/verify`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<PurchaseResponse>);
 }
 
 export class StoreService {

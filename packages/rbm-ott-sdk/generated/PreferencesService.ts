@@ -37,13 +37,13 @@ export async function addToAssetList({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<string>);
 }
 
 /**
@@ -74,13 +74,13 @@ export async function addToList({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<string>);
 }
 
 /**
@@ -103,12 +103,12 @@ export async function deleteFromAssetList({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<string>);
 }
 
 /**
@@ -132,12 +132,12 @@ export async function deleteFromList({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<string>);
 }
 
 /**
@@ -163,13 +163,13 @@ export async function getAssetList({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AssetListItemResponse[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<AssetListItemResponse[]>);
 }
 
 /**
@@ -194,13 +194,13 @@ export async function getFromAssetList({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<AssetListItemResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<AssetListItemResponse>);
 }
 
 /**
@@ -223,13 +223,13 @@ export async function getList({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<PreferencesListResponse[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<PreferencesListResponse[]>);
 }
 
 /**
@@ -247,12 +247,12 @@ export async function getPreferences({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<UserPreferenceResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<UserPreferenceResponse>);
 }
 
 /**
@@ -274,13 +274,13 @@ export async function setPreferences({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<string>);
 }
 
 export class PreferencesService {

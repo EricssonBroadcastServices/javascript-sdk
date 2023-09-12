@@ -25,12 +25,12 @@ export async function getTime({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<TimeResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/time`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<TimeResponse>);
 }
 
 /**
@@ -47,12 +47,12 @@ export async function getTimeAnonymous({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<TimeResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/time`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<TimeResponse>);
 }
 
 export class TimeService {

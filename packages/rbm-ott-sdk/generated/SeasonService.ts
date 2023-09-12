@@ -33,13 +33,13 @@ export async function getSeasonById({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<Season>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<Season>);
 }
 
 /**
@@ -74,13 +74,13 @@ export async function getSeasonByIdPartial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 /**
@@ -123,13 +123,13 @@ export async function getSeasons({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SeasonList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<SeasonList>);
 }
 
 /**
@@ -181,13 +181,13 @@ export async function getSeasonsPartial<T = any>({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 export class SeasonService {

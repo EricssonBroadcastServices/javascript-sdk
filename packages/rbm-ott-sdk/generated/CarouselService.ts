@@ -47,13 +47,13 @@ export async function getCarousel({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<Carousel[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<Carousel[]>);
 }
 
 /**
@@ -102,13 +102,13 @@ export async function getCarouselPartial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 /**
@@ -124,12 +124,12 @@ export async function getCarouselGroups({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<string[]>);
 }
 
 /**
@@ -169,13 +169,13 @@ export async function getCarouselsForGroup({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<Carousel[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
     headers,
     ctx,
     query: { fieldSet: "ALL", ..._data }
-  });
+  }).then(response => response.json() as Promise<Carousel[]>);
 }
 
 /**
@@ -224,13 +224,13 @@ export async function getCarouselsForGroupPartial<T = any>({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<T>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
     headers,
     ctx,
     query: { fieldSet: "PARTIAL", ..._data }
-  });
+  }).then(response => response.json() as Promise<T>);
 }
 
 export class CarouselService {

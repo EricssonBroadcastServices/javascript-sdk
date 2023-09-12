@@ -29,13 +29,13 @@ export async function getContinueWatching({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<ContinueUph2Assets>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<ContinueUph2Assets>);
 }
 
 /**
@@ -62,13 +62,13 @@ export async function getRecommendationsForAsset({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<RecommendedWatchNext>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/watchNext/${assetId}`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<RecommendedWatchNext>);
 }
 
 /**
@@ -92,13 +92,13 @@ export async function getRecommendationsForUser({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<RecommendedAssets>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<RecommendedAssets>);
 }
 
 export class RecommenderService {

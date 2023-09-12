@@ -27,12 +27,12 @@ export async function deleteFromLastViewedAssetList({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<string>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewed/asset/${assetId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<string>);
 }
 
 /**
@@ -54,12 +54,12 @@ export async function getContinueWatchingTvShow({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<WatchedTvShowResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/continue/tvshow/${tvshowid}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<WatchedTvShowResponse>);
 }
 
 /**
@@ -96,13 +96,13 @@ export async function getLastViewedOffsetList({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<LastViewedOffsetList[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewedoffset`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<LastViewedOffsetList[]>);
 }
 
 export class UserPlayHistoryService {

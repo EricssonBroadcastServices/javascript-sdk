@@ -28,12 +28,12 @@ export async function deleteDeviceForAccount({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device/${deviceId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -52,12 +52,12 @@ export async function getDevicesForAccount({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<DevicesResponseV2>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<DevicesResponseV2>);
 }
 
 export class DeviceService {

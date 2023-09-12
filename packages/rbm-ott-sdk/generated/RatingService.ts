@@ -31,12 +31,12 @@ export async function deleteUserContentRating({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 /**
@@ -56,12 +56,12 @@ export async function getAllUserContentRatingsForAsset({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<GetAllUserContentRatingsForAssetResponse[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}/all`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<GetAllUserContentRatingsForAssetResponse[]>);
 }
 
 /**
@@ -79,12 +79,12 @@ export async function getAllUserContentRatingsForUser({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<GetAllUserContentRatingsForUserResponse[]>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/all`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<GetAllUserContentRatingsForUserResponse[]>);
 }
 
 /**
@@ -105,12 +105,12 @@ export async function getUserContentRating({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<GetUserContentRatingResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<GetUserContentRatingResponse>);
 }
 
 /**
@@ -133,13 +133,13 @@ export async function putUserContentRating({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<any>({
+  return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
     headers,
     ctx,
     body: _data
-  });
+  }).then(response => response.json() as Promise<any>);
 }
 
 export class RatingService {

@@ -27,13 +27,13 @@ export async function getSystemConfig({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SystemConfig>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<SystemConfig>);
 }
 
 /**
@@ -54,13 +54,13 @@ export async function getSystemConfigV2({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<SystemConfig>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<SystemConfig>);
 }
 
 export class SystemService {

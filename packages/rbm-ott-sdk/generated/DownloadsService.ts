@@ -23,12 +23,12 @@ export async function deleteDownloadsForAccount({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<Message>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<Message>);
 }
 
 /**
@@ -47,12 +47,12 @@ export async function deleteDownloadsForAsset({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<Message>({
+  return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<Message>);
 }
 
 /**
@@ -76,13 +76,13 @@ export async function download({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<DownloadResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<DownloadResponse>);
 }
 
 /**
@@ -101,12 +101,12 @@ export async function downloadCompleted({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<BookkeeperAsset>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadcompleted`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<BookkeeperAsset>);
 }
 
 /**
@@ -131,13 +131,13 @@ export async function downloadInfo({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<DownloadInfoResponse>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<DownloadInfoResponse>);
 }
 
 /**
@@ -157,12 +157,12 @@ export async function downloadRenewed({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<BookkeeperAsset>({
+  return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadrenewed`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<BookkeeperAsset>);
 }
 
 /**
@@ -178,12 +178,12 @@ export async function getDownloadsForAccount({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<BookkeeperAccount>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<BookkeeperAccount>);
 }
 
 /**
@@ -202,12 +202,12 @@ export async function getDownloadsForAsset({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<BookkeeperAsset>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<BookkeeperAsset>);
 }
 
 export class DownloadsService {

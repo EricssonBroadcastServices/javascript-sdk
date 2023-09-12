@@ -41,13 +41,13 @@ export async function getDocument({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<HtmlDocument>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/document`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<HtmlDocument>);
 }
 
 export class DocumentService {

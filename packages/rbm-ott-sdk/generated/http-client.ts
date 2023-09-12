@@ -39,7 +39,7 @@ function defaultErrorFactory(response: Response) {
   return new Error(`HTTP Error: ${response.statusText} (${response.status})`);
 }
 
-export async function request<T = any>({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<T> {
+export async function request({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<Response> {
   const fullUrl = Object.keys(query).length ? `${url}/?${new URLSearchParams(sanitizeParams(query))}` : url;
   const headersObject = new Headers(headers);
   if (!headersObject.has("content-type")) {
@@ -53,5 +53,5 @@ export async function request<T = any>({ method, url, headers, query = {}, body,
   if (!response.ok) {
     throw (ctx?.errorFactory || defaultErrorFactory)(response);
   }
-  return response.json();
+  return response;
 }

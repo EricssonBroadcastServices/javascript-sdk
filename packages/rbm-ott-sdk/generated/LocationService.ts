@@ -24,12 +24,12 @@ export async function getLocation({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<Location>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/location`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<Location>);
 }
 
 /**
@@ -46,12 +46,12 @@ export async function getLocationFromReferer({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<Location>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/location`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<Location>);
 }
 
 export class LocationService {

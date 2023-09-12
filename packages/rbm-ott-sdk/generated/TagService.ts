@@ -27,12 +27,12 @@ export async function getTagById({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<TagType>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/${tagId}`,
     headers,
     ctx
-  });
+  }).then(response => response.json() as Promise<TagType>);
 }
 
 /**
@@ -93,13 +93,13 @@ export async function getUniqueTagsFromAssets({
 }) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<TagList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/asset`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<TagList>);
 }
 
 /**
@@ -131,13 +131,13 @@ export async function listTags({
 } = {}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
-  return request<TagList>({
+  return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag`,
     headers,
     ctx,
     query: _data
-  });
+  }).then(response => response.json() as Promise<TagList>);
 }
 
 export class TagService {
