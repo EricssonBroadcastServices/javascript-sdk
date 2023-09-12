@@ -44,7 +44,7 @@ export async function deleteSessions({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**

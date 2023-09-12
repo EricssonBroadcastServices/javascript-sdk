@@ -120,6 +120,6 @@ export async function <%~ methodName + (isPartial ? "<T = any>" : "") %>({<%~ ex
     ctx,
     <%~ query ? `query: ${getRestParamsWithDefaults()},` : "" %>
     <%~ payload ? `body: ${getRestParamsWithDefaults()},` : "" %>
-  }).then(response => response.json() as Promise<<%~ isPartial ? "T" : type %>>)
+  })<%~ type !== "any" ? `.then(response => response.json() as Promise<${ isPartial ? "T" : type }>)` : "" %>;
 }
 

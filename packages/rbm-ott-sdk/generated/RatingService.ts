@@ -36,7 +36,7 @@ export async function deleteUserContentRating({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
     headers,
     ctx
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -139,7 +139,7 @@ export async function putUserContentRating({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 export class RatingService {

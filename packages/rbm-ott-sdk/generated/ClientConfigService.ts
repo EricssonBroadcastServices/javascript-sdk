@@ -85,7 +85,7 @@ export async function getWLComponent({
     headers,
     ctx,
     query: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -116,7 +116,7 @@ export async function getWLConfig({
     headers,
     ctx,
     query: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -150,7 +150,7 @@ export async function getWLConfigWithDomain({
     headers,
     ctx,
     query: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 export class ClientConfigService {

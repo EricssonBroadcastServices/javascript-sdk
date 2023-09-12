@@ -33,7 +33,7 @@ export async function deleteDeviceForAccount({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device/${deviceId}`,
     headers,
     ctx
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**

@@ -82,7 +82,7 @@ export async function changeEmail({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -111,7 +111,7 @@ export async function changeEmailAndUsername({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -173,7 +173,7 @@ export async function confirmActivationCode({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/activation/confirm/${code}`,
     headers,
     ctx
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -354,7 +354,7 @@ export async function deletePinCode({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
     headers,
     ctx
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -379,7 +379,7 @@ export async function deleteUserDetails({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -405,7 +405,7 @@ export async function deleteUserProfile({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
     headers,
     ctx
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -519,7 +519,7 @@ export async function giveConsent({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`,
     headers,
     ctx
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -631,7 +631,7 @@ export async function setPasswordWithToken({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -707,7 +707,7 @@ export async function userDetailsUpdate({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
@@ -753,7 +753,7 @@ export async function userProfileUpdate({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<any>);
+  });
 }
 
 /**
