@@ -2,10 +2,35 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync, unlinkSync } from "fs";
 import { resolve } from "path";
 import { generateApi } from "swagger-typescript-api";
 
+/**
+ * This script generates the SDK from the OpenAPI spec.
+ * 
+ * It does the following:
+ * - Fixes / formats some names that would otherwise result in bad method or type names
+ * - Remove number suffixes from method names (ex "changeEmailV3" or "get_1")
+ * - Remove "API" prefix from type names
+ * - Remove endpoints that are unsuited for this SDK (unused, deprecated, experimental or HTTP redirecting to a file)
+ * 
+ * This is accomplished by a combination of:
+ * - Manual pre-processing of the spec JSON
+ * - Arguments and hooks to the generateApi function from swagger-typescript-api
+ * - Custom templates for eth swagger-typescript-api using custom EJS templates (see ./templates)
+ * - Manually writing the index.ts file from the AST from swagger-typescript-api
+ * 
+ * One of the complicated things we handle in pre-processing is moving types that are declared inline on the routes
+ * to their own separate type declarations and then de-duplicating them to avoid generating duplicate types.
+ * 
+ * We also do the opposite and move request types that are declared in components.schemas to the routes so that it will
+ * not generate lots of named types for partial request params that are only used in one method.
+ * 
+ */
+
 const SCHEMA_PREFIX = "#/components/schemas/";
 const INPUT_FILE = resolve(process.cwd(), "./exposure-spec.json")
 const FORMATTED_SPEC = resolve(process.cwd(), "./exposure-spec-patched.json")
 const OUTPUT_PATH = resolve(process.cwd(), "./generated");
+
+// Warning prefix to add to all the generated files
 const FILE_PREFIX = `/* eslint-disable */
 /* tslint:disable */
 /*
@@ -17,6 +42,8 @@ const FILE_PREFIX = `/* eslint-disable */
 
 `;
 
+// Map of recurring enum types (value) inside of existing interfaces to extract to their own declarations
+// These are later used to deduplicate
 const enumTranslationTable: Record<string, string> = {
   "AppStorePurchaseVerifyResponse.transactionStatus": "StoreTransactionStatus",
   "Asset.materialType": "AssetMaterialType",
@@ -46,6 +73,7 @@ data = data.replaceAll(/\s*<br>\s*/g, "\\n") // replace <br> with space
 data = data.replaceAll(/\s*\\n\s*/g, "\\n"); // strip spaces around line breaks
 data = data.replaceAll(/(?<="#\/components\/schemas\/)[^"]*/g, formatTypeName);
 // delete references to useless schemas wrapping and shadowing native types
+// these would otherwise generate useless types like `type String = string`
 data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/string\"/g, '"type" : "string"');
 data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Map\"/g, '"description": "A key value object", "type" : "object"');
 data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
@@ -70,19 +98,24 @@ function getRefSpec(path?: string) {
 for (let [originalName, schemasSpec] of Object.entries(spec.components.schemas)) {
   const name = formatTypeName(originalName);
   if (name !== originalName) {
-    console.log(`Renaming schema key "${originalName}" => "${name}"`);
+    // Only log the significant renames
+    if (`Api${name}` !== originalName) {
+      console.log(`Renaming schema key "${originalName}" => "${name}"`);
+    }
     spec.components.schemas[name] = schemasSpec;
     delete spec.components.schemas[originalName];
   }
 }
 
-// Move enum declarations inside of properties to their own separate declarations (to later deduplicate enums)
+// Move enum declarations inside of properties to their own separate declarations (to later deduplicate them)
 for (let [path, schemaName] of Object.entries(enumTranslationTable)) {
   const [currentSchema, currentProp] = path.split(".");
   const propSpec = spec.components.schemas?.[currentSchema]?.properties?.[currentProp];
-  if (propSpec.type === "string" && propSpec.enum && !spec.components.schemas[schemaName]) {
+  if (propSpec?.type === "string" && propSpec.enum && !spec.components.schemas[schemaName]) {
     spec.components.schemas[schemaName] = { enum: propSpec.enum, type: propSpec.type };
-    console.log(`Creating separate schema "${schemaName}" from property enum "${currentSchema}.${currentProp}"`);
+    console.log(`Copying property enum "${currentSchema}.${currentProp}" to separate schema "${schemaName}"`);
+  } else {
+    console.warn(`⚠️  Could not find "${currentSchema}.${currentProp}" to create separate schema "${schemaName}"`);
   }
 }
 
@@ -101,10 +134,10 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
   }
 }
 
+const untypedRoutes: string[] = [];
+const unhandledComponentEnums: Record<string, string> = {};
 
-const getVoidRoutes: string[] = [];
-const unhandledEnumTypes: Record<string, string> = {};
-
+// Replace enums in properties with the ones declared in the schema if they have the same values
 for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [string, any][]) {
   for (let [propName, propSpec] of Object.entries(schemasSpec?.properties || {}) as [string, any][]) {
     if (propSpec.type === "string" && propSpec.enum) {
@@ -114,7 +147,7 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
         refName = ENUM_SCHEMAS.get(dataStr) as string; // typescript is stupid
         console.log(`Deduplicating enum: "${name}.${propName}" => ${refName}`);
       } else {
-        unhandledEnumTypes[`${name}.${propName}`] = dataStr;
+        unhandledComponentEnums[`${name}.${propName}`] = dataStr;
       }
       if (refName) {
         propSpec.$ref = `${SCHEMA_PREFIX}${refName}`;
@@ -124,8 +157,6 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
     }
   }
 }
-
-console.log("Unhandled enum types (will be declared inline on the property):", unhandledEnumTypes);
 
 /* Mark properties as non-optional */
 spec.components.schemas.AssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
@@ -168,6 +199,8 @@ delete spec.paths["/eventsink/send"];
 // doesn't specify any return type schema, and doesn't seem to work anyway (always returns "Unknown error" 500)
 delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get;
 
+
+const unhandledPathEnums = new Set<string>();
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
   for (let [methodType, methodSpec] of Object.entries(methods || {}) as any[]) {
     // Remove extra space around description and summary
@@ -199,18 +232,19 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
           schema.$ref = `${SCHEMA_PREFIX}${refName}`;
           delete schema.enum;
           delete schema.type;
-        } else {
-          console.log(`Path param enum: ${name}: ${dataStr}`);
+        } else if (!["fieldSet"].includes(name)) { // Ignore fieldset
+          unhandledPathEnums.add(`${name}: ${dataStr}`);
         }
       }
     }
     const content = methodSpec.responses["200"]?.content || methodSpec.responses.default?.content || {};
-    if (methodType === "get" && !Object.keys(content).length) {
-      getVoidRoutes.push(`${methodSpec.tags[0]}.${methodSpec.operationId} (${path})`);
+    if (!Object.keys(content).length) {
+      untypedRoutes.push(`${methodType.toUpperCase()} ${methodSpec.tags[0]}.${methodSpec.operationId} (${path})`);
     }
   }
 }
 
+// Dirty way to check if there are references to the component schemas by stringifying the whole spec
 data = JSON.stringify(spec);
 const unusedComponents = Object.keys(spec.components.schemas).filter(name => !data.includes(`${SCHEMA_PREFIX}${name}`));
 
@@ -218,13 +252,22 @@ for (let name of unusedComponents) {
   delete spec.components.schemas[name];
 }
 
-if (unusedComponents.length) {
-  console.log(`\nPruned now unreferenced components (types): ${unusedComponents}`);
+if (Object.keys(unhandledComponentEnums).length) {
+  console.log(`\n⚠️   TYPE enums which will be left declared inline and will not be deduplicated:`);
+  console.log(Object.entries(unhandledComponentEnums).map(([name, dataStr]) => `  - ${name}: ${dataStr}`).join("\n"));
 }
 
-if (getVoidRoutes.length) {
-  const formattedRoutes = ["", ...getVoidRoutes].join("\n -  ");
-  console.warn(`\n⚠️   The following GET routes do not specify a return type specification, and will be declared as void:${formattedRoutes}\n`);
+if (unhandledPathEnums.size) {
+  console.log(`\n⚠️   ROUTE enums which will be left declared inline and will not be deduplicated:\n - ${Array.from(unhandledPathEnums).join("\n - ") }`);
+}
+
+if (untypedRoutes.length) {
+  const formattedRoutes = ["", ...untypedRoutes.sort()].join("\n -  ");
+  console.warn(`\n⚠️   Endpoints which do not specify a return type specification. They will return a HTTP fetch response interface rather than the typed data from the response:${formattedRoutes}`);
+}
+
+if (unusedComponents.length) {
+  console.log(`\nPruned unreferenced components (would create unused types): ${unusedComponents.join(", ")}\n`);
 }
 
 // De-comment to add recursive sorting the whole spec (this is not needed,
@@ -265,7 +308,7 @@ generateApi({
         return routeInfo.operationId
       }
 
-      // strip remaining "v1", "v2", "v3" and "_1" (mostly suffixes,but a couple of times in the middle of the names)
+      // strip remaining "v1", "v2", "v3" and "_1" (mostly suffixes, but a couple of times in the middle of the names)
       const cleanedId = routeInfo.operationId.replace(/[_vV]?\d/, "");
 
       if (cleanedId.endsWith("Get")) { // Normalize Yoda names
@@ -276,7 +319,9 @@ generateApi({
     onPrepareConfig(apiConfig) {
       const dupes = [...apiConfig.config.routeNameDuplicatesMap].filter(([, val]) => Number(val) > 1);
       if (dupes.length) {
-        throw new Error(`Duplicate routs found: ${dupes}`);
+        // If you get this error either delete unwanted duplicate routes in the pre-processing step:
+        // (`delete spec.paths[...].get`), or add it to the exceptions (`onFormatRouteName` hook)
+        throw new Error(`Duplicate routes found after renaming: ${dupes}`);
       }
     },
   }
