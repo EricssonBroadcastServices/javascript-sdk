@@ -11,7 +11,6 @@ import {
   ActivationCodeResponse,
   ChangePasswordResponse,
   ConfirmAccountResponse,
-  Credentials,
   DeviceRegistration,
   LabelFilter,
   LoginResponse,
@@ -528,7 +527,8 @@ export async function giveConsent({
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/attributes
  * @response `200` `UserDetailsResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
- * @response `403` `void` NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
+ * @response `403` `void` EMAIL_ADDRESS_NOT_APPROVED. An email address is not approved. NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION.
+ * @response `422` `void` BAD_EMAIL_ADDRESS. An email address is malformed.
  */
 export async function putUserAttributes({
   headers,
@@ -815,47 +815,6 @@ export async function validatePinCodes({
   }).then(response => response.json() as Promise<string[]>);
 }
 
-/**
- * @description Requirements: accountverification.confirmationRequired = false autoproviion of offering
- * @summary EXPERIMENTAL.
- * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/user/vouchersignup
- * @response `200` `UserSelfServiceCreateResponse` success
- * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved.
- * @response `422` `void` EMAIL_OR_MOBILE_REQUIRED. EmailAddress must be supplied. BAD_EMAIL_ADDRESS. The email address is malformed.
- */
-export async function voucherSignup({
-  headers,
-  ..._data
-}: {
-  /** Voucher code */
-  voucherCode: string;
-  credentials: Credentials;
-  device: DeviceRegistration;
-  /**
-   * Used for e.g. password reset mails
-   * Maybe required depending on customer settings
-   * EmailAddress must be provided
-   */
-  emailAddress?: string;
-  /**
-   * If TRUE consent to information collection is given now
-   * If FALSE or null no consent given now.
-   */
-  informationCollectionConsentGivenNow?: boolean;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/vouchersignup`,
-    headers,
-    ctx,
-    body: _data
-  }).then(response => response.json() as Promise<UserSelfServiceCreateResponse>);
-}
-
 export class UserService {
   constructor(private context: ServiceContext) {}
   addProfile = addProfile;
@@ -885,5 +844,4 @@ export class UserService {
   userProfileUpdate = userProfileUpdate;
   validatePinCode = validatePinCode;
   validatePinCodes = validatePinCodes;
-  voucherSignup = voucherSignup;
 }

@@ -17,12 +17,18 @@ export interface APIErrorMessage {
 }
 
 export interface AccessConfig {
-  accessModel?: "login" | "open" | "pay";
-  consentManagement?: ConsentManagement;
-  loginMethods?: object;
-  passwordPolicy?: PasswordPolicy;
-  signupMinimumAge?: number;
-  signupModel?: "confirmed" | "provisioned" | "unconfirmed";
+  /** How users gain access */
+  accessModel: "login" | "open" | "pay";
+  /** Consent management */
+  consentManagement: ConsentManagement;
+  /** Login methods */
+  loginMethods: object;
+  /** Password policy */
+  passwordPolicy: PasswordPolicy;
+  /** Minimum age in years of user signing up to the service */
+  signupMinimumAge: number;
+  /** How to become a user */
+  signupModel: "confirmed" | "provisioned" | "unconfirmed";
 }
 
 export interface ActivationCodeResponse {
@@ -89,8 +95,14 @@ export interface Analytics {
 }
 
 export interface AnalyticsConfig {
+  /** If stated this is the base URL for analytics events, if not stated the base URL for Exposure API is to be used */
   analyticsBaseUrl?: string;
-  analyticsPercentage?: number;
+  /**
+   * Probability in percentage that the player shall send analytics events
+   * @min 0
+   * @max 100
+   */
+  analyticsPercentage: number;
 }
 
 export interface AnonymousSessionResponse {
@@ -101,7 +113,8 @@ export interface AnonymousSessionResponse {
 }
 
 export interface AppStoreConfig {
-  enabled?: boolean;
+  /** Apple App Store enabled */
+  enabled: boolean;
 }
 
 export interface AppStorePurchaseInitializeResponse {
@@ -340,7 +353,18 @@ export interface Bookmarks {
 
 export type CDN = Record<"host" | "profile" | "provider", string>;
 
-export type CardSummary = Record<"last4" | "brand" | "expiryMonth" | "expiryYear" | "origin", string>;
+export interface CardSummary {
+  /** Last of digits of card number */
+  last4?: string;
+  /** Type of card, e.g visa */
+  brand?: string;
+  /** Expiry month e.g. "10" */
+  expiryMonth?: string;
+  /** Expiry month e.g. "2022" */
+  expiryYear?: string;
+  /** Origin of the card E.g. Google Pay, Apple Pay. If empty, consider the origin to be the payment provider */
+  origin?: string;
+}
 
 export interface Carousel {
   carouselId?: string;
@@ -409,7 +433,8 @@ export interface ConfirmAccountResponse {
 }
 
 export interface ConsentManagement {
-  didomi?: Didomi;
+  /** Didomi consent management */
+  didomi: Didomi;
 }
 
 export interface ContinueUph2Assets {
@@ -555,7 +580,16 @@ export interface DevicesResponseV2 {
   devices?: DeviceResponseV2[];
 }
 
-export type Didomi = Record<"apiKey" | "appNoticeId" | "noticeId" | "tvNoticeId", string>;
+export interface Didomi {
+  /** API Key */
+  apiKey?: string;
+  /** App Notice Id */
+  appNoticeId?: string;
+  /** Notice Id */
+  noticeId?: string;
+  /** TV Notice Id */
+  tvNoticeId?: string;
+}
 
 export interface DownloadInfoResponse {
   accountId?: string;
@@ -684,7 +718,9 @@ export interface EventList {
 }
 
 export interface ExternalPaymentConfig {
-  enabled?: boolean;
+  /** External payments enabled */
+  enabled: boolean;
+  /** External payments url */
   externalPaymentUrl?: string;
 }
 
@@ -704,12 +740,18 @@ export interface Filters {
 export type FiltersFilter = Record<"type" | "value", string>;
 
 export interface FrontendFeatures {
+  /** Custom account page url */
   customAccountPageUrl?: string;
+  /** Custom landing page url */
   customLandingPageUrl?: string;
+  /** Custom password reset page url */
   customPasswordResetPageUrl?: string;
+  /** Custom signup page url */
   customSignupPageUrl?: string;
-  searchLocales?: string[];
-  shouldAlwaysUseAnonymousLogin?: boolean;
+  /** Search languages */
+  searchLocales: string[];
+  /** Should device always login anonymous. */
+  shouldAlwaysUseAnonymousLogin: boolean;
 }
 
 export interface GetAllUserContentRatingsForAssetResponse {
@@ -734,7 +776,8 @@ export interface GetUserContentRatingResponse {
 }
 
 export interface GooglePlayConfig {
-  enabled?: boolean;
+  /** Google play enabled */
+  enabled: boolean;
 }
 
 export interface GooglePlayPurchaseInitializeResponse {
@@ -781,6 +824,7 @@ export interface ImageResponse {
 }
 
 export interface InitializePaymentResponse {
+  /** If Stripe is enabled. */
   stripe?: StripePaymentMethodsAndPrice;
 }
 
@@ -853,9 +897,12 @@ export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string
 export type LinkedEntityResponse = Record<"entityId" | "entityType" | "linkType", string>;
 
 export interface LocaleConfig {
+  /** Currencies */
   currencies?: string[];
-  defaultLocale?: string;
-  displayLocales?: string[];
+  /** Default display language */
+  defaultLocale: string;
+  /** Supported display languages */
+  displayLocales: string[];
 }
 
 export interface LocalizedData {
@@ -1057,9 +1104,9 @@ export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", str
 
 export interface PasswordPolicy {
   /** Minimum number character groups used, eg. alfa, ALFA, 0..9, separators */
-  minimumGroups?: number;
+  minimumGroups: number;
   /** Minimum number of characters in passwords */
-  minimumLength?: number;
+  minimumLength: number;
 }
 
 export interface PasswordTuple {
@@ -1068,15 +1115,22 @@ export interface PasswordTuple {
 }
 
 export interface PaymentConfig {
-  appstore?: AppStoreConfig;
-  external?: ExternalPaymentConfig;
-  googleplay?: GooglePlayConfig;
-  stripe?: StripeConfig;
-  vouchers?: VouchersConfig;
+  /** Apple app store configuration */
+  appstore: AppStoreConfig;
+  /** External payments configuration */
+  external: ExternalPaymentConfig;
+  /** Google play configuration */
+  googleplay: GooglePlayConfig;
+  /** Stripe configuration */
+  stripe: StripeConfig;
+  /** Vouchers configuration */
+  vouchers: VouchersConfig;
 }
 
 export interface PaymentMethod {
+  /** Summary of card details */
   cardSummary?: CardSummary;
+  /** The id of the payment method */
   id?: string;
   preferred?: boolean;
 }
@@ -1180,8 +1234,6 @@ export interface PlayResponseV2 {
   /** Is the material an audio only asset or is it audio+video */
   audioOnly?: boolean;
   bookmarks?: Bookmarks;
-  /** Base64 encoded Authentication XML for buyDRM playback. Should be passed on by the player in the customdata field */
-  buyDrmEncodedAuthXml?: string;
   cdn?: CDN;
   /** Number of concurrent sessions */
   concurrentSessionsCount?: number;
@@ -1259,31 +1311,21 @@ export interface ProductOfferingPurchase {
   assetId?: string;
   businessUnitId?: string;
   customerId?: string;
-  /**
-   * Start of entitlement.
-   * ISO 8601 Date and time
-   */
+  /** Start of entitlement. ISO 8601 Date and time. */
   from?: string;
+  /** @deprecated */
+  id?: string;
   /** Id of the purchased product offering. */
   productOfferingId?: string;
   /** Id of this purchase. */
   purchaseId?: string;
-  /**
-   * If present, next time for renewal.
-   * ISO 8601 Date and time
-   */
+  /** If present, next time for renewal. ISO 8601 Date and time. */
   renewAt?: string;
-  /**
-   * Time of purchase.
-   * ISO 8601 Date and time
-   */
+  /** Time of purchase. ISO 8601 Date and time. */
   startedAt?: string;
   status?: ProductOfferingPurchaseStatus;
   transactionId?: string;
-  /**
-   * End of entitlement.
-   * ISO 8601 Date and time
-   */
+  /** End of entitlement. ISO 8601 Date and time. */
   until?: string;
 }
 
@@ -1388,6 +1430,8 @@ export interface PublicationResponse {
 export interface PurchaseResponse {
   apiStripePurchaseResponse?: StripePurchaseResponse;
   purchase?: StorePurchase;
+  /** @deprecated */
+  purchaseId?: string;
 }
 
 export type QueryParameter = Record<"name" | "value", string>;
@@ -1500,7 +1544,7 @@ export interface SeasonResponse {
 
 export interface SentryConfig {
   /** If Sentry is to be enabled */
-  enabled?: boolean;
+  enabled: boolean;
   /** How much reporting to do. 0.0 - 1.0.  0.0 report nothing, 0.5 means report every second session etc. */
   sampleRate?: number;
 }
@@ -1565,8 +1609,11 @@ export interface StorePrice {
 }
 
 export interface StorePriceTag {
+  /** The amount in minor units of the currency. e.g. 10 EUR is 1000, while 100 JPY is 100 */
   amount?: number;
+  /** ISO 4217 Currency Code */
   currency?: string;
+  /** Number of fraction digits of the currency as specified by ISO 4217, e.g. for EUR 2 and for JPY 0 */
   fractionDigits?: number;
 }
 
@@ -1637,11 +1684,17 @@ export type StoreProductOfferingDiscount = {
     zero?: boolean;
   };
   numberOfRecurringPayments?: number;
+  /** Price after any discount */
   price?: StorePriceTag;
 } | null;
 
 export interface StoreProductOfferingPrice {
+  /**
+   * In which country this offering is valid, if not present anywhere
+   * Format: ISO 3166-1 alpha-2, if not present the offering is available globally
+   */
   countryCode?: string;
+  /** Price after any discount */
   price?: StorePriceTag;
   vat?: StoreVat;
 }
@@ -1654,8 +1707,8 @@ export interface StorePromotion {
   businessUnit?: string;
   customer?: string;
   discount?: StoreDiscount;
+  fullDiscountVoucher?: boolean;
   id?: string;
-  isFullDiscountVoucher?: boolean;
   productOfferingIds?: string[];
 }
 
@@ -1698,9 +1751,10 @@ export interface StorePurchaseTransaction {
 
 export interface StoreTransaction {
   amount?: string;
-  /** A key value object */
-  attributes?: object;
+  attributes?: Record<string, string>;
   completedTime?: string;
+  /** @deprecated */
+  id?: string;
   paymentProviderRequestId?: string;
   paymentProviderTransactionId?: string;
   paymentProviderType?: string;
@@ -1720,7 +1774,9 @@ export const StoreTransactionStatus = {
 export type StoreTransactionStatus = (typeof StoreTransactionStatus)[keyof typeof StoreTransactionStatus];
 
 export interface StoreVat {
+  /** If the VAT is part of the product offering price */
   included?: boolean;
+  /** The percentage of the price to paid a VAT, e.g. 12.5 */
   percentage?: number;
 }
 
@@ -1751,7 +1807,9 @@ export interface StripeCard {
 }
 
 export interface StripeConfig {
-  enabled?: boolean;
+  /** Stripe enabled */
+  enabled: boolean;
+  /** Stripe public key */
   stripePublicKey?: string;
 }
 
@@ -1763,6 +1821,7 @@ export interface StripePaymentMethod {
 export interface StripePaymentMethodTypeAndPrice {
   /** Name e.g card or ideal */
   name?: string;
+  /** Price after any discount */
   price?: StorePriceTag;
   /** Will payment be recurring */
   recurring?: boolean;
@@ -1780,10 +1839,7 @@ export interface StripePurchaseRequest {
 }
 
 export interface StripePurchaseResponse {
-  /**
-   * If setupCard == false the clientSecret is paymentIntent clientSecret
-   * If setupCard == true the clientSecret is setupIntent clientSecret
-   */
+  /** If setupCard == false the clientSecret is paymentIntent clientSecret. If setupCard == true the clientSecret is setupIntent clientSecret */
   clientSecret?: string;
   /** "card" [, "ideal"]   Are the currently supported types */
   paymentMethodTypes?: string[];
@@ -1798,6 +1854,7 @@ export type StripeSetupIntentResponse = Record<"clientSecret" | "id", string>;
 export interface StripeWalletAndPrice {
   /** Name of wallet e.g apple or google */
   name?: string;
+  /** Price after any discount */
   price?: StorePriceTag;
   /** Will payment be recurring */
   recurring?: boolean;
@@ -1811,14 +1868,22 @@ export interface SubtitleTrackInfo {
 }
 
 export interface SystemConfig {
-  access?: AccessConfig;
-  analytics?: AnalyticsConfig;
-  frontendFeatures?: FrontendFeatures;
-  localization?: LocaleConfig;
-  payments?: PaymentConfig;
+  /** User access configuration */
+  access: AccessConfig;
+  /** Analytics reporting configuration */
+  analytics: AnalyticsConfig;
+  /** Frontend features configuration */
+  frontendFeatures: FrontendFeatures;
+  /** Locale configuration */
+  localization: LocaleConfig;
+  /** Payments configuration */
+  payments: PaymentConfig;
+  /** Url to player */
   playerUrl?: string;
-  production?: boolean;
-  sentry?: SentryConfig;
+  /** True if production environment */
+  production: boolean;
+  /** Sentry configuaration */
+  sentry: SentryConfig;
 }
 
 export interface SystemTag {
@@ -1882,8 +1947,10 @@ export interface TagValuesResponse {
 }
 
 export interface TimeResponse {
-  iso8601?: string;
-  epochMillis?: number;
+  /** Time as UTC ISO 8601 */
+  iso8601: string;
+  /** Time as Epoch milliseconds */
+  epochMillis: number;
 }
 
 export interface Track {
@@ -2129,7 +2196,8 @@ export interface VideoTrackInfo {
 }
 
 export interface VouchersConfig {
-  enabled?: boolean;
+  /** Vouchers enabled */
+  enabled: boolean;
 }
 
 export interface WatchedTvShowResponse {

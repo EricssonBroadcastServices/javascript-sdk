@@ -42,6 +42,13 @@ const FILE_PREFIX = `/* eslint-disable */
 
 `;
 
+const tagNameCasingTable: Record<string, string> = {
+  "clientconfig": "clientConfig",
+  "customerconfig": "customerConfig",
+  "eventsink": "eventSink",
+  "userplayhistory": "userPlayHistory",
+}
+
 // Map of recurring enum types (value) inside of existing interfaces to extract to their own declarations
 // These are later used to deduplicate
 const enumTranslationTable: Record<string, string> = {
@@ -203,6 +210,12 @@ delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/s
 const unhandledPathEnums = new Set<string>();
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
   for (let [methodType, methodSpec] of Object.entries(methods || {}) as any[]) {
+    const firstTag = methodSpec.tags?.[0];
+    if (firstTag) { // fix casing
+      methodSpec.tags[0] = tagNameCasingTable[firstTag] || firstTag;
+    } else {
+      throw new Error(`Missing tag for ${methodType.toUpperCase()} ${methodSpec.operationId} (${path})`);
+    }
     // Remove extra space around description and summary
     if (methodSpec.description) {
       methodSpec.description = methodSpec.description.trim();

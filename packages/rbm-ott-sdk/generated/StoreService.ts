@@ -55,13 +55,13 @@ export async function addPaymentMethod({
 /**
  * @summary Cancel a subscription purchase, no more renewals will be done.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/subscriptions/{purchaseId}
- * @response `default` `void` success
+ * @response `200` `void` Successful
  */
 export async function cancelPurchaseSubscription({
   purchaseId,
   headers
 }: {
-  /** The product offering to purchase. */
+  /** The purchased subscription to cancel */
   purchaseId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -123,9 +123,9 @@ export async function getAccountAssetPurchases({
 }
 
 /**
- * @summary Get all transactions for account.
+ * @summary Get all transactions for account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/transactions
- * @response `default` `ProductOfferingTransactions` success
+ * @response `200` `ProductOfferingTransactions` Successful
  */
 export async function getAccountTransactions({
   headers
@@ -144,9 +144,9 @@ export async function getAccountTransactions({
 }
 
 /**
- * @summary Get all transactions for account paired with product offerings.
+ * @summary Get all transactions for account paired with product offerings
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/transactions/productoffering
- * @response `default` `ProductOfferingTransactionsProductOfferingPairList` success
+ * @response `200` `ProductOfferingTransactionsProductOfferingPairList` Successful
  */
 export async function getAccountTransactionsWithProductOffering({
   headers
@@ -165,19 +165,19 @@ export async function getAccountTransactionsWithProductOffering({
 }
 
 /**
- * @description The end point will not reduce the offerings if they have unique products. { Product offering 1 -  Products: Animated Movies, Country: SE Product offering 2 - Products: Sci-Fi Movies, Country: Global Product offering 1 & 2 and will be returned. }
- * @summary Get country product offerings available for the specific voucher code.
+ * @description The end point will not reduce the offerings if they have unique products, for example: Product offering 1 - Products: Animated Movies, Country: SE Product offering 2 - Products: Sci-Fi Movies, Country: Global Product offering 1 & 2 and will be returned.
+ * @summary Get country product offerings available for the specific voucher code
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productofferings/country/{countryCode}/voucher/{voucherCode}
- * @response `default` `(StorePromotionProductOfferings)[]` success
+ * @response `200` `StorePromotionProductOfferings` Successful
  */
 export async function getCountryOfferingsByVoucher({
   countryCode,
   voucherCode,
   headers
 }: {
-  /** The country code. */
+  /** The country code */
   countryCode: string;
-  /** The voucher code. */
+  /** The voucher code */
   voucherCode: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -189,19 +189,22 @@ export async function getCountryOfferingsByVoucher({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/country/${countryCode}/voucher/${voucherCode}`,
     headers,
     ctx
-  }).then(response => response.json() as Promise<StorePromotionProductOfferings[]>);
+  }).then(response => response.json() as Promise<StorePromotionProductOfferings>);
 }
 
 /**
- * @summary Get currently active purchases of the user's account.
+ * @summary Get currently active purchases of the user's account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase
- * @response `default` `ProductOfferingPurchases` success
+ * @response `200` `ProductOfferingPurchases` Successful
  */
 export async function getOfferingPurchases({
   headers,
   ..._data
 }: {
-  /** @default false */
+  /**
+   * Include offering details in response
+   * @default false
+   */
   includeOfferingDetails?: boolean;
   /** Optional headers */
   headers?: HeadersInit;
@@ -252,17 +255,16 @@ export async function getOfferings({
 }
 
 /**
- * @summary Get product offerings available in the specified country, which also includes globally available product
-offerings.
+ * @summary Get product offerings available in the specified country, also includes global product offerings.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}
- * @response `default` `StoreProductOfferings` success
+ * @response `200` `StoreProductOfferings` Successful
  */
 export async function getOfferingsByCountry({
   countryCode,
   headers,
   ..._data
 }: {
-  /** The country code received with the location resource. */
+  /** The country code */
   countryCode: string;
   /**
    * Filter on product offerings that requires assetId upon purchase
@@ -310,16 +312,15 @@ export async function getOfferingsByLabels({
 }
 
 /**
- * @description EXPERIMENTAL
- * @summary Get product offerings available for the specific voucher code.
+ * @summary Get product offerings available for the specific voucher code. EXPERIMENTAL
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productofferings/voucher/{voucherCode}
- * @response `default` `(StorePromotionProductOfferings)[]` success
+ * @response `200` `StorePromotionProductOfferings` Successful
  */
 export async function getOfferingsByVoucher({
   voucherCode,
   headers
 }: {
-  /** The voucher code. */
+  /** The voucher code */
   voucherCode: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -331,13 +332,13 @@ export async function getOfferingsByVoucher({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/voucher/${voucherCode}`,
     headers,
     ctx
-  }).then(response => response.json() as Promise<StorePromotionProductOfferings[]>);
+  }).then(response => response.json() as Promise<StorePromotionProductOfferings>);
 }
 
 /**
  * @summary Get all purchases for account including transactions
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases
- * @response `default` `(StorePurchaseTransaction)[]` success
+ * @response `200` `(StorePurchaseTransaction)[]` Successful
  */
 export async function getPurchaseTransactions({
   headers
@@ -378,11 +379,11 @@ export async function getStoredPaymentMethods({
 }
 
 /**
- * @description Returns valid payment types and price after any discount. Note: The behaviour and the result can change during the time.
- * @summary EXPERIMENTAL
-Called to before initiating a new payment.
+ * @description EXPERIMENTAL Called to before initiating a new payment. Returns valid payment types and price after any discount. * Note: The behaviour and the result can change during the time.
+ * @summary Returns valid payment types and price after any discount
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/initialize
- * @response `default` `InitializePaymentResponse` success
+ * @response `200` `InitializePaymentResponse` Successful
+ * @response `401` `InitializePaymentResponse` TO_MANY_DEVICES Session is over device limit
  */
 export async function initialize({
   headers,
@@ -467,16 +468,17 @@ export async function initializeGooglePlayPurchase({
 }
 
 /**
- * @summary Purchase a productOffering.
+ * @summary Purchase a productOffering
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/{productOfferingId}
- * @response `default` `PurchaseResponse` success
+ * @response `200` `PurchaseResponse` Successful
+ * @response `401` `PurchaseResponse` TO_MANY_DEVICES Session is over device limit
  */
 export async function purchaseProductOffering({
   productOfferingId,
   headers,
   ..._data
 }: {
-  /** The product offering to purchase. */
+  /** The product offering to purchase */
   productOfferingId: string;
   stripePurchase?: StripePurchaseRequest;
   /** Voucher code that should be applied to the purchase */
@@ -622,17 +624,17 @@ export async function verifyGooglePlayPurchase({
 }
 
 /**
- * @description E.g. a redirect flow, where the purchaser has to authenticate to the card issuer. * Also, used to send additional data from the shopper if that's required.
- * @summary Verify a purchase of a productOffering if a "AUTHORIZED/REJECTED"-status is not given directly.
+ * @description Verify a purchase of a productOffering if a "AUTHORIZED/REJECTED"-status is not given directly. E.g. a redirect flow, where the purchaser has to authenticate to the card issuer. Also, used to send additional data from the shopper if that's required.
+ * @summary Verify a purchase of a productOffering
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/{purchaseId}/verify
- * @response `default` `PurchaseResponse` success
+ * @response `200` `PurchaseResponse` Successful
+ * @response `401` `PurchaseResponse` TO_MANY_DEVICES Session is over device limit
  */
 export async function verifyPayment({
   purchaseId,
-  headers,
-  ..._data
+  headers
 }: {
-  /** The purchase id. */
+  /** The purchased id to verify */
   purchaseId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -643,8 +645,7 @@ export async function verifyPayment({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${purchaseId}/verify`,
     headers,
-    ctx,
-    body: _data
+    ctx
   }).then(response => response.json() as Promise<PurchaseResponse>);
 }
 
