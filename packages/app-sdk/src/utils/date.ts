@@ -1,8 +1,20 @@
 import { Translations } from "../models/wl-translations";
-import { isToday, isTomorrow, isYesterday, format, Locale } from "date-fns";
+import { format, Locale } from "date-fns";
 import * as locales from "date-fns/locale";
 // TODO Fix 👆, should import date-fns/* instead of the above
 // But Jest & Typescript works like 💩 atm.
+
+function isToday(date: Date) {
+  return date.toDateString() === new Date().toDateString();
+}
+
+function isTomorrow(date: Date) {
+  return date.toDateString() === new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toDateString();
+}
+
+function isYesterday(date: Date) {
+  return date.toDateString() === new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toDateString();
+}
 
 export const getDayLocalized = (date: Date, translations: Translations) => {
   if (isToday(date)) {
@@ -142,10 +154,7 @@ export function getLocalDateFormat(date: Date, stringFormat: string, clientLocal
 
 function dateIntervalIsNow(startTime: Date, endTime: Date) {
   const now = new Date();
-  if (endTime > now && startTime <= now) {
-    return true;
-  }
-  return false;
+  return endTime > now && startTime <= now;
 }
 
 export function getIndexOfLiveOrClosestUpcomingDateInterval<T extends { startTime: Date; endTime: Date }[]>(

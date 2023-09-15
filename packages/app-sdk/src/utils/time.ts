@@ -1,5 +1,4 @@
 import { parse, toSeconds } from "iso8601-duration";
-import { format } from "date-fns";
 import * as humanizeDuration from "humanize-duration";
 import { Translations } from "../models/wl-translations";
 
@@ -60,14 +59,14 @@ export const getDateObjectFromISOString = (durationString: string, startDate = n
   return new Date(startDate.getTime() + ms);
 };
 
-export const getTimeString = (date: Date) => {
-  return format(date, "HH:mm");
-};
+export function getTimeString(date: Date): string {
+  // returns HH:mm in local timezone. For more control change to Intl.DateTimeFormat
+  return date.toTimeString().slice(0, 5);
+}
 
 export const getDurationLocalized = (milliseconds: number, locale?: string) => {
-  const language = locale || "en";
   return humanizeDuration(milliseconds, {
-    language: language,
+    language: locale || "en",
     fallbacks: ["en"],
     round: true
   });
