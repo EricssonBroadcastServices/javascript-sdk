@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------
  */
 
-import { AvailabilityKeys, EntitleResponseV2, PlayResponseV2 } from "./data-contracts";
+import { AvailabilityKeys, EntitleResponseV2, PaymentProvider, PlayResponseV2 } from "./data-contracts";
 import { request, ServiceContext } from "./http-client";
 
 /**
@@ -81,7 +81,7 @@ export async function entitle({
   /** The id of the asset to play. */
   assetId: string;
   /** Payment provider. */
-  paymentProvider?: string;
+  paymentProvider?: PaymentProvider;
   /** The time to be used when checking entitlement. */
   time?: string;
   /** Optional headers */

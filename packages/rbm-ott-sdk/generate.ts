@@ -170,6 +170,10 @@ spec.components.schemas.AssetList.required = ["items", "pageNumber", "pageSize",
 spec.components.schemas.Asset.required = ["assetId", "audioTracks", "changed", "collections", "created", "cuePoints", "customData", "duration", "externalReferences", "linkedEntities", "live", "localized", "markerPoints", "markers", "parentalRatings", "participants", "productionCountries", "publications", "slugs", "spokenLanguages", "subtitles", "tags", "type"];
 spec.components.schemas.Program.required = ["endTime", "startTime"];
 
+/* Fix types */
+spec.components.schemas.PaymentProvider = {"type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"]};
+spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle"].get.parameters.find((param: any) => param.name === "paymentProvider").schema = { "$ref": "#/components/schemas/PaymentProvider" };
+
 /**
  * Process paths
  */

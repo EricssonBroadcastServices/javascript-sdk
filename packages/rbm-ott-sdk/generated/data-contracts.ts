@@ -1139,6 +1139,15 @@ export interface PaymentMethods {
   methods?: PaymentMethod[];
 }
 
+export const PaymentProvider = {
+  Stripe: "stripe",
+  Googleplay: "googleplay",
+  Appstore: "appstore",
+  External: "external",
+  Deny: "deny"
+} as const;
+export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider];
+
 export interface Person {
   dateOfBirth?: string;
   dateOfDeath?: string;
