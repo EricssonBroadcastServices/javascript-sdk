@@ -1,0 +1,34 @@
+<%
+const { utils, route, config, modelTypes } = it;
+const { _, pascalCase, require } = utils;
+const { routes } = it.route;
+const apiClassName = pascalCase(route.moduleName);
+const methods = [];
+const dataContracts = _.map(modelTypes, "name");
+
+// Duplicate the methods if they have partial arguments so we can make
+// one predictable normal method and one that actually supports partials where we cant know the return type.
+for (const route of routes) {
+  let methodName = route.routeName.usage;
+  methods.push({ route, methodName })
+  if (route.queryObjectSchema?.properties?.fieldSet) {
+    methods.push({ route, methodName: `${methodName}Partial`, isPartial: true });
+  }
+}
+%>
+
+import { request, ServiceContext } from "./<%~ config.fileNames.httpClient %>";
+<% if (dataContracts.length) { %>
+import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
+<% } %>
+
+<% for (const { route, isPartial, methodName } of methods) { %>
+  <%~ includeFile('./procedure-call.ejs', { ...it, route, isPartial, methodName }) %>
+<% } %>
+
+export class <%= apiClassName %>Service {
+  constructor(private context: ServiceContext) {}
+  <% for (const { methodName } of methods) { %>
+    <%~ `${methodName} = ${methodName}` %>;
+  <% } %>
+}

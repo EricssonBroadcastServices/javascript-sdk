@@ -1,0 +1,51 @@
+<%
+const { modelTypes, utils, config } = it;
+const { formatDescription, require, _, Ts } = utils;
+
+
+const buildGenerics = (contract) => {
+  if (!contract.genericArgs || !contract.genericArgs.length) return '';
+
+  return '<' + contract.genericArgs.map(({ name, default: defaultType, extends: extendsType }) => {
+    return [
+      name,
+      extendsType && `extends ${extendsType}`,
+      defaultType && `= ${defaultType}`,
+    ].join('')
+  }).join(',') + '>'
+}
+
+const dataContractTemplates = {
+  enum: (contract) => {
+    const content = contract.$content.map(({ key, value }) => `${key}: ${value},`).join("\n");
+    return `const ${contract.name} = {
+      ${content}
+    } as const;
+    export type ${contract.name} = (typeof ${contract.name})[keyof typeof ${contract.name}];`;
+  },
+  interface: (contract) => {
+    // Try to make a record if the interface has the same type, all optional and no descriptions
+    const firstValue = contract.$content[0].value;
+    if (contract.$content.length > 1 && contract.$content.every(c => !c.isRequired && !c.description && c.value === firstValue)) {
+      // using the name from $$raw instead of prop.name because name can be quoted already
+      const keyType = contract.$content.map(prop => `"${prop.$$raw.$parsed.$schemaPath[1]}"`).join(" | ");
+      return `export type ${contract.name} = Record<${keyType}, ${firstValue}>;`;
+    }
+    return `interface ${contract.name}${buildGenerics(contract)} {\r\n${contract.content}}`;
+  },
+  type: (contract) => {
+    return `type ${contract.name}${buildGenerics(contract)} = ${contract.content}`;
+  },
+}
+%>
+
+<% if (config.internalTemplateOptions.addUtilRequiredKeysType) { %>
+type <%~ config.Ts.CodeGenKeyword.UtilRequiredKeys %><T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
+<% } %>
+
+<% for (const contract of modelTypes) { %>
+  <%~ includeFile('./data-contract-jsdoc.ejs', { ...it, data: { ...contract, ...contract.typeData } }) %>
+  <%~ contract.internal ? '' : 'export'%> <%~ (dataContractTemplates[contract.typeIdentifier] || dataContractTemplates.type)(contract) %>
+
+
+<% } %>
