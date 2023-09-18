@@ -234,6 +234,7 @@ export async function getCarouselsForGroupPartial<T = any>({
 }
 
 export class CarouselService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getCarousel = getCarousel;
   getCarouselPartial = getCarouselPartial;

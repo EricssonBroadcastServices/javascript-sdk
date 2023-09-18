@@ -141,6 +141,7 @@ export async function listTags({
 }
 
 export class TagService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getTagById = getTagById;
   getUniqueTagsFromAssets = getUniqueTagsFromAssets;

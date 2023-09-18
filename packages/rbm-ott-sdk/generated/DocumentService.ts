@@ -51,6 +51,7 @@ export async function getDocument({
 }
 
 export class DocumentService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getDocument = getDocument;
 }

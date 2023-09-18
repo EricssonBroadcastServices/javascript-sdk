@@ -154,6 +154,7 @@ export async function getWLConfigWithDomain({
 }
 
 export class ClientConfigService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getComponentFilters = getComponentFilters;
   getFile = getFile;

@@ -106,6 +106,7 @@ export async function getLastViewedOffsetList({
 }
 
 export class UserPlayHistoryService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   deleteFromLastViewedAssetList = deleteFromLastViewedAssetList;
   getContinueWatchingTvShow = getContinueWatchingTvShow;

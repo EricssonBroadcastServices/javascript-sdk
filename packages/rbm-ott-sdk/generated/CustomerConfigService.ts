@@ -142,6 +142,7 @@ export async function getConfigFilesCu({
 }
 
 export class CustomerConfigService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getConfigCuFile = getConfigCuFile;
   getConfigFile = getConfigFile;

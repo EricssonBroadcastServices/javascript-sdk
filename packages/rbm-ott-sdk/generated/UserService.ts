@@ -816,6 +816,7 @@ export async function validatePinCodes({
 }
 
 export class UserService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   addProfile = addProfile;
   changeEmail = changeEmail;

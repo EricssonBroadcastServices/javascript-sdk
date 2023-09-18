@@ -436,6 +436,7 @@ export async function validateSessionToken({
 }
 
 export class AuthenticationService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   deleteSessions = deleteSessions;
   externalUserSession = externalUserSession;

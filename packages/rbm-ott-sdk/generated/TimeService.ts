@@ -56,6 +56,7 @@ export async function getTimeAnonymous({
 }
 
 export class TimeService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getTime = getTime;
   getTimeAnonymous = getTimeAnonymous;

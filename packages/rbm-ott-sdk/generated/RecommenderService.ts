@@ -102,6 +102,7 @@ export async function getRecommendationsForUser({
 }
 
 export class RecommenderService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getContinueWatching = getContinueWatching;
   getRecommendationsForAsset = getRecommendationsForAsset;

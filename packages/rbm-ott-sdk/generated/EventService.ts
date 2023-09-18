@@ -71,6 +71,7 @@ export async function getEvents({
 }
 
 export class EventService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getEvents = getEvents;
 }

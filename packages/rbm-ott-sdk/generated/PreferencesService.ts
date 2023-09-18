@@ -284,6 +284,7 @@ export async function setPreferences({
 }
 
 export class PreferencesService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   addToAssetList = addToAssetList;
   addToList = addToList;

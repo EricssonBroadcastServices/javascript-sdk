@@ -250,6 +250,7 @@ export async function play({
 }
 
 export class EntitlementsService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   accountProducts = accountProducts;
   availabilityKeys = availabilityKeys;

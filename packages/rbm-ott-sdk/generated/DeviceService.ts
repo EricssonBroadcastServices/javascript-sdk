@@ -61,6 +61,7 @@ export async function getDevicesForAccount({
 }
 
 export class DeviceService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   deleteDeviceForAccount = deleteDeviceForAccount;
   getDevicesForAccount = getDevicesForAccount;

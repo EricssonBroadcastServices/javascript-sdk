@@ -62,6 +62,7 @@ export async function postEvents({
 }
 
 export class EventSinkService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   intialize = intialize;
   postEvents = postEvents;

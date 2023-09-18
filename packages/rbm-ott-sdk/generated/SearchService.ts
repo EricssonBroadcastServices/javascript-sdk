@@ -935,6 +935,7 @@ export async function searchV3Partial<T = any>({
 }
 
 export class SearchService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   autocomplete = autocomplete;
   autocompleteAssetTitle = autocompleteAssetTitle;

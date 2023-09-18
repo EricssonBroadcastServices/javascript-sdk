@@ -650,6 +650,7 @@ export async function verifyPayment({
 }
 
 export class StoreService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   addPaymentMethod = addPaymentMethod;
   cancelPurchaseSubscription = cancelPurchaseSubscription;

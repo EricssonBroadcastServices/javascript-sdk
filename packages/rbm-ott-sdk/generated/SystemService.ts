@@ -64,6 +64,7 @@ export async function getSystemConfigV2({
 }
 
 export class SystemService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getSystemConfig = getSystemConfig;
   getSystemConfigV2 = getSystemConfigV2;

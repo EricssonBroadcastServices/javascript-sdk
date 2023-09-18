@@ -55,6 +55,7 @@ export async function getLocationFromReferer({
 }
 
 export class LocationService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getLocation = getLocation;
   getLocationFromReferer = getLocationFromReferer;

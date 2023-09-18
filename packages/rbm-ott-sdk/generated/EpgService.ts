@@ -379,6 +379,7 @@ export async function getXmlTvEpgForChannel({
 }
 
 export class EpgService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getActiveChannels = getActiveChannels;
   getChannelStatus = getChannelStatus;

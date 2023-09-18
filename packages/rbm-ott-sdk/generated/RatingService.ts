@@ -143,6 +143,7 @@ export async function putUserContentRating({
 }
 
 export class RatingService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   deleteUserContentRating = deleteUserContentRating;
   getAllUserContentRatingsForAsset = getAllUserContentRatingsForAsset;

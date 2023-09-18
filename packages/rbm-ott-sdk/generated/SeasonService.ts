@@ -191,6 +191,7 @@ export async function getSeasonsPartial<T = any>({
 }
 
 export class SeasonService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getSeasonById = getSeasonById;
   getSeasonByIdPartial = getSeasonByIdPartial;

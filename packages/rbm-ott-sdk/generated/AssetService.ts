@@ -747,6 +747,7 @@ export async function getSeasonsForTvShowPartial<T = any>({
 }
 
 export class AssetService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getAsset = getAsset;
   getAssetPartial = getAssetPartial;

@@ -211,6 +211,7 @@ export async function getDownloadsForAsset({
 }
 
 export class DownloadsService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   deleteDownloadsForAccount = deleteDownloadsForAccount;
   deleteDownloadsForAsset = deleteDownloadsForAsset;
