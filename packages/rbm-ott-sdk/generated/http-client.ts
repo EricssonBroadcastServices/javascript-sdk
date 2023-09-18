@@ -8,7 +8,7 @@
  */
 
 export type UriComponent = string | number | boolean;
-export type QueryParams = Record<string, UriComponent | UriComponent[]>;
+export type QueryParams = Record<string, UriComponent | UriComponent[] | undefined>;
 
 export type ServiceContext = {
   baseUrl: string;
