@@ -1,4 +1,3 @@
-import * as querystring from "query-string";
 import { isWebPSupported } from "./webp";
 
 export enum ImageSizes {
@@ -12,23 +11,23 @@ export enum ImageSizes {
 }
 
 interface IFitOptions {
-  w?: number;
-  h?: number;
-  format?: string;
+  w: number;
+  h: number;
+  format: string;
 }
 
 export class Scaler {
-  private fit(imageUrl: string | undefined, options: IFitOptions) {
+  private fit(imageUrl?: string, options: Partial<IFitOptions> = {}) {
     if (!imageUrl) return "";
-    if (!options?.format && isWebPSupported()) {
-      options = options || {};
-      options.format = "webp";
+    const params = new URLSearchParams();
+    Object.entries(options).forEach(([key, value]) => value !== undefined && params.set(key, String(value)));
+    if (!params.has("format") && isWebPSupported()) {
+      params.set("format", "webp");
     }
-    const queryString = querystring.stringify(options as any);
     if (imageUrl.includes("?")) {
-      return `${imageUrl}&${queryString}`;
+      return `${imageUrl}&${params}`;
     }
-    return `${imageUrl}?${queryString}`;
+    return `${imageUrl}?${params}`;
   }
 
   public fitToWidth(imageUrl: string | undefined, w: number, format?: string) {
