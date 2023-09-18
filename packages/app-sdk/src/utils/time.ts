@@ -1,5 +1,5 @@
 import { parse, toSeconds } from "iso8601-duration";
-import * as humanizeDuration from "humanize-duration";
+import humanizeDuration from "humanize-duration";
 import { Translations } from "../models/wl-translations";
 
 export interface Duration {
