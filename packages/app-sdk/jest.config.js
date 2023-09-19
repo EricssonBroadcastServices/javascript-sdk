@@ -6,7 +6,6 @@ module.exports = {
   transform: {
     "^.+\\.[tj]sx?$": ["ts-jest", { isolatedModules: true }]
   },
-  transformIgnorePatterns: ["./packages/core/node_modules/(?!(query-string))"],
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   maxWorkers: "25%",
