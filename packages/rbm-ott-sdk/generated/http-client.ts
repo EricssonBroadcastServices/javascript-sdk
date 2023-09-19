@@ -41,7 +41,7 @@ function defaultErrorFactory(response: Response) {
 
 export async function request({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<Response> {
   const fullUrl: RequestInfo = Object.keys(query).length
-    ? `${url}/?${new URLSearchParams(sanitizeParams(query))}`
+    ? `${url}?${new URLSearchParams(sanitizeParams(query))}`
     : String(url);
   const headersObject = new Headers(headers);
   if (!headersObject.has("content-type")) {
