@@ -28,7 +28,7 @@ import {
   StorePurchaseTransaction,
   StripePurchaseRequest
 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Add payment method
@@ -216,7 +216,7 @@ export async function getOfferingPurchases({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ProductOfferingPurchases>);
 }
 
@@ -250,7 +250,7 @@ export async function getOfferings({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<StoreProductOffering[]>);
 }
 
@@ -281,7 +281,7 @@ export async function getOfferingsByCountry({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<StoreProductOfferings>);
 }
 

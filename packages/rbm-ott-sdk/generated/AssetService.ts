@@ -8,7 +8,7 @@
  */
 
 import { Asset, AssetList, AssetType, DeviceType, Season, SeasonList } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets an asset by asset id.
@@ -49,7 +49,7 @@ export async function getAsset({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<Asset>);
 }
 
@@ -101,7 +101,7 @@ export async function getAssetPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -188,7 +188,7 @@ export async function getAssets({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<AssetList>);
 }
 
@@ -284,7 +284,7 @@ export async function getAssetsPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -331,7 +331,7 @@ export async function getCollectionEntries({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<AssetList>);
 }
 
@@ -387,7 +387,7 @@ export async function getCollectionEntriesPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/collectionentries`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -430,7 +430,7 @@ export async function getEpisodes({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<AssetList>);
 }
 
@@ -482,7 +482,7 @@ export async function getEpisodesPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}/episode`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -621,7 +621,7 @@ export async function getSeason({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<Season>);
 }
 
@@ -663,7 +663,7 @@ export async function getSeasonPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season/${season}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -698,7 +698,7 @@ export async function getSeasonsForTvShow({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<SeasonList>);
 }
 
@@ -742,7 +742,7 @@ export async function getSeasonsForTvShowPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${assetId}/season`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 

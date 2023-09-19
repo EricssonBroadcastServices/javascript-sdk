@@ -8,7 +8,7 @@
  */
 
 import { ComponentFilters } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Get user location and the filters to use in calls to the client configuration endpoints.
@@ -84,7 +84,7 @@ export async function getWLComponent({
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   });
 }
 
@@ -115,7 +115,7 @@ export async function getWLConfig({
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   });
 }
 
@@ -149,7 +149,7 @@ export async function getWLConfigWithDomain({
     url: `${ctx.baseUrl}/v2/whitelabel/origin/${host}/config/${configId}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   });
 }
 

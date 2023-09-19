@@ -19,7 +19,7 @@ import {
   UserProfiles,
   UserSelfServiceCreateResponse
 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @summary Add a user profile.

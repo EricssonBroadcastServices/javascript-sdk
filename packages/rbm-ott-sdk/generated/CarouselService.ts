@@ -8,7 +8,7 @@
  */
 
 import { Carousel } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a specific carousel by id.
@@ -52,7 +52,7 @@ export async function getCarousel({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<Carousel[]>);
 }
 
@@ -107,7 +107,7 @@ export async function getCarouselPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -174,7 +174,7 @@ export async function getCarouselsForGroup({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<Carousel[]>);
 }
 
@@ -229,7 +229,7 @@ export async function getCarouselsForGroupPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 

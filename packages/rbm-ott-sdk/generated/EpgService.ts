@@ -8,7 +8,7 @@
  */
 
 import { ActiveChannels, ChannelEPGResponse, ChannelStatus, ProgramResponse } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @description Status of a channel includes whether it is available (in the case of virtual channels) and the currently playing assets. This endpoint only considers active virtual channels.
@@ -48,7 +48,7 @@ export async function getActiveChannels({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ActiveChannels>);
 }
 
@@ -81,7 +81,7 @@ export async function getChannelStatus({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/channel/onnow/${channelId}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ChannelStatus>);
 }
 
@@ -137,7 +137,7 @@ export async function getEpg({
       .substring(0, 10)}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ChannelEPGResponse[]>);
 }
 
@@ -195,7 +195,7 @@ export async function getEpgForChannel({
       .substring(0, 10)}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ChannelEPGResponse>);
 }
 
@@ -253,7 +253,7 @@ export async function getEpgForChannels({
       .substring(0, 10)}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ChannelEPGResponse[]>);
 }
 
@@ -338,7 +338,7 @@ export async function getProgram({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/program/${programId}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ProgramResponse>);
 }
 
@@ -374,7 +374,7 @@ export async function getXmlTvEpgForChannel({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ChannelEPGResponse>);
 }
 

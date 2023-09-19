@@ -8,7 +8,7 @@
  */
 
 import { EventList } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Get events.
@@ -66,7 +66,7 @@ export async function getEvents({
       .substring(0, 10)}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<EventList>);
 }
 

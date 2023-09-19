@@ -8,7 +8,7 @@
  */
 
 import { AutocompleteItem, AutocompleteItem2, EpgSearchHits, MultiSearchResponse, SearchList } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Does prefix autocomplete for a query.
@@ -34,7 +34,7 @@ export async function autocomplete({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/autocomplete/${query}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AutocompleteItem[]>);
 }
 
@@ -70,7 +70,7 @@ export async function autocompleteAssetTitle({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/title/autocomplete/${query}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AutocompleteItem2[]>);
 }
 
@@ -101,7 +101,7 @@ export async function autocompleteTagTitle({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/title/autocomplete/${query}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AutocompleteItem2[]>);
 }
 
@@ -129,7 +129,7 @@ export async function getSuggestions({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/suggestions/${query}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AutocompleteItem[]>);
 }
 
@@ -183,7 +183,7 @@ export async function search({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<SearchList>);
 }
 
@@ -243,7 +243,7 @@ export async function searchPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -298,7 +298,7 @@ export async function searchAsset({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<SearchList>);
 }
 
@@ -359,7 +359,7 @@ export async function searchAssetPartial<T = any>({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -409,7 +409,7 @@ export async function searchEpg({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<EpgSearchHits>);
 }
 
@@ -465,7 +465,7 @@ export async function searchEpgPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -523,7 +523,7 @@ export async function searchNoQuery({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<SearchList>);
 }
 
@@ -590,7 +590,7 @@ export async function searchNoQueryPartial<T = any>({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -631,7 +631,7 @@ export async function searchTags({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<SearchList>);
 }
 
@@ -678,7 +678,7 @@ export async function searchTagsPartial<T = any>({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/tag/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -743,7 +743,7 @@ export async function searchV2({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<SearchList>);
 }
 
@@ -817,7 +817,7 @@ export async function searchV2Partial<T = any>({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -869,7 +869,7 @@ export async function searchV3({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<MultiSearchResponse>);
 }
 
@@ -930,7 +930,7 @@ export async function searchV3Partial<T = any>({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/${query}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 

@@ -8,7 +8,7 @@
  */
 
 import { AvailabilityKeys, EntitleResponseV2, PaymentProvider, PlayResponseV2 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @description Should at the moment only be used in white label apps on the web. Needs to be formalized and approved before used by any other client than MOTT white label app for the web. Returns two lists. All available products for the organization unit will be in any of them. The account can be null. This means that only products allowed for anonymous will be returned in entitled list. - entitled. Contains all the products the account has access to. - notEntitled. Contains all the products the account has not access to.
@@ -32,7 +32,7 @@ export async function accountProducts({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<void>);
 }
 
@@ -57,7 +57,7 @@ export async function availabilityKeys({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AvailabilityKeys>);
 }
 
@@ -94,7 +94,7 @@ export async function entitle({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<EntitleResponseV2>);
 }
 
@@ -245,7 +245,7 @@ export async function play({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<PlayResponseV2>);
 }
 

@@ -8,7 +8,7 @@
  */
 
 import { Season, SeasonList } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a specific season by id.
@@ -38,7 +38,7 @@ export async function getSeasonById({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<Season>);
 }
 
@@ -79,7 +79,7 @@ export async function getSeasonByIdPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -128,7 +128,7 @@ export async function getSeasons({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
     headers,
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<SeasonList>);
 }
 
@@ -186,7 +186,7 @@ export async function getSeasonsPartial<T = any>({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
     headers,
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 

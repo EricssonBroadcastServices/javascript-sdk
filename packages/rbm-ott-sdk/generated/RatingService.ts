@@ -12,7 +12,7 @@ import {
   GetAllUserContentRatingsForUserResponse,
   GetUserContentRatingResponse
 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @summary Delete an asset rating given by currently logged in user.

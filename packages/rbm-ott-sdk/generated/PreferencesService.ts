@@ -8,7 +8,7 @@
  */
 
 import { AssetListItemResponse, PreferencesListResponse, UserPreferenceResponse } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Adds an item to the asset list.
@@ -168,7 +168,7 @@ export async function getAssetList({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AssetListItemResponse[]>);
 }
 
@@ -199,7 +199,7 @@ export async function getFromAssetList({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AssetListItemResponse>);
 }
 
@@ -228,7 +228,7 @@ export async function getList({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<PreferencesListResponse[]>);
 }
 

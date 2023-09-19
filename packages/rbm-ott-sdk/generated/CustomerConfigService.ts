@@ -8,7 +8,7 @@
  */
 
 import { ConfigFile, ConfigFilesResponse } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a JSON configuration file stored on customer level.
@@ -34,7 +34,7 @@ export async function getConfigCuFile({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config/${fileName}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ConfigFile>);
 }
 
@@ -63,7 +63,7 @@ export async function getConfigFile({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ConfigFile>);
 }
 
@@ -95,7 +95,7 @@ export async function getConfigFileCustomDomainInPath({
     url: `${ctx.baseUrl}/v1/config/${fileId}/origin/${host}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ConfigFile>);
 }
 

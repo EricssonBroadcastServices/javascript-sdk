@@ -8,7 +8,7 @@
  */
 
 import { Location } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @description Get location information based on caller IP-address.

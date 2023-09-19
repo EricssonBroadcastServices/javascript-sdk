@@ -8,7 +8,7 @@
  */
 
 import { ContinueUph2Assets, RecommendedAssets, RecommendedWatchNext } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Get list of assets to continue watching
@@ -34,7 +34,7 @@ export async function getContinueWatching({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/continue`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ContinueUph2Assets>);
 }
 
@@ -67,7 +67,7 @@ export async function getRecommendationsForAsset({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/watchNext/${assetId}`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<RecommendedWatchNext>);
 }
 
@@ -97,7 +97,7 @@ export async function getRecommendationsForUser({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/recommend/user`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<RecommendedAssets>);
 }
 

@@ -8,7 +8,7 @@
  */
 
 import { BookkeeperAccount, BookkeeperAsset, DownloadInfoResponse, DownloadResponse, Message } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Unregister all downloads done by an account.
@@ -81,7 +81,7 @@ export async function download({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<DownloadResponse>);
 }
 
@@ -136,7 +136,7 @@ export async function downloadInfo({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<DownloadInfoResponse>);
 }
 

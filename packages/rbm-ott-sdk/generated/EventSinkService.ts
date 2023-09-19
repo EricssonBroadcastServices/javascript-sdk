@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------
  */
 
-import { request, ServiceContext } from "./http-client";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/eventsink/init

@@ -8,7 +8,7 @@
  */
 
 import { LastViewedOffsetList, WatchedTvShowResponse } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Deletes an asset from the last viewed asset list.
@@ -101,7 +101,7 @@ export async function getLastViewedOffsetList({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userplayhistory/lastviewedoffset`,
     headers,
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<LastViewedOffsetList[]>);
 }
 
