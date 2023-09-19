@@ -1,4 +1,4 @@
-import { ISystemConfig } from "../config/system-config";
+import { ISystemConfig } from "./system-config";
 import { IExposureWLPresentation } from "./exposure-wl-presentation";
 import { IExposureWLReference } from "./exposure-wl-reference";
 
