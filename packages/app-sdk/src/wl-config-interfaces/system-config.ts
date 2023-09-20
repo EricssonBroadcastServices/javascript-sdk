@@ -32,39 +32,41 @@ export interface ILoginMethod {
   client_id?: string;
 }
 
-export enum AccessModel {
+export const AccessModel = {
   /**
    * No user login required, but (some) content may require user login.
    * Anonymous login should be done.
    */
-  OPEN = "open",
+  OPEN: "open",
   /**
    * Login is always required.
    */
-  LOGIN = "login",
+  LOGIN: "login",
   /**
    * Login and payment is required.
    */
-  PAY = "pay"
-}
+  PAY: "pay"
+} as const;
+export type AccessModel = typeof AccessModel[keyof typeof AccessModel];
 
-export enum SignupModel {
+export const SignupModel = {
   /**
    * All users are provisioned from the backend.
    * User login option to be present.
    */
-  PROVISONED = "provisioned",
+  PROVISONED: "provisioned",
   /**
    * Users may signup, a confirmation mail will be sent, sessionToken created at conformation.
    * User signup and login option to be present.
    */
-  CONFIRMED = "confirmed",
+  CONFIRMED: "confirmed",
   /**
    * Users may signup, no conformation mail will be sent, sessionToken created at signup.
    * User signup and login option to be present.
    */
-  UNCONFIRMED = "unconfirmed"
-}
+  UNCONFIRMED: "unconfirmed"
+} as const;
+export type SignupModel = typeof SignupModel[keyof typeof SignupModel];
 
 export interface IConsentManagement {
   didomi?: {
@@ -94,24 +96,26 @@ export interface IPasswordHashConfig {
   algorithms: IPasswordAlgorithm[];
 }
 
-export enum LoginMethodType {
-  FIREBASE = "firebase",
-  USER_ACCOUNTS = "useraccounts",
-  OAUTH = "oauth"
-}
+export const LoginMethodType = {
+  FIREBASE: "firebase",
+  USER_ACCOUNTS: "useraccounts",
+  OAUTH: "oauth"
+} as const;
+export type LoginMethodType = typeof LoginMethodType[keyof typeof LoginMethodType];
 
 export interface IPasswordPolicy {
   minimumLength: number;
   minimumGroups: number;
 }
 
-export enum PaymentType {
-  ADYEN = "adyen",
-  STRIPE = "stripe",
-  EXTERNAL = "external",
-  DENY = "deny",
-  VOUCHERS_ONLY = "vouchers"
-}
+export const PaymentType = {
+  ADYEN: "adyen",
+  STRIPE: "stripe",
+  EXTERNAL: "external",
+  DENY: "deny",
+  VOUCHERS_ONLY: "vouchers"
+} as const;
+export type PaymentType = typeof PaymentType[keyof typeof PaymentType];
 
 export interface ISystemConfig {
   paymentType: PaymentType;

@@ -1,22 +1,26 @@
 import { IImage } from "./image";
 import { WLComponentSubType, WLComponentType } from "./exposure-wl-component";
 
-export enum CarouselLayout {
-  CAROUSEL = "carousel",
-  GRID = "grid",
-  LIST = "list"
-}
+export const CarouselLayout = {
+  CAROUSEL: "carousel",
+  GRID: "grid",
+  LIST: "list"
+} as const;
+export type CarouselLayout = typeof CarouselLayout[keyof typeof CarouselLayout];
 
-export enum PresentationImageOrientation {
-  LANDSCAPE = "landscape",
-  PORTRAIT = "portrait"
-}
+export const PresentationImageOrientation = {
+  LANDSCAPE: "landscape",
+  PORTRAIT: "portrait"
+} as const;
+export type PresentationImageOrientation =
+  typeof PresentationImageOrientation[keyof typeof PresentationImageOrientation];
 
-export enum CarouselDensity {
-  LOW = "LOW",
-  MEDIUM = "MEDIUM",
-  HIGH = "HIGH"
-}
+export const CarouselDensity = {
+  LOW: "LOW",
+  MEDIUM: "MEDIUM",
+  HIGH: "HIGH"
+} as const;
+export type CarouselDensity = typeof CarouselDensity[keyof typeof CarouselDensity];
 
 export interface IExposureWLReference {
   appType: WLComponentType;
