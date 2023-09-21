@@ -1,9 +1,4 @@
-export const ImageOrientation = {
-  LANDSCAPE: "LANDSCAPE",
-  PORTRAIT: "PORTRAIT",
-  SQUARE: "SQUARE"
-} as const;
-export type ImageOrientation = typeof ImageOrientation[keyof typeof ImageOrientation];
+import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 export const ImageType = {
   POSTER: "poster",
@@ -18,7 +13,7 @@ export type ImageType = typeof ImageType[keyof typeof ImageType];
 export interface IImage {
   url: string;
   type?: ImageType;
-  orientation: string;
+  orientation: ImageOrientation;
   height: number;
   width: number;
   tags?: string[];
