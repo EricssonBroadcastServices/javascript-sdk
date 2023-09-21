@@ -169,6 +169,9 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
 spec.components.schemas.AssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
 spec.components.schemas.Asset.required = ["assetId", "audioTracks", "changed", "collections", "created", "cuePoints", "customData", "duration", "externalReferences", "linkedEntities", "live", "localized", "markerPoints", "markers", "parentalRatings", "participants", "productionCountries", "publications", "slugs", "spokenLanguages", "subtitles", "tags", "type"];
 spec.components.schemas.Program.required = ["endTime", "startTime"];
+spec.components.schemas.StoreAppStoreReference.required = ["productId"];
+spec.components.schemas.StoreGooglePlayReference.required = ["skuId"];
+
 
 /* Fix types */
 spec.components.schemas.PaymentProvider = {"type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"]};

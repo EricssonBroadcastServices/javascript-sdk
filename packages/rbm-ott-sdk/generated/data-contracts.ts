@@ -1590,7 +1590,7 @@ export interface Sprites {
 }
 
 export interface StoreAppStoreReference {
-  productId?: string; // TODO: SET REQUIRED
+  productId: string;
 }
 
 export interface StoreDiscount {
@@ -1598,7 +1598,7 @@ export interface StoreDiscount {
 }
 
 export interface StoreGooglePlayReference {
-  skuId?: string; // TODO: SET REQUIRED
+  skuId: string;
 }
 
 export type StoreLocalizedMetaData = Record<"description" | "locale" | "name", string>;
