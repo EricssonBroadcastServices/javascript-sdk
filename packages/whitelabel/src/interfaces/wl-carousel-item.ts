@@ -48,6 +48,13 @@ export interface IWLMarkerPoint {
   title: string;
 }
 
+export interface IProgram {
+  endTime?: Date | string;
+  startTime?: Date | string;
+  programId?: string;
+  channelId?: string;
+}
+
 export interface IWLCarouselItem {
   assetId: string;
   trailerAssetId?: string;
@@ -90,4 +97,5 @@ export interface IWLCarouselItem {
   markerPoints?: IWLMarkerPoint[];
   seriesAssetAction?: IWLAction;
   assetFeatures?: IAssetFeature[];
+  programs?: IProgram[];
 }

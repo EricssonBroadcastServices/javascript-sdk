@@ -5,7 +5,8 @@ import {
   IWLParticipant,
   IWLParentalRating,
   IWLOverlayWidget,
-  IWLMarkerPoint
+  IWLMarkerPoint,
+  IProgram
 } from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
@@ -112,6 +113,8 @@ export class WLAsset implements IWLCarouselItem {
   public seriesAssetAction?: WLAction;
   @jsonProperty({ type: Object })
   public assetFeatures?: IAssetFeature[];
+  @jsonProperty({ type: Object })
+  public programs?: IProgram[];
 
   private getIdentifier = () => {
     return this.slugs?.length > 0 ? this.slugs[0] : this.assetId;
