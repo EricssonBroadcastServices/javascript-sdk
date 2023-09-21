@@ -4,7 +4,8 @@ import {
   ExternalReferences,
   ImageModel,
   MarkerType,
-  IAssetFeature
+  IAssetFeature,
+  IProgram
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
 import { IWLAssetTag } from "./wl-tag";
@@ -46,13 +47,6 @@ export interface IWLMarkerPoint {
   offset: number;
   endOffset?: number;
   title: string;
-}
-
-export interface IProgram {
-  endTime?: Date | string;
-  startTime?: Date | string;
-  programId?: string;
-  channelId?: string;
 }
 
 export interface IWLCarouselItem {

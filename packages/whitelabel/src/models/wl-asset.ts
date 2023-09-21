@@ -5,8 +5,7 @@ import {
   IWLParticipant,
   IWLParentalRating,
   IWLOverlayWidget,
-  IWLMarkerPoint,
-  IProgram
+  IWLMarkerPoint
 } from "../interfaces/wl-carousel-item";
 import { WLSeason } from "./wl-season";
 import { Translations } from "./wl-translations";
@@ -24,7 +23,8 @@ import {
   ProductOffering,
   IImage,
   publicationUtils,
-  IAssetFeature
+  IAssetFeature,
+  IProgram
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";

@@ -144,6 +144,7 @@ export {
   IPreferenceListTags,
   IPreferenceListTags as PreferenceListTags
 } from "./interfaces/preferences/preferences";
+export { IProgram } from "./interfaces/content/program";
 
 /* Services */
 export {
