@@ -1,1 +1,1 @@
-# RedBee WhiteLabel Client JS SDK
+# RedBee APP SDK

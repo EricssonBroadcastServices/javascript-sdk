@@ -1,4 +1,3 @@
-import { ISystemConfig } from "./system-config";
 import { IExposureWLPresentation } from "./exposure-wl-presentation";
 import { IExposureWLReference } from "./exposure-wl-reference";
 
@@ -45,5 +44,5 @@ export interface IExposureWLConfig {
   };
   parameters: IConfigParameters;
   theme: IWLTheme;
-  systemConfig: ISystemConfig;
+  systemConfig: any;
 }

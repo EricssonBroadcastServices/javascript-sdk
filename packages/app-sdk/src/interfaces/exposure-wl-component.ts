@@ -59,6 +59,8 @@ export interface IExposureComponent {
   appSubType?: WLComponentSubType;
   presentation?: IExposureWLPresentation;
   parameters?: IExposureComponentParameters;
+  created?: string;
+  changed?: string;
 }
 
 interface IContentUrl {
