@@ -188,8 +188,8 @@ export interface AssetList {
 }
 
 export interface AssetListItemResponse {
-  asset?: Asset;
-  assetId?: string;
+  asset: Asset;
+  assetId: string;
   lastUpdated?: string;
   /** A key value object */
   metadata?: object;
@@ -698,11 +698,11 @@ export interface EpgSearchHits {
 }
 
 export interface Event {
-  asset?: Asset;
+  asset: Asset;
   /** The id of the asset this program is for. */
-  assetId?: string;
-  endTime?: string;
-  startTime?: string;
+  assetId: string;
+  endTime: string;
+  startTime: string;
 }
 
 export type EventDataResponse = Record<
@@ -1384,7 +1384,7 @@ export interface ProgramListEntryResponse {
 export interface ProgramResponse {
   asset: Asset;
   /** The id of the asset this program is for. */
-  assetId?: string;
+  assetId: string;
   /**
    * If this program is currently published as blackout. This means any publication contains blackout, not global
    * blackout;
@@ -1400,10 +1400,10 @@ export interface ProgramResponse {
   channelId?: string;
   /** The date the program was created. */
   created?: string;
-  endTime?: string;
+  endTime: string;
   /** The id of the program. */
   programId?: string;
-  startTime?: string;
+  startTime: string;
   /** If this asset is currently available as VOD. */
   vodAvailable?: boolean;
 }

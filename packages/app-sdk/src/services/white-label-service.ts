@@ -221,7 +221,7 @@ export class WhiteLabelService {
                 Authorization: `Bearer ${sessionToken}`
               }
             })
-          ).map(item => item.asset as Asset);
+          ).map(item => item.asset);
         case WLCarouselAssetQueryTypes.TVOD:
           if (!sessionToken) return [];
           return await this.get<Asset[]>({
@@ -233,7 +233,7 @@ export class WhiteLabelService {
         case WLCarouselAssetQueryTypes.EVENT:
           return (
             (await this.get<EventList>({ url: `${this.context.baseUrl}${carousel.contentUrl.url}` })).items?.map(
-              event => event.asset as Asset
+              event => event.asset
             ) || []
           );
         case WLCarouselAssetQueryTypes.ASSET:
