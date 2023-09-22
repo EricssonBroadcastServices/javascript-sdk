@@ -1382,7 +1382,7 @@ export interface ProgramListEntryResponse {
 }
 
 export interface ProgramResponse {
-  asset?: Asset;
+  asset: Asset;
   /** The id of the asset this program is for. */
   assetId?: string;
   /**

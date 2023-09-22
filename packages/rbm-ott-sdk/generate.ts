@@ -171,6 +171,7 @@ spec.components.schemas.Asset.required = ["assetId", "audioTracks", "changed", "
 spec.components.schemas.Program.required = ["endTime", "startTime"];
 spec.components.schemas.StoreAppStoreReference.required = ["productId"];
 spec.components.schemas.StoreGooglePlayReference.required = ["skuId"];
+spec.components.schemas.ProgramResponse.required = ["asset"];
 
 
 /* Fix types */

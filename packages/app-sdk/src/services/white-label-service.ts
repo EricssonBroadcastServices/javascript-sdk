@@ -210,7 +210,7 @@ export class WhiteLabelService {
           return (
             (
               await this.get<ChannelEPGResponse>({ url: `${this.context.baseUrl}${carousel.contentUrl.url}` })
-            ).programs?.map(p => p.asset as Asset) || []
+            ).programs?.map(p => p.asset) || []
           );
         case WLCarouselAssetQueryTypes.FAVORITES:
           if (!sessionToken) return [];
