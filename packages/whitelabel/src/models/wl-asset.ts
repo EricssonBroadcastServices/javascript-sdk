@@ -23,7 +23,8 @@ import {
   ProductOffering,
   IImage,
   publicationUtils,
-  IAssetFeature
+  IAssetFeature,
+  IProgram
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { EntitlementCase } from "../interfaces/entitlement-cases";
 import { WLAction } from "./wl-config";
@@ -112,6 +113,8 @@ export class WLAsset implements IWLCarouselItem {
   public seriesAssetAction?: WLAction;
   @jsonProperty({ type: Object })
   public assetFeatures?: IAssetFeature[];
+  @jsonProperty({ type: Object })
+  public programs?: IProgram[];
 
   private getIdentifier = () => {
     return this.slugs?.length > 0 ? this.slugs[0] : this.assetId;

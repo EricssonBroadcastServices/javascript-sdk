@@ -4,7 +4,8 @@ import {
   ExternalReferences,
   ImageModel,
   MarkerType,
-  IAssetFeature
+  IAssetFeature,
+  IProgram
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { IWLAction } from "./wl-action";
 import { IWLAssetTag } from "./wl-tag";
@@ -90,4 +91,5 @@ export interface IWLCarouselItem {
   markerPoints?: IWLMarkerPoint[];
   seriesAssetAction?: IWLAction;
   assetFeatures?: IAssetFeature[];
+  programs?: IProgram[];
 }

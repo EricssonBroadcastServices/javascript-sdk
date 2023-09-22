@@ -8,6 +8,7 @@ import { localizedUtils } from "../utils/localized";
 import { WithLocalized } from "./localized-model";
 import { jsonProperty } from "../decorators/json-property";
 import { IAssetFeature } from "../interfaces/content/asset-feature";
+import { IProgram } from "../interfaces/content/program";
 
 export enum mediumResBoundaries {
   lower = 500,
@@ -127,9 +128,7 @@ export class Asset extends WithLocalized {
   public medias: IMedias[] = [];
   @jsonProperty()
   public productionYear: number;
-  @jsonProperty({
-    type: Object
-  })
+  @jsonProperty({ type: Object })
   public tags: IAssetTagCollection[] = [];
   @jsonProperty({ type: Object })
   public publications: IPublication[] = [];
@@ -179,6 +178,8 @@ export class Asset extends WithLocalized {
   public audioTracks: string[] = [];
   @jsonProperty({ type: Object })
   public assetFeatures?: IAssetFeature[];
+  @jsonProperty({ type: Object })
+  public programs?: IProgram[];
 
   public series = () => {
     return this.tags.some(t => t.type === "series");

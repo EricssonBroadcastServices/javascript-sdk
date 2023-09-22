@@ -1,4 +1,4 @@
-import { IEntitlementError } from "@ericssonbroadcastservices/exposure-sdk";
+import { IEntitlementError, IStreamInfo } from "@ericssonbroadcastservices/exposure-sdk";
 import { IListOffering } from "./list-offering";
 
 export enum EntitlementStatus {
@@ -32,4 +32,5 @@ export interface IEntitlementStatusResult {
   accessLater: IListOffering[];
   // return a date if all the user has to do is wait
   startTime: null | Date;
+  streamInfo: IStreamInfo;
 }
