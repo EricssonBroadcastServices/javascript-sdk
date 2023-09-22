@@ -13,7 +13,10 @@ import {
   PaymentProvider,
   ServiceContext,
   AssetType,
-  SystemConfig
+  SystemConfig,
+  getNextEpisode,
+  getRecommendationsForAsset,
+  getNextProgramForAsset
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
 import { IExposureWLConfig } from "../interfaces/exposure-wl-config";
@@ -24,6 +27,8 @@ import {
   WLCarouselAssetQueryTypes
 } from "../interfaces/exposure-wl-component";
 import { IExposureWLFooter, IExposureWLMenu } from "../interfaces/exposure-wl-menu";
+import { PushNextContent } from "../interfaces/push-next-content";
+import { PublicationUtils } from "../utils/publication";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -32,7 +37,7 @@ interface WhiteLabelServiceContext extends ServiceContext {
   getAuthToken: () => Promise<string | undefined>;
 }
 export class WhiteLabelService {
-  constructor(private context: WhiteLabelServiceContext) {}
+  constructor(public context: WhiteLabelServiceContext) {}
 
   public async get<T>({ url, query, headers }: WhiteLabelServiceGetMethodParams): Promise<T> {
     return request({ method: "GET", url, query, headers }).then(response => response.json());
@@ -175,5 +180,52 @@ export class WhiteLabelService {
 
   public getTranslations(locale: string) {
     return this.get({ url: `/api/internal/translations/${locale}` });
+  }
+
+  public async getPushNextContentData(assetId: string): Promise<PushNextContent> {
+    let upNextAsset: Asset | undefined;
+    let recommendations: Asset[] = [];
+    try {
+      upNextAsset = await getNextEpisode.call(this.context, { assetId });
+      /*
+        if the asset has no active publications, discard it.
+        This can be true when episodes are part of a live channel and the episode has not yet aired.
+       */
+      if (upNextAsset && PublicationUtils.getActivePublications(upNextAsset.publications).length === 0) {
+        upNextAsset = undefined;
+      }
+    } catch (err) {}
+    try {
+      /**
+       * This gets the following program according to EPG and puts it as the first RECOMMENDATION
+       */
+      const nextProgram = await getNextProgramForAsset.call(this.context, { assetId });
+      if (nextProgram.asset) {
+        recommendations.push(nextProgram.asset);
+      }
+
+      /**
+       * If there is nothing to PUSH, but a following program in the EPG - we push for it on Mobile
+       * ---> Due to the lack of recommendation screen <---
+       */
+      // TODO: remove when the mobile applications implements recommendations
+      if (
+        !upNextAsset &&
+        ([DeviceGroup.MOBILE, DeviceGroup.TABLET] as DeviceGroup[]).includes(this.context.deviceGroup) &&
+        nextProgram.asset
+      ) {
+        upNextAsset = nextProgram.asset || undefined;
+      }
+    } catch (err) {}
+    try {
+      recommendations = [
+        ...recommendations,
+        ...(await getRecommendationsForAsset.call(this.context, { assetId })).items
+      ].slice(0, 3);
+    } catch (err) {}
+    return {
+      upNext: upNextAsset,
+      recommendations
+    };
   }
 }
