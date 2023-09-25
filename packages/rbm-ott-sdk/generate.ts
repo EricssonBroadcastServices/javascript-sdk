@@ -369,11 +369,6 @@ generateApi({
     rmSync(OUTPUT_PATH, { recursive: true });
     mkdirSync(OUTPUT_PATH);
     // Write generated files
-    if (!files.some(({ fileName }) => fileName === "http-client")) {
-      console.warn("⚠️ http-client not generated, copying manually from the template.")
-      const fileContent = readFileSync(resolve(process.cwd(), "./templates/base/http-client.ejs"), "utf-8");
-      files.push({ fileName: "http-client", fileExtension: "ts", fileContent });
-    }
     files.forEach(({ fileName, fileContent }) => {
       // Add a suffix to the service modules only, not the data-contracts or http-client
       writeFileSync(`${OUTPUT_PATH}/${moduleNames[fileName] || fileName}.ts`, FILE_PREFIX + fileContent);
