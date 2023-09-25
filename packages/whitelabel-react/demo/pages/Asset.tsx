@@ -19,7 +19,7 @@ export const Asset = () => {
   const { id } = useParams();
   const [asset, isLoading, error] = useAsset(id);
   const [status] = useEntitlementForAsset({ asset: asset || undefined }, {});
-  const assetProgress = useProgramProgress(id, status?.streamInfo.live);
+  const assetProgress = useProgramProgress({ assetId: id, live: status?.streamInfo.live });
   const [bookmarkPercentage] = useBookmarkPercentage(id);
   const [{ upNext, recommendations }] = usePushNextContentData(id);
   const [continueWatching] = useContinueWatching(id);

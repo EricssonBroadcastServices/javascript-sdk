@@ -36,7 +36,10 @@ export function useGetTimeLeft({ percentageWatched, durationMs }: TimeLeftProps)
   return timeLeft;
 }
 
-export function useProgramProgress(assetId?: string, live?: boolean): { duration: number; progress: number } {
+export function useProgramProgress({ assetId, live }: { assetId?: string; live?: boolean }): {
+  duration: number;
+  progress: number;
+} {
   const [asset] = useAsset(assetId);
   const [assetProgress] = useBookmarkPercentage(assetId);
   const [duration, progress] = useMemo(() => {
