@@ -28,7 +28,7 @@ import {
 } from "../interfaces/exposure-wl-component";
 import { IExposureWLFooter, IExposureWLMenu } from "../interfaces/exposure-wl-menu";
 import { PushNextContent } from "../interfaces/push-next-content";
-import { PublicationUtils } from "../utils/publication";
+import { PublicationHelpers } from "../utils/publication";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -191,7 +191,7 @@ export class WhiteLabelService {
         if the asset has no active publications, discard it.
         This can be true when episodes are part of a live channel and the episode has not yet aired.
        */
-      if (upNextAsset && PublicationUtils.getActivePublications(upNextAsset.publications).length === 0) {
+      if (upNextAsset && PublicationHelpers.getActivePublications(upNextAsset.publications).length === 0) {
         upNextAsset = undefined;
       }
     } catch (err) {}
