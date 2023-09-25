@@ -16,6 +16,7 @@ export interface APIErrorMessage {
   message?: string;
 }
 
+/** User access configuration */
 export interface AccessConfig {
   /** How users gain access */
   accessModel: "login" | "open" | "pay";
@@ -94,6 +95,7 @@ export interface Analytics {
   tag?: string;
 }
 
+/** Analytics reporting configuration */
 export interface AnalyticsConfig {
   /** If stated this is the base URL for analytics events, if not stated the base URL for Exposure API is to be used */
   analyticsBaseUrl?: string;
@@ -112,6 +114,7 @@ export interface AnonymousSessionResponse {
   sessionToken?: string;
 }
 
+/** Apple app store configuration */
 export interface AppStoreConfig {
   /** Apple App Store enabled */
   enabled: boolean;
@@ -353,6 +356,7 @@ export interface Bookmarks {
 
 export type CDN = Record<"host" | "profile" | "provider", string>;
 
+/** Summary of card details */
 export interface CardSummary {
   /** Last of digits of card number */
   last4?: string;
@@ -432,6 +436,7 @@ export interface ConfirmAccountResponse {
   loginResponse?: LoginResponse;
 }
 
+/** Consent management */
 export interface ConsentManagement {
   /** Didomi consent management */
   didomi: Didomi;
@@ -580,6 +585,7 @@ export interface DevicesResponseV2 {
   devices?: DeviceResponseV2[];
 }
 
+/** Didomi consent management */
 export interface Didomi {
   /** API Key */
   apiKey?: string;
@@ -717,6 +723,7 @@ export interface EventList {
   totalCount?: number;
 }
 
+/** External payments configuration */
 export interface ExternalPaymentConfig {
   /** External payments enabled */
   enabled: boolean;
@@ -739,6 +746,7 @@ export interface Filters {
 
 export type FiltersFilter = Record<"type" | "value", string>;
 
+/** Frontend features configuration */
 export interface FrontendFeatures {
   /** Custom account page url */
   customAccountPageUrl?: string;
@@ -775,6 +783,7 @@ export interface GetUserContentRatingResponse {
   rating?: number;
 }
 
+/** Google play configuration */
 export interface GooglePlayConfig {
   /** Google play enabled */
   enabled: boolean;
@@ -896,6 +905,7 @@ export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string
 
 export type LinkedEntityResponse = Record<"entityId" | "entityType" | "linkType", string>;
 
+/** Locale configuration */
 export interface LocaleConfig {
   /** Currencies */
   currencies?: string[];
@@ -1102,6 +1112,7 @@ export interface ParentalRating {
 
 export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", string>;
 
+/** Password policy */
 export interface PasswordPolicy {
   /** Minimum number character groups used, eg. alfa, ALFA, 0..9, separators */
   minimumGroups: number;
@@ -1114,6 +1125,7 @@ export interface PasswordTuple {
   value?: string;
 }
 
+/** Payments configuration */
 export interface PaymentConfig {
   /** Apple app store configuration */
   appstore: AppStoreConfig;
@@ -1551,6 +1563,7 @@ export interface SeasonResponse {
   tvShowId?: string;
 }
 
+/** Sentry configuaration */
 export interface SentryConfig {
   /** If Sentry is to be enabled */
   enabled: boolean;
@@ -1617,6 +1630,7 @@ export interface StorePrice {
   vatPercentage?: number;
 }
 
+/** Price after any discount */
 export interface StorePriceTag {
   /** The amount in minor units of the currency. e.g. 10 EUR is 1000, while 100 JPY is 100 */
   amount?: number;
@@ -1669,6 +1683,7 @@ export interface StoreProductOffering {
   rentalLength?: string;
 }
 
+/** The one-time discounted price on a product offering */
 export type StoreProductOfferingDiscount = {
   freePeriod?: {
     chronology?: {
@@ -1815,6 +1830,7 @@ export interface StripeCard {
   exp_year?: number;
 }
 
+/** Stripe configuration */
 export interface StripeConfig {
   /** Stripe enabled */
   enabled: boolean;
@@ -1827,6 +1843,7 @@ export interface StripePaymentMethod {
   id?: string;
 }
 
+/** One entry for each relevant payment method type, such as "card", "ideal" */
 export interface StripePaymentMethodTypeAndPrice {
   /** Name e.g card or ideal */
   name?: string;
@@ -1836,6 +1853,7 @@ export interface StripePaymentMethodTypeAndPrice {
   recurring?: boolean;
 }
 
+/** If Stripe is enabled. */
 export interface StripePaymentMethodsAndPrice {
   /** One entry for each relevant payment method type, such as "card", "ideal" */
   methodTypes?: StripePaymentMethodTypeAndPrice[];
@@ -1843,6 +1861,11 @@ export interface StripePaymentMethodsAndPrice {
   wallets?: StripeWalletAndPrice[];
 }
 
+/**
+ * Purchase using Stripe as payment platform.
+ * Creates an stripe intent.
+ * Requires that Stripe is configured for the customer/business unit.
+ */
 export interface StripePurchaseRequest {
   paymentMethodId?: string;
 }
@@ -1860,6 +1883,7 @@ export interface StripePurchaseResponse {
 
 export type StripeSetupIntentResponse = Record<"clientSecret" | "id", string>;
 
+/** One entry for each relevant wallet, such as "apple", "google" */
 export interface StripeWalletAndPrice {
   /** Name of wallet e.g apple or google */
   name?: string;
@@ -2204,6 +2228,7 @@ export interface VideoTrackInfo {
   targetBitrate?: string;
 }
 
+/** Vouchers configuration */
 export interface VouchersConfig {
   /** Vouchers enabled */
   enabled: boolean;

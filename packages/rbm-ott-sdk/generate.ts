@@ -316,12 +316,6 @@ generateApi({
   sortTypes: true,
   sortRoutes: true,
   hooks: {
-    onInit(config) {
-      console.log(""); // Add line break before any logs from the template
-      // Must override hard coded base path which swagger-typescript-api uses for some templates
-      config.templatePaths.base = resolve(process.cwd(), "./templates/base");
-      return config;
-    },
     onFormatRouteName (routeInfo) {
       // allow duplicates for search (because we did before)
       if (["searchV2", "searchV3", "getSystemConfigV2"].includes(routeInfo.operationId)) {
