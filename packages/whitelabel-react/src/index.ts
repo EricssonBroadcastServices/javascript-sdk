@@ -26,3 +26,4 @@ export { ErrorCode } from "./util/error";
 export { queryClient, QueryKeys } from "./util/react-query";
 export { useContinueWatching } from "./hooks/useContinueWatching";
 export { useDeleteAccount } from "./hooks/useDeleteAccount";
+export { useProgramProgress, useGetTimeLeft } from "./hooks/useProgramProgress";
