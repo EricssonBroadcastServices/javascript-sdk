@@ -192,6 +192,8 @@ export class WhiteLabelService {
       });
       return (await this.get<AssetList>({ url: url.toString() })).items;
     }
+    if (!carousel.contentUrl?.url) return [];
+    const contentUrl = new URL(carousel.contentUrl.url, this.context.baseUrl);
     try {
       switch (carousel.contentUrl?.type) {
         case WLCarouselAssetQueryTypes.CONTINUE_WATCHING:
@@ -200,23 +202,19 @@ export class WhiteLabelService {
           if (!sessionToken) return [];
           return (
             await this.get<AssetList>({
-              url: `${this.context.baseUrl}${carousel.contentUrl.url}`,
+              url: contentUrl,
               headers: {
                 Authorization: `Bearer ${sessionToken}`
               }
             })
           ).items;
         case WLCarouselAssetQueryTypes.EPG:
-          return (
-            (
-              await this.get<ChannelEPGResponse>({ url: `${this.context.baseUrl}${carousel.contentUrl.url}` })
-            ).programs?.map(p => p.asset) || []
-          );
+          return (await this.get<ChannelEPGResponse>({ url: contentUrl })).programs?.map(p => p.asset) || [];
         case WLCarouselAssetQueryTypes.FAVORITES:
           if (!sessionToken) return [];
           return (
             await this.get<AssetListItemResponse[]>({
-              url: `${this.context.baseUrl}${carousel.contentUrl.url}`,
+              url: contentUrl,
               headers: {
                 Authorization: `Bearer ${sessionToken}`
               }
@@ -225,19 +223,15 @@ export class WhiteLabelService {
         case WLCarouselAssetQueryTypes.TVOD:
           if (!sessionToken) return [];
           return await this.get<Asset[]>({
-            url: `${this.context.baseUrl}${carousel.contentUrl.url}`,
+            url: contentUrl,
             headers: {
               Authorization: `Bearer ${sessionToken}`
             }
           });
         case WLCarouselAssetQueryTypes.EVENT:
-          return (
-            (await this.get<EventList>({ url: `${this.context.baseUrl}${carousel.contentUrl.url}` })).items?.map(
-              event => event.asset
-            ) || []
-          );
+          return (await this.get<EventList>({ url: contentUrl })).items?.map(event => event.asset) || [];
         case WLCarouselAssetQueryTypes.ASSET:
-          return (await this.get<AssetList>({ url: `${this.context.baseUrl}${carousel.contentUrl.url}` })).items;
+          return (await this.get<AssetList>({ url: contentUrl })).items;
         default:
           console.warn("trying to resolve unsupported carousel");
           return [];
