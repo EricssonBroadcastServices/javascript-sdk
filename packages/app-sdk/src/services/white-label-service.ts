@@ -312,10 +312,6 @@ export class WhiteLabelService {
         recommendations.push(nextProgram.asset);
       }
 
-      /**
-       * If there is nothing to PUSH, but a following program in the EPG - we push for it on Mobile
-       * ---> Due to the lack of recommendation screen <---
-       */
       if (!upNextAsset && pushNextProgram && nextProgram.asset) {
         upNextAsset = nextProgram.asset || undefined;
       }
