@@ -182,7 +182,7 @@ export class WhiteLabelService {
 
       const userTagList = await this.getTagList("tagfeed");
 
-      const url = new URL(`${this.context.baseUrl}${carousel.contentPreferencesUrl.url}`);
+      const url = new URL(carousel.contentPreferencesUrl.url, this.context.baseUrl);
 
       // fieldSet=ALL is missing, at least on BSBU. TODO: check with meta.
       url.searchParams.set("fieldSet", "ALL");
