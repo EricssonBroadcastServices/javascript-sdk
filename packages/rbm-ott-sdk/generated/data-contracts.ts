@@ -390,10 +390,10 @@ export interface ChannelAsset {
 }
 
 export interface ChannelEPGResponse {
-  channelId?: string;
-  programs?: ProgramResponse[];
+  channelId: string;
+  programs: ProgramResponse[];
   /** This is the total number of hits for all channels, not only this. */
-  totalHitsAllChannels?: number;
+  totalHitsAllChannels: number;
 }
 
 export interface ChannelStatus {
@@ -1414,7 +1414,7 @@ export interface ProgramResponse {
   created?: string;
   endTime: string;
   /** The id of the program. */
-  programId?: string;
+  programId: string;
   startTime: string;
   /** If this asset is currently available as VOD. */
   vodAvailable?: boolean;

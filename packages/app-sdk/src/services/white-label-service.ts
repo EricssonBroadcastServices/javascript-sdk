@@ -17,7 +17,8 @@ import {
   ChannelEPGResponse,
   AssetListItemResponse,
   EventList,
-  getList
+  getList,
+  ProgramResponse
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
 import { IExposureWLConfig } from "../interfaces/exposure-wl-config";
@@ -25,6 +26,7 @@ import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
 import {
   IExposureComponent,
   IExposureWLCarousel,
+  IExpoureWLEpgComponent,
   WLCarouselAssetQueryTypes
 } from "../interfaces/exposure-wl-component";
 import { IExposureWLFooter, IExposureWLMenu } from "../interfaces/exposure-wl-menu";
@@ -240,6 +242,35 @@ export class WhiteLabelService {
       console.error("failed when resolving assets", carousel, err);
       return [];
     }
+  }
+
+  public async getEpgContent(epgComponent: IExpoureWLEpgComponent): Promise<
+    {
+      channel: Asset;
+      programs: ProgramResponse[];
+    }[]
+  > {
+    const contentUrl = new URL(epgComponent.contentUrl.url, this.context.baseUrl);
+    const content = await this.get<ChannelEPGResponse[]>({ url: contentUrl });
+    const channels: Promise<{
+      channel: Asset;
+      programs: ProgramResponse[];
+    } | null>[] = content.map(async channelResponse => {
+      try {
+        const channel = await getAsset.call(this.context, { assetId: channelResponse.channelId });
+        return {
+          channel,
+          programs: channelResponse.programs
+        };
+      } catch (err) {
+        // potentially the getAsset call can fail if the channel is not published
+        return null;
+      }
+    });
+    return (await Promise.all(channels)).filter(c => c !== null) as {
+      channel: Asset;
+      programs: ProgramResponse[];
+    }[];
   }
 
   public getTranslations(locale: string) {
