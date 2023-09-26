@@ -188,7 +188,7 @@ export class WhiteLabelService {
   }: {
     /** The id of the asset */
     assetId: string;
-    /** whether or not upNext should be populated by the next upcoming program, if avail */
+    /** whether or not upNext should be populated by the next upcoming program, if available */
     pushNextProgram?: boolean;
   }): Promise<PushNextContent> {
     let upNextAsset: Asset | undefined;
