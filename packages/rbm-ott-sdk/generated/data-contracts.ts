@@ -191,8 +191,8 @@ export interface AssetList {
 }
 
 export interface AssetListItemResponse {
-  asset?: Asset;
-  assetId?: string;
+  asset: Asset;
+  assetId: string;
   lastUpdated?: string;
   /** A key value object */
   metadata?: object;
@@ -704,11 +704,11 @@ export interface EpgSearchHits {
 }
 
 export interface Event {
-  asset?: Asset;
+  asset: Asset;
   /** The id of the asset this program is for. */
-  assetId?: string;
-  endTime?: string;
-  startTime?: string;
+  assetId: string;
+  endTime: string;
+  startTime: string;
 }
 
 export type EventDataResponse = Record<

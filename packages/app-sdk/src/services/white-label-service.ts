@@ -15,6 +15,9 @@ import {
   AssetType,
   SystemConfig,
   ChannelEPGResponse,
+  AssetListItemResponse,
+  EventList,
+  getList,
   ProgramResponse
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
@@ -163,16 +166,81 @@ export class WhiteLabelService {
     return await entitle.call(this.context, {
       assetId: asset.assetId,
       paymentProvider,
-      headers: { Authorization: `Bearer: ${this.context.getAuthToken()}` }
+      headers: { Authorization: `Bearer ${this.context.getAuthToken()}` }
+    });
+  }
+
+  public async getTagList(listId: string) {
+    return getList.call(this.context, {
+      list: listId,
+      headers: { Authorization: `Bearer ${await this.context.getAuthToken()}` }
     });
   }
 
   public async getCarouselAssets(carousel: IExposureWLCarousel): Promise<Asset[]> {
-    switch (carousel.contentUrl?.type) {
-      case WLCarouselAssetQueryTypes.ASSET:
-        return (await this.get<AssetList>({ url: `${this.context.baseUrl}${carousel.contentUrl.url}` })).items;
-      default:
-        return [];
+    const sessionToken = await this.context.getAuthToken();
+    if (carousel.appSubType === "TagFeedQuery") {
+      if (!carousel.contentPreferencesUrl?.url) return [];
+
+      const userTagList = await this.getTagList("tagfeed");
+
+      const url = new URL(carousel.contentPreferencesUrl.url, this.context.baseUrl);
+
+      // fieldSet=ALL is missing, at least on BSBU. TODO: check with meta.
+      url.searchParams.set("fieldSet", "ALL");
+
+      carousel.contentPreferencesUrl?.fields.forEach(urlVariable => {
+        url.searchParams.set(urlVariable, userTagList[`${urlVariable}`]);
+      });
+      return (await this.get<AssetList>({ url: url.toString() })).items;
+    }
+    if (!carousel.contentUrl?.url) return [];
+    const contentUrl = new URL(carousel.contentUrl.url, this.context.baseUrl);
+    try {
+      switch (carousel.contentUrl?.type) {
+        case WLCarouselAssetQueryTypes.CONTINUE_WATCHING:
+        case WLCarouselAssetQueryTypes.RECOMMENDED:
+        case WLCarouselAssetQueryTypes.RECENTLY_WATCHED:
+          if (!sessionToken) return [];
+          return (
+            await this.get<AssetList>({
+              url: contentUrl,
+              headers: {
+                Authorization: `Bearer ${sessionToken}`
+              }
+            })
+          ).items;
+        case WLCarouselAssetQueryTypes.EPG:
+          return (await this.get<ChannelEPGResponse>({ url: contentUrl })).programs?.map(p => p.asset) || [];
+        case WLCarouselAssetQueryTypes.FAVORITES:
+          if (!sessionToken) return [];
+          return (
+            await this.get<AssetListItemResponse[]>({
+              url: contentUrl,
+              headers: {
+                Authorization: `Bearer ${sessionToken}`
+              }
+            })
+          ).map(item => item.asset);
+        case WLCarouselAssetQueryTypes.TVOD:
+          if (!sessionToken) return [];
+          return await this.get<Asset[]>({
+            url: contentUrl,
+            headers: {
+              Authorization: `Bearer ${sessionToken}`
+            }
+          });
+        case WLCarouselAssetQueryTypes.EVENT:
+          return (await this.get<EventList>({ url: contentUrl })).items?.map(event => event.asset) || [];
+        case WLCarouselAssetQueryTypes.ASSET:
+          return (await this.get<AssetList>({ url: contentUrl })).items;
+        default:
+          console.warn("trying to resolve unsupported carousel");
+          return [];
+      }
+    } catch (err) {
+      console.error("failed when resolving assets", carousel, err);
+      return [];
     }
   }
 
