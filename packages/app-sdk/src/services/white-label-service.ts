@@ -37,7 +37,7 @@ interface WhiteLabelServiceContext extends ServiceContext {
   getAuthToken: () => Promise<string | undefined>;
 }
 export class WhiteLabelService {
-  constructor(public context: WhiteLabelServiceContext) {}
+  constructor(private context: WhiteLabelServiceContext) {}
 
   public async get<T>({ url, query, headers }: WhiteLabelServiceGetMethodParams): Promise<T> {
     return request({ method: "GET", url, query, headers }).then(response => response.json());

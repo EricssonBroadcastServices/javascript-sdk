@@ -28,7 +28,7 @@ describe("WhiteLabelServices - push next content", () => {
   });
   it("gets some pnc data a program", async () => {
     const channelId = "89bff8fb_82162E";
-    const epg: ChannelEPGResponse = await getEpgForChannel.call(service.context, {
+    const epg: ChannelEPGResponse = await getEpgForChannel.call(service, {
       channelId,
       date: new Date(),
       daysForward: 0,
