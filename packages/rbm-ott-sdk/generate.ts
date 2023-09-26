@@ -171,7 +171,8 @@ spec.components.schemas.Asset.required = ["assetId", "audioTracks", "changed", "
 spec.components.schemas.Program.required = ["endTime", "startTime"];
 spec.components.schemas.StoreAppStoreReference.required = ["productId"];
 spec.components.schemas.StoreGooglePlayReference.required = ["skuId"];
-
+spec.components.schemas.ChannelEPGResponse.required = ["programs", "channelId", "totalHitsAllChannels"]
+spec.components.schemas.ProgramResponse.required = ["asset", "assetId", "endTime", "startTime", "programId"];
 
 /* Fix types */
 spec.components.schemas.PaymentProvider = {"type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"]};

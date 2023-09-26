@@ -390,10 +390,10 @@ export interface ChannelAsset {
 }
 
 export interface ChannelEPGResponse {
-  channelId?: string;
-  programs?: ProgramResponse[];
+  channelId: string;
+  programs: ProgramResponse[];
   /** This is the total number of hits for all channels, not only this. */
-  totalHitsAllChannels?: number;
+  totalHitsAllChannels: number;
 }
 
 export interface ChannelStatus {
@@ -1394,9 +1394,9 @@ export interface ProgramListEntryResponse {
 }
 
 export interface ProgramResponse {
-  asset?: Asset;
+  asset: Asset;
   /** The id of the asset this program is for. */
-  assetId?: string;
+  assetId: string;
   /**
    * If this program is currently published as blackout. This means any publication contains blackout, not global
    * blackout;
@@ -1412,10 +1412,10 @@ export interface ProgramResponse {
   channelId?: string;
   /** The date the program was created. */
   created?: string;
-  endTime?: string;
+  endTime: string;
   /** The id of the program. */
-  programId?: string;
-  startTime?: string;
+  programId: string;
+  startTime: string;
   /** If this asset is currently available as VOD. */
   vodAvailable?: boolean;
 }
