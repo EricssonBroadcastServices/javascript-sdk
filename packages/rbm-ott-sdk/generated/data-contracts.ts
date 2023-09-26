@@ -1422,16 +1422,16 @@ export interface ProgramResponse {
 
 export interface Publication {
   availabilityKeys?: string[];
-  countries?: string[];
+  countries: string[];
   customData?: JsonNode;
   devices?: DeviceRights[];
-  fromDate?: string;
-  products?: string[];
-  publicationDate?: string;
-  publicationId?: string;
+  fromDate: string;
+  products: string[];
+  publicationDate: string;
+  publicationId: string;
   rights?: AssetRights;
   services?: string[];
-  toDate?: string;
+  toDate: string;
 }
 
 export interface PublicationResponse {
@@ -1462,7 +1462,7 @@ export interface RecommendedAssets {
 }
 
 export interface RecommendedWatchNext {
-  items?: Asset[];
+  items: Asset[];
 }
 
 export type Result = Record<"type" | "value", string>;
