@@ -182,7 +182,15 @@ export class WhiteLabelService {
     return this.get({ url: `/api/internal/translations/${locale}` });
   }
 
-  public async getPushNextContentData(assetId: string): Promise<PushNextContent> {
+  public async getPushNextContentData({
+    assetId,
+    pushNextProgram = false
+  }: {
+    /** The id of the asset */
+    assetId: string;
+    /** whether or not upNext should be populated by the next upcoming program, if avail */
+    pushNextProgram?: boolean;
+  }): Promise<PushNextContent> {
     let upNextAsset: Asset | undefined;
     let recommendations: Asset[] = [];
     try {
@@ -208,12 +216,7 @@ export class WhiteLabelService {
        * If there is nothing to PUSH, but a following program in the EPG - we push for it on Mobile
        * ---> Due to the lack of recommendation screen <---
        */
-      // TODO: remove when the mobile applications implements recommendations
-      if (
-        !upNextAsset &&
-        ([DeviceGroup.MOBILE, DeviceGroup.TABLET] as DeviceGroup[]).includes(this.context.deviceGroup) &&
-        nextProgram.asset
-      ) {
+      if (!upNextAsset && pushNextProgram && nextProgram.asset) {
         upNextAsset = nextProgram.asset || undefined;
       }
     } catch (err) {}

@@ -16,13 +16,13 @@ const service = new WhiteLabelService({
 describe("WhiteLabelServices - push next content", () => {
   it("gets some pnc data for a regular vod", async () => {
     const cosmosLaudromatId = "9086ffab-377f-4e2f-84dc-a597e6a2e8a8_82162E";
-    const pushNextContentData = await service.getPushNextContentData(cosmosLaudromatId);
+    const pushNextContentData = await service.getPushNextContentData({ assetId: cosmosLaudromatId });
     expect(pushNextContentData.recommendations.length).toBe(3);
     expect(pushNextContentData.upNext).toBeUndefined();
   });
   it("gets some pnc data for an episode", async () => {
     const sportFiskarnaPike = "380c6993-bc66-49f3-a28d-646669357bdb_82162E";
-    const pushNextContentData = await service.getPushNextContentData(sportFiskarnaPike);
+    const pushNextContentData = await service.getPushNextContentData({ assetId: sportFiskarnaPike });
     expect(pushNextContentData.recommendations.length).toBe(3);
     expect(pushNextContentData.upNext).toEqual(expect.objectContaining({ assetId: expect.any(String) }));
   });
@@ -35,7 +35,10 @@ describe("WhiteLabelServices - push next content", () => {
       daysBackward: 0
     });
     const programAssetId = epg.programs[0].assetId as string;
-    const pushNextContentData = await service.getPushNextContentData(programAssetId);
+    const pushNextContentData = await service.getPushNextContentData({
+      assetId: programAssetId,
+      pushNextProgram: true
+    });
     expect(pushNextContentData.recommendations.length).toBe(3);
     expect(pushNextContentData.upNext).toEqual(expect.objectContaining({ assetId: expect.any(String) }));
     expect(pushNextContentData.recommendations[0]).toEqual(pushNextContentData.upNext);
