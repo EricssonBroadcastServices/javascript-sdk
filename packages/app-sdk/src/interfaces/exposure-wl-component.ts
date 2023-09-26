@@ -2,20 +2,27 @@ import { IExposureWLAction } from "./exposure-wl-action";
 import { IExposureWLPresentation } from "./exposure-wl-presentation";
 
 export const WLCarouselAssetQueryTypes = {
+  // used for carousels
   ASSET: "AssetQuery",
   EPG: "ChannelEpg",
   EVENT: "LiveEvents",
-  RELATED: "Related",
-  OTHERS_HAVE_WATCHED: "OthersHaveWatched",
   RECOMMENDED: "Recommended",
   RECENTLY_WATCHED: "RecentlyWatched",
   CONTINUE_WATCHING: "ContinueWatching",
   TVOD: "Tvod",
   FAVORITES: "Favourites",
+
+  // used for epg component
   FULL_EPG: "Epg",
+
+  // used for tag feed components.
   TAG_FEED_URL: "ApiTagFeedUrl",
-  TRAILERS: "Trailers",
-  TAG_TYPE: "TagType"
+
+  // used for categories component exclusivly
+  TAG_TYPE: "TagType",
+
+  // SingleAsset is not currently used
+  SINGLE_ASSET: "SingleAsset"
 } as const;
 export type WLCarouselAssetQueryTypes = typeof WLCarouselAssetQueryTypes[keyof typeof WLCarouselAssetQueryTypes];
 
@@ -72,6 +79,7 @@ interface IContentUrl {
 export interface IExposureWLCarousel extends IExposureComponent {
   contentUrl?: IContentUrl;
   contentPreferencesUrl?: {
+    type: "ApiTagFeedUrl";
     url: string;
     fields: string[];
   };

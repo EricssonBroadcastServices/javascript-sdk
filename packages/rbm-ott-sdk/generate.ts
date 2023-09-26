@@ -174,6 +174,9 @@ spec.components.schemas.StoreGooglePlayReference.required = ["skuId"];
 spec.components.schemas.Publication.required = ["toDate", "publicationId", "publicationDate", "products", "fromDate", "countries"];
 spec.components.schemas.ChannelEPGResponse.required = ["channelId", "programs", "totalHitsAllChannels"]
 spec.components.schemas.RecommendedWatchNext.required = ["items"]
+spec.components.schemas.Event.required = ["asset", "assetId", "startTime", "endTime"];
+spec.components.schemas.AssetListItemResponse.required = ["asset", "assetId"];
+spec.components.schemas.ProgramResponse.required = ["asset", "assetId", "endTime", "startTime", "programId"];
 
 /* Fix types */
 spec.components.schemas.PaymentProvider = {"type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"]};
@@ -318,12 +321,6 @@ generateApi({
   sortTypes: true,
   sortRoutes: true,
   hooks: {
-    onInit(config) {
-      console.log(""); // Add line break before any logs from the template
-      // Must override hard coded base path which swagger-typescript-api uses for some templates
-      config.templatePaths.base = resolve(process.cwd(), "./templates/base");
-      return config;
-    },
     onFormatRouteName (routeInfo) {
       // allow duplicates for search (because we did before)
       if (["searchV2", "searchV3", "getSystemConfigV2"].includes(routeInfo.operationId)) {
