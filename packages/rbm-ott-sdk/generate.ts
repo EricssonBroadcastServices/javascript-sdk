@@ -171,9 +171,11 @@ spec.components.schemas.Asset.required = ["assetId", "audioTracks", "changed", "
 spec.components.schemas.Program.required = ["endTime", "startTime"];
 spec.components.schemas.StoreAppStoreReference.required = ["productId"];
 spec.components.schemas.StoreGooglePlayReference.required = ["skuId"];
+spec.components.schemas.Publication.required = ["toDate", "publicationId", "publicationDate", "products", "fromDate", "countries"];
+spec.components.schemas.ChannelEPGResponse.required = ["channelId", "programs", "totalHitsAllChannels"]
+spec.components.schemas.RecommendedWatchNext.required = ["items"]
 spec.components.schemas.Event.required = ["asset", "assetId", "startTime", "endTime"];
 spec.components.schemas.AssetListItemResponse.required = ["asset", "assetId"];
-spec.components.schemas.ChannelEPGResponse.required = ["programs", "channelId", "totalHitsAllChannels"]
 spec.components.schemas.ProgramResponse.required = ["asset", "assetId", "endTime", "startTime", "programId"];
 
 /* Fix types */
