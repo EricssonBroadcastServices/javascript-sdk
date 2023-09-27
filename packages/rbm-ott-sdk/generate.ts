@@ -76,6 +76,7 @@ function patchSpec(data: string): string {
     "canManagePayments",
     "canManagePurchases"
   ];
+  spec.components.schemas.ApiProduct.required = ["id", "name", "entitlementRequired", "blocked", "anonymousAllowed"]
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = { "type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"] };

@@ -1,6 +1,6 @@
-import { IProduct, IProductResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { Product } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
-export const mockProduct: IProduct = {
+export const mockProduct: Product = {
   blocked: false,
   entitlementRequired: true,
   id: "mockProductId",
@@ -8,12 +8,12 @@ export const mockProduct: IProduct = {
   anonymousAllowed: false
 };
 
-export const mockProductResponse: IProductResponse = {
+export const mockProductResponse = {
   entitled: [mockProduct],
   notEntitled: []
 };
 
-export const mockProductBlocked: IProduct = {
+export const mockProductBlocked: Product = {
   blocked: true,
   entitlementRequired: true,
   id: "blockedProduct",
@@ -21,7 +21,7 @@ export const mockProductBlocked: IProduct = {
   anonymousAllowed: false
 };
 
-export const mockProductAnonymous: IProduct = {
+export const mockProductAnonymous: Product = {
   blocked: false,
   entitlementRequired: false,
   id: "mockProductAnonymous",

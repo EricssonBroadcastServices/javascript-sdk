@@ -1298,16 +1298,16 @@ export interface PreferencesListResponse {
 }
 
 export interface Product {
-  anonymousAllowed?: boolean;
-  blocked?: boolean;
+  anonymousAllowed: boolean;
+  blocked: boolean;
   businessUnit?: string;
   changed?: string;
   customer?: string;
   description?: string;
-  entitlementRequired?: boolean;
+  entitlementRequired: boolean;
   hasAds?: boolean;
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
   priority?: number;
 }
 
