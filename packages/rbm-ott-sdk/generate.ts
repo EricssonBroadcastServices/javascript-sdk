@@ -37,6 +37,9 @@ function patchSpec(data: string): string {
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Map\"/g, '"description": "A key value object", "type" : "object"');
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
 
+  // Override duplicate asset schemas/interfaces that in turn duplicate the whole type tree
+  data = data.replaceAll(/#\/components\/schemas\/(UPHAsset|AssetResponse|ContinueWatchingAsset)/g, `${SCHEMA_PREFIX}Asset`);
+
   const spec = JSON.parse(data);
 
   /* Mark properties as non-optional */
@@ -94,6 +97,7 @@ function patchSpec(data: string): string {
   spec.components.schemas.EntitlementStatus = makeSchemafromProp(spec.components.schemas.ApiIsEntitledResponse.properties.status);
   spec.components.schemas.ProductOfferingPurchaseStatus = makeSchemafromProp(spec.components.schemas.ApiProductOfferingPurchase.properties.status);
   spec.components.schemas.MediaFormatType = makeSchemafromProp(spec.components.schemas.MediaFormat.properties.format);
+
   return JSON.stringify(spec);
 }
 
