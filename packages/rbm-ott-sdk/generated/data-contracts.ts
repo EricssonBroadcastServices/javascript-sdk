@@ -1138,11 +1138,11 @@ export interface PaymentMethods {
 }
 
 export const PaymentProvider = {
-  Stripe: "stripe",
-  Googleplay: "googleplay",
   Appstore: "appstore",
+  Deny: "deny",
   External: "external",
-  Deny: "deny"
+  Googleplay: "googleplay",
+  Stripe: "stripe"
 } as const;
 export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider];
 
