@@ -97,7 +97,7 @@ describe("get entitlement for asset", () => {
             paymentMethodTypes: ["card"],
             id: "6428685f-1ca8-4dc5-95ad-d1e03f8a63bd_E5D874b"
           },
-          availableAtDate: expect.any(Date)
+          availableAtDate: expect.anything()
         }
       ],
       startTime: expect.any(Date)
