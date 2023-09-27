@@ -36,7 +36,7 @@ import {
 import { IExposureWLFooter, IExposureWLMenu } from "../interfaces/exposure-wl-menu";
 import { PushNextContent } from "../interfaces/push-next-content";
 import { PublicationHelpers } from "../utils/publication";
-import { EntitlementStatus, IEntitlementStatusResult } from "../interfaces/entitlement-result";
+import { EntitlementStatus, EntitlementStatusResult } from "../interfaces/entitlement-result";
 import { errorToEntitlementResult } from "../utils/entitlement";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
@@ -178,7 +178,7 @@ export class WhiteLabelService {
     asset: Asset;
     availableProductOfferings: StoreProductOffering[];
     paymentProvider?: PaymentProvider;
-  }): Promise<IEntitlementStatusResult> {
+  }): Promise<EntitlementStatusResult> {
     return await entitle
       .call(this.context, {
         assetId: asset.assetId,

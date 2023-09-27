@@ -1,4 +1,4 @@
-import { EntitlementActionType, IEntitlementActions } from "../interfaces/entitlement-result";
+import { EntitlementActionType, EntitlementActions } from "../interfaces/entitlement-result";
 import { shouldJustWait } from "./entitlement";
 
 describe("should just wait", () => {
@@ -6,7 +6,7 @@ describe("should just wait", () => {
     expect(shouldJustWait([])).toBe(false);
   });
   it("should return true if only wait", () => {
-    const actions: IEntitlementActions[] = [
+    const actions: EntitlementActions[] = [
       {
         type: EntitlementActionType.WAIT,
         publication: { availableAt: new Date(Date.now() + 1000).toISOString(), publicationId: "123" }
@@ -15,7 +15,7 @@ describe("should just wait", () => {
     expect(shouldJustWait(actions)).toBe(true);
   });
   it("should return false when user can buy", () => {
-    const actions: IEntitlementActions[] = [
+    const actions: EntitlementActions[] = [
       {
         type: EntitlementActionType.WAIT,
         publication: { availableAt: new Date(Date.now() + 1000).toISOString(), publicationId: "123" }
@@ -27,7 +27,7 @@ describe("should just wait", () => {
     expect(shouldJustWait(actions)).toBe(false);
   });
   it("should return true when wait date is before offering date", () => {
-    const actions: IEntitlementActions[] = [
+    const actions: EntitlementActions[] = [
       {
         type: EntitlementActionType.WAIT,
         publication: { availableAt: new Date(Date.now() + 1000).toISOString(), publicationId: "123" }
@@ -49,7 +49,7 @@ describe("should just wait", () => {
     expect(shouldJustWait(actions)).toBe(true);
   });
   it("should return false if buy watch now gives access prior to wait", () => {
-    const actions: IEntitlementActions[] = [
+    const actions: EntitlementActions[] = [
       {
         type: EntitlementActionType.WAIT,
         publication: { availableAt: new Date(Date.now() + 15000).toISOString(), publicationId: "123" }
@@ -71,7 +71,7 @@ describe("should just wait", () => {
     expect(shouldJustWait(actions)).toBe(false);
   });
   it("should return true if buy watch now gives access at the same time as wait", () => {
-    const actions: IEntitlementActions[] = [
+    const actions: EntitlementActions[] = [
       {
         type: EntitlementActionType.WAIT,
         publication: { availableAt: new Date(Date.now() + 2000).toISOString(), publicationId: "123" }

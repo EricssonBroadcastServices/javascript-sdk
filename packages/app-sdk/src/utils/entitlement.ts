@@ -1,19 +1,19 @@
 import { Asset, StoreProductOffering } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import {
-  IListOffering,
+  ListOffering,
   EntitlementStatus,
-  IEntitlementStatusResult,
-  IEntitlementError,
+  EntitlementStatusResult,
+  EntitlementError,
   EntitlementActionType,
-  IEntitlementActions
+  EntitlementActions
 } from "../interfaces/entitlement-result";
 import { AssetHelpers } from "./asset";
 
 function offeringToListOffering(
   productOffering: StoreProductOffering,
-  entitlementError: IEntitlementError,
+  entitlementError: EntitlementError,
   actionType: EntitlementActionType
-): IListOffering {
+): ListOffering {
   const action = entitlementError.actions?.find(a => a.type === actionType);
   const availableAtDate = action?.offerings?.find(o => o.offeringId === productOffering.id)?.publications[0]
     ?.availableAt;
@@ -24,7 +24,7 @@ function offeringToListOffering(
   };
 }
 
-export function shouldJustWait(actions?: IEntitlementActions[]): boolean {
+export function shouldJustWait(actions?: EntitlementActions[]): boolean {
   if (!actions || actions.length === 0) return false;
   if (actions.every(a => a.type === EntitlementActionType.WAIT)) return true;
   if (
@@ -47,7 +47,7 @@ export function shouldJustWait(actions?: IEntitlementActions[]): boolean {
   );
 }
 
-function getEntitlementStatus(entitlementStatusResult: IEntitlementStatusResult) {
+function getEntitlementStatus(entitlementStatusResult: EntitlementStatusResult) {
   if (entitlementStatusResult.isStreamLimitReached) {
     return EntitlementStatus.STREAM_LIMIT;
   }
@@ -73,12 +73,12 @@ function getEntitlementStatus(entitlementStatusResult: IEntitlementStatusResult)
 }
 
 export function errorToEntitlementResult(
-  entitlementError: IEntitlementError,
+  entitlementError: EntitlementError,
   asset: Asset,
   availableProductOfferings: StoreProductOffering[]
-): IEntitlementStatusResult {
+): EntitlementStatusResult {
   const startTime = AssetHelpers.getStartTime(asset) || null;
-  const entitlementResult: IEntitlementStatusResult = {
+  const entitlementResult: EntitlementStatusResult = {
     status: EntitlementStatus.UNKNOWN,
     isEntitled: false,
     isInFuture:

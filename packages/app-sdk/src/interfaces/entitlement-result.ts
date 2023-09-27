@@ -24,14 +24,14 @@ export const EntitlementCase = {
 } as const;
 export type EntitlementCase = typeof EntitlementCase[keyof typeof EntitlementCase];
 
-interface IPublicationReference {
+interface PublicationReference {
   availableAt: string;
   publicationId: string;
 }
 
-interface IEntitlementOfferingReference {
+interface EntitlementOfferingReference {
   offeringId: string;
-  publications: IPublicationReference[];
+  publications: PublicationReference[];
 }
 
 export const EntitlementActionType = {
@@ -50,19 +50,19 @@ export const EntitlementActionType = {
 } as const;
 export type EntitlementActionType = typeof EntitlementActionType[keyof typeof EntitlementActionType];
 
-export interface IEntitlementActions {
+export interface EntitlementActions {
   type: EntitlementActionType;
-  offerings?: IEntitlementOfferingReference[];
-  publication?: IPublicationReference;
+  offerings?: EntitlementOfferingReference[];
+  publication?: PublicationReference;
 }
 
-export interface IEntitlementError {
+export interface EntitlementError {
   httpCode: number;
   message: string;
-  actions?: IEntitlementActions[];
+  actions?: EntitlementActions[];
 }
 
-export interface IListOffering {
+export interface ListOffering {
   productOffering: StoreProductOffering;
   // include available at Date if available for offerings that is only applicable in the future.
   availableAtDate?: Date;
@@ -81,7 +81,7 @@ export const EntitlementStatus = {
 } as const;
 export type EntitlementStatus = typeof EntitlementStatus[keyof typeof EntitlementStatus];
 
-export interface IEntitlementStatusResult {
+export interface EntitlementStatusResult {
   // this combines all the booleans in IEntitlementStatusResult into a single enum
   status: EntitlementStatus;
 
@@ -95,9 +95,9 @@ export interface IEntitlementStatusResult {
   // if the user should just wait. This will be true if a wait actions is before or at the same time as any accessLater offering
   shouldJustWait: boolean;
 
-  entitlementError: IEntitlementError | null;
-  accessNow: IListOffering[];
-  accessLater: IListOffering[];
+  entitlementError: EntitlementError | null;
+  accessNow: ListOffering[];
+  accessLater: ListOffering[];
   // return a date if all the user has to do is wait
   startTime: null | Date;
 }
