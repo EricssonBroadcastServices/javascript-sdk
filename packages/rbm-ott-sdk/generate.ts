@@ -269,13 +269,24 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
   }
 }
 
-// Dirty way to check if there are references to the component schemas by stringifying the whole spec
-data = JSON.stringify(spec);
-const unusedComponents = Object.keys(spec.components.schemas).filter(name => !data.includes(`${SCHEMA_PREFIX}${name}`));
+const unusedComponents: string[] = [];
 
-for (let name of unusedComponents) {
-  delete spec.components.schemas[name];
-}
+// Removes unused components which would otherwise generate types/interfaces we don't need
+(function treeShakeSchemas() {
+  // stringify the whole spec so we can use simple string.includes() to check for references
+  const data = JSON.stringify(spec);
+  const currentUnusedComponents = Object.keys(spec.components.schemas).filter(name => !data.includes(`${SCHEMA_PREFIX}${name}`));
+  unusedComponents.push(...currentUnusedComponents);
+
+  for (let name of currentUnusedComponents) {
+    delete spec.components.schemas[name];
+  }
+  // If we found and removed unreferenced components, keep checking in case those
+  // components referenced other, now unreferenced components
+  if (currentUnusedComponents.length) {
+    treeShakeSchemas();
+  }
+})();
 
 if (Object.keys(unhandledComponentEnums).length) {
   console.log(`\n⚠️   TYPE enums which will be left declared inline and will not be deduplicated:`);

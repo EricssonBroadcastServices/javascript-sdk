@@ -36,7 +36,7 @@ function sanitizeParams(query: QueryParams = {}): Record<string, string> {
 }
 
 function defaultErrorFactory(response: Response) {
-  return new Error(`HTTP Error: ${response.statusText} (${response.status})`);
+  return Object.assign(new Error(`HTTP Error: ${response.statusText} (${response.status})`), { response });
 }
 
 export async function request({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<Response> {
