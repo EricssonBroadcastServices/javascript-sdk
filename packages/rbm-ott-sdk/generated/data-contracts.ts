@@ -1951,10 +1951,10 @@ export interface TagSearchList {
 
 export interface TagType {
   children?: TagType[];
-  localized?: LocalizedTag[];
+  localized: LocalizedTag[];
   parents?: string[];
-  scheme?: string;
-  tagId?: string;
+  scheme: string;
+  tagId: string;
 }
 
 export interface TagValues {
@@ -2061,15 +2061,15 @@ export interface UserAssetPlayHistory {
 
 export interface UserAttributeResponse {
   /** id of the attribute */
-  attributeId?: string;
+  attributeId: string;
   defaultValue?: object;
   /** If type = "enum": The enums value set */
   enums?: UserAttributesEnumValue[];
   /** Localized titles and descriptions */
-  localized?: UserAttributesLocalizedMetadata[];
+  localized: UserAttributesLocalizedMetadata[];
   range?: UserAttributesRange;
   /** If true user must provide value */
-  requiredAtSignup?: boolean;
+  requiredAtSignup: boolean;
   /**
    * Name of type
    * "boolean":  value range null/undefined, false, true,
@@ -2078,10 +2078,10 @@ export interface UserAttributeResponse {
    * "integer": integer number e.g 1
    * "real": Real/decimal number e.g 1.1
    */
-  type?: string;
+  type: string;
   value?: object;
   /** If true the attribute has been set, potentially with a null/undefined value, in which case the default value is used */
-  valueSet?: boolean;
+  valueSet: boolean;
 }
 
 export interface UserAttributesEnumValue {
@@ -2103,28 +2103,28 @@ export type UserAttributesRange = Record<"max" | "min", object>;
 
 export interface UserCapabilities {
   /** True if user name is not equal to the user's email address and the user may change the email address. */
-  canChangeEmail?: boolean;
+  canChangeEmail: boolean;
   /** True if the user can change password here. */
-  canChangePassword?: boolean;
+  canChangePassword: boolean;
   /** True if user name equals the user's email address and the user may change this; password required */
-  canChangeUserNameAndEmail?: boolean;
+  canChangeUserNameAndEmail: boolean;
   /** True if user can manage user profiles and cancel account */
-  canManageAccount?: boolean;
+  canManageAccount: boolean;
   /** True if user can manage devices */
-  canManageDevices?: boolean;
+  canManageDevices: boolean;
   /** True if user can manage payment methods, such as credit cards */
-  canManagePayments?: boolean;
+  canManagePayments: boolean;
   /** True if user can manage purchase, such as adding and cancelling subscriptions */
-  canManagePurchases?: boolean;
+  canManagePurchases: boolean;
 }
 
 export interface UserDetailsResponse {
   /** Potentially empty list of attributes */
-  attributes?: UserAttributeResponse[];
-  capabilities?: UserCapabilities;
+  attributes: UserAttributeResponse[];
+  capabilities: UserCapabilities;
   /** If true the user is a child */
-  child?: boolean;
-  defaultLanguage?: string;
+  child: boolean;
+  defaultLanguage: string;
   /** Name used e.g. as email display name, null if not changed */
   displayName?: string;
   /** email address if available */
@@ -2136,7 +2136,7 @@ export interface UserDetailsResponse {
   /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
   profileType?: string;
   /** username */
-  username?: string;
+  username: string;
 }
 
 export interface UserPreferenceResponse {

@@ -64,6 +64,18 @@ function patchSpec(data: string): string {
     "salesStart"
   ];
   spec.components.schemas.ApiStoreProductOfferingPrice.required = ["price"]
+  spec.components.schemas.ApiTagType.required = ["scheme", "tagId", "localized"]
+  spec.components.schemas.ApiUserDetailsResponse.required = ["username", "defaultLanguage", "child", "capabilities", "attributes"]
+  spec.components.schemas.ApiUserAttributeResponse.required = ["attributeId", "type", "requiredAtSignup", "valueSet", "localized"]
+  spec.components.schemas.ApiUserCapabilities.required = [
+    "canChangeEmail",
+    "canChangePassword",
+    "canChangeUserNameAndEmail",
+    "canManageAccount",
+    "canManageDevices",
+    "canManagePayments",
+    "canManagePurchases"
+  ];
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = { "type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"] };
