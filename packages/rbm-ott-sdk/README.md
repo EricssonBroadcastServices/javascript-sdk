@@ -92,6 +92,8 @@ const context = {
 };
 ```
 
+If you only need to get access to the Response object when you catch the error, then the error thrown by the default error handler has a `response` property where you can do that.
+
 ## Fetching partial data
 
 Some of our endpoint have the query parameters `fieldSet`, `excludeFields` and `includeFields` for requesting partial data (smaller responses).

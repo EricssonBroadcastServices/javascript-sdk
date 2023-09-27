@@ -199,7 +199,7 @@ export async function loginAnonymous({
 }
 
 /**
- * @summary EXPERIMENTAL Performs a login using a Firebase access token.
+ * @summary Performs a login using a Firebase access token.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/firebaseLogin
  * @response `200` `LoginResponse` success
  * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
@@ -303,6 +303,38 @@ export async function loginOauth({
     ctx,
     body: _data
   }).then(response => response.json() as Promise<void>);
+}
+
+/**
+ * @summary EXPERIMENTAL Performs a login using an OpenIdConnect JWT.
+ * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oidcLogin
+ * @response `200` `LoginResponse` success
+ * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
+ * @response `403` `void` INFORMATION_COLLECTION_CONSENT_MISSING. The user is required to give consent to collect NOT_CONFIGURED. The OU is not configured to use OpenIdConnect.
+ * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
+ * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
+ */
+export async function loginOpenIdConnect({
+  headers,
+  ..._data
+}: {
+  /** JWT. */
+  jwt: string;
+  device: DeviceRegistration;
+  /** The user's preferred language. Only used if first login when creating the user */
+  language?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "POST",
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oidcLogin`,
+    headers,
+    ctx,
+    body: _data
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
@@ -447,6 +479,7 @@ export class AuthenticationService {
   loginFirebase = loginFirebase;
   loginGigya = loginGigya;
   loginOauth = loginOauth;
+  loginOpenIdConnect = loginOpenIdConnect;
   loginPrimetime = loginPrimetime;
   logout = logout;
   session = session;
