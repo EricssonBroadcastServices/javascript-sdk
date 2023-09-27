@@ -1,4 +1,5 @@
 import { Translations } from "./wl-translations";
+import { englishTranslations } from "../../test-utils/mock-translations";
 
 const mockTranslations = new Translations({
   ...englishTranslations,

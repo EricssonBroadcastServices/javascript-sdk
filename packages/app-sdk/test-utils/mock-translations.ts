@@ -1,4 +1,4 @@
-const englishTranslations = {
+export const englishTranslations = {
   PLAY: "Watch now",
   NOT_FOUND: "Not found",
   NOT_ENTITLED: "You are not entitled to watch this content",

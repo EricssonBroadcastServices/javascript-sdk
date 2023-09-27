@@ -1619,11 +1619,11 @@ export interface StorePrice {
 /** Price after any discount */
 export interface StorePriceTag {
   /** The amount in minor units of the currency. e.g. 10 EUR is 1000, while 100 JPY is 100 */
-  amount?: number;
+  amount: number;
   /** ISO 4217 Currency Code */
-  currency?: string;
+  currency: string;
   /** Number of fraction digits of the currency as specified by ISO 4217, e.g. for EUR 2 and for JPY 0 */
-  fractionDigits?: number;
+  fractionDigits: number;
 }
 
 export interface StoreProduct {
@@ -1649,18 +1649,18 @@ export interface StoreProductOffering {
    * Product Offering Id
    * @deprecated
    */
-  id?: string;
-  localizedMetadata?: StoreLocalizedMetaData[];
-  offeringPrice?: StoreProductOfferingPrice;
+  id: string;
+  localizedMetadata: StoreLocalizedMetaData[];
+  offeringPrice: StoreProductOfferingPrice;
   /** If present, this is a list of stripe payment method types that are allowed with this offering */
-  paymentMethodTypes?: string[];
-  productIds?: string[];
+  paymentMethodTypes: string[];
+  productIds: string[];
   /** Product Offering Id */
-  productOfferingId?: string;
+  productOfferingId: string;
   /** Type of offering: purchase, rental, event, subscription */
-  productOfferingType?: string;
+  productOfferingType: string;
   /** if true, purchase of single asset. The assetId must be provided in the purchase */
-  productRequiresSelectAsset?: boolean | null;
+  productRequiresSelectAsset: boolean | null;
   /** Recurrence interval, ISO 8601 Duration */
   recurrence?: string | null;
   /** Rental expiry window, ISO 8601 Duration */
@@ -1705,7 +1705,7 @@ export interface StoreProductOfferingPrice {
    */
   countryCode?: string;
   /** Price after any discount */
-  price?: StorePriceTag;
+  price: StorePriceTag;
   vat?: StoreVat;
 }
 

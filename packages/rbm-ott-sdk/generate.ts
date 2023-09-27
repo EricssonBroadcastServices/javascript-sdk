@@ -177,6 +177,19 @@ spec.components.schemas.RecommendedWatchNext.required = ["items"]
 spec.components.schemas.Event.required = ["asset", "assetId", "startTime", "endTime"];
 spec.components.schemas.AssetListItemResponse.required = ["asset", "assetId"];
 spec.components.schemas.ProgramResponse.required = ["asset", "assetId", "endTime", "startTime", "programId"];
+spec.components.schemas.StorePriceTag.required = ["fractionDigits", "currency", "amount"];
+spec.components.schemas.StoreProductOffering.required = [
+  "productOfferingId",
+  "id",
+  "localizedMetadata",
+  "productRequiresSelectAsset",
+  "productOfferingType",
+  "productIds",
+  "offeringPrice",
+  "paymentMethodTypes",
+  "salesStart"
+];
+spec.components.schemas.StoreProductOfferingPrice.required = ["price"]
 
 /* Fix types */
 spec.components.schemas.PaymentProvider = {"type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"]};
