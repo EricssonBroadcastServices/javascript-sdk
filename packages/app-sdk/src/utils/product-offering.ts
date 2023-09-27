@@ -52,14 +52,20 @@ export function getProductOfferingRentalLengthDescription(
   return "";
 }
 
-function getProductOfferingPriceWithVATString(offeringPrice: StoreProductOfferingPrice, translations: Translations) {
+export function getProductOfferingPriceWithVATString(
+  offeringPrice: StoreProductOfferingPrice,
+  translations: Translations
+) {
   if (!offeringPrice.vat) return PriceHelpers.getPriceStringWithCurrency(offeringPrice.price);
   const vatString =
     offeringPrice.vat.percentage === 0 ? "" : ` - ${getProductOfferingPricelessVATString(offeringPrice, translations)}`;
   return PriceHelpers.getPriceStringWithCurrency(offeringPrice.price) + vatString;
 }
 
-function getProductOfferingPricelessVATString(offeringPrice: StoreProductOfferingPrice, translations: Translations) {
+export function getProductOfferingPricelessVATString(
+  offeringPrice: StoreProductOfferingPrice,
+  translations: Translations
+) {
   if (!offeringPrice.vat) return "";
   const vatString =
     offeringPrice.vat.percentage === 0
