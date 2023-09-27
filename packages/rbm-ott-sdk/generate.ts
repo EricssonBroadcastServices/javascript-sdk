@@ -86,10 +86,6 @@ data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"
 
 let spec = JSON.parse(data);
 
-// Delete the info and servers spec
-delete spec.info;
-delete spec.servers;
-
 /**
  * Process components.schemas
  */
