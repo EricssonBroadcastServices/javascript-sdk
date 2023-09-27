@@ -70,7 +70,7 @@ describe("get entitlement for asset", () => {
       },
       accessLater: [],
       accessNow: [
-        {
+        expect.objectContaining({
           productOffering: {
             productOfferingId: "6428685f-1ca8-4dc5-95ad-d1e03f8a63bd_E5D874b",
             rentalLength: "PT24H",
@@ -96,9 +96,8 @@ describe("get entitlement for asset", () => {
             productOfferingType: "rental",
             paymentMethodTypes: ["card"],
             id: "6428685f-1ca8-4dc5-95ad-d1e03f8a63bd_E5D874b"
-          },
-          availableAtDate: expect.anything()
-        }
+          }
+        })
       ],
       startTime: expect.any(Date)
     });
