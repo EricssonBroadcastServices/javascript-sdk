@@ -45,7 +45,6 @@ const FILE_PREFIX = `/* eslint-disable */
 const tagNameCasingTable: Record<string, string> = {
   "clientconfig": "clientConfig",
   "customerconfig": "customerConfig",
-  "eventsink": "eventSink",
   "userplayhistory": "userPlayHistory",
 }
 
@@ -210,10 +209,6 @@ delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/sign
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/signup/password/{token}"].put;
 // duplicate,experimantal and marked as unused
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get
-
-// unsure, but I don't think we use these?
-delete spec.paths["/eventsink/init"];
-delete spec.paths["/eventsink/send"];
 
 // doesn't specify any return type schema, and doesn't seem to work anyway (always returns "Unknown error" 500)
 delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get;
