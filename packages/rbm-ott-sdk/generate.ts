@@ -54,6 +54,9 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiEvent.required = ["asset", "assetId", "startTime", "endTime"];
   spec.components.schemas.ApiAssetListItemResponse.required = ["asset", "assetId"];
   spec.components.schemas.ApiProgramResponse.required = ["asset", "assetId", "endTime", "startTime", "programId"];
+  spec.components.schemas.ApiTagList.required = ["items", "pageSize", "pageNumber", "totalCount"];
+  spec.components.schemas.ApiTagType.required = ["tagId", "scheme", "localized"];
+
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = { "type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"] };
