@@ -11,7 +11,7 @@ const service = new WhiteLabelService({
 });
 
 describe("WhiteLabelServices", () => {
-  it("gets an epg component", async () => {
+  it("gets content for a categories component", async () => {
     const categoriesComponent = await service.getComponentById<IExposureWLCategoriesComponent>({
       componentId: "860d45cf-a6fe-43e5-9702-2f2a6bd48f58",
       countryCode: "SE"
