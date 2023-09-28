@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAsset } from "./useAsset";
-import { getEventProgress, getTimeLeft } from "../util/programProgress";
+import { getEventProgress, getTimeLeft } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useBookmarkPercentage } from "./useBookmarks";
 import { useTranslations } from "./useTranslations";
 
