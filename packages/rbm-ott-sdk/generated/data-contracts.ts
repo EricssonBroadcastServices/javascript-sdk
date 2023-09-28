@@ -1774,10 +1774,10 @@ export interface Tag {
 }
 
 export interface TagList {
-  items?: TagType[];
-  pageNumber?: number;
-  pageSize?: number;
-  totalCount?: number;
+  items: TagType[];
+  pageNumber: number;
+  pageSize: number;
+  totalCount: number;
 }
 
 export interface TagResponse {
@@ -1802,10 +1802,10 @@ export interface TagSearchList {
 
 export interface TagType {
   children?: TagType[];
-  localized?: LocalizedTag[];
+  localized: LocalizedTag[];
   parents?: string[];
-  scheme?: string;
-  tagId?: string;
+  scheme: string;
+  tagId: string;
 }
 
 export interface TagValues {

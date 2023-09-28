@@ -21,7 +21,8 @@ import {
   AssetListItemResponse,
   EventList,
   getList,
-  ProgramResponse
+  ProgramResponse,
+  TagList
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
 import { IExposureWLConfig } from "../interfaces/exposure-wl-config";
@@ -29,6 +30,7 @@ import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
 import {
   IExposureComponent,
   IExposureWLCarousel,
+  IExposureWLCategoriesComponent,
   IExpoureWLEpgComponent,
   WLCarouselAssetQueryTypes
 } from "../interfaces/exposure-wl-component";
@@ -247,6 +249,11 @@ export class WhiteLabelService {
       console.error("failed when resolving assets", carousel, err);
       return [];
     }
+  }
+
+  public async getCategoriesContent(categoriesComponent: IExposureWLCategoriesComponent) {
+    const contentUrl = new URL(categoriesComponent.contentUrl.url, this.context.baseUrl);
+    return await this.get<TagList>({ url: contentUrl });
   }
 
   public async getEpgContent(epgComponent: IExpoureWLEpgComponent): Promise<
