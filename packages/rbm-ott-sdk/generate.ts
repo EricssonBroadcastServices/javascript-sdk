@@ -37,6 +37,9 @@ function patchSpec(data: string): string {
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Map\"/g, '"description": "A key value object", "type" : "object"');
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
 
+  // Override duplicate asset schemas/interfaces that in turn duplicate the whole type tree
+  data = data.replaceAll(/#\/components\/schemas\/(UPHAsset|AssetResponse|ContinueWatchingAsset)/g, `${SCHEMA_PREFIX}Asset`);
+
   const spec = JSON.parse(data);
 
   /* Mark properties as non-optional */
@@ -64,7 +67,6 @@ function patchSpec(data: string): string {
     "salesStart"
   ];
   spec.components.schemas.ApiStoreProductOfferingPrice.required = ["price"]
-  spec.components.schemas.ApiTagType.required = ["scheme", "tagId", "localized"]
   spec.components.schemas.ApiUserDetailsResponse.required = ["username", "defaultLanguage", "child", "capabilities", "attributes"]
   spec.components.schemas.ApiUserAttributeResponse.required = ["attributeId", "type", "requiredAtSignup", "valueSet", "localized"]
   spec.components.schemas.ApiUserCapabilities.required = [
@@ -77,6 +79,9 @@ function patchSpec(data: string): string {
     "canManagePurchases"
   ];
   spec.components.schemas.ApiProduct.required = ["id", "name", "entitlementRequired", "blocked", "anonymousAllowed"]
+  spec.components.schemas.ApiTagList.required = ["items", "pageSize", "pageNumber", "totalCount"];
+  spec.components.schemas.ApiTagType.required = ["tagId", "scheme", "localized"];
+
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = { "type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"] };
@@ -120,6 +125,7 @@ function patchSpec(data: string): string {
   spec.components.schemas.EntitlementStatus = makeSchemafromProp(spec.components.schemas.ApiIsEntitledResponse.properties.status);
   spec.components.schemas.ProductOfferingPurchaseStatus = makeSchemafromProp(spec.components.schemas.ApiProductOfferingPurchase.properties.status);
   spec.components.schemas.MediaFormatType = makeSchemafromProp(spec.components.schemas.MediaFormat.properties.format);
+
   return JSON.stringify(spec);
 }
 
