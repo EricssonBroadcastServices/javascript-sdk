@@ -22,6 +22,7 @@ import {
   EventList,
   getList,
   ProgramResponse,
+  StoreProductOffering,
   TagList
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
@@ -37,6 +38,8 @@ import {
 import { IExposureWLFooter, IExposureWLMenu } from "../interfaces/exposure-wl-menu";
 import { PushNextContent } from "../interfaces/push-next-content";
 import { PublicationHelpers } from "../utils/publication";
+import { EntitlementStatus, EntitlementStatusResult } from "../interfaces/entitlement-result";
+import { errorToEntitlementResult } from "../utils/entitlement";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -143,7 +146,7 @@ export class WhiteLabelService {
     ).json() as Promise<IExposureWLConfig>;
   }
 
-  public getAssetById(assetId: string) {
+  public getAssetById(assetId: string): Promise<Asset> {
     return getAsset.call(this, { assetId, includeEpisodes: true, includeSeasons: true });
   }
 
@@ -169,12 +172,39 @@ export class WhiteLabelService {
     ).items;
   }
 
-  public async getEntitlementForAsset({ asset, paymentProvider }: { asset: Asset; paymentProvider?: PaymentProvider }) {
-    return await entitle.call(this.context, {
-      assetId: asset.assetId,
-      paymentProvider,
-      headers: { Authorization: `Bearer ${this.context.getAuthToken()}` }
-    });
+  public async getEntitlementForAsset({
+    asset,
+    paymentProvider,
+    availableProductOfferings
+  }: {
+    asset: Asset;
+    availableProductOfferings: StoreProductOffering[];
+    paymentProvider?: PaymentProvider;
+  }): Promise<EntitlementStatusResult> {
+    return await entitle
+      .call(this.context, {
+        assetId: asset.assetId,
+        paymentProvider,
+        headers: { Authorization: `Bearer ${await this.context.getAuthToken()}` }
+      })
+      .then(() => {
+        return {
+          status: EntitlementStatus.ENTITLED,
+          isEntitled: true,
+          accessLater: [],
+          accessNow: [],
+          isInFuture: false,
+          startTime: null,
+          isGeoBlocked: false,
+          isStreamLimitReached: false,
+          entitlementError: null,
+          loginToWatchForFree: false,
+          shouldJustWait: false
+        };
+      })
+      .catch(async err => {
+        return errorToEntitlementResult(await (err.response as Response).json(), asset, availableProductOfferings);
+      });
   }
 
   public async getTagList(listId: string) {

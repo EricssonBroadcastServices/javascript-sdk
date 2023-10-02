@@ -1209,16 +1209,16 @@ export interface PreferencesListResponse {
 }
 
 export interface Product {
-  anonymousAllowed?: boolean;
-  blocked?: boolean;
+  anonymousAllowed: boolean;
+  blocked: boolean;
   businessUnit?: string;
   changed?: string;
   customer?: string;
   description?: string;
-  entitlementRequired?: boolean;
+  entitlementRequired: boolean;
   hasAds?: boolean;
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
   priority?: number;
 }
 
@@ -1470,11 +1470,11 @@ export interface StorePrice {
 /** Price after any discount */
 export interface StorePriceTag {
   /** The amount in minor units of the currency. e.g. 10 EUR is 1000, while 100 JPY is 100 */
-  amount?: number;
+  amount: number;
   /** ISO 4217 Currency Code */
-  currency?: string;
+  currency: string;
   /** Number of fraction digits of the currency as specified by ISO 4217, e.g. for EUR 2 and for JPY 0 */
-  fractionDigits?: number;
+  fractionDigits: number;
 }
 
 export interface StoreProduct {
@@ -1500,18 +1500,18 @@ export interface StoreProductOffering {
    * Product Offering Id
    * @deprecated
    */
-  id?: string;
-  localizedMetadata?: StoreLocalizedMetaData[];
-  offeringPrice?: StoreProductOfferingPrice;
+  id: string;
+  localizedMetadata: StoreLocalizedMetaData[];
+  offeringPrice: StoreProductOfferingPrice;
   /** If present, this is a list of stripe payment method types that are allowed with this offering */
-  paymentMethodTypes?: string[];
-  productIds?: string[];
+  paymentMethodTypes: string[];
+  productIds: string[];
   /** Product Offering Id */
-  productOfferingId?: string;
+  productOfferingId: string;
   /** Type of offering: purchase, rental, event, subscription */
-  productOfferingType?: string;
+  productOfferingType: string;
   /** if true, purchase of single asset. The assetId must be provided in the purchase */
-  productRequiresSelectAsset?: boolean | null;
+  productRequiresSelectAsset: boolean | null;
   /** Recurrence interval, ISO 8601 Duration */
   recurrence?: string | null;
   /** Rental expiry window, ISO 8601 Duration */
@@ -1556,7 +1556,7 @@ export interface StoreProductOfferingPrice {
    */
   countryCode?: string;
   /** Price after any discount */
-  price?: StorePriceTag;
+  price: StorePriceTag;
   vat?: StoreVat;
 }
 
@@ -1869,15 +1869,15 @@ export interface UserAssetPlayHistory {
 
 export interface UserAttributeResponse {
   /** id of the attribute */
-  attributeId?: string;
+  attributeId: string;
   defaultValue?: object;
   /** If type = "enum": The enums value set */
   enums?: UserAttributesEnumValue[];
   /** Localized titles and descriptions */
-  localized?: UserAttributesLocalizedMetadata[];
+  localized: UserAttributesLocalizedMetadata[];
   range?: UserAttributesRange;
   /** If true user must provide value */
-  requiredAtSignup?: boolean;
+  requiredAtSignup: boolean;
   /**
    * Name of type
    * "boolean":  value range null/undefined, false, true,
@@ -1886,10 +1886,10 @@ export interface UserAttributeResponse {
    * "integer": integer number e.g 1
    * "real": Real/decimal number e.g 1.1
    */
-  type?: string;
+  type: string;
   value?: object;
   /** If true the attribute has been set, potentially with a null/undefined value, in which case the default value is used */
-  valueSet?: boolean;
+  valueSet: boolean;
 }
 
 export interface UserAttributesEnumValue {
@@ -1911,28 +1911,28 @@ export type UserAttributesRange = Record<"max" | "min", object>;
 
 export interface UserCapabilities {
   /** True if user name is not equal to the user's email address and the user may change the email address. */
-  canChangeEmail?: boolean;
+  canChangeEmail: boolean;
   /** True if the user can change password here. */
-  canChangePassword?: boolean;
+  canChangePassword: boolean;
   /** True if user name equals the user's email address and the user may change this; password required */
-  canChangeUserNameAndEmail?: boolean;
+  canChangeUserNameAndEmail: boolean;
   /** True if user can manage user profiles and cancel account */
-  canManageAccount?: boolean;
+  canManageAccount: boolean;
   /** True if user can manage devices */
-  canManageDevices?: boolean;
+  canManageDevices: boolean;
   /** True if user can manage payment methods, such as credit cards */
-  canManagePayments?: boolean;
+  canManagePayments: boolean;
   /** True if user can manage purchase, such as adding and cancelling subscriptions */
-  canManagePurchases?: boolean;
+  canManagePurchases: boolean;
 }
 
 export interface UserDetailsResponse {
   /** Potentially empty list of attributes */
-  attributes?: UserAttributeResponse[];
-  capabilities?: UserCapabilities;
+  attributes: UserAttributeResponse[];
+  capabilities: UserCapabilities;
   /** If true the user is a child */
-  child?: boolean;
-  defaultLanguage?: string;
+  child: boolean;
+  defaultLanguage: string;
   /** Name used e.g. as email display name, null if not changed */
   displayName?: string;
   /** email address if available */
@@ -1944,7 +1944,7 @@ export interface UserDetailsResponse {
   /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
   profileType?: string;
   /** username */
-  username?: string;
+  username: string;
 }
 
 export interface UserPreferenceResponse {

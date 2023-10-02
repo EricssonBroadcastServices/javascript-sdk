@@ -54,6 +54,31 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiEvent.required = ["asset", "assetId", "startTime", "endTime"];
   spec.components.schemas.ApiAssetListItemResponse.required = ["asset", "assetId"];
   spec.components.schemas.ApiProgramResponse.required = ["asset", "assetId", "endTime", "startTime", "programId"];
+  spec.components.schemas.ApiStorePriceTag.required = ["fractionDigits", "currency", "amount"];
+  spec.components.schemas.ApiStoreProductOffering.required = [
+    "productOfferingId",
+    "id",
+    "localizedMetadata",
+    "productRequiresSelectAsset",
+    "productOfferingType",
+    "productIds",
+    "offeringPrice",
+    "paymentMethodTypes",
+    "salesStart"
+  ];
+  spec.components.schemas.ApiStoreProductOfferingPrice.required = ["price"]
+  spec.components.schemas.ApiUserDetailsResponse.required = ["username", "defaultLanguage", "child", "capabilities", "attributes"]
+  spec.components.schemas.ApiUserAttributeResponse.required = ["attributeId", "type", "requiredAtSignup", "valueSet", "localized"]
+  spec.components.schemas.ApiUserCapabilities.required = [
+    "canChangeEmail",
+    "canChangePassword",
+    "canChangeUserNameAndEmail",
+    "canManageAccount",
+    "canManageDevices",
+    "canManagePayments",
+    "canManagePurchases"
+  ];
+  spec.components.schemas.ApiProduct.required = ["id", "name", "entitlementRequired", "blocked", "anonymousAllowed"]
   spec.components.schemas.ApiTagList.required = ["items", "pageSize", "pageNumber", "totalCount"];
   spec.components.schemas.ApiTagType.required = ["tagId", "scheme", "localized"];
 
