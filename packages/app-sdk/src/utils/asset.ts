@@ -6,6 +6,16 @@ export function getTitleFromAsset(asset: Asset, locale: string) {
   return asset.localized.find(l => l.locale === locale)?.title || "";
 }
 
+export function getAssetEndtime(asset: Asset): Date | null {
+  if (asset.event && asset.event.endTime) {
+    return new Date(asset.event.endTime);
+  }
+  if (asset.programs && asset.programs.length === 1) {
+    return new Date(asset.programs[0].endTime);
+  }
+  return null;
+}
+
 export function getAssetStartTime(asset: Asset): Date | null {
   if (asset.event && asset.event.startTime) {
     return new Date(asset.event.startTime);
@@ -35,5 +45,6 @@ export function getAssetStartTime(asset: Asset): Date | null {
 
 export const AssetHelpers = {
   getTitle: getTitleFromAsset,
-  getStartTime: getAssetStartTime
+  getStartTime: getAssetStartTime,
+  getEndTime: getAssetEndtime
 };
