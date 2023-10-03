@@ -11,11 +11,11 @@ export function getShortDescriptionFromAsset(asset: Asset, locale: string, defau
 }
 
 export function getMediumDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
-  return getLocalizedValue<"description">(asset.localized, "description", locale, defaultLocale);
+  return getLocalizedValue(asset.localized, "description", locale, defaultLocale);
 }
 
 export function getLongDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
-  return getLocalizedValue<"longDescription">(asset.localized, "longDescription", locale, defaultLocale);
+  return getLocalizedValue(asset.localized, "longDescription", locale, defaultLocale);
 }
 
 export function getLocalizedAssetImage(
