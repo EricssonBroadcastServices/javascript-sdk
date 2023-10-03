@@ -2,7 +2,7 @@ import { DeviceGroup } from "../interfaces/device-group";
 import { WhiteLabelService } from "./white-label-service";
 
 function expectIsAssetList(assets: any[]) {
-  assets.forEach(asset => {
+  assets.forEach(({ asset }) => {
     expect(asset).toEqual(
       expect.objectContaining({
         assetId: expect.any(String),

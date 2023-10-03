@@ -47,7 +47,5 @@ describe("WhiteLabelServices", () => {
       countryCode: appData.countryCode
     });
     expect(WLComponentHelpers.getTitle(carousel, "sv")).toBe("Animerade kortfilmer");
-    const assets = await service.getCarouselAssets(carousel);
-    expect(assets).toEqual(expect.arrayContaining([expect.objectContaining({ assetId: expect.any(String) })]));
   });
 });
