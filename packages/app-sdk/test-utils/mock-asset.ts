@@ -15,7 +15,13 @@ export const mockAsset: Asset = {
       value: "b93fcf4b-ddb2-41af-bd6f-7bdb24e92c5c"
     }
   ],
-  linkedEntities: [],
+  linkedEntities: [
+    {
+      entityId: "6d84994b-504a-4b1c-ba60-a401ef0c81d9_82162E",
+      entityType: "ASSET",
+      linkType: "TRAILER"
+    }
+  ],
   live: false,
   localized: [
     {

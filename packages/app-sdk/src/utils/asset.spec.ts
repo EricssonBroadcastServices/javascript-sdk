@@ -1,3 +1,4 @@
+import { MarkerPoint } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { mockAsset, mockAssetEmptyLocalized } from "../../test-utils/mock-asset";
 import { AssetHelpers } from "./asset";
 
@@ -38,6 +39,19 @@ describe("AssetHelpers", () => {
     // it default to any LANDSCAPE image when the type is non-existent
     expect(AssetHelpers.getLocalizedImage(mockAsset, "LANDSCAPE", "nonexsistenttype", "en")?.url).toBe(
       "enLandscapeImage.jpg"
+    );
+  });
+  it("finds a trailer assetId", () => {
+    expect(AssetHelpers.getTrailerAssetId(mockAsset)).toBe("6d84994b-504a-4b1c-ba60-a401ef0c81d9_82162E");
+  });
+  it("gets a push next cuepoint", () => {
+    expect(AssetHelpers.getPushNextCuePoint(mockAsset)).toBe(mockAsset.duration - 15_000);
+    const testCredit: MarkerPoint = {
+      type: "CREDITS",
+      offset: mockAsset.duration - 60_000
+    };
+    expect(AssetHelpers.getPushNextCuePoint({ ...mockAsset, markerPoints: [testCredit] })).toBe(
+      mockAsset.duration - 60_000
     );
   });
 });
