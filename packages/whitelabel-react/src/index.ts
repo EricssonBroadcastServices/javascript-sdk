@@ -15,7 +15,7 @@ export { useProductOfferings, refetchProductOfferings } from "./hooks/useProduct
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";
 export { useAsset } from "./hooks/useAsset";
 export { useAddAssetToFavorites, useRemoveAssetFromFavorites, useHandleAssetFavorites } from "./hooks/useFavorites";
-export { useBookmarks, useBookmarkPercentage } from "./hooks/useBookmarks";
+export { useBookmarks, useBookmarkPercentage, refetchBookmarks } from "./hooks/useBookmarks";
 export { useChannelPicker } from "./hooks/useChannelPicker";
 export type { IStorage } from "./types/storage";
 export { usePage, useResolvedPage, PageType } from "./hooks/usePage";
