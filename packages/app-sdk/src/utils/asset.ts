@@ -1,9 +1,31 @@
-import { Asset } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { Asset, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { PublicationHelpers } from "./publication";
+import { getLocalizedImageByType, getLocalizedValue } from "./localization";
 
-export function getTitleFromAsset(asset: Asset, locale: string) {
-  // TODO: decide how to handle fallbacks
-  return asset.localized.find(l => l.locale === locale)?.title || "";
+export function getTitleFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
+  return getLocalizedValue(asset.localized, "title", locale, defaultLocale);
+}
+
+export function getShortDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
+  return getLocalizedValue(asset.localized, "shortDescription", locale, defaultLocale);
+}
+
+export function getMediumDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
+  return getLocalizedValue<"description">(asset.localized, "description", locale, defaultLocale);
+}
+
+export function getLongDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
+  return getLocalizedValue<"longDescription">(asset.localized, "longDescription", locale, defaultLocale);
+}
+
+export function getLocalizedAssetImage(
+  asset: Asset,
+  imageOrientation: ImageOrientation,
+  imageType: string,
+  locale: string,
+  defaultLocale?: string
+) {
+  return getLocalizedImageByType(asset.localized, imageOrientation, imageType, locale, defaultLocale);
 }
 
 export function getAssetEndtime(asset: Asset): Date | null {
@@ -45,6 +67,10 @@ export function getAssetStartTime(asset: Asset): Date | null {
 
 export const AssetHelpers = {
   getTitle: getTitleFromAsset,
+  getMediumDescription: getMediumDescriptionFromAsset,
+  getShortDescription: getShortDescriptionFromAsset,
+  getLongDescription: getLongDescriptionFromAsset,
   getStartTime: getAssetStartTime,
-  getEndTime: getAssetEndtime
+  getEndTime: getAssetEndtime,
+  getLocalizedImage: getLocalizedAssetImage
 };
