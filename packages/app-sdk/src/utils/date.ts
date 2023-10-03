@@ -31,9 +31,8 @@ export function getLocalDateFormat(date: Date, locale?: string) {
   return new Intl.DateTimeFormat(locale).format(date);
 }
 
-function dateIntervalIsNow(startTime: Date, endTime: Date) {
-  const now = new Date();
-  if (endTime > now && startTime <= now) {
+function dateIntervalIsNow(startTime: Date, endTime: Date, now = Date.now()) {
+  if (endTime.getTime() > now && startTime.getTime() <= now) {
     return true;
   }
   return false;
@@ -43,7 +42,7 @@ export function getIndexOfLiveOrClosestUpcomingDateInterval<T extends { startTim
   dateIntervals: T,
   now = Date.now()
 ): number {
-  const isLive = dateIntervals.find(({ startTime, endTime }) => dateIntervalIsNow(startTime, endTime));
+  const isLive = dateIntervals.find(({ startTime, endTime }) => dateIntervalIsNow(startTime, endTime, now));
   if (isLive) {
     return dateIntervals.indexOf(isLive) || 0;
   }
@@ -52,5 +51,5 @@ export function getIndexOfLiveOrClosestUpcomingDateInterval<T extends { startTim
     .sort((a, b) => {
       return a.startTime.getTime() - now - (b.startTime.getTime() - now);
     });
-  return dateIntervals.indexOf(closest[0]) || 0;
+  return dateIntervals.indexOf(closest[0]) > 0 ? dateIntervals.indexOf(closest[0]) : 0;
 }

@@ -105,3 +105,31 @@ export const mockImageComponent: IExposureWLImageComponent = {
     assetSearchTypes: "MOVIE,TV_SHOW,EPISODE,TV_CHANNEL,LIVE_EVENT,EVENT"
   }
 };
+
+export const mockEpgCarousel: IExposureWLCarousel = {
+  id: "1de25d1f-e64f-4d2c-bd40-5a7dff28c53e",
+  created: "2023-09-21T19:02:37.488Z",
+  changed: "2023-09-21T19:02:37.488Z",
+  name: "svtepg",
+  appType: "carousel",
+  appSubType: "Epg",
+  presentation: {
+    fallback: {
+      title: "SVT"
+    },
+    localized: {
+      en: {
+        title: "SVT"
+      }
+    }
+  },
+  actions: {},
+  contentUrl: {
+    type: "ChannelEpg",
+    url: "/v2/customer/BSCU/businessunit/BSBU/epg/89bff8fb_82162E/date/2023-10-03?daysBackward=0&daysForward=0&pageSize=1000",
+    authorized: false
+  },
+  parameters: {
+    assetSearchTypes: "MOVIE,TV_SHOW,EPISODE,TV_CHANNEL,LIVE_EVENT,EVENT"
+  }
+};
