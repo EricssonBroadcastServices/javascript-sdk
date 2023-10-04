@@ -24,8 +24,6 @@ export function getLocalizedValue<Key extends keyof Localized>(
   return localeItem[property] ? (localeItem[property] as Localized[Key]) : undefined;
 }
 
-getLocalizedValue<"images">([], "images", "en");
-
 function sortByResolution(a: Image, b: Image) {
   return b.width - a.width;
 }
