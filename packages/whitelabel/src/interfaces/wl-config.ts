@@ -136,6 +136,7 @@ export interface IWLConfig {
   logo?: string;
   favicon?: string;
   backgroundImage?: string;
+  staticBackgroundImage?: string;
   systemConfig: IWLSystemConfig;
   parameters: IParameters;
   theme: IWLTheme;
