@@ -40,6 +40,7 @@ import { PushNextContent } from "../interfaces/push-next-content";
 import { PublicationHelpers } from "../utils/publication";
 import { EntitlementStatus, EntitlementStatusResult } from "../interfaces/entitlement-result";
 import { errorToEntitlementResult } from "../utils/entitlement";
+import { CarouselItem } from "../interfaces/carousel-item";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -214,9 +215,7 @@ export class WhiteLabelService {
     });
   }
 
-  public async getCarouselAssets(
-    carousel: IExposureWLCarousel
-  ): Promise<{ asset: Asset; startTime?: string; endTime?: string }[]> {
+  public async getCarouselAssets(carousel: IExposureWLCarousel): Promise<CarouselItem[]> {
     const sessionToken = await this.context.getAuthToken();
     if (carousel.appSubType === "TagFeedQuery") {
       if (!carousel.contentPreferencesUrl?.url) return [];
