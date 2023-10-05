@@ -100,6 +100,8 @@ export class WLConfig implements IWLConfig {
   @jsonProperty()
   public backgroundImage?: string;
   @jsonProperty()
+  public staticBackgroundImage?: string;
+  @jsonProperty()
   public systemConfig: IWLSystemConfig;
   @jsonProperty()
   public theme: IWLTheme;
