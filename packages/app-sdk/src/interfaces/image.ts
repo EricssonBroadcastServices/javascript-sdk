@@ -13,8 +13,8 @@ export type ImageType = typeof ImageType[keyof typeof ImageType];
 export interface IImage {
   url: string;
   type?: ImageType;
-  orientation: ImageOrientation;
-  height: number;
-  width: number;
+  orientation?: ImageOrientation;
+  height?: number;
+  width?: number;
   tags?: string[];
 }

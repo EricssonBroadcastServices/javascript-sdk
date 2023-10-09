@@ -40,6 +40,7 @@ import { PushNextContent } from "../interfaces/push-next-content";
 import { PublicationHelpers } from "../utils/publication";
 import { EntitlementStatus, EntitlementStatusResult } from "../interfaces/entitlement-result";
 import { errorToEntitlementResult } from "../utils/entitlement";
+import { CarouselItem } from "../interfaces/carousel-item";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -214,7 +215,7 @@ export class WhiteLabelService {
     });
   }
 
-  public async getCarouselAssets(carousel: IExposureWLCarousel): Promise<Asset[]> {
+  public async getCarouselAssets(carousel: IExposureWLCarousel): Promise<CarouselItem[]> {
     const sessionToken = await this.context.getAuthToken();
     if (carousel.appSubType === "TagFeedQuery") {
       if (!carousel.contentPreferencesUrl?.url) return [];
@@ -229,7 +230,9 @@ export class WhiteLabelService {
       carousel.contentPreferencesUrl?.fields.forEach(urlVariable => {
         url.searchParams.set(urlVariable, userTagList[`${urlVariable}`]);
       });
-      return (await this.get<AssetList>({ url: url.toString() })).items;
+      return (await this.get<AssetList>({ url: url.toString() })).items.map(asset => ({
+        asset
+      }));
     }
     if (!carousel.contentUrl?.url) return [];
     const contentUrl = new URL(carousel.contentUrl.url, this.context.baseUrl);
@@ -246,9 +249,13 @@ export class WhiteLabelService {
                 Authorization: `Bearer ${sessionToken}`
               }
             })
-          ).items;
+          ).items.map(asset => ({ asset }));
         case WLCarouselAssetQueryTypes.EPG:
-          return (await this.get<ChannelEPGResponse>({ url: contentUrl })).programs?.map(p => p.asset) || [];
+          return (
+            (await this.get<ChannelEPGResponse>({ url: contentUrl })).programs?.map(
+              ({ asset, startTime, endTime }) => ({ asset, startTime, endTime })
+            ) || []
+          );
         case WLCarouselAssetQueryTypes.FAVORITES:
           if (!sessionToken) return [];
           return (
@@ -258,19 +265,27 @@ export class WhiteLabelService {
                 Authorization: `Bearer ${sessionToken}`
               }
             })
-          ).map(item => item.asset);
+          ).map(({ asset }) => ({ asset }));
         case WLCarouselAssetQueryTypes.TVOD:
           if (!sessionToken) return [];
-          return await this.get<Asset[]>({
-            url: contentUrl,
-            headers: {
-              Authorization: `Bearer ${sessionToken}`
-            }
-          });
+          return (
+            await this.get<Asset[]>({
+              url: contentUrl,
+              headers: {
+                Authorization: `Bearer ${sessionToken}`
+              }
+            })
+          ).map(asset => ({ asset }));
         case WLCarouselAssetQueryTypes.EVENT:
-          return (await this.get<EventList>({ url: contentUrl })).items?.map(event => event.asset) || [];
+          return (
+            (await this.get<EventList>({ url: contentUrl })).items?.map(({ asset, startTime, endTime }) => ({
+              asset,
+              startTime,
+              endTime
+            })) || []
+          );
         case WLCarouselAssetQueryTypes.ASSET:
-          return (await this.get<AssetList>({ url: contentUrl })).items;
+          return (await this.get<AssetList>({ url: contentUrl })).items.map(asset => ({ asset }));
         default:
           console.warn("trying to resolve unsupported carousel");
           return [];

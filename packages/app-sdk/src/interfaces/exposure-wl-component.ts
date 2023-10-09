@@ -50,9 +50,11 @@ export const WLComponentType = {
 export type WLComponentType = typeof WLComponentType[keyof typeof WLComponentType];
 
 export const WLComponentSubType = {
+  EPG: "Epg",
   TAG_FEED_QUERY: "TagFeedQuery",
   FAVORITES: "Favourites",
-  CONTINUE_WATCHING: "ContinueWatching"
+  CONTINUE_WATCHING: "ContinueWatching",
+  TAGS_QUERY: "TagsQuery"
 } as const;
 export type WLComponentSubType = typeof WLComponentSubType[keyof typeof WLComponentSubType];
 
@@ -68,6 +70,8 @@ export interface IExposureComponent {
   parameters?: IExposureComponentParameters;
   created?: string;
   changed?: string;
+  name?: string;
+  actions?: { default?: IExposureWLAction };
 }
 
 interface IContentUrl {
@@ -99,9 +103,6 @@ export interface IExposureWLHerobannerItem {
 }
 
 export interface IExposureWLHerobanner extends IExposureComponent {
-  actions: {
-    default?: IExposureWLAction;
-  };
   components: {
     heroBannerItems?: IExposureWLHerobannerItem[];
   };
@@ -111,8 +112,4 @@ export interface IExpoureWLEpgComponent extends IExposureComponent {
   contentUrl: IContentUrl;
 }
 
-export interface IExposureWLImageComponent extends IExposureComponent {
-  actions: {
-    default?: IExposureWLAction;
-  };
-}
+export type IExposureWLImageComponent = IExposureComponent;

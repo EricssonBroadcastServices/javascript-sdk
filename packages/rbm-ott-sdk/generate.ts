@@ -81,7 +81,11 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiProduct.required = ["id", "name", "entitlementRequired", "blocked", "anonymousAllowed"]
   spec.components.schemas.ApiTagList.required = ["items", "pageSize", "pageNumber", "totalCount"];
   spec.components.schemas.ApiTagType.required = ["tagId", "scheme", "localized"];
+  spec.components.schemas.ApiImage.required = ["orientation", "url", "width", "height"];
+  spec.components.schemas.ApiLocalizedData.required = ["locale"];
+  spec.components.schemas.ApiLocalizedTag.required = ["locale"];
 
+  
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = { "type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"] };
@@ -96,6 +100,7 @@ function patchSpec(data: string): string {
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"].get.operationId = "getOfferingPurchases" // getAccountPurchases2
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"].get.operationId = "getOfferingsByCountry" // getOfferings
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous" // anonymousSessionV2
+  
 
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch

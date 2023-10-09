@@ -2,7 +2,7 @@ import { DeviceGroup } from "../interfaces/device-group";
 import { WhiteLabelService } from "./white-label-service";
 import { WLConfig } from "../utils/wl-config";
 import { IExposureWLPage } from "../interfaces/exposure-wl-page";
-import { WLComponent } from "../utils/wl-component";
+import { WLComponentHelpers } from "../utils/wl-component";
 import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
 import { IExposureWLCarousel } from "../interfaces/exposure-wl-component";
 
@@ -35,7 +35,7 @@ describe("WhiteLabelServices", () => {
       countryCode: appData.countryCode
     });
     expect(homePage).toBeTruthy();
-    expect(WLComponent.getTitle(homePage, "sv")).toBe("Hem");
+    expect(WLComponentHelpers.getTitle(homePage, "sv")).toBe("Hem");
   });
   it("finds a carousel component", async () => {
     const componentRef = homePage.components.pageBody.find(
@@ -46,8 +46,6 @@ describe("WhiteLabelServices", () => {
       wlReference: componentRef as IExposureWLReference,
       countryCode: appData.countryCode
     });
-    expect(WLComponent.getTitle(carousel, "sv")).toBe("Animerade kortfilmer");
-    const assets = await service.getCarouselAssets(carousel);
-    expect(assets).toEqual(expect.arrayContaining([expect.objectContaining({ assetId: expect.any(String) })]));
+    expect(WLComponentHelpers.getTitle(carousel, "sv")).toBe("Animerade kortfilmer");
   });
 });

@@ -1,9 +1,42 @@
-import { Asset } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { Asset, AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { PublicationHelpers } from "./publication";
+import { getLocalizedImageByType, getLocalizedValue } from "./localization";
+import { getDurationLocalized } from "./time";
 
-export function getTitleFromAsset(asset: Asset, locale: string) {
-  // TODO: decide how to handle fallbacks
-  return asset.localized.find(l => l.locale === locale)?.title || "";
+export function getTitleFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
+  return getLocalizedValue(asset.localized, "title", locale, defaultLocale);
+}
+
+export function getShortDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
+  return getLocalizedValue(asset.localized, "shortDescription", locale, defaultLocale);
+}
+
+export function getMediumDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
+  return getLocalizedValue(asset.localized, "description", locale, defaultLocale);
+}
+
+export function getLongDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
+  return getLocalizedValue(asset.localized, "longDescription", locale, defaultLocale);
+}
+
+export function getLocalizedAssetImage(
+  asset: Asset,
+  imageOrientation: ImageOrientation,
+  imageType: string,
+  locale: string,
+  defaultLocale?: string
+) {
+  return getLocalizedImageByType(asset.localized, imageOrientation, imageType, locale, defaultLocale);
+}
+
+export function getAssetEndtime(asset: Asset): Date | null {
+  if (asset.event && asset.event.endTime) {
+    return new Date(asset.event.endTime);
+  }
+  if (asset.programs && asset.programs.length === 1) {
+    return new Date(asset.programs[0].endTime);
+  }
+  return null;
 }
 
 export function getAssetStartTime(asset: Asset): Date | null {
@@ -33,7 +66,59 @@ export function getAssetStartTime(asset: Asset): Date | null {
   return new Date(publicationsSortedAscending[0].fromDate);
 }
 
+function getAssetTrailerAssetId(asset: Asset) {
+  return (
+    // preferred trailer from linkedEnteties
+    asset.linkedEntities.find(ent => ent.linkType === "TRAILER")?.entityId ||
+    // legacy trailer from externalReferences
+    asset.externalReferences?.find(ref => ref.type && ref.type.toLowerCase() === "trailer")?.locator
+  );
+}
+
+function resolvePushNextCuePoint(asset: Asset, defaultOffset = 15_000): number | undefined {
+  const creditsMarker = asset.markerPoints?.find(markerPoint => markerPoint.type === "CREDITS");
+  if (creditsMarker?.offset) {
+    return creditsMarker.offset;
+  } else if (asset.duration && asset.duration > 60 * 1000 * 2) {
+    return asset.duration - defaultOffset;
+  } else if (asset.duration) {
+    return asset.duration;
+  }
+  return;
+}
+
+export function getPushNextCuePointForAsset(asset: Asset, useCatchupPNCFeature = false): number | undefined {
+  const isEpisode = !!asset.tvShowId && !!asset.episode;
+  const isCatchup = asset.programs && asset.programs.length > 0;
+  if (isEpisode || AssetType.MOVIE === asset.type) {
+    return resolvePushNextCuePoint(asset);
+  }
+  if (isCatchup && useCatchupPNCFeature) {
+    return resolvePushNextCuePoint(asset);
+  }
+  return;
+}
+
+/** Returns an asset slug for use in web urls if present. Defaults to assetId */
+export function getAssetIdentifier(asset: Asset) {
+  return asset.slugs?.length > 0 ? asset.slugs[0] : asset.assetId;
+}
+
+export function getAssetDurationString(asset: Asset, locale?: string) {
+  if (!asset.duration) return;
+  return getDurationLocalized(asset.duration, locale);
+}
+
 export const AssetHelpers = {
   getTitle: getTitleFromAsset,
-  getStartTime: getAssetStartTime
+  getMediumDescription: getMediumDescriptionFromAsset,
+  getShortDescription: getShortDescriptionFromAsset,
+  getLongDescription: getLongDescriptionFromAsset,
+  getStartTime: getAssetStartTime,
+  getEndTime: getAssetEndtime,
+  getLocalizedImage: getLocalizedAssetImage,
+  getTrailerAssetId: getAssetTrailerAssetId,
+  getPushNextCuePoint: getPushNextCuePointForAsset,
+  getIdentifier: getAssetIdentifier,
+  getDurationString: getAssetDurationString
 };

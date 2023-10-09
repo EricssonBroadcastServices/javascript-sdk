@@ -731,12 +731,12 @@ export interface GooglePlayPurchaseVerifyResponse {
 export type HtmlDocument = Record<"body" | "url", string>;
 
 export interface Image {
-  height?: number;
-  orientation?: ImageOrientation;
+  height: number;
+  orientation: ImageOrientation;
   priority?: number;
   type?: string;
-  url?: string;
-  width?: number;
+  url: string;
+  width: number;
 }
 
 export const ImageOrientation = {
@@ -845,7 +845,7 @@ export interface LocalizedData {
   description?: string;
   extendedDescription?: string;
   images?: Image[];
-  locale?: string;
+  locale: string;
   longDescription?: string;
   shortDescription?: string;
   sortingTitle?: string;
@@ -872,7 +872,7 @@ export type LocalizedPersonDataResponse = Record<"bio" | "locale", string>;
 export interface LocalizedTag {
   description?: string;
   images?: Image[];
-  locale?: string;
+  locale: string;
   title?: string;
 }
 
