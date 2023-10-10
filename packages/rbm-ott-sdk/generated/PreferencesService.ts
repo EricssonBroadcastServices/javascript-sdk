@@ -206,7 +206,7 @@ export async function getFromAssetList({
 /**
  * @summary Gets a list for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag
- * @response `200` `(PreferencesListResponse)[]` success
+ * @response `200` `PreferencesListResponse` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
  */
@@ -229,7 +229,7 @@ export async function getList({
     headers,
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<PreferencesListResponse[]>);
+  }).then(response => response.json() as Promise<PreferencesListResponse>);
 }
 
 /**

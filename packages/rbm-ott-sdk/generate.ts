@@ -42,6 +42,10 @@ function patchSpec(data: string): string {
 
   const spec = JSON.parse(data);
 
+  // Fix incorrect return types that shouldn't be arrays:
+  fixFalseListSchema(spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset"].get.responses["200"]);
+  fixFalseListSchema(spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.responses["200"]);
+
   /* Mark properties as non-optional */
   spec.components.schemas.ApiAssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
   spec.components.schemas.ApiAsset.required = ["assetId", "audioTracks", "changed", "collections", "created", "cuePoints", "customData", "duration", "externalReferences", "linkedEntities", "live", "localized", "markerPoints", "markers", "parentalRatings", "participants", "productionCountries", "publications", "slugs", "spokenLanguages", "subtitles", "tags", "type"];
@@ -149,6 +153,11 @@ function patchSpec(data: string): string {
 
 function makeSchemafromProp(prop: any & { enum: string, type: string }) {
   return { enum: prop.enum, type: prop.type };
+}
+
+function fixFalseListSchema(response: any) {
+  const responseTypeSpec = Object.values(response.content)[0] as any;
+  responseTypeSpec.schema = responseTypeSpec.schema.items;
 }
 
 function formatTypeName(name: string) {
