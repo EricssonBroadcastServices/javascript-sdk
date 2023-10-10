@@ -378,51 +378,7 @@ export interface ConsentManagement {
 }
 
 export interface ContinueUph2Assets {
-  items?: ContinueWatchingAsset[];
-}
-
-export interface ContinueWatchingAsset {
-  assetId?: string;
-  audioTracks?: string[];
-  changed?: string;
-  collections?: CollectionReference[];
-  created?: string;
-  customData?: JsonNode;
-  defaultAudioTrack?: string;
-  duration?: number;
-  episode?: string;
-  expires?: string;
-  externalReferences?: ExternalReferenceResponse[];
-  geoCountries?: string[];
-  linkedEntities?: LinkedEntityResponse[];
-  live?: boolean;
-  localized?: LocalizedDataResponse[];
-  markers?: Marker[];
-  materialType?: AssetMaterialType;
-  medias?: MediaResponse[];
-  originalTitle?: string;
-  originalTitleLanguage?: string;
-  parentalRatings?: ParentalRatingResponse[];
-  participants?: PersonResponse[];
-  /** A key value object */
-  popularityScores?: object;
-  productionCountries?: string[];
-  productionYear?: number;
-  publications?: Publication[];
-  rating?: number;
-  releaseDate?: string;
-  runtime?: number;
-  season?: string;
-  seasonId?: string;
-  seasons?: SeasonResponse[];
-  slugs?: string[];
-  spokenLanguages?: string[];
-  subtitles?: string[];
-  tags?: TagResponse[];
-  trackSizes?: TrackSizes;
-  tvShowId?: string;
-  type?: AssetType;
-  userData?: UserAssetData;
+  items?: Asset[];
 }
 
 export interface ContractRestrictions {
@@ -661,8 +617,6 @@ export interface ExternalPaymentConfig {
 
 export type ExternalReference = Record<"locator" | "type" | "value", string>;
 
-export type ExternalReferenceResponse = Record<"locator" | "type" | "value", string>;
-
 export type FairplayConfigurationResponse = Record<
   "certificateUrl" | "licenseAcquisitionUrl" | "secondaryMediaLocator",
   string
@@ -749,17 +703,6 @@ export const ImageOrientation = {
 } as const;
 export type ImageOrientation = (typeof ImageOrientation)[keyof typeof ImageOrientation];
 
-export interface ImageResponse {
-  caption?: string;
-  copyright?: string;
-  height?: number;
-  orientation?: ImageOrientation;
-  priority?: number;
-  type?: string;
-  url?: string;
-  width?: number;
-}
-
 export interface InitializePaymentResponse {
   /** If Stripe is enabled. */
   stripe?: StripePaymentMethodsAndPrice;
@@ -831,8 +774,6 @@ export interface LastViewedOffsetList {
 
 export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string>;
 
-export type LinkedEntityResponse = Record<"entityId" | "entityType" | "linkType", string>;
-
 /** Locale configuration */
 export interface LocaleConfig {
   /** Currencies */
@@ -855,21 +796,7 @@ export interface LocalizedData {
   title?: string;
 }
 
-export interface LocalizedDataResponse {
-  description?: string;
-  extendedDescription?: string;
-  images?: ImageResponse[];
-  locale?: string;
-  longDescription?: string;
-  shortDescription?: string;
-  sortingTitle?: string;
-  tinyDescription?: string;
-  title?: string;
-}
-
 export type LocalizedPersonData = Record<"bio" | "locale", string>;
-
-export type LocalizedPersonDataResponse = Record<"bio" | "locale", string>;
 
 export interface LocalizedTag {
   description?: string;
@@ -975,25 +902,6 @@ export const MediaFormatType = {
 } as const;
 export type MediaFormatType = (typeof MediaFormatType)[keyof typeof MediaFormatType];
 
-export interface MediaResponse {
-  bitrates?: number[];
-  changed?: string;
-  created?: string;
-  drm?: string;
-  duration?: number;
-  format?: string;
-  height?: number;
-  ingestionProfile?: string;
-  keyId?: string;
-  mediaId?: string;
-  mediaLocator?: string;
-  name?: string;
-  programId?: string;
-  status?: string;
-  subtitles?: SubtitleResponse[];
-  width?: number;
-}
-
 export interface Message {
   message?: string;
 }
@@ -1016,8 +924,6 @@ export interface ParentalRating {
   /** The rating scheme, for instance MPAA. */
   scheme?: string;
 }
-
-export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", string>;
 
 export interface Participant {
   dateOfBirth?: string;
@@ -1087,16 +993,6 @@ export interface Person {
   dateOfDeath?: string;
   function?: string;
   localized?: LocalizedPersonData[];
-  name?: string;
-  personId?: string;
-  role?: string;
-}
-
-export interface PersonResponse {
-  dateOfBirth?: string;
-  dateOfDeath?: string;
-  function?: string;
-  localizedPersonData?: LocalizedPersonDataResponse[];
   name?: string;
   personId?: string;
   role?: string;
@@ -1401,32 +1297,6 @@ export interface SeasonList {
   pageNumber?: number;
   pageSize?: number;
   totalCount?: number;
-}
-
-export interface SeasonResponse {
-  availableDate?: string;
-  changed?: string;
-  created?: string;
-  customData?: JsonNode;
-  endYear?: number;
-  episodeCount?: number;
-  episodes?: Asset[];
-  externalReferences?: ExternalReferenceResponse[];
-  linkedEntities?: LinkedEntityResponse[];
-  localizedData?: LocalizedDataResponse[];
-  originalTitle?: string;
-  originalTitleLanguage?: string;
-  parentalRatings?: ParentalRatingResponse[];
-  participants?: PersonResponse[];
-  productionCountries?: string[];
-  productionYear?: number;
-  publishedDate?: string;
-  season?: string;
-  seasonId?: string;
-  startYear?: number;
-  studio?: string;
-  tags?: TagResponse[];
-  tvShowId?: string;
 }
 
 /** Sentry configuaration */
@@ -1753,8 +1623,6 @@ export interface StripeWalletAndPrice {
   recurring?: boolean;
 }
 
-export type SubtitleResponse = Record<"language" | "location" | "name", string>;
-
 export interface SubtitleTrackInfo {
   fileSize?: number;
   language?: string;
@@ -1803,13 +1671,6 @@ export interface TagList {
   totalCount: number;
 }
 
-export interface TagResponse {
-  changed?: string;
-  created?: string;
-  tagValues?: TagValuesResponse[];
-  type?: string;
-}
-
 export interface TagSearch {
   highlightedTitle?: string;
   tag?: TagType;
@@ -1832,10 +1693,6 @@ export interface TagType {
 }
 
 export interface TagValues {
-  tagId?: string;
-}
-
-export interface TagValuesResponse {
   tagId?: string;
 }
 

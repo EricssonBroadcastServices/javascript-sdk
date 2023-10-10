@@ -38,7 +38,7 @@ function patchSpec(data: string): string {
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
 
   // Override duplicate asset schemas/interfaces that in turn duplicate the whole type tree
-  data = data.replaceAll(/#\/components\/schemas\/(UPHAsset|AssetResponse|ContinueWatchingAsset)/g, `${SCHEMA_PREFIX}Asset`);
+  data = data.replaceAll(/#\/components\/schemas\/(UPHAsset|AssetResponse|ApiContinueWatchingAsset)/g, `${SCHEMA_PREFIX}Asset`);
 
   const spec = JSON.parse(data);
 
