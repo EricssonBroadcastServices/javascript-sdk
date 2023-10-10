@@ -100,7 +100,12 @@ function patchSpec(data: string): string {
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"].get.operationId = "getOfferingPurchases" // getAccountPurchases2
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"].get.operationId = "getOfferingsByCountry" // getOfferings
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous" // anonymousSessionV2
-  
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].get.operationId = "getUserDetails" // userDetailsGetV2
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next"].get.operationId = "getNextProgramForAsset" // getNextProgramForAsset2
+
+  // Ignore problematic endpoints
+  delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get // name-clashes, duplicate,experimantal and unused
+  delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work?  (always returns "Unknown error" 500 and is void return type)
 
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch
@@ -113,8 +118,15 @@ function patchSpec(data: string): string {
   for (let methods of Object.values(spec.paths)) {
     for (let methodSpec of Object.values(methods || {})) {
       const firstTag = methodSpec.tags?.[0];
-      if (firstTag) { // fix casing
+      // fix camelCase the tag
+      if (firstTag) {
         methodSpec.tags[0] = tagNameToCamelCase[firstTag] || firstTag;
+      }
+      // replace invalid type "ref" with string
+      for (let { schema } of (methodSpec?.parameters || []) as any[]) {
+        if (schema?.type === "ref") {
+          schema.type = "string";
+        }
       }
     }
   }
@@ -237,7 +249,7 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
 
 
 /**
- * Process paths
+ * Delete some paths that should not be in the generated SDK
  */
 
 // delete the api docs and export endpoints
@@ -245,12 +257,6 @@ delete spec.paths["/docs/api-docs/{api}"];
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/asset"];
 // delete 307 redirect endpoint (cannot be used in an SDK)
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail"];
-
-// duplicate,experimantal and marked as unused
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get
-
-// doesn't specify any return type schema, and doesn't seem to work anyway (always returns "Unknown error" 500)
-delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get;
 
 
 const unhandledPathEnums = new Set<string>();
@@ -276,10 +282,6 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
       Object.assign(schemaContext, refSpec);
     }
     for (let { name, schema } of (methodSpec?.parameters || []) as any[]) {
-      // fix invalid type "ref"
-      if (schema?.type === "ref") {
-        schema.type = "string";
-      }
       // Deduplicate enums in path spec
       if (schema?.enum && schema.type === "string") {
         const dataStr = JSON.stringify(schema.enum.sort());
@@ -370,13 +372,8 @@ generateApi({
         return routeInfo.operationId
       }
 
-      // strip remaining "v1", "v2", "v3" and "_1" (mostly suffixes, but a couple of times in the middle of the names)
-      const cleanedId = routeInfo.operationId.replace(/[_vV]?\d/, "");
-
-      if (cleanedId.endsWith("Get")) { // Normalize Yoda names
-        return `get${cleanedId.charAt(0).toUpperCase()}${cleanedId.slice(1, -3)}`;
-      }
-      return cleanedId;
+      // strip remaining "v1", "v2", "v3" and (mostly suffixes, but a couple of times in the middle of the names)
+      return routeInfo.operationId.replace(/v?\d/i, "");
     },
     onPrepareConfig(apiConfig) {
       const dupes = [...apiConfig.config.routeNameDuplicatesMap].filter(([, val]) => Number(val) > 1);
