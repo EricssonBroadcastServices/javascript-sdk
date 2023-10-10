@@ -536,6 +536,7 @@ export interface DownloadInfoResponse {
   durationInMs?: number;
   maxDownloadCount?: number;
   productId?: string;
+  publicationEnd?: string;
   publicationId?: string;
   requestId?: string;
   subtitles?: Track[];
@@ -558,6 +559,7 @@ export interface DownloadResponse {
   playTokenExpiration?: number;
   playTokenExpirationReason?: string;
   productId?: string;
+  publicationEnd?: string;
   publicationId?: string;
   requestId?: string;
 }
@@ -998,6 +1000,7 @@ export interface Message {
 
 export interface MultiSearchResponse {
   assetHits?: SearchList;
+  participantHits?: ParticipantSearchList;
   tagHits?: TagSearchList;
 }
 
@@ -1015,6 +1018,26 @@ export interface ParentalRating {
 }
 
 export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", string>;
+
+export interface Participant {
+  dateOfBirth?: string;
+  dateOfDeath?: string;
+  localized?: LocalizedPersonData[];
+  name?: string;
+  participantId?: string;
+}
+
+export interface ParticipantSearchList {
+  items?: ParticipantsSearch[];
+  pageNumber?: number;
+  pageSize?: number;
+  suggestion?: string;
+  totalCount?: number;
+}
+
+export interface ParticipantsSearch {
+  participant?: Participant;
+}
 
 /** Password policy */
 export interface PasswordPolicy {
@@ -2002,6 +2025,11 @@ export interface UserSelfServiceCreateResponse {
    */
   unConfirmed?: boolean;
 }
+
+export type VerifiedResponse = Record<
+  "accountId" | "assetId" | "productId" | "publicationEnd" | "publicationId" | "requestId",
+  string
+>;
 
 export interface VideoTrack {
   bitrate?: number;

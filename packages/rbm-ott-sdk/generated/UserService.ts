@@ -255,8 +255,8 @@ export async function createActivationCode({
 }
 
 /**
- * @description Else if unConfirmed == false the user is logged in and session details are in the response.
- * @summary If unConfirmed == true, then the user will receive an email with a confirmation link.
+ * @description If unConfirmed == true, then the user will receive an email with a confirmation link. Else if unConfirmed == false the user is logged in and session details are in the response.
+ * @summary Signup to the service.
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/user/signup
  * @response `200` `UserSelfServiceCreateResponse` success
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved.
@@ -500,28 +500,6 @@ export async function getUserDetails({
 }
 
 /**
- * @description The user has given consent to collection of personal information.
- * @summary EXPERIMENTAL.
- * @request PUT:/v1/customer/{customer}/businessunit/{businessUnit}/user/consent
- * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
- */
-export async function giveConsent({
-  headers
-}: {
-  /** Optional headers */
-  headers?: HeadersInit;
-} = {}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "PUT",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`,
-    headers,
-    ctx
-  });
-}
-
-/**
  * @description Attributes NOT in the provided list will be untouched.
  * @summary Update provided user attributes.
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/attributes
@@ -601,7 +579,8 @@ export async function selectUserProfile({
 }
 
 /**
- * @summary Sets the users password using a token received at signup (without password) or password reset
+ * @description Sets the users password using a token received at signup (without password) or password reset
+ * @summary Set password.
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/signup/password/{token}
  * @response `404` `void` NOT_FOUND. If the token is not found or is expired.
  * @response `422` `void` BAD_PASSWORD. The password does not comply to the password policy.
@@ -835,7 +814,6 @@ export class UserService {
   getPinCodes = getPinCodes;
   getProfiles = getProfiles;
   getUserDetails = getUserDetails;
-  giveConsent = giveConsent;
   putUserAttributes = putUserAttributes;
   resetPassword = resetPassword;
   selectUserProfile = selectUserProfile;
