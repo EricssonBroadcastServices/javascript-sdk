@@ -34,8 +34,8 @@ export interface AccessConfig {
 
 export interface ActivationCodeResponse {
   /** 6 characters drawn from set 123456789ABCDEF */
-  code?: string;
-  expires?: string;
+  code: string;
+  expires: string;
 }
 
 export interface ActiveChannels {

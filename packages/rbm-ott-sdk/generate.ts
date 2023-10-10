@@ -84,7 +84,8 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiImage.required = ["orientation", "url", "width", "height"];
   spec.components.schemas.ApiLocalizedData.required = ["locale"];
   spec.components.schemas.ApiLocalizedTag.required = ["locale"];
-
+  spec.components.schemas.ApiActivationCodeResponse.required = ["code", "expires"];
+  
   
 
   /* Add and use payment provider enum type instead of string */
