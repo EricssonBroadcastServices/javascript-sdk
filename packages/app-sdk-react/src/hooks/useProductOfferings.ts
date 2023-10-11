@@ -1,4 +1,4 @@
-import { IProductOffering, TPaymentProvider } from "@ericssonbroadcastservices/exposure-sdk";
+import { IProductOffering } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
 import { useExposureApi } from "./useApi";
 import { useGeolocation } from "./useGeolocation";
@@ -9,11 +9,8 @@ import { useConsumedDiscounts, usePurchases } from "./usePurchases";
 
 const productOfferingsCacheTime = 1000 * 60 * 30;
 
-interface IUseProductOfferings {
-  paymentProvider?: TPaymentProvider;
-}
 
-export function useProductOfferings(options?: IUseProductOfferings): TApiHook<IProductOffering[]> {
+export function useProductOfferings(): TApiHook<IProductOffering[]> {
   const [purchaseResponse] = usePurchases();
   const { customer, businessUnit } = useRedBeeState();
   const [userLocation] = useGeolocation();
@@ -27,8 +24,7 @@ export function useProductOfferings(options?: IUseProductOfferings): TApiHook<IP
         return exposureApi.payment.getProductOfferingsByCountry({
           customer,
           businessUnit,
-          countryCode: userLocation.countryCode,
-          paymentProvider: options?.paymentProvider
+          countryCode: userLocation.countryCode
         });
       }
       return [];
