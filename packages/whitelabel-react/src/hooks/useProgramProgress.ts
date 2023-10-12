@@ -29,7 +29,12 @@ export function useGetTimeLeft({ percentageWatched, durationMs }: TimeLeftProps)
       minutes = `${time.minutes} ${translations?.getText(["DATES", "MINUTE"])}`;
     }
     if (hours || minutes) {
-      setTimeLeft(`${hours ? `${hours}, ` : ""}${minutes}`);
+      setTimeLeft(
+        `${hours ? `${hours}${minutes ? ", " : ""}` : ""}${minutes} ${translations?.getText([
+          "ASSETS",
+          "REMAINING"
+        ])}`.toLowerCase()
+      );
     }
   }, [durationMs, percentageWatched, translations]);
 
