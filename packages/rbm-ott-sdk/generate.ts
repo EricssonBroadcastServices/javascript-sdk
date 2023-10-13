@@ -46,6 +46,9 @@ function patchSpec(data: string): string {
   fixFalseListSchema(spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset"].get.responses["200"]);
   fixFalseListSchema(spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.responses["200"]);
 
+  // Add missing return type ApiLoginResponse for oauthLogin
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin"].post.responses.default.content["application/json"] = { "schema": { "$ref": "#/components/schemas/ApiLoginResponse" } };
+
   /* Mark properties as non-optional */
   spec.components.schemas.ApiAssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
   spec.components.schemas.ApiAsset.required = ["assetId", "audioTracks", "changed", "collections", "created", "cuePoints", "customData", "duration", "externalReferences", "linkedEntities", "live", "localized", "markerPoints", "markers", "parentalRatings", "participants", "productionCountries", "publications", "slugs", "spokenLanguages", "subtitles", "tags", "type"];

@@ -280,7 +280,7 @@ export async function loginGigya({
 
 /**
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin
- * @response `default` `void` success
+ * @response `default` `LoginResponse` success
  */
 export async function loginOauth({
   headers,
@@ -302,7 +302,7 @@ export async function loginOauth({
     headers,
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<void>);
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
