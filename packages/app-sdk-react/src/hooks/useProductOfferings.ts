@@ -5,13 +5,12 @@ import { useGeolocation } from "./useGeolocation";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
-import { useConsumedDiscounts, usePurchases } from "./usePurchases";
+import { useConsumedDiscounts } from "./usePurchases";
 
 const productOfferingsCacheTime = 1000 * 60 * 30;
 
 
 export function useProductOfferings(): TApiHook<IProductOffering[]> {
-  const [purchaseResponse] = usePurchases();
   const { customer, businessUnit } = useRedBeeState();
   const [userLocation] = useGeolocation();
   const [consumedDiscounts] = useConsumedDiscounts();
@@ -33,7 +32,6 @@ export function useProductOfferings(): TApiHook<IProductOffering[]> {
   );
   return [
     data?.map(p => {
-      p.activePurchase = purchaseResponse?.purchases.find(p => p.productOfferingId === p.id);
       if (consumedDiscounts?.includes(p.id)) {
         p.discount = undefined;
       }
