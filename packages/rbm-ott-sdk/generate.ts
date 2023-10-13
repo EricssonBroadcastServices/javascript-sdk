@@ -99,17 +99,22 @@ function patchSpec(data: string): string {
   spec.components.schemas.PaymentProvider = { "type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"] };
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle"].get.parameters.find((param: any) => param.name === "paymentProvider").schema = { "$ref": "#/components/schemas/PaymentProvider" };
 
-  // Fix bad, duplicate or inconsistent method names
-  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/location"].get.operationId = "getLocation" // "get"
-  spec.paths["/v2/location"].get.operationId = "getLocationFromReferer" // "get_1"
-  spec.paths["/v2/time"].get.operationId = "getTimeAnonymous" // time
-  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/time"].get.operationId = "getTime" // time_1
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases"].get.operationId = "getPurchaseTransactions" // getAccountPurchases
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"].get.operationId = "getOfferingPurchases" // getAccountPurchases2
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"].get.operationId = "getOfferingsByCountry" // getOfferings
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous" // anonymousSessionV2
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].get.operationId = "getUserDetails" // userDetailsGetV2
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next"].get.operationId = "getNextProgramForAsset" // getNextProgramForAsset2
+  // Override inconsistent, vague or otherwise bad method names
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/location"].get.operationId = "getLocation" // was "get" (vague)
+  spec.paths["/v2/location"].get.operationId = "getLocationFromReferer" // was "get_1" (vague)
+  spec.paths["/v2/time"].get.operationId = "getTimeAnonymous" // was "time" (vague)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/time"].get.operationId = "getTime" // was time_1 (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases"].get.operationId = "getPurchaseTransactions" // was "getAccountPurchases" (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"].get.operationId = "getOfferingPurchases" // was "getAccountPurchases2" (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"].get.operationId = "getOfferingsByCountry" // was "getOfferings" (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous" // was "anonymousSessionV2" (inconsistent with the other login methods)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].get.operationId = "getUserDetails" // was "userDetailsGetV2" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].put.operationId = "updateUserDetails" // was "userDetailsUpdateV2" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}"].put.operationId = "updateUserProfile" // was "userProfileUpdate" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next"].get.operationId = "getNextProgramForAsset" // was "getNextProgramForAsset2", but there is no "getNextProgramForAsset(1)", and also the numbers should be "v1", "v2", "v3" etc corresponding to the url, not just "2"
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.operationId = "getTagsFromPreferencesList"; // was "getList" (vague)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"].post.operationId = "addTagToPreferencesList"; // was "addToList" (vague)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"].delete.operationId = "deleteTagFromPreferencesList"; // was "deleteFromList" (vague)
 
   // Ignore problematic endpoints
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get // name-clashes, duplicate,experimantal and unused

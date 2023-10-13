@@ -652,7 +652,7 @@ export async function setPinCode({
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here
  * @response `422` `void` BAD_PASSWORD. The new password is non-compliant to policy
  */
-export async function userDetailsUpdate({
+export async function updateUserDetails({
   headers,
   ..._data
 }: {
@@ -695,7 +695,7 @@ export async function userDetailsUpdate({
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here NOT_OWNER. Only the owner may update profiles.
  */
-export async function userProfileUpdate({
+export async function updateUserProfile({
   userId,
   headers,
   ..._data
@@ -819,8 +819,8 @@ export class UserService {
   selectUserProfile = selectUserProfile;
   setPasswordWithToken = setPasswordWithToken;
   setPinCode = setPinCode;
-  userDetailsUpdate = userDetailsUpdate;
-  userProfileUpdate = userProfileUpdate;
+  updateUserDetails = updateUserDetails;
+  updateUserProfile = updateUserProfile;
   validatePinCode = validatePinCode;
   validatePinCodes = validatePinCodes;
 }

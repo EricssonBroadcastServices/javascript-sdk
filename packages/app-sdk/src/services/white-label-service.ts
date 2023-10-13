@@ -20,7 +20,7 @@ import {
   ChannelEPGResponse,
   AssetListItemResponse,
   EventList,
-  getList,
+  getTagsFromPreferencesList,
   ProgramResponse,
   StoreProductOffering,
   TagList
@@ -209,7 +209,7 @@ export class WhiteLabelService {
   }
 
   public async getTagList(listId: string) {
-    return getList.call(this.context, {
+    return getTagsFromPreferencesList.call(this.context, {
       list: listId,
       headers: { Authorization: `Bearer ${await this.context.getAuthToken()}` }
     });
