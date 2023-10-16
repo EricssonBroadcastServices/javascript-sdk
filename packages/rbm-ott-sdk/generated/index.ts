@@ -84,7 +84,8 @@ class RBMOTTSDK {
 }
 
 export default RBMOTTSDK;
-export { request, ServiceContext };
+export type { ServiceContext };
+export { request };
 export * from "./data-contracts";
 export * from "./AssetService";
 export * from "./AuthenticationService";
