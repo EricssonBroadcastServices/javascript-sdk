@@ -38,9 +38,16 @@ function patchSpec(data: string): string {
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
 
   // Override duplicate asset schemas/interfaces that in turn duplicate the whole type tree
-  data = data.replaceAll(/#\/components\/schemas\/(UPHAsset|AssetResponse|ContinueWatchingAsset)/g, `${SCHEMA_PREFIX}Asset`);
+  data = data.replaceAll(/#\/components\/schemas\/(UPHAsset|AssetResponse|ApiContinueWatchingAsset)/g, `${SCHEMA_PREFIX}Asset`);
 
   const spec = JSON.parse(data);
+
+  // Fix incorrect return types that shouldn't be arrays:
+  fixFalseListSchema(spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset"].get.responses["200"]);
+  fixFalseListSchema(spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.responses["200"]);
+
+  // Add missing return type ApiLoginResponse for oauthLogin
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin"].post.responses.default.content["application/json"] = { "schema": { "$ref": "#/components/schemas/ApiLoginResponse" } };
 
   /* Mark properties as non-optional */
   spec.components.schemas.ApiAssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
@@ -84,23 +91,34 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiImage.required = ["orientation", "url", "width", "height"];
   spec.components.schemas.ApiLocalizedData.required = ["locale"];
   spec.components.schemas.ApiLocalizedTag.required = ["locale"];
-
+  spec.components.schemas.ApiActivationCodeResponse.required = ["code", "expires"];
+  
   
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = { "type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"] };
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle"].get.parameters.find((param: any) => param.name === "paymentProvider").schema = { "$ref": "#/components/schemas/PaymentProvider" };
 
-  // Fix bad, duplicate or inconsistent method names
-  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/location"].get.operationId = "getLocation" // "get"
-  spec.paths["/v2/location"].get.operationId = "getLocationFromReferer" // "get_1"
-  spec.paths["/v2/time"].get.operationId = "getTimeAnonymous" // time
-  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/time"].get.operationId = "getTime" // time_1
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases"].get.operationId = "getPurchaseTransactions" // getAccountPurchases
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"].get.operationId = "getOfferingPurchases" // getAccountPurchases2
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"].get.operationId = "getOfferingsByCountry" // getOfferings
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous" // anonymousSessionV2
-  
+  // Override inconsistent, vague or otherwise bad method names
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/location"].get.operationId = "getLocation" // was "get" (vague)
+  spec.paths["/v2/location"].get.operationId = "getLocationFromReferer" // was "get_1" (vague)
+  spec.paths["/v2/time"].get.operationId = "getTimeAnonymous" // was "time" (vague)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/time"].get.operationId = "getTime" // was time_1 (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases"].get.operationId = "getPurchaseTransactions" // was "getAccountPurchases" (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"].get.operationId = "getOfferingPurchases" // was "getAccountPurchases2" (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"].get.operationId = "getOfferingsByCountry" // was "getOfferings" (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous" // was "anonymousSessionV2" (inconsistent with the other login methods)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].get.operationId = "getUserDetails" // was "userDetailsGetV2" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].put.operationId = "updateUserDetails" // was "userDetailsUpdateV2" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}"].put.operationId = "updateUserProfile" // was "userProfileUpdate" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next"].get.operationId = "getNextProgramForAsset" // was "getNextProgramForAsset2", but there is no "getNextProgramForAsset(1)", and also the numbers should be "v1", "v2", "v3" etc corresponding to the url, not just "2"
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.operationId = "getTagsFromPreferencesList"; // was "getList" (vague)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"].post.operationId = "addTagToPreferencesList"; // was "addToList" (vague)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"].delete.operationId = "deleteTagFromPreferencesList"; // was "deleteFromList" (vague)
+
+  // Ignore problematic endpoints
+  delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get // name-clashes, duplicate,experimantal and unused
+  delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work?  (always returns "Unknown error" 500 and is void return type)
 
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch
@@ -113,8 +131,15 @@ function patchSpec(data: string): string {
   for (let methods of Object.values(spec.paths)) {
     for (let methodSpec of Object.values(methods || {})) {
       const firstTag = methodSpec.tags?.[0];
-      if (firstTag) { // fix casing
+      // fix camelCase the tag
+      if (firstTag) {
         methodSpec.tags[0] = tagNameToCamelCase[firstTag] || firstTag;
+      }
+      // replace invalid type "ref" with string
+      for (let { schema } of (methodSpec?.parameters || []) as any[]) {
+        if (schema?.type === "ref") {
+          schema.type = "string";
+        }
       }
     }
   }
@@ -136,6 +161,11 @@ function patchSpec(data: string): string {
 
 function makeSchemafromProp(prop: any & { enum: string, type: string }) {
   return { enum: prop.enum, type: prop.type };
+}
+
+function fixFalseListSchema(response: any) {
+  const responseTypeSpec = Object.values(response.content)[0] as any;
+  responseTypeSpec.schema = responseTypeSpec.schema.items;
 }
 
 function formatTypeName(name: string) {
@@ -237,7 +267,7 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
 
 
 /**
- * Process paths
+ * Delete some paths that should not be in the generated SDK
  */
 
 // delete the api docs and export endpoints
@@ -245,19 +275,6 @@ delete spec.paths["/docs/api-docs/{api}"];
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/asset"];
 // delete 307 redirect endpoint (cannot be used in an SDK)
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail"];
-
-// deprecated and unused (we use newer versions of these)
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/login"].post;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/changeEmail"].put;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/changePassword"].put;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/delete"].post;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/signup"].post;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/signup/password/{token}"].put;
-// duplicate,experimantal and marked as unused
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get
-
-// doesn't specify any return type schema, and doesn't seem to work anyway (always returns "Unknown error" 500)
-delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get;
 
 
 const unhandledPathEnums = new Set<string>();
@@ -283,10 +300,6 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
       Object.assign(schemaContext, refSpec);
     }
     for (let { name, schema } of (methodSpec?.parameters || []) as any[]) {
-      // fix invalid type "ref"
-      if (schema?.type === "ref") {
-        schema.type = "string";
-      }
       // Deduplicate enums in path spec
       if (schema?.enum && schema.type === "string") {
         const dataStr = JSON.stringify(schema.enum.sort());
@@ -377,13 +390,8 @@ generateApi({
         return routeInfo.operationId
       }
 
-      // strip remaining "v1", "v2", "v3" and "_1" (mostly suffixes, but a couple of times in the middle of the names)
-      const cleanedId = routeInfo.operationId.replace(/[_vV]?\d/, "");
-
-      if (cleanedId.endsWith("Get")) { // Normalize Yoda names
-        return `get${cleanedId.charAt(0).toUpperCase()}${cleanedId.slice(1, -3)}`;
-      }
-      return cleanedId;
+      // strip remaining "v1", "v2", "v3" and (mostly suffixes, but a couple of times in the middle of the names)
+      return routeInfo.operationId.replace(/v?\d/i, "");
     },
     onPrepareConfig(apiConfig) {
       const dupes = [...apiConfig.config.routeNameDuplicatesMap].filter(([, val]) => Number(val) > 1);
@@ -411,7 +419,7 @@ generateApi({
     const exports = Object.values(moduleNames).map((fileName) => `export * from "./${fileName}"`).join(";\n");
     const importStatements = ["http-client", ...Object.values(moduleNames)].sort(Intl.Collator().compare).map(name => [name, name === "http-client" ? "request, ServiceContext" : name ]);
     const imports = importStatements.map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join(";\n");
-    const fileContent = `${imports};\n\nclass RBMOTTSDK {\n  ${typeDeclarations.join(";\n  ")};\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")};\n  }\n}\n\nexport default RBMOTTSDK;\nexport { request, ServiceContext };\nexport * from \"./data-contracts\";\n${exports};\n`;
+    const fileContent = `${imports};\n\nclass RBMOTTSDK {\n  ${typeDeclarations.join(";\n  ")};\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport { request };\nexport * from \"./data-contracts\";\n${exports};\n`;
 
     files.push({ fileName: "index", fileExtension: "ts", fileContent });
 

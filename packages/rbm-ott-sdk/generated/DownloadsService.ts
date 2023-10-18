@@ -7,7 +7,14 @@
  * ----------------------------------------------------------------
  */
 
-import { BookkeeperAccount, BookkeeperAsset, DownloadInfoResponse, DownloadResponse, Message } from "./data-contracts";
+import {
+  BookkeeperAccount,
+  BookkeeperAsset,
+  DownloadInfoResponse,
+  DownloadResponse,
+  Message,
+  VerifiedResponse
+} from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
@@ -166,6 +173,31 @@ export async function downloadRenewed({
 }
 
 /**
+ * @description Verifies that an asset is still valid for offline play and get when publication ends.
+ * @summary Verify a download.
+ * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadverified
+ * @response `default` `VerifiedResponse` success
+ */
+export async function downloadVerified({
+  assetId,
+  headers
+}: {
+  /** The id of the asset. */
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "GET",
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadverified`,
+    headers,
+    ctx
+  }).then(response => response.json() as Promise<VerifiedResponse>);
+}
+
+/**
  * @summary Get information about all downloads done by an account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
  * @response `default` `BookkeeperAccount` success
@@ -219,6 +251,7 @@ export class DownloadsService {
   downloadCompleted = downloadCompleted;
   downloadInfo = downloadInfo;
   downloadRenewed = downloadRenewed;
+  downloadVerified = downloadVerified;
   getDownloadsForAccount = getDownloadsForAccount;
   getDownloadsForAsset = getDownloadsForAsset;
 }

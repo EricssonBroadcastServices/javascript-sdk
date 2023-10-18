@@ -65,7 +65,7 @@ export async function getContinueWatchingTvShow({
 /**
  * @summary Gets last viewed offset for assets for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset
- * @response `200` `(LastViewedOffsetList)[]` success
+ * @response `200` `LastViewedOffsetList` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
  */
@@ -102,7 +102,7 @@ export async function getLastViewedOffsetList({
     headers,
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<LastViewedOffsetList[]>);
+  }).then(response => response.json() as Promise<LastViewedOffsetList>);
 }
 
 export class UserPlayHistoryService {
