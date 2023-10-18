@@ -3,7 +3,7 @@ import { EntitlementStatus, IEntitlementStatusResult, WLAsset } from "@ericssonb
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useRedBeeState } from "../RedBeeProvider";
-import { useWLApi } from "./useApi";
+import { useDeprecatedWLApi } from "./useApi";
 import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
@@ -40,7 +40,7 @@ export function useEntitlementForAsset(
   const [availableProductOfferings, offeringsLoading] = useProductOfferings();
   const { customer, businessUnit } = useRedBeeState();
   const [session] = useUserSession();
-  const wlApi = useWLApi();
+  const deprecatedWlApi = useDeprecatedWLApi();
   const [result, setResult] = useState<IEntitlementStatusResult>(defaultEntitlementStatus);
   const setSession = useSetSession();
   const { data, isLoading, error } = useQuery(
@@ -63,7 +63,7 @@ export function useEntitlementForAsset(
         return defaultEntitlementStatus;
       }
 
-      return wlApi
+      return deprecatedWlApi
         .getEntitlementForAsset({
           asset,
           offerings: availableProductOfferings,

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSetSession } from "./useUserSession";
-import { useExposureApi } from "./useApi";
+import { useDeprecatedExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
@@ -19,7 +19,7 @@ interface IActionvationCodeOptions {
 export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOptions): TApiHook<IActivationCodeData> {
   const { customer, businessUnit, device } = useRedBeeState();
   const setSession = useSetSession();
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [isOverDeviceLimit, setIsOverDeviceLimit] = useState(false);
   const [data, setData] = useState<{ code: string; expires: Date } | null>(null);
@@ -40,7 +40,7 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
   useEffect(() => {
     if (data) {
       const timeout = setTimeout(() => {
-        exposureApi.user
+        deprecatedExposureApi.user
           .consumeActivationCode({
             customer,
             businessUnit,
@@ -74,7 +74,7 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
       setData(null);
       setCodeError(null);
       setIsLoading(true);
-      exposureApi.user
+      deprecatedExposureApi.user
         .getActivationCode({
           customer,
           businessUnit

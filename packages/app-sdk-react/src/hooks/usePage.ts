@@ -14,7 +14,7 @@ import {
 } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useQueries, useQuery, UseQueryResult } from "react-query";
 import { QueryKeys } from "../util/react-query";
-import { useWLApi } from "./useApi";
+import { useDeprecatedWLApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { useTagList } from "../hooks/useTags";
 import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
@@ -38,7 +38,7 @@ export type TWLComponent =
   | WLCategoriesComponent;
 
 export function usePage(pageId: string, pageType: PageType): TApiHook<WLPageModel> {
-  const wlApi = useWLApi();
+  const deprecatedWlApi = useDeprecatedWLApi();
   const { customer, businessUnit, selectedLanguage } = useRedBeeState();
   const { data, isFetching, error } = useQuery(
     [QueryKeys.PAGE, pageId, selectedLanguage],
@@ -46,21 +46,21 @@ export function usePage(pageId: string, pageType: PageType): TApiHook<WLPageMode
       if (!customer || !businessUnit) return;
       switch (pageType) {
         case PageType.ASSET:
-          return wlApi.getAssetPageById({
+          return deprecatedWlApi.getAssetPageById({
             assetId: pageId,
             customer,
             businessUnit,
             locale: selectedLanguage as string
           });
         case PageType.BROWSE:
-          return wlApi.getPageByBase64Query({
+          return deprecatedWlApi.getPageByBase64Query({
             customer,
             businessUnit,
             locale: selectedLanguage as string,
             query: pageId
           });
         default:
-          return wlApi.getPage({ pageId, customer, businessUnit, locale: selectedLanguage as string });
+          return deprecatedWlApi.getPage({ pageId, customer, businessUnit, locale: selectedLanguage as string });
       }
     },
     { staleTime: 1000 * 60 * 10 }
@@ -97,7 +97,7 @@ export interface IResolvedComponent {
 export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IResolvedComponent[]> {
   const [tagList] = useTagList();
   const selectedLanguage = useSetSelectedLanguage();
-  const wlApi = useWLApi();
+  const deprecatedWlApi = useDeprecatedWLApi();
   const [page, pageLoading, pageError] = usePage(pageId, pageType);
   const [userSession] = useUserSession();
   const results: UseQueryResult<IResolvedComponent>[] = useQueries(
@@ -136,7 +136,7 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IR
           const type = getComponentConstructor(reference);
           if (!type) return;
           return {
-            component: await wlApi.getComponentByInternalUrl<TWLComponent>({
+            component: await deprecatedWlApi.getComponentByInternalUrl<TWLComponent>({
               internalUrl,
               type,
               useAuthHeader: reference.authorized

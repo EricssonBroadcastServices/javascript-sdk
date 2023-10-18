@@ -1,4 +1,4 @@
-import { WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { WLAsset as DeprecatedWLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React from "react";
 import { useParams } from "react-router";
 import { FavoriteButton } from "../components/FavoriteButton";
@@ -11,10 +11,10 @@ import {
 } from "../../src";
 import { JsonBox } from "../components/JsonBox";
 import { PlayButton } from "../components/PlayButton";
-import { AssetType } from "@ericssonbroadcastservices/exposure-sdk";
+import { AssetType as DeprecatedAssetType } from "@ericssonbroadcastservices/exposure-sdk";
 import ChannelPicker from "../components/ChannelPicker";
 
-const Entitlements = ({ asset }: { asset: WLAsset }) => {
+const Entitlements = ({ asset }: { asset: DeprecatedWLAsset }) => {
   const [status] = useEntitlementForAsset({ asset }, {});
   return (
     <>
@@ -37,7 +37,7 @@ export const Asset = () => {
       <FavoriteButton assetId={asset.assetId} />
       <h4>{`Bookmark percentage: ${bookmarkPercentage}`}</h4>
       <Entitlements asset={asset} />
-      {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker />}
+      {asset?.assetId && asset?.type === DeprecatedAssetType.TV_CHANNEL && <ChannelPicker />}
       <JsonBox json={JSON.stringify({ continueWatching }, null, 2)} title="Continue Watching asset" />
       <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data" />
     </div>

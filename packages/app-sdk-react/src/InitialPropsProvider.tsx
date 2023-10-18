@@ -1,5 +1,13 @@
-import { deserialize, ExposureApi, IDeviceInfo, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
-import { DeviceGroup, WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
+import {
+  deserialize as deprecatedDeserialize,
+  ExposureApi as DeprecatedExposureApi,
+  IDeviceInfo as DeprecatedIDeviceInfo,
+  LoginResponse as DeprecatedLoginResponse
+} from "@ericssonbroadcastservices/exposure-sdk";
+import {
+  DeviceGroup as DeprecatedDeviceGroup,
+  WhiteLabelService as DeprecatedWLService
+} from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
@@ -13,9 +21,9 @@ interface IInitialPropsProvider {
   customer: string;
   businessUnit: string;
   exposureBaseUrl: string;
-  device: IDeviceInfo;
+  device: DeprecatedIDeviceInfo;
   children?: React.ReactNode;
-  deviceGroup: DeviceGroup;
+  deviceGroup: DeprecatedDeviceGroup;
   onSessionValidationError?: (err: unknown) => void;
 }
 
@@ -30,12 +38,12 @@ async function getValidatedPersistedSession({
   businessUnit: string;
   storage?: IStorage;
   exposureBaseUrl: string;
-  device: IDeviceInfo;
-}): Promise<[LoginResponse | null, unknown]> {
-  let session: LoginResponse | null = null;
+  device: DeprecatedIDeviceInfo;
+}): Promise<[DeprecatedLoginResponse | null, unknown]> {
+  let session: DeprecatedLoginResponse | null = null;
   let error: unknown = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
-  const tempExposureApi = new ExposureApi({
+  const tempExposureApi = new DeprecatedExposureApi({
     customer,
     businessUnit,
     authHeader: () => undefined,
@@ -47,7 +55,7 @@ async function getValidatedPersistedSession({
       storage?.removeItem(StorageKey.SESSION);
       session = null;
     } else {
-      session = deserialize(LoginResponse, persistedSessionJSON);
+      session = deprecatedDeserialize(DeprecatedLoginResponse, persistedSessionJSON);
       try {
         // this will throw if session is invalid
         await tempExposureApi.authentication.validateSession({
@@ -89,7 +97,7 @@ export function InitialPropsProvider({
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      let session: LoginResponse | null = null;
+      let session: DeprecatedLoginResponse | null = null;
       try {
         const [validatedSession, validationError] = await getValidatedPersistedSession({
           storage,
@@ -107,7 +115,7 @@ export function InitialPropsProvider({
       }
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
       const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
-      const exposureApi = new ExposureApi({
+      const deprecatedExposureApi = new DeprecatedExposureApi({
         customer,
         businessUnit,
         authHeader,
@@ -124,10 +132,10 @@ export function InitialPropsProvider({
         exposureBaseUrl,
         config: null,
         deviceGroup,
-        exposureApi,
+        deprecatedExposureApi,
         unavailable: false,
-        whiteLabelApi: new WhiteLabelService({
-          exposureApi,
+        deprecatedWhiteLabelApi: new DeprecatedWLService({
+          exposureApi: deprecatedExposureApi,
           authHeader,
           deviceGroup,
           customer,

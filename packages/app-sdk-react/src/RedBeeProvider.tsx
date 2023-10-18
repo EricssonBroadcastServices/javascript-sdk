@@ -1,5 +1,13 @@
-import { IDeviceInfo, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
-import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
+import {
+  IDeviceInfo as DeprecatedIDeviceInfo,
+  ExposureApi as DeprecatedExposureApi,
+  LoginResponse as DeprecatedLoginResponse
+} from "@ericssonbroadcastservices/exposure-sdk";
+import {
+  DeviceGroup as DeprecatedDeviceGroup,
+  WhiteLabelService as DeprecatedWLService,
+  WLConfig as DeprecatedWLConfig
+} from "@ericssonbroadcastservices/whitelabel-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from "./hooks/useConfig";
@@ -9,16 +17,16 @@ import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvide
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
-  device: IDeviceInfo;
-  session: LoginResponse | null;
-  config: WLConfig | null;
+  device: DeprecatedIDeviceInfo;
+  session: DeprecatedLoginResponse | null;
+  config: DeprecatedWLConfig | null;
   selectedLanguage: string | null;
   customer: string;
   businessUnit: string;
   exposureBaseUrl: string;
-  deviceGroup: DeviceGroup;
-  exposureApi: ExposureApi;
-  whiteLabelApi: WhiteLabelService;
+  deviceGroup: DeprecatedDeviceGroup;
+  deprecatedExposureApi: DeprecatedExposureApi;
+  deprecatedWhiteLabelApi: DeprecatedWLService;
   unavailable: boolean;
 }
 
@@ -36,11 +44,11 @@ interface IAction {
 }
 
 interface ISetConfigAction extends IAction {
-  config: WLConfig;
+  config: DeprecatedWLConfig;
 }
 
 interface ISetSessionAction extends IAction {
-  session: LoginResponse | null;
+  session: DeprecatedLoginResponse | null;
 }
 
 interface ISetSelectedLanguageAction extends IAction {
@@ -74,7 +82,7 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         }
         return undefined;
       };
-      const exposureApi = new ExposureApi({
+      const deprecatedExposureApi = new DeprecatedExposureApi({
         baseUrl: state.exposureBaseUrl,
         customer: state.customer,
         businessUnit: state.businessUnit,
@@ -84,13 +92,13 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         ...state,
         session: (action as ISetSessionAction).session,
         // The only time we need to update the exposure api is when setting a new session
-        exposureApi,
-        whiteLabelApi: new WhiteLabelService({
+        deprecatedExposureApi,
+        deprecatedWhiteLabelApi: new DeprecatedWLService({
           baseUrl: state.exposureBaseUrl,
           customer: state.customer,
           businessUnit: state.businessUnit,
           deviceGroup: state.deviceGroup,
-          exposureApi,
+          exposureApi: deprecatedExposureApi,
           authHeader: getAuthHeader
         })
       };
@@ -134,9 +142,9 @@ interface IRedBeeProvider {
   businessUnit: string;
   exposureBaseUrl: string;
   children?: React.ReactNode;
-  deviceGroup: DeviceGroup;
+  deviceGroup: DeprecatedDeviceGroup;
   storage?: IStorage;
-  device: IDeviceInfo;
+  device: DeprecatedIDeviceInfo;
   autoFetchConfig?: boolean;
   /** Listen for any errors when initially verifying the session.
    * Should session validation fail for any unknown reason, for example network error, the apps should retry validation.

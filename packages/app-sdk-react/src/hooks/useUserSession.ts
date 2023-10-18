@@ -5,7 +5,7 @@ import { ActionType } from "../RedBeeProvider";
 import { useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
-import { useExposureApi } from "./useApi";
+import { useDeprecatedExposureApi } from "./useApi";
 
 const sessionLoadingStateId = "sessionLoading";
 
@@ -18,7 +18,7 @@ export function useSetSession(): (loginResponse: LoginResponse | null) => void {
   const dispatch = useRedBeeStateDispatch();
   const setSelectedLanguage = useSetSelectedLanguage();
   const { device } = useRedBeeState();
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const { storage } = useRedBeeState();
   return useCallback(
     async (loginResponse: LoginResponse | null) => {
@@ -31,7 +31,9 @@ export function useSetSession(): (loginResponse: LoginResponse | null) => void {
       } else {
         try {
           storage?.removeItem(StorageKey.SESSION);
-          const anonSession = await exposureApi.authentication.loginAnonymous({ device: device as IDeviceInfo });
+          const anonSession = await deprecatedExposureApi.authentication.loginAnonymous({
+            device: device as IDeviceInfo
+          });
           return dispatch({ type: ActionType.SET_SESSION, session: anonSession });
         } catch (err) {
           console.error(err);

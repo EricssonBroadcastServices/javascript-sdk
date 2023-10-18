@@ -1,7 +1,7 @@
 import { ITheme, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useEffect } from "react";
 import { ActionType, useRedBeeState, useRedBeeStateDispatch, useSelectedLanguage } from "../";
-import { useWLApi } from "../";
+import { useDeprecatedWLApi } from "../";
 import { TApiHook } from "../types/type.apiHook";
 import { useGeolocation } from "./useGeolocation";
 
@@ -26,11 +26,11 @@ export function useFetchConfig(disabled = false): void {
   const { customer, businessUnit } = useRedBeeState();
   const locale = useSelectedLanguage();
   const [userLocation] = useGeolocation();
-  const wlApi = useWLApi();
+  const deprecatedWlApi = useDeprecatedWLApi();
   useEffect(() => {
     if (!userLocation || disabled || !customer || !businessUnit) return;
     dispatch({ type: ActionType.START_LOADING, id: configLoadingId });
-    wlApi
+    deprecatedWlApi
       .getConfigByCustomerAndBusinessUnit({
         countryCode: userLocation?.countryCode,
         locale: locale || undefined,

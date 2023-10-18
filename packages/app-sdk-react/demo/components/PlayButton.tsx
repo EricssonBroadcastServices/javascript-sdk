@@ -1,11 +1,11 @@
 import React from "react";
-import { IEntitlementStatusResult } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { IEntitlementStatusResult as DeprecatedIEntitlementStatusResult } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useTranslations, useUserSession } from "../../src";
 
 export const PlayButton = ({
   entitlementResult: { isEntitled, loginToWatchForFree, isGeoBlocked, shouldJustWait, accessLater, accessNow }
 }: {
-  entitlementResult: IEntitlementStatusResult;
+  entitlementResult: DeprecatedIEntitlementStatusResult;
 }) => {
   const [translations] = useTranslations();
   const [session] = useUserSession();

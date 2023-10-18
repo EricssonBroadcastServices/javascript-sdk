@@ -1,4 +1,4 @@
-import { ImageOrientation } from "@ericssonbroadcastservices/exposure-sdk";
+import { ImageOrientation as DeprecatedImageOrientation } from "@ericssonbroadcastservices/exposure-sdk";
 import React, { useCallback, useState } from "react";
 import { useChannelPicker } from "../../src";
 
@@ -26,9 +26,9 @@ export default function ChannelPicker() {
             {channels.map((c, i) => {
               let useChannelLogo = true;
               const channelLogo =
-                c.channel.getScaledLogo(150) || c.channel.getScaledImage(ImageOrientation.LANDSCAPE, 150);
+                c.channel.getScaledLogo(150) || c.channel.getScaledImage(DeprecatedImageOrientation.LANDSCAPE, 150);
               const program = c.programs.find(p => p.isLive());
-              if (!program?.getScaledImage(ImageOrientation.LANDSCAPE, 400)) {
+              if (!program?.getScaledImage(DeprecatedImageOrientation.LANDSCAPE, 400)) {
                 useChannelLogo = false;
               }
               return (
@@ -36,8 +36,8 @@ export default function ChannelPicker() {
                   <img
                     style={{ width: "100%" }}
                     src={
-                      program?.getScaledImage(ImageOrientation.LANDSCAPE, 400) ||
-                      c.channel.getScaledImage(ImageOrientation.LANDSCAPE, 400)
+                      program?.getScaledImage(DeprecatedImageOrientation.LANDSCAPE, 400) ||
+                      c.channel.getScaledImage(DeprecatedImageOrientation.LANDSCAPE, 400)
                     }
                     alt="an EPG Image"
                   />

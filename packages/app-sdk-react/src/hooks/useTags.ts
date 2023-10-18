@@ -2,18 +2,18 @@ import { PreferenceListTags } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
-import { useExposureApi } from "./useApi";
+import { useDeprecatedExposureApi } from "./useApi";
 import { useUserSession } from "./useUserSession";
 import { useCallback, useState } from "react";
 
 const TAG_FEED_LIST_ID = "tagfeed";
 
 export function useTagList(): TApiHook<PreferenceListTags> {
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const [userSession] = useUserSession();
   const { data, isLoading, error } = useQuery([QueryKeys.TAGS_LIST, userSession?.sessionToken], () => {
     if (!userSession?.isLoggedIn()) return;
-    return exposureApi.preferences.getTagsFromList({
+    return deprecatedExposureApi.preferences.getTagsFromList({
       listId: TAG_FEED_LIST_ID
     });
   });
@@ -21,13 +21,13 @@ export function useTagList(): TApiHook<PreferenceListTags> {
 }
 
 export function useAddTag(tagId: string): TApiHook<() => void, () => void> {
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
   const add = useCallback(async () => {
     setLoading(true);
-    await exposureApi.preferences
+    await deprecatedExposureApi.preferences
       .addTagToList({ listId: TAG_FEED_LIST_ID, tagId })
       .then(() => {
         queryClient.invalidateQueries(QueryKeys.TAGS_LIST);
@@ -42,13 +42,13 @@ export function useAddTag(tagId: string): TApiHook<() => void, () => void> {
 }
 
 export function useRemoveTag(tagId: string): TApiHook<() => void, () => void> {
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
   const remove = useCallback(async () => {
     setLoading(true);
-    await exposureApi.preferences
+    await deprecatedExposureApi.preferences
       .deleteTagFromList({ listId: TAG_FEED_LIST_ID, tagId })
       .then(() => {
         queryClient.invalidateQueries(QueryKeys.TAGS_LIST);

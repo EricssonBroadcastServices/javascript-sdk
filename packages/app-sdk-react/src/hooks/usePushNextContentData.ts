@@ -2,7 +2,7 @@ import { WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useEffect, useState } from "react";
 import { useSelectedLanguage } from "./useSelectedLanguage";
 import { useRedBeeState } from "../RedBeeProvider";
-import { useWLApi } from "./useApi";
+import { useDeprecatedWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 
 export function usePushNextContentData(
@@ -14,10 +14,10 @@ export function usePushNextContentData(
     null
   );
   const [error, setError] = useState(null);
-  const wlApi = useWLApi();
+  const deprecatedWlApi = useDeprecatedWLApi();
   useEffect(() => {
     if (assetId) {
-      wlApi
+      deprecatedWlApi
         .getPushNextContent({ customer, businessUnit, assetId, locale: locale as string })
         .then(pnc => {
           setPushNextContent(pnc);

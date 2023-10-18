@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useRedBeeState } from "../RedBeeProvider";
-import { useExposureApi } from "./useApi";
+import { useDeprecatedExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { WLComponentSubType } from "@ericssonbroadcastservices/whitelabel-sdk";
@@ -14,14 +14,14 @@ function invalidateFavourites() {
 }
 
 export function useAddAssetToFavorites(assetId: string): TApiHook<() => void> {
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const { customer, businessUnit } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
   const add = useCallback(() => {
     setLoading(true);
-    exposureApi.preferences
+    deprecatedExposureApi.preferences
       .addAssetToList({
         assetId,
         listId: FAVORITES_LIST_ID,
@@ -42,14 +42,14 @@ export function useAddAssetToFavorites(assetId: string): TApiHook<() => void> {
 }
 
 export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => void> {
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const { customer, businessUnit } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
   const remove = useCallback(() => {
     setLoading(true);
-    exposureApi.preferences
+    deprecatedExposureApi.preferences
       .deleteAssetFromList({
         assetId,
         listId: FAVORITES_LIST_ID,
@@ -76,7 +76,7 @@ type HandleAssetFavorites = {
 };
 
 export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFavorites, HandleAssetFavorites> {
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const [handleAdd, loadingAdd] = useAddAssetToFavorites(assetId);
   const [handleRemove, loadingRemove] = useRemoveAssetFromFavorites(assetId);
   const { customer, businessUnit } = useRedBeeState();
@@ -86,7 +86,7 @@ export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFa
     isLoading: loadingList,
     error
   } = useQuery([QueryKeys.FAVORITE_ASSET_IN_LIST, assetId, customer, businessUnit], () => {
-    return exposureApi.preferences
+    return deprecatedExposureApi.preferences
       .getAssetFromList({
         listId: FAVORITES_LIST_ID,
         assetId,

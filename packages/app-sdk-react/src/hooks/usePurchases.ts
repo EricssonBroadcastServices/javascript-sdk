@@ -1,7 +1,7 @@
 import { PurchaseResponse, purchaseUtils } from "@ericssonbroadcastservices/exposure-sdk";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
-import { useExposureApi } from "./useApi";
+import { useDeprecatedExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { useUserSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
@@ -13,7 +13,7 @@ const purchasesCacheTime = 1000 * 60 * 30;
 export function usePurchases(): TApiHook<PurchaseResponse> {
   const { customer, businessUnit } = useRedBeeState();
   const [login] = useUserSession();
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const [systemConfigV2] = useSystemConfigV2();
   const paymentIsEnabled = Object.keys(systemConfigV2?.payments || "").find(paymentType => {
     return systemConfigV2?.payments[paymentType].enabled;
@@ -22,7 +22,7 @@ export function usePurchases(): TApiHook<PurchaseResponse> {
     [QueryKeys.PURCHASES, login?.sessionToken, paymentIsEnabled],
     () => {
       if (login?.isLoggedIn() && paymentIsEnabled) {
-        return exposureApi.payment.getPurchases({ customer, businessUnit, includeOfferingDetails: true });
+        return deprecatedExposureApi.payment.getPurchases({ customer, businessUnit, includeOfferingDetails: true });
       }
       return;
     },
@@ -51,11 +51,11 @@ export function refetchPurchases() {
 export function useUnsubscribe(): [(purchaseId: string) => void, boolean] {
   const [loading, setLoading] = useState(false);
   const { customer, businessUnit } = useRedBeeState();
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const unsubscribe = useCallback(
     (purchaseId: string) => {
       setLoading(true);
-      exposureApi.payment
+      deprecatedExposureApi.payment
         .cancelSubscription({ customer, businessUnit, purchaseId })
         .then(() => {
           refetchPurchases();

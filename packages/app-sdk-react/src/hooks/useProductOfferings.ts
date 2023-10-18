@@ -1,6 +1,6 @@
 import { IProductOffering } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
-import { useExposureApi } from "./useApi";
+import { useDeprecatedExposureApi } from "./useApi";
 import { useGeolocation } from "./useGeolocation";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
@@ -9,18 +9,17 @@ import { useConsumedDiscounts } from "./usePurchases";
 
 const productOfferingsCacheTime = 1000 * 60 * 30;
 
-
 export function useProductOfferings(): TApiHook<IProductOffering[]> {
   const { customer, businessUnit } = useRedBeeState();
   const [userLocation] = useGeolocation();
   const [consumedDiscounts] = useConsumedDiscounts();
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
 
   const { data, isLoading, error } = useQuery<IProductOffering[]>(
     [QueryKeys.PRODUCT_OFFERINGS, userLocation?.countryCode],
     () => {
       if (userLocation?.countryCode) {
-        return exposureApi.payment.getProductOfferingsByCountry({
+        return deprecatedExposureApi.payment.getProductOfferingsByCountry({
           customer,
           businessUnit,
           countryCode: userLocation.countryCode

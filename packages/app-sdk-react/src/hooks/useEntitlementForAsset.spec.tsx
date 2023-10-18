@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import { renderHook } from "@testing-library/react-hooks";
-import { DeviceType, EntitlementActionType, ExposureApi, IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
+import {
+  DeviceType as DeprecatedDeviceType,
+  EntitlementActionType as DeprecatedEntitlementActionType,
+  ExposureApi as DeprecatedExposureApi,
+  IDeviceInfo as DeprecatedIDeviceInfo
+} from "@ericssonbroadcastservices/exposure-sdk";
 import { RedBeeProvider, useEntitlementForAsset } from "..";
 import {
-  DeviceGroup,
-  IEntitlementStatusResult,
-  WhiteLabelService,
-  WLAsset
+  DeviceGroup as DeprecatedDeviceGroup,
+  IEntitlementStatusResult as DeprecatedIEntitlementStatusResult,
+  WhiteLabelService as DeprecatedWLService,
+  WLAsset as DeprecatedWLAsset
 } from "@ericssonbroadcastservices/whitelabel-sdk";
 import * as offerings from "./useProductOfferings";
 import * as api from "./useApi";
@@ -24,19 +29,19 @@ const storage = {
   removeItem: (...args) => Promise.resolve(localStorage.removeItem(...args))
 };
 
-// const mockAsset = deserialize(WLAsset, {});
-const mockDevice: IDeviceInfo = { name: "123", deviceId: "123", type: DeviceType.WEB };
-const mockWlService = new WhiteLabelService({
+// const mockAsset = deserialize(DeprecatedWLAsset, {});
+const mockDevice: DeprecatedIDeviceInfo = { name: "123", deviceId: "123", type: DeprecatedDeviceType.WEB };
+const mockWlService = new DeprecatedWLService({
   authHeader: () => ({ Authorization: "123" }),
-  deviceGroup: DeviceGroup.WEB,
-  exposureApi: new ExposureApi({ authHeader: () => ({ Authorization: "123" }) })
+  deviceGroup: DeprecatedDeviceGroup.WEB,
+  exposureApi: new DeprecatedExposureApi({ authHeader: () => ({ Authorization: "123" }) })
 });
 
 // eslint-disable-next-line react/prop-types
 function TestWrapper({ children }) {
   return (
     <RedBeeProvider
-      deviceGroup={DeviceGroup.WEB}
+      deviceGroup={DeprecatedDeviceGroup.WEB}
       exposureBaseUrl="exposure"
       device={mockDevice}
       customer={"CU"}
@@ -51,27 +56,27 @@ function TestWrapper({ children }) {
 describe("useEntitlements", () => {
   beforeEach(() => {
     jest.spyOn(offerings, "useProductOfferings").mockReturnValue([[], false]);
-    jest.spyOn(api, "useWLApi").mockReturnValue(mockWlService);
+    jest.spyOn(api, "useDeprecatedWLApi").mockReturnValue(mockWlService);
     jest.spyOn(location, "useGeolocation").mockReturnValue([{ countryCode: "SE" }]);
   });
   it("defaults when no session token", () => {
     jest.spyOn(mockWlService, "getEntitlementForAsset").mockReturnValue({ test: "lalal" });
     jest.spyOn(userSession, "useUserSession").mockReturnValue([{ sessionToken: undefined }]);
-    const { result } = renderHook(() => useEntitlementForAsset({ assetId: "1234" } as WLAsset, {}), {
+    const { result } = renderHook(() => useEntitlementForAsset({ assetId: "1234" } as DeprecatedWLAsset, {}), {
       wrapper: TestWrapper
     });
     expect(result.current[0]).toEqual(defaultEntitlementStatus);
     expect(mockWlService.getEntitlementForAsset).not.toHaveBeenCalled();
   });
   it("fake updates status when starttime is passed", async () => {
-    const mockResult: IEntitlementStatusResult = {
+    const mockResult: DeprecatedIEntitlementStatusResult = {
       isEntitled: false,
       isInFuture: true,
       startTime: new Date(Date.now() + 1000),
       entitlementError: {
         message: "NOT_ENTITLED",
         httpCode: 403,
-        actions: [{ type: EntitlementActionType.WAIT }]
+        actions: [{ type: DeprecatedEntitlementActionType.WAIT }]
       },
       accessLater: [],
       accessNow: [],
@@ -81,9 +86,12 @@ describe("useEntitlements", () => {
     };
     jest.spyOn(userSession, "useUserSession").mockReturnValue([{ sessionToken: "123" }]);
     jest.spyOn(mockWlService, "getEntitlementForAsset").mockReturnValue(Promise.resolve(mockResult));
-    const { result, waitForNextUpdate } = renderHook(() => useEntitlementForAsset({ assetId: "123" } as WLAsset, {}), {
-      wrapper: TestWrapper
-    });
+    const { result, waitForNextUpdate } = renderHook(
+      () => useEntitlementForAsset({ assetId: "123" } as DeprecatedWLAsset, {}),
+      {
+        wrapper: TestWrapper
+      }
+    );
     await waitForNextUpdate();
     expect(mockWlService.getEntitlementForAsset).toHaveBeenCalled();
     expect(result.current[0]).toEqual(mockResult);

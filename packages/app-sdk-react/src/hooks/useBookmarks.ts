@@ -1,14 +1,14 @@
 import { IBookmark } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
-import { useExposureApi } from "./useApi";
+import { useDeprecatedExposureApi } from "./useApi";
 import { useAsset } from "./useAsset";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 
 export function useBookmarks(): TApiHook<IBookmark[]> {
-  const exposureApi = useExposureApi();
+  const deprecatedExposureApi = useDeprecatedExposureApi();
   const { data, isLoading, error } = useQuery([QueryKeys.BOOKMARKS], () => {
-    return exposureApi.content.getBookmarks({});
+    return deprecatedExposureApi.content.getBookmarks({});
   });
   return [data || [], isLoading, error];
 }
