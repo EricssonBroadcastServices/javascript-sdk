@@ -8,6 +8,8 @@ import {
   WhiteLabelService as DeprecatedWLService,
   WLConfig as DeprecatedWLConfig
 } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
+import { ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from "./hooks/useConfig";
@@ -23,6 +25,8 @@ export interface IRedBeeState {
   selectedLanguage: string | null;
   customer: string;
   businessUnit: string;
+  serviceContext: ServiceContext;
+  appService: AppService;
   exposureBaseUrl: string;
   deviceGroup: DeprecatedDeviceGroup;
   deprecatedExposureApi: DeprecatedExposureApi;
@@ -75,33 +79,38 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
       return { ...state, loading: state.loading.filter(i => i !== (action as ILoadingAction).id) };
     case ActionType.SET_SELECTED_LANGUAGE:
       return { ...state, selectedLanguage: (action as ISetSelectedLanguageAction).language };
-    case ActionType.SET_SESSION:
-      const getAuthHeader = () => {
+    case ActionType.SET_SESSION: {
+      const { customer, businessUnit, exposureBaseUrl: baseUrl } = state;
+      const ctx = { baseUrl, customer, businessUnit };
+      const appService = new AppService({
+        ...ctx,
+        deviceGroup: state.deviceGroup,
+        async getAuthToken() {
+          return (action as ISetSessionAction).session?.sessionToken;
+        }
+      });
+      const deprecatedGetAuthHeader = () => {
         if ((action as ISetSessionAction).session?.sessionToken) {
           return { Authorization: `Bearer ${(action as ISetSessionAction).session?.sessionToken}` };
         }
         return undefined;
       };
-      const deprecatedExposureApi = new DeprecatedExposureApi({
-        baseUrl: state.exposureBaseUrl,
-        customer: state.customer,
-        businessUnit: state.businessUnit,
-        authHeader: getAuthHeader
+      const deprecatedExposureApi = new DeprecatedExposureApi({ ...ctx, authHeader: deprecatedGetAuthHeader });
+      const deprecatedWhiteLabelApi = new DeprecatedWLService({
+        ...ctx,
+        deviceGroup: state.deviceGroup,
+        exposureApi: deprecatedExposureApi,
+        authHeader: deprecatedGetAuthHeader
       });
       return {
         ...state,
         session: (action as ISetSessionAction).session,
+        appService,
         // The only time we need to update the exposure api is when setting a new session
         deprecatedExposureApi,
-        deprecatedWhiteLabelApi: new DeprecatedWLService({
-          baseUrl: state.exposureBaseUrl,
-          customer: state.customer,
-          businessUnit: state.businessUnit,
-          deviceGroup: state.deviceGroup,
-          exposureApi: deprecatedExposureApi,
-          authHeader: getAuthHeader
-        })
+        deprecatedWhiteLabelApi
       };
+    }
     case ActionType.SET_CONFIG:
       const config = (action as ISetConfigAction).config;
       const { customer, businessUnit } = config;

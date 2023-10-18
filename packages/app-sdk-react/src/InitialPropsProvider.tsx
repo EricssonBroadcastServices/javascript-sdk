@@ -8,6 +8,9 @@ import {
   DeviceGroup as DeprecatedDeviceGroup,
   WhiteLabelService as DeprecatedWLService
 } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
+
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
@@ -31,7 +34,7 @@ async function getValidatedPersistedSession({
   storage,
   customer,
   businessUnit,
-  exposureBaseUrl,
+  exposureBaseUrl: baseUrl,
   device
 }: {
   customer: string;
@@ -44,10 +47,10 @@ async function getValidatedPersistedSession({
   let error: unknown = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
   const tempExposureApi = new DeprecatedExposureApi({
+    baseUrl,
     customer,
     businessUnit,
-    authHeader: () => undefined,
-    baseUrl: exposureBaseUrl
+    authHeader: () => undefined
   });
   if (persistedSession) {
     const persistedSessionJSON = JSON.parse(persistedSession);
@@ -114,12 +117,28 @@ export function InitialPropsProvider({
         session = null;
       }
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
-      const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
-      const deprecatedExposureApi = new DeprecatedExposureApi({
+      const deprecatedAuthHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
+      const serviceContext: ServiceContext = {
         customer,
         businessUnit,
-        authHeader,
         baseUrl: exposureBaseUrl
+      };
+      const appService = new AppService({
+        ...serviceContext,
+        deviceGroup,
+        async getAuthToken() {
+          return session?.sessionToken;
+        }
+      });
+      const deprecatedExposureApi = new DeprecatedExposureApi({
+        ...serviceContext,
+        authHeader: deprecatedAuthHeader
+      });
+      const deprecatedWhiteLabelApi = new DeprecatedWLService({
+        ...serviceContext,
+        deviceGroup,
+        exposureApi: deprecatedExposureApi,
+        authHeader: deprecatedAuthHeader
       });
       setState({
         session,
@@ -132,16 +151,11 @@ export function InitialPropsProvider({
         exposureBaseUrl,
         config: null,
         deviceGroup,
-        deprecatedExposureApi,
         unavailable: false,
-        deprecatedWhiteLabelApi: new DeprecatedWLService({
-          exposureApi: deprecatedExposureApi,
-          authHeader,
-          deviceGroup,
-          customer,
-          businessUnit,
-          baseUrl: exposureBaseUrl
-        })
+        serviceContext,
+        appService,
+        deprecatedExposureApi,
+        deprecatedWhiteLabelApi
       });
       setIsReady(true);
     }
