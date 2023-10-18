@@ -1,4 +1,6 @@
+import { expectAsset } from "../../test-utils/expectations";
 import { DeviceGroup } from "../interfaces/device-group";
+import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
 import { WhiteLabelService } from "./white-label-service";
 
 function expectIsAssetList(assets: any[]) {
@@ -69,5 +71,35 @@ describe("get carousel assets", () => {
     const component = await service.getComponentById({ componentId: tagFeedId, countryCode: "SE" });
     const assets = await service.getCarouselAssets(component);
     expectIsAssetList(assets);
+  });
+  it("resolves carousel content", async () => {
+    const carouselRef: IExposureWLReference = {
+      name: "Home - Shortfilms Carousel",
+      appType: "carousel",
+      appSubType: "TagsQuery",
+      referenceId: "c225a4a3-14a7-4c90-99e8-74d958236502",
+      referenceUrl:
+        "/v2/whitelabel/customer/BSCU/businessunit/BSBU/config/sandwich/component/c225a4a3-14a7-4c90-99e8-74d958236502",
+      parameters: {
+        carouselLayout: "carousel",
+        imageOrientation: "landscape",
+        density: "MEDIUM",
+        backgroundColor: "#a14f4f"
+      },
+      images: [
+        {
+          url: "https://ps-vemup-ctl.cdn.redbee.live/imagescaler002/bscu/bsbu/configimages/f79ca0eb-bf91-4683-8f38-bf64460480c5.jpg",
+          tags: ["background"]
+        }
+      ],
+      hasAuthorizedContent: false
+    };
+    const resolved = await service.getResolvedComponentByReference<"carousel">({
+      wlReference: carouselRef,
+      countryCode: "SE"
+    });
+    resolved.content?.forEach(caruoselItem => {
+      expect(caruoselItem.asset).toEqual(expectAsset());
+    });
   });
 });

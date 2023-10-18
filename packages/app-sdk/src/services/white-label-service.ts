@@ -33,14 +33,20 @@ import {
   IExposureWLCarousel,
   IExposureWLCategoriesComponent,
   IExpoureWLEpgComponent,
-  WLCarouselAssetQueryTypes
+  WLCarouselAssetQueryTypes,
+  WLComponentType
 } from "../interfaces/exposure-wl-component";
 import { IExposureWLFooter, IExposureWLMenu } from "../interfaces/exposure-wl-menu";
 import { PushNextContent } from "../interfaces/push-next-content";
 import { PublicationHelpers } from "../utils/publication";
 import { EntitlementStatus, EntitlementStatusResult } from "../interfaces/entitlement-result";
 import { errorToEntitlementResult } from "../utils/entitlement";
-import { CarouselItem } from "../interfaces/carousel-item";
+import {
+  CarouselItem,
+  ComponentContentMap,
+  EpgComponentContent,
+  ResolvedComponent
+} from "../interfaces/component-content";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -53,6 +59,55 @@ export class WhiteLabelService {
 
   public async get<T>({ url, query, headers }: WhiteLabelServiceGetMethodParams): Promise<T> {
     return request({ method: "GET", url, query, headers }).then(response => response.json());
+  }
+
+  public async getResolvedComponentByReference<T extends keyof ComponentContentMap | WLComponentType>({
+    wlReference,
+    countryCode
+  }: {
+    wlReference: IExposureWLReference;
+    countryCode: string;
+  }): Promise<ResolvedComponent<T>> {
+    const component = await this.getComponentByReference({ wlReference, countryCode });
+    const componentContent = await this.getComponentContent<T>({ component });
+    return {
+      component,
+      content: componentContent,
+      presentationParameters: {
+        density: wlReference.parameters?.density || "MEDIUM",
+        carouselLayout: wlReference.parameters?.carouselLayout || "carousel",
+        imageOrientation: wlReference.parameters?.imageOrientation || "landscape",
+        backgroundColor: wlReference.parameters?.backgroundColor,
+        backgroundImage: wlReference.images?.find(i => i.tags?.includes("background"))
+      }
+    };
+  }
+
+  public async getComponentContent<T extends keyof ComponentContentMap>({
+    component
+  }: {
+    component: IExposureComponent;
+  }): Promise<ComponentContentMap[T]> {
+    switch (component.appType) {
+      case "carousel":
+        return (await this.getCarouselAssets(component as IExposureWLCarousel)) as ComponentContentMap[T];
+      case "epg":
+        return (await this.getEpgContent(component as IExpoureWLEpgComponent)) as ComponentContentMap[T];
+      case "tagtype":
+        return (await this.getCategoriesContent(component as IExposureWLCategoriesComponent)) as ComponentContentMap[T];
+      case "herobanner":
+      case "asset_display":
+      case "menu":
+      case "page":
+      case "asset_page":
+      case "browse_page":
+      case "footer":
+      case "image":
+      case "text":
+      case "iframe":
+      default:
+        return undefined as ComponentContentMap[T];
+    }
   }
 
   public async getComponentById<T extends IExposureComponent>({
@@ -301,12 +356,7 @@ export class WhiteLabelService {
     return await this.get<TagList>({ url: contentUrl });
   }
 
-  public async getEpgContent(epgComponent: IExpoureWLEpgComponent): Promise<
-    {
-      channel: Asset;
-      programs: ProgramResponse[];
-    }[]
-  > {
+  public async getEpgContent(epgComponent: IExpoureWLEpgComponent): Promise<EpgComponentContent> {
     const contentUrl = new URL(epgComponent.contentUrl.url, this.context.baseUrl);
     const content = await this.get<ChannelEPGResponse[]>({ url: contentUrl });
     const channels: Promise<{
