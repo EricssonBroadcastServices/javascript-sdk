@@ -12,7 +12,7 @@
     "test": "lerna run test --stream",
     "lint": "lerna run lint --parallel",
     "format": "lerna run format --parallel",
-    "demo": "lerna run demo --stream"
+    "demo": "npm run demo -w @ericssonbroadcastservices/app-sdk-react"
   },
   "husky": {
     "hooks": {
