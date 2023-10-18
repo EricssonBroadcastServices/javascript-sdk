@@ -7,7 +7,7 @@ interface IGetGeneratedCollectionEntriesCarousel {
 }
 
 export async function getGeneratedCollectionEntriesCarousel(
-  this: WhiteLabelService,
+  service: WhiteLabelService,
   { assetId }: IGetGeneratedCollectionEntriesCarousel
 ): Promise<ResolvedComponent<"carousel">> {
   const component: IExposureWLCarousel = {
@@ -16,12 +16,12 @@ export async function getGeneratedCollectionEntriesCarousel(
     presentation: { localized: {} },
     contentUrl: {
       type: "AssetQuery",
-      url: `/v1/customer/${this.context.customer}/businessunit/${this.context.businessUnit}/content/asset/${assetId}/collectionentries?fieldSet=ALL&sortOrder=ASC`,
+      url: `/v1/customer/${service.context.customer}/businessunit/${service.context.businessUnit}/content/asset/${assetId}/collectionentries?fieldSet=ALL&sortOrder=ASC`,
       authorized: false
     }
   };
 
-  const content = await this.getCarouselAssets(component);
+  const content = await service.getCarouselAssets(component);
 
   return {
     component,

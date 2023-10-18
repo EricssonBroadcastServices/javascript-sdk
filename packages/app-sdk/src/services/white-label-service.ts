@@ -437,6 +437,6 @@ export class WhiteLabelService {
     onlyIncludePlayableAssets?: boolean;
     locale: string;
   }): Promise<ResolvedComponent<"carousel">> {
-    return getGeneratedCarouselByTagId.call(this, args);
+    return getGeneratedCarouselByTagId(this, args);
   }
 }

@@ -5,7 +5,7 @@ import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component";
 import { TagHelpers } from "../../utils/tag";
 
 export async function getGeneratedCarouselByTagId(
-  this: WhiteLabelService,
+  service: WhiteLabelService,
   {
     tagId,
     excludedAssetId,
@@ -18,7 +18,7 @@ export async function getGeneratedCarouselByTagId(
     locale: string;
   }
 ): Promise<ResolvedComponent<"carousel">> {
-  const tag = await getTagById.call(this, { tagId });
+  const tag = await getTagById.call(service, { tagId });
   const searchParams = new URLSearchParams({
     pageSize: "20",
     fieldSet: "ALL",
@@ -32,8 +32,8 @@ export async function getGeneratedCarouselByTagId(
     appType: "carousel",
     contentUrl: {
       type: "AssetQuery",
-      url: `/v1/customer/${this.context.customer}/businessunit/${
-        this.context.businessUnit
+      url: `/v1/customer/${service.context.customer}/businessunit/${
+        service.context.businessUnit
       }/content/asset?${searchParams.toString()}`,
       authorized: false
     },
@@ -46,7 +46,7 @@ export async function getGeneratedCarouselByTagId(
       localized: {}
     }
   };
-  const content = await this.getCarouselAssets(component);
+  const content = await service.getCarouselAssets(component);
   return {
     component,
     content,
