@@ -23,7 +23,8 @@ import {
   getList,
   ProgramResponse,
   StoreProductOffering,
-  TagList
+  TagList,
+  getTagById
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
 import { IExposureWLConfig } from "../interfaces/exposure-wl-config";
@@ -47,6 +48,7 @@ import {
   EpgComponentContent,
   ResolvedComponent
 } from "../interfaces/component-content";
+import { TagHelpers } from "../utils/tag";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -55,7 +57,7 @@ interface WhiteLabelServiceContext extends ServiceContext {
   getAuthToken: () => Promise<string | undefined>;
 }
 export class WhiteLabelService {
-  constructor(private context: WhiteLabelServiceContext) {}
+  constructor(public context: WhiteLabelServiceContext) {}
 
   public async get<T>({ url, query, headers }: WhiteLabelServiceGetMethodParams): Promise<T> {
     return request({ method: "GET", url, query, headers }).then(response => response.json());
@@ -427,6 +429,57 @@ export class WhiteLabelService {
     return {
       upNext: upNextAsset,
       recommendations
+    };
+  }
+
+  public async getGeneratedCarouselByTagId({
+    tagId,
+    excludedAssetId,
+    onlyIncludePlayableAssets,
+    locale
+  }: {
+    tagId: string;
+    excludedAssetId?: string;
+    onlyIncludePlayableAssets?: boolean;
+    locale: string;
+  }): Promise<ResolvedComponent<"carousel">> {
+    const tag = await getTagById.call(this, { tagId });
+    const searchParams = new URLSearchParams({
+      pageSize: "20",
+      fieldSet: "ALL",
+      query: `tags.${tag.scheme}:${tagId}${excludedAssetId ? ` NOT assetId:${excludedAssetId}` : ""}`
+    });
+    if (onlyIncludePlayableAssets) {
+      searchParams.set("playableWithinHours", "0");
+    }
+    const component: IExposureWLCarousel = {
+      id: `generated-tag-${tagId}`,
+      appType: "carousel",
+      contentUrl: {
+        type: "AssetQuery",
+        url: `/v1/customer/${this.context.customer}/businessunit/${
+          this.context.businessUnit
+        }/content/asset?${searchParams.toString()}`,
+        authorized: false
+      },
+      presentation: {
+        fallback: {
+          title: TagHelpers.getTitle(tag, locale),
+          body: "",
+          images: []
+        },
+        localized: {}
+      }
+    };
+    const content = await this.getCarouselAssets(component);
+    return {
+      component,
+      content,
+      presentationParameters: {
+        density: "MEDIUM",
+        carouselLayout: "carousel",
+        imageOrientation: "landscape"
+      }
     };
   }
 }

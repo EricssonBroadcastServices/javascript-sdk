@@ -103,4 +103,26 @@ describe("get carousel assets", () => {
       expect(caruoselItem.asset).toEqual(expectAsset());
     });
   });
+  it("gets a generated carousel by tagId", async () => {
+    const generatedCarousel = await service.getGeneratedCarouselByTagId({ tagId: "2d-animation_82162E", locale: "en" });
+    generatedCarousel.content.forEach(carouselItem => {
+      expect(carouselItem.asset).toEqual(expectAsset());
+    });
+    expect(
+      generatedCarousel.content.map(c => c.asset.assetId).includes("fed25f86-6ada-47b2-9b41-98837042568e_82162E")
+    ).toBe(true);
+  });
+  it("gets a generated carousel by tagId but excludes an asset", async () => {
+    const generatedCarousel = await service.getGeneratedCarouselByTagId({
+      excludedAssetId: "fed25f86-6ada-47b2-9b41-98837042568e_82162E",
+      tagId: "2d-animation_82162E",
+      locale: "en"
+    });
+    generatedCarousel.content.forEach(carouselItem => {
+      expect(carouselItem.asset).toEqual(expectAsset());
+    });
+    expect(
+      generatedCarousel.content.map(c => c.asset.assetId).includes("fed25f86-6ada-47b2-9b41-98837042568e_82162E")
+    ).toBe(false);
+  });
 });
