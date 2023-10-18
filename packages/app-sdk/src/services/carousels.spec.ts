@@ -98,6 +98,7 @@ describe("get carousel assets", () => {
       wlReference: carouselRef,
       countryCode: "SE"
     });
+    expect(resolved.presentationParameters.backgroundImage).toBe(carouselRef.images?.[0]);
     resolved.content?.forEach(caruoselItem => {
       expect(caruoselItem.asset).toEqual(expectAsset());
     });
