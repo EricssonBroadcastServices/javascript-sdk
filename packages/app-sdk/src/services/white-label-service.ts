@@ -23,8 +23,7 @@ import {
   getList,
   ProgramResponse,
   StoreProductOffering,
-  TagList,
-  getTagById
+  TagList
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
 import { IExposureWLConfig } from "../interfaces/exposure-wl-config";
@@ -48,7 +47,7 @@ import {
   EpgComponentContent,
   ResolvedComponent
 } from "../interfaces/component-content";
-import { TagHelpers } from "../utils/tag";
+import { getGeneratedCarouselByTagId } from "./methods/get-generated-carousel-by-tag-id";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -432,54 +431,12 @@ export class WhiteLabelService {
     };
   }
 
-  public async getGeneratedCarouselByTagId({
-    tagId,
-    excludedAssetId,
-    onlyIncludePlayableAssets,
-    locale
-  }: {
+  public async getGeneratedCarouselByTagId(args: {
     tagId: string;
     excludedAssetId?: string;
     onlyIncludePlayableAssets?: boolean;
     locale: string;
   }): Promise<ResolvedComponent<"carousel">> {
-    const tag = await getTagById.call(this, { tagId });
-    const searchParams = new URLSearchParams({
-      pageSize: "20",
-      fieldSet: "ALL",
-      query: `tags.${tag.scheme}:${tagId}${excludedAssetId ? ` NOT assetId:${excludedAssetId}` : ""}`
-    });
-    if (onlyIncludePlayableAssets) {
-      searchParams.set("playableWithinHours", "0");
-    }
-    const component: IExposureWLCarousel = {
-      id: `generated-tag-${tagId}`,
-      appType: "carousel",
-      contentUrl: {
-        type: "AssetQuery",
-        url: `/v1/customer/${this.context.customer}/businessunit/${
-          this.context.businessUnit
-        }/content/asset?${searchParams.toString()}`,
-        authorized: false
-      },
-      presentation: {
-        fallback: {
-          title: TagHelpers.getTitle(tag, locale),
-          body: "",
-          images: []
-        },
-        localized: {}
-      }
-    };
-    const content = await this.getCarouselAssets(component);
-    return {
-      component,
-      content,
-      presentationParameters: {
-        density: "MEDIUM",
-        carouselLayout: "carousel",
-        imageOrientation: "landscape"
-      }
-    };
+    return getGeneratedCarouselByTagId.call(this, args);
   }
 }
