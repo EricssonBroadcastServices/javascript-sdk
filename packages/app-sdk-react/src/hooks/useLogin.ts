@@ -1,56 +1,46 @@
 import { useCallback } from "react";
-import { useSetSession, useUserSession } from "./useUserSession";
-import { useDeprecatedExposureApi } from "./useApi";
+import { useSetSession } from "./useUserSession";
 import { useRedBeeState } from "../RedBeeProvider";
 import { ErrorCode } from "../util/error";
 
 export function useLogin() {
-  const deprecatedExposureApi = useDeprecatedExposureApi();
-  const { device, customer, businessUnit } = useRedBeeState();
+  const { session, device, customer, businessUnit, deprecatedExposureApi } = useRedBeeState();
   const setSession = useSetSession();
   return useCallback(
-    (username: string, password: string) => {
+    async (username: string, password: string) => {
       if (!device) throw "No device";
       return deprecatedExposureApi.authentication
         .login({ customer, businessUnit, username, password, device })
-        .then(session => {
-          setSession(session);
-        });
+        .then(setSession);
     },
-    [device, deprecatedExposureApi, customer, businessUnit]
+    [session?.sessionToken]
   );
 }
 
 export function useOauthLogin() {
-  const deprecatedExposureApi = useDeprecatedExposureApi();
-  const { device, customer, businessUnit } = useRedBeeState();
+  const { session, device, customer, businessUnit, deprecatedExposureApi } = useRedBeeState();
   const setSession = useSetSession();
   return useCallback(
-    (token: string) => {
+    async (token: string) => {
       if (!device) throw "No device";
       return deprecatedExposureApi.authentication
         .loginByOauthToken({ customer, businessUnit, token, device })
-        .then(session => {
-          setSession(session);
-        });
+        .then(setSession);
     },
-    [device, deprecatedExposureApi, customer, businessUnit]
+    [session?.sessionToken]
   );
 }
 
 export function useLogout() {
+  const { session, deprecatedExposureApi } = useRedBeeState();
   const setSession = useSetSession();
-  const deprecatedExposureApi = useDeprecatedExposureApi();
-  return useCallback(() => {
-    return deprecatedExposureApi.authentication.logout({}).finally(async () => {
-      setSession(null);
-    });
-  }, [setSession, deprecatedExposureApi]);
+  return useCallback(async () => {
+    return deprecatedExposureApi.authentication.logout({}).finally(async () => setSession(null));
+  }, [session?.sessionToken]);
 }
 
 export function useValidateSession() {
-  const [session] = useUserSession();
-  const deprecatedExposureApi = useDeprecatedExposureApi();
+  const { session, deprecatedExposureApi } = useRedBeeState();
   const setSession = useSetSession();
   return useCallback(async () => {
     if (session?.sessionToken) {
@@ -62,5 +52,5 @@ export function useValidateSession() {
       });
     }
     return Promise.resolve();
-  }, [session?.sessionToken, deprecatedExposureApi, setSession]);
+  }, [session?.sessionToken]);
 }
