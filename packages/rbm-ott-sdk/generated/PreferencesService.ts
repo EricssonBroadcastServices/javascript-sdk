@@ -41,7 +41,11 @@ export async function addTagToPreferencesList({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<string>);
@@ -77,7 +81,11 @@ export async function addToAssetList({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<string>);
@@ -106,7 +114,7 @@ export async function deleteFromAssetList({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<string>);
 }
@@ -135,7 +143,7 @@ export async function deleteTagFromPreferencesList({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<string>);
 }
@@ -166,7 +174,7 @@ export async function getAssetList({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AssetListItemResponse[]>);
@@ -197,7 +205,7 @@ export async function getFromAssetList({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AssetListItemResponse>);
@@ -221,7 +229,7 @@ export async function getPreferences({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<UserPreferenceResponse>);
 }
@@ -249,7 +257,7 @@ export async function getTagsFromPreferencesList({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<PreferencesListResponse>);
@@ -277,7 +285,11 @@ export async function setPreferences({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<string>);

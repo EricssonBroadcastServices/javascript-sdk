@@ -50,7 +50,11 @@ export async function addProfile({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<UserProfiles>);
@@ -78,7 +82,7 @@ export async function changeEmail({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmail`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -107,7 +111,7 @@ export async function changeEmailAndUsername({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmailAndUsername`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -143,7 +147,11 @@ export async function changePassword({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changePassword`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<ChangePasswordResponse>);
@@ -170,7 +178,7 @@ export async function confirmActivationCode({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/activation/confirm/${code}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
   });
 }
@@ -199,7 +207,11 @@ export async function confirmUserWithToken({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/confirm/${token}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<ConfirmAccountResponse>);
@@ -226,7 +238,11 @@ export async function consumeActivationCode({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/consume`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<LoginResponse>);
@@ -249,7 +265,7 @@ export async function createActivationCode({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/activationCode`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<ActivationCodeResponse>);
 }
@@ -295,7 +311,11 @@ export async function createNewAccount({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<UserSelfServiceCreateResponse>);
@@ -325,7 +345,11 @@ export async function createPinCode({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<PinCodeResponse[]>);
@@ -351,7 +375,7 @@ export async function deletePinCode({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
   });
 }
@@ -375,7 +399,7 @@ export async function deleteUserDetails({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -402,7 +426,7 @@ export async function deleteUserProfile({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
   });
 }
@@ -424,7 +448,7 @@ export async function getAccountLabels({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<LabelFilter>);
 }
@@ -447,7 +471,7 @@ export async function getPinCodes({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<PinCodeResponse[]>);
 }
@@ -470,7 +494,7 @@ export async function getProfiles({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<UserProfiles>);
 }
@@ -494,7 +518,7 @@ export async function getUserDetails({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<UserDetailsResponse>);
 }
@@ -520,7 +544,11 @@ export async function putUserAttributes({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/attributes`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<UserDetailsResponse>);
@@ -546,7 +574,7 @@ export async function resetPassword({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/password/reset/${username}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<void>);
 }
@@ -573,7 +601,7 @@ export async function selectUserProfile({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}/select`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<LoginResponse>);
 }
@@ -607,7 +635,7 @@ export async function setPasswordWithToken({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/password/${token}`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -639,7 +667,11 @@ export async function setPinCode({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<PinCodeResponse[]>);
@@ -683,7 +715,7 @@ export async function updateUserDetails({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -729,7 +761,7 @@ export async function updateUserProfile({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -760,7 +792,11 @@ export async function validatePinCode({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}/validate`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<string[]>);
@@ -788,7 +824,11 @@ export async function validatePinCodes({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/validate`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<string[]>);

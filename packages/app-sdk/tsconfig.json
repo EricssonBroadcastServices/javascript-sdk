@@ -21,10 +21,9 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "lib": [
-      "es6",
-      "es7",
+      "es2019",
       "dom",
-      "es2019"
+      "dom.iterable"
     ],
     "outDir": "dist/"
   },

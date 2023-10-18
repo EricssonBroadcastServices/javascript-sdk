@@ -44,10 +44,6 @@ export async function request({
 }: requestArgs): Promise<Response> {
   <% /* Need to cast to RequestInfo because TypeScript in Jest is stupid */ %>
   const fullUrl: RequestInfo = Object.keys(query).length ? `${url}?${new URLSearchParams(sanitizeParams(query))}` : String(url);
-  const headersObject = new Headers(headers);
-  if (!headersObject.has("content-type")) {
-    headersObject.set("content-type", "application/json");
-  }
   const params = { method, headers };
   if (body) {
     Object.assign(params, { body: JSON.stringify(body) });
