@@ -24,10 +24,10 @@ export interface IRedBeeState {
   config: DeprecatedWLConfig | null;
   selectedLanguage: string | null;
   customer: string;
+  baseUrl: string;
   businessUnit: string;
   serviceContext: ServiceContext;
   appService: AppService;
-  exposureBaseUrl: string;
   deviceGroup: DeprecatedDeviceGroup;
   deprecatedExposureApi: DeprecatedExposureApi;
   deprecatedWhiteLabelApi: DeprecatedWLService;
@@ -80,7 +80,7 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
     case ActionType.SET_SELECTED_LANGUAGE:
       return { ...state, selectedLanguage: (action as ISetSelectedLanguageAction).language };
     case ActionType.SET_SESSION: {
-      const { customer, businessUnit, exposureBaseUrl: baseUrl } = state;
+      const { customer, businessUnit, baseUrl } = state;
       const ctx = { baseUrl, customer, businessUnit };
       const appService = new AppService({
         ...ctx,
@@ -147,9 +147,9 @@ function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.Reac
 }
 
 interface IRedBeeProvider {
+  baseUrl: string;
   customer: string;
   businessUnit: string;
-  exposureBaseUrl: string;
   children?: React.ReactNode;
   deviceGroup: DeprecatedDeviceGroup;
   storage?: IStorage;
@@ -186,7 +186,7 @@ export function RedBeeProvider({
   businessUnit,
   device,
   deviceGroup,
-  exposureBaseUrl,
+  baseUrl,
   children,
   autoFetchConfig,
   onSessionValidationError
@@ -194,8 +194,8 @@ export function RedBeeProvider({
   if (!customer || !businessUnit) {
     throw "customer and businessUnit are required";
   }
-  if (!exposureBaseUrl || !deviceGroup || !device) {
-    throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
+  if (!baseUrl || !deviceGroup || !device) {
+    throw `Missing required prop in RedBeeProvider. You provided: baseUrl: ${baseUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
   }
   if (!storage) {
     console.warn("[RedBeeProvider] not providing a storage module means no data will be persisted between sessions");
@@ -207,7 +207,7 @@ export function RedBeeProvider({
       businessUnit={businessUnit}
       device={device}
       deviceGroup={deviceGroup}
-      exposureBaseUrl={exposureBaseUrl}
+      baseUrl={baseUrl}
       onSessionValidationError={onSessionValidationError}
     >
       <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>

@@ -21,9 +21,9 @@ export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedB
 
 interface IInitialPropsProvider {
   storage?: IStorage;
+  baseUrl: string;
   customer: string;
   businessUnit: string;
-  exposureBaseUrl: string;
   device: DeprecatedIDeviceInfo;
   children?: React.ReactNode;
   deviceGroup: DeprecatedDeviceGroup;
@@ -34,13 +34,13 @@ async function getValidatedPersistedSession({
   storage,
   customer,
   businessUnit,
-  exposureBaseUrl: baseUrl,
+  baseUrl,
   device
 }: {
   customer: string;
   businessUnit: string;
   storage?: IStorage;
-  exposureBaseUrl: string;
+  baseUrl: string;
   device: DeprecatedIDeviceInfo;
 }): Promise<[DeprecatedLoginResponse | null, unknown]> {
   let session: DeprecatedLoginResponse | null = null;
@@ -91,7 +91,7 @@ export function InitialPropsProvider({
   storage,
   customer,
   businessUnit,
-  exposureBaseUrl,
+  baseUrl,
   device,
   deviceGroup,
   onSessionValidationError
@@ -106,7 +106,7 @@ export function InitialPropsProvider({
           storage,
           customer,
           businessUnit,
-          exposureBaseUrl,
+          baseUrl,
           device
         });
         session = validatedSession;
@@ -121,7 +121,7 @@ export function InitialPropsProvider({
       const serviceContext: ServiceContext = {
         customer,
         businessUnit,
-        baseUrl: exposureBaseUrl
+        baseUrl
       };
       const appService = new AppService({
         ...serviceContext,
@@ -148,7 +148,7 @@ export function InitialPropsProvider({
         businessUnit,
         storage: storage || null,
         device,
-        exposureBaseUrl,
+        baseUrl,
         config: null,
         deviceGroup,
         unavailable: false,

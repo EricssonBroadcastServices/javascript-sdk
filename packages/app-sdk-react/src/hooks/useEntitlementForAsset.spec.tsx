@@ -42,7 +42,7 @@ function TestWrapper({ children }) {
   return (
     <RedBeeProvider
       deviceGroup={DeprecatedDeviceGroup.WEB}
-      exposureBaseUrl="exposure"
+      baseUrl="exposure"
       device={mockDevice}
       customer={"CU"}
       businessUnit={"BU"}

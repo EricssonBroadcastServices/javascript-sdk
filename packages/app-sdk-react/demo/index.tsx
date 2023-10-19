@@ -59,7 +59,7 @@ const storage: IStorage = {
 function AppProvider() {
   return (
     <RedBeeProvider
-      exposureBaseUrl={"https://exposure.api.redbee.dev"}
+      baseUrl={"https://exposure.api.redbee.dev"}
       customer={"BSCU"}
       businessUnit={"BSBU"}
       storage={storage}
