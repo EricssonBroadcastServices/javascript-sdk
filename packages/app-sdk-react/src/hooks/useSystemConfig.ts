@@ -1,24 +1,18 @@
-import { ISystemConfigV2 } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
+import { SystemConfig, getSystemConfigV2 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "../util/react-query";
-import { useDeprecatedExposureApi } from "./useApi";
 import { useGeolocation } from "./useGeolocation";
 
-export function useSystemConfigV2(): TApiHook<ISystemConfigV2> {
-  const deprecatedExposureApi = useDeprecatedExposureApi();
-  const { customer, businessUnit } = useRedBeeState();
+export function useSystemConfigV2(): TApiHook<SystemConfig> {
+  const { serviceContext } = useRedBeeState();
   const [userLocation] = useGeolocation();
   const { isLoading, data, error } = useQuery(
-    [QueryKeys.SYSTEM_CONFIG_V2, customer, businessUnit, userLocation?.countryCode],
+    [QueryKeys.SYSTEM_CONFIG_V2, userLocation?.countryCode, serviceContext],
     () => {
-      if (!userLocation?.countryCode || !customer || !businessUnit) return;
-      return deprecatedExposureApi.system.getSystemConfigV2({
-        customer,
-        businessUnit,
-        countryCode: userLocation.countryCode
-      });
+      if (!userLocation?.countryCode) return;
+      return getSystemConfigV2.call(serviceContext, { countryCode: userLocation.countryCode });
     },
     { staleTime: 1000 * 60 * 10 }
   );
