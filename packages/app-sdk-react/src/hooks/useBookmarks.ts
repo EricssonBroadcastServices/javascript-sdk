@@ -1,19 +1,20 @@
-import { IBookmark } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
-import { useDeprecatedExposureApi } from "./useApi";
+import { getLastViewedOffsetList, LastViewedOffset } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { useContext } from "./useApi";
 import { useAsset } from "./useAsset";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
 
-export function useBookmarks(): TApiHook<IBookmark[]> {
-  const deprecatedExposureApi = useDeprecatedExposureApi();
+export function useBookmarks(): TApiHook<LastViewedOffset[]> {
+  const ctx = useContext();
   const [session] = useUserSession();
-  const { data, isLoading, error } = useQuery([QueryKeys.BOOKMARKS], () => {
+  const { data, isLoading, error } = useQuery([QueryKeys.BOOKMARKS], async () => {
     if (!session?.isLoggedIn()) {
       return [];
     }
-    return deprecatedExposureApi.content.getBookmarks({});
+    const headers = { Authorization: `Bearer ${session?.sessionToken}` };
+    return (await getLastViewedOffsetList.call(ctx, { headers })).items;
   });
   return [data || [], isLoading, error];
 }
