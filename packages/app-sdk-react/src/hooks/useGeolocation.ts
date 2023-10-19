@@ -1,15 +1,15 @@
-import { IUserLocation } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
-import { useDeprecatedExposureApi } from "./useApi";
+import { getLocation, Location } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { useContext } from "./useApi";
 import { QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
 
-export function useGeolocation(): TApiHook<IUserLocation> {
-  const deprecatedExposureApi = useDeprecatedExposureApi();
+export function useGeolocation(): TApiHook<Location> {
+  const ctx = useContext();
   const { data, isLoading, error } = useQuery(
     QueryKeys.USER_LOCATION,
     () => {
-      return deprecatedExposureApi.location.getLocation();
+      return getLocation.call(ctx);
     },
     { staleTime: 1000 * 60 * 60 * 24 }
   );
