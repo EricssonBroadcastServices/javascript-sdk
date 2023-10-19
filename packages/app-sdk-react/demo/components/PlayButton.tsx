@@ -1,8 +1,8 @@
 import React from "react";
-import { IEntitlementStatusResult as DeprecatedIEntitlementStatusResult } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { EntitlementStatusResult } from "@ericssonbroadcastservices/app-sdk";
 import { useTranslations, useUserSession } from "../../src";
 
-export const PlayButton = ({ entitlementResult }: { entitlementResult: DeprecatedIEntitlementStatusResult | null }) => {
+export const PlayButton = ({ entitlementResult }: { entitlementResult: EntitlementStatusResult | null }) => {
   const [translations] = useTranslations();
   const [session] = useUserSession();
   if (!translations || !entitlementResult) return null;
