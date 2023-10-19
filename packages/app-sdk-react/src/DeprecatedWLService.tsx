@@ -1,7 +1,4 @@
-import {
-  DeviceType as DeprecatedDeviceType,
-  ExposureApi as DeprecatedExposureApi
-} from "@ericssonbroadcastservices/exposure-sdk";
+import { ExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
 import {
   DeviceGroup as DeprecatedDeviceGroup,
   WhiteLabelService as DeprecatedWLService,
@@ -10,7 +7,7 @@ import {
 import { DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
 import { ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
-export { DeprecatedDeviceGroup, DeprecatedDeviceType, DeprecatedExposureApi, DeprecatedWLService, DeprecatedWLConfig };
+export { DeprecatedDeviceGroup, DeprecatedWLService, DeprecatedWLConfig };
 
 export function createDeprecatedWLService(
   serviceContext: ServiceContext,
@@ -31,6 +28,6 @@ export function createDeprecatedWLService(
     ...serviceContext,
     deviceGroup: DeprecatedDeviceGroup[deviceGroup.toUpperCase()],
     authHeader,
-    exposureApi: new DeprecatedExposureApi({ ...serviceContext, authHeader })
+    exposureApi: new ExposureApi({ ...serviceContext, authHeader })
   });
 }

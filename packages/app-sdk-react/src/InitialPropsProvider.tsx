@@ -138,7 +138,6 @@ export function InitialPropsProvider({
         unavailable: false,
         serviceContext,
         appService,
-        deprecatedExposureApi: deprecatedWhiteLabelApi.exposureApi,
         deprecatedWhiteLabelApi
       });
       setIsReady(true);

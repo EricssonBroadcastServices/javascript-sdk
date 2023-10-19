@@ -10,7 +10,6 @@ import { Session } from "./Session";
 import {
   createDeprecatedWLService,
   DeprecatedDeviceGroup,
-  DeprecatedExposureApi,
   DeprecatedWLConfig,
   DeprecatedWLService
 } from "./DeprecatedWLService";
@@ -27,7 +26,6 @@ export interface IRedBeeState {
   serviceContext: ServiceContext;
   appService: AppService;
   deviceGroup: DeprecatedDeviceGroup;
-  deprecatedExposureApi: DeprecatedExposureApi;
   deprecatedWhiteLabelApi: DeprecatedWLService;
   unavailable: boolean;
 }
@@ -90,8 +88,6 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         ...state,
         session: session && new Session(session),
         appService,
-        // The only time we need to update the exposure api is when setting a new session
-        deprecatedExposureApi: deprecatedWhiteLabelApi.exposureApi,
         deprecatedWhiteLabelApi
       };
     }
