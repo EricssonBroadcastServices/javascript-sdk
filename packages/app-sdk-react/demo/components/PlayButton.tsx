@@ -2,14 +2,11 @@ import React from "react";
 import { IEntitlementStatusResult as DeprecatedIEntitlementStatusResult } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useTranslations, useUserSession } from "../../src";
 
-export const PlayButton = ({
-  entitlementResult: { isEntitled, loginToWatchForFree, isGeoBlocked, shouldJustWait, accessLater, accessNow }
-}: {
-  entitlementResult: DeprecatedIEntitlementStatusResult;
-}) => {
+export const PlayButton = ({ entitlementResult }: { entitlementResult: DeprecatedIEntitlementStatusResult | null }) => {
   const [translations] = useTranslations();
   const [session] = useUserSession();
-  if (!translations) return null;
+  if (!translations || !entitlementResult) return null;
+  const { isEntitled, loginToWatchForFree, isGeoBlocked, shouldJustWait, accessLater, accessNow } = entitlementResult;
   if (isEntitled) {
     return <button>{translations.getText("PLAY")}</button>;
   }

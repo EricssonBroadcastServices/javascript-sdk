@@ -23,7 +23,7 @@ export default function ChannelPicker() {
               gridTemplateColumns: "repeat(auto-fit, minmax(calc(33% - 0.5rem), 1fr))"
             }}
           >
-            {channels.map((c, i) => {
+            {(channels || []).map((c, i) => {
               let useChannelLogo = true;
               const channelLogo =
                 c.channel.getScaledLogo(150) || c.channel.getScaledImage(DeprecatedImageOrientation.LANDSCAPE, 150);

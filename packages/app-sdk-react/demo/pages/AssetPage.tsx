@@ -28,7 +28,8 @@ export const AssetPage = () => {
   const { id } = useParams();
   const [asset, isLoading, error] = useAsset(id);
   const [bookmarkPercentage] = useBookmarkPercentage(id);
-  const [{ upNext, recommendations }] = usePushNextContentData(id);
+  const [pnc] = usePushNextContentData(id);
+  const { upNext, recommendations } = pnc || {};
   const [continueWatching] = useContinueWatching(id);
   if (isLoading || error || !asset) return null;
   return (
