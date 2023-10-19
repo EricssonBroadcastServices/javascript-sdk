@@ -1,50 +1,62 @@
 import { useCallback } from "react";
-import { useSetSession } from "./useUserSession";
+import { useSetSession, useUserSession } from "./useUserSession";
 import { useRedBeeState } from "../RedBeeProvider";
 import { ErrorCode } from "../util/error";
+import { login, loginOauth, logout, validateSessionToken } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 export function useLogin() {
-  const { session, device, customer, businessUnit, deprecatedExposureApi } = useRedBeeState();
+  const { deviceRegistration, serviceContext } = useRedBeeState();
+  const [session] = useUserSession();
   const setSession = useSetSession();
   return useCallback(
     async (username: string, password: string) => {
-      if (!device) throw "No device";
-      return deprecatedExposureApi.authentication
-        .login({ customer, businessUnit, username, password, device })
-        .then(setSession);
+      if (!deviceRegistration) throw "No device";
+      setSession(
+        await login.call(serviceContext, {
+          username,
+          password,
+          device: deviceRegistration,
+          informationCollectionConsentGivenNow: false
+        })
+      );
     },
     [session?.sessionToken]
   );
 }
 
 export function useOauthLogin() {
-  const { session, device, customer, businessUnit, deprecatedExposureApi } = useRedBeeState();
+  const { deviceRegistration, serviceContext } = useRedBeeState();
+  const [session] = useUserSession();
   const setSession = useSetSession();
   return useCallback(
     async (token: string) => {
-      if (!device) throw "No device";
-      return deprecatedExposureApi.authentication
-        .loginByOauthToken({ customer, businessUnit, token, device })
-        .then(setSession);
+      if (!deviceRegistration) throw "No device";
+      setSession(await loginOauth.call(serviceContext, { token, device: deviceRegistration }));
     },
     [session?.sessionToken]
   );
 }
 
 export function useLogout() {
-  const { session, deprecatedExposureApi } = useRedBeeState();
   const setSession = useSetSession();
+  const { serviceContext } = useRedBeeState();
+  const [session] = useUserSession();
   return useCallback(async () => {
-    return deprecatedExposureApi.authentication.logout({}).finally(async () => setSession(null));
+    if (!session?.sessionToken) {
+      return;
+    }
+    const headers = { Authorization: `Bearer ${session?.sessionToken}` };
+    return logout.call(serviceContext, { headers, fromAllDevice: false }).finally(async () => setSession(null));
   }, [session?.sessionToken]);
 }
 
 export function useValidateSession() {
-  const { session, deprecatedExposureApi } = useRedBeeState();
+  const { serviceContext } = useRedBeeState();
+  const [session] = useUserSession();
   const setSession = useSetSession();
   return useCallback(async () => {
     if (session?.sessionToken) {
-      return deprecatedExposureApi.authentication.validateSession({}).catch(err => {
+      return validateSessionToken.call(serviceContext).catch(err => {
         if ((err as any)?.httpCode !== 401) {
           throw { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
         }

@@ -1,14 +1,15 @@
-import {
-  deserialize as deprecatedDeserialize,
-  ExposureApi as DeprecatedExposureApi,
-  IDeviceInfo as DeprecatedIDeviceInfo,
-  LoginResponse as DeprecatedLoginResponse
-} from "@ericssonbroadcastservices/exposure-sdk";
+import { ExposureApi as DeprecatedExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
 import {
   DeviceGroup as DeprecatedDeviceGroup,
   WhiteLabelService as DeprecatedWLService
 } from "@ericssonbroadcastservices/whitelabel-sdk";
-import { ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import {
+  DeviceRegistration,
+  LoginResponse,
+  ServiceContext,
+  loginAnonymous,
+  validateSessionToken
+} from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
 
 import React, { useEffect, useState } from "react";
@@ -24,7 +25,7 @@ interface IInitialPropsProvider {
   baseUrl: string;
   customer: string;
   businessUnit: string;
-  device: DeprecatedIDeviceInfo;
+  deviceRegistration: Required<DeviceRegistration>;
   children?: React.ReactNode;
   deviceGroup: DeprecatedDeviceGroup;
   onSessionValidationError?: (err: unknown) => void;
@@ -35,37 +36,29 @@ async function getValidatedPersistedSession({
   customer,
   businessUnit,
   baseUrl,
-  device
+  deviceRegistration
 }: {
   customer: string;
   businessUnit: string;
   storage?: IStorage;
   baseUrl: string;
-  device: DeprecatedIDeviceInfo;
-}): Promise<[DeprecatedLoginResponse | null, unknown]> {
-  let session: DeprecatedLoginResponse | null = null;
+  deviceRegistration: Required<DeviceRegistration>;
+}): Promise<[LoginResponse | null, unknown]> {
+  const ctx = { customer, businessUnit, baseUrl };
+  let session: LoginResponse | null = null;
   let error: unknown = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
-  const tempExposureApi = new DeprecatedExposureApi({
-    baseUrl,
-    customer,
-    businessUnit,
-    authHeader: () => undefined
-  });
   if (persistedSession) {
     const persistedSessionJSON = JSON.parse(persistedSession);
     if (!persistedSessionJSON.sessionToken) {
       storage?.removeItem(StorageKey.SESSION);
       session = null;
     } else {
-      session = deprecatedDeserialize(DeprecatedLoginResponse, persistedSessionJSON);
+      session = persistedSessionJSON;
       try {
         // this will throw if session is invalid
-        await tempExposureApi.authentication.validateSession({
-          customer,
-          businessUnit,
-          headers: { Authorization: `Bearer ${session.sessionToken}` }
-        });
+        const headers = { Authorization: `Bearer ${persistedSessionJSON.sessionToken}` };
+        validateSessionToken.call(ctx, { headers });
       } catch (err) {
         if ((err as any).httpCode === 401) {
           storage?.removeItem(StorageKey.SESSION);
@@ -78,7 +71,8 @@ async function getValidatedPersistedSession({
   }
   if (!session) {
     try {
-      session = await tempExposureApi.authentication.loginAnonymous({ customer, businessUnit, device });
+      const { deviceId, ...device } = deviceRegistration;
+      session = await loginAnonymous.call(ctx, { device, deviceId });
     } catch (err) {
       throw err;
     }
@@ -92,7 +86,7 @@ export function InitialPropsProvider({
   customer,
   businessUnit,
   baseUrl,
-  device,
+  deviceRegistration,
   deviceGroup,
   onSessionValidationError
 }: IInitialPropsProvider) {
@@ -100,14 +94,14 @@ export function InitialPropsProvider({
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      let session: DeprecatedLoginResponse | null = null;
+      let session: LoginResponse | null = null;
       try {
         const [validatedSession, validationError] = await getValidatedPersistedSession({
           storage,
           customer,
           businessUnit,
           baseUrl,
-          device
+          deviceRegistration
         });
         session = validatedSession;
         if (validationError) {
@@ -147,7 +141,7 @@ export function InitialPropsProvider({
         customer,
         businessUnit,
         storage: storage || null,
-        device,
+        deviceRegistration,
         baseUrl,
         config: null,
         deviceGroup,

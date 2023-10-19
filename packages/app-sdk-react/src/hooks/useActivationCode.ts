@@ -3,7 +3,7 @@ import { useSetSession } from "./useUserSession";
 import { useDeprecatedExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
+import { consumeActivationCode } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 interface IActivationCodeData {
   code: string;
@@ -17,7 +17,7 @@ interface IActionvationCodeOptions {
 }
 
 export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOptions): TApiHook<IActivationCodeData> {
-  const { customer, businessUnit, device } = useRedBeeState();
+  const { customer, businessUnit, serviceContext, deviceRegistration } = useRedBeeState();
   const setSession = useSetSession();
   const deprecatedExposureApi = useDeprecatedExposureApi();
   const [refreshCounter, setRefreshCounter] = useState(0);
@@ -39,14 +39,9 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
   // Poll code every 5s
   useEffect(() => {
     if (data) {
-      const timeout = setTimeout(() => {
-        deprecatedExposureApi.user
-          .consumeActivationCode({
-            customer,
-            businessUnit,
-            code: data.code,
-            device: device as IDeviceInfo
-          })
+      const timeout = setTimeout(async () => {
+        consumeActivationCode
+          .call(serviceContext, { device: deviceRegistration, activationCode: data.code })
           .then(loginResponse => {
             if (loginResponse.isOverDeviceLimit) {
               setRefreshCounter(prevState => ++prevState);
@@ -66,7 +61,7 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
     }
     return;
     // can't, and don't need to, add exposure as dependancy
-  }, [data, timeoutAttempt, device, customer, businessUnit, setSession]);
+  }, [data, timeoutAttempt, deviceRegistration, customer, businessUnit, setSession]);
 
   // Get the login code
   useEffect(() => {

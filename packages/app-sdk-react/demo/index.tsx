@@ -1,9 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {
-  DeviceType as DeprecatedDeviceType,
-  IDeviceInfo as DeprecatedIDeviceInfo
-} from "@ericssonbroadcastservices/exposure-sdk";
+import { DeviceType } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup as DeprecatedDeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { RedBeeProvider, IStorage, useConfig } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
@@ -16,10 +13,10 @@ import { Login } from "./components/Login";
 import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
 
-const device: DeprecatedIDeviceInfo = {
+const deviceRegistration = {
   deviceId: "123",
   name: "123 test",
-  type: DeprecatedDeviceType.SMART_TV
+  type: DeviceType.SMART_TV
 };
 
 export default function App() {
@@ -63,7 +60,7 @@ function AppProvider() {
       customer={"BSCU"}
       businessUnit={"BSBU"}
       storage={storage}
-      device={device}
+      deviceRegistration={deviceRegistration}
       deviceGroup={DeprecatedDeviceGroup.TV}
       autoFetchConfig
       onSessionValidationError={err => console.log(err, "sessionValidationError")}

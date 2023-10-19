@@ -1,15 +1,11 @@
-import {
-  IDeviceInfo as DeprecatedIDeviceInfo,
-  ExposureApi as DeprecatedExposureApi,
-  LoginResponse as DeprecatedLoginResponse
-} from "@ericssonbroadcastservices/exposure-sdk";
+import { ExposureApi as DeprecatedExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
 import {
   DeviceGroup as DeprecatedDeviceGroup,
   WhiteLabelService as DeprecatedWLService,
   WLConfig as DeprecatedWLConfig
 } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
-import { ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { DeviceRegistration, LoginResponse, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from "./hooks/useConfig";
@@ -19,8 +15,8 @@ import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvide
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
-  device: DeprecatedIDeviceInfo;
-  session: DeprecatedLoginResponse | null;
+  deviceRegistration: Required<DeviceRegistration>;
+  session: LoginResponse | null;
   config: DeprecatedWLConfig | null;
   selectedLanguage: string | null;
   customer: string;
@@ -52,7 +48,7 @@ interface ISetConfigAction extends IAction {
 }
 
 interface ISetSessionAction extends IAction {
-  session: DeprecatedLoginResponse | null;
+  session: LoginResponse | null;
 }
 
 interface ISetSelectedLanguageAction extends IAction {
@@ -153,7 +149,7 @@ interface IRedBeeProvider {
   children?: React.ReactNode;
   deviceGroup: DeprecatedDeviceGroup;
   storage?: IStorage;
-  device: DeprecatedIDeviceInfo;
+  deviceRegistration: Required<DeviceRegistration>;
   autoFetchConfig?: boolean;
   /** Listen for any errors when initially verifying the session.
    * Should session validation fail for any unknown reason, for example network error, the apps should retry validation.
@@ -184,7 +180,7 @@ export function RedBeeProvider({
   storage,
   customer,
   businessUnit,
-  device,
+  deviceRegistration,
   deviceGroup,
   baseUrl,
   children,
@@ -194,8 +190,8 @@ export function RedBeeProvider({
   if (!customer || !businessUnit) {
     throw "customer and businessUnit are required";
   }
-  if (!baseUrl || !deviceGroup || !device) {
-    throw `Missing required prop in RedBeeProvider. You provided: baseUrl: ${baseUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
+  if (!baseUrl || !deviceGroup || !deviceRegistration) {
+    throw `Missing required prop in RedBeeProvider. You provided: baseUrl: ${baseUrl}, deviceGroup: ${deviceGroup}, deviceRegistration: ${deviceRegistration}`;
   }
   if (!storage) {
     console.warn("[RedBeeProvider] not providing a storage module means no data will be persisted between sessions");
@@ -205,7 +201,7 @@ export function RedBeeProvider({
       storage={storage}
       customer={customer}
       businessUnit={businessUnit}
-      device={device}
+      deviceRegistration={deviceRegistration}
       deviceGroup={deviceGroup}
       baseUrl={baseUrl}
       onSessionValidationError={onSessionValidationError}

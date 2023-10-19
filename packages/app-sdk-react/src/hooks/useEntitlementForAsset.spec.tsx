@@ -4,8 +4,7 @@ import { renderHook } from "@testing-library/react-hooks";
 import {
   DeviceType as DeprecatedDeviceType,
   EntitlementActionType as DeprecatedEntitlementActionType,
-  ExposureApi as DeprecatedExposureApi,
-  IDeviceInfo as DeprecatedIDeviceInfo
+  ExposureApi as DeprecatedExposureApi
 } from "@ericssonbroadcastservices/exposure-sdk";
 import { RedBeeProvider, useEntitlementForAsset } from "..";
 import {
@@ -30,7 +29,7 @@ const storage = {
 };
 
 // const mockAsset = deserialize(DeprecatedWLAsset, {});
-const mockDevice: DeprecatedIDeviceInfo = { name: "123", deviceId: "123", type: DeprecatedDeviceType.WEB };
+const mockDevice = { name: "123", deviceId: "123", type: DeprecatedDeviceType.WEB };
 const mockWlService = new DeprecatedWLService({
   authHeader: () => ({ Authorization: "123" }),
   deviceGroup: DeprecatedDeviceGroup.WEB,
@@ -43,7 +42,7 @@ function TestWrapper({ children }) {
     <RedBeeProvider
       deviceGroup={DeprecatedDeviceGroup.WEB}
       baseUrl="exposure"
-      device={mockDevice}
+      deviceRegistration={mockDevice}
       customer={"CU"}
       businessUnit={"BU"}
       storage={storage}
