@@ -17,7 +17,7 @@ import { QueryKeys } from "../util/react-query";
 import { useDeprecatedWLApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { useTagList } from "../hooks/useTags";
-import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
+import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 
@@ -96,7 +96,7 @@ export interface IResolvedComponent {
 
 export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IResolvedComponent[]> {
   const [tagList] = useTagList();
-  const selectedLanguage = useSetSelectedLanguage();
+  const selectedLanguage = useSelectedLanguage();
   const deprecatedWlApi = useDeprecatedWLApi();
   const [page, pageLoading, pageError] = usePage(pageId, pageType);
   const [userSession] = useUserSession();
