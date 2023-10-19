@@ -23,6 +23,10 @@ export class Session implements SessionData {
     return this.data;
   }
 
+  get isAnonymous() {
+    return this.data.isAnonymous ?? false;
+  }
+
   get sessionToken() {
     return this.data.sessionToken;
   }
