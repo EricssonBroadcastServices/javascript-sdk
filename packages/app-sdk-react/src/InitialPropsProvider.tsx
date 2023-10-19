@@ -1,8 +1,3 @@
-import { ExposureApi as DeprecatedExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
-import {
-  DeviceGroup as DeprecatedDeviceGroup,
-  WhiteLabelService as DeprecatedWLService
-} from "@ericssonbroadcastservices/whitelabel-sdk";
 import {
   DeviceRegistration,
   ServiceContext,
@@ -17,6 +12,7 @@ import { IRedBeeState } from "./RedBeeProvider";
 import { ErrorCode } from "./util/error";
 import { StorageKey } from "./util/storageKeys";
 import { Session, SessionData } from "./Session";
+import { DeprecatedDeviceGroup, createDeprecatedWLService } from "./DeprecatedWLService";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
 
@@ -114,29 +110,20 @@ export function InitialPropsProvider({
         session = null;
       }
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
-      const deprecatedAuthHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
       const serviceContext: ServiceContext = {
         customer,
         businessUnit,
         baseUrl
       };
-      const appService = new AppService({
-        ...serviceContext,
+      async function getAuthToken() {
+        return session?.sessionToken;
+      }
+      const appService = new AppService({ ...serviceContext, deviceGroup, getAuthToken });
+      const deprecatedWhiteLabelApi = createDeprecatedWLService(
+        serviceContext,
         deviceGroup,
-        async getAuthToken() {
-          return session?.sessionToken;
-        }
-      });
-      const deprecatedExposureApi = new DeprecatedExposureApi({
-        ...serviceContext,
-        authHeader: deprecatedAuthHeader
-      });
-      const deprecatedWhiteLabelApi = new DeprecatedWLService({
-        ...serviceContext,
-        deviceGroup,
-        exposureApi: deprecatedExposureApi,
-        authHeader: deprecatedAuthHeader
-      });
+        () => session?.sessionToken
+      );
       setState({
         session: session && new Session(session),
         selectedLanguage: persistedSelectedLanguage || null,
@@ -151,7 +138,7 @@ export function InitialPropsProvider({
         unavailable: false,
         serviceContext,
         appService,
-        deprecatedExposureApi,
+        deprecatedExposureApi: deprecatedWhiteLabelApi.exposureApi,
         deprecatedWhiteLabelApi
       });
       setIsReady(true);

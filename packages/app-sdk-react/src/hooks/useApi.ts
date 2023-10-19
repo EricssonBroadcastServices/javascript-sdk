@@ -1,7 +1,6 @@
 import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
 import { ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { ExposureApi as DeprecatedExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
-import { WhiteLabelService as DeprecatedWLService } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { DeprecatedExposureApi, DeprecatedWLService } from "../DeprecatedWLService";
 import { useRedBeeState } from "../RedBeeProvider";
 
 export function useContext(): ServiceContext {

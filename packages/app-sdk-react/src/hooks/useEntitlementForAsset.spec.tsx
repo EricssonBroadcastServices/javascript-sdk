@@ -1,23 +1,20 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import { renderHook } from "@testing-library/react-hooks";
-import {
-  DeviceType as DeprecatedDeviceType,
-  EntitlementActionType as DeprecatedEntitlementActionType,
-  ExposureApi as DeprecatedExposureApi
-} from "@ericssonbroadcastservices/exposure-sdk";
 import { RedBeeProvider, useEntitlementForAsset } from "..";
-import {
-  DeviceGroup as DeprecatedDeviceGroup,
-  IEntitlementStatusResult as DeprecatedIEntitlementStatusResult,
-  WhiteLabelService as DeprecatedWLService,
-  WLAsset as DeprecatedWLAsset
-} from "@ericssonbroadcastservices/whitelabel-sdk";
 import * as offerings from "./useProductOfferings";
 import * as api from "./useApi";
 import * as userSession from "./useUserSession";
 import * as location from "./useGeolocation";
 import { defaultEntitlementStatus } from "./useEntitlementForAsset";
+import {
+  createDeprecatedWLService,
+  DeprecatedDeviceGroup,
+  DeprecatedDeviceType,
+  DeprecatedEntitlementActionType,
+  DeprecatedIEntitlementStatusResult,
+  DeprecatedWLAsset
+} from "../DeprecatedWLService";
 
 const storage = {
   // @ts-ignore
@@ -30,21 +27,16 @@ const storage = {
 
 // const mockAsset = deserialize(DeprecatedWLAsset, {});
 const mockDevice = { name: "123", deviceId: "123", type: DeprecatedDeviceType.WEB };
-const mockWlService = new DeprecatedWLService({
-  authHeader: () => ({ Authorization: "123" }),
-  deviceGroup: DeprecatedDeviceGroup.WEB,
-  exposureApi: new DeprecatedExposureApi({ authHeader: () => ({ Authorization: "123" }) })
-});
+const context = { baseUrl: "exposure", customer: "CU", businessUnit: "BU" };
+const mockWlService = createDeprecatedWLService(context, DeprecatedDeviceGroup.WEB, () => "123");
 
 // eslint-disable-next-line react/prop-types
 function TestWrapper({ children }) {
   return (
     <RedBeeProvider
+      {...context}
       deviceGroup={DeprecatedDeviceGroup.WEB}
-      baseUrl="exposure"
       deviceRegistration={mockDevice}
-      customer={"CU"}
-      businessUnit={"BU"}
       storage={storage}
     >
       {children}
@@ -85,12 +77,9 @@ describe("useEntitlements", () => {
     };
     jest.spyOn(userSession, "useUserSession").mockReturnValue([{ sessionToken: "123" }]);
     jest.spyOn(mockWlService, "getEntitlementForAsset").mockReturnValue(Promise.resolve(mockResult));
-    const { result, waitForNextUpdate } = renderHook(
-      () => useEntitlementForAsset({ assetId: "123" } as DeprecatedWLAsset, {}),
-      {
-        wrapper: TestWrapper
-      }
-    );
+    const { result, waitForNextUpdate } = renderHook(() => useEntitlementForAsset({ assetId: "123" } as DeprecatedWLAsset, {}), {
+      wrapper: TestWrapper
+    });
     await waitForNextUpdate();
     expect(mockWlService.getEntitlementForAsset).toHaveBeenCalled();
     expect(result.current[0]).toEqual(mockResult);

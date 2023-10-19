@@ -1,9 +1,3 @@
-import { ExposureApi as DeprecatedExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
-import {
-  DeviceGroup as DeprecatedDeviceGroup,
-  WhiteLabelService as DeprecatedWLService,
-  WLConfig as DeprecatedWLConfig
-} from "@ericssonbroadcastservices/whitelabel-sdk";
 import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
 import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
@@ -13,6 +7,13 @@ import { queryClient } from "./util/react-query";
 import { IStorage } from "./types/storage";
 import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
 import { Session } from "./Session";
+import {
+  createDeprecatedWLService,
+  DeprecatedDeviceGroup,
+  DeprecatedExposureApi,
+  DeprecatedWLConfig,
+  DeprecatedWLService
+} from "./DeprecatedWLService";
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
@@ -80,32 +81,17 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
       const { session } = action as ISetSessionAction;
       const { customer, businessUnit, baseUrl } = state;
       const ctx = { baseUrl, customer, businessUnit };
-      const appService = new AppService({
-        ...ctx,
-        deviceGroup: state.deviceGroup,
-        async getAuthToken() {
-          return session?.sessionToken;
-        }
-      });
-      const deprecatedGetAuthHeader = () => {
-        if (session?.sessionToken) {
-          return { Authorization: `Bearer ${session?.sessionToken}` };
-        }
-        return undefined;
-      };
-      const deprecatedExposureApi = new DeprecatedExposureApi({ ...ctx, authHeader: deprecatedGetAuthHeader });
-      const deprecatedWhiteLabelApi = new DeprecatedWLService({
-        ...ctx,
-        deviceGroup: state.deviceGroup,
-        exposureApi: deprecatedExposureApi,
-        authHeader: deprecatedGetAuthHeader
-      });
+      async function getAuthToken() {
+        return session?.sessionToken;
+      }
+      const appService = new AppService({ ...ctx, deviceGroup: state.deviceGroup, getAuthToken });
+      const deprecatedWhiteLabelApi = createDeprecatedWLService(ctx, state.deviceGroup, () => session?.sessionToken);
       return {
         ...state,
         session: session && new Session(session),
         appService,
         // The only time we need to update the exposure api is when setting a new session
-        deprecatedExposureApi,
+        deprecatedExposureApi: deprecatedWhiteLabelApi.exposureApi,
         deprecatedWhiteLabelApi
       };
     }
