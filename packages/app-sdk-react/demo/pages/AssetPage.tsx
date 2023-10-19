@@ -24,7 +24,7 @@ const Entitlements = ({ asset }: { asset: DeprecatedWLAsset }) => {
   );
 };
 
-export const Asset = () => {
+export const AssetPage = () => {
   const { id } = useParams();
   const [asset, isLoading, error] = useAsset(id);
   const [bookmarkPercentage] = useBookmarkPercentage(id);

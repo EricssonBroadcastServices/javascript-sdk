@@ -6,8 +6,8 @@ import { RedBeeProvider, IStorage, useConfig } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
 import SearchInput from "./components/SearchInput";
 import { Routes, Route, HashRouter, Link } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { Asset } from "./pages/Asset";
+import { HomePage } from "./pages/HomePage";
+import { AssetPage } from "./pages/AssetPage";
 import "./index.css";
 import { Login } from "./components/Login";
 import { Menu } from "./components/Menu";
@@ -34,9 +34,9 @@ export default function App() {
           <Login />
         </div>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/asset">
-            <Route path=":id" element={<Asset />} />
+            <Route path=":id" element={<AssetPage />} />
           </Route>
           <Route path="/page">
             <Route path=":id" element={<Page />} />
