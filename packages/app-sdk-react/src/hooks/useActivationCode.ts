@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
+import { consumeActivationCode, createActivationCode } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useSetSession } from "./useUserSession";
-import { useDeprecatedExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { consumeActivationCode } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 interface IActivationCodeData {
   code: string;
@@ -19,7 +18,6 @@ interface IActionvationCodeOptions {
 export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOptions): TApiHook<IActivationCodeData> {
   const { customer, businessUnit, serviceContext, deviceRegistration } = useRedBeeState();
   const setSession = useSetSession();
-  const deprecatedExposureApi = useDeprecatedExposureApi();
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [isOverDeviceLimit, setIsOverDeviceLimit] = useState(false);
   const [data, setData] = useState<{ code: string; expires: Date } | null>(null);
@@ -69,11 +67,8 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
       setData(null);
       setCodeError(null);
       setIsLoading(true);
-      deprecatedExposureApi.user
-        .getActivationCode({
-          customer,
-          businessUnit
-        })
+      createActivationCode
+        .call(serviceContext)
         .then(data => {
           setData({
             code: data.code,
