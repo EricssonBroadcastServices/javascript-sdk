@@ -1,30 +1,32 @@
 import { useCallback, useState } from "react";
-import { useDeprecatedExposureApi } from "./useApi";
-import { useSetSession } from "./useUserSession";
+import { deleteUserDetails } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { useContext } from "./useApi";
+import { useSetSession, useUserSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 
 export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>, (password: string) => Promise<void>> {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
+  const [session] = useUserSession();
   const setSession = useSetSession();
-  const deprecatedExposureApi = useDeprecatedExposureApi();
+  const ctx = useContext();
   const deleteAccount = useCallback(
-    (password: string) => {
+    async (password: string) => {
       setLoading(true);
-      return deprecatedExposureApi.user
-        .deleteUser({ password })
-        .catch(err => {
-          setError(err);
-          throw err;
-        })
-        .then(() => {
-          setSession(null);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      try {
+        if (!session?.isLoggedIn()) {
+          throw new Error("User needs to be logged in to request account deletion");
+        }
+        const headers = { Authorization: `Bearer ${session.sessionToken}` };
+        await deleteUserDetails.call(ctx, { password, headers });
+        setSession(null);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
     },
-    [setSession, deprecatedExposureApi]
+    [setSession, ctx]
   );
   return [deleteAccount, loading, error];
 }
