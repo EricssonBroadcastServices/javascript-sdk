@@ -1,8 +1,11 @@
-import { PurchaseResponse, purchaseUtils } from "@ericssonbroadcastservices/exposure-sdk";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
-import { useDeprecatedExposureApi } from "./useApi";
-import { useRedBeeState } from "../RedBeeProvider";
+import {
+  ProductOfferingPurchases,
+  cancelPurchaseSubscription,
+  getOfferingPurchases
+} from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { useContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
@@ -10,19 +13,18 @@ import { useSystemConfigV2 } from "./useSystemConfig";
 
 const purchasesCacheTime = 1000 * 60 * 30;
 
-export function usePurchases(): TApiHook<PurchaseResponse> {
-  const { customer, businessUnit } = useRedBeeState();
+export function usePurchases(): TApiHook<ProductOfferingPurchases> {
   const [login] = useUserSession();
-  const deprecatedExposureApi = useDeprecatedExposureApi();
+  const ctx = useContext();
   const [systemConfigV2] = useSystemConfigV2();
-  const paymentIsEnabled = Object.keys(systemConfigV2?.payments || "").find(paymentType => {
+  const paymentIsEnabled = Object.keys(systemConfigV2?.payments || {}).find(paymentType => {
     return systemConfigV2?.payments[paymentType].enabled;
   });
   const { data, isLoading, error } = useQuery(
     [QueryKeys.PURCHASES, login?.sessionToken, paymentIsEnabled],
     () => {
       if (login?.isLoggedIn() && paymentIsEnabled) {
-        return deprecatedExposureApi.payment.getPurchases({ customer, businessUnit, includeOfferingDetails: true });
+        return getOfferingPurchases.call(ctx, { includeOfferingDetails: true });
       }
       return;
     },
@@ -35,8 +37,8 @@ export function usePurchases(): TApiHook<PurchaseResponse> {
 
 export function useTvodIds(): TApiHook<string[]> {
   const [purchaseResponse, isLoading, error] = usePurchases();
-  const tvodIds = purchaseUtils.getTvods(purchaseResponse?.purchases || []).map(t => t.assetId);
-  return [tvodIds as string[], isLoading, error];
+  const tvodIds = purchaseResponse?.purchases?.flatMap(t => t.assetId || []) || [];
+  return [tvodIds, isLoading, error];
 }
 
 export function useConsumedDiscounts(): TApiHook<string[]> {
@@ -50,21 +52,23 @@ export function refetchPurchases() {
 
 export function useUnsubscribe(): [(purchaseId: string) => void, boolean] {
   const [loading, setLoading] = useState(false);
-  const { customer, businessUnit } = useRedBeeState();
-  const deprecatedExposureApi = useDeprecatedExposureApi();
+  const [session] = useUserSession();
+  const ctx = useContext();
   const unsubscribe = useCallback(
-    (purchaseId: string) => {
+    async (purchaseId: string) => {
       setLoading(true);
-      deprecatedExposureApi.payment
-        .cancelSubscription({ customer, businessUnit, purchaseId })
-        .then(() => {
-          refetchPurchases();
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      try {
+        if (!session?.isLoggedIn()) {
+          throw new Error("User needs to be logged in to unsubscribe");
+        }
+        const headers = { Authorization: `Bearer ${session.sessionToken}` };
+        await cancelPurchaseSubscription.call(ctx, { purchaseId, headers });
+        refetchPurchases();
+      } finally {
+        setLoading(false);
+      }
     },
-    [customer, businessUnit]
+    [ctx, session?.sessionToken]
   );
   return [unsubscribe, loading];
 }
