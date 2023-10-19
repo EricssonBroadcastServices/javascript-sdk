@@ -4,14 +4,18 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { useDeprecatedWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "../util/react-query";
+import { useUserSession } from "./useUserSession";
 
 export function useContinueWatching(tvShowId?: string): TApiHook<WLAsset> {
+  const [session] = useUserSession();
   const deprecatedWlApi = useDeprecatedWLApi();
   const { customer, businessUnit, selectedLanguage } = useRedBeeState();
   const { data, isLoading, error } = useQuery(
     [QueryKeys.CONTINUE_WATCHING, tvShowId, customer, businessUnit, selectedLanguage],
     () => {
-      if (!customer || !businessUnit || !tvShowId) return;
+      if (!tvShowId || !session?.isLoggedIn()) {
+        return;
+      }
       return deprecatedWlApi.getContinueWatchingForTvShow({
         tvShowId,
         customer,

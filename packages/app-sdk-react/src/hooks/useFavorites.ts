@@ -5,6 +5,7 @@ import { useDeprecatedExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { WLComponentSubType } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { useUserSession } from "./useUserSession";
 
 const FAVORITES_LIST_ID = "favorites";
 
@@ -80,30 +81,35 @@ export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFa
   const [handleAdd, loadingAdd] = useAddAssetToFavorites(assetId);
   const [handleRemove, loadingRemove] = useRemoveAssetFromFavorites(assetId);
   const { customer, businessUnit } = useRedBeeState();
+  const [session] = useUserSession();
+  const handler: HandleAssetFavorites = {
+    isInList: false,
+    remove: handleRemove,
+    add: handleAdd
+  };
 
   const {
     data,
     isLoading: loadingList,
     error
-  } = useQuery([QueryKeys.FAVORITE_ASSET_IN_LIST, assetId, customer, businessUnit], () => {
-    return deprecatedExposureApi.preferences
-      .getAssetFromList({
+  } = useQuery([QueryKeys.FAVORITE_ASSET_IN_LIST, assetId, customer, businessUnit], async () => {
+    if (!session?.isLoggedIn()) {
+      return false;
+    }
+    try {
+      await deprecatedExposureApi.preferences.getAssetFromList({
         listId: FAVORITES_LIST_ID,
         assetId,
         customer,
         businessUnit
-      })
-      .then(() => true)
-      .catch(() => false);
+      });
+      return true;
+    } catch {
+      return false;
+    }
   });
 
-  return [
-    {
-      isInList: !!data,
-      remove: handleRemove,
-      add: handleAdd
-    },
-    loadingAdd || loadingRemove || loadingList,
-    error
-  ];
+  handler.isInList = !!data;
+
+  return [handler, loadingAdd || loadingRemove || loadingList, error];
 }

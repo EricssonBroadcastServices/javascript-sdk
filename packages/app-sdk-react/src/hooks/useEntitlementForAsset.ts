@@ -47,14 +47,14 @@ export function useEntitlementForAsset(
     [
       QueryKeys.ASSET_ENTITLEMENT,
       asset?.assetId,
-      session?.sessionToken,
+      session?.isLoggedIn(),
       availableProductOfferings?.length,
       offeringsLoading
     ],
     () => {
       if (
+        !session?.isLoggedIn() ||
         !asset ||
-        !session?.sessionToken ||
         !customer ||
         !businessUnit ||
         !availableProductOfferings ||

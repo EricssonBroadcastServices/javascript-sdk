@@ -4,10 +4,15 @@ import { useDeprecatedExposureApi } from "./useApi";
 import { useAsset } from "./useAsset";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
+import { useUserSession } from "./useUserSession";
 
 export function useBookmarks(): TApiHook<IBookmark[]> {
   const deprecatedExposureApi = useDeprecatedExposureApi();
+  const [session] = useUserSession();
   const { data, isLoading, error } = useQuery([QueryKeys.BOOKMARKS], () => {
+    if (!session?.isLoggedIn()) {
+      return [];
+    }
     return deprecatedExposureApi.content.getBookmarks({});
   });
   return [data || [], isLoading, error];
