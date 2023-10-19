@@ -5,6 +5,9 @@ import { useRedBeeStateDispatch, ActionType, useRedBeeState } from "../RedBeePro
 import { useUserSession } from "./useUserSession";
 import { StorageKey } from "../util/storageKeys";
 
+// Not sure we should do this here, but useSelectedLanguage need to return string, not undefined
+const defaultLanguage = "en";
+
 export function useSetSelectedLanguage() {
   const deprecatedExposureApi = useDeprecatedExposureApi();
   const dispatch = useRedBeeStateDispatch();
@@ -32,5 +35,5 @@ export function useSetSelectedLanguage() {
 
 export function useSelectedLanguage() {
   const { selectedLanguage } = useRedBeeState();
-  return selectedLanguage;
+  return selectedLanguage || defaultLanguage;
 }
