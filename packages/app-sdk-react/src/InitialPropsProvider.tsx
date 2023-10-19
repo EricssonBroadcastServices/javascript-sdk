@@ -5,7 +5,6 @@ import {
 } from "@ericssonbroadcastservices/whitelabel-sdk";
 import {
   DeviceRegistration,
-  LoginResponse,
   ServiceContext,
   loginAnonymous,
   validateSessionToken
@@ -17,6 +16,7 @@ import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
 import { ErrorCode } from "./util/error";
 import { StorageKey } from "./util/storageKeys";
+import { Session, SessionData } from "./Session";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
 
@@ -43,9 +43,9 @@ async function getValidatedPersistedSession({
   storage?: IStorage;
   baseUrl: string;
   deviceRegistration: Required<DeviceRegistration>;
-}): Promise<[LoginResponse | null, unknown]> {
+}): Promise<[SessionData | null, unknown]> {
   const ctx = { customer, businessUnit, baseUrl };
-  let session: LoginResponse | null = null;
+  let session: SessionData | null = null;
   let error: unknown = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
   if (persistedSession) {
@@ -72,7 +72,10 @@ async function getValidatedPersistedSession({
   if (!session) {
     try {
       const { deviceId, ...device } = deviceRegistration;
-      session = await loginAnonymous.call(ctx, { device, deviceId });
+      session = new Session({
+        ...(await loginAnonymous.call(ctx, { device, deviceId })),
+        isAnonymous: true
+      });
     } catch (err) {
       throw err;
     }
@@ -94,7 +97,7 @@ export function InitialPropsProvider({
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      let session: LoginResponse | null = null;
+      let session: SessionData | null = null;
       try {
         const [validatedSession, validationError] = await getValidatedPersistedSession({
           storage,
@@ -135,7 +138,7 @@ export function InitialPropsProvider({
         authHeader: deprecatedAuthHeader
       });
       setState({
-        session,
+        session: session && new Session(session),
         selectedLanguage: persistedSelectedLanguage || null,
         loading: [],
         customer,

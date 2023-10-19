@@ -5,18 +5,19 @@ import {
   WLConfig as DeprecatedWLConfig
 } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
-import { DeviceRegistration, LoginResponse, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from "./hooks/useConfig";
 import { queryClient } from "./util/react-query";
 import { IStorage } from "./types/storage";
 import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
+import { Session } from "./Session";
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
   deviceRegistration: Required<DeviceRegistration>;
-  session: LoginResponse | null;
+  session: Session | null;
   config: DeprecatedWLConfig | null;
   selectedLanguage: string | null;
   customer: string;
@@ -48,7 +49,7 @@ interface ISetConfigAction extends IAction {
 }
 
 interface ISetSessionAction extends IAction {
-  session: LoginResponse | null;
+  session: Session | null;
 }
 
 interface ISetSelectedLanguageAction extends IAction {
@@ -76,18 +77,19 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
     case ActionType.SET_SELECTED_LANGUAGE:
       return { ...state, selectedLanguage: (action as ISetSelectedLanguageAction).language };
     case ActionType.SET_SESSION: {
+      const { session } = action as ISetSessionAction;
       const { customer, businessUnit, baseUrl } = state;
       const ctx = { baseUrl, customer, businessUnit };
       const appService = new AppService({
         ...ctx,
         deviceGroup: state.deviceGroup,
         async getAuthToken() {
-          return (action as ISetSessionAction).session?.sessionToken;
+          return session?.sessionToken;
         }
       });
       const deprecatedGetAuthHeader = () => {
-        if ((action as ISetSessionAction).session?.sessionToken) {
-          return { Authorization: `Bearer ${(action as ISetSessionAction).session?.sessionToken}` };
+        if (session?.sessionToken) {
+          return { Authorization: `Bearer ${session?.sessionToken}` };
         }
         return undefined;
       };
@@ -100,7 +102,7 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
       });
       return {
         ...state,
-        session: (action as ISetSessionAction).session,
+        session: session && new Session(session),
         appService,
         // The only time we need to update the exposure api is when setting a new session
         deprecatedExposureApi,
