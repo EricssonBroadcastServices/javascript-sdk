@@ -2,17 +2,15 @@ import { getWLComponent } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { IExposureComponent } from "../../interfaces/exposure-wl-component";
 import { WhiteLabelServiceContext } from "../white-label-service";
 
+export interface GetComponentByIdOptions {
+  componentId: string;
+  hasAuthorizedContent?: boolean;
+  countryCode: string;
+}
+
 export async function getComponentById<T extends IExposureComponent>(
   context: WhiteLabelServiceContext,
-  {
-    componentId,
-    hasAuthorizedContent = false,
-    countryCode
-  }: {
-    componentId: string;
-    hasAuthorizedContent?: boolean;
-    countryCode: string;
-  }
+  { componentId, hasAuthorizedContent = false, countryCode }: GetComponentByIdOptions
 ): Promise<T> {
   const authToken = await context.getAuthToken();
   if (hasAuthorizedContent && !authToken) {

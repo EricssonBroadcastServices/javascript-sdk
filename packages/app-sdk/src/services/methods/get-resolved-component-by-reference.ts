@@ -5,15 +5,14 @@ import { WhiteLabelServiceContext } from "../white-label-service";
 import { getComponentByReference } from "./get-component-by-reference";
 import { getComponentContent } from "./get-component-content";
 
+export interface GetResolvedComponentByReferenceOptions {
+  wlReference: IExposureWLReference;
+  countryCode: string;
+}
+
 export async function getResolvedComponentByReference<T extends keyof ComponentContentMap | WLComponentType>(
   context: WhiteLabelServiceContext,
-  {
-    wlReference,
-    countryCode
-  }: {
-    wlReference: IExposureWLReference;
-    countryCode: string;
-  }
+  { wlReference, countryCode }: GetResolvedComponentByReferenceOptions
 ): Promise<ResolvedComponent<T>> {
   const component = await getComponentByReference(context, { wlReference, countryCode });
   const componentContent = await getComponentContent<T>(context, { component });

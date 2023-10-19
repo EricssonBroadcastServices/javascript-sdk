@@ -5,13 +5,15 @@ import { IExposureWLConfig } from "../../interfaces/exposure-wl-config";
 import { getConfigByCustomerAndBusinessUnit } from "./get-config-by-customer-and-businessUnit";
 import { getComponentByReference } from "./get-component-by-reference";
 
-export async function getEssentialAppData(context: WhiteLabelServiceContext): Promise<{
+export interface EssentialAppData {
   systemConfig: SystemConfig;
   menu: IExposureWLMenu;
   footer: IExposureWLFooter | undefined;
   countryCode: string;
   config: IExposureWLConfig;
-}> {
+}
+
+export async function getEssentialAppData(context: WhiteLabelServiceContext): Promise<EssentialAppData> {
   const location = await getLocationFromReferer.call(context);
   const { countryCode } = location;
   if (!countryCode) {

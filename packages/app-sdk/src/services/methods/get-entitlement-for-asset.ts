@@ -3,17 +3,15 @@ import { EntitlementStatus, EntitlementStatusResult } from "../../interfaces/ent
 import { WhiteLabelService } from "../white-label-service";
 import { errorToEntitlementResult } from "../../utils/entitlement";
 
+export interface GetEntitlementForAssetOptions {
+  asset: Asset;
+  availableProductOfferings: StoreProductOffering[];
+  paymentProvider?: PaymentProvider;
+}
+
 export async function getEntitlementForAsset(
   service: WhiteLabelService,
-  {
-    asset,
-    paymentProvider,
-    availableProductOfferings
-  }: {
-    asset: Asset;
-    availableProductOfferings: StoreProductOffering[];
-    paymentProvider?: PaymentProvider;
-  }
+  { asset, paymentProvider, availableProductOfferings }: GetEntitlementForAssetOptions
 ): Promise<EntitlementStatusResult> {
   return await entitle
     .call(service.context, {

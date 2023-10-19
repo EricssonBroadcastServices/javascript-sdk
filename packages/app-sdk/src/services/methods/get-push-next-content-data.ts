@@ -7,17 +7,16 @@ import {
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { PublicationHelpers } from "../../utils/publication";
 
+export interface GetPushNextContentDataOptions {
+  /** The id of the asset */
+  assetId: string;
+  /** whether or not upNext should be populated by the next upcoming program, if available */
+  pushNextProgram?: boolean;
+}
+
 export async function getPushNextContentData(
   context: ServiceContext,
-  {
-    assetId,
-    pushNextProgram
-  }: {
-    /** The id of the asset */
-    assetId: string;
-    /** whether or not upNext should be populated by the next upcoming program, if available */
-    pushNextProgram?: boolean;
-  }
+  { assetId, pushNextProgram }: GetPushNextContentDataOptions
 ) {
   let upNextAsset: Asset | undefined;
   let recommendations: Asset[] = [];

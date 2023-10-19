@@ -1,16 +1,5 @@
-import {
-  getAsset,
-  getAssets,
-  Asset,
-  PaymentProvider,
-  ServiceContext,
-  AssetType,
-  SystemConfig,
-  StoreProductOffering
-} from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { getAsset, getAssets, Asset, ServiceContext, AssetType } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
-import { IExposureWLConfig } from "../interfaces/exposure-wl-config";
-import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
 import {
   IExposureComponent,
   IExposureWLCarousel,
@@ -18,7 +7,6 @@ import {
   IExpoureWLEpgComponent,
   WLComponentType
 } from "../interfaces/exposure-wl-component";
-import { IExposureWLFooter, IExposureWLMenu } from "../interfaces/exposure-wl-menu";
 import { PushNextContent } from "../interfaces/push-next-content";
 import { EntitlementStatusResult } from "../interfaces/entitlement-result";
 import {
@@ -27,21 +15,34 @@ import {
   EpgComponentContent,
   ResolvedComponent
 } from "../interfaces/component-content";
-import { getGeneratedCarouselByTagId } from "./methods/get-generated-carousel-by-tag-id";
-import { getPushNextContentData } from "./methods/get-push-next-content-data";
+import {
+  GetGeneratedCarouselByTagIdOptions,
+  getGeneratedCarouselByTagId
+} from "./methods/get-generated-carousel-by-tag-id";
+import { GetPushNextContentDataOptions, getPushNextContentData } from "./methods/get-push-next-content-data";
 import { getEpgContent } from "./methods/get-epg-content";
 import { getCarouselAssets } from "./methods/get-carousel-assets";
-import { getEntitlementForAsset } from "./methods/get-entitlement-for-asset";
-import { getEssentialAppData } from "./methods/get-essential-app-data";
+import { GetEntitlementForAssetOptions, getEntitlementForAsset } from "./methods/get-entitlement-for-asset";
+import { EssentialAppData, getEssentialAppData } from "./methods/get-essential-app-data";
 import { get } from "../utils/http";
-import { getConfigByCustomerAndBusinessUnit } from "./methods/get-config-by-customer-and-businessUnit";
+import {
+  GetConfigByCustomerAndBusinessUnitOptions,
+  getConfigByCustomerAndBusinessUnit
+} from "./methods/get-config-by-customer-and-businessUnit";
 import { getTagList } from "./methods/get-tag-list";
-import { getResolvedComponentByReference } from "./methods/get-resolved-component-by-reference";
-import { getComponentContent } from "./methods/get-component-content";
+import {
+  GetResolvedComponentByReferenceOptions,
+  getResolvedComponentByReference
+} from "./methods/get-resolved-component-by-reference";
+import { GetComponentContentOptions, getComponentContent } from "./methods/get-component-content";
 import { getCategoriesContent } from "./methods/get-categories-content";
-import { getComponentByReference } from "./methods/get-component-by-reference";
-import { getComponentById } from "./methods/get-component-by-id";
-import { getConfigByOrigin } from "./methods/get-config-by-origin";
+import { GetComponentByReferenceOptions, getComponentByReference } from "./methods/get-component-by-reference";
+import { GetComponentByIdOptions, getComponentById } from "./methods/get-component-by-id";
+import { GetConfigByOriginOptions, getConfigByOrigin } from "./methods/get-config-by-origin";
+import {
+  GetGeneratedCollectionEntriesCarouselOptions,
+  getGeneratedCollectionEntriesCarousel
+} from "./methods/get-generated-collection-entries-carousel";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
@@ -50,49 +51,35 @@ export interface WhiteLabelServiceContext extends ServiceContext {
 export class WhiteLabelService {
   constructor(public context: WhiteLabelServiceContext) {}
 
-  public async getResolvedComponentByReference<T extends keyof ComponentContentMap | WLComponentType>(args: {
-    wlReference: IExposureWLReference;
-    countryCode: string;
-  }): Promise<ResolvedComponent<T>> {
+  public async getResolvedComponentByReference<T extends keyof ComponentContentMap | WLComponentType>(
+    args: GetResolvedComponentByReferenceOptions
+  ): Promise<ResolvedComponent<T>> {
     return getResolvedComponentByReference(this.context, args);
   }
 
-  public async getComponentContent<T extends keyof ComponentContentMap>(args: {
-    component: IExposureComponent;
-  }): Promise<ComponentContentMap[T]> {
+  public async getComponentContent<T extends keyof ComponentContentMap>(
+    args: GetComponentContentOptions
+  ): Promise<ComponentContentMap[T]> {
     return getComponentContent(this.context, args);
   }
 
-  public async getComponentById<T extends IExposureComponent>(args: {
-    componentId: string;
-    hasAuthorizedContent?: boolean;
-    countryCode: string;
-  }): Promise<T> {
+  public async getComponentById<T extends IExposureComponent>(args: GetComponentByIdOptions): Promise<T> {
     return getComponentById(this.context, args);
   }
 
-  public async getComponentByReference<T extends IExposureComponent>(args: {
-    wlReference: IExposureWLReference;
-    countryCode: string;
-  }): Promise<T> {
+  public async getComponentByReference<T extends IExposureComponent>(args: GetComponentByReferenceOptions): Promise<T> {
     return getComponentByReference(this.context, args);
   }
 
-  public async getEssentialAppData(): Promise<{
-    systemConfig: SystemConfig;
-    menu: IExposureWLMenu;
-    footer: IExposureWLFooter | undefined;
-    countryCode: string;
-    config: IExposureWLConfig;
-  }> {
+  public async getEssentialAppData(): Promise<EssentialAppData> {
     return getEssentialAppData(this.context);
   }
 
-  public getConfigByOrigin(args: { origin: string }) {
+  public getConfigByOrigin(args: GetConfigByOriginOptions) {
     return getConfigByOrigin(this.context, args);
   }
 
-  public async getConfigByCustomerAndBusinessUnit(args: { countryCode: string }) {
+  public async getConfigByCustomerAndBusinessUnit(args: GetConfigByCustomerAndBusinessUnitOptions) {
     return getConfigByCustomerAndBusinessUnit(this.context, args);
   }
 
@@ -120,11 +107,7 @@ export class WhiteLabelService {
     ).items;
   }
 
-  public async getEntitlementForAsset(args: {
-    asset: Asset;
-    availableProductOfferings: StoreProductOffering[];
-    paymentProvider?: PaymentProvider;
-  }): Promise<EntitlementStatusResult> {
+  public async getEntitlementForAsset(args: GetEntitlementForAssetOptions): Promise<EntitlementStatusResult> {
     return getEntitlementForAsset(this, args);
   }
 
@@ -148,21 +131,17 @@ export class WhiteLabelService {
     return get({ url: `/api/internal/translations/${locale}` });
   }
 
-  public async getPushNextContentData(args: {
-    /** The id of the asset */
-    assetId: string;
-    /** whether or not upNext should be populated by the next upcoming program, if available */
-    pushNextProgram?: boolean;
-  }): Promise<PushNextContent> {
+  public async getPushNextContentData(args: GetPushNextContentDataOptions): Promise<PushNextContent> {
     return getPushNextContentData(this.context, args);
   }
 
-  public async getGeneratedCarouselByTagId(args: {
-    tagId: string;
-    excludedAssetId?: string;
-    onlyIncludePlayableAssets?: boolean;
-    locale: string;
-  }): Promise<ResolvedComponent<"carousel">> {
+  public async getGeneratedCarouselByTagId(
+    args: GetGeneratedCarouselByTagIdOptions
+  ): Promise<ResolvedComponent<"carousel">> {
     return getGeneratedCarouselByTagId(this, args);
+  }
+
+  public async getGeneratedCollectionEntriesCarousel(args: GetGeneratedCollectionEntriesCarouselOptions) {
+    return getGeneratedCollectionEntriesCarousel(this.context, args);
   }
 }

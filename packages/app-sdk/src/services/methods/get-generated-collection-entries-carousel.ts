@@ -3,13 +3,13 @@ import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component";
 import { WhiteLabelServiceContext } from "../white-label-service";
 import { getCarouselAssets } from "./get-carousel-assets";
 
-interface IGetGeneratedCollectionEntriesCarousel {
+export interface GetGeneratedCollectionEntriesCarouselOptions {
   assetId: string;
 }
 
 export async function getGeneratedCollectionEntriesCarousel(
   context: WhiteLabelServiceContext,
-  { assetId }: IGetGeneratedCollectionEntriesCarousel
+  { assetId }: GetGeneratedCollectionEntriesCarouselOptions
 ): Promise<ResolvedComponent<"carousel">> {
   const component: IExposureWLCarousel = {
     id: `generated-collection-entries-carousel-${assetId}`,

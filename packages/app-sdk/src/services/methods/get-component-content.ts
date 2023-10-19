@@ -10,13 +10,13 @@ import { getCarouselAssets } from "./get-carousel-assets";
 import { getCategoriesContent } from "./get-categories-content";
 import { getEpgContent } from "./get-epg-content";
 
+export interface GetComponentContentOptions {
+  component: IExposureComponent;
+}
+
 export async function getComponentContent<T extends keyof ComponentContentMap>(
   context: WhiteLabelServiceContext,
-  {
-    component
-  }: {
-    component: IExposureComponent;
-  }
+  { component }: GetComponentContentOptions
 ): Promise<ComponentContentMap[T]> {
   switch (component.appType) {
     case "carousel":
