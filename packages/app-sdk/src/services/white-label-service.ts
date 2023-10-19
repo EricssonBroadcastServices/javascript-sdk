@@ -331,7 +331,8 @@ export class WhiteLabelService {
   }
 
   public getTranslations(locale: string) {
-    return this.get({ url: `/api/internal/translations/${locale}` });
+    const url = new URL(`/api/internal/translations/${locale}`, this.context.baseUrl);
+    return this.get({ url });
   }
 
   public async getPushNextContentData({
