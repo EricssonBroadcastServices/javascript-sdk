@@ -1,28 +1,18 @@
-import { WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { getContinueWatchingTvShow, WatchedTvShowResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useQuery } from "react-query";
 import { useRedBeeState } from "../RedBeeProvider";
-import { useDeprecatedWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
 
-export function useContinueWatching(tvShowId?: string): TApiHook<WLAsset> {
+export function useContinueWatching(tvshowid?: string): TApiHook<WatchedTvShowResponse> {
   const [session] = useUserSession();
-  const deprecatedWlApi = useDeprecatedWLApi();
-  const { customer, businessUnit, selectedLanguage } = useRedBeeState();
-  const { data, isLoading, error } = useQuery(
-    [QueryKeys.CONTINUE_WATCHING, tvShowId, customer, businessUnit, selectedLanguage],
-    () => {
-      if (!tvShowId || !session?.isLoggedIn()) {
-        return;
-      }
-      return deprecatedWlApi.getContinueWatchingForTvShow({
-        tvShowId,
-        customer,
-        businessUnit,
-        locale: selectedLanguage as string
-      });
+  const { serviceContext } = useRedBeeState();
+  const { data, isLoading, error } = useQuery([QueryKeys.CONTINUE_WATCHING, tvshowid, serviceContext], () => {
+    if (!tvshowid || !session?.isLoggedIn()) {
+      return;
     }
-  );
+    return getContinueWatchingTvShow.call(serviceContext, { tvshowid });
+  });
   return [data || null, isLoading, error];
 }
