@@ -122,7 +122,7 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IR
           }
           let internalUrl: string | undefined = reference.internalUrl;
           if (reference?.subType === WLComponentSubType.TAG_FEED_QUERY && reference?.urlVariables) {
-            if (!!tagList && tagList.items.length) {
+            if (!!tagList && tagList?.items?.length) {
               reference.urlVariables.forEach(urlVariable => {
                 internalUrl = internalUrl?.replace(
                   `{${urlVariable}}`,
