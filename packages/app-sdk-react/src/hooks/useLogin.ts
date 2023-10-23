@@ -10,7 +10,7 @@ export function useLogin() {
   const setSession = useSetSession();
   return useCallback(
     async (username: string, password: string) => {
-      if (!deviceRegistration) throw "No device";
+      if (!deviceRegistration) throw new Error("No device");
       setSession(
         await login.call(serviceContext, {
           username,
@@ -30,7 +30,7 @@ export function useOauthLogin() {
   const setSession = useSetSession();
   return useCallback(
     async (token: string) => {
-      if (!deviceRegistration) throw "No device";
+      if (!deviceRegistration) throw new Error("No device");
       setSession(await loginOauth.call(serviceContext, { token, device: deviceRegistration }));
     },
     [session?.sessionToken]

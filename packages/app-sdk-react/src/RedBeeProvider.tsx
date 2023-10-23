@@ -172,10 +172,12 @@ export function RedBeeProvider({
   onSessionValidationError
 }: IRedBeeProvider) {
   if (!customer || !businessUnit) {
-    throw "customer and businessUnit are required";
+    throw new Error("customer and businessUnit are required");
   }
   if (!baseUrl || !deviceGroup || !deviceRegistration) {
-    throw `Missing required prop in RedBeeProvider. You provided: baseUrl: ${baseUrl}, deviceGroup: ${deviceGroup}, deviceRegistration: ${deviceRegistration}`;
+    throw new Error(
+      `Missing required prop in RedBeeProvider. You provided: baseUrl: ${baseUrl}, deviceGroup: ${deviceGroup}, deviceRegistration: ${deviceRegistration}`
+    );
   }
   if (!storage) {
     console.warn("[RedBeeProvider] not providing a storage module means no data will be persisted between sessions");
