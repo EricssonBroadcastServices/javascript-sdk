@@ -3,7 +3,7 @@ import { ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeprecatedWLService } from "../DeprecatedWLService";
 import { useRedBeeState } from "../RedBeeProvider";
 
-export function useContext(): ServiceContext {
+export function useServiceContext(): ServiceContext {
   const { serviceContext } = useRedBeeState();
   return serviceContext;
 }

@@ -8,13 +8,13 @@ import {
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
-import { useContext } from "./useApi";
+import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
 
 const TAG_FEED_LIST_ID = "tagfeed";
 
 export function useTagList(): TApiHook<PreferencesListResponse> {
-  const ctx = useContext();
+  const ctx = useServiceContext();
   const [session] = useUserSession();
   const { data, isLoading, error } = useQuery([QueryKeys.TAGS_LIST, session?.sessionToken], () => {
     if (!session?.isLoggedIn()) return;
@@ -25,7 +25,7 @@ export function useTagList(): TApiHook<PreferencesListResponse> {
 }
 
 export function useAddTag(tagId: string): TApiHook<() => void, () => void> {
-  const ctx = useContext();
+  const ctx = useServiceContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
@@ -50,7 +50,7 @@ export function useAddTag(tagId: string): TApiHook<() => void, () => void> {
 }
 
 export function useRemoveTag(tagId: string): TApiHook<() => void, () => void> {
-  const ctx = useContext();
+  const ctx = useServiceContext();
   const [session] = useUserSession();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);

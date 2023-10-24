@@ -1,13 +1,13 @@
 import { useQuery } from "react-query";
 import { getLastViewedOffsetList, LastViewedOffset } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useContext } from "./useApi";
+import { useServiceContext } from "./useApi";
 import { useAsset } from "./useAsset";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
 
 export function useBookmarks(): TApiHook<LastViewedOffset[]> {
-  const ctx = useContext();
+  const ctx = useServiceContext();
   const [session] = useUserSession();
   const { data, isLoading, error } = useQuery([QueryKeys.BOOKMARKS], async () => {
     if (!session?.isLoggedIn()) {

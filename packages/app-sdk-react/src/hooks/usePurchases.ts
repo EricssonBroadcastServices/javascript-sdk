@@ -5,7 +5,7 @@ import {
   cancelPurchaseSubscription,
   getOfferingPurchases
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useContext } from "./useApi";
+import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
@@ -15,7 +15,7 @@ const purchasesCacheTime = 1000 * 60 * 30;
 
 export function usePurchases(): TApiHook<ProductOfferingPurchases> {
   const [login] = useUserSession();
-  const ctx = useContext();
+  const ctx = useServiceContext();
   const [systemConfigV2] = useSystemConfigV2();
   const paymentIsEnabled = Object.keys(systemConfigV2?.payments || {}).find(paymentType => {
     return systemConfigV2?.payments[paymentType].enabled;
@@ -53,7 +53,7 @@ export function refetchPurchases() {
 export function useUnsubscribe(): [(purchaseId: string) => void, boolean] {
   const [loading, setLoading] = useState(false);
   const [session] = useUserSession();
-  const ctx = useContext();
+  const ctx = useServiceContext();
   const unsubscribe = useCallback(
     async (purchaseId: string) => {
       setLoading(true);

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { deleteUserDetails } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useContext } from "./useApi";
+import { useServiceContext } from "./useApi";
 import { useSetSession, useUserSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 
@@ -9,7 +9,7 @@ export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>
   const [error, setError] = useState<unknown>(null);
   const [session] = useUserSession();
   const setSession = useSetSession();
-  const ctx = useContext();
+  const ctx = useServiceContext();
   const deleteAccount = useCallback(
     async (password: string) => {
       setLoading(true);
