@@ -125,4 +125,16 @@ describe("get carousel assets", () => {
       generatedCarousel.content.map(c => c.asset.assetId).includes("fed25f86-6ada-47b2-9b41-98837042568e_82162E")
     ).toBe(false);
   });
+  it("get a generated epg carousel from assetId", async () => {
+    const translations = await service.getTranslations("en");
+    const generatedCarousel = await service.getGeneratedEpgCarouselFromAssetId({
+      assetId: "89bff8fb_82162E",
+      translations
+    });
+    generatedCarousel.content.forEach(carouselItem => {
+      expect(new Date(carouselItem.startTime as string).getTime()).not.toEqual(NaN);
+      expect(new Date(carouselItem.endTime as string).getTime()).not.toEqual(NaN);
+      expect(carouselItem.asset).toEqual(expectAsset());
+    });
+  });
 });

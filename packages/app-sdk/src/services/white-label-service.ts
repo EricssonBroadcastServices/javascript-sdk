@@ -43,6 +43,15 @@ import {
   GetGeneratedCollectionEntriesCarouselOptions,
   getGeneratedCollectionEntriesCarousel
 } from "./methods/get-generated-collection-entries-carousel";
+import {
+  GetGeneratedTrailersForAssetCarouselOptions,
+  getGeneratedTrailersForAssetCarousel
+} from "./methods/get-generated-trailers-carousel";
+import {
+  GetGeneratedEpgCarouselFromAssetIdOptions,
+  getGeneratedEpgCarouselFromAssetId
+} from "./methods/get-generated-epg-carousel";
+import { Translations } from "../utils/wl-translations";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
@@ -128,7 +137,9 @@ export class WhiteLabelService {
   }
 
   public getTranslations(locale: string) {
-    return get({ url: `/api/internal/translations/${locale}` });
+    return get({ url: `${this.context.baseUrl}/api/internal/translations/${locale}` }).then(
+      data => new Translations(data)
+    );
   }
 
   public async getPushNextContentData(args: GetPushNextContentDataOptions): Promise<PushNextContent> {
@@ -143,5 +154,13 @@ export class WhiteLabelService {
 
   public async getGeneratedCollectionEntriesCarousel(args: GetGeneratedCollectionEntriesCarouselOptions) {
     return getGeneratedCollectionEntriesCarousel(this.context, args);
+  }
+
+  public async getGeneratedTrailersForAssetCarousel(args: GetGeneratedTrailersForAssetCarouselOptions) {
+    return getGeneratedTrailersForAssetCarousel(this.context, args);
+  }
+
+  public async getGeneratedEpgCarouselFromAssetId(args: GetGeneratedEpgCarouselFromAssetIdOptions) {
+    return getGeneratedEpgCarouselFromAssetId(this.context, args);
   }
 }
