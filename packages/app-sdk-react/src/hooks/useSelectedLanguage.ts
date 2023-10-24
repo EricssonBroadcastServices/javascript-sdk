@@ -5,7 +5,7 @@ import { useRedBeeStateDispatch, ActionType, useRedBeeState } from "../RedBeePro
 import { useUserSession } from "./useUserSession";
 import { StorageKey } from "../util/storageKeys";
 
-// Not sure we should do this here, but useSelectedLanguage need to return string, not undefined
+// @TODO: use defaultLanguage from system config as the fallback instead
 const defaultLanguage = "en";
 
 export function useSetSelectedLanguage() {
