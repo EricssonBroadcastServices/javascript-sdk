@@ -10,10 +10,15 @@ export const FavoriteButton = ({ assetId }: { assetId: string }) => {
     return <button>{"You have to be logged in to see your favorites"}</button>;
   }
 
-  if (isInList && !loading) {
+  if (!add || !remove) {
+    return null;
+  }
+  if (loading) {
+    return <button onClick={() => null}>{"loading..."}</button>;
+  }
+  if (isInList) {
     return <button onClick={remove}>{"It's a favorite"}</button>;
-  } else if (!isInList && !loading) {
+  } else {
     return <button onClick={add}>{"It's not a favorite, yet"}</button>;
   }
-  return <button onClick={() => null}>{"loading..."}</button>;
 };

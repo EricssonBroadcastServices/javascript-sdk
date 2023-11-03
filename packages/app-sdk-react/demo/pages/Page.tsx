@@ -18,7 +18,7 @@ function PagePresentation(props: IResolvedComponent) {
 
 export const Page = () => {
   const { id } = useParams();
-  const [pages, isLoading] = useResolvedPage(id, PageType.PAGE);
+  const [pages, isLoading] = useResolvedPage(id as string, PageType.PAGE);
   if (isLoading || !pages) return null;
   return (
     <div>

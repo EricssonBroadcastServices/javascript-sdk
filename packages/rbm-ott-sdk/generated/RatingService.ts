@@ -34,7 +34,7 @@ export async function deleteUserContentRating({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
   });
 }
@@ -59,7 +59,7 @@ export async function getAllUserContentRatingsForAsset({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}/all`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<GetAllUserContentRatingsForAssetResponse[]>);
 }
@@ -82,7 +82,7 @@ export async function getAllUserContentRatingsForUser({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/all`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<GetAllUserContentRatingsForUserResponse[]>);
 }
@@ -108,7 +108,7 @@ export async function getUserContentRating({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<GetUserContentRatingResponse>);
 }
@@ -136,7 +136,7 @@ export async function putUserContentRating({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/rating/asset/${assetId}`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });

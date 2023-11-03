@@ -116,7 +116,7 @@ export async function <%~ methodName + (isPartial ? "<T = any>" : "") %>({<%~ ex
   return request({
     method: "<%~ _.upperCase(method) %>",
     url: `${ctx.baseUrl}<%~ processedPath %>`,
-    headers,
+    headers: new Headers({ <%~ type !== "any" ? 'accept: "application/json",' : "" %> <%~ payload ? '"content-type": "application/json",' : "" %> ...Object.fromEntries(new Headers(headers))}),
     ctx,
     <%~ query ? `query: ${getRestParamsWithDefaults()} as unknown as QueryParams,` : "" %>
     <%~ payload ? `body: ${getRestParamsWithDefaults()},` : "" %>

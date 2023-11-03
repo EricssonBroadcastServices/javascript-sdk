@@ -1,19 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { DeviceType, IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
-import { DeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { DeviceType } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { DeviceGroup as DeprecatedDeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { RedBeeProvider, IStorage, useConfig } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
 import SearchInput from "./components/SearchInput";
 import { Routes, Route, HashRouter, Link } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { Asset } from "./pages/Asset";
+import { HomePage } from "./pages/HomePage";
+import { AssetPage } from "./pages/AssetPage";
 import "./index.css";
 import { Login } from "./components/Login";
 import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
 
-const device: IDeviceInfo = {
+const deviceRegistration = {
   deviceId: "123",
   name: "123 test",
   type: DeviceType.SMART_TV
@@ -34,9 +34,9 @@ export default function App() {
           <Login />
         </div>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/asset">
-            <Route path=":id" element={<Asset />} />
+            <Route path=":id" element={<AssetPage />} />
           </Route>
           <Route path="/page">
             <Route path=":id" element={<Page />} />
@@ -56,12 +56,12 @@ const storage: IStorage = {
 function AppProvider() {
   return (
     <RedBeeProvider
-      exposureBaseUrl={"https://exposure.api.redbee.dev"}
+      baseUrl={"https://exposure.api.redbee.dev"}
       customer={"BSCU"}
       businessUnit={"BSBU"}
       storage={storage}
-      device={device}
-      deviceGroup={DeviceGroup.TV}
+      deviceRegistration={deviceRegistration}
+      deviceGroup={DeprecatedDeviceGroup.TV}
       autoFetchConfig
       onSessionValidationError={err => console.log(err, "sessionValidationError")}
     >

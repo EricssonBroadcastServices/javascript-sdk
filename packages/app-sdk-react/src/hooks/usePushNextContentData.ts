@@ -1,24 +1,19 @@
-import { WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useEffect, useState } from "react";
-import { useSelectedLanguage } from "./useSelectedLanguage";
+import { Asset } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
-import { useWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
+import { PushNextContent } from "@ericssonbroadcastservices/app-sdk";
 
 export function usePushNextContentData(
   assetId?: string
-): TApiHook<{ upNext: WLAsset | null; recommendations: WLAsset[] | null }> {
-  const { customer, businessUnit } = useRedBeeState();
-  const locale = useSelectedLanguage();
-  const [pushNextContent, setPushNextContent] = useState<{ upNext: WLAsset | null; recommendations: WLAsset[] } | null>(
-    null
-  );
+): TApiHook<{ upNext?: Asset; recommendations: Asset[] | null }> {
+  const { customer, businessUnit, appService } = useRedBeeState();
+  const [pushNextContent, setPushNextContent] = useState<PushNextContent | null>(null);
   const [error, setError] = useState(null);
-  const wlApi = useWLApi();
   useEffect(() => {
     if (assetId) {
-      wlApi
-        .getPushNextContent({ customer, businessUnit, assetId, locale: locale as string })
+      appService
+        .getPushNextContentData({ assetId })
         .then(pnc => {
           setPushNextContent(pnc);
         })
@@ -26,10 +21,6 @@ export function usePushNextContentData(
           setError(err);
         });
     }
-  }, [assetId, customer, businessUnit, locale]);
-  return [
-    { upNext: pushNextContent?.upNext || null, recommendations: pushNextContent?.recommendations || null },
-    false,
-    error
-  ];
+  }, [assetId, customer, businessUnit]);
+  return [pushNextContent || null, false, error];
 }

@@ -21,8 +21,8 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
-        exclude: /node_modules/,
-        use: "babel-loader"
+        exclude: [/node_modules\/(?!@ericssonbroadcastservices)/],
+        use: "swc-loader"
       },
       {
         test: /\.css$/,

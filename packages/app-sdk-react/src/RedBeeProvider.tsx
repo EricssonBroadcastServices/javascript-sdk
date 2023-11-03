@@ -1,24 +1,32 @@
-import { IDeviceInfo, ExposureApi, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
-import { DeviceGroup, WhiteLabelService, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
+import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
 import { useFetchConfig } from "./hooks/useConfig";
 import { queryClient } from "./util/react-query";
 import { IStorage } from "./types/storage";
 import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
+import { Session } from "./Session";
+import {
+  createDeprecatedWLService,
+  DeprecatedDeviceGroup,
+  DeprecatedWLConfig,
+  DeprecatedWLService
+} from "./DeprecatedWLService";
 export interface IRedBeeState {
   loading: string[];
   storage: IStorage | null;
-  device: IDeviceInfo;
-  session: LoginResponse | null;
-  config: WLConfig | null;
+  deviceRegistration: Required<DeviceRegistration>;
+  session: Session | null;
+  config: DeprecatedWLConfig | null;
   selectedLanguage: string | null;
   customer: string;
+  baseUrl: string;
   businessUnit: string;
-  exposureBaseUrl: string;
-  deviceGroup: DeviceGroup;
-  exposureApi: ExposureApi;
-  whiteLabelApi: WhiteLabelService;
+  serviceContext: ServiceContext;
+  appService: AppService;
+  deviceGroup: DeprecatedDeviceGroup;
+  deprecatedWhiteLabelApi: DeprecatedWLService;
   unavailable: boolean;
 }
 
@@ -36,11 +44,11 @@ interface IAction {
 }
 
 interface ISetConfigAction extends IAction {
-  config: WLConfig;
+  config: DeprecatedWLConfig;
 }
 
 interface ISetSessionAction extends IAction {
-  session: LoginResponse | null;
+  session: Session | null;
 }
 
 interface ISetSelectedLanguageAction extends IAction {
@@ -67,33 +75,22 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
       return { ...state, loading: state.loading.filter(i => i !== (action as ILoadingAction).id) };
     case ActionType.SET_SELECTED_LANGUAGE:
       return { ...state, selectedLanguage: (action as ISetSelectedLanguageAction).language };
-    case ActionType.SET_SESSION:
-      const getAuthHeader = () => {
-        if ((action as ISetSessionAction).session?.sessionToken) {
-          return { Authorization: `Bearer ${(action as ISetSessionAction).session?.sessionToken}` };
-        }
-        return undefined;
-      };
-      const exposureApi = new ExposureApi({
-        baseUrl: state.exposureBaseUrl,
-        customer: state.customer,
-        businessUnit: state.businessUnit,
-        authHeader: getAuthHeader
-      });
+    case ActionType.SET_SESSION: {
+      const { session } = action as ISetSessionAction;
+      const { customer, businessUnit, baseUrl } = state;
+      const ctx = { baseUrl, customer, businessUnit };
+      async function getAuthToken() {
+        return session?.sessionToken;
+      }
+      const appService = new AppService({ ...ctx, deviceGroup: state.deviceGroup, getAuthToken });
+      const deprecatedWhiteLabelApi = createDeprecatedWLService(ctx, state.deviceGroup, () => session?.sessionToken);
       return {
         ...state,
-        session: (action as ISetSessionAction).session,
-        // The only time we need to update the exposure api is when setting a new session
-        exposureApi,
-        whiteLabelApi: new WhiteLabelService({
-          baseUrl: state.exposureBaseUrl,
-          customer: state.customer,
-          businessUnit: state.businessUnit,
-          deviceGroup: state.deviceGroup,
-          exposureApi,
-          authHeader: getAuthHeader
-        })
+        session: session && new Session(session),
+        appService,
+        deprecatedWhiteLabelApi
       };
+    }
     case ActionType.SET_CONFIG:
       const config = (action as ISetConfigAction).config;
       const { customer, businessUnit } = config;
@@ -130,13 +127,13 @@ function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.Reac
 }
 
 interface IRedBeeProvider {
+  baseUrl: string;
   customer: string;
   businessUnit: string;
-  exposureBaseUrl: string;
   children?: React.ReactNode;
-  deviceGroup: DeviceGroup;
+  deviceGroup: DeprecatedDeviceGroup;
   storage?: IStorage;
-  device: IDeviceInfo;
+  deviceRegistration: Required<DeviceRegistration>;
   autoFetchConfig?: boolean;
   /** Listen for any errors when initially verifying the session.
    * Should session validation fail for any unknown reason, for example network error, the apps should retry validation.
@@ -167,18 +164,20 @@ export function RedBeeProvider({
   storage,
   customer,
   businessUnit,
-  device,
+  deviceRegistration,
   deviceGroup,
-  exposureBaseUrl,
+  baseUrl,
   children,
   autoFetchConfig,
   onSessionValidationError
 }: IRedBeeProvider) {
   if (!customer || !businessUnit) {
-    throw "customer and businessUnit are required";
+    throw new Error("customer and businessUnit are required");
   }
-  if (!exposureBaseUrl || !deviceGroup || !device) {
-    throw `Missing required prop in RedBeeProvider. You provided: exposureBaseUrl: ${exposureBaseUrl}, deviceGroup: ${deviceGroup}, device: ${device}`;
+  if (!baseUrl || !deviceGroup || !deviceRegistration) {
+    throw new Error(
+      `Missing required prop in RedBeeProvider. You provided: baseUrl: ${baseUrl}, deviceGroup: ${deviceGroup}, deviceRegistration: ${deviceRegistration}`
+    );
   }
   if (!storage) {
     console.warn("[RedBeeProvider] not providing a storage module means no data will be persisted between sessions");
@@ -188,9 +187,9 @@ export function RedBeeProvider({
       storage={storage}
       customer={customer}
       businessUnit={businessUnit}
-      device={device}
+      deviceRegistration={deviceRegistration}
       deviceGroup={deviceGroup}
-      exposureBaseUrl={exposureBaseUrl}
+      baseUrl={baseUrl}
       onSessionValidationError={onSessionValidationError}
     >
       <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>

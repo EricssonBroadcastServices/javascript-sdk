@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
+import { consumeActivationCode, createActivationCode } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useSetSession } from "./useUserSession";
-import { useExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
 
 interface IActivationCodeData {
   code: string;
@@ -17,9 +16,8 @@ interface IActionvationCodeOptions {
 }
 
 export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOptions): TApiHook<IActivationCodeData> {
-  const { customer, businessUnit, device } = useRedBeeState();
+  const { customer, businessUnit, serviceContext, deviceRegistration } = useRedBeeState();
   const setSession = useSetSession();
-  const exposureApi = useExposureApi();
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [isOverDeviceLimit, setIsOverDeviceLimit] = useState(false);
   const [data, setData] = useState<{ code: string; expires: Date } | null>(null);
@@ -39,14 +37,9 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
   // Poll code every 5s
   useEffect(() => {
     if (data) {
-      const timeout = setTimeout(() => {
-        exposureApi.user
-          .consumeActivationCode({
-            customer,
-            businessUnit,
-            code: data.code,
-            device: device as IDeviceInfo
-          })
+      const timeout = setTimeout(async () => {
+        consumeActivationCode
+          .call(serviceContext, { device: deviceRegistration, activationCode: data.code })
           .then(loginResponse => {
             if (loginResponse.isOverDeviceLimit) {
               setRefreshCounter(prevState => ++prevState);
@@ -66,7 +59,7 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
     }
     return;
     // can't, and don't need to, add exposure as dependancy
-  }, [data, timeoutAttempt, device, customer, businessUnit, setSession]);
+  }, [data, timeoutAttempt, deviceRegistration, customer, businessUnit, setSession]);
 
   // Get the login code
   useEffect(() => {
@@ -74,11 +67,8 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
       setData(null);
       setCodeError(null);
       setIsLoading(true);
-      exposureApi.user
-        .getActivationCode({
-          customer,
-          businessUnit
-        })
+      createActivationCode
+        .call(serviceContext)
         .then(data => {
           setData({
             code: data.code,

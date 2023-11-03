@@ -1,5 +1,5 @@
-import { ImageOrientation } from "@ericssonbroadcastservices/exposure-sdk";
 import React, { useCallback, useState } from "react";
+import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useChannelPicker } from "../../src";
 
 export default function ChannelPicker() {
@@ -23,7 +23,7 @@ export default function ChannelPicker() {
               gridTemplateColumns: "repeat(auto-fit, minmax(calc(33% - 0.5rem), 1fr))"
             }}
           >
-            {channels.map((c, i) => {
+            {(channels || []).map((c, i) => {
               let useChannelLogo = true;
               const channelLogo =
                 c.channel.getScaledLogo(150) || c.channel.getScaledImage(ImageOrientation.LANDSCAPE, 150);
