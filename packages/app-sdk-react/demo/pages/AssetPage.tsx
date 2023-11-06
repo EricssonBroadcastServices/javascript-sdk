@@ -13,7 +13,7 @@ import {
 } from "../../src";
 import { JsonBox } from "../components/JsonBox";
 import { PlayButton } from "../components/PlayButton";
-import ChannelPicker from "../components/ChannelPicker";
+import ChannelPicker from "../components/ChannelPicker/ChannelPicker";
 
 const Entitlements = ({ asset }: { asset: Asset }) => {
   const [status] = useEntitlementForAsset({ asset }, {});
@@ -40,7 +40,7 @@ export const AssetPage = () => {
       <FavoriteButton assetId={asset.assetId} />
       <h4>{`Bookmark percentage: ${bookmarkPercentage}`}</h4>
       <Entitlements asset={asset} />
-      {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker />}
+      {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker selectedChannel={id as string} />}
       <JsonBox json={JSON.stringify({ continueWatching }, null, 2)} title="Continue Watching asset" />
       <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data" />
     </div>
