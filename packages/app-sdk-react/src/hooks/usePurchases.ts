@@ -24,7 +24,12 @@ export function usePurchases(): TApiHook<ProductOfferingPurchases> {
     [QueryKeys.PURCHASES, login?.sessionToken, paymentIsEnabled],
     () => {
       if (login?.isLoggedIn() && paymentIsEnabled) {
-        return getOfferingPurchases.call(ctx, { includeOfferingDetails: true });
+        const headers = new Headers();
+        headers.set("Authorization", `Bearer ${login.sessionToken}`);
+        return getOfferingPurchases.call(ctx, {
+          includeOfferingDetails: true,
+          headers
+        });
       }
       return;
     },
