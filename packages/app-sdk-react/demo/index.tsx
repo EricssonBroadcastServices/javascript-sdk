@@ -56,9 +56,9 @@ const storage: IStorage = {
 function AppProvider() {
   return (
     <RedBeeProvider
-      baseUrl={"https://exposure.api.redbee.live"}
-      customer={"Nova"}
-      businessUnit={"novatvprod"}
+      baseUrl={"https://exposure.api.redbee.dev"}
+      customer={"BSCU"}
+      businessUnit={"BSBU"}
       storage={storage}
       deviceRegistration={deviceRegistration}
       deviceGroup={DeprecatedDeviceGroup.TV}
