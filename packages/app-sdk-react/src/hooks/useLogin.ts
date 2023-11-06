@@ -55,7 +55,7 @@ export function useValidateSession() {
   return useCallback(async () => {
     if (session?.sessionToken) {
       return validateSessionToken.call(serviceContext).catch(err => {
-        if ((err as any)?.httpCode !== 401) {
+        if ((err as any)?.response?.status !== 401) {
           throw { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
         }
         setSession(null);
