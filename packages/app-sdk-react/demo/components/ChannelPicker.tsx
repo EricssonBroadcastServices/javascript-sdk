@@ -1,10 +1,12 @@
 import React, { useCallback, useState } from "react";
-import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useChannelPicker } from "../../src";
+import { useChannelPicker, useSelectedLanguage } from "../../src";
+import { AssetHelpers, ChannelAssetHelpers } from "@ericssonbroadcastservices/app-sdk";
 
 export default function ChannelPicker() {
   const [channels] = useChannelPicker();
   const [isActive, setIsActive] = useState(false);
+
+  const locale = useSelectedLanguage();
 
   const toggleChannelPicker = useCallback(() => {
     setIsActive(!isActive);
@@ -24,37 +26,56 @@ export default function ChannelPicker() {
             }}
           >
             {(channels || []).map((c, i) => {
+              if (!c.channel) return null;
               let useChannelLogo = true;
-              const channelLogo =
-                c.channel.getScaledLogo(150) || c.channel.getScaledImage(ImageOrientation.LANDSCAPE, 150);
-              const program = c.programs.find(p => p.isLive());
-              if (!program?.getScaledImage(ImageOrientation.LANDSCAPE, 400)) {
+
+              const channelLogoUrl = AssetHelpers.getScaledImage({
+                asset: c.channel,
+                width: 150,
+                imageType: "logo",
+                oritentation: "LANDSCAPE",
+                locale
+              });
+
+              const channelCoverUrl = AssetHelpers.getScaledImage({
+                asset: c.channel,
+                width: 150,
+                imageType: "cover",
+                oritentation: "LANDSCAPE",
+                locale
+              });
+
+              const activeChannelAsset = c.assets?.find(p => ChannelAssetHelpers.isLive(p));
+              const activeChannelCoverImage = activeChannelAsset
+                ? AssetHelpers.getScaledImage({
+                    asset: activeChannelAsset.asset,
+                    width: 400,
+                    imageType: "cover",
+                    oritentation: "LANDSCAPE",
+                    locale
+                  })
+                : undefined;
+              if (!activeChannelCoverImage) {
                 useChannelLogo = false;
               }
+
               return (
-                <div key={`${c.channel.title}_${i}`} style={{ margin: 20, backgroundColor: "gray", color: "white" }}>
-                  <img
-                    style={{ width: "100%" }}
-                    src={
-                      program?.getScaledImage(ImageOrientation.LANDSCAPE, 400) ||
-                      c.channel.getScaledImage(ImageOrientation.LANDSCAPE, 400)
-                    }
-                    alt="an EPG Image"
-                  />
-                  {useChannelLogo && channelLogo && (
+                <div key={`${c.channel.assetId}_${i}`} style={{ margin: 20, backgroundColor: "gray", color: "white" }}>
+                  <img style={{ width: "100%" }} src={activeChannelCoverImage || channelCoverUrl} alt="an EPG Image" />
+                  {useChannelLogo && channelLogoUrl && (
                     <div className="channel-img">
-                      <img src={channelLogo} />
+                      <img src={channelLogoUrl} />
                     </div>
                   )}
-                  {program && (
+                  {activeChannelAsset && (
                     <span>
-                      <h4>{program.title}</h4>
-                      <p>{program.getTimeSlot()}</p>
+                      <h4>{AssetHelpers.getTitle(activeChannelAsset.asset, locale)}</h4>
+                      <p>{ChannelAssetHelpers.getTimeSlotString(activeChannelAsset)}</p>
                     </span>
                   )}
-                  {!program && c.channel.title && (
+                  {!activeChannelAsset && AssetHelpers.getTitle(c.channel, locale) && (
                     <span>
-                      <h4>{c.channel.title}</h4>
+                      <h4>{AssetHelpers.getTitle(c.channel, locale)}</h4>
                     </span>
                   )}
                 </div>

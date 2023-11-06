@@ -324,9 +324,9 @@ export interface ChangePasswordResponse {
 }
 
 export interface ChannelAsset {
-  asset?: Asset;
-  endTime?: string;
-  startTime?: string;
+  asset: Asset;
+  endTime: string;
+  startTime: string;
 }
 
 export interface ChannelEPGResponse {

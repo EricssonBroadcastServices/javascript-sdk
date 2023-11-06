@@ -13,3 +13,4 @@ export * from "./interfaces/image";
 export * from "./interfaces/push-next-content";
 export * from "./interfaces/entitlement-result";
 export * from "./utils/asset";
+export * from "./utils/image-scaling";
