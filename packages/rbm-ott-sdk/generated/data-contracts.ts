@@ -1260,17 +1260,17 @@ export interface RecommendedWatchNext {
 export type Result = Record<"type" | "value", string>;
 
 export interface Search {
-  asset?: Asset;
+  asset: Asset;
   highlightedDescription?: string;
   highlightedTitle?: string;
 }
 
 export interface SearchList {
-  items?: Search[];
-  pageNumber?: number;
-  pageSize?: number;
+  items: Search[];
+  pageNumber: number;
+  pageSize: number;
   suggestion?: string;
-  totalCount?: number;
+  totalCount: number;
 }
 
 export interface Season {

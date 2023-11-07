@@ -1,13 +1,12 @@
-import { ITheme, WLConfig } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useEffect } from "react";
-import { ActionType, useRedBeeState, useRedBeeStateDispatch, useSelectedLanguage } from "../";
-import { useDeprecatedWLApi } from "../";
+import { ActionType, useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { useGeolocation } from "./useGeolocation";
+import { useAppService } from "./useApi";
+import { EssentialAppData, IExposureWLConfig, IExposureWLMenu, IWLTheme } from "@ericssonbroadcastservices/app-sdk";
 
 const configLoadingId = "configLoading";
 
-const DEFAULT_THEME: ITheme = {
+const DEFAULT_THEME: IWLTheme = {
   dark: "#000000",
   light: "#ffffff",
   error: "#ff0000",
@@ -24,22 +23,15 @@ const DEFAULT_THEME: ITheme = {
 export function useFetchConfig(disabled = false): void {
   const dispatch = useRedBeeStateDispatch();
   const { customer, businessUnit } = useRedBeeState();
-  const locale = useSelectedLanguage();
-  const [userLocation] = useGeolocation();
-  const deprecatedWlApi = useDeprecatedWLApi();
+  const appService = useAppService();
   useEffect(() => {
-    if (!userLocation || disabled || !customer || !businessUnit) return;
+    if (disabled || !customer || !businessUnit) return;
     dispatch({ type: ActionType.START_LOADING, id: configLoadingId });
-    deprecatedWlApi
-      .getConfigByCustomerAndBusinessUnit({
-        countryCode: userLocation?.countryCode,
-        locale: locale || undefined,
-        customer,
-        businessUnit
-      })
+    appService
+      .getEssentialAppData()
       .then(
-        config => {
-          return dispatch({ type: ActionType.SET_CONFIG, config });
+        data => {
+          return dispatch({ type: ActionType.SET_ESSENTIAL_APP_DATA, data });
         },
         () => {
           return dispatch({ type: ActionType.SET_APP_UNAVAILABLE });
@@ -51,15 +43,25 @@ export function useFetchConfig(disabled = false): void {
     return () => {
       dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
     };
-  }, [locale, userLocation?.countryCode, disabled]);
+  }, [disabled]);
 }
 
-export function useConfig(): TApiHook<WLConfig> {
+export function useEssentialAppData(): TApiHook<EssentialAppData> {
   const state = useRedBeeState();
-  return [state.config, state.loading.includes(configLoadingId), null];
+  return [state.essentialAppData || null, state.loading.includes(configLoadingId), null];
 }
 
-export function useTheme(): TApiHook<ITheme, ITheme> {
+export function useConfig(): TApiHook<IExposureWLConfig> {
+  const [essentialAppData, loading] = useEssentialAppData();
+  return [essentialAppData?.config || null, loading, null];
+}
+
+export function useMenu(): TApiHook<IExposureWLMenu> {
+  const [essentialAppData, loading] = useEssentialAppData();
+  return [essentialAppData?.menu || null, loading, null];
+}
+
+export function useTheme(): TApiHook<IWLTheme, IWLTheme> {
   const [config, isLoading] = useConfig();
   return [config?.theme || DEFAULT_THEME, isLoading, null];
 }

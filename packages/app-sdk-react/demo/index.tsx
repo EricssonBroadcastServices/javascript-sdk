@@ -21,12 +21,13 @@ const deviceRegistration = {
 
 export default function App() {
   const [config] = useConfig();
+  if (!config) return null;
   return (
     <div>
       <HashRouter>
         <Menu />
         <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-          <Link to={`/page/${config?.homePage.id}`}>
+          <Link to={`/page/${config.components.homePage[0].referenceId}`}>
             <button style={{ marginRight: "10px" }}>Home</button>
           </Link>
           <LanguageSelector />

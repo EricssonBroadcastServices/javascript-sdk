@@ -13,7 +13,6 @@ import {
   PaymentProvider,
   ServiceContext,
   AssetType,
-  SystemConfig,
   getNextEpisode,
   getRecommendationsForAsset,
   getNextProgramForAsset,
@@ -41,6 +40,7 @@ import { PublicationHelpers } from "../utils/publication";
 import { EntitlementStatus, EntitlementStatusResult } from "../interfaces/entitlement-result";
 import { errorToEntitlementResult } from "../utils/entitlement";
 import { CarouselItem } from "../interfaces/carousel-item";
+import { EssentialAppData } from "../interfaces/essential-app-data";
 
 type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
 
@@ -97,13 +97,7 @@ export class WhiteLabelService {
     });
   }
 
-  public async getEssentialAppData(): Promise<{
-    systemConfig: SystemConfig;
-    menu: IExposureWLMenu;
-    footer: IExposureWLFooter | undefined;
-    countryCode: string;
-    config: IExposureWLConfig;
-  }> {
+  public async getEssentialAppData(): Promise<EssentialAppData> {
     const location = await getLocationFromReferer.call(this);
     const { countryCode } = location;
     if (!countryCode) {

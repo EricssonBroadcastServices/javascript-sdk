@@ -12,4 +12,8 @@ export * from "./interfaces/exposure-wl-reference";
 export * from "./interfaces/image";
 export * from "./interfaces/push-next-content";
 export * from "./interfaces/entitlement-result";
+export * from "./interfaces/essential-app-data";
 export * from "./utils/asset";
+export * from "./utils/wl-carousel";
+export * from "./utils/wl-component";
+export * from "./utils/wl-config";

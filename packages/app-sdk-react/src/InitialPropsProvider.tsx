@@ -133,7 +133,7 @@ export function InitialPropsProvider({
         storage: storage || null,
         deviceRegistration,
         baseUrl,
-        config: null,
+        essentialAppData: null,
         deviceGroup,
         unavailable: false,
         serviceContext,
