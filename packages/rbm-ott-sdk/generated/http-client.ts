@@ -26,13 +26,17 @@ export type requestArgs = {
   ctx?: ServiceContext;
 };
 
-// Remove undefined values and join array values to comma separated strings
-function sanitizeParams(query: QueryParams = {}): Record<string, string> {
-  const sanitized = Object.entries(query)
-    .filter(([, val]) => typeof val !== "undefined")
-    .map(([key, val]) => [key, Array.isArray(val) ? val.join(",") : val]);
-
-  return Object.fromEntries(sanitized);
+function createSanitizedSearchParams(query: QueryParams = {}): URLSearchParams {
+  const params = new URLSearchParams();
+  Object.entries(query).forEach(([key, val]) => {
+    if (typeof val === "undefined") return;
+    if (Array.isArray(val)) {
+      (val as string[]).forEach(arrayItem => params.append(key, arrayItem));
+    } else {
+      params.append(key, val as unknown as string);
+    }
+  });
+  return params;
 }
 
 function defaultErrorFactory(response: Response) {
@@ -41,7 +45,7 @@ function defaultErrorFactory(response: Response) {
 
 export async function request({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<Response> {
   const fullUrl: RequestInfo = Object.keys(query).length
-    ? `${url}?${new URLSearchParams(sanitizeParams(query))}`
+    ? `${url}?${createSanitizedSearchParams(query).toString()}`
     : String(url);
   const params = { method, headers };
   if (body) {
