@@ -1,27 +1,18 @@
-import { useDeprecatedWLApi } from "./useApi";
-import { IWLEPGChannel } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useQuery } from "react-query";
+import { getActiveChannels, ChannelStatus } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 const DEFAULT_INTERVAL = 60000; // 1 minute
 
-export function useChannelPicker(updateInterval: number = DEFAULT_INTERVAL): TApiHook<IWLEPGChannel[] | null> {
-  const { customer, businessUnit, selectedLanguage } = useRedBeeState();
-  const deprecatedWlApi = useDeprecatedWLApi();
-
+export function useChannelPicker(updateInterval: number = DEFAULT_INTERVAL): TApiHook<ChannelStatus[] | null> {
+  const { customer, businessUnit, selectedLanguage, serviceContext } = useRedBeeState();
   const { data, isLoading, error } = useQuery(
     [customer, businessUnit, selectedLanguage],
     () => {
-      return deprecatedWlApi
-        .getChannelPicker({ locale: selectedLanguage as string, customer, businessUnit })
-        .then(result => {
-          if (result.channels?.length && result.channels.length > 1) {
-            return result.channels;
-          } else {
-            return null;
-          }
-        });
+      return getActiveChannels.call(serviceContext, {}).then(channels => {
+        return channels.apiChannelStatuses?.filter(c => !!c.channel?.assetId && c.active);
+      });
     },
     { refetchInterval: updateInterval }
   );

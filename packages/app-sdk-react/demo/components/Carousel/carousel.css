@@ -1,0 +1,7 @@
+.carousel {
+  display: flex;
+  flex-direction: row;
+  display: flex;
+   flex-wrap: nowrap;
+   overflow-x: auto;
+}

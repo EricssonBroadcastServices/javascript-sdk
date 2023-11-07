@@ -54,9 +54,9 @@ async function getValidatedPersistedSession({
       try {
         // this will throw if session is invalid
         const headers = { Authorization: `Bearer ${persistedSessionJSON.sessionToken}` };
-        validateSessionToken.call(ctx, { headers });
+        await validateSessionToken.call(ctx, { headers });
       } catch (err) {
-        if ((err as any).httpCode === 401) {
+        if ((err as any).response?.status === 401) {
           storage?.removeItem(StorageKey.SESSION);
           session = null;
         } else {

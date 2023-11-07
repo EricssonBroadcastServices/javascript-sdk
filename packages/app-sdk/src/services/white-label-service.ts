@@ -70,7 +70,7 @@ export class WhiteLabelService {
     }
     const headers = new Headers();
     if (hasAuthorizedContent) {
-      headers.set("Authorization", `Bearer: ${authToken}`);
+      headers.set("Authorization", `Bearer ${authToken}`);
     }
 
     return (

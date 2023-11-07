@@ -150,6 +150,7 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiActivationCodeResponse.required = ["code", "expires"];
   spec.components.schemas.ApiSearchList.required = ["items", "pageNumber", "pageSize", "totalCount"];
   spec.components.schemas.ApiSearch.required = ["asset"];
+  spec.components.schemas.ApiChannelAsset.required = ["startTime", "endTime", "asset"];
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = {

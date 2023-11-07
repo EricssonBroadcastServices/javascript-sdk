@@ -17,3 +17,4 @@ export * from "./utils/asset";
 export * from "./utils/wl-carousel";
 export * from "./utils/wl-component";
 export * from "./utils/wl-config";
+export * from "./utils/image-scaling";
