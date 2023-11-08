@@ -34,8 +34,10 @@ function CarouselItem({ item: { asset }, orientation }: { item: CarouselItem; or
           locale
         })}
       />
-      <h4>{AssetHelpers.getTitle(asset, locale)}</h4>
-      <p>{AssetHelpers.getShortDescription(asset, locale)}</p>
+      <div className="carousel-item-meta">
+        <h4>{AssetHelpers.getTitle(asset, locale)}</h4>
+        <p>{AssetHelpers.getShortDescription(asset, locale)}</p>
+      </div>
     </div>
   );
 }

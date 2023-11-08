@@ -9,7 +9,7 @@ export { useLogout, useValidateSession, useLogin, useOauthLogin } from "./hooks/
 export { useSearch } from "./hooks/useSearch";
 export { useUserDetails, refetchUserDetails } from "./hooks/useUserDetails";
 export { useUserSession, useSetSession } from "./hooks/useUserSession";
-export { useTagList, useAddTag, useRemoveTag } from "./hooks/useTags";
+export * from "./hooks/useTags";
 export { useConsumedDiscounts, usePurchases, useTvodIds, useUnsubscribe, refetchPurchases } from "./hooks/usePurchases";
 export { useProductOfferings, refetchProductOfferings } from "./hooks/useProductOfferings";
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";

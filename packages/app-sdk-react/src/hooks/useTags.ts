@@ -3,8 +3,10 @@ import { useQuery } from "react-query";
 import {
   addTagToPreferencesList,
   deleteTagFromPreferencesList,
+  getTagById,
   getTagsFromPreferencesList,
-  PreferencesListResponse
+  PreferencesListResponse,
+  TagType
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
@@ -72,4 +74,16 @@ export function useRemoveTag(tagId: string): TApiHook<() => void, () => void> {
   }, []);
 
   return [remove, loading, error];
+}
+
+export function useTag(tagId: string): TApiHook<TagType> {
+  const ctx = useServiceContext();
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.TAG, tagId],
+    () => {
+      return getTagById.call(ctx, { tagId });
+    },
+    { staleTime: 1000 * 60 * 60 }
+  );
+  return [data || null, isLoading, error];
 }
