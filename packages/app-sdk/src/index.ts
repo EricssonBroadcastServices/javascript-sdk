@@ -1,6 +1,6 @@
 export { Translations } from "./utils/wl-translations";
 export { WhiteLabelService } from "./services/white-label-service";
-export * from "./interfaces/carousel-item";
+export * from "./interfaces/component-content";
 export * from "./interfaces/device-group";
 export * from "./interfaces/exposure-wl-action";
 export * from "./interfaces/exposure-wl-component";
