@@ -1,38 +1,43 @@
-import { IDeviceInfo, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
+import { loginAnonymous } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useCallback } from "react";
 import { StorageKey } from "../util/storageKeys";
 import { ActionType } from "../RedBeeProvider";
 import { useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
-import { useExposureApi } from "./useApi";
+import { Session, SessionData } from "../Session";
 
 const sessionLoadingStateId = "sessionLoading";
 
-export function useUserSession(): TApiHook<LoginResponse> {
-  const state = useRedBeeState();
-  return [state.session, state.loading.includes(sessionLoadingStateId), null];
+export function useUserSession(): TApiHook<Session> {
+  const { session, loading } = useRedBeeState();
+
+  return [session, loading.includes(sessionLoadingStateId), null];
 }
 
-export function useSetSession(): (loginResponse: LoginResponse | null) => void {
+export function useSetSession(): (sessionData: SessionData | null) => void {
   const dispatch = useRedBeeStateDispatch();
   const setSelectedLanguage = useSetSelectedLanguage();
-  const { device } = useRedBeeState();
-  const exposureApi = useExposureApi();
-  const { storage } = useRedBeeState();
+  const { storage, serviceContext, deviceRegistration } = useRedBeeState();
+  const { deviceId, ...device } = deviceRegistration;
   return useCallback(
-    async (loginResponse: LoginResponse | null) => {
-      if (loginResponse) {
+    async (sessionData: SessionData | null) => {
+      if (sessionData) {
         if (storage) {
-          storage.setItem(StorageKey.SESSION, JSON.stringify(loginResponse));
+          storage.setItem(StorageKey.SESSION, JSON.stringify(sessionData));
         }
-        setSelectedLanguage(loginResponse.language, false);
-        return dispatch({ type: ActionType.SET_SESSION, session: loginResponse });
+        if (sessionData.language) {
+          setSelectedLanguage(sessionData.language, false);
+        }
+        return dispatch({ type: ActionType.SET_SESSION, session: new Session(sessionData) });
       } else {
         try {
           storage?.removeItem(StorageKey.SESSION);
-          const anonSession = await exposureApi.authentication.loginAnonymous({ device: device as IDeviceInfo });
-          return dispatch({ type: ActionType.SET_SESSION, session: anonSession });
+          const session = new Session({
+            ...(await loginAnonymous.call(serviceContext, { device, deviceId })),
+            isAnonymous: true
+          });
+          return dispatch({ type: ActionType.SET_SESSION, session });
         } catch (err) {
           console.error(err);
           return dispatch({ type: ActionType.SET_SESSION, session: null });

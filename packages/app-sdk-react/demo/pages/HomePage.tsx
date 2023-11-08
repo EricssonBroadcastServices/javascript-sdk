@@ -13,7 +13,7 @@ import {
 import { JsonBox } from "../components/JsonBox";
 import { DeleteAccountButton } from "../components/DeleteAccountButton";
 
-export const Home = () => {
+export const HomePage = () => {
   const [traslations] = useTranslations();
   const [config] = useConfig();
   const state = useRedBeeState();

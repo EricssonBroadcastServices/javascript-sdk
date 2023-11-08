@@ -1,13 +1,19 @@
-import { ExposureApi } from "@ericssonbroadcastservices/exposure-sdk";
-import { WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
+import { ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { DeprecatedWLService } from "../DeprecatedWLService";
 import { useRedBeeState } from "../RedBeeProvider";
 
-export function useExposureApi(): ExposureApi {
-  const { exposureApi } = useRedBeeState();
-  return exposureApi;
+export function useServiceContext(): ServiceContext {
+  const { serviceContext } = useRedBeeState();
+  return serviceContext;
 }
 
-export function useWLApi(): WhiteLabelService {
-  const { whiteLabelApi } = useRedBeeState();
-  return whiteLabelApi;
+export function useAppService(): AppService {
+  const { appService } = useRedBeeState();
+  return appService;
+}
+
+export function useDeprecatedWLApi(): DeprecatedWLService {
+  const { deprecatedWhiteLabelApi } = useRedBeeState();
+  return deprecatedWhiteLabelApi;
 }

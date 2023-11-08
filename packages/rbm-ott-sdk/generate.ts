@@ -4,53 +4,104 @@ import { generateApi } from "swagger-typescript-api";
 
 /**
  * This script generates the SDK from the OpenAPI spec.
- * 
+ *
  * It does the following:
  * - Fixes / formats some names that would otherwise result in bad method or type names
  * - Remove number suffixes from method names (ex "changeEmailV3" or "get_1")
  * - Remove "API" prefix from type names
  * - Remove endpoints that are unsuited for this SDK (unused, deprecated, experimental or HTTP redirecting to a file)
- * 
+ *
  * This is accomplished by a combination of:
  * - Manual pre-processing of the spec JSON
  * - Arguments and hooks to the generateApi function from swagger-typescript-api
  * - Custom templates for eth swagger-typescript-api using custom EJS templates (see ./templates)
  * - Manually writing the index.ts file from the AST from swagger-typescript-api
- * 
+ *
  * One of the complicated things we handle in pre-processing is moving types that are declared inline on the routes
  * to their own separate type declarations and then de-duplicating them to avoid generating duplicate types.
- * 
+ *
  * We also do the opposite and move request types that are declared in components.schemas to the routes so that it will
  * not generate lots of named types for partial request params that are only used in one method.
- * 
+ *
  */
-
 
 /* Keep all patches that really should be fixed in the back-end in one place to make it easier to forward the info to the BE-team later */
 function patchSpec(data: string): string {
-  data = data.replaceAll("customerUnit", "customer") // fix inconsistent naming of "customer" param
-  data = data.replaceAll("frirslogin awgane", "firebase login") // just a comment typo
+  data = data.replaceAll("customerUnit", "customer"); // fix inconsistent naming of "customer" param
+  data = data.replaceAll("frirslogin awgane", "firebase login"); // just a comment typo
 
   // delete references to useless schemas wrapping and shadowing native types
   // these would otherwise generate useless types like `type String = string`
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/string\"/g, '"type" : "string"');
-  data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Map\"/g, '"description": "A key value object", "type" : "object"');
+  data = data.replaceAll(
+    /\"\$ref\"\s*:\s*\"#\/components\/schemas\/Map\"/g,
+    '"description": "A key value object", "type" : "object"'
+  );
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
 
   // Override duplicate asset schemas/interfaces that in turn duplicate the whole type tree
-  data = data.replaceAll(/#\/components\/schemas\/(UPHAsset|AssetResponse|ContinueWatchingAsset)/g, `${SCHEMA_PREFIX}Asset`);
+  data = data.replaceAll(
+    /#\/components\/schemas\/(UPHAsset|AssetResponse|ApiContinueWatchingAsset)/g,
+    `${SCHEMA_PREFIX}Asset`
+  );
 
   const spec = JSON.parse(data);
 
+  // Fix incorrect return types that shouldn't be arrays:
+  fixFalseListSchema(
+    spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset"].get.responses[
+      "200"
+    ]
+  );
+  fixFalseListSchema(
+    spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.responses["200"]
+  );
+
+  // Add missing return type ApiLoginResponse for oauthLogin
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin"].post.responses.default.content[
+    "application/json"
+  ] = { schema: { $ref: "#/components/schemas/ApiLoginResponse" } };
+
   /* Mark properties as non-optional */
   spec.components.schemas.ApiAssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
-  spec.components.schemas.ApiAsset.required = ["assetId", "audioTracks", "changed", "collections", "created", "cuePoints", "customData", "duration", "externalReferences", "linkedEntities", "live", "localized", "markerPoints", "markers", "parentalRatings", "participants", "productionCountries", "publications", "slugs", "spokenLanguages", "subtitles", "tags", "type"];
+  spec.components.schemas.ApiAsset.required = [
+    "assetId",
+    "audioTracks",
+    "changed",
+    "collections",
+    "created",
+    "cuePoints",
+    "customData",
+    "duration",
+    "externalReferences",
+    "linkedEntities",
+    "live",
+    "localized",
+    "markerPoints",
+    "markers",
+    "parentalRatings",
+    "participants",
+    "productionCountries",
+    "publications",
+    "slugs",
+    "spokenLanguages",
+    "subtitles",
+    "tags",
+    "type"
+  ];
   spec.components.schemas.ApiProgram.required = ["endTime", "startTime"];
   spec.components.schemas.ApiStoreAppStoreReference.required = ["productId"];
   spec.components.schemas.ApiStoreGooglePlayReference.required = ["skuId"];
-  spec.components.schemas.ApiPublication.required = ["toDate", "publicationId", "publicationDate", "products", "fromDate", "countries"];
-  spec.components.schemas.ApiChannelEPGResponse.required = ["channelId", "programs", "totalHitsAllChannels"]
-  spec.components.schemas.ApiRecommendedWatchNext.required = ["items"]
+  spec.components.schemas.ApiPublication.required = [
+    "toDate",
+    "publicationId",
+    "publicationDate",
+    "products",
+    "fromDate",
+    "countries"
+  ];
+  spec.components.schemas.ApiChannelEPGResponse.required = ["channelId", "programs", "totalHitsAllChannels"];
+  spec.components.schemas.ApiRecommendedWatchNext.required = ["items"];
   spec.components.schemas.ApiEvent.required = ["asset", "assetId", "startTime", "endTime"];
   spec.components.schemas.ApiAssetListItemResponse.required = ["asset", "assetId"];
   spec.components.schemas.ApiProgramResponse.required = ["asset", "assetId", "endTime", "startTime", "programId"];
@@ -66,9 +117,21 @@ function patchSpec(data: string): string {
     "paymentMethodTypes",
     "salesStart"
   ];
-  spec.components.schemas.ApiStoreProductOfferingPrice.required = ["price"]
-  spec.components.schemas.ApiUserDetailsResponse.required = ["username", "defaultLanguage", "child", "capabilities", "attributes"]
-  spec.components.schemas.ApiUserAttributeResponse.required = ["attributeId", "type", "requiredAtSignup", "valueSet", "localized"]
+  spec.components.schemas.ApiStoreProductOfferingPrice.required = ["price"];
+  spec.components.schemas.ApiUserDetailsResponse.required = [
+    "username",
+    "defaultLanguage",
+    "child",
+    "capabilities",
+    "attributes"
+  ];
+  spec.components.schemas.ApiUserAttributeResponse.required = [
+    "attributeId",
+    "type",
+    "requiredAtSignup",
+    "valueSet",
+    "localized"
+  ];
   spec.components.schemas.ApiUserCapabilities.required = [
     "canChangeEmail",
     "canChangePassword",
@@ -78,43 +141,79 @@ function patchSpec(data: string): string {
     "canManagePayments",
     "canManagePurchases"
   ];
-  spec.components.schemas.ApiProduct.required = ["id", "name", "entitlementRequired", "blocked", "anonymousAllowed"]
+  spec.components.schemas.ApiProduct.required = ["id", "name", "entitlementRequired", "blocked", "anonymousAllowed"];
   spec.components.schemas.ApiTagList.required = ["items", "pageSize", "pageNumber", "totalCount"];
   spec.components.schemas.ApiTagType.required = ["tagId", "scheme", "localized"];
   spec.components.schemas.ApiImage.required = ["orientation", "url", "width", "height"];
   spec.components.schemas.ApiLocalizedData.required = ["locale"];
   spec.components.schemas.ApiLocalizedTag.required = ["locale"];
-
-  
+  spec.components.schemas.ApiActivationCodeResponse.required = ["code", "expires"];
 
   /* Add and use payment provider enum type instead of string */
-  spec.components.schemas.PaymentProvider = { "type": "string", "enum": ["stripe", "googleplay", "appstore", "external", "deny"] };
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle"].get.parameters.find((param: any) => param.name === "paymentProvider").schema = { "$ref": "#/components/schemas/PaymentProvider" };
+  spec.components.schemas.PaymentProvider = {
+    type: "string",
+    enum: ["stripe", "googleplay", "appstore", "external", "deny"]
+  };
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle"].get.parameters.find(
+    (param: any) => param.name === "paymentProvider"
+  ).schema = { $ref: "#/components/schemas/PaymentProvider" };
 
-  // Fix bad, duplicate or inconsistent method names
-  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/location"].get.operationId = "getLocation" // "get"
-  spec.paths["/v2/location"].get.operationId = "getLocationFromReferer" // "get_1"
-  spec.paths["/v2/time"].get.operationId = "getTimeAnonymous" // time
-  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/time"].get.operationId = "getTime" // time_1
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases"].get.operationId = "getPurchaseTransactions" // getAccountPurchases
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"].get.operationId = "getOfferingPurchases" // getAccountPurchases2
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"].get.operationId = "getOfferingsByCountry" // getOfferings
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous" // anonymousSessionV2
-  
+  // Override inconsistent, vague or otherwise bad method names
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/location"].get.operationId = "getLocation"; // was "get" (vague)
+  spec.paths["/v2/location"].get.operationId = "getLocationFromReferer"; // was "get_1" (vague)
+  spec.paths["/v2/time"].get.operationId = "getTimeAnonymous"; // was "time" (vague)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/time"].get.operationId = "getTime"; // was time_1 (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/account/purchases"].get.operationId =
+    "getPurchaseTransactions"; // was "getAccountPurchases" (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase"].get.operationId =
+    "getOfferingPurchases"; // was "getAccountPurchases2" (vague)
+  spec.paths[
+    "/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}"
+  ].get.operationId = "getOfferingsByCountry"; // was "getOfferings" (vague)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous"; // was "anonymousSessionV2" (inconsistent with the other login methods)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].get.operationId = "getUserDetails"; // was "userDetailsGetV2" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].put.operationId = "updateUserDetails"; // was "userDetailsUpdateV2" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}"].put.operationId =
+    "updateUserProfile"; // was "userProfileUpdate" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next"].get.operationId =
+    "getNextProgramForAsset"; // was "getNextProgramForAsset2", but there is no "getNextProgramForAsset(1)", and also the numbers should be "v1", "v2", "v3" etc corresponding to the url, not just "2"
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.operationId =
+    "getTagsFromPreferencesList"; // was "getList" (vague)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"].post.operationId =
+    "addTagToPreferencesList"; // was "addToList" (vague)
+  spec.paths[
+    "/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"
+  ].delete.operationId = "deleteTagFromPreferencesList"; // was "deleteFromList" (vague)
+
+  // fix misnamed params
+  spec.paths[
+    "/v3/customer/{customer}/businessunit/{businessUnit}/content/search/asset/query/{query}"
+  ].get.parameters.find((q: any) => q.name === "locales").name = "locale";
+
+  // Ignore problematic endpoints
+  delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get; // name-clashes, duplicate,experimantal and unused
+  delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work?  (always returns "Unknown error" 500 and is void return type)
 
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch
   const tagNameToCamelCase: Record<string, string> = {
-    "clientconfig": "clientConfig",
-    "customerconfig": "customerConfig",
-    "userplayhistory": "userPlayHistory",
-  }
+    clientconfig: "clientConfig",
+    customerconfig: "customerConfig",
+    userplayhistory: "userPlayHistory"
+  };
 
   for (let methods of Object.values(spec.paths)) {
     for (let methodSpec of Object.values(methods || {})) {
       const firstTag = methodSpec.tags?.[0];
-      if (firstTag) { // fix casing
+      // fix camelCase the tag
+      if (firstTag) {
         methodSpec.tags[0] = tagNameToCamelCase[firstTag] || firstTag;
+      }
+      // replace invalid type "ref" with string
+      for (let { schema } of (methodSpec?.parameters || []) as any[]) {
+        if (schema?.type === "ref") {
+          schema.type = "string";
+        }
       }
     }
   }
@@ -122,20 +221,35 @@ function patchSpec(data: string): string {
   // Copy enum types from props into schemas
   // The reason for this is that multiple props have the same enum types instead of referencing them.
   // Our script will de-duplicate these later on, but it needs a schema for this.
-  spec.components.schemas.StoreTransactionStatus = makeSchemafromProp(spec.components.schemas.ApiAppStorePurchaseVerifyResponse.properties.transactionStatus);
-  spec.components.schemas.AssetMaterialType = makeSchemafromProp(spec.components.schemas.ApiAsset.properties.materialType);
+  spec.components.schemas.StoreTransactionStatus = makeSchemafromProp(
+    spec.components.schemas.ApiAppStorePurchaseVerifyResponse.properties.transactionStatus
+  );
+  spec.components.schemas.AssetMaterialType = makeSchemafromProp(
+    spec.components.schemas.ApiAsset.properties.materialType
+  );
   spec.components.schemas.AssetType = makeSchemafromProp(spec.components.schemas.ApiAsset.properties.type);
   spec.components.schemas.DeviceType = makeSchemafromProp(spec.components.schemas.ApiDevice.properties.type);
-  spec.components.schemas.ImageOrientation = makeSchemafromProp(spec.components.schemas.ApiImage.properties.orientation);
-  spec.components.schemas.EntitlementStatus = makeSchemafromProp(spec.components.schemas.ApiIsEntitledResponse.properties.status);
-  spec.components.schemas.ProductOfferingPurchaseStatus = makeSchemafromProp(spec.components.schemas.ApiProductOfferingPurchase.properties.status);
+  spec.components.schemas.ImageOrientation = makeSchemafromProp(
+    spec.components.schemas.ApiImage.properties.orientation
+  );
+  spec.components.schemas.EntitlementStatus = makeSchemafromProp(
+    spec.components.schemas.ApiIsEntitledResponse.properties.status
+  );
+  spec.components.schemas.ProductOfferingPurchaseStatus = makeSchemafromProp(
+    spec.components.schemas.ApiProductOfferingPurchase.properties.status
+  );
   spec.components.schemas.MediaFormatType = makeSchemafromProp(spec.components.schemas.MediaFormat.properties.format);
 
   return JSON.stringify(spec);
 }
 
-function makeSchemafromProp(prop: any & { enum: string, type: string }) {
+function makeSchemafromProp(prop: any & { enum: string; type: string }) {
   return { enum: prop.enum, type: prop.type };
+}
+
+function fixFalseListSchema(response: any) {
+  const responseTypeSpec = Object.values(response.content)[0] as any;
+  responseTypeSpec.schema = responseTypeSpec.schema.items;
 }
 
 function formatTypeName(name: string) {
@@ -145,12 +259,15 @@ function formatTypeName(name: string) {
   }
   // Replace spaces with uppercasing the next letter (like camelCaseor PascalCase, but doesn't touch the first letter)
   // We need this to avoid generating type names like "User_details" or "User20Details"
-  return name.split(" ").map((word, index) => (index ? word[0].toUpperCase() : word[0]) + word.slice(1)).join("");
+  return name
+    .split(" ")
+    .map((word, index) => (index ? word[0].toUpperCase() : word[0]) + word.slice(1))
+    .join("");
 }
 
 const SCHEMA_PREFIX = "#/components/schemas/";
-const INPUT_FILE = resolve(process.cwd(), "./exposure-spec.json")
-const FORMATTED_SPEC = resolve(process.cwd(), "./exposure-spec-patched.json")
+const INPUT_FILE = resolve(process.cwd(), "./exposure-spec.json");
+const FORMATTED_SPEC = resolve(process.cwd(), "./exposure-spec-patched.json");
 const OUTPUT_PATH = resolve(process.cwd(), "./generated");
 
 // Warning prefix to add to all the generated files
@@ -167,8 +284,8 @@ const FILE_PREFIX = `/* eslint-disable */
 
 let data = readFileSync(INPUT_FILE, "utf-8");
 data = patchSpec(data);
-data = data.replaceAll(/\s*<p>\s*/g, "") // strip <p> in comments
-data = data.replaceAll(/\s*<br>\s*/g, "\\n") // replace <br> with space
+data = data.replaceAll(/\s*<p>\s*/g, ""); // strip <p> in comments
+data = data.replaceAll(/\s*<br>\s*/g, "\\n"); // replace <br> with space
 data = data.replaceAll(/\s*\\n\s*/g, "\\n"); // strip spaces around line breaks
 data = data.replaceAll(/(?<="#\/components\/schemas\/)[^"]*/g, formatTypeName);
 const spec = JSON.parse(data);
@@ -197,7 +314,7 @@ for (let [originalName, schemasSpec] of Object.entries(spec.components.schemas))
 }
 
 // Create reference map for deduplicating enums by value
-const ENUM_SCHEMAS = new Map<string, string>()
+const ENUM_SCHEMAS = new Map<string, string>();
 
 for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [string, any][]) {
   if (schemasSpec.type === "string" && schemasSpec.enum) {
@@ -235,9 +352,8 @@ for (let [name, schemasSpec] of Object.entries(spec.components.schemas) as [stri
   }
 }
 
-
 /**
- * Process paths
+ * Delete some paths that should not be in the generated SDK
  */
 
 // delete the api docs and export endpoints
@@ -245,20 +361,6 @@ delete spec.paths["/docs/api-docs/{api}"];
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/asset"];
 // delete 307 redirect endpoint (cannot be used in an SDK)
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail"];
-
-// deprecated and unused (we use newer versions of these)
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/login"].post;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/changeEmail"].put;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/changePassword"].put;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/delete"].post;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/signup"].post;
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/signup/password/{token}"].put;
-// duplicate,experimantal and marked as unused
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get
-
-// doesn't specify any return type schema, and doesn't seem to work anyway (always returns "Unknown error" 500)
-delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get;
-
 
 const unhandledPathEnums = new Set<string>();
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
@@ -278,15 +380,11 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
     // For arrays use the item instead
     const schemaContext = requestBodySchema?.items || requestBodySchema;
     let refSpec;
-    if (refSpec = getRefSpec(schemaContext?.$ref)) {
+    if ((refSpec = getRefSpec(schemaContext?.$ref))) {
       delete schemaContext.$ref;
       Object.assign(schemaContext, refSpec);
     }
     for (let { name, schema } of (methodSpec?.parameters || []) as any[]) {
-      // fix invalid type "ref"
-      if (schema?.type === "ref") {
-        schema.type = "string";
-      }
       // Deduplicate enums in path spec
       if (schema?.enum && schema.type === "string") {
         const dataStr = JSON.stringify(schema.enum.sort());
@@ -296,7 +394,8 @@ for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
           schema.$ref = `${SCHEMA_PREFIX}${refName}`;
           delete schema.enum;
           delete schema.type;
-        } else if (!["fieldSet"].includes(name)) { // Ignore fieldset
+        } else if (!["fieldSet"].includes(name)) {
+          // Ignore fieldset
           unhandledPathEnums.add(`${name}: ${dataStr}`);
         }
       }
@@ -314,7 +413,9 @@ const unusedComponents: string[] = [];
 (function treeShakeSchemas() {
   // stringify the whole spec so we can use simple string.includes() to check for references
   const data = JSON.stringify(spec);
-  const currentUnusedComponents = Object.keys(spec.components.schemas).filter(name => !data.includes(`${SCHEMA_PREFIX}${name}`));
+  const currentUnusedComponents = Object.keys(spec.components.schemas).filter(
+    name => !data.includes(`${SCHEMA_PREFIX}${name}`)
+  );
   unusedComponents.push(...currentUnusedComponents);
 
   for (let name of currentUnusedComponents) {
@@ -329,16 +430,26 @@ const unusedComponents: string[] = [];
 
 if (Object.keys(unhandledComponentEnums).length) {
   console.log(`\n⚠️   TYPE enums which will be left declared inline and will not be deduplicated:`);
-  console.log(Object.entries(unhandledComponentEnums).map(([name, dataStr]) => `  - ${name}: ${dataStr}`).join("\n"));
+  console.log(
+    Object.entries(unhandledComponentEnums)
+      .map(([name, dataStr]) => `  - ${name}: ${dataStr}`)
+      .join("\n")
+  );
 }
 
 if (unhandledPathEnums.size) {
-  console.log(`\n⚠️   ROUTE enums which will be left declared inline and will not be deduplicated:\n - ${Array.from(unhandledPathEnums).join("\n - ") }`);
+  console.log(
+    `\n⚠️   ROUTE enums which will be left declared inline and will not be deduplicated:\n - ${Array.from(
+      unhandledPathEnums
+    ).join("\n - ")}`
+  );
 }
 
 if (untypedRoutes.length) {
   const formattedRoutes = ["", ...untypedRoutes.sort()].join("\n -  ");
-  console.warn(`\n⚠️   Endpoints which do not specify a return type specification. They will return a HTTP fetch response interface rather than the typed data from the response:${formattedRoutes}`);
+  console.warn(
+    `\n⚠️   Endpoints which do not specify a return type specification. They will return a HTTP fetch response interface rather than the typed data from the response:${formattedRoutes}`
+  );
 }
 
 if (unusedComponents.length) {
@@ -356,7 +467,7 @@ writeFileSync(FORMATTED_SPEC, JSON.stringify(spec, null, 2), "utf8");
 generateApi({
   output: false, // Don't write files (handle that ourselves later)
   input: resolve(process.cwd(), FORMATTED_SPEC),
-  templates: resolve(process.cwd(), './templates'),
+  templates: resolve(process.cwd(), "./templates"),
   defaultResponseAsSuccess: true, // We need this because we sometimes use "default" as a server status code for 2xx
   generateClient: true, // Otherwise we just generate the data-contract file
   generateResponses: true, // This puts the server error code in the method docblock
@@ -371,19 +482,14 @@ generateApi({
   sortTypes: true,
   sortRoutes: true,
   hooks: {
-    onFormatRouteName (routeInfo) {
+    onFormatRouteName(routeInfo) {
       // allow duplicates for search (because we did before)
       if (["searchV2", "searchV3", "getSystemConfigV2"].includes(routeInfo.operationId)) {
-        return routeInfo.operationId
+        return routeInfo.operationId;
       }
 
-      // strip remaining "v1", "v2", "v3" and "_1" (mostly suffixes, but a couple of times in the middle of the names)
-      const cleanedId = routeInfo.operationId.replace(/[_vV]?\d/, "");
-
-      if (cleanedId.endsWith("Get")) { // Normalize Yoda names
-        return `get${cleanedId.charAt(0).toUpperCase()}${cleanedId.slice(1, -3)}`;
-      }
-      return cleanedId;
+      // strip remaining "v1", "v2", "v3" and (mostly suffixes, but a couple of times in the middle of the names)
+      return routeInfo.operationId.replace(/v?\d/i, "");
     },
     onPrepareConfig(apiConfig) {
       const dupes = [...apiConfig.config.routeNameDuplicatesMap].filter(([, val]) => Number(val) > 1);
@@ -392,10 +498,10 @@ generateApi({
         // (`delete spec.paths[...].get`), or add it to the exceptions (`onFormatRouteName` hook)
         throw new Error(`Duplicate routes found after renaming: ${dupes}`);
       }
-    },
+    }
   }
 })
-  .then(({configuration, files}) => {
+  .then(({ configuration, files }) => {
     // Generate index file data
     let moduleNames: Record<string, string> = {};
     let typeDeclarations: string[] = [];
@@ -408,10 +514,20 @@ generateApi({
       typeDeclarations.push(`${moduleNS}: ${moduleName}`);
       props.push(`this.${moduleNS} = new ${moduleName}(context)`);
     }
-    const exports = Object.values(moduleNames).map((fileName) => `export * from "./${fileName}"`).join(";\n");
-    const importStatements = ["http-client", ...Object.values(moduleNames)].sort(Intl.Collator().compare).map(name => [name, name === "http-client" ? "request, ServiceContext" : name ]);
-    const imports = importStatements.map(([fileName, module]) => `import { ${module} } from "./${fileName}"`).join(";\n");
-    const fileContent = `${imports};\n\nclass RBMOTTSDK {\n  ${typeDeclarations.join(";\n  ")};\n  constructor(public context: ServiceContext) {\n    ${props.join(";\n    ")};\n  }\n}\n\nexport default RBMOTTSDK;\nexport { request, ServiceContext };\nexport * from \"./data-contracts\";\n${exports};\n`;
+    const exports = Object.values(moduleNames)
+      .map(fileName => `export * from "./${fileName}"`)
+      .join(";\n");
+    const importStatements = ["http-client", ...Object.values(moduleNames)]
+      .sort(Intl.Collator().compare)
+      .map(name => [name, name === "http-client" ? "request, ServiceContext" : name]);
+    const imports = importStatements
+      .map(([fileName, module]) => `import { ${module} } from "./${fileName}"`)
+      .join(";\n");
+    const fileContent = `${imports};\n\nclass RBMOTTSDK {\n  ${typeDeclarations.join(
+      ";\n  "
+    )};\n  constructor(public context: ServiceContext) {\n    ${props.join(
+      ";\n    "
+    )};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport { request };\nexport * from \"./data-contracts\";\n${exports};\n`;
 
     files.push({ fileName: "index", fileExtension: "ts", fileContent });
 
@@ -426,4 +542,4 @@ generateApi({
       writeFileSync(`${OUTPUT_PATH}/${moduleNames[fileName] || fileName}.ts`, FILE_PREFIX + fileContent);
     });
   })
-  .catch((err: any) => console.error(err))
+  .catch((err: any) => console.error(err));

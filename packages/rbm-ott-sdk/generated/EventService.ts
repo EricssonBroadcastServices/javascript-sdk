@@ -64,7 +64,7 @@ export async function getEvents({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date
       .toISOString()
       .substring(0, 10)}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<EventList>);

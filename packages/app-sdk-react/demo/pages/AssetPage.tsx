@@ -1,20 +1,21 @@
-import { WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import React from "react";
 import { useParams } from "react-router";
+import { Asset, AssetType } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { getTitleFromAsset } from "@ericssonbroadcastservices/app-sdk";
 import { FavoriteButton } from "../components/FavoriteButton";
 import {
   useAsset,
   useBookmarkPercentage,
   useContinueWatching,
   useEntitlementForAsset,
-  usePushNextContentData
+  usePushNextContentData,
+  useSelectedLanguage
 } from "../../src";
 import { JsonBox } from "../components/JsonBox";
 import { PlayButton } from "../components/PlayButton";
-import { AssetType } from "@ericssonbroadcastservices/exposure-sdk";
 import ChannelPicker from "../components/ChannelPicker";
 
-const Entitlements = ({ asset }: { asset: WLAsset }) => {
+const Entitlements = ({ asset }: { asset: Asset }) => {
   const [status] = useEntitlementForAsset({ asset }, {});
   return (
     <>
@@ -24,16 +25,18 @@ const Entitlements = ({ asset }: { asset: WLAsset }) => {
   );
 };
 
-export const Asset = () => {
+export const AssetPage = () => {
   const { id } = useParams();
   const [asset, isLoading, error] = useAsset(id);
+  const language = useSelectedLanguage();
   const [bookmarkPercentage] = useBookmarkPercentage(id);
-  const [{ upNext, recommendations }] = usePushNextContentData(id);
+  const [pnc] = usePushNextContentData(id);
+  const { upNext, recommendations } = pnc || {};
   const [continueWatching] = useContinueWatching(id);
   if (isLoading || error || !asset) return null;
   return (
     <div>
-      <h1>{asset.title}</h1>
+      <h1>{getTitleFromAsset(asset, language)}</h1>
       <FavoriteButton assetId={asset.assetId} />
       <h4>{`Bookmark percentage: ${bookmarkPercentage}`}</h4>
       <Entitlements asset={asset} />

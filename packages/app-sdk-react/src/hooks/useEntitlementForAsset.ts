@@ -1,9 +1,8 @@
-import { EntitlementActionType, TPaymentProvider } from "@ericssonbroadcastservices/exposure-sdk";
-import { EntitlementStatus, IEntitlementStatusResult, WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
+import { Asset, PaymentProvider } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { EntitlementActionType, EntitlementStatus, EntitlementStatusResult } from "@ericssonbroadcastservices/app-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
-import { useWLApi } from "./useApi";
 import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
@@ -19,7 +18,7 @@ interface IUseEntitlementSettings {
   startTimeAdjustmentSpread?: number;
 }
 
-export const defaultEntitlementStatus: IEntitlementStatusResult = {
+export const defaultEntitlementStatus: EntitlementStatusResult = {
   status: EntitlementStatus.UNKNOWN,
   isEntitled: false,
   accessLater: [],
@@ -34,27 +33,26 @@ export const defaultEntitlementStatus: IEntitlementStatusResult = {
 };
 
 export function useEntitlementForAsset(
-  { asset, paymentProvider }: { asset?: WLAsset; paymentProvider?: TPaymentProvider },
+  { asset, paymentProvider }: { asset?: Asset; paymentProvider?: PaymentProvider },
   { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlementSettings
-): TApiHook<IEntitlementStatusResult> {
-  const [availableProductOfferings, offeringsLoading] = useProductOfferings({ paymentProvider: paymentProvider });
-  const { customer, businessUnit } = useRedBeeState();
+): TApiHook<EntitlementStatusResult> {
+  const [availableProductOfferings, offeringsLoading] = useProductOfferings();
+  const { customer, businessUnit, appService } = useRedBeeState();
   const [session] = useUserSession();
-  const wlApi = useWLApi();
-  const [result, setResult] = useState<IEntitlementStatusResult>(defaultEntitlementStatus);
+  const [result, setResult] = useState<EntitlementStatusResult>(defaultEntitlementStatus);
   const setSession = useSetSession();
   const { data, isLoading, error } = useQuery(
     [
       QueryKeys.ASSET_ENTITLEMENT,
       asset?.assetId,
-      session?.sessionToken,
+      session?.isLoggedIn(),
       availableProductOfferings?.length,
       offeringsLoading
     ],
-    () => {
+    async () => {
       if (
+        !session?.isLoggedIn() ||
         !asset ||
-        !session?.sessionToken ||
         !customer ||
         !businessUnit ||
         !availableProductOfferings ||
@@ -63,12 +61,10 @@ export function useEntitlementForAsset(
         return defaultEntitlementStatus;
       }
 
-      return wlApi
+      return appService
         .getEntitlementForAsset({
           asset,
-          offerings: availableProductOfferings,
-          customer,
-          businessUnit,
+          availableProductOfferings,
           paymentProvider
         })
         .then(result => {

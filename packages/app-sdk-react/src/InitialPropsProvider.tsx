@@ -1,21 +1,29 @@
-import { deserialize, ExposureApi, IDeviceInfo, LoginResponse } from "@ericssonbroadcastservices/exposure-sdk";
-import { DeviceGroup, WhiteLabelService } from "@ericssonbroadcastservices/whitelabel-sdk";
+import {
+  DeviceRegistration,
+  ServiceContext,
+  loginAnonymous,
+  validateSessionToken
+} from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
+
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
 import { ErrorCode } from "./util/error";
 import { StorageKey } from "./util/storageKeys";
+import { Session, SessionData } from "./Session";
+import { DeprecatedDeviceGroup, createDeprecatedWLService } from "./DeprecatedWLService";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
 
 interface IInitialPropsProvider {
   storage?: IStorage;
+  baseUrl: string;
   customer: string;
   businessUnit: string;
-  exposureBaseUrl: string;
-  device: IDeviceInfo;
+  deviceRegistration: Required<DeviceRegistration>;
   children?: React.ReactNode;
-  deviceGroup: DeviceGroup;
+  deviceGroup: DeprecatedDeviceGroup;
   onSessionValidationError?: (err: unknown) => void;
 }
 
@@ -23,38 +31,30 @@ async function getValidatedPersistedSession({
   storage,
   customer,
   businessUnit,
-  exposureBaseUrl,
-  device
+  baseUrl,
+  deviceRegistration
 }: {
   customer: string;
   businessUnit: string;
   storage?: IStorage;
-  exposureBaseUrl: string;
-  device: IDeviceInfo;
-}): Promise<[LoginResponse | null, unknown]> {
-  let session: LoginResponse | null = null;
+  baseUrl: string;
+  deviceRegistration: Required<DeviceRegistration>;
+}): Promise<[SessionData | null, unknown]> {
+  const ctx = { customer, businessUnit, baseUrl };
+  let session: SessionData | null = null;
   let error: unknown = null;
   const persistedSession = await storage?.getItem(StorageKey.SESSION);
-  const tempExposureApi = new ExposureApi({
-    customer,
-    businessUnit,
-    authHeader: () => undefined,
-    baseUrl: exposureBaseUrl
-  });
   if (persistedSession) {
     const persistedSessionJSON = JSON.parse(persistedSession);
     if (!persistedSessionJSON.sessionToken) {
       storage?.removeItem(StorageKey.SESSION);
       session = null;
     } else {
-      session = deserialize(LoginResponse, persistedSessionJSON);
+      session = persistedSessionJSON;
       try {
         // this will throw if session is invalid
-        await tempExposureApi.authentication.validateSession({
-          customer,
-          businessUnit,
-          headers: { Authorization: `Bearer ${session.sessionToken}` }
-        });
+        const headers = { Authorization: `Bearer ${persistedSessionJSON.sessionToken}` };
+        validateSessionToken.call(ctx, { headers });
       } catch (err) {
         if ((err as any).httpCode === 401) {
           storage?.removeItem(StorageKey.SESSION);
@@ -67,7 +67,11 @@ async function getValidatedPersistedSession({
   }
   if (!session) {
     try {
-      session = await tempExposureApi.authentication.loginAnonymous({ customer, businessUnit, device });
+      const { deviceId, ...device } = deviceRegistration;
+      session = new Session({
+        ...(await loginAnonymous.call(ctx, { device, deviceId })),
+        isAnonymous: true
+      });
     } catch (err) {
       throw err;
     }
@@ -80,8 +84,8 @@ export function InitialPropsProvider({
   storage,
   customer,
   businessUnit,
-  exposureBaseUrl,
-  device,
+  baseUrl,
+  deviceRegistration,
   deviceGroup,
   onSessionValidationError
 }: IInitialPropsProvider) {
@@ -89,14 +93,14 @@ export function InitialPropsProvider({
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      let session: LoginResponse | null = null;
+      let session: SessionData | null = null;
       try {
         const [validatedSession, validationError] = await getValidatedPersistedSession({
           storage,
           customer,
           businessUnit,
-          exposureBaseUrl,
-          device
+          baseUrl,
+          deviceRegistration
         });
         session = validatedSession;
         if (validationError) {
@@ -106,34 +110,35 @@ export function InitialPropsProvider({
         session = null;
       }
       const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
-      const authHeader = () => (session ? { Authorization: `Bearer ${session.sessionToken}` } : undefined);
-      const exposureApi = new ExposureApi({
+      const serviceContext: ServiceContext = {
         customer,
         businessUnit,
-        authHeader,
-        baseUrl: exposureBaseUrl
-      });
+        baseUrl
+      };
+      async function getAuthToken() {
+        return session?.sessionToken;
+      }
+      const appService = new AppService({ ...serviceContext, deviceGroup, getAuthToken });
+      const deprecatedWhiteLabelApi = createDeprecatedWLService(
+        serviceContext,
+        deviceGroup,
+        () => session?.sessionToken
+      );
       setState({
-        session,
+        session: session && new Session(session),
         selectedLanguage: persistedSelectedLanguage || null,
         loading: [],
         customer,
         businessUnit,
         storage: storage || null,
-        device,
-        exposureBaseUrl,
+        deviceRegistration,
+        baseUrl,
         config: null,
         deviceGroup,
-        exposureApi,
         unavailable: false,
-        whiteLabelApi: new WhiteLabelService({
-          exposureApi,
-          authHeader,
-          deviceGroup,
-          customer,
-          businessUnit,
-          baseUrl: exposureBaseUrl
-        })
+        serviceContext,
+        appService,
+        deprecatedWhiteLabelApi
       });
       setIsReady(true);
     }

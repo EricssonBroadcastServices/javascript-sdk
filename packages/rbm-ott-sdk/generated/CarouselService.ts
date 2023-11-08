@@ -50,7 +50,7 @@ export async function getCarousel({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<Carousel[]>);
@@ -105,7 +105,7 @@ export async function getCarouselPartial<T = any>({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}/carousel/${carouselId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
@@ -127,7 +127,7 @@ export async function getCarouselGroups({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<string[]>);
 }
@@ -172,7 +172,7 @@ export async function getCarouselsForGroup({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<Carousel[]>);
@@ -227,7 +227,7 @@ export async function getCarouselsForGroupPartial<T = any>({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/carouselgroup/${groupId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);

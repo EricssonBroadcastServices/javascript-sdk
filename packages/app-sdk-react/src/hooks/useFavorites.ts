@@ -1,10 +1,11 @@
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
+import { addToAssetList, deleteFromAssetList, getFromAssetList } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { WLComponentSubType } from "@ericssonbroadcastservices/app-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
-import { useExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
-import { WLComponentSubType } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { useUserSession } from "./useUserSession";
 
 const FAVORITES_LIST_ID = "favorites";
 
@@ -14,57 +15,51 @@ function invalidateFavourites() {
 }
 
 export function useAddAssetToFavorites(assetId: string): TApiHook<() => void> {
-  const exposureApi = useExposureApi();
-  const { customer, businessUnit } = useRedBeeState();
+  const { serviceContext } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
+  const [session] = useUserSession();
 
-  const add = useCallback(() => {
+  const add = useCallback(async () => {
     setLoading(true);
-    exposureApi.preferences
-      .addAssetToList({
-        assetId,
-        listId: FAVORITES_LIST_ID,
-        customer,
-        businessUnit
-      })
-      .then(() => {
-        invalidateFavourites();
-        setLoading(false);
-      })
-      .catch((e: any) => {
-        setLoading(false);
-        setError(e);
-      });
-  }, [assetId, customer, businessUnit]);
+    try {
+      if (!session?.isLoggedIn()) {
+        throw new Error("User needs to be logged in to add to favorites");
+      }
+      const headers = { Authorization: `Bearer ${session?.sessionToken}` };
+      await addToAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
+      invalidateFavourites();
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false);
+    }
+  }, [serviceContext, assetId]);
 
   return [add, loading, error];
 }
 
 export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => void> {
-  const exposureApi = useExposureApi();
-  const { customer, businessUnit } = useRedBeeState();
+  const { serviceContext } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
+  const [session] = useUserSession();
 
-  const remove = useCallback(() => {
+  const remove = useCallback(async () => {
     setLoading(true);
-    exposureApi.preferences
-      .deleteAssetFromList({
-        assetId,
-        listId: FAVORITES_LIST_ID,
-        customer,
-        businessUnit
-      })
-      .then(() => {
-        invalidateFavourites();
-        setLoading(false);
-      })
-      .catch((e: any) => {
-        setLoading(false);
-        setError(e);
-      });
-  }, [assetId, customer, businessUnit]);
+    try {
+      if (!session?.isLoggedIn()) {
+        throw new Error("User needs to be logged in to remove from favorites");
+      }
+      const headers = { Authorization: `Bearer ${session?.sessionToken}` };
+      await deleteFromAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
+      invalidateFavourites();
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false);
+    }
+  }, [serviceContext, assetId]);
 
   return [remove, loading, error];
 }
@@ -76,34 +71,34 @@ type HandleAssetFavorites = {
 };
 
 export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFavorites, HandleAssetFavorites> {
-  const exposureApi = useExposureApi();
+  const { serviceContext } = useRedBeeState();
   const [handleAdd, loadingAdd] = useAddAssetToFavorites(assetId);
   const [handleRemove, loadingRemove] = useRemoveAssetFromFavorites(assetId);
-  const { customer, businessUnit } = useRedBeeState();
+  const [session] = useUserSession();
+  const handler: HandleAssetFavorites = {
+    isInList: false,
+    remove: handleRemove,
+    add: handleAdd
+  };
 
   const {
     data,
     isLoading: loadingList,
     error
-  } = useQuery([QueryKeys.FAVORITE_ASSET_IN_LIST, assetId, customer, businessUnit], () => {
-    return exposureApi.preferences
-      .getAssetFromList({
-        listId: FAVORITES_LIST_ID,
-        assetId,
-        customer,
-        businessUnit
-      })
-      .then(() => true)
-      .catch(() => false);
+  } = useQuery([QueryKeys.FAVORITE_ASSET_IN_LIST, assetId, serviceContext], async () => {
+    if (!session?.isLoggedIn()) {
+      return false;
+    }
+    try {
+      const headers = { Authorization: `Bearer ${session.sessionToken}` };
+      await getFromAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
+      return true;
+    } catch {
+      return false;
+    }
   });
 
-  return [
-    {
-      isInList: !!data,
-      remove: handleRemove,
-      add: handleAdd
-    },
-    loadingAdd || loadingRemove || loadingList,
-    error
-  ];
+  handler.isInList = !!data;
+
+  return [handler, loadingAdd || loadingRemove || loadingList, error];
 }

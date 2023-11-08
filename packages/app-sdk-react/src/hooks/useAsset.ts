@@ -1,18 +1,17 @@
-import { WLAsset } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useQuery } from "react-query";
+import { Asset, getAsset } from "@ericssonbroadcastservices/rbm-ott-sdk";
+
 import { useRedBeeState } from "../RedBeeProvider";
-import { useWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "../util/react-query";
 
-export function useAsset(identifier?: string): TApiHook<WLAsset> {
-  const wlApi = useWLApi();
-  const { customer, businessUnit, selectedLanguage } = useRedBeeState();
+export function useAsset(assetId?: string): TApiHook<Asset> {
+  const { serviceContext } = useRedBeeState();
   const { data, isLoading, error } = useQuery(
-    [QueryKeys.ASSET, identifier, customer, businessUnit, selectedLanguage],
+    [QueryKeys.ASSET, assetId, serviceContext],
     () => {
-      if (!customer || !businessUnit || !identifier) return;
-      return wlApi.getAssetById({ assetId: identifier, customer, businessUnit, locale: selectedLanguage as string });
+      if (!assetId) return;
+      return getAsset.call(serviceContext, { assetId, includeEpisodes: true, includeSeasons: true });
     },
     { staleTime: 1000 * 60 * 10 }
   );

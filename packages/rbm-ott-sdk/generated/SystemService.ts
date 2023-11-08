@@ -30,7 +30,7 @@ export async function getSystemConfig({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/systemConfig`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<SystemConfig>);
@@ -57,7 +57,7 @@ export async function getSystemConfigV2({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/system/config`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<SystemConfig>);

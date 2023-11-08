@@ -28,7 +28,7 @@ export async function getTime({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/time`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<TimeResponse>);
 }
@@ -50,7 +50,7 @@ export async function getTimeAnonymous({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/time`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<TimeResponse>);
 }

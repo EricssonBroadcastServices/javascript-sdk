@@ -1,15 +1,12 @@
 import React from "react";
-import { IEntitlementStatusResult } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { EntitlementStatusResult } from "@ericssonbroadcastservices/app-sdk";
 import { useTranslations, useUserSession } from "../../src";
 
-export const PlayButton = ({
-  entitlementResult: { isEntitled, loginToWatchForFree, isGeoBlocked, shouldJustWait, accessLater, accessNow }
-}: {
-  entitlementResult: IEntitlementStatusResult;
-}) => {
+export const PlayButton = ({ entitlementResult }: { entitlementResult: EntitlementStatusResult | null }) => {
   const [translations] = useTranslations();
   const [session] = useUserSession();
-  if (!translations) return null;
+  if (!translations || !entitlementResult) return null;
+  const { isEntitled, loginToWatchForFree, isGeoBlocked, shouldJustWait, accessLater, accessNow } = entitlementResult;
   if (isEntitled) {
     return <button>{translations.getText("PLAY")}</button>;
   }

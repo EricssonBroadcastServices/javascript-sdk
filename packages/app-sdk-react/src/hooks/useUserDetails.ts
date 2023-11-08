@@ -1,20 +1,21 @@
-import { IUserDetails } from "@ericssonbroadcastservices/exposure-sdk";
 import { useQuery } from "react-query";
+import { getUserDetails, UserDetailsResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
-import { useExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { useRedBeeState } from "../RedBeeProvider";
 
-export function useUserDetails(): TApiHook<IUserDetails> {
-  const [userSession] = useUserSession();
-  const exposureApi = useExposureApi();
-  const { customer, businessUnit } = useRedBeeState();
+export function useUserDetails(): TApiHook<UserDetailsResponse> {
+  const [session] = useUserSession();
+  const { serviceContext } = useRedBeeState();
   const { isLoading, data, error } = useQuery(
-    [QueryKeys.USER_DETAILS, userSession?.sessionToken, customer, businessUnit],
+    [QueryKeys.USER_DETAILS, session?.sessionToken, serviceContext],
     () => {
-      if (!userSession?.isLoggedIn() || !customer || !businessUnit) return;
-      return exposureApi.user.getUserDetails({ customer, businessUnit });
+      if (!session?.isLoggedIn()) {
+        return;
+      }
+      const headers = { Authorization: `Bearer ${session?.sessionToken}` };
+      return getUserDetails.call(serviceContext, { headers });
     },
     { staleTime: 1000 * 60 * 10 }
   );
