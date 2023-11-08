@@ -5,11 +5,11 @@ import ComponentSelector from "../components/ComponentSelector";
 
 export const Page = () => {
   const { id } = useParams();
-  const [pages, isLoading] = useResolvedPage(id as string, PageType.PAGE);
-  if (isLoading || !pages) return null;
+  const [components, isLoading] = useResolvedPage(id as string, PageType.PAGE);
+  if (isLoading || !components) return null;
   return (
     <div>
-      {pages.map((p, i) => (
+      {components.map((p, i) => (
         <ComponentSelector {...p} key={p.component.id + i} />
       ))}
     </div>

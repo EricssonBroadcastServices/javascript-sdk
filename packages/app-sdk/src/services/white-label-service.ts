@@ -53,6 +53,7 @@ import {
   getGeneratedEpgCarouselFromAssetId
 } from "./methods/get-generated-epg-carousel";
 import { Translations } from "../utils/wl-translations";
+import { getAssetPage } from "./methods/get-asset-page";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
@@ -163,5 +164,9 @@ export class WhiteLabelService {
 
   public async getGeneratedEpgCarouselFromAssetId(args: GetGeneratedEpgCarouselFromAssetIdOptions) {
     return getGeneratedEpgCarouselFromAssetId(this.context, args);
+  }
+
+  public async getAssetPage(assetId: string) {
+    return getAssetPage(this.context, { assetId });
   }
 }

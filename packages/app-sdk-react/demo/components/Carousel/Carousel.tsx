@@ -12,6 +12,7 @@ import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useSelectedLanguage } from "../../../src";
 import CarouselHeader from "./CarouselHeader";
 import { useTagFeedFilter } from "../../../src";
+import { Link } from "react-router-dom";
 
 function getAspectRatioMultiplier(orientation: ImageOrientation) {
   if (orientation === "PORTRAIT") return 27.5 / 40.5;
@@ -35,7 +36,9 @@ function CarouselItem({ item: { asset }, orientation }: { item: CarouselItem; or
         })}
       />
       <div className="carousel-item-meta">
-        <h4>{AssetHelpers.getTitle(asset, locale)}</h4>
+        <Link to={`/asset/${asset.assetId}`}>
+          <h4>{AssetHelpers.getTitle(asset, locale)}</h4>
+        </Link>
         <p>{AssetHelpers.getShortDescription(asset, locale)}</p>
       </div>
     </div>

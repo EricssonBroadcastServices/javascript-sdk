@@ -14,7 +14,7 @@ export type ComponentContentMap = {
   [WLComponentType.CAROUSEL]: CarouselItem[];
   [WLComponentType.EPG]: EpgComponentContent;
   [WLComponentType.TAG_TYPE]: TagList;
-  [WLComponentType.ASSET_DISPLAY]: undefined;
+  [WLComponentType.ASSET_DISPLAY]: Asset;
   [WLComponentType.ASSET_PAGE]: undefined;
   [WLComponentType.BROWSE_PAGE]: undefined;
   [WLComponentType.FOOTER]: undefined;
@@ -36,7 +36,7 @@ export interface ComponentPresentationParameters {
   backgroundImage?: IImage;
 }
 
-export interface ResolvedComponent<T extends keyof ComponentContentMap> {
+export interface ResolvedComponent<T extends keyof ComponentContentMap = any> {
   component: IExposureComponent;
   content: ComponentContentMap[T];
   presentationParameters: ComponentPresentationParameters;

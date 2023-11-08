@@ -2,6 +2,7 @@ import { ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
 import React from "react";
 import { JsonBox } from "./JsonBox";
 import { CarouselComponent } from "./Carousel/Carousel";
+import { AssetDisplay } from "./AssetDisplay/AssetDisplay";
 
 // TODO: how to handle generic
 function PagePresentation(props: ResolvedComponent<any>) {
@@ -20,6 +21,8 @@ function PagePresentation(props: ResolvedComponent<any>) {
 
 export default function ComponentSelector(props: ResolvedComponent<any>) {
   switch (props.component.appType) {
+    case "asset_display":
+      return <AssetDisplay {...props} />;
     case "carousel":
       return <CarouselComponent {...props} />;
     default:

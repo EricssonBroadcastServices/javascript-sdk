@@ -83,3 +83,15 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<Re
     pageError || results.find(r => !!r.error)?.error
   ];
 }
+
+export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponent[]> {
+  const appService = useAppService();
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.ASSET, assetId],
+    () => {
+      return appService.getAssetPage(assetId);
+    },
+    { staleTime: 1000 * 60 * 10 }
+  );
+  return [data || null, isLoading, error];
+}
