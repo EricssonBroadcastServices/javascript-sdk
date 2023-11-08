@@ -262,7 +262,7 @@ export async function searchAsset({
   query: string;
   allowedCountry?: string;
   /** The locales to search in. */
-  locales?: string[];
+  locale?: string[];
   /** @default true */
   onlyPublished?: boolean;
   /**
@@ -323,7 +323,7 @@ export async function searchAssetPartial<T = any>({
   /** Comma separated list of fields to add to the response. */
   includeFields?: string;
   /** The locales to search in. */
-  locales?: string[];
+  locale?: string[];
   /** @default true */
   onlyPublished?: boolean;
   /**
