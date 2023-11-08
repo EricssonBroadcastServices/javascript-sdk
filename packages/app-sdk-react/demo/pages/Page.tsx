@@ -1,14 +1,16 @@
 import React from "react";
 import { useParams } from "react-router";
-import { IResolvedComponent, PageType, useResolvedPage } from "../../src";
+import { PageType, useResolvedPage } from "../../src";
 import { JsonBox } from "../components/JsonBox";
+import { ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
 
-function PagePresentation(props: IResolvedComponent) {
-  const bgImage = props.reference.images.find(i => i.tags?.includes("background"))?.url;
+// TODO: how to handle generic
+function PagePresentation(props: ResolvedComponent<any>) {
+  const bgImage = props.presentationParameters.backgroundImage?.url;
   return (
     <div style={{ backgroundImage: bgImage ? `url("${bgImage}")` : undefined }}>
       <h3>{props.component.id}</h3>
-      <p>{props.component.type}</p>
+      <p>{props.component.appType}</p>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
       <JsonBox title={props.component?.title} json={JSON.stringify(props, null, 2)} />
