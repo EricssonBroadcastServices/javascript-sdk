@@ -1,151 +1,101 @@
-import {
-  entitle,
-  getAsset,
-  getAssets,
-  getWLComponent,
-  getWLConfigWithDomain,
-  getLocationFromReferer,
-  getSystemConfigV2,
-  getWLConfig,
-  request,
-  Asset,
-  AssetList,
-  PaymentProvider,
-  ServiceContext,
-  AssetType,
-  getNextEpisode,
-  getRecommendationsForAsset,
-  getNextProgramForAsset,
-  ChannelEPGResponse,
-  AssetListItemResponse,
-  EventList,
-  getTagsFromPreferencesList,
-  ProgramResponse,
-  StoreProductOffering,
-  TagList
-} from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { getAsset, getAssets, Asset, ServiceContext, AssetType } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup } from "../interfaces/device-group";
-import { IExposureWLConfig } from "../interfaces/exposure-wl-config";
-import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
 import {
   IExposureComponent,
   IExposureWLCarousel,
   IExposureWLCategoriesComponent,
   IExpoureWLEpgComponent,
-  WLCarouselAssetQueryTypes
+  WLComponentType
 } from "../interfaces/exposure-wl-component";
-import { IExposureWLFooter, IExposureWLMenu } from "../interfaces/exposure-wl-menu";
 import { PushNextContent } from "../interfaces/push-next-content";
-import { PublicationHelpers } from "../utils/publication";
-import { EntitlementStatus, EntitlementStatusResult } from "../interfaces/entitlement-result";
-import { errorToEntitlementResult } from "../utils/entitlement";
-import { CarouselItem } from "../interfaces/carousel-item";
-import { EssentialAppData } from "../interfaces/essential-app-data";
 
-type WhiteLabelServiceGetMethodParams = Omit<Parameters<typeof request>[0], "method">;
+import { EntitlementStatusResult } from "../interfaces/entitlement-result";
+import {
+  CarouselItem,
+  ComponentContentMap,
+  EpgComponentContent,
+  ResolvedComponent
+} from "../interfaces/component-content";
+import {
+  GetGeneratedCarouselByTagIdOptions,
+  getGeneratedCarouselByTagId
+} from "./methods/get-generated-carousel-by-tag-id";
+import { GetPushNextContentDataOptions, getPushNextContentData } from "./methods/get-push-next-content-data";
+import { getEpgContent } from "./methods/get-epg-content";
+import { getCarouselAssets } from "./methods/get-carousel-assets";
+import { GetEntitlementForAssetOptions, getEntitlementForAsset } from "./methods/get-entitlement-for-asset";
+import { EssentialAppData, getEssentialAppData } from "./methods/get-essential-app-data";
+import { get } from "../utils/http";
+import {
+  GetConfigByCustomerAndBusinessUnitOptions,
+  getConfigByCustomerAndBusinessUnit
+} from "./methods/get-config-by-customer-and-businessUnit";
+import { getTagList } from "./methods/get-tag-list";
+import {
+  GetResolvedComponentByReferenceOptions,
+  getResolvedComponentByReference
+} from "./methods/get-resolved-component-by-reference";
+import { GetComponentContentOptions, getComponentContent } from "./methods/get-component-content";
+import { getCategoriesContent } from "./methods/get-categories-content";
+import { GetComponentByReferenceOptions, getComponentByReference } from "./methods/get-component-by-reference";
+import { GetComponentByIdOptions, getComponentById } from "./methods/get-component-by-id";
+import { GetConfigByOriginOptions, getConfigByOrigin } from "./methods/get-config-by-origin";
+import {
+  GetGeneratedCollectionEntriesCarouselOptions,
+  getGeneratedCollectionEntriesCarousel
+} from "./methods/get-generated-collection-entries-carousel";
+import {
+  GetGeneratedTrailersForAssetCarouselOptions,
+  getGeneratedTrailersForAssetCarousel
+} from "./methods/get-generated-trailers-carousel";
+import {
+  GetGeneratedEpgCarouselFromAssetIdOptions,
+  getGeneratedEpgCarouselFromAssetId
+} from "./methods/get-generated-epg-carousel";
+import { Translations } from "../utils/wl-translations";
 
-interface WhiteLabelServiceContext extends ServiceContext {
+export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
   getAuthToken: () => Promise<string | undefined>;
 }
 export class WhiteLabelService {
-  constructor(private context: WhiteLabelServiceContext) {}
+  constructor(public context: WhiteLabelServiceContext) {}
 
-  public async get<T>({ url, query, headers }: WhiteLabelServiceGetMethodParams): Promise<T> {
-    return request({ method: "GET", url, query, headers }).then(response => response.json());
+  public async getResolvedComponentByReference<T extends keyof ComponentContentMap | WLComponentType>(
+    args: GetResolvedComponentByReferenceOptions
+  ): Promise<ResolvedComponent<T>> {
+    return getResolvedComponentByReference(this.context, args);
   }
 
-  public async getComponentById<T extends IExposureComponent>({
-    componentId,
-    hasAuthorizedContent = false,
-    countryCode
-  }: {
-    componentId: string;
-    hasAuthorizedContent?: boolean;
-    countryCode: string;
-  }): Promise<T> {
-    const authToken = await this.context.getAuthToken();
-    if (hasAuthorizedContent && !authToken) {
-      throw new Error("Content requires authorization but there is no auth token");
-    }
-    const headers = new Headers();
-    if (hasAuthorizedContent) {
-      headers.set("Authorization", `Bearer ${authToken}`);
-    }
-
-    return (
-      await getWLComponent.call(this, {
-        configId: "sandwich",
-        allowedCountry: countryCode,
-        componentId,
-        headers
-      })
-    ).json();
+  public async getComponentContent<T extends keyof ComponentContentMap>(
+    args: GetComponentContentOptions
+  ): Promise<ComponentContentMap[T]> {
+    return getComponentContent(this.context, args);
   }
 
-  public async getComponentByReference<T extends IExposureComponent>({
-    wlReference,
-    countryCode
-  }: {
-    wlReference: IExposureWLReference;
-    countryCode: string;
-  }): Promise<T> {
-    return this.getComponentById({
-      componentId: wlReference.referenceId,
-      hasAuthorizedContent: wlReference.hasAuthorizedContent,
-      countryCode
-    });
+  public async getComponentById<T extends IExposureComponent>(args: GetComponentByIdOptions): Promise<T> {
+    return getComponentById(this.context, args);
+  }
+
+  public async getComponentByReference<T extends IExposureComponent>(args: GetComponentByReferenceOptions): Promise<T> {
+    return getComponentByReference(this.context, args);
   }
 
   public async getEssentialAppData(): Promise<EssentialAppData> {
-    const location = await getLocationFromReferer.call(this);
-    const { countryCode } = location;
-    if (!countryCode) {
-      throw Error("Couldn't get all the things");
-    }
-    const systemConfigRequest = getSystemConfigV2.call(this, { countryCode });
-    const config = await this.getConfigByCustomerAndBusinessUnit({ countryCode });
-    const menuReference = config.components.menu?.[0];
-    const footerReference = config.components.footer?.[0];
-    let footerRequest: Promise<IExposureWLFooter> | undefined;
-    if (!menuReference) {
-      throw new Error("nOoooo!");
-    }
-    const menuRequest = this.getComponentByReference<IExposureWLMenu>({ wlReference: menuReference, countryCode });
-    if (footerReference) {
-      footerRequest = this.getComponentByReference<IExposureWLFooter>({ wlReference: footerReference, countryCode });
-    }
-
-    return {
-      systemConfig: await systemConfigRequest,
-      menu: await menuRequest,
-      footer: await footerRequest,
-      countryCode,
-      config
-    };
+    return getEssentialAppData(this.context);
   }
 
-  public getConfigByOrigin({ origin }: { origin: string }) {
-    if (!origin) {
-      return Promise.reject(new Error("[WhiteLabelService] No origin set"));
-    }
-    return getWLConfigWithDomain.call(this, {
-      configId: "sandwich",
-      host: origin
-    });
+  public getConfigByOrigin(args: GetConfigByOriginOptions) {
+    return getConfigByOrigin(this.context, args);
   }
 
-  public async getConfigByCustomerAndBusinessUnit({ countryCode }: { countryCode: string }) {
-    return (
-      await getWLConfig.call(this, { configId: "sandwich", allowedCountry: countryCode })
-    ).json() as Promise<IExposureWLConfig>;
+  public async getConfigByCustomerAndBusinessUnit(args: GetConfigByCustomerAndBusinessUnitOptions) {
+    return getConfigByCustomerAndBusinessUnit(this.context, args);
   }
 
   public getAssetById(assetId: string): Promise<Asset> {
     return getAsset.call(this, { assetId, includeEpisodes: true, includeSeasons: true });
   }
-
-  public getAssetsByIds = this.getAssets;
 
   public async getAssets({
     assetIds,
@@ -167,211 +117,51 @@ export class WhiteLabelService {
     ).items;
   }
 
-  public async getEntitlementForAsset({
-    asset,
-    paymentProvider,
-    availableProductOfferings
-  }: {
-    asset: Asset;
-    availableProductOfferings: StoreProductOffering[];
-    paymentProvider?: PaymentProvider;
-  }): Promise<EntitlementStatusResult> {
-    return await entitle
-      .call(this.context, {
-        assetId: asset.assetId,
-        paymentProvider,
-        headers: { Authorization: `Bearer ${await this.context.getAuthToken()}` }
-      })
-      .then(() => {
-        return {
-          status: EntitlementStatus.ENTITLED,
-          isEntitled: true,
-          accessLater: [],
-          accessNow: [],
-          isInFuture: false,
-          startTime: null,
-          isGeoBlocked: false,
-          isStreamLimitReached: false,
-          entitlementError: null,
-          loginToWatchForFree: false,
-          shouldJustWait: false
-        };
-      })
-      .catch(async err => {
-        return errorToEntitlementResult(await (err.response as Response).json(), asset, availableProductOfferings);
-      });
+  public async getEntitlementForAsset(args: GetEntitlementForAssetOptions): Promise<EntitlementStatusResult> {
+    return getEntitlementForAsset(this, args);
   }
 
   public async getTagList(listId: string) {
-    return getTagsFromPreferencesList.call(this.context, {
-      list: listId,
-      headers: { Authorization: `Bearer ${await this.context.getAuthToken()}` }
-    });
+    return getTagList(this.context, listId);
   }
 
   public async getCarouselAssets(carousel: IExposureWLCarousel): Promise<CarouselItem[]> {
-    const sessionToken = await this.context.getAuthToken();
-    if (carousel.appSubType === "TagFeedQuery") {
-      if (!carousel.contentPreferencesUrl?.url) return [];
-
-      const userTagList = await this.getTagList("tagfeed");
-
-      const url = new URL(carousel.contentPreferencesUrl.url, this.context.baseUrl);
-
-      // fieldSet=ALL is missing, at least on BSBU. TODO: check with meta.
-      url.searchParams.set("fieldSet", "ALL");
-
-      carousel.contentPreferencesUrl?.fields.forEach(urlVariable => {
-        url.searchParams.set(urlVariable, userTagList[`${urlVariable}`]);
-      });
-      return (await this.get<AssetList>({ url: url.toString() })).items.map(asset => ({
-        asset
-      }));
-    }
-    if (!carousel.contentUrl?.url) return [];
-    const contentUrl = new URL(carousel.contentUrl.url, this.context.baseUrl);
-    try {
-      switch (carousel.contentUrl?.type) {
-        case WLCarouselAssetQueryTypes.CONTINUE_WATCHING:
-        case WLCarouselAssetQueryTypes.RECOMMENDED:
-        case WLCarouselAssetQueryTypes.RECENTLY_WATCHED:
-          if (!sessionToken) return [];
-          return (
-            await this.get<AssetList>({
-              url: contentUrl,
-              headers: {
-                Authorization: `Bearer ${sessionToken}`
-              }
-            })
-          ).items.map(asset => ({ asset }));
-        case WLCarouselAssetQueryTypes.EPG:
-          return (
-            (await this.get<ChannelEPGResponse>({ url: contentUrl })).programs?.map(
-              ({ asset, startTime, endTime }) => ({ asset, startTime, endTime })
-            ) || []
-          );
-        case WLCarouselAssetQueryTypes.FAVORITES:
-          if (!sessionToken) return [];
-          return (
-            await this.get<AssetListItemResponse[]>({
-              url: contentUrl,
-              headers: {
-                Authorization: `Bearer ${sessionToken}`
-              }
-            })
-          ).map(({ asset }) => ({ asset }));
-        case WLCarouselAssetQueryTypes.TVOD:
-          if (!sessionToken) return [];
-          return (
-            await this.get<Asset[]>({
-              url: contentUrl,
-              headers: {
-                Authorization: `Bearer ${sessionToken}`
-              }
-            })
-          ).map(asset => ({ asset }));
-        case WLCarouselAssetQueryTypes.EVENT:
-          return (
-            (await this.get<EventList>({ url: contentUrl })).items?.map(({ asset, startTime, endTime }) => ({
-              asset,
-              startTime,
-              endTime
-            })) || []
-          );
-        case WLCarouselAssetQueryTypes.ASSET:
-          return (await this.get<AssetList>({ url: contentUrl })).items.map(asset => ({ asset }));
-        default:
-          console.warn("trying to resolve unsupported carousel");
-          return [];
-      }
-    } catch (err) {
-      console.error("failed when resolving assets", carousel, err);
-      return [];
-    }
+    return getCarouselAssets(this.context, carousel);
   }
 
   public async getCategoriesContent(categoriesComponent: IExposureWLCategoriesComponent) {
-    const contentUrl = new URL(categoriesComponent.contentUrl.url, this.context.baseUrl);
-    return await this.get<TagList>({ url: contentUrl });
+    return getCategoriesContent(this.context, categoriesComponent);
   }
 
-  public async getEpgContent(epgComponent: IExpoureWLEpgComponent): Promise<
-    {
-      channel: Asset;
-      programs: ProgramResponse[];
-    }[]
-  > {
-    const contentUrl = new URL(epgComponent.contentUrl.url, this.context.baseUrl);
-    const content = await this.get<ChannelEPGResponse[]>({ url: contentUrl });
-    const channels: Promise<{
-      channel: Asset;
-      programs: ProgramResponse[];
-    } | null>[] = content.map(async channelResponse => {
-      try {
-        const channel = await getAsset.call(this.context, { assetId: channelResponse.channelId });
-        return {
-          channel,
-          programs: channelResponse.programs
-        };
-      } catch (err) {
-        // potentially the getAsset call can fail if the channel is not published
-        return null;
-      }
-    });
-    return (await Promise.all(channels)).filter(c => c !== null) as {
-      channel: Asset;
-      programs: ProgramResponse[];
-    }[];
+  public async getEpgContent(epgComponent: IExpoureWLEpgComponent): Promise<EpgComponentContent> {
+    return getEpgContent(this.context, epgComponent);
   }
 
   public getTranslations(locale: string) {
-    const url = new URL(`/api/internal/translations/${locale}`, this.context.baseUrl);
-    return this.get({ url });
+    return get({ url: `${this.context.baseUrl}/api/internal/translations/${locale}` }).then(
+      data => new Translations(data)
+    );
   }
 
-  public async getPushNextContentData({
-    assetId,
-    pushNextProgram = false
-  }: {
-    /** The id of the asset */
-    assetId: string;
-    /** whether or not upNext should be populated by the next upcoming program, if available */
-    pushNextProgram?: boolean;
-  }): Promise<PushNextContent> {
-    let upNextAsset: Asset | undefined;
-    let recommendations: Asset[] = [];
-    try {
-      upNextAsset = await getNextEpisode.call(this.context, { assetId });
-      /*
-        if the asset has no active publications, discard it.
-        This can be true when episodes are part of a live channel and the episode has not yet aired.
-       */
-      if (upNextAsset && PublicationHelpers.getActivePublications(upNextAsset.publications).length === 0) {
-        upNextAsset = undefined;
-      }
-    } catch (err) {}
-    try {
-      /**
-       * This gets the following program according to EPG and puts it as the first RECOMMENDATION
-       */
-      const nextProgram = await getNextProgramForAsset.call(this.context, { assetId });
-      if (nextProgram.asset) {
-        recommendations.push(nextProgram.asset);
-      }
+  public async getPushNextContentData(args: GetPushNextContentDataOptions): Promise<PushNextContent> {
+    return getPushNextContentData(this.context, args);
+  }
 
-      if (!upNextAsset && pushNextProgram && nextProgram.asset) {
-        upNextAsset = nextProgram.asset || undefined;
-      }
-    } catch (err) {}
-    try {
-      recommendations = [
-        ...recommendations,
-        ...(await getRecommendationsForAsset.call(this.context, { assetId })).items
-      ].slice(0, 3);
-    } catch (err) {}
-    return {
-      upNext: upNextAsset,
-      recommendations
-    };
+  public async getGeneratedCarouselByTagId(
+    args: GetGeneratedCarouselByTagIdOptions
+  ): Promise<ResolvedComponent<"carousel">> {
+    return getGeneratedCarouselByTagId(this, args);
+  }
+
+  public async getGeneratedCollectionEntriesCarousel(args: GetGeneratedCollectionEntriesCarouselOptions) {
+    return getGeneratedCollectionEntriesCarousel(this.context, args);
+  }
+
+  public async getGeneratedTrailersForAssetCarousel(args: GetGeneratedTrailersForAssetCarouselOptions) {
+    return getGeneratedTrailersForAssetCarousel(this.context, args);
+  }
+
+  public async getGeneratedEpgCarouselFromAssetId(args: GetGeneratedEpgCarouselFromAssetIdOptions) {
+    return getGeneratedEpgCarouselFromAssetId(this.context, args);
   }
 }
