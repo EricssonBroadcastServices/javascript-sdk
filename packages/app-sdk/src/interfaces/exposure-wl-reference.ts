@@ -23,6 +23,7 @@ export const CarouselDensity = {
 export type CarouselDensity = typeof CarouselDensity[keyof typeof CarouselDensity];
 
 export interface IExposureWLReference {
+  name?: string;
   appType: WLComponentType;
   appSubType?: WLComponentSubType;
   referenceId: string;
