@@ -187,6 +187,10 @@ function patchSpec(data: string): string {
   spec.paths[
     "/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"
   ].delete.operationId = "deleteTagFromPreferencesList"; // was "deleteFromList" (vague)
+  // fix misnamed params
+  spec.paths[
+    "/v3/customer/{customer}/businessunit/{businessUnit}/content/search/asset/query/{query}"
+  ].get.parameters.find((q: any) => q.name === "locales").name = "locale";
 
   // Ignore problematic endpoints
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get; // name-clashes, duplicate,experimantal and unused
