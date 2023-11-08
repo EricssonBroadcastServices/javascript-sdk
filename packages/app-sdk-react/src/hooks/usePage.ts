@@ -65,23 +65,8 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<Re
           if (!userSession?.isLoggedIn() && reference.hasAuthorizedContent === true) {
             return undefined;
           }
-          // TODO: check if this is included in app-sdk
-          /* if (reference?.subType === WLComponentSubType.TAG_FEED_QUERY && reference?.urlVariables) {
-            if (!!tagList && tagList?.items?.length) {
-              reference.urlVariables.forEach(urlVariable => {
-                internalUrl = internalUrl?.replace(
-                  `{${urlVariable}}`,
-                  (tagList as PreferenceListTags & { [key: string]: any })[`${urlVariable}`]
-                );
-              });
-            } else {
-              return;
-            }
-          } */
-          return appService.getResolvedComponentByReference({ wlReference: reference, countryCode }).catch(err => {
-            console.log(reference);
-            console.log(err);
-          });
+
+          return appService.getResolvedComponentByReference({ wlReference: reference, countryCode });
         }
       };
     })
