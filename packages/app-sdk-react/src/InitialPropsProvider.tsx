@@ -4,7 +4,7 @@ import {
   loginAnonymous,
   validateSessionToken
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
+import { WhiteLabelService as AppService, DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
 
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
@@ -12,7 +12,6 @@ import { IRedBeeState } from "./RedBeeProvider";
 import { ErrorCode } from "./util/error";
 import { StorageKey } from "./util/storageKeys";
 import { Session, SessionData } from "./Session";
-import { DeprecatedDeviceGroup, createDeprecatedWLService } from "./DeprecatedWLService";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
 
@@ -23,7 +22,7 @@ interface IInitialPropsProvider {
   businessUnit: string;
   deviceRegistration: Required<DeviceRegistration>;
   children?: React.ReactNode;
-  deviceGroup: DeprecatedDeviceGroup;
+  deviceGroup: DeviceGroup;
   onSessionValidationError?: (err: unknown) => void;
 }
 
@@ -119,11 +118,6 @@ export function InitialPropsProvider({
         return session?.sessionToken;
       }
       const appService = new AppService({ ...serviceContext, deviceGroup, getAuthToken });
-      const deprecatedWhiteLabelApi = createDeprecatedWLService(
-        serviceContext,
-        deviceGroup,
-        () => session?.sessionToken
-      );
       setState({
         session: session && new Session(session),
         selectedLanguage: persistedSelectedLanguage || null,
@@ -137,8 +131,7 @@ export function InitialPropsProvider({
         deviceGroup,
         unavailable: false,
         serviceContext,
-        appService,
-        deprecatedWhiteLabelApi
+        appService
       });
       setIsReady(true);
     }

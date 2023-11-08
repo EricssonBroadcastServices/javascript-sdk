@@ -28,9 +28,7 @@
   },
   "dependencies": {
     "@ericssonbroadcastservices/app-sdk": "*",
-    "@ericssonbroadcastservices/exposure-sdk": "*",
-    "@ericssonbroadcastservices/rbm-ott-sdk": "*",
-    "@ericssonbroadcastservices/whitelabel-sdk": "*"
+    "@ericssonbroadcastservices/rbm-ott-sdk": "*"
   },
   "peerDependencies": {
     "react": ">=17",

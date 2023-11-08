@@ -1,6 +1,5 @@
 export { RedBeeContext, RedBeeProvider, ActionType, useRedBeeState, useRedBeeStateDispatch } from "./RedBeeProvider";
 export { useSelectedLanguage, useSetSelectedLanguage } from "./hooks/useSelectedLanguage";
-export { useDeprecatedWLApi } from "./hooks/useApi";
 export { useGeolocation } from "./hooks/useGeolocation";
 export { useConfig, useFetchConfig, useTheme } from "./hooks/useConfig";
 export { useTranslations } from "./hooks/useTranslations";
