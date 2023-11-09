@@ -1,6 +1,6 @@
 export { RedBeeContext, RedBeeProvider, ActionType, useRedBeeState, useRedBeeStateDispatch } from "./RedBeeProvider";
 export { useSelectedLanguage, useSetSelectedLanguage } from "./hooks/useSelectedLanguage";
-export { useGeolocation } from "./hooks/useGeolocation";
+export * from "./hooks/useGeolocation";
 export { useConfig, useFetchConfig, useTheme } from "./hooks/useConfig";
 export { useTranslations } from "./hooks/useTranslations";
 export { useActivationCode } from "./hooks/useActivationCode";
