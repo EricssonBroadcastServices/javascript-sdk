@@ -1660,8 +1660,8 @@ export interface SystemTagImage {
 export interface Tag {
   changed?: string;
   created?: string;
-  tagValues?: TagValues[];
-  type?: string;
+  tagValues: TagValues[];
+  type: string;
 }
 
 export interface TagList {
@@ -1693,7 +1693,7 @@ export interface TagType {
 }
 
 export interface TagValues {
-  tagId?: string;
+  tagId: string;
 }
 
 export interface TimeResponse {

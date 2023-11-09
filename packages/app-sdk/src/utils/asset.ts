@@ -133,6 +133,10 @@ export function getAssetDurationString(asset: Asset, locale?: string) {
   return getDurationLocalized(asset.duration, locale);
 }
 
+export function getAllTagIdsFromAsset(asset: Asset) {
+  return asset.tags.flatMap(t => t.tagValues?.flatMap(t => t.tagId));
+}
+
 export function getChannelAssetTimeSlotString(asset: ChannelAsset) {
   return `${getTimeString(new Date(asset.startTime))} - ${getTimeString(new Date(asset.endTime))}`;
 }
@@ -158,5 +162,6 @@ export const AssetHelpers = {
   getPushNextCuePoint: getPushNextCuePointForAsset,
   getIdentifier: getAssetIdentifier,
   getDurationString: getAssetDurationString,
-  getScaledImage: getScaledAssetImage
+  getScaledImage: getScaledAssetImage,
+  getAllTagIds: getAllTagIdsFromAsset
 };

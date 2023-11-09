@@ -40,7 +40,7 @@ function createSanitizedSearchParams(query: QueryParams = {}): URLSearchParams {
 }
 
 function defaultErrorFactory(response: Response) {
-  return Object.assign(new Error(`HTTP Error: ${response.statusText} (${response.status})`), { response });
+  throw Object.assign(new Error(`HTTP Error: ${response.statusText} (${response.status})`), { response });
 }
 
 export async function request({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<Response> {

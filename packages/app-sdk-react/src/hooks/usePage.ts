@@ -6,6 +6,8 @@ import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { useCountryCode } from "./useGeolocation";
 import { IExposureWLPage, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
+import { useSelectedLanguage } from "./useSelectedLanguage";
+import { useTranslations } from "./useTranslations";
 
 export enum PageType {
   PAGE = "page",
@@ -44,8 +46,7 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<Re
   const appService = useAppService();
   const [page, pageLoading, pageError] = usePage(pageId, pageType);
   const [userSession] = useUserSession();
-  // TODO: how to handle generic
-  const results: UseQueryResult<ResolvedComponent<any>>[] = useQueries(
+  const results: UseQueryResult<ResolvedComponent>[] = useQueries(
     (page?.components.pageBody || []).map(reference => {
       return {
         retry: false,
@@ -86,10 +87,13 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<Re
 
 export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponent[]> {
   const appService = useAppService();
+  const locale = useSelectedLanguage();
+  const [translations] = useTranslations();
   const { data, isLoading, error } = useQuery(
-    [QueryKeys.ASSET, assetId],
+    [QueryKeys.ASSET, assetId, translations],
     () => {
-      return appService.getAssetPage(assetId);
+      if (!translations) return;
+      return appService.getAssetPage(assetId, locale, translations);
     },
     { staleTime: 1000 * 60 * 10 }
   );

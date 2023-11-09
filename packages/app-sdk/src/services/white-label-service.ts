@@ -166,7 +166,7 @@ export class WhiteLabelService {
     return getGeneratedEpgCarouselFromAssetId(this.context, args);
   }
 
-  public async getAssetPage(assetId: string) {
-    return getAssetPage(this.context, { assetId });
+  public async getAssetPage(assetId: string, locale: string, translations: Translations) {
+    return getAssetPage(this, { assetId, locale, translations });
   }
 }

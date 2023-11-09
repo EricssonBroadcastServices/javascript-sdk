@@ -32,10 +32,12 @@ export async function getEssentialAppData(context: WhiteLabelServiceContext): Pr
     footerRequest = getComponentByReference<IExposureWLFooter>(context, { wlReference: footerReference, countryCode });
   }
 
+  const [systemConfig, menu, footer] = await Promise.all([systemConfigRequest, menuRequest, footerRequest]);
+
   return {
-    systemConfig: await systemConfigRequest,
-    menu: await menuRequest,
-    footer: await footerRequest,
+    systemConfig,
+    menu,
+    footer,
     countryCode,
     config
   };

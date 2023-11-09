@@ -1,16 +1,110 @@
 import { getAsset } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelServiceContext } from "../white-label-service";
+import { WhiteLabelService } from "../white-label-service";
 import { ResolvedComponent } from "../../interfaces/component-content";
+import { AssetHelpers } from "../../utils/asset";
+import { getGeneratedCarouselByTagId } from "./get-generated-carousel-by-tag-id";
+import { getGeneratedEpgCarouselFromAssetId } from "./get-generated-epg-carousel";
+import { Translations } from "../../utils/wl-translations";
+import { getGeneratedCollectionEntriesCarousel } from "./get-generated-collection-entries-carousel";
+import { getGeneratedTrailersForAssetCarousel } from "./get-generated-trailers-carousel";
 
-export interface GetComponentByIdOptions {
+export interface GetAssetPageOptions {
   assetId: string;
+  useTagIdCarousels?: boolean;
+  useTrailersAndExtrasCarousel?: boolean;
+  useSeasonCarousel?: boolean;
+  useAssetEpgCarousel?: boolean;
+  useRelatedByMetadataCarousel?: boolean;
+  useOthersHaveWatchedCarousel?: boolean;
+  locale: string;
+  translations: Translations;
 }
 
 export async function getAssetPage(
-  context: WhiteLabelServiceContext,
-  { assetId }: GetComponentByIdOptions
+  service: WhiteLabelService,
+  {
+    assetId,
+    locale,
+    useTagIdCarousels = true,
+    translations,
+    useTrailersAndExtrasCarousel = true,
+    useAssetEpgCarousel = true,
+    useOthersHaveWatchedCarousel = true,
+    useRelatedByMetadataCarousel = true,
+    useSeasonCarousel = true
+  }: GetAssetPageOptions
 ): Promise<ResolvedComponent[]> {
-  const asset = await getAsset.call(context, { assetId });
+  const asset = await getAsset.call(service.context, { assetId });
+
+  const generatedComponents: Promise<ResolvedComponent>[] = [];
+
+  if (asset.type === "COLLECTION") {
+    generatedComponents.push(getGeneratedCollectionEntriesCarousel(service.context, { assetId }));
+  }
+  const linkedTrailers = asset.linkedEntities?.filter(entity => entity.linkType === "TRAILER");
+  if (useTrailersAndExtrasCarousel && linkedTrailers.length > 0) {
+    generatedComponents.push(getGeneratedTrailersForAssetCarousel(service.context, { assetId, translations, locale }));
+  }
+
+  // TODO: add season carousel
+  if (useSeasonCarousel) {
+  }
+  /* if (
+      isFeatureEnabled(Feature.SEASON_CAROUSEL, options.customer) &&
+      asset.episode &&
+      asset.season &&
+      asset.tvShowId
+    ) {
+      const seasonCarousel = WLReference.seasonCarouselReference(
+        options.customer,
+        options.businessUnit,
+        asset.tvShowId,
+        asset.season
+      );
+      page.components.pageBody?.push(seasonCarousel);
+    } */
+
+  if (useAssetEpgCarousel && asset.type === "TV_CHANNEL") {
+    generatedComponents.push(getGeneratedEpgCarouselFromAssetId(service.context, { assetId, translations }));
+  }
+
+  // TODO: add relatedByMetadata carousel
+  if (useRelatedByMetadataCarousel) {
+  }
+  /* if (
+      isFeatureEnabled(Feature.RELATED_CAROUSEL, options.customer) &&
+      (asset.tags.length > 0 || asset.participants.length > 0)
+    ) {
+      page.components.pageBody?.push(
+        WLReference.relatedMetadataCarouselReference(options.customer, options.businessUnit, options.assetId)
+      );
+    } */
+
+  // TODO: add others have watched carousel
+  if (useOthersHaveWatchedCarousel) {
+  }
+  /* if (isFeatureEnabled(Feature.OTHERS_HAVE_WATCHED_CAROUSEL, options.customer)) {
+      page.components.pageBody?.push(
+        WLReference.relatedByConsumptionCarouselReference(options.customer, options.businessUnit, options.assetId)
+      );
+    } */
+  if (useTagIdCarousels) {
+    const tagIds = AssetHelpers.getAllTagIds(asset);
+    tagIds.forEach(tagId => {
+      generatedComponents.push(getGeneratedCarouselByTagId(service, { tagId, excludedAssetId: asset.assetId, locale }));
+    });
+  }
+
+  const resolvedGeneratedComponents = await (
+    await Promise.allSettled(generatedComponents)
+  )
+    .filter((val): val is PromiseFulfilledResult<ResolvedComponent> => {
+      if (val.status === "rejected") {
+        console.warn("generated carousel failed to resolve");
+      }
+      return val.status === "fulfilled";
+    })
+    .map(res => res.value);
   return [
     {
       presentationParameters: {
@@ -23,7 +117,7 @@ export async function getAssetPage(
         id: `generated_asset_${assetId}`,
         appType: "asset_display"
       }
-    }
-    // TODO: add generated carousels
+    },
+    ...resolvedGeneratedComponents
   ];
 }
