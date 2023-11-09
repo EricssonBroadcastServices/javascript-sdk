@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router";
 import { PageType, useResolvedPage } from "../../src";
-import ComponentSelector from "../components/ComponentSelector";
+import ComponentSelector from "../components/ComponentSelector/ComponentSelector";
 
 export const Page = () => {
   const { id } = useParams();

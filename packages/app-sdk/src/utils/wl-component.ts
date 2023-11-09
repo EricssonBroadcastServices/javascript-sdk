@@ -50,9 +50,19 @@ export function getSubTitleWLPresentation(component: IExposureComponent, locale:
   return localizedItem.subTitle;
 }
 
+export function getIframeFromWLPresentation(component: IExposureComponent, locale: string) {
+  if (!component.presentation) return null;
+  const localizedItem = getLocalizedItemFromPresentation(component.presentation, locale);
+  if (!localizedItem || !localizedItem.iframe) {
+    return component.presentation.fallback?.iframe || null;
+  }
+  return localizedItem.iframe;
+}
+
 export const WLComponentHelpers = {
   getTitle: getTitleFromWLComponent,
   getImageByTag: getImageByTagFromWLComponent,
   getDescription: getDescriptionFromWLComponent,
-  getSubTitle: getSubTitleWLPresentation
+  getSubTitle: getSubTitleWLPresentation,
+  getIframe: getIframeFromWLPresentation
 };

@@ -22,7 +22,7 @@ function getAspectRatioMultiplier(orientation: ImageOrientation) {
 }
 
 function CarouselItem({
-  item: { asset, startTime },
+  item: { asset, startTime, endTime },
   orientation
 }: {
   item: CarouselItem;
@@ -45,10 +45,10 @@ function CarouselItem({
           })}
         />
         <div className="carousel-item-meta">
-          {!!startTime && translations && (
-            <span>{`${getDayLocalized(new Date(startTime), translations)} - ${getTimeString(
+          {!!startTime && !!endTime && translations && (
+            <span>{`${getDayLocalized(new Date(startTime), translations)}: ${getTimeString(
               new Date(startTime)
-            )}`}</span>
+            )} - ${getTimeString(new Date(endTime))}`}</span>
           )}
 
           <h4>{AssetHelpers.getTitle(asset, locale)}</h4>

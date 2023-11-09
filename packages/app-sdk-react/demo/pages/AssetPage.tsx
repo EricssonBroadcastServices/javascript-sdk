@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router";
 import { useResolvedAssetPage } from "../../src/hooks/usePage";
-import ComponentSelector from "../components/ComponentSelector";
+import ComponentSelector from "../components/ComponentSelector/ComponentSelector";
 
 export const AssetPage = () => {
   const { id } = useParams();
