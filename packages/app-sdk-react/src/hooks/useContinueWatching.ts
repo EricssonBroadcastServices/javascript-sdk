@@ -12,7 +12,10 @@ export function useContinueWatching(tvshowid?: string): TApiHook<WatchedTvShowRe
     if (!tvshowid || !session?.isLoggedIn()) {
       return;
     }
-    return getContinueWatchingTvShow.call(serviceContext, { tvshowid });
+    return getContinueWatchingTvShow.call(serviceContext, {
+      tvshowid,
+      headers: { Authorization: `Bearer ${session.sessionToken}` }
+    });
   });
   return [data || null, isLoading, error];
 }
