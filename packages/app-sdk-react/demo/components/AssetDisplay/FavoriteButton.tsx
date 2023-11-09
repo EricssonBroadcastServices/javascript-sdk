@@ -1,6 +1,6 @@
 import React from "react";
-import { useUserSession } from "../../src";
-import { useHandleAssetFavorites } from "../../src";
+import { useUserSession } from "../../../src";
+import { useHandleAssetFavorites } from "../../../src";
 
 export const FavoriteButton = ({ assetId }: { assetId: string }) => {
   const [session] = useUserSession();

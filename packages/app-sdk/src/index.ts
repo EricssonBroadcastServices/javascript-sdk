@@ -19,3 +19,5 @@ export * from "./utils/wl-component";
 export * from "./utils/wl-config";
 export * from "./utils/image-scaling";
 export * from "./utils/tag";
+export * from "./utils/date";
+export * from "./utils/time";

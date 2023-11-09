@@ -37,7 +37,7 @@ export function getScaledAssetImage({
   format,
   asset,
   imageType,
-  oritentation,
+  orientation,
   locale
 }: {
   width?: number;
@@ -45,10 +45,10 @@ export function getScaledAssetImage({
   format?: ImageFormat;
   asset: Asset;
   imageType: string;
-  oritentation: ImageOrientation;
+  orientation: ImageOrientation;
   locale: string;
 }) {
-  const image = getLocalizedAssetImage(asset, oritentation, imageType, locale);
+  const image = getLocalizedAssetImage(asset, orientation, imageType, locale);
   if (!image?.url) return;
   return fit(image.url, { w: width, h: height, format });
 }

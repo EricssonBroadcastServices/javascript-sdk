@@ -16,14 +16,14 @@ function ChannelPickerItem({ channelStatus, isActive }: { channelStatus: Channel
     asset: channelStatus.channel,
     width: 150,
     imageType: "logo",
-    oritentation: "LANDSCAPE",
+    orientation: "LANDSCAPE",
     locale
   });
   const channelCoverUrl = AssetHelpers.getScaledImage({
     asset: channelStatus.channel,
     width: 600,
     imageType: "cover",
-    oritentation: "LANDSCAPE",
+    orientation: "LANDSCAPE",
     locale
   });
 
@@ -33,7 +33,7 @@ function ChannelPickerItem({ channelStatus, isActive }: { channelStatus: Channel
         asset: activeChannelAsset.asset,
         width: 600,
         imageType: "cover",
-        oritentation: "LANDSCAPE",
+        orientation: "LANDSCAPE",
         locale
       })
     : undefined;

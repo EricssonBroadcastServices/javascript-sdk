@@ -6,42 +6,56 @@ import {
   CarouselItem,
   PresentationImageOrientation,
   ResolvedComponent,
-  fitToWidth
+  fitToWidth,
+  getTimeString
 } from "@ericssonbroadcastservices/app-sdk";
 import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useSelectedLanguage } from "../../../src";
+import { useInitialCarouselIndex, useSelectedLanguage, useTranslations } from "../../../src";
 import CarouselHeader from "./CarouselHeader";
 import { useTagFeedFilter } from "../../../src";
 import { Link } from "react-router-dom";
+import { getDayLocalized } from "@ericssonbroadcastservices/app-sdk";
 
 function getAspectRatioMultiplier(orientation: ImageOrientation) {
   if (orientation === "PORTRAIT") return 27.5 / 40.5;
   return 16 / 9;
 }
 
-function CarouselItem({ item: { asset }, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
+function CarouselItem({
+  item: { asset, startTime },
+  orientation
+}: {
+  item: CarouselItem;
+  orientation: ImageOrientation;
+}) {
   const locale = useSelectedLanguage();
+  const [translations] = useTranslations();
   const width = orientation === "LANDSCAPE" ? 400 : 200;
   return (
-    <div className="carousel-item">
-      <img
-        // TODO: fix typo
-        src={AssetHelpers.getScaledImage({
-          width: width,
-          height: width / getAspectRatioMultiplier(orientation),
-          asset,
-          imageType: "cover",
-          oritentation: orientation,
-          locale
-        })}
-      />
-      <div className="carousel-item-meta">
-        <Link to={`/asset/${asset.assetId}`}>
+    <Link to={`/asset/${asset.assetId}`}>
+      <div className="carousel-item">
+        <img
+          src={AssetHelpers.getScaledImage({
+            width: width,
+            height: width / getAspectRatioMultiplier(orientation),
+            asset,
+            imageType: "cover",
+            orientation,
+            locale
+          })}
+        />
+        <div className="carousel-item-meta">
+          {!!startTime && translations && (
+            <span>{`${getDayLocalized(new Date(startTime), translations)} - ${getTimeString(
+              new Date(startTime)
+            )}`}</span>
+          )}
+
           <h4>{AssetHelpers.getTitle(asset, locale)}</h4>
-        </Link>
-        <p>{AssetHelpers.getShortDescription(asset, locale)}</p>
+          <p>{AssetHelpers.getShortDescription(asset, locale)}</p>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -61,6 +75,8 @@ export function CarouselComponent(props: ResolvedComponent<"carousel">) {
     }
   }, [props.presentationParameters.backgroundImage?.url]);
 
+  const initialIndex = useInitialCarouselIndex(assets);
+
   return (
     <div
       className="carousel-component-container"
@@ -70,6 +86,7 @@ export function CarouselComponent(props: ResolvedComponent<"carousel">) {
       }}
     >
       <CarouselHeader setTagFilter={setTagFilter} component={props.component} />
+      <h3>Initial index: {initialIndex}</h3>
       <CarouselWrapper>
         {assets.map(item => (
           <CarouselItem orientation={orientation} key={item.asset.assetId} item={item} />
