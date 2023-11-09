@@ -4,12 +4,13 @@ import React from "react";
 import {
   AssetHelpers,
   CarouselItem,
+  ChannelAssetHelpers,
   PresentationImageOrientation,
   ResolvedComponent,
   fitToWidth,
   getTimeString
 } from "@ericssonbroadcastservices/app-sdk";
-import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { ChannelAsset, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useInitialCarouselIndex, useSelectedLanguage, useTranslations } from "../../../src";
 import CarouselHeader from "./CarouselHeader";
 import { useTagFeedFilter } from "../../../src";
@@ -21,19 +22,15 @@ function getAspectRatioMultiplier(orientation: ImageOrientation) {
   return 16 / 9;
 }
 
-function CarouselItem({
-  item: { asset, startTime, endTime },
-  orientation
-}: {
-  item: CarouselItem;
-  orientation: ImageOrientation;
-}) {
+function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
+  const { asset, startTime, endTime } = item;
   const locale = useSelectedLanguage();
   const [translations] = useTranslations();
   const width = orientation === "LANDSCAPE" ? 400 : 200;
   return (
     <Link to={`/asset/${asset.assetId}`}>
       <div className="carousel-item">
+        {ChannelAssetHelpers.isLive(item as ChannelAsset) && <div>LIVE</div>}
         <img
           src={AssetHelpers.getScaledImage({
             width: width,
