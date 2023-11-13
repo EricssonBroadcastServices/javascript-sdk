@@ -9,14 +9,15 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-        registry-url: https://npm.pkg.github.com/
-    - name: npm install and test
-      run: |
-        npm ci
-        npm run build
-        npm test
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com/
+      - name: npm install and test
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=4096"
+          npm ci
+          npm run build
+          npm test
