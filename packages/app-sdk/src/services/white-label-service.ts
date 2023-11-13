@@ -63,6 +63,7 @@ import {
   getGeneratedOthersHaveWatchedCarousel
 } from "./methods/get-generated-others-have-watched-carousel";
 import { getTagPage } from "./methods/get-tag-page";
+import { GetGeneratedSeasonCarouselOptions, getGeneratedSeasonCarousel } from "./methods/get-generated-season-carousel";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
@@ -189,5 +190,9 @@ export class WhiteLabelService {
 
   public async getAssetPage(assetId: string, locale: string, translations: Translations) {
     return getAssetPage(this, { assetId, locale, translations });
+  }
+
+  public async getGeneratedSeasonCarousel(args: GetGeneratedSeasonCarouselOptions) {
+    return getGeneratedSeasonCarousel(this, args);
   }
 }
