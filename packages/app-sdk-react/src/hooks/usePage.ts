@@ -25,10 +25,10 @@ export function usePage(pageId: string, pageType: PageType): TApiHook<IExposureW
       if (!countryCode) return;
       switch (pageType) {
         case PageType.ASSET:
-          console.log("TODO: need to implement asset page");
+          // TODO: implement asset page once meta adds that feature to the cms
           return null;
         case PageType.BROWSE:
-          console.log("TODO: need to implement browse page");
+          // TODO: implement tag and participants pages once meta adds that feature to the cms
           return null;
         default:
           return appService.getComponentById<IExposureWLPage>({ componentId: pageId, countryCode });
@@ -51,7 +51,6 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<Re
       return {
         retry: false,
         staleTime: reference.hasAuthorizedContent ? 0 : 1000 * 60 * 10,
-        // refetchInterval: reference.reloadInterval,
         queryKey: [
           countryCode,
           reference.appSubType,
