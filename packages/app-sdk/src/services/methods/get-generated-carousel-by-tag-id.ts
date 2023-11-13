@@ -3,17 +3,25 @@ import { ResolvedComponent } from "../../interfaces/component-content";
 import { WhiteLabelService } from "../white-label-service";
 import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component";
 import { TagHelpers } from "../../utils/tag";
+import { CarouselLayout } from "../../interfaces/exposure-wl-reference";
 
 export interface GetGeneratedCarouselByTagIdOptions {
   tagId: string;
   excludedAssetId?: string;
   onlyIncludePlayableAssets?: boolean;
   locale: string;
+  carouselLayout?: CarouselLayout;
 }
 
 export async function getGeneratedCarouselByTagId(
   service: WhiteLabelService,
-  { tagId, excludedAssetId, onlyIncludePlayableAssets, locale }: GetGeneratedCarouselByTagIdOptions
+  {
+    tagId,
+    excludedAssetId,
+    onlyIncludePlayableAssets,
+    locale,
+    carouselLayout = "carousel"
+  }: GetGeneratedCarouselByTagIdOptions
 ): Promise<ResolvedComponent<"carousel">> {
   const tag = await getTagById.call(service, { tagId });
   const searchParams = new URLSearchParams({
@@ -49,7 +57,7 @@ export async function getGeneratedCarouselByTagId(
     content,
     presentationParameters: {
       density: "MEDIUM",
-      carouselLayout: "carousel",
+      carouselLayout,
       imageOrientation: "landscape"
     }
   };

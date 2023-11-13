@@ -12,6 +12,7 @@ import "./index.css";
 import { Login } from "./components/Login";
 import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
+import { TagPage } from "./pages/TagPage";
 
 const deviceRegistration = {
   deviceId: "123",
@@ -36,6 +37,9 @@ export default function App() {
         </div>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/tag">
+            <Route path=":id" element={<TagPage />} />
+          </Route>
           <Route path="/asset">
             <Route path=":id" element={<AssetPage />} />
           </Route>

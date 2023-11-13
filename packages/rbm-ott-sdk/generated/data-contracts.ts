@@ -1280,13 +1280,13 @@ export interface Season {
   customData?: JsonNode;
   endYear?: number;
   episodeCount?: number;
-  episodes?: Asset[];
+  episodes: Asset[];
   externalReferences?: ExternalReference[];
   linkedEntities?: LinkedEntity[];
-  localized?: LocalizedData[];
+  localized: LocalizedData[];
   publishedDate?: string;
-  season?: string;
-  seasonId?: string;
+  season: string;
+  seasonId: string;
   startYear?: number;
   tags?: Tag[];
   tvShowId?: string;

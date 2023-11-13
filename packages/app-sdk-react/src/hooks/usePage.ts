@@ -99,3 +99,18 @@ export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponen
   );
   return [data || null, isLoading, error];
 }
+
+export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]> {
+  const appService = useAppService();
+  const locale = useSelectedLanguage();
+  const [translations] = useTranslations();
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.ASSET, tagId, translations],
+    () => {
+      if (!translations) return;
+      return appService.getTagPage(tagId, locale);
+    },
+    { staleTime: 1000 * 60 * 10 }
+  );
+  return [data || null, isLoading, error];
+}

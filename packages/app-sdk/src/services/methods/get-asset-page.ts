@@ -7,6 +7,9 @@ import { getGeneratedEpgCarouselFromAssetId } from "./get-generated-epg-carousel
 import { Translations } from "../../utils/wl-translations";
 import { getGeneratedCollectionEntriesCarousel } from "./get-generated-collection-entries-carousel";
 import { getGeneratedTrailersForAssetCarousel } from "./get-generated-trailers-carousel";
+import { getGeneratedByMetadataCarousel } from "./get-generated-by-metadata-carousel";
+import { getGeneratedOthersHaveWatchedCarousel } from "./get-generated-others-have-watched-carousel";
+import { getGeneratedSeasonCarousel } from "./get-generated-season-carousel";
 
 export interface GetAssetPageOptions {
   assetId: string;
@@ -46,48 +49,24 @@ export async function getAssetPage(
     generatedComponents.push(getGeneratedTrailersForAssetCarousel(service.context, { assetId, translations, locale }));
   }
 
-  // TODO: add season carousel
-  if (useSeasonCarousel) {
+  if (useSeasonCarousel && asset.tvShowId && asset.season && !Number.isNaN(parseInt(asset.season))) {
+    generatedComponents.push(
+      getGeneratedSeasonCarousel(service, { tvShowId: asset.tvShowId, seasonNumber: parseInt(asset.season), locale })
+    );
   }
-  /* if (
-      isFeatureEnabled(Feature.SEASON_CAROUSEL, options.customer) &&
-      asset.episode &&
-      asset.season &&
-      asset.tvShowId
-    ) {
-      const seasonCarousel = WLReference.seasonCarouselReference(
-        options.customer,
-        options.businessUnit,
-        asset.tvShowId,
-        asset.season
-      );
-      page.components.pageBody?.push(seasonCarousel);
-    } */
 
   if (useAssetEpgCarousel && asset.type === "TV_CHANNEL") {
     generatedComponents.push(getGeneratedEpgCarouselFromAssetId(service.context, { assetId, translations }));
   }
 
-  // TODO: add relatedByMetadata carousel
   if (useRelatedByMetadataCarousel) {
+    generatedComponents.push(getGeneratedByMetadataCarousel({ asset, service, translations }));
   }
-  /* if (
-      isFeatureEnabled(Feature.RELATED_CAROUSEL, options.customer) &&
-      (asset.tags.length > 0 || asset.participants.length > 0)
-    ) {
-      page.components.pageBody?.push(
-        WLReference.relatedMetadataCarouselReference(options.customer, options.businessUnit, options.assetId)
-      );
-    } */
 
-  // TODO: add others have watched carousel
   if (useOthersHaveWatchedCarousel) {
+    generatedComponents.push(getGeneratedOthersHaveWatchedCarousel({ assetId, service, translations }));
   }
-  /* if (isFeatureEnabled(Feature.OTHERS_HAVE_WATCHED_CAROUSEL, options.customer)) {
-      page.components.pageBody?.push(
-        WLReference.relatedByConsumptionCarouselReference(options.customer, options.businessUnit, options.assetId)
-      );
-    } */
+
   if (useTagIdCarousels) {
     const tagIds = AssetHelpers.getAllTagIds(asset);
     tagIds.forEach(tagId => {

@@ -13,6 +13,7 @@ import { JsonBox } from "../../components/JsonBox";
 import { PlayButton } from "./PlayButton";
 import ChannelPicker from "../../components/ChannelPicker/ChannelPicker";
 import "./asset-display.css";
+import { Link } from "react-router-dom";
 
 const Entitlements = ({ asset }: { asset: Asset }) => {
   const [status] = useEntitlementForAsset({ asset }, {});
@@ -42,6 +43,13 @@ export const AssetDisplay = ({ content }: ResolvedComponent<"asset_display">) =>
           <Entitlements asset={asset} />
           <JsonBox json={JSON.stringify({ continueWatching }, null, 2)} title="Continue Watching asset" />
           <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data" />
+          {AssetHelpers.getAllTagIds(asset).map(id => {
+            return (
+              <Link to={`/tag/${id}`} key={id}>
+                <button>{id}</button>
+              </Link>
+            );
+          })}
         </div>
         <div className="asset-display-img-section">
           <img
