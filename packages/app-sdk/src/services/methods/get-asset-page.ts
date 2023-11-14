@@ -79,7 +79,7 @@ export async function getAssetPage(
   )
     .filter((val): val is PromiseFulfilledResult<ResolvedComponent> => {
       if (val.status === "rejected") {
-        console.warn("generated carousel failed to resolve");
+        console.warn("generated carousel failed to resolve", val);
       }
       return val.status === "fulfilled";
     })
