@@ -12,6 +12,7 @@ import "./index.css";
 import { Login } from "./components/Login";
 import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
+import { TagPage } from "./pages/TagPage";
 
 const deviceRegistration = {
   deviceId: "123",
@@ -21,12 +22,13 @@ const deviceRegistration = {
 
 export default function App() {
   const [config] = useConfig();
+  if (!config) return null;
   return (
     <div>
       <HashRouter>
         <Menu />
         <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-          <Link to={`/page/${config?.homePage.id}`}>
+          <Link to={`/page/${config.components.homePage[0].referenceId}`}>
             <button style={{ marginRight: "10px" }}>Home</button>
           </Link>
           <LanguageSelector />
@@ -35,6 +37,9 @@ export default function App() {
         </div>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/tag">
+            <Route path=":id" element={<TagPage />} />
+          </Route>
           <Route path="/asset">
             <Route path=":id" element={<AssetPage />} />
           </Route>

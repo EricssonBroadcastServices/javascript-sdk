@@ -1,0 +1,28 @@
+.item {
+  position: relative;
+  width: 300px;
+  flex: 0 0 auto; 
+}
+
+.image {
+  width: 300px;
+  aspect-ratio: 16/9;
+}
+
+.channel-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  aspect-ratio: 16/9;
+}
+
+.on-now-indicator {
+  font-weight: bold;
+  background-color: red;
+  color: white;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

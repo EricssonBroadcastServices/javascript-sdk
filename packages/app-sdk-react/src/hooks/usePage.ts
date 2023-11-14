@@ -1,25 +1,13 @@
-import { PreferenceListTags } from "@ericssonbroadcastservices/exposure-sdk";
-import {
-  WLAsset,
-  WLCarousel,
-  WLCategoriesComponent,
-  WLComponentSubType,
-  WLComponentType,
-  WLEpgComponent,
-  WLHerobanner,
-  WLImageComponent,
-  WLPageModel,
-  WLReference,
-  WLTextComponent
-} from "@ericssonbroadcastservices/whitelabel-sdk";
 import { useQueries, useQuery, UseQueryResult } from "react-query";
 import { QueryKeys } from "../util/react-query";
-import { useDeprecatedWLApi } from "./useApi";
-import { useRedBeeState } from "../RedBeeProvider";
+import { useAppService } from "./useApi";
 import { useTagList } from "../hooks/useTags";
-import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";
+import { useCountryCode } from "./useGeolocation";
+import { IExposureWLPage, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
+import { useSelectedLanguage } from "./useSelectedLanguage";
+import { useTranslations } from "./useTranslations";
 
 export enum PageType {
   PAGE = "page",
@@ -28,39 +16,22 @@ export enum PageType {
   PLAY = "play"
 }
 
-export type TWLComponent =
-  | WLCarousel
-  | WLTextComponent
-  | WLAsset
-  | WLEpgComponent
-  | WLHerobanner
-  | WLImageComponent
-  | WLCategoriesComponent;
-
-export function usePage(pageId: string, pageType: PageType): TApiHook<WLPageModel> {
-  const deprecatedWlApi = useDeprecatedWLApi();
-  const { customer, businessUnit, selectedLanguage } = useRedBeeState();
+export function usePage(pageId: string, pageType: PageType): TApiHook<IExposureWLPage> {
+  const appService = useAppService();
+  const countryCode = useCountryCode();
   const { data, isFetching, error } = useQuery(
-    [QueryKeys.PAGE, pageId, selectedLanguage],
+    [QueryKeys.PAGE, pageId, countryCode],
     () => {
-      if (!customer || !businessUnit) return;
+      if (!countryCode) return;
       switch (pageType) {
         case PageType.ASSET:
-          return deprecatedWlApi.getAssetPageById({
-            assetId: pageId,
-            customer,
-            businessUnit,
-            locale: selectedLanguage as string
-          });
+          // TODO: implement asset page once meta adds that feature to the cms
+          return null;
         case PageType.BROWSE:
-          return deprecatedWlApi.getPageByBase64Query({
-            customer,
-            businessUnit,
-            locale: selectedLanguage as string,
-            query: pageId
-          });
+          // TODO: implement tag and participants pages once meta adds that feature to the cms
+          return null;
         default:
-          return deprecatedWlApi.getPage({ pageId, customer, businessUnit, locale: selectedLanguage as string });
+          return appService.getComponentById<IExposureWLPage>({ componentId: pageId, countryCode });
       }
     },
     { staleTime: 1000 * 60 * 10 }
@@ -69,91 +40,76 @@ export function usePage(pageId: string, pageType: PageType): TApiHook<WLPageMode
   return [data || null, isFetching, error];
 }
 
-function getComponentConstructor(reference: WLReference) {
-  switch (reference.type) {
-    case WLComponentType.CAROUSEL:
-      return WLCarousel;
-    case WLComponentType.HEROBANNER:
-      return WLHerobanner;
-    case WLComponentType.ASSET_DISPLAY:
-      return WLAsset;
-    case WLComponentType.IMAGE:
-      return WLImageComponent;
-    case WLComponentType.TEXT:
-      return WLTextComponent;
-    case WLComponentType.EPG:
-      return WLEpgComponent;
-    case WLComponentType.TAG_TYPE:
-      return WLCategoriesComponent;
-    default:
-      return null;
-  }
-}
-export interface IResolvedComponent {
-  component: TWLComponent;
-  reference: WLReference;
-}
-
-export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IResolvedComponent[]> {
+export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<ResolvedComponent<any>[]> {
   const [tagList] = useTagList();
-  const selectedLanguage = useSelectedLanguage();
-  const deprecatedWlApi = useDeprecatedWLApi();
+  const countryCode = useCountryCode();
+  const appService = useAppService();
   const [page, pageLoading, pageError] = usePage(pageId, pageType);
   const [userSession] = useUserSession();
-  const results: UseQueryResult<IResolvedComponent>[] = useQueries(
-    (page?.components || []).map(reference => {
+  const results: UseQueryResult<ResolvedComponent>[] = useQueries(
+    (page?.components.pageBody || []).map(reference => {
       return {
         retry: false,
-        staleTime: reference.authorized ? 0 : 1000 * 60 * 10,
-        refetchInterval: reference.reloadInterval,
+        staleTime: reference.hasAuthorizedContent ? 0 : 1000 * 60 * 10,
         queryKey: [
-          reference.subType,
-          selectedLanguage,
-          reference.id,
-          reference.presentation,
-          reference.internalUrl,
-          reference.authorized ? userSession?.sessionToken : null,
-
-          reference?.subType === WLComponentSubType.TAG_FEED_QUERY ? tagList?.query : null
+          countryCode,
+          reference.appSubType,
+          reference.referenceId,
+          reference.parameters,
+          reference.referenceUrl,
+          reference.hasAuthorizedContent ? userSession?.sessionToken : null,
+          reference?.appSubType === "TagFeedQuery" ? tagList?.query : null
         ],
         queryFn: async () => {
-          if (!userSession?.isLoggedIn() && reference.authorized === true) {
+          if (!countryCode) return;
+          if (!userSession?.isLoggedIn() && reference.hasAuthorizedContent === true) {
             return undefined;
           }
-          let internalUrl: string | undefined = reference.internalUrl;
-          if (reference?.subType === WLComponentSubType.TAG_FEED_QUERY && reference?.urlVariables) {
-            if (!!tagList && tagList?.items?.length) {
-              reference.urlVariables.forEach(urlVariable => {
-                internalUrl = internalUrl?.replace(
-                  `{${urlVariable}}`,
-                  (tagList as PreferenceListTags & { [key: string]: any })[`${urlVariable}`]
-                );
-              });
-            } else {
-              return;
-            }
-          }
-          const type = getComponentConstructor(reference);
-          if (!type) return;
-          return {
-            component: await deprecatedWlApi.getComponentByInternalUrl<TWLComponent>({
-              internalUrl,
-              type,
-              useAuthHeader: reference.authorized
-            }),
-            reference: reference
-          };
+
+          return appService.getResolvedComponentByReference({ wlReference: reference, countryCode });
         }
       };
     })
-  ) as UseQueryResult<IResolvedComponent>[];
+  ) as UseQueryResult<ResolvedComponent<any>>[];
   const somethingIsLoading = results.some(r => r.isLoading) || pageLoading;
   if (somethingIsLoading) {
     return [null, true, pageError || results.find(r => !!r.error)?.error];
   }
   return [
-    results.filter(r => r.data?.component && r.data.reference).map(r => r.data) as IResolvedComponent[],
+    results
+      .filter(r => r.data?.component && r.data.presentationParameters)
+      .map(r => r.data) as ResolvedComponent<any>[],
     false,
     pageError || results.find(r => !!r.error)?.error
   ];
+}
+
+export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponent[]> {
+  const appService = useAppService();
+  const locale = useSelectedLanguage();
+  const [translations] = useTranslations();
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.ASSET, assetId, translations],
+    () => {
+      if (!translations) return;
+      return appService.getAssetPage(assetId, locale, translations);
+    },
+    { staleTime: 1000 * 60 * 10 }
+  );
+  return [data || null, isLoading, error];
+}
+
+export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]> {
+  const appService = useAppService();
+  const locale = useSelectedLanguage();
+  const [translations] = useTranslations();
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.ASSET, tagId, translations],
+    () => {
+      if (!translations) return;
+      return appService.getTagPage(tagId, locale);
+    },
+    { staleTime: 1000 * 60 * 10 }
+  );
+  return [data || null, isLoading, error];
 }

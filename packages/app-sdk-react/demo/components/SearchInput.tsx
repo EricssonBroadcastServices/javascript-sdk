@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSearch } from "../../src/index";
+import { useSearch, useSelectedLanguage } from "../../src/index";
+import { AssetHelpers } from "@ericssonbroadcastservices/app-sdk";
 
 export default function SearchInput() {
   const [term, setTerm] = useState("");
-  const [assets, isLoading] = useSearch(term);
+  const [result, isLoading] = useSearch(term);
+  const locale = useSelectedLanguage();
   return (
     <div>
       <input placeholder="Search" onChange={e => setTerm(e.target.value)} />
       {isLoading && <p>Loading</p>}
-      {assets?.map(a => (
-        <Link key={a.assetId} to={`/asset/${a.assetId}`}>
-          {a.title}
+      {result?.items?.map(a => (
+        <Link key={a.asset.assetId} to={`/asset/${a.asset.assetId}`}>
+          {AssetHelpers.getTitle(a.asset, locale)}
         </Link>
       ))}
     </div>

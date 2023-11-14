@@ -14,7 +14,6 @@ export async function getComponentByReference<T extends IExposureComponent>(
 ): Promise<T> {
   return getComponentById(context, {
     componentId: wlReference.referenceId,
-    hasAuthorizedContent: wlReference.hasAuthorizedContent,
     countryCode
   });
 }

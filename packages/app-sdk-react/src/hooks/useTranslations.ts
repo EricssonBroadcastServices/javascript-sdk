@@ -12,7 +12,7 @@ export function useTranslations(): TApiHook<Translations> {
     [QueryKeys.TRANSLATIONS, locale],
     () => {
       if (!locale) return;
-      return appService.getTranslations(locale).then(translations => new Translations(translations));
+      return appService.getTranslations(locale);
     },
     { staleTime: 1000 * 60 * 60 }
   );

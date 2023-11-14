@@ -324,9 +324,9 @@ export interface ChangePasswordResponse {
 }
 
 export interface ChannelAsset {
-  asset?: Asset;
-  endTime?: string;
-  startTime?: string;
+  asset: Asset;
+  endTime: string;
+  startTime: string;
 }
 
 export interface ChannelEPGResponse {
@@ -1260,17 +1260,17 @@ export interface RecommendedWatchNext {
 export type Result = Record<"type" | "value", string>;
 
 export interface Search {
-  asset?: Asset;
+  asset: Asset;
   highlightedDescription?: string;
   highlightedTitle?: string;
 }
 
 export interface SearchList {
-  items?: Search[];
-  pageNumber?: number;
-  pageSize?: number;
+  items: Search[];
+  pageNumber: number;
+  pageSize: number;
   suggestion?: string;
-  totalCount?: number;
+  totalCount: number;
 }
 
 export interface Season {
@@ -1280,13 +1280,13 @@ export interface Season {
   customData?: JsonNode;
   endYear?: number;
   episodeCount?: number;
-  episodes?: Asset[];
+  episodes: Asset[];
   externalReferences?: ExternalReference[];
   linkedEntities?: LinkedEntity[];
-  localized?: LocalizedData[];
+  localized: LocalizedData[];
   publishedDate?: string;
-  season?: string;
-  seasonId?: string;
+  season: string;
+  seasonId: string;
   startYear?: number;
   tags?: Tag[];
   tvShowId?: string;
@@ -1660,8 +1660,8 @@ export interface SystemTagImage {
 export interface Tag {
   changed?: string;
   created?: string;
-  tagValues?: TagValues[];
-  type?: string;
+  tagValues: TagValues[];
+  type: string;
 }
 
 export interface TagList {
@@ -1693,7 +1693,7 @@ export interface TagType {
 }
 
 export interface TagValues {
-  tagId?: string;
+  tagId: string;
 }
 
 export interface TimeResponse {

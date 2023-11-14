@@ -1,7 +1,9 @@
-import { Asset, AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { Asset, AssetType, ChannelAsset, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { PublicationHelpers } from "./publication";
 import { getLocalizedImageByType, getLocalizedValue } from "./localization";
-import { getDurationLocalized } from "./time";
+import { getDurationLocalized, getTimeString } from "./time";
+import { dateIntervalIsNow } from "./date";
+import { ImageFormat, fit } from "./image-scaling";
 
 export function getTitleFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
   return getLocalizedValue(asset.localized, "title", locale, defaultLocale);
@@ -27,6 +29,28 @@ export function getLocalizedAssetImage(
   defaultLocale?: string
 ) {
   return getLocalizedImageByType(asset.localized, imageOrientation, imageType, locale, defaultLocale);
+}
+
+export function getScaledAssetImage({
+  width,
+  height,
+  format,
+  asset,
+  imageType,
+  orientation,
+  locale
+}: {
+  width?: number;
+  height?: number;
+  format?: ImageFormat;
+  asset: Asset;
+  imageType: string;
+  orientation: ImageOrientation;
+  locale: string;
+}) {
+  const image = getLocalizedAssetImage(asset, orientation, imageType, locale);
+  if (!image?.url) return;
+  return fit(image.url, { w: width, h: height, format });
 }
 
 export function getAssetEndtime(asset: Asset): Date | null {
@@ -109,6 +133,23 @@ export function getAssetDurationString(asset: Asset, locale?: string) {
   return getDurationLocalized(asset.duration, locale);
 }
 
+export function getAllTagIdsFromAsset(asset: Asset) {
+  return asset.tags.flatMap(t => t.tagValues?.flatMap(t => t.tagId));
+}
+
+export function getChannelAssetTimeSlotString(asset: ChannelAsset) {
+  return `${getTimeString(new Date(asset.startTime))} - ${getTimeString(new Date(asset.endTime))}`;
+}
+
+export function isChannelAssetLive(asset: ChannelAsset) {
+  return dateIntervalIsNow(new Date(asset.startTime), new Date(asset.endTime));
+}
+
+export const ChannelAssetHelpers = {
+  isLive: isChannelAssetLive,
+  getTimeSlotString: getChannelAssetTimeSlotString
+};
+
 export const AssetHelpers = {
   getTitle: getTitleFromAsset,
   getMediumDescription: getMediumDescriptionFromAsset,
@@ -120,5 +161,7 @@ export const AssetHelpers = {
   getTrailerAssetId: getAssetTrailerAssetId,
   getPushNextCuePoint: getPushNextCuePointForAsset,
   getIdentifier: getAssetIdentifier,
-  getDurationString: getAssetDurationString
+  getDurationString: getAssetDurationString,
+  getScaledImage: getScaledAssetImage,
+  getAllTagIds: getAllTagIdsFromAsset
 };

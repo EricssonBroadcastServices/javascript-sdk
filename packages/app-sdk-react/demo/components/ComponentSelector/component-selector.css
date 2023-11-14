@@ -1,0 +1,6 @@
+.component-wrapper {
+  padding: 10px;
+  margin: 10px 0;
+  border: solid 1px grey;
+  box-shadow: 3px 3px 12px 0px black;
+}

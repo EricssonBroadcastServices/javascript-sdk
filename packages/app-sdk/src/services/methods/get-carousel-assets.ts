@@ -21,14 +21,18 @@ export async function getCarouselAssets(
 
     const userTagList = await getTagList(context, "tagfeed");
 
-    const url = new URL(carousel.contentPreferencesUrl.url, context.baseUrl);
+    let urlString = carousel.contentPreferencesUrl.url;
 
+    // each urlVariable is already encoded, hence we have to replace it before
+    // creating a new URL, since that will add an extra layer of encoding
+    carousel.contentPreferencesUrl?.fields.forEach(urlVariable => {
+      urlString = urlString.replace(`{${urlVariable}}`, userTagList[`${urlVariable}`]);
+    });
+
+    const url = new URL(urlString, context.baseUrl);
     // fieldSet=ALL is missing, at least on BSBU. TODO: check with meta.
     url.searchParams.set("fieldSet", "ALL");
 
-    carousel.contentPreferencesUrl?.fields.forEach(urlVariable => {
-      url.searchParams.set(urlVariable, userTagList[`${urlVariable}`]);
-    });
     return (await get<AssetList>({ url: url.toString() })).items.map(asset => ({
       asset
     }));

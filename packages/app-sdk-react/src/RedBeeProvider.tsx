@@ -1,4 +1,4 @@
-import { WhiteLabelService as AppService } from "@ericssonbroadcastservices/app-sdk";
+import { WhiteLabelService as AppService, DeviceGroup, EssentialAppData } from "@ericssonbroadcastservices/app-sdk";
 import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
@@ -7,31 +7,24 @@ import { queryClient } from "./util/react-query";
 import { IStorage } from "./types/storage";
 import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
 import { Session } from "./Session";
-import {
-  createDeprecatedWLService,
-  DeprecatedDeviceGroup,
-  DeprecatedWLConfig,
-  DeprecatedWLService
-} from "./DeprecatedWLService";
 export interface IRedBeeState {
+  essentialAppData: EssentialAppData | null;
   loading: string[];
   storage: IStorage | null;
   deviceRegistration: Required<DeviceRegistration>;
   session: Session | null;
-  config: DeprecatedWLConfig | null;
   selectedLanguage: string | null;
   customer: string;
   baseUrl: string;
   businessUnit: string;
   serviceContext: ServiceContext;
   appService: AppService;
-  deviceGroup: DeprecatedDeviceGroup;
-  deprecatedWhiteLabelApi: DeprecatedWLService;
+  deviceGroup: DeviceGroup;
   unavailable: boolean;
 }
 
 export enum ActionType {
-  SET_CONFIG = "setConfig",
+  SET_ESSENTIAL_APP_DATA = "setEssentialAppData",
   SET_SESSION = "setSession",
   SET_SELECTED_LANGUAGE = "setSelectedLanguage",
   START_LOADING = "startLoading",
@@ -44,7 +37,7 @@ interface IAction {
 }
 
 interface ISetConfigAction extends IAction {
-  config: DeprecatedWLConfig;
+  data: EssentialAppData;
 }
 
 interface ISetSessionAction extends IAction {
@@ -83,23 +76,23 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         return session?.sessionToken;
       }
       const appService = new AppService({ ...ctx, deviceGroup: state.deviceGroup, getAuthToken });
-      const deprecatedWhiteLabelApi = createDeprecatedWLService(ctx, state.deviceGroup, () => session?.sessionToken);
       return {
         ...state,
         session: session && new Session(session),
-        appService,
-        deprecatedWhiteLabelApi
+        appService
       };
     }
-    case ActionType.SET_CONFIG:
-      const config = (action as ISetConfigAction).config;
-      const { customer, businessUnit } = config;
+    case ActionType.SET_ESSENTIAL_APP_DATA:
+      const data = (action as ISetConfigAction).data;
+      const {
+        config: { customer, businessUnit }
+      } = data;
       return {
         ...state,
         customer,
         businessUnit,
-        config,
-        selectedLanguage: state.selectedLanguage || config.systemConfig.defaultLocale
+        essentialAppData: data,
+        selectedLanguage: state.selectedLanguage || data.systemConfig.localization.defaultLocale
       };
     case ActionType.SET_APP_UNAVAILABLE:
       return {
@@ -131,7 +124,7 @@ interface IRedBeeProvider {
   customer: string;
   businessUnit: string;
   children?: React.ReactNode;
-  deviceGroup: DeprecatedDeviceGroup;
+  deviceGroup: DeviceGroup;
   storage?: IStorage;
   deviceRegistration: Required<DeviceRegistration>;
   autoFetchConfig?: boolean;

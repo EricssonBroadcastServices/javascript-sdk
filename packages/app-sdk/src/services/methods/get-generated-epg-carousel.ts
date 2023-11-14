@@ -27,7 +27,7 @@ export async function getGeneratedEpgCarouselFromAssetId(
     },
     presentation: {
       fallback: {
-        title: translations.getText("EPG"),
+        title: translations.getText(["CAROUSEL_TITLE", "EPG"]),
         body: "",
         images: []
       },

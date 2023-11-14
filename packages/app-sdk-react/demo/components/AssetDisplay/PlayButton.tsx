@@ -1,6 +1,6 @@
 import React from "react";
 import { EntitlementStatusResult } from "@ericssonbroadcastservices/app-sdk";
-import { useTranslations, useUserSession } from "../../src";
+import { useTranslations, useUserSession } from "../../../src";
 
 export const PlayButton = ({ entitlementResult }: { entitlementResult: EntitlementStatusResult | null }) => {
   const [translations] = useTranslations();

@@ -1,0 +1,23 @@
+.carousel {
+  display: flex;
+  flex-direction: row;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.carousel-component-container {
+  padding: 10px;
+  background-size: cover;
+}
+
+.carousel-item {
+  margin: 10px;
+  box-shadow: 3px 3px 12px 0px black;
+  background-color: black;
+  color: white;
+}
+
+.carousel-item-meta {
+  padding: 12px;
+}

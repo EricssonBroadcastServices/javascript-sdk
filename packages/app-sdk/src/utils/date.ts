@@ -31,7 +31,7 @@ export function getLocalDateFormat(date: Date, locale?: string) {
   return new Intl.DateTimeFormat(locale).format(date);
 }
 
-function dateIntervalIsNow(startTime: Date, endTime: Date, now = Date.now()) {
+export function dateIntervalIsNow(startTime: Date, endTime: Date, now = Date.now()) {
   if (endTime.getTime() > now && startTime.getTime() <= now) {
     return true;
   }

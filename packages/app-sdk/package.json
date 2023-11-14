@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "test": "TZ=UTC jest",
+    "test": "TZ=UTC jest --collectCoverage --runInBand",
     "test:watch": "jest --watch",
     "lint": "npm run lint:code && npm run lint:types",
     "lint:code": "prettier --check \"src/**/*.{ts,tsx}\"",

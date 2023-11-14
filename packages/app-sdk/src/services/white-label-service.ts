@@ -8,6 +8,7 @@ import {
   WLComponentType
 } from "../interfaces/exposure-wl-component";
 import { PushNextContent } from "../interfaces/push-next-content";
+
 import { EntitlementStatusResult } from "../interfaces/entitlement-result";
 import {
   CarouselItem,
@@ -52,6 +53,17 @@ import {
   getGeneratedEpgCarouselFromAssetId
 } from "./methods/get-generated-epg-carousel";
 import { Translations } from "../utils/wl-translations";
+import { getAssetPage } from "./methods/get-asset-page";
+import {
+  GetGeneratedByMetadataCarouselOptions,
+  getGeneratedByMetadataCarousel
+} from "./methods/get-generated-by-metadata-carousel";
+import {
+  GetGeneratedOthersHaveWatchedOptions,
+  getGeneratedOthersHaveWatchedCarousel
+} from "./methods/get-generated-others-have-watched-carousel";
+import { getTagPage } from "./methods/get-tag-page";
+import { GetGeneratedSeasonCarouselOptions, getGeneratedSeasonCarousel } from "./methods/get-generated-season-carousel";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
@@ -162,5 +174,25 @@ export class WhiteLabelService {
 
   public async getGeneratedEpgCarouselFromAssetId(args: GetGeneratedEpgCarouselFromAssetIdOptions) {
     return getGeneratedEpgCarouselFromAssetId(this.context, args);
+  }
+
+  public async getGeneratedByMetadataCarousel(args: GetGeneratedByMetadataCarouselOptions) {
+    return getGeneratedByMetadataCarousel(args);
+  }
+
+  public async getGeneratedOthersHaveWatchedCarousel(args: GetGeneratedOthersHaveWatchedOptions) {
+    return getGeneratedOthersHaveWatchedCarousel(args);
+  }
+
+  public async getTagPage(tagId: string, locale: string) {
+    return getTagPage(this, { tagId, locale });
+  }
+
+  public async getAssetPage(assetId: string, locale: string, translations: Translations) {
+    return getAssetPage(this, { assetId, locale, translations });
+  }
+
+  public async getGeneratedSeasonCarousel(args: GetGeneratedSeasonCarouselOptions) {
+    return getGeneratedSeasonCarousel(this, args);
   }
 }
