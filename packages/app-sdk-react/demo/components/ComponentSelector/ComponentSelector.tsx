@@ -7,6 +7,7 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { TextComponent } from "../Text/TextComponent";
 import { IframeComponent } from "../IframeComponent/IframeComponent";
 import "./component-selector.css";
+import { HeroBanner } from "../HeroBanner/HeroBanner";
 
 function ComponentWrapper({ children, ...props }: PropsWithChildren<ResolvedComponent>) {
   return (
@@ -50,6 +51,12 @@ export default function ComponentSelector(props: ResolvedComponent<any>) {
       return (
         <ComponentWrapper {...props}>
           <CarouselComponent {...props} />
+        </ComponentWrapper>
+      );
+    case "herobanner":
+      return (
+        <ComponentWrapper {...props}>
+          <HeroBanner {...props} />
         </ComponentWrapper>
       );
     default:

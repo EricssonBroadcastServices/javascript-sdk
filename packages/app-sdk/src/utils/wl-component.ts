@@ -1,13 +1,15 @@
-import { IExposureComponent } from "../interfaces/exposure-wl-component";
+import { IExposureComponent, IExposureWLHerobannerItem } from "../interfaces/exposure-wl-component";
 import { IExposureWLPresentation } from "../interfaces/exposure-wl-presentation";
 import { IImage } from "../interfaces/image";
 
-function getLocalizedItemFromPresentation(presentation: IExposureWLPresentation, locale: string) {
+type LocalizedWLComponent = IExposureComponent | IExposureWLHerobannerItem;
+
+export function getLocalizedItemFromPresentation(presentation: IExposureWLPresentation, locale: string) {
   if (!presentation.localized) return presentation.fallback;
   return presentation.localized[locale] || presentation.fallback;
 }
 
-export function getTitleFromWLComponent(component: IExposureComponent, locale: string): string {
+export function getTitleFromWLComponent(component: LocalizedWLComponent, locale: string): string {
   if (!component.presentation) return "";
   const localizedItem = getLocalizedItemFromPresentation(component.presentation, locale);
   if (!localizedItem) {
@@ -27,12 +29,12 @@ function getImagesFromWLPresentation(presentation: IExposureWLPresentation, loca
   return localizedItem.images;
 }
 
-export function getImageByTagFromWLComponent(component: IExposureComponent, tag: string, locale: string) {
+export function getImageByTagFromWLComponent(component: LocalizedWLComponent, tag: string, locale: string) {
   if (!component.presentation) return undefined;
   return getImagesFromWLPresentation(component.presentation, locale).find(i => i.tags?.includes(tag));
 }
 
-export function getDescriptionFromWLComponent(component: IExposureComponent, locale: string): string {
+export function getDescriptionFromWLComponent(component: LocalizedWLComponent, locale: string): string {
   if (!component.presentation) return "";
   const localizedItem = getLocalizedItemFromPresentation(component.presentation, locale);
   if (!localizedItem || !localizedItem.body) {
@@ -41,7 +43,7 @@ export function getDescriptionFromWLComponent(component: IExposureComponent, loc
   return localizedItem.body;
 }
 
-export function getSubTitleWLPresentation(component: IExposureComponent, locale: string): string {
+export function getSubTitleWLPresentation(component: LocalizedWLComponent, locale: string): string {
   if (!component.presentation) return "";
   const localizedItem = getLocalizedItemFromPresentation(component.presentation, locale);
   if (!localizedItem || !localizedItem.subTitle) {
@@ -50,7 +52,7 @@ export function getSubTitleWLPresentation(component: IExposureComponent, locale:
   return localizedItem.subTitle;
 }
 
-export function getIframeFromWLPresentation(component: IExposureComponent, locale: string) {
+export function getIframeFromWLPresentation(component: LocalizedWLComponent, locale: string) {
   if (!component.presentation) return null;
   const localizedItem = getLocalizedItemFromPresentation(component.presentation, locale);
   if (!localizedItem || !localizedItem.iframe) {
@@ -59,10 +61,20 @@ export function getIframeFromWLPresentation(component: IExposureComponent, local
   return localizedItem.iframe;
 }
 
+export function getTrailerAssetIdFromComponent(component: LocalizedWLComponent, locale: string) {
+  if (!component.presentation) return null;
+  const localizedItem = getLocalizedItemFromPresentation(component.presentation, locale);
+  if (!localizedItem || !localizedItem.trailerAssetId) {
+    return component.presentation.fallback?.trailerAssetId || null;
+  }
+  return localizedItem.trailerAssetId;
+}
+
 export const WLComponentHelpers = {
   getTitle: getTitleFromWLComponent,
   getImageByTag: getImageByTagFromWLComponent,
   getDescription: getDescriptionFromWLComponent,
   getSubTitle: getSubTitleWLPresentation,
-  getIframe: getIframeFromWLPresentation
+  getIframe: getIframeFromWLPresentation,
+  getTrailerAssetId: getTrailerAssetIdFromComponent
 };

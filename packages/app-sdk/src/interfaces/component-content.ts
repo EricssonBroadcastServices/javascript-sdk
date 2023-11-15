@@ -1,7 +1,15 @@
 import { Asset, ProgramResponse, TagList } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { IExposureComponent, WLComponentType } from "./exposure-wl-component";
+import {
+  IExposureComponent,
+  IExposureWLCarousel,
+  IExposureWLHerobanner,
+  IExposureWLImageComponent,
+  WLComponentType
+} from "./exposure-wl-component";
 import { CarouselDensity, CarouselLayout, PresentationImageOrientation } from "./exposure-wl-reference";
 import { IImage } from "./image";
+import { IExposureWLMenu } from "./exposure-wl-menu";
+import { IExposureWLPage } from "./exposure-wl-page";
 
 export type CarouselItem = { asset: Asset; startTime?: string; endTime?: string };
 
@@ -26,6 +34,22 @@ export type ComponentContentMap = {
   [WLComponentType.TEXT]: undefined;
 };
 
+export type ComponentComponentMap = {
+  [WLComponentType.CAROUSEL]: IExposureWLCarousel;
+  [WLComponentType.EPG]: IExposureComponent;
+  [WLComponentType.TAG_TYPE]: IExposureComponent;
+  [WLComponentType.ASSET_DISPLAY]: IExposureComponent;
+  [WLComponentType.ASSET_PAGE]: IExposureComponent;
+  [WLComponentType.BROWSE_PAGE]: IExposureComponent;
+  [WLComponentType.FOOTER]: IExposureWLMenu;
+  [WLComponentType.HEROBANNER]: IExposureWLHerobanner;
+  [WLComponentType.IFRAME]: IExposureComponent;
+  [WLComponentType.IMAGE]: IExposureWLImageComponent;
+  [WLComponentType.MENU]: IExposureWLMenu;
+  [WLComponentType.PAGE]: IExposureWLPage;
+  [WLComponentType.TEXT]: IExposureComponent;
+};
+
 // export type ComponentContent = CarouselItem[] | TagList | EpgComponentContent;
 
 export interface ComponentPresentationParameters {
@@ -37,7 +61,7 @@ export interface ComponentPresentationParameters {
 }
 
 export interface ResolvedComponent<T extends keyof ComponentContentMap = any> {
-  component: IExposureComponent;
+  component: ComponentComponentMap[T];
   content: ComponentContentMap[T];
   presentationParameters: ComponentPresentationParameters;
 }
