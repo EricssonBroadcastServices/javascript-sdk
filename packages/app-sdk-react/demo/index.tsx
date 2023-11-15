@@ -4,12 +4,11 @@ import { DeviceType } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { DeviceGroup as DeprecatedDeviceGroup } from "@ericssonbroadcastservices/whitelabel-sdk";
 import { RedBeeProvider, IStorage, useConfig } from "../src/index";
 import { LanguageSelector } from "./components/LanguageSelector";
-import SearchInput from "./components/SearchInput";
-import { Routes, Route, HashRouter, Link } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { AssetPage } from "./pages/AssetPage";
 import "./index.css";
-import { Login } from "./components/Login";
+import { Login } from "./pages/Login";
 import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
 import { TagPage } from "./pages/TagPage";
@@ -27,16 +26,9 @@ export default function App() {
     <div>
       <HashRouter>
         <Menu />
-        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-          <Link to={`/page/${config.components.homePage[0].referenceId}`}>
-            <button style={{ marginRight: "10px" }}>Home</button>
-          </Link>
-          <LanguageSelector />
-          <SearchInput />
-          <Login />
-        </div>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/tag">
             <Route path=":id" element={<TagPage />} />
           </Route>
