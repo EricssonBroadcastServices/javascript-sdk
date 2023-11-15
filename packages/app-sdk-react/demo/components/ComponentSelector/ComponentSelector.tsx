@@ -9,6 +9,7 @@ import { IframeComponent } from "../IframeComponent/IframeComponent";
 import "./component-selector.css";
 import { HeroBanner } from "../HeroBanner/HeroBanner";
 import { EPGComponent } from "../EPGComponent/EPGComponent";
+import { TagTypeComponent } from "../TagTypeComponent/TagTypeComponent";
 
 function ComponentWrapper({ children, ...props }: PropsWithChildren<ResolvedComponent>) {
   return (
@@ -24,6 +25,12 @@ function ComponentWrapper({ children, ...props }: PropsWithChildren<ResolvedComp
 
 export default function ComponentSelector(props: ResolvedComponent) {
   switch (props.component.appType) {
+    case "tagtype":
+      return (
+        <ComponentWrapper {...props}>
+          <TagTypeComponent {...props} />
+        </ComponentWrapper>
+      );
     case "epg":
       return (
         <ComponentWrapper {...props}>
