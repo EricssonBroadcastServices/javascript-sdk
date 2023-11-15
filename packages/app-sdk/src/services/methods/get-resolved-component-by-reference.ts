@@ -1,4 +1,4 @@
-import { ComponentContentMap, ResolvedComponent } from "../../interfaces/component-content";
+import { ComponentContentMap, ComponentComponentMap, ResolvedComponent } from "../../interfaces/component-content";
 import { WLComponentType } from "../../interfaces/exposure-wl-component";
 import { IExposureWLReference } from "../../interfaces/exposure-wl-reference";
 import { WhiteLabelServiceContext } from "../white-label-service";
@@ -14,7 +14,7 @@ export async function getResolvedComponentByReference<T extends keyof ComponentC
   context: WhiteLabelServiceContext,
   { wlReference, countryCode }: GetResolvedComponentByReferenceOptions
 ): Promise<ResolvedComponent<T>> {
-  const component = await getComponentByReference(context, { wlReference, countryCode });
+  const component = await getComponentByReference<ComponentComponentMap[T]>(context, { wlReference, countryCode });
   const componentContent = await getComponentContent<T>(context, { component });
   return {
     component,

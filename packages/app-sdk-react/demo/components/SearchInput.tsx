@@ -8,7 +8,7 @@ export default function SearchInput() {
   const [result, isLoading] = useSearch(term);
   const locale = useSelectedLanguage();
   return (
-    <div>
+    <div style={{ marginLeft: "10px" }}>
       <input placeholder="Search" onChange={e => setTerm(e.target.value)} />
       {isLoading && <p>Loading</p>}
       {result?.items?.map(a => (

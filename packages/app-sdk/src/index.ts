@@ -22,3 +22,4 @@ export * from "./utils/tag";
 export * from "./utils/date";
 export * from "./utils/time";
 export * from "./utils/season";
+export * from "./utils/epg";
