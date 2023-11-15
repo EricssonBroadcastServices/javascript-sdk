@@ -13,10 +13,12 @@ import { IExposureWLPage } from "./exposure-wl-page";
 
 export type CarouselItem = { asset: Asset; startTime?: string; endTime?: string };
 
-export type EpgComponentContent = {
+export type EPGComponentEntry = {
   channel: Asset;
   programs: ProgramResponse[];
-}[];
+};
+
+export type EpgComponentContent = EPGComponentEntry[];
 
 export type ComponentContentMap = {
   [WLComponentType.CAROUSEL]: CarouselItem[];

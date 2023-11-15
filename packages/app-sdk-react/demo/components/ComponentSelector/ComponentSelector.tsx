@@ -1,4 +1,4 @@
-import { ResolvedComponent, WLComponentHelpers } from "@ericssonbroadcastservices/app-sdk";
+import { ResolvedComponent, WLComponentHelpers, WLComponentType } from "@ericssonbroadcastservices/app-sdk";
 import React, { PropsWithChildren } from "react";
 import { JsonBox } from "../JsonBox";
 import { CarouselComponent } from "../Carousel/Carousel";
@@ -8,6 +8,7 @@ import { TextComponent } from "../Text/TextComponent";
 import { IframeComponent } from "../IframeComponent/IframeComponent";
 import "./component-selector.css";
 import { HeroBanner } from "../HeroBanner/HeroBanner";
+import { EPGComponent } from "../EPGComponent/EPGComponent";
 
 function ComponentWrapper({ children, ...props }: PropsWithChildren<ResolvedComponent>) {
   return (
@@ -21,8 +22,14 @@ function ComponentWrapper({ children, ...props }: PropsWithChildren<ResolvedComp
   );
 }
 
-export default function ComponentSelector(props: ResolvedComponent<any>) {
+export default function ComponentSelector(props: ResolvedComponent) {
   switch (props.component.appType) {
+    case "epg":
+      return (
+        <ComponentWrapper {...props}>
+          <EPGComponent {...props} />
+        </ComponentWrapper>
+      );
     case "iframe":
       return (
         <ComponentWrapper {...props}>
