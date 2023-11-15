@@ -25,8 +25,6 @@ export type ComponentContentMap = {
   [WLComponentType.EPG]: EpgComponentContent;
   [WLComponentType.TAG_TYPE]: TagList;
   [WLComponentType.ASSET_DISPLAY]: Asset;
-  [WLComponentType.ASSET_PAGE]: undefined;
-  [WLComponentType.BROWSE_PAGE]: undefined;
   [WLComponentType.FOOTER]: undefined;
   [WLComponentType.HEROBANNER]: undefined;
   [WLComponentType.IFRAME]: undefined;
@@ -41,8 +39,6 @@ export type ComponentComponentMap = {
   [WLComponentType.EPG]: IExposureComponent;
   [WLComponentType.TAG_TYPE]: IExposureComponent;
   [WLComponentType.ASSET_DISPLAY]: IExposureComponent;
-  [WLComponentType.ASSET_PAGE]: IExposureComponent;
-  [WLComponentType.BROWSE_PAGE]: IExposureComponent;
   [WLComponentType.FOOTER]: IExposureWLMenu;
   [WLComponentType.HEROBANNER]: IExposureWLHerobanner;
   [WLComponentType.IFRAME]: IExposureComponent;
