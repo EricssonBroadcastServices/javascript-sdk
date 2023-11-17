@@ -32,8 +32,6 @@ export async function getComponentContent<T extends keyof ComponentContentMap>(
     case "asset_display":
     case "menu":
     case "page":
-    case "asset_page":
-    case "browse_page":
     case "footer":
     case "image":
     case "text":

@@ -1,0 +1,15 @@
+.herobanner-meta {
+  position: absolute;
+  padding: 10px;
+}
+
+.item {
+  width: 600px;
+  height: 400px;
+  display: flex;
+  position: relative;
+}
+
+.item img {
+  height: 100%;
+}
