@@ -111,6 +111,7 @@ function resolvePushNextCuePoint(asset: Asset, defaultOffset = 15_000): number |
   return;
 }
 
+// TODO: should useCatchupPNCFeature default to true maybe ?
 export function getPushNextCuePointForAsset(asset: Asset, useCatchupPNCFeature = false): number | undefined {
   const isEpisode = !!asset.tvShowId && !!asset.episode;
   const isCatchup = asset.programs && asset.programs.length > 0;
