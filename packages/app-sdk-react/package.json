@@ -5,7 +5,6 @@
   "author": "simonwallin <simon.wallin@eyevinn.se>",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
   "license": "UNLICENSED",
-  "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
