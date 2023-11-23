@@ -11,6 +11,10 @@ export async function getConfigByCustomerAndBusinessUnit(
   { countryCode }: GetConfigByCustomerAndBusinessUnitOptions
 ) {
   return (
-    await getWLConfig.call(context, { configId: "sandwich", allowedCountry: countryCode })
+    await getWLConfig.call(context, {
+      configId: "sandwich",
+      allowedCountry: countryCode,
+      filters: `DEVICE:${context.deviceGroup}`
+    })
   ).json() as Promise<IExposureWLConfig>;
 }

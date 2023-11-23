@@ -15,7 +15,8 @@ export async function getComponentById<T extends IExposureComponent>(
     await getWLComponent.call(context, {
       configId: "sandwich",
       allowedCountry: countryCode,
-      componentId
+      componentId,
+      filters: `DEVICE:${context.deviceGroup}`
     })
   ).json();
 }

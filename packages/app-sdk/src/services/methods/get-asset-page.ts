@@ -19,6 +19,8 @@ export interface GetAssetPageOptions {
   useAssetEpgCarousel?: boolean;
   useRelatedByMetadataCarousel?: boolean;
   useOthersHaveWatchedCarousel?: boolean;
+  /* only include assets with active publications, where applicable */
+  useOnlyPlayableAssets?: boolean;
   locale: string;
   translations: Translations;
 }
@@ -34,7 +36,8 @@ export async function getAssetPage(
     useAssetEpgCarousel = true,
     useOthersHaveWatchedCarousel = true,
     useRelatedByMetadataCarousel = true,
-    useSeasonCarousel = true
+    useSeasonCarousel = true,
+    useOnlyPlayableAssets = false
   }: GetAssetPageOptions
 ): Promise<ResolvedComponent[]> {
   const asset = await getAsset.call(service.context, { assetId });
@@ -60,7 +63,9 @@ export async function getAssetPage(
   }
 
   if (useRelatedByMetadataCarousel) {
-    generatedComponents.push(getGeneratedByMetadataCarousel({ asset, service, translations }));
+    generatedComponents.push(
+      getGeneratedByMetadataCarousel({ asset, service, translations, onlyIncludePlayableAssets: useOnlyPlayableAssets })
+    );
   }
 
   if (useOthersHaveWatchedCarousel) {
@@ -70,7 +75,14 @@ export async function getAssetPage(
   if (useTagIdCarousels) {
     const tagIds = AssetHelpers.getAllTagIds(asset);
     tagIds.forEach(tagId => {
-      generatedComponents.push(getGeneratedCarouselByTagId(service, { tagId, excludedAssetId: asset.assetId, locale }));
+      generatedComponents.push(
+        getGeneratedCarouselByTagId(service, {
+          tagId,
+          excludedAssetId: asset.assetId,
+          locale,
+          onlyIncludePlayableAssets: useOnlyPlayableAssets
+        })
+      );
     });
   }
 

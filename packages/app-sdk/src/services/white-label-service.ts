@@ -64,6 +64,7 @@ import {
 } from "./methods/get-generated-others-have-watched-carousel";
 import { getTagPage } from "./methods/get-tag-page";
 import { GetGeneratedSeasonCarouselOptions, getGeneratedSeasonCarousel } from "./methods/get-generated-season-carousel";
+import { Feature, isFeatureEnabled } from "../utils/legacy-features";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
@@ -189,7 +190,25 @@ export class WhiteLabelService {
   }
 
   public async getAssetPage(assetId: string, locale: string, translations: Translations) {
-    return getAssetPage(this, { assetId, locale, translations });
+    const useAssetEpgCarousel = isFeatureEnabled(Feature.ASSET_PAGE_EPG, this.context.customer);
+    const useOthersHaveWatchedCarousel = isFeatureEnabled(Feature.OTHERS_HAVE_WATCHED_CAROUSEL, this.context.customer);
+    const useRelatedByMetadataCarousel = isFeatureEnabled(Feature.RELATED_CAROUSEL, this.context.customer);
+    const useSeasonCarousel = isFeatureEnabled(Feature.SEASON_CAROUSEL, this.context.customer);
+    const useTagIdCarousels = isFeatureEnabled(Feature.TAG_IDS_CAROUSELS, this.context.customer);
+    const useTrailersAndExtrasCarousel = isFeatureEnabled(Feature.TRAILERS_CAROUSEL, this.context.customer);
+    const useOnlyPlayableAssets = isFeatureEnabled(Feature.ONLY_PLAYABLE_IN_CAROUSELS, this.context.customer);
+    return getAssetPage(this, {
+      assetId,
+      locale,
+      translations,
+      useAssetEpgCarousel,
+      useOthersHaveWatchedCarousel,
+      useRelatedByMetadataCarousel,
+      useSeasonCarousel,
+      useTagIdCarousels,
+      useTrailersAndExtrasCarousel,
+      useOnlyPlayableAssets
+    });
   }
 
   public async getGeneratedSeasonCarousel(args: GetGeneratedSeasonCarouselOptions) {

@@ -1,8 +1,8 @@
 export const DeviceGroup = {
-  WEB: "web",
-  WEB_TV: "web_tv",
-  MOBILE: "mobile",
-  TABLET: "tablet",
-  TV: "tv"
+  WEB: "WEB",
+  WEB_TV: "WEB_TV",
+  MOBILE: "MOBILE",
+  TABLET: "TABLET",
+  TV: ""
 } as const;
 export type DeviceGroup = typeof DeviceGroup[keyof typeof DeviceGroup];
