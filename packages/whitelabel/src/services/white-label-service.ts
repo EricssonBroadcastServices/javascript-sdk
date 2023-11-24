@@ -5,7 +5,8 @@ import {
   ExposureApi,
   IEntitlementError,
   IProductOffering,
-  TPaymentProvider
+  TPaymentProvider,
+  IEntitlementResponse
 } from "@ericssonbroadcastservices/exposure-sdk";
 import * as querystring from "query-string";
 import { IWLEPG } from "../interfaces/wl-epg";
@@ -363,7 +364,7 @@ export class WhiteLabelService extends BaseService {
   }): Promise<IEntitlementStatusResult> {
     return this.exposureApi.entitlements
       .getEntitlementForAsset({ assetId: asset.assetId, customer, businessUnit, paymentProvider })
-      .then(() => {
+      .then((resp: IEntitlementResponse) => {
         return {
           status: EntitlementStatus.ENTITLED,
           isEntitled: true,
@@ -375,7 +376,8 @@ export class WhiteLabelService extends BaseService {
           isStreamLimitReached: false,
           entitlementError: null,
           loginToWatchForFree: false,
-          shouldJustWait: false
+          shouldJustWait: false,
+          streamInfo: resp.streamInfo
         };
       })
       .catch(err => {

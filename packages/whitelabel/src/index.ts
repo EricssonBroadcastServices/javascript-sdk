@@ -49,6 +49,7 @@ export {
 export { isWebPSupported } from "./utils/webp";
 export { getDayLocalized, getLocalDateFormat, FORMAT } from "./utils/date";
 export { wlProductOfferingUtils } from "./utils/offerings";
+export { getEventProgress, getTimeLeft } from "./utils/programProgress";
 // adding below export for backwards compatibility
 export {
   WLComponentType,

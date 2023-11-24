@@ -35,7 +35,7 @@ export class IDRM {
 export interface IFormat {
   format: FormatType;
   mediaLocator: string;
-  orgMediaLocator: string;
+  orgMediaLocator?: string;
   drm?: {
     [DRMType.FAIRPLAY]?: IDRM;
     [DRMType.PLAYREADY]?: IDRM;

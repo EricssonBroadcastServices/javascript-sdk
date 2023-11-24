@@ -15,6 +15,9 @@ export interface ISystemConfigV2 {
   frontendFeatures: {
     shouldAlwaysUseAnonymousLogin: boolean;
     searchLocales: string[];
+    customLandingPageUrl?: string;
+    customSignupPageUrl?: string;
+    customAccountPageUrl?: string;
   };
   localization: {
     currencies: string[];
