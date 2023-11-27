@@ -24,3 +24,4 @@ export * from "./utils/time";
 export * from "./utils/season";
 export * from "./utils/legacy-features";
 export * from "./utils/epg";
+export * from "./utils/programProgress";
