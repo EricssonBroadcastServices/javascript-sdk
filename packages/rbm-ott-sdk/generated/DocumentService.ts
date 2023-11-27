@@ -8,7 +8,7 @@
  */
 
 import { HtmlDocument } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets document.
@@ -44,13 +44,14 @@ export async function getDocument({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/document`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<HtmlDocument>);
 }
 
 export class DocumentService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getDocument = getDocument;
 }

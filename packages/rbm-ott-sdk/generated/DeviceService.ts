@@ -8,7 +8,7 @@
  */
 
 import { DevicesResponseV2 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @description If the session from which this call is made is marked as "overTheDeviceLimit" this marking will be cleared, which can be checked by validating the session.
@@ -31,7 +31,7 @@ export async function deleteDeviceForAccount({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device/${deviceId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
   });
 }
@@ -55,12 +55,13 @@ export async function getDevicesForAccount({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/device`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<DevicesResponseV2>);
 }
 
 export class DeviceService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   deleteDeviceForAccount = deleteDeviceForAccount;
   getDevicesForAccount = getDevicesForAccount;

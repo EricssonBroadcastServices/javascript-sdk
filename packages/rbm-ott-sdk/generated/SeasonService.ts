@@ -8,7 +8,7 @@
  */
 
 import { Season, SeasonList } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a specific season by id.
@@ -36,9 +36,9 @@ export async function getSeasonById({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<Season>);
 }
 
@@ -77,9 +77,9 @@ export async function getSeasonByIdPartial<T = any>({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season/${seasonId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
@@ -126,9 +126,9 @@ export async function getSeasons({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: { fieldSet: "ALL", ..._data }
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<SeasonList>);
 }
 
@@ -184,13 +184,14 @@ export async function getSeasonsPartial<T = any>({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/season`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: { fieldSet: "PARTIAL", ..._data }
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
   }).then(response => response.json() as Promise<T>);
 }
 
 export class SeasonService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getSeasonById = getSeasonById;
   getSeasonByIdPartial = getSeasonByIdPartial;

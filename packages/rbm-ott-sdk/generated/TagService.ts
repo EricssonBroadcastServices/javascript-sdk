@@ -8,7 +8,7 @@
  */
 
 import { AssetType, TagList, TagType } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a tag by id.
@@ -30,7 +30,7 @@ export async function getTagById({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/${tagId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<TagType>);
 }
@@ -96,9 +96,9 @@ export async function getUniqueTagsFromAssets({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag/asset`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<TagList>);
 }
 
@@ -134,13 +134,14 @@ export async function listTags({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/tag`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<TagList>);
 }
 
 export class TagService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getTagById = getTagById;
   getUniqueTagsFromAssets = getUniqueTagsFromAssets;

@@ -16,7 +16,7 @@ import {
   LoginResponse,
   SessionResponse
 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @description If the user is the account's owner, then all the sessions of the account will be deleted. If a deleted session was created with 'userSession' : true, then the history of that session will not be revealed in any forthcoming sessions with this username. This request is privileged and thus needs server to server authentication.
@@ -41,7 +41,7 @@ export async function deleteSessions({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -76,7 +76,11 @@ export async function externalUserSession({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/externalusersession`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<CreateSessionResponse>);
@@ -100,9 +104,9 @@ export async function getOauthAuth({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/auth`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<void>);
 }
 
@@ -124,9 +128,9 @@ export async function getOauthRedir({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauth/redir`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<void>);
 }
 
@@ -163,7 +167,11 @@ export async function login({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<LoginResponse>);
@@ -192,14 +200,18 @@ export async function loginAnonymous({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<AnonymousSessionResponse>);
 }
 
 /**
- * @summary EXPERIMENTAL Performs a login using a Firebase access token.
+ * @summary Performs a login using a Firebase access token.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/firebaseLogin
  * @response `200` `LoginResponse` success
  * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
@@ -240,7 +252,11 @@ export async function loginFirebase({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/firebaseLogin`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<LoginResponse>);
@@ -272,7 +288,11 @@ export async function loginGigya({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/gigyaLogin`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<LoginResponse>);
@@ -280,7 +300,7 @@ export async function loginGigya({
 
 /**
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin
- * @response `default` `void` success
+ * @response `default` `LoginResponse` success
  */
 export async function loginOauth({
   headers,
@@ -299,10 +319,50 @@ export async function loginOauth({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oauthLogin`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<void>);
+  }).then(response => response.json() as Promise<LoginResponse>);
+}
+
+/**
+ * @summary EXPERIMENTAL Performs a login using an OpenIdConnect JWT.
+ * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oidcLogin
+ * @response `200` `LoginResponse` success
+ * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
+ * @response `403` `void` INFORMATION_COLLECTION_CONSENT_MISSING. The user is required to give consent to collect NOT_CONFIGURED. The OU is not configured to use OpenIdConnect.
+ * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
+ * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
+ */
+export async function loginOpenIdConnect({
+  headers,
+  ..._data
+}: {
+  /** JWT. */
+  jwt: string;
+  device: DeviceRegistration;
+  /** The user's preferred language. Only used if first login when creating the user */
+  language?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "POST",
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/oidcLogin`,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
+    ctx,
+    body: _data
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
@@ -332,7 +392,11 @@ export async function loginPrimetime({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/adobePrimetimeLogin`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<LoginResponse>);
@@ -359,9 +423,9 @@ export async function logout({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/login`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<EmptyResponse>);
 }
 
@@ -405,7 +469,11 @@ export async function session({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<CreateSessionResponse>);
@@ -430,12 +498,13 @@ export async function validateSessionToken({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<SessionResponse>);
 }
 
 export class AuthenticationService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   deleteSessions = deleteSessions;
   externalUserSession = externalUserSession;
@@ -446,6 +515,7 @@ export class AuthenticationService {
   loginFirebase = loginFirebase;
   loginGigya = loginGigya;
   loginOauth = loginOauth;
+  loginOpenIdConnect = loginOpenIdConnect;
   loginPrimetime = loginPrimetime;
   logout = logout;
   session = session;

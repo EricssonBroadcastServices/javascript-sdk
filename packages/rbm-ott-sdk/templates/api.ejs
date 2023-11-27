@@ -17,7 +17,7 @@ for (const route of routes) {
 }
 %>
 
-import { request, ServiceContext } from "./<%~ config.fileNames.httpClient %>";
+import { request, QueryParams, ServiceContext } from "./<%~ config.fileNames.httpClient %>";
 <% if (dataContracts.length) { %>
 import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
 <% } %>
@@ -27,6 +27,7 @@ import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataCont
 <% } %>
 
 export class <%= apiClassName %>Service {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   <% for (const { methodName } of methods) { %>
     <%~ `${methodName} = ${methodName}` %>;

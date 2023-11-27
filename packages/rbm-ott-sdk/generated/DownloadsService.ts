@@ -7,8 +7,15 @@
  * ----------------------------------------------------------------
  */
 
-import { BookkeeperAccount, BookkeeperAsset, DownloadInfoResponse, DownloadResponse, Message } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import {
+  BookkeeperAccount,
+  BookkeeperAsset,
+  DownloadInfoResponse,
+  DownloadResponse,
+  Message,
+  VerifiedResponse
+} from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Unregister all downloads done by an account.
@@ -26,7 +33,7 @@ export async function deleteDownloadsForAccount({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<Message>);
 }
@@ -50,7 +57,7 @@ export async function deleteDownloadsForAsset({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<Message>);
 }
@@ -79,9 +86,9 @@ export async function download({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/download`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<DownloadResponse>);
 }
 
@@ -104,7 +111,7 @@ export async function downloadCompleted({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadcompleted`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<BookkeeperAsset>);
 }
@@ -134,9 +141,9 @@ export async function downloadInfo({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadinfo`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<DownloadInfoResponse>);
 }
 
@@ -160,9 +167,34 @@ export async function downloadRenewed({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadrenewed`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<BookkeeperAsset>);
+}
+
+/**
+ * @description Verifies that an asset is still valid for offline play and get when publication ends.
+ * @summary Verify a download.
+ * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadverified
+ * @response `default` `VerifiedResponse` success
+ */
+export async function downloadVerified({
+  assetId,
+  headers
+}: {
+  /** The id of the asset. */
+  assetId: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "GET",
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadverified`,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
+    ctx
+  }).then(response => response.json() as Promise<VerifiedResponse>);
 }
 
 /**
@@ -181,7 +213,7 @@ export async function getDownloadsForAccount({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<BookkeeperAccount>);
 }
@@ -205,12 +237,13 @@ export async function getDownloadsForAsset({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<BookkeeperAsset>);
 }
 
 export class DownloadsService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   deleteDownloadsForAccount = deleteDownloadsForAccount;
   deleteDownloadsForAsset = deleteDownloadsForAsset;
@@ -218,6 +251,7 @@ export class DownloadsService {
   downloadCompleted = downloadCompleted;
   downloadInfo = downloadInfo;
   downloadRenewed = downloadRenewed;
+  downloadVerified = downloadVerified;
   getDownloadsForAccount = getDownloadsForAccount;
   getDownloadsForAsset = getDownloadsForAsset;
 }

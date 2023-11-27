@@ -1,0 +1,15 @@
+.container {
+  height: 600px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.container img {
+  box-shadow: 3px 3px 12px 0px black;
+}
+
+.image-meta {
+  position: absolute;
+  color: white
+}

@@ -16,6 +16,7 @@ export interface APIErrorMessage {
   message?: string;
 }
 
+/** User access configuration */
 export interface AccessConfig {
   /** How users gain access */
   accessModel: "login" | "open" | "pay";
@@ -33,8 +34,8 @@ export interface AccessConfig {
 
 export interface ActivationCodeResponse {
   /** 6 characters drawn from set 123456789ABCDEF */
-  code?: string;
-  expires?: string;
+  code: string;
+  expires: string;
 }
 
 export interface ActiveChannels {
@@ -81,11 +82,6 @@ export interface Ads {
   stitcherSession?: string;
 }
 
-export interface Algorithm {
-  pbkdf2Iterations?: number;
-  algorithmName?: "CLEAR" | "NO_PASSWORD" | "PBKDF2";
-}
-
 export interface Analytics {
   baseUrl?: string;
   bucket?: number;
@@ -94,6 +90,7 @@ export interface Analytics {
   tag?: string;
 }
 
+/** Analytics reporting configuration */
 export interface AnalyticsConfig {
   /** If stated this is the base URL for analytics events, if not stated the base URL for Exposure API is to be used */
   analyticsBaseUrl?: string;
@@ -112,6 +109,7 @@ export interface AnonymousSessionResponse {
   sessionToken?: string;
 }
 
+/** Apple app store configuration */
 export interface AppStoreConfig {
   /** Apple App Store enabled */
   enabled: boolean;
@@ -188,8 +186,8 @@ export interface AssetList {
 }
 
 export interface AssetListItemResponse {
-  asset?: Asset;
-  assetId?: string;
+  asset: Asset;
+  assetId: string;
   lastUpdated?: string;
   /** A key value object */
   metadata?: object;
@@ -200,61 +198,6 @@ export const AssetMaterialType = {
   LOW_LATENCY_CHANNEL: "LOW_LATENCY_CHANNEL"
 } as const;
 export type AssetMaterialType = (typeof AssetMaterialType)[keyof typeof AssetMaterialType];
-
-export interface AssetResponse {
-  adminDisplayName?: string;
-  assetId?: string;
-  audioTracks?: string[];
-  changed?: string;
-  channelFeatures?: ("VIRTUAL" | "VC_CURATED" | "VC_PERSONALIZED" | "VC_SCHEDULED" | "EPG")[];
-  collections?: CollectionReferenceResponse[];
-  created?: string;
-  customData?: JsonNode;
-  defaultAudioTrack?: string;
-  duration?: string;
-  episode?: string;
-  event?: EventDataResponse;
-  expires?: string;
-  externalReferences?: ExternalReferenceResponse[];
-  geoCountries?: string[];
-  ingestFlow?: string;
-  isLive?: boolean;
-  linkedEntities?: LinkedEntityResponse[];
-  localizedData?: LocalizedDataResponse[];
-  markers?: Marker[];
-  materialType?: AssetMaterialType;
-  materials?: MaterialResponse[];
-  medias?: MediaResponse[];
-  mrrCluster?: string;
-  originalTitle?: string;
-  originalTitleLanguage?: string;
-  overlayWidgetLayoutId?: string;
-  parentalRatings?: ParentalRatingResponse[];
-  participants?: PersonResponse[];
-  popularity?: Popularity;
-  /** A key value object */
-  popularityScores?: object;
-  productionCountries?: string[];
-  productionYear?: number;
-  programs?: ProgramListEntryResponse[];
-  publicCustomData?: JsonNode;
-  publications?: PublicationResponse[];
-  rating?: number;
-  releaseDate?: string;
-  runtime?: number;
-  season?: string;
-  seasonId?: string;
-  seasons?: SeasonResponse[];
-  slugs?: string[];
-  spokenLanguages?: string[];
-  studio?: string;
-  subtitles?: string[];
-  systemTags?: TagResponse[];
-  tags?: TagResponse[];
-  trackSizes?: TrackSizes;
-  tvShowId?: string;
-  type?: AssetType;
-}
 
 export interface AssetRights {
   HDMIBlocked?: boolean;
@@ -353,6 +296,7 @@ export interface Bookmarks {
 
 export type CDN = Record<"host" | "profile" | "provider", string>;
 
+/** Summary of card details */
 export interface CardSummary {
   /** Last of digits of card number */
   last4?: string;
@@ -380,16 +324,16 @@ export interface ChangePasswordResponse {
 }
 
 export interface ChannelAsset {
-  asset?: Asset;
-  endTime?: string;
-  startTime?: string;
+  asset: Asset;
+  endTime: string;
+  startTime: string;
 }
 
 export interface ChannelEPGResponse {
-  channelId?: string;
-  programs?: ProgramResponse[];
+  channelId: string;
+  programs: ProgramResponse[];
   /** This is the total number of hits for all channels, not only this. */
-  totalHitsAllChannels?: number;
+  totalHitsAllChannels: number;
 }
 
 export interface ChannelStatus {
@@ -400,11 +344,6 @@ export interface ChannelStatus {
 
 export interface CollectionReference {
   collectionId?: string;
-}
-
-export interface CollectionReferenceResponse {
-  collectionId?: string;
-  sortOrder?: number;
 }
 
 export interface ComponentFilters {
@@ -432,57 +371,14 @@ export interface ConfirmAccountResponse {
   loginResponse?: LoginResponse;
 }
 
+/** Consent management */
 export interface ConsentManagement {
   /** Didomi consent management */
   didomi: Didomi;
 }
 
 export interface ContinueUph2Assets {
-  items?: ContinueWatchingAsset[];
-}
-
-export interface ContinueWatchingAsset {
-  assetId?: string;
-  audioTracks?: string[];
-  changed?: string;
-  collections?: CollectionReference[];
-  created?: string;
-  customData?: JsonNode;
-  defaultAudioTrack?: string;
-  duration?: number;
-  episode?: string;
-  expires?: string;
-  externalReferences?: ExternalReferenceResponse[];
-  geoCountries?: string[];
-  linkedEntities?: LinkedEntityResponse[];
-  live?: boolean;
-  localized?: LocalizedDataResponse[];
-  markers?: Marker[];
-  materialType?: AssetMaterialType;
-  medias?: MediaResponse[];
-  originalTitle?: string;
-  originalTitleLanguage?: string;
-  parentalRatings?: ParentalRatingResponse[];
-  participants?: PersonResponse[];
-  /** A key value object */
-  popularityScores?: object;
-  productionCountries?: string[];
-  productionYear?: number;
-  publications?: Publication[];
-  rating?: number;
-  releaseDate?: string;
-  runtime?: number;
-  season?: string;
-  seasonId?: string;
-  seasons?: SeasonResponse[];
-  slugs?: string[];
-  spokenLanguages?: string[];
-  subtitles?: string[];
-  tags?: TagResponse[];
-  trackSizes?: TrackSizes;
-  tvShowId?: string;
-  type?: AssetType;
-  userData?: UserAssetData;
+  items?: Asset[];
 }
 
 export interface ContractRestrictions {
@@ -507,10 +403,6 @@ export interface CreateSessionResponse {
   expirationDateTime?: string;
   /** The session token to use for subsequent requests. */
   sessionToken?: string;
-}
-
-export interface Credentials {
-  passwordTuples: PasswordTuple[];
 }
 
 export interface DRMLicense {
@@ -580,6 +472,7 @@ export interface DevicesResponseV2 {
   devices?: DeviceResponseV2[];
 }
 
+/** Didomi consent management */
 export interface Didomi {
   /** API Key */
   apiKey?: string;
@@ -599,6 +492,7 @@ export interface DownloadInfoResponse {
   durationInMs?: number;
   maxDownloadCount?: number;
   productId?: string;
+  publicationEnd?: string;
   publicationId?: string;
   requestId?: string;
   subtitles?: Track[];
@@ -621,6 +515,7 @@ export interface DownloadResponse {
   playTokenExpiration?: number;
   playTokenExpirationReason?: string;
   productId?: string;
+  publicationEnd?: string;
   publicationId?: string;
   requestId?: string;
 }
@@ -698,17 +593,12 @@ export interface EpgSearchHits {
 }
 
 export interface Event {
-  asset?: Asset;
+  asset: Asset;
   /** The id of the asset this program is for. */
-  assetId?: string;
-  endTime?: string;
-  startTime?: string;
+  assetId: string;
+  endTime: string;
+  startTime: string;
 }
-
-export type EventDataResponse = Record<
-  "channelId" | "endTime" | "id" | "publicEndTime" | "publicStartTime" | "startTime",
-  string
->;
 
 export interface EventList {
   items?: Event[];
@@ -717,6 +607,7 @@ export interface EventList {
   totalCount?: number;
 }
 
+/** External payments configuration */
 export interface ExternalPaymentConfig {
   /** External payments enabled */
   enabled: boolean;
@@ -725,8 +616,6 @@ export interface ExternalPaymentConfig {
 }
 
 export type ExternalReference = Record<"locator" | "type" | "value", string>;
-
-export type ExternalReferenceResponse = Record<"locator" | "type" | "value", string>;
 
 export type FairplayConfigurationResponse = Record<
   "certificateUrl" | "licenseAcquisitionUrl" | "secondaryMediaLocator",
@@ -739,6 +628,7 @@ export interface Filters {
 
 export type FiltersFilter = Record<"type" | "value", string>;
 
+/** Frontend features configuration */
 export interface FrontendFeatures {
   /** Custom account page url */
   customAccountPageUrl?: string;
@@ -775,6 +665,7 @@ export interface GetUserContentRatingResponse {
   rating?: number;
 }
 
+/** Google play configuration */
 export interface GooglePlayConfig {
   /** Google play enabled */
   enabled: boolean;
@@ -796,12 +687,12 @@ export interface GooglePlayPurchaseVerifyResponse {
 export type HtmlDocument = Record<"body" | "url", string>;
 
 export interface Image {
-  height?: number;
-  orientation?: ImageOrientation;
+  height: number;
+  orientation: ImageOrientation;
   priority?: number;
   type?: string;
-  url?: string;
-  width?: number;
+  url: string;
+  width: number;
 }
 
 export const ImageOrientation = {
@@ -811,17 +702,6 @@ export const ImageOrientation = {
   UNKNOWN: "UNKNOWN"
 } as const;
 export type ImageOrientation = (typeof ImageOrientation)[keyof typeof ImageOrientation];
-
-export interface ImageResponse {
-  caption?: string;
-  copyright?: string;
-  height?: number;
-  orientation?: ImageOrientation;
-  priority?: number;
-  type?: string;
-  url?: string;
-  width?: number;
-}
 
 export interface InitializePaymentResponse {
   /** If Stripe is enabled. */
@@ -894,8 +774,7 @@ export interface LastViewedOffsetList {
 
 export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string>;
 
-export type LinkedEntityResponse = Record<"entityId" | "entityType" | "linkType", string>;
-
+/** Locale configuration */
 export interface LocaleConfig {
   /** Currencies */
   currencies?: string[];
@@ -909,19 +788,7 @@ export interface LocalizedData {
   description?: string;
   extendedDescription?: string;
   images?: Image[];
-  locale?: string;
-  longDescription?: string;
-  shortDescription?: string;
-  sortingTitle?: string;
-  tinyDescription?: string;
-  title?: string;
-}
-
-export interface LocalizedDataResponse {
-  description?: string;
-  extendedDescription?: string;
-  images?: ImageResponse[];
-  locale?: string;
+  locale: string;
   longDescription?: string;
   shortDescription?: string;
   sortingTitle?: string;
@@ -931,12 +798,10 @@ export interface LocalizedDataResponse {
 
 export type LocalizedPersonData = Record<"bio" | "locale", string>;
 
-export type LocalizedPersonDataResponse = Record<"bio" | "locale", string>;
-
 export interface LocalizedTag {
   description?: string;
   images?: Image[];
-  locale?: string;
+  locale: string;
   title?: string;
 }
 
@@ -990,28 +855,6 @@ export interface MarkerPoint {
   type?: string;
 }
 
-export interface MarkerPointResponse {
-  localized?: SimpleLocalizedResponse[];
-  markerTime?: string;
-  markerTimeEnd?: string;
-  thumbnail?: boolean;
-  type?: string;
-}
-
-export interface MaterialResponse {
-  adMarkers?: Marker[];
-  audioTracks?: string[];
-  defaultAudioTrack?: string;
-  duration?: string;
-  markerPoints?: MarkerPointResponse[];
-  materialType?: AssetMaterialType;
-  profile?: string[];
-  subtitles?: string[];
-  validFrom?: string;
-  validTo?: string;
-  version?: number;
-}
-
 export interface Media {
   /** The DRM of the media. */
   drm?: string;
@@ -1059,31 +902,13 @@ export const MediaFormatType = {
 } as const;
 export type MediaFormatType = (typeof MediaFormatType)[keyof typeof MediaFormatType];
 
-export interface MediaResponse {
-  bitrates?: number[];
-  changed?: string;
-  created?: string;
-  drm?: string;
-  duration?: number;
-  format?: string;
-  height?: number;
-  ingestionProfile?: string;
-  keyId?: string;
-  mediaId?: string;
-  mediaLocator?: string;
-  name?: string;
-  programId?: string;
-  status?: string;
-  subtitles?: SubtitleResponse[];
-  width?: number;
-}
-
 export interface Message {
   message?: string;
 }
 
 export interface MultiSearchResponse {
   assetHits?: SearchList;
+  participantHits?: ParticipantSearchList;
   tagHits?: TagSearchList;
 }
 
@@ -1100,8 +925,27 @@ export interface ParentalRating {
   scheme?: string;
 }
 
-export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", string>;
+export interface Participant {
+  dateOfBirth?: string;
+  dateOfDeath?: string;
+  localized?: LocalizedPersonData[];
+  name?: string;
+  participantId?: string;
+}
 
+export interface ParticipantSearchList {
+  items?: ParticipantsSearch[];
+  pageNumber?: number;
+  pageSize?: number;
+  suggestion?: string;
+  totalCount?: number;
+}
+
+export interface ParticipantsSearch {
+  participant?: Participant;
+}
+
+/** Password policy */
 export interface PasswordPolicy {
   /** Minimum number character groups used, eg. alfa, ALFA, 0..9, separators */
   minimumGroups: number;
@@ -1109,11 +953,7 @@ export interface PasswordPolicy {
   minimumLength: number;
 }
 
-export interface PasswordTuple {
-  algorithm?: Algorithm;
-  value?: string;
-}
-
+/** Payments configuration */
 export interface PaymentConfig {
   /** Apple app store configuration */
   appstore: AppStoreConfig;
@@ -1139,21 +979,20 @@ export interface PaymentMethods {
   methods?: PaymentMethod[];
 }
 
+export const PaymentProvider = {
+  Appstore: "appstore",
+  Deny: "deny",
+  External: "external",
+  Googleplay: "googleplay",
+  Stripe: "stripe"
+} as const;
+export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider];
+
 export interface Person {
   dateOfBirth?: string;
   dateOfDeath?: string;
   function?: string;
   localized?: LocalizedPersonData[];
-  name?: string;
-  personId?: string;
-  role?: string;
-}
-
-export interface PersonResponse {
-  dateOfBirth?: string;
-  dateOfDeath?: string;
-  function?: string;
-  localizedPersonData?: LocalizedPersonDataResponse[];
   name?: string;
   personId?: string;
   role?: string;
@@ -1275,8 +1114,6 @@ export interface PlayResponseV2 {
   streamInfo?: StreamInfo;
 }
 
-export type Popularity = Record<"month" | "week", number>;
-
 export interface PreferencesListItem {
   id?: string;
   lastUpdated?: string;
@@ -1291,16 +1128,16 @@ export interface PreferencesListResponse {
 }
 
 export interface Product {
-  anonymousAllowed?: boolean;
-  blocked?: boolean;
+  anonymousAllowed: boolean;
+  blocked: boolean;
   businessUnit?: string;
   changed?: string;
   customer?: string;
   description?: string;
-  entitlementRequired?: boolean;
+  entitlementRequired: boolean;
   hasAds?: boolean;
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
   priority?: number;
 }
 
@@ -1362,20 +1199,10 @@ export interface Program {
   startTime: string;
 }
 
-export interface ProgramListEntryResponse {
-  catchupBlocked?: boolean;
-  channelId?: string;
-  endTime?: string;
-  programId?: string;
-  publicEndTime?: string;
-  publicStartTime?: string;
-  startTime?: string;
-}
-
 export interface ProgramResponse {
-  asset?: Asset;
+  asset: Asset;
   /** The id of the asset this program is for. */
-  assetId?: string;
+  assetId: string;
   /**
    * If this program is currently published as blackout. This means any publication contains blackout, not global
    * blackout;
@@ -1391,40 +1218,26 @@ export interface ProgramResponse {
   channelId?: string;
   /** The date the program was created. */
   created?: string;
-  endTime?: string;
+  endTime: string;
   /** The id of the program. */
-  programId?: string;
-  startTime?: string;
+  programId: string;
+  startTime: string;
   /** If this asset is currently available as VOD. */
   vodAvailable?: boolean;
 }
 
 export interface Publication {
   availabilityKeys?: string[];
-  countries?: string[];
+  countries: string[];
   customData?: JsonNode;
   devices?: DeviceRights[];
-  fromDate?: string;
-  products?: string[];
-  publicationDate?: string;
-  publicationId?: string;
+  fromDate: string;
+  products: string[];
+  publicationDate: string;
+  publicationId: string;
   rights?: AssetRights;
   services?: string[];
-  toDate?: string;
-}
-
-export interface PublicationResponse {
-  contractId?: string;
-  countries?: string[];
-  customData?: JsonNode;
-  devices?: Device[];
-  fromDate?: string;
-  products?: string[];
-  publicationDate?: string;
-  publicationId?: string;
-  rights?: Rights;
-  services?: string[];
-  toDate?: string;
+  toDate: string;
 }
 
 export interface PurchaseResponse {
@@ -1441,53 +1254,23 @@ export interface RecommendedAssets {
 }
 
 export interface RecommendedWatchNext {
-  items?: Asset[];
+  items: Asset[];
 }
 
 export type Result = Record<"type" | "value", string>;
 
-export interface Rights {
-  activation?: string;
-  airplayBlocked?: boolean;
-  amcDebugLogEnabled?: boolean;
-  analyticsEnabled?: boolean;
-  downloadBlocked?: boolean;
-  expiration?: string;
-  ffEnabled?: boolean;
-  fourGBlocked?: boolean;
-  fwEnabled?: boolean;
-  hDMIBlocked?: boolean;
-  jailbrokenBlocked?: boolean;
-  locationEnabled?: boolean;
-  maxAds?: number;
-  maxBitrate?: number;
-  maxDownloadCount?: number;
-  maxFileSize?: number;
-  maxPlayPosition?: number;
-  maxResHeight?: number;
-  maxResWidth?: number;
-  minBitrate?: number;
-  minPlayPosition?: number;
-  playCount?: number;
-  rwEnabled?: boolean;
-  sessionShiftEnabled?: boolean;
-  streamingBlocked?: boolean;
-  threeGBlocked?: boolean;
-  wifiBlocked?: boolean;
-}
-
 export interface Search {
-  asset?: Asset;
+  asset: Asset;
   highlightedDescription?: string;
   highlightedTitle?: string;
 }
 
 export interface SearchList {
-  items?: Search[];
-  pageNumber?: number;
-  pageSize?: number;
+  items: Search[];
+  pageNumber: number;
+  pageSize: number;
   suggestion?: string;
-  totalCount?: number;
+  totalCount: number;
 }
 
 export interface Season {
@@ -1497,13 +1280,13 @@ export interface Season {
   customData?: JsonNode;
   endYear?: number;
   episodeCount?: number;
-  episodes?: Asset[];
+  episodes: Asset[];
   externalReferences?: ExternalReference[];
   linkedEntities?: LinkedEntity[];
-  localized?: LocalizedData[];
+  localized: LocalizedData[];
   publishedDate?: string;
-  season?: string;
-  seasonId?: string;
+  season: string;
+  seasonId: string;
   startYear?: number;
   tags?: Tag[];
   tvShowId?: string;
@@ -1516,32 +1299,7 @@ export interface SeasonList {
   totalCount?: number;
 }
 
-export interface SeasonResponse {
-  availableDate?: string;
-  changed?: string;
-  created?: string;
-  customData?: JsonNode;
-  endYear?: number;
-  episodeCount?: number;
-  episodes?: AssetResponse[];
-  externalReferences?: ExternalReferenceResponse[];
-  linkedEntities?: LinkedEntityResponse[];
-  localizedData?: LocalizedDataResponse[];
-  originalTitle?: string;
-  originalTitleLanguage?: string;
-  parentalRatings?: ParentalRatingResponse[];
-  participants?: PersonResponse[];
-  productionCountries?: string[];
-  productionYear?: number;
-  publishedDate?: string;
-  season?: string;
-  seasonId?: string;
-  startYear?: number;
-  studio?: string;
-  tags?: TagResponse[];
-  tvShowId?: string;
-}
-
+/** Sentry configuaration */
 export interface SentryConfig {
   /** If Sentry is to be enabled */
   enabled: boolean;
@@ -1568,12 +1326,6 @@ export interface SimpleLocalizedData {
   title?: string;
 }
 
-export interface SimpleLocalizedResponse {
-  image?: ImageResponse;
-  locale?: string;
-  title?: string;
-}
-
 export interface Sprites {
   offsetInMs?: number;
   vtt?: string;
@@ -1581,7 +1333,7 @@ export interface Sprites {
 }
 
 export interface StoreAppStoreReference {
-  productId?: string;
+  productId: string;
 }
 
 export interface StoreDiscount {
@@ -1589,7 +1341,7 @@ export interface StoreDiscount {
 }
 
 export interface StoreGooglePlayReference {
-  skuId?: string;
+  skuId: string;
 }
 
 export type StoreLocalizedMetaData = Record<"description" | "locale" | "name", string>;
@@ -1608,13 +1360,14 @@ export interface StorePrice {
   vatPercentage?: number;
 }
 
+/** Price after any discount */
 export interface StorePriceTag {
   /** The amount in minor units of the currency. e.g. 10 EUR is 1000, while 100 JPY is 100 */
-  amount?: number;
+  amount: number;
   /** ISO 4217 Currency Code */
-  currency?: string;
+  currency: string;
   /** Number of fraction digits of the currency as specified by ISO 4217, e.g. for EUR 2 and for JPY 0 */
-  fractionDigits?: number;
+  fractionDigits: number;
 }
 
 export interface StoreProduct {
@@ -1640,18 +1393,18 @@ export interface StoreProductOffering {
    * Product Offering Id
    * @deprecated
    */
-  id?: string;
-  localizedMetadata?: StoreLocalizedMetaData[];
-  offeringPrice?: StoreProductOfferingPrice;
+  id: string;
+  localizedMetadata: StoreLocalizedMetaData[];
+  offeringPrice: StoreProductOfferingPrice;
   /** If present, this is a list of stripe payment method types that are allowed with this offering */
-  paymentMethodTypes?: string[];
-  productIds?: string[];
+  paymentMethodTypes: string[];
+  productIds: string[];
   /** Product Offering Id */
-  productOfferingId?: string;
+  productOfferingId: string;
   /** Type of offering: purchase, rental, event, subscription */
-  productOfferingType?: string;
+  productOfferingType: string;
   /** if true, purchase of single asset. The assetId must be provided in the purchase */
-  productRequiresSelectAsset?: boolean | null;
+  productRequiresSelectAsset: boolean | null;
   /** Recurrence interval, ISO 8601 Duration */
   recurrence?: string | null;
   /** Rental expiry window, ISO 8601 Duration */
@@ -1660,6 +1413,7 @@ export interface StoreProductOffering {
   rentalLength?: string;
 }
 
+/** The one-time discounted price on a product offering */
 export type StoreProductOfferingDiscount = {
   freePeriod?: {
     chronology?: {
@@ -1695,7 +1449,7 @@ export interface StoreProductOfferingPrice {
    */
   countryCode?: string;
   /** Price after any discount */
-  price?: StorePriceTag;
+  price: StorePriceTag;
   vat?: StoreVat;
 }
 
@@ -1806,6 +1560,7 @@ export interface StripeCard {
   exp_year?: number;
 }
 
+/** Stripe configuration */
 export interface StripeConfig {
   /** Stripe enabled */
   enabled: boolean;
@@ -1818,6 +1573,7 @@ export interface StripePaymentMethod {
   id?: string;
 }
 
+/** One entry for each relevant payment method type, such as "card", "ideal" */
 export interface StripePaymentMethodTypeAndPrice {
   /** Name e.g card or ideal */
   name?: string;
@@ -1827,6 +1583,7 @@ export interface StripePaymentMethodTypeAndPrice {
   recurring?: boolean;
 }
 
+/** If Stripe is enabled. */
 export interface StripePaymentMethodsAndPrice {
   /** One entry for each relevant payment method type, such as "card", "ideal" */
   methodTypes?: StripePaymentMethodTypeAndPrice[];
@@ -1834,6 +1591,11 @@ export interface StripePaymentMethodsAndPrice {
   wallets?: StripeWalletAndPrice[];
 }
 
+/**
+ * Purchase using Stripe as payment platform.
+ * Creates an stripe intent.
+ * Requires that Stripe is configured for the customer/business unit.
+ */
 export interface StripePurchaseRequest {
   paymentMethodId?: string;
 }
@@ -1851,6 +1613,7 @@ export interface StripePurchaseResponse {
 
 export type StripeSetupIntentResponse = Record<"clientSecret" | "id", string>;
 
+/** One entry for each relevant wallet, such as "apple", "google" */
 export interface StripeWalletAndPrice {
   /** Name of wallet e.g apple or google */
   name?: string;
@@ -1859,8 +1622,6 @@ export interface StripeWalletAndPrice {
   /** Will payment be recurring */
   recurring?: boolean;
 }
-
-export type SubtitleResponse = Record<"language" | "location" | "name", string>;
 
 export interface SubtitleTrackInfo {
   fileSize?: number;
@@ -1899,22 +1660,15 @@ export interface SystemTagImage {
 export interface Tag {
   changed?: string;
   created?: string;
-  tagValues?: TagValues[];
-  type?: string;
+  tagValues: TagValues[];
+  type: string;
 }
 
 export interface TagList {
-  items?: TagType[];
-  pageNumber?: number;
-  pageSize?: number;
-  totalCount?: number;
-}
-
-export interface TagResponse {
-  changed?: string;
-  created?: string;
-  tagValues?: TagValuesResponse[];
-  type?: string;
+  items: TagType[];
+  pageNumber: number;
+  pageSize: number;
+  totalCount: number;
 }
 
 export interface TagSearch {
@@ -1932,18 +1686,14 @@ export interface TagSearchList {
 
 export interface TagType {
   children?: TagType[];
-  localized?: LocalizedTag[];
+  localized: LocalizedTag[];
   parents?: string[];
-  scheme?: string;
-  tagId?: string;
+  scheme: string;
+  tagId: string;
 }
 
 export interface TagValues {
-  tagId?: string;
-}
-
-export interface TagValuesResponse {
-  tagId?: string;
+  tagId: string;
 }
 
 export interface TimeResponse {
@@ -1979,49 +1729,6 @@ export interface TvShowInfo {
   localizedData?: LocalizedData[];
 }
 
-export interface UPHAsset {
-  assetId?: string;
-  audioTracks?: string[];
-  changed?: string;
-  collections?: CollectionReference[];
-  created?: string;
-  customData?: JsonNode;
-  defaultAudioTrack?: string;
-  duration?: number;
-  episode?: string;
-  expires?: string;
-  externalReferences?: ExternalReferenceResponse[];
-  geoCountries?: string[];
-  linkedEntities?: LinkedEntityResponse[];
-  live?: boolean;
-  localized?: LocalizedDataResponse[];
-  markers?: Marker[];
-  materialType?: AssetMaterialType;
-  medias?: MediaResponse[];
-  originalTitle?: string;
-  originalTitleLanguage?: string;
-  parentalRatings?: ParentalRatingResponse[];
-  participants?: PersonResponse[];
-  /** A key value object */
-  popularityScores?: object;
-  productionCountries?: string[];
-  productionYear?: number;
-  publications?: Publication[];
-  rating?: number;
-  releaseDate?: string;
-  runtime?: number;
-  season?: string;
-  seasonId?: string;
-  seasons?: SeasonResponse[];
-  slugs?: string[];
-  spokenLanguages?: string[];
-  subtitles?: string[];
-  tags?: TagResponse[];
-  trackSizes?: TrackSizes;
-  tvShowId?: string;
-  type?: AssetType;
-}
-
 export interface UserAssetData {
   playHistory?: UserAssetPlayHistory;
 }
@@ -2042,15 +1749,15 @@ export interface UserAssetPlayHistory {
 
 export interface UserAttributeResponse {
   /** id of the attribute */
-  attributeId?: string;
+  attributeId: string;
   defaultValue?: object;
   /** If type = "enum": The enums value set */
   enums?: UserAttributesEnumValue[];
   /** Localized titles and descriptions */
-  localized?: UserAttributesLocalizedMetadata[];
+  localized: UserAttributesLocalizedMetadata[];
   range?: UserAttributesRange;
   /** If true user must provide value */
-  requiredAtSignup?: boolean;
+  requiredAtSignup: boolean;
   /**
    * Name of type
    * "boolean":  value range null/undefined, false, true,
@@ -2059,10 +1766,10 @@ export interface UserAttributeResponse {
    * "integer": integer number e.g 1
    * "real": Real/decimal number e.g 1.1
    */
-  type?: string;
+  type: string;
   value?: object;
   /** If true the attribute has been set, potentially with a null/undefined value, in which case the default value is used */
-  valueSet?: boolean;
+  valueSet: boolean;
 }
 
 export interface UserAttributesEnumValue {
@@ -2084,28 +1791,28 @@ export type UserAttributesRange = Record<"max" | "min", object>;
 
 export interface UserCapabilities {
   /** True if user name is not equal to the user's email address and the user may change the email address. */
-  canChangeEmail?: boolean;
+  canChangeEmail: boolean;
   /** True if the user can change password here. */
-  canChangePassword?: boolean;
+  canChangePassword: boolean;
   /** True if user name equals the user's email address and the user may change this; password required */
-  canChangeUserNameAndEmail?: boolean;
+  canChangeUserNameAndEmail: boolean;
   /** True if user can manage user profiles and cancel account */
-  canManageAccount?: boolean;
+  canManageAccount: boolean;
   /** True if user can manage devices */
-  canManageDevices?: boolean;
+  canManageDevices: boolean;
   /** True if user can manage payment methods, such as credit cards */
-  canManagePayments?: boolean;
+  canManagePayments: boolean;
   /** True if user can manage purchase, such as adding and cancelling subscriptions */
-  canManagePurchases?: boolean;
+  canManagePurchases: boolean;
 }
 
 export interface UserDetailsResponse {
   /** Potentially empty list of attributes */
-  attributes?: UserAttributeResponse[];
-  capabilities?: UserCapabilities;
+  attributes: UserAttributeResponse[];
+  capabilities: UserCapabilities;
   /** If true the user is a child */
-  child?: boolean;
-  defaultLanguage?: string;
+  child: boolean;
+  defaultLanguage: string;
   /** Name used e.g. as email display name, null if not changed */
   displayName?: string;
   /** email address if available */
@@ -2117,7 +1824,7 @@ export interface UserDetailsResponse {
   /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
   profileType?: string;
   /** username */
-  username?: string;
+  username: string;
 }
 
 export interface UserPreferenceResponse {
@@ -2176,6 +1883,11 @@ export interface UserSelfServiceCreateResponse {
   unConfirmed?: boolean;
 }
 
+export type VerifiedResponse = Record<
+  "accountId" | "assetId" | "productId" | "publicationEnd" | "publicationId" | "requestId",
+  string
+>;
+
 export interface VideoTrack {
   bitrate?: number;
   dashChannels?: string;
@@ -2195,13 +1907,14 @@ export interface VideoTrackInfo {
   targetBitrate?: string;
 }
 
+/** Vouchers configuration */
 export interface VouchersConfig {
   /** Vouchers enabled */
   enabled: boolean;
 }
 
 export interface WatchedTvShowResponse {
-  asset?: UPHAsset;
+  asset?: Asset;
   lastViewedOffset?: number;
   startedWatching?: boolean;
 }

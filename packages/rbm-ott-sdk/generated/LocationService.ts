@@ -8,7 +8,7 @@
  */
 
 import { Location } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @description Get location information based on caller IP-address.
@@ -27,7 +27,7 @@ export async function getLocation({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/location`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<Location>);
 }
@@ -49,12 +49,13 @@ export async function getLocationFromReferer({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/location`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<Location>);
 }
 
 export class LocationService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getLocation = getLocation;
   getLocationFromReferer = getLocationFromReferer;

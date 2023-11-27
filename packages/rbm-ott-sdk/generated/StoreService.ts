@@ -28,7 +28,7 @@ import {
   StorePurchaseTransaction,
   StripePurchaseRequest
 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Add payment method
@@ -47,7 +47,7 @@ export async function addPaymentMethod({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<AddPaymentMethodResponse>);
 }
@@ -71,7 +71,7 @@ export async function cancelPurchaseSubscription({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/subscriptions/${purchaseId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<void>);
 }
@@ -96,7 +96,7 @@ export async function deleteStoredPaymentMethod({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<void>);
 }
@@ -117,7 +117,7 @@ export async function getAccountAssetPurchases({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/assets`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<Asset[]>);
 }
@@ -138,7 +138,7 @@ export async function getAccountTransactions({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<ProductOfferingTransactions>);
 }
@@ -159,7 +159,7 @@ export async function getAccountTransactionsWithProductOffering({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/transactions/productoffering`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<ProductOfferingTransactionsProductOfferingPairList>);
 }
@@ -187,7 +187,7 @@ export async function getCountryOfferingsByVoucher({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/country/${countryCode}/voucher/${voucherCode}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<StorePromotionProductOfferings>);
 }
@@ -214,9 +214,9 @@ export async function getOfferingPurchases({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ProductOfferingPurchases>);
 }
 
@@ -248,9 +248,9 @@ export async function getOfferings({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<StoreProductOffering[]>);
 }
 
@@ -279,9 +279,9 @@ export async function getOfferingsByCountry({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/country/${countryCode}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<StoreProductOfferings>);
 }
 
@@ -306,7 +306,7 @@ export async function getOfferingsByLabels({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/label/${labelFilterId}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<StoreProductOfferings>);
 }
@@ -330,7 +330,7 @@ export async function getOfferingsByVoucher({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productofferings/voucher/${voucherCode}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<StorePromotionProductOfferings>);
 }
@@ -351,7 +351,7 @@ export async function getPurchaseTransactions({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/account/purchases`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<StorePurchaseTransaction[]>);
 }
@@ -373,7 +373,7 @@ export async function getStoredPaymentMethods({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<PaymentMethods>);
 }
@@ -401,7 +401,11 @@ export async function initialize({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/initialize`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<InitializePaymentResponse>);
@@ -431,7 +435,11 @@ export async function initializeAppStorePurchase({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/init/${productOfferingId}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<AppStorePurchaseInitializeResponse>);
@@ -461,7 +469,11 @@ export async function initializeGooglePlayPurchase({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/init/${productOfferingId}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<GooglePlayPurchaseInitializeResponse>);
@@ -501,7 +513,11 @@ export async function purchaseProductOffering({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${productOfferingId}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<PurchaseResponse>);
@@ -532,7 +548,11 @@ export async function updatePaymentMethod({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: { newPaymentMethodId: paymentMethodId, ..._data }
   }).then(response => response.json() as Promise<PaymentMethod>);
@@ -557,7 +577,11 @@ export async function updatePreferredPaymentMethod({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/preferred`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<JsonAccount>);
@@ -587,7 +611,11 @@ export async function verifyAppStorePurchase({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/${purchaseId}/verify`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<AppStorePurchaseVerifyResponse>);
@@ -617,7 +645,11 @@ export async function verifyGooglePlayPurchase({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/${purchaseId}/verify`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<GooglePlayPurchaseVerifyResponse>);
@@ -644,12 +676,13 @@ export async function verifyPayment({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/${purchaseId}/verify`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<PurchaseResponse>);
 }
 
 export class StoreService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   addPaymentMethod = addPaymentMethod;
   cancelPurchaseSubscription = cancelPurchaseSubscription;

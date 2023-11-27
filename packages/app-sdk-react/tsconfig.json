@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/src",
+    "target": "es6",
+    "module": "commonjs",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": false,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
+    "lib": [
+      "es2019",
+      "dom",
+      "dom.iterable"
+    ],
+    "outDir": "dist/"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
+  ]
+}

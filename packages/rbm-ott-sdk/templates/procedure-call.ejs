@@ -5,7 +5,7 @@ const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRe
 const { parameters, path, method, query, payload, formData, requestParams } = route.request;
 const { type, errorType, contentTypes } = route.response;
 const { HTTP_CLIENT, RESERVED_REQ_PARAMS_ARG_NAMES } = config.constants;
-const routeDocs = includeFile("../base/route-docs", { config, route, utils });
+const routeDocs = includeFile("./route-docs", { config, route, utils });
 const pathParams = parameters.filter(({ name }) => !["customer", "businessUnit"].includes(name));
 const pathParamNames = _.map(pathParams, "name");
 const body = route.requestBodyInfo || {};
@@ -49,7 +49,7 @@ function argToTmpl({ name, optional, type, ...data }) {
     data.description = data.description.replace(/\s*\(?(format)?\:?\s*yyyy-mm-dd\)?\.?\s*/i, "");
     normalizeDate = true;
   }
-  const comment = includeFile('./base/object-field-jsdoc.ejs', { ...it, field: data });
+  const comment = includeFile('./object-field-jsdoc.ejs', { ...it, field: data });
   const optionalAnnotation = optional ? "?" : "";
   return `${comment}${name}${optionalAnnotation}: ${type};`;
 }
@@ -116,9 +116,9 @@ export async function <%~ methodName + (isPartial ? "<T = any>" : "") %>({<%~ ex
   return request({
     method: "<%~ _.upperCase(method) %>",
     url: `${ctx.baseUrl}<%~ processedPath %>`,
-    headers,
+    headers: new Headers({ <%~ type !== "any" ? 'accept: "application/json",' : "" %> <%~ payload ? '"content-type": "application/json",' : "" %> ...Object.fromEntries(new Headers(headers))}),
     ctx,
-    <%~ query ? `query: ${getRestParamsWithDefaults()},` : "" %>
+    <%~ query ? `query: ${getRestParamsWithDefaults()} as unknown as QueryParams,` : "" %>
     <%~ payload ? `body: ${getRestParamsWithDefaults()},` : "" %>
   })<%~ type !== "any" ? `.then(response => response.json() as Promise<${ isPartial ? "T" : type }>)` : "" %>;
 }

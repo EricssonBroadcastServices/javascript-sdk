@@ -8,7 +8,7 @@
  */
 
 import { EventList } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Get events.
@@ -64,13 +64,14 @@ export async function getEvents({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/event/date/${date
       .toISOString()
       .substring(0, 10)}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<EventList>);
 }
 
 export class EventService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getEvents = getEvents;
 }

@@ -18,8 +18,7 @@ import { DownloadsService } from "./DownloadsService";
 import { EntitlementsService } from "./EntitlementsService";
 import { EpgService } from "./EpgService";
 import { EventService } from "./EventService";
-import { EventSinkService } from "./EventSinkService";
-import { ServiceContext } from "./http-client";
+import { request, ServiceContext } from "./http-client";
 import { LocationService } from "./LocationService";
 import { PreferencesService } from "./PreferencesService";
 import { RatingService } from "./RatingService";
@@ -45,7 +44,6 @@ class RBMOTTSDK {
   entitlements: EntitlementsService;
   epg: EpgService;
   event: EventService;
-  eventSink: EventSinkService;
   location: LocationService;
   preferences: PreferencesService;
   rating: RatingService;
@@ -70,7 +68,6 @@ class RBMOTTSDK {
     this.entitlements = new EntitlementsService(context);
     this.epg = new EpgService(context);
     this.event = new EventService(context);
-    this.eventSink = new EventSinkService(context);
     this.location = new LocationService(context);
     this.preferences = new PreferencesService(context);
     this.rating = new RatingService(context);
@@ -88,6 +85,7 @@ class RBMOTTSDK {
 
 export default RBMOTTSDK;
 export type { ServiceContext };
+export { request };
 export * from "./data-contracts";
 export * from "./AssetService";
 export * from "./AuthenticationService";
@@ -100,7 +98,6 @@ export * from "./DownloadsService";
 export * from "./EntitlementsService";
 export * from "./EpgService";
 export * from "./EventService";
-export * from "./EventSinkService";
 export * from "./LocationService";
 export * from "./PreferencesService";
 export * from "./RatingService";

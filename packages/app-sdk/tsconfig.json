@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/src",
+    "target": "es6",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": false,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
+    "lib": [
+      "es2020",
+      "dom",
+      "dom.iterable"
+    ],
+    "outDir": "dist/"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "test-utils/test-utils"
+  ]
+}

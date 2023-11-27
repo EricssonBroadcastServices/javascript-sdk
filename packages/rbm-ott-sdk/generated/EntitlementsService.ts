@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { AvailabilityKeys, EntitleResponseV2, PlayResponseV2 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { AvailabilityKeys, EntitleResponseV2, PaymentProvider, PlayResponseV2 } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @description Should at the moment only be used in white label apps on the web. Needs to be formalized and approved before used by any other client than MOTT white label app for the web. Returns two lists. All available products for the organization unit will be in any of them. The account can be null. This means that only products allowed for anonymous will be returned in entitled list. - entitled. Contains all the products the account has access to. - notEntitled. Contains all the products the account has not access to.
@@ -30,9 +30,9 @@ export async function accountProducts({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/accountproduct`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<void>);
 }
 
@@ -55,9 +55,9 @@ export async function availabilityKeys({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/availabilitykey`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<AvailabilityKeys>);
 }
 
@@ -81,7 +81,7 @@ export async function entitle({
   /** The id of the asset to play. */
   assetId: string;
   /** Payment provider. */
-  paymentProvider?: string;
+  paymentProvider?: PaymentProvider;
   /** The time to be used when checking entitlement. */
   time?: string;
   /** Optional headers */
@@ -92,9 +92,9 @@ export async function entitle({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/entitle`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<EntitleResponseV2>);
 }
 
@@ -243,13 +243,14 @@ export async function play({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/play`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<PlayResponseV2>);
 }
 
 export class EntitlementsService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   accountProducts = accountProducts;
   availabilityKeys = availabilityKeys;

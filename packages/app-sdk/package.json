@@ -1,0 +1,38 @@
+{
+  "name": "@ericssonbroadcastservices/app-sdk",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "TZ=UTC jest --collectCoverage --runInBand",
+    "test:watch": "jest --watch",
+    "lint": "npm run lint:code && npm run lint:types",
+    "lint:code": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "lint:types": "tsc --noEmit -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/EricssonBroadcastServices/javascript-sdk.git",
+    "directory": "packages/app-sdk"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@ericssonbroadcastservices/rbm-ott-sdk": "*",
+    "humanize-duration": "^3.27.1",
+    "iso8601-duration": "^1.2.0"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

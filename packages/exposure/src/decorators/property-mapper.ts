@@ -36,6 +36,8 @@ export function deserialize<T>(type: IConstructable<T>, json: any): T {
     return (type as unknown as (arg: any) => T)(json);
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const deserializeObj: IIndexable = new type();
   const metadataMap: { [key: string]: IInternalPropertyMetaData<any> } = deserializeObj[METADATA_KEY];
 

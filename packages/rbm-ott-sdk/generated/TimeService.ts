@@ -8,7 +8,7 @@
  */
 
 import { TimeResponse } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @description Gets the current server UTC time.
@@ -28,7 +28,7 @@ export async function getTime({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/time`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<TimeResponse>);
 }
@@ -50,12 +50,13 @@ export async function getTimeAnonymous({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/time`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<TimeResponse>);
 }
 
 export class TimeService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getTime = getTime;
   getTimeAnonymous = getTimeAnonymous;

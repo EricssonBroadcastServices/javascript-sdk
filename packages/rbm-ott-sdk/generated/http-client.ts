@@ -8,7 +8,7 @@
  */
 
 export type UriComponent = string | number | boolean;
-export type QueryParams = Record<string, UriComponent | UriComponent[]>;
+export type QueryParams = Record<string, UriComponent | UriComponent[] | undefined>;
 
 export type ServiceContext = {
   baseUrl: string;
@@ -26,25 +26,27 @@ export type requestArgs = {
   ctx?: ServiceContext;
 };
 
-// Remove undefined values and join array values to comma separated strings
-function sanitizeParams(query: QueryParams = {}): Record<string, string> {
-  const sanitized = Object.entries(query)
-    .filter(([, val]) => typeof val !== "undefined")
-    .map(([key, val]) => [key, Array.isArray(val) ? val.join(",") : val]);
-
-  return Object.fromEntries(sanitized);
+function createSanitizedSearchParams(query: QueryParams = {}): URLSearchParams {
+  const params = new URLSearchParams();
+  Object.entries(query).forEach(([key, val]) => {
+    if (typeof val === "undefined") return;
+    if (Array.isArray(val)) {
+      (val as string[]).forEach(arrayItem => params.append(key, arrayItem));
+    } else {
+      params.append(key, val as unknown as string);
+    }
+  });
+  return params;
 }
 
 function defaultErrorFactory(response: Response) {
-  return new Error(`HTTP Error: ${response.statusText} (${response.status})`);
+  return Object.assign(new Error(`HTTP Error: ${response.statusText} (${response.status})`), { response });
 }
 
 export async function request({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<Response> {
-  const fullUrl = Object.keys(query).length ? `${url}/?${new URLSearchParams(sanitizeParams(query))}` : url;
-  const headersObject = new Headers(headers);
-  if (!headersObject.has("content-type")) {
-    headersObject.set("content-type", "application/json");
-  }
+  const fullUrl: RequestInfo = Object.keys(query).length
+    ? `${url}?${createSanitizedSearchParams(query).toString()}`
+    : String(url);
   const params = { method, headers };
   if (body) {
     Object.assign(params, { body: JSON.stringify(body) });

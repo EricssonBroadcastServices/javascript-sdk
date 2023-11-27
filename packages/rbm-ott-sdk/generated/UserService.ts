@@ -19,7 +19,7 @@ import {
   UserProfiles,
   UserSelfServiceCreateResponse
 } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @summary Add a user profile.
@@ -50,7 +50,11 @@ export async function addProfile({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<UserProfiles>);
@@ -78,7 +82,7 @@ export async function changeEmail({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmail`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -107,7 +111,7 @@ export async function changeEmailAndUsername({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changeEmailAndUsername`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -143,7 +147,11 @@ export async function changePassword({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/changePassword`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<ChangePasswordResponse>);
@@ -170,7 +178,7 @@ export async function confirmActivationCode({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/activation/confirm/${code}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
   });
 }
@@ -199,7 +207,11 @@ export async function confirmUserWithToken({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/confirm/${token}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<ConfirmAccountResponse>);
@@ -226,7 +238,11 @@ export async function consumeActivationCode({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/consume`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<LoginResponse>);
@@ -249,14 +265,14 @@ export async function createActivationCode({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/userActivation/activationCode`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<ActivationCodeResponse>);
 }
 
 /**
- * @description Else if unConfirmed == false the user is logged in and session details are in the response.
- * @summary If unConfirmed == true, then the user will receive an email with a confirmation link.
+ * @description If unConfirmed == true, then the user will receive an email with a confirmation link. Else if unConfirmed == false the user is logged in and session details are in the response.
+ * @summary Signup to the service.
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/user/signup
  * @response `200` `UserSelfServiceCreateResponse` success
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION EMAIL_ADDRESS_NOT_APPROVED. The email address is not approved.
@@ -295,7 +311,11 @@ export async function createNewAccount({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<UserSelfServiceCreateResponse>);
@@ -325,7 +345,11 @@ export async function createPinCode({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<PinCodeResponse[]>);
@@ -351,7 +375,7 @@ export async function deletePinCode({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
   });
 }
@@ -375,7 +399,7 @@ export async function deleteUserDetails({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -402,7 +426,7 @@ export async function deleteUserProfile({
   return request({
     method: "DELETE",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
   });
 }
@@ -424,7 +448,7 @@ export async function getAccountLabels({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<LabelFilter>);
 }
@@ -447,7 +471,7 @@ export async function getPinCodes({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<PinCodeResponse[]>);
 }
@@ -470,7 +494,7 @@ export async function getProfiles({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<UserProfiles>);
 }
@@ -494,31 +518,9 @@ export async function getUserDetails({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<UserDetailsResponse>);
-}
-
-/**
- * @description The user has given consent to collection of personal information.
- * @summary EXPERIMENTAL.
- * @request PUT:/v1/customer/{customer}/businessunit/{businessUnit}/user/consent
- * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
- */
-export async function giveConsent({
-  headers
-}: {
-  /** Optional headers */
-  headers?: HeadersInit;
-} = {}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "PUT",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/consent`,
-    headers,
-    ctx
-  });
 }
 
 /**
@@ -542,7 +544,11 @@ export async function putUserAttributes({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/attributes`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<UserDetailsResponse>);
@@ -568,7 +574,7 @@ export async function resetPassword({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/password/reset/${username}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<void>);
 }
@@ -595,13 +601,14 @@ export async function selectUserProfile({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}/select`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
- * @summary Sets the users password using a token received at signup (without password) or password reset
+ * @description Sets the users password using a token received at signup (without password) or password reset
+ * @summary Set password.
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/signup/password/{token}
  * @response `404` `void` NOT_FOUND. If the token is not found or is expired.
  * @response `422` `void` BAD_PASSWORD. The password does not comply to the password policy.
@@ -628,7 +635,7 @@ export async function setPasswordWithToken({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/signup/password/${token}`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -660,7 +667,11 @@ export async function setPinCode({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<PinCodeResponse[]>);
@@ -673,7 +684,7 @@ export async function setPinCode({
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here
  * @response `422` `void` BAD_PASSWORD. The new password is non-compliant to policy
  */
-export async function userDetailsUpdate({
+export async function updateUserDetails({
   headers,
   ..._data
 }: {
@@ -704,7 +715,7 @@ export async function userDetailsUpdate({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/details`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -716,7 +727,7 @@ export async function userDetailsUpdate({
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
  * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION NOT_SUPPORTED_FOR_FEDERATED_USER, The user details area not stored here NOT_OWNER. Only the owner may update profiles.
  */
-export async function userProfileUpdate({
+export async function updateUserProfile({
   userId,
   headers,
   ..._data
@@ -750,7 +761,7 @@ export async function userProfileUpdate({
   return request({
     method: "PUT",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/profile/${userId}`,
-    headers,
+    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     body: _data
   });
@@ -781,7 +792,11 @@ export async function validatePinCode({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}/validate`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<string[]>);
@@ -809,13 +824,18 @@ export async function validatePinCodes({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/validate`,
-    headers,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   }).then(response => response.json() as Promise<string[]>);
 }
 
 export class UserService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   addProfile = addProfile;
   changeEmail = changeEmail;
@@ -834,14 +854,13 @@ export class UserService {
   getPinCodes = getPinCodes;
   getProfiles = getProfiles;
   getUserDetails = getUserDetails;
-  giveConsent = giveConsent;
   putUserAttributes = putUserAttributes;
   resetPassword = resetPassword;
   selectUserProfile = selectUserProfile;
   setPasswordWithToken = setPasswordWithToken;
   setPinCode = setPinCode;
-  userDetailsUpdate = userDetailsUpdate;
-  userProfileUpdate = userProfileUpdate;
+  updateUserDetails = updateUserDetails;
+  updateUserProfile = updateUserProfile;
   validatePinCode = validatePinCode;
   validatePinCodes = validatePinCodes;
 }

@@ -1,0 +1,23 @@
+.asset-display {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+
+.asset-display-meta {
+  max-width: 33%;
+  padding: 10px;
+  flex: 2;
+}
+
+.asset-display-img-section {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  flex: 3
+}
+
+.asset-display-img-section img {
+  width: 100%;
+  height: max-content;
+}

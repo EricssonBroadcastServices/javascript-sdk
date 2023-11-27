@@ -8,7 +8,7 @@
  */
 
 import { ConfigFile, ConfigFilesResponse } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a JSON configuration file stored on customer level.
@@ -32,9 +32,9 @@ export async function getConfigCuFile({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config/${fileName}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ConfigFile>);
 }
 
@@ -61,9 +61,9 @@ export async function getConfigFile({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${fileName}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ConfigFile>);
 }
 
@@ -93,9 +93,9 @@ export async function getConfigFileCustomDomainInPath({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/config/${fileId}/origin/${host}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<ConfigFile>);
 }
 
@@ -115,7 +115,7 @@ export async function getConfigFiles({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<ConfigFilesResponse>);
 }
@@ -136,12 +136,13 @@ export async function getConfigFilesCu({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<ConfigFilesResponse>);
 }
 
 export class CustomerConfigService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getConfigCuFile = getConfigCuFile;
   getConfigFile = getConfigFile;

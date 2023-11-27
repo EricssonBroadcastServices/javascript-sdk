@@ -8,7 +8,7 @@
  */
 
 import { ComponentFilters } from "./data-contracts";
-import { request, ServiceContext } from "./http-client";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Get user location and the filters to use in calls to the client configuration endpoints.
@@ -26,7 +26,7 @@ export async function getComponentFilters({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/filters`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<ComponentFilters>);
 }
@@ -50,7 +50,7 @@ export async function getFile({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/file/${folder}/${fileName}`,
-    headers,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<void>);
 }
@@ -82,9 +82,9 @@ export async function getWLComponent({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   });
 }
 
@@ -113,9 +113,9 @@ export async function getWLConfig({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   });
 }
 
@@ -147,13 +147,14 @@ export async function getWLConfigWithDomain({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/origin/${host}/config/${configId}`,
-    headers,
+    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx,
-    query: _data
+    query: _data as unknown as QueryParams
   });
 }
 
 export class ClientConfigService {
+  // @ts-ignore
   constructor(private context: ServiceContext) {}
   getComponentFilters = getComponentFilters;
   getFile = getFile;
