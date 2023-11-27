@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/app-sdk-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "app-sdk react utils for white label apps",
   "author": "simonwallin <simon.wallin@eyevinn.se>",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
@@ -32,14 +32,14 @@
     "react-query": ">=3.31.0"
   },
   "devDependencies": {
-    "@ericssonbroadcastservices/app-sdk": "*",
-    "@ericssonbroadcastservices/rbm-ott-sdk": "*",
     "@babel/plugin-transform-modules-commonjs": "^7.16.5",
     "@babel/plugin-transform-react-jsx": "^7.16.5",
     "@babel/plugin-transform-runtime": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
     "@babel/preset-typescript": "^7.16.5",
+    "@ericssonbroadcastservices/app-sdk": "^0.1.1",
+    "@ericssonbroadcastservices/rbm-ott-sdk": "^0.3.1",
     "@testing-library/react-hooks": "^7.0.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.2.3",
