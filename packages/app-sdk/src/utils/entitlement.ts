@@ -109,7 +109,8 @@ export function errorToEntitlementResult(
         const action = entitlementError.actions?.find(a => a.type === EntitlementActionType.BUY_WATCH_NOW);
         return action?.offerings?.some(o => o.offeringId === po.productOffering.id);
       }),
-    startTime // not sure i we should use err.availableAt instead.
+    startTime, // not sure i we should use err.availableAt instead.
+    streamInfo: {}
   };
   return {
     ...entitlementResult,
