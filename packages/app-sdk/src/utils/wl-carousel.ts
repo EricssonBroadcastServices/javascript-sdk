@@ -1,13 +1,9 @@
-import { Asset } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { IExposureWLCarousel, WLComponentSubType } from "../interfaces/exposure-wl-component";
 import { WLComponentHelpers } from "./wl-component";
 import { getIndexOfLiveOrClosestUpcomingDateInterval } from "./date";
+import { CarouselItem } from "../interfaces/component-content";
 
-function getInitialSlideFromAssetList(
-  carousel: IExposureWLCarousel,
-  assetList: { asset: Asset; startTime: string; endTime: string }[],
-  when = Date.now()
-) {
+function getInitialSlideFromAssetList(carousel: IExposureWLCarousel, assetList: CarouselItem[], when = Date.now()) {
   switch (carousel.appSubType) {
     case WLComponentSubType.EPG:
       return getIndexOfLiveOrClosestUpcomingDateInterval(

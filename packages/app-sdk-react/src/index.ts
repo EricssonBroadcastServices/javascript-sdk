@@ -26,3 +26,4 @@ export { useContinueWatching } from "./hooks/useContinueWatching";
 export { useDeleteAccount } from "./hooks/useDeleteAccount";
 export * from "./hooks/useTagFeedFilter";
 export * from "./hooks/useInitialCarouselIndex";
+export * from "./hooks/useApi";

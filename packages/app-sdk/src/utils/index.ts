@@ -10,3 +10,4 @@ export * from "./season";
 export * from "./legacy-features";
 export * from "./epg";
 export * from "./wl-translations";
+export * from "./programProgress";
