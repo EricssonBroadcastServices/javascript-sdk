@@ -36,7 +36,7 @@ export function useEntitlementForAsset(
   { asset, paymentProvider }: { asset?: Asset; paymentProvider?: PaymentProvider },
   { confirmEntitlementOnStart = false, startTimeAdjustmentSpread = 30000 }: IUseEntitlementSettings
 ): TApiHook<EntitlementStatusResult> {
-  const [availableProductOfferings, offeringsLoading] = useProductOfferings();
+  const [availableProductOfferings, offeringsLoading] = useProductOfferings({ paymentProvider });
   const { customer, businessUnit, appService } = useRedBeeState();
   const [session] = useUserSession();
   const [result, setResult] = useState<EntitlementStatusResult>(defaultEntitlementStatus);

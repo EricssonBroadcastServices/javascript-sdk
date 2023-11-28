@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { StoreProductOffering, getOfferingsByCountry } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { PaymentProvider, StoreProductOffering, getOfferings } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useCountryCode } from "./useGeolocation";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
@@ -8,7 +8,11 @@ import { useConsumedDiscounts } from "./usePurchases";
 
 const productOfferingsCacheTime = 1000 * 60 * 30;
 
-export function useProductOfferings(): TApiHook<StoreProductOffering[]> {
+export function useProductOfferings({
+  paymentProvider
+}: {
+  paymentProvider?: PaymentProvider;
+}): TApiHook<StoreProductOffering[]> {
   const { serviceContext } = useRedBeeState();
   const countryCode = useCountryCode();
   const [consumedDiscounts] = useConsumedDiscounts();
@@ -17,9 +21,12 @@ export function useProductOfferings(): TApiHook<StoreProductOffering[]> {
     [QueryKeys.PRODUCT_OFFERINGS, countryCode],
     async () => {
       if (countryCode) {
-        const { productOfferings } = await getOfferingsByCountry.call(serviceContext, {
+        const productOfferings = await getOfferings.call(serviceContext, {
           countryCode,
-          includeSelectAssetProducts: true
+          includeSelectAssetProducts: true,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          paymentProvider: paymentProvider as PaymentProvider
         });
         return productOfferings || [];
       }
