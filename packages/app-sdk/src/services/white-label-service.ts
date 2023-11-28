@@ -16,55 +16,50 @@ import {
   EpgComponentContent,
   ResolvedComponent
 } from "../interfaces/component-content";
-import {
-  GetGeneratedCarouselByTagIdOptions,
-  getGeneratedCarouselByTagId
-} from "./methods/get-generated-carousel-by-tag-id";
-import { GetPushNextContentDataOptions, getPushNextContentData } from "./methods/get-push-next-content-data";
-import { getEpgContent } from "./methods/get-epg-content";
-import { getCarouselAssets } from "./methods/get-carousel-assets";
-import { GetEntitlementForAssetOptions, getEntitlementForAsset } from "./methods/get-entitlement-for-asset";
-import { EssentialAppData, getEssentialAppData } from "./methods/get-essential-app-data";
+
 import { get } from "../utils/http";
-import {
-  GetConfigByCustomerAndBusinessUnitOptions,
-  getConfigByCustomerAndBusinessUnit
-} from "./methods/get-config-by-customer-and-businessUnit";
-import { getTagList } from "./methods/get-tag-list";
-import {
-  GetResolvedComponentByReferenceOptions,
-  getResolvedComponentByReference
-} from "./methods/get-resolved-component-by-reference";
-import { GetComponentContentOptions, getComponentContent } from "./methods/get-component-content";
-import { getCategoriesContent } from "./methods/get-categories-content";
-import { GetComponentByReferenceOptions, getComponentByReference } from "./methods/get-component-by-reference";
-import { GetComponentByIdOptions, getComponentById } from "./methods/get-component-by-id";
-import { GetConfigByOriginOptions, getConfigByOrigin } from "./methods/get-config-by-origin";
-import {
-  GetGeneratedCollectionEntriesCarouselOptions,
-  getGeneratedCollectionEntriesCarousel
-} from "./methods/get-generated-collection-entries-carousel";
-import {
-  GetGeneratedTrailersForAssetCarouselOptions,
-  getGeneratedTrailersForAssetCarousel
-} from "./methods/get-generated-trailers-carousel";
-import {
-  GetGeneratedEpgCarouselFromAssetIdOptions,
-  getGeneratedEpgCarouselFromAssetId
-} from "./methods/get-generated-epg-carousel";
 import { Translations } from "../utils/wl-translations";
-import { getAssetPage } from "./methods/get-asset-page";
-import {
-  GetGeneratedByMetadataCarouselOptions,
-  getGeneratedByMetadataCarousel
-} from "./methods/get-generated-by-metadata-carousel";
-import {
-  GetGeneratedOthersHaveWatchedOptions,
-  getGeneratedOthersHaveWatchedCarousel
-} from "./methods/get-generated-others-have-watched-carousel";
-import { getTagPage } from "./methods/get-tag-page";
-import { GetGeneratedSeasonCarouselOptions, getGeneratedSeasonCarousel } from "./methods/get-generated-season-carousel";
 import { Feature, isFeatureEnabled } from "../utils/legacy-features";
+import { EssentialAppData } from "../interfaces/essential-app-data";
+import {
+  GetComponentByIdOptions,
+  GetComponentByReferenceOptions,
+  GetComponentContentOptions,
+  GetConfigByCustomerAndBusinessUnitOptions,
+  GetConfigByOriginOptions,
+  GetEntitlementForAssetOptions,
+  GetResolvedComponentByReferenceOptions,
+  getComponentById,
+  getComponentByReference,
+  getComponentContent,
+  getConfigByCustomerAndBusinessUnit,
+  getConfigByOrigin,
+  getEntitlementForAsset,
+  getEssentialAppData,
+  getResolvedComponentByReference,
+  getTagList,
+  getAssetPage,
+  getCarouselAssets,
+  getCategoriesContent,
+  getEpgContent,
+  getGeneratedByMetadataCarousel,
+  getGeneratedCarouselByTagId,
+  getGeneratedCollectionEntriesCarousel,
+  getGeneratedEpgCarouselFromAssetId,
+  getGeneratedOthersHaveWatchedCarousel,
+  getGeneratedSeasonCarousel,
+  getGeneratedTrailersForAssetCarousel,
+  getPushNextContentData,
+  getTagPage,
+  GetPushNextContentDataOptions,
+  GetGeneratedCarouselByTagIdOptions,
+  GetGeneratedCollectionEntriesCarouselOptions,
+  GetGeneratedTrailersForAssetCarouselOptions,
+  GetGeneratedEpgCarouselFromAssetIdOptions,
+  GetGeneratedByMetadataCarouselOptions,
+  GetGeneratedOthersHaveWatchedOptions,
+  GetGeneratedSeasonCarouselOptions
+} from "./methods";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
