@@ -5,7 +5,10 @@ export interface GetConfigByOriginOptions {
   origin: string;
 }
 
-export async function getConfigByOrigin(context: WhiteLabelServiceContext, { origin }: GetConfigByOriginOptions) {
+export async function getConfigByOrigin(
+  context: Omit<WhiteLabelServiceContext, "customer" | "businessUnit">,
+  { origin }: GetConfigByOriginOptions
+) {
   if (!origin) {
     return Promise.reject(new Error("[WhiteLabelService] No origin set"));
   }
