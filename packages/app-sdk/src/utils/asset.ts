@@ -139,6 +139,12 @@ export function getAllTagIdsFromAsset(asset: Asset) {
   return asset.tags.flatMap(t => t.tagValues?.flatMap(t => t.tagId));
 }
 
+export function getPlayHistoryPercentageFromAsset(asset: Asset) {
+  const playHistory = asset.userData?.playHistory;
+  if (!playHistory?.lastViewedOffset || !asset.duration) return null;
+  return Math.round((playHistory.lastViewedOffset * 100) / asset.duration);
+}
+
 export function getChannelAssetTimeSlotString(asset: ChannelAsset | CarouselItem) {
   if (!asset.startTime || !asset.endTime) return null;
   return `${getTimeString(new Date(asset.startTime))} - ${getTimeString(new Date(asset.endTime))}`;
@@ -167,5 +173,6 @@ export const AssetHelpers = {
   getIdentifier: getAssetIdentifier,
   getDurationString: getAssetDurationString,
   getScaledImage: getScaledAssetImage,
-  getAllTagIds: getAllTagIdsFromAsset
+  getAllTagIds: getAllTagIdsFromAsset,
+  getPlayHistoryPercentage: getPlayHistoryPercentageFromAsset
 };

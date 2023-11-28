@@ -18,3 +18,4 @@ export * from "./entitlement";
 export * from "./http";
 export * from "./localization";
 export * from "./user-details";
+export * from "./localized-languages";

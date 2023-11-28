@@ -1,7 +1,7 @@
 export { RedBeeContext, RedBeeProvider, ActionType, useRedBeeState, useRedBeeStateDispatch } from "./RedBeeProvider";
 export { useSelectedLanguage, useSetSelectedLanguage } from "./hooks/useSelectedLanguage";
 export * from "./hooks/useGeolocation";
-export { useConfig, useFetchConfig, useTheme } from "./hooks/useConfig";
+export * from "./hooks/useConfig";
 export { useTranslations } from "./hooks/useTranslations";
 export { useActivationCode } from "./hooks/useActivationCode";
 export { useLogout, useValidateSession, useLogin, useOauthLogin } from "./hooks/useLogin";
@@ -19,7 +19,7 @@ export { useChannelPicker } from "./hooks/useChannelPicker";
 export type { IStorage } from "./types/storage";
 export { usePage, useResolvedPage, PageType } from "./hooks/usePage";
 export { usePushNextContentData } from "./hooks/usePushNextContentData";
-export { useSystemConfigV2 } from "./hooks/useSystemConfig";
+export * from "./hooks/useSystemConfig";
 export { ErrorCode } from "./util/error";
 export { queryClient, QueryKeys } from "./util/react-query";
 export { useContinueWatching } from "./hooks/useContinueWatching";

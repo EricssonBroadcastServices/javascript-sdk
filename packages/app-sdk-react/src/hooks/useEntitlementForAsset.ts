@@ -29,7 +29,8 @@ export const defaultEntitlementStatus: EntitlementStatusResult = {
   isStreamLimitReached: false,
   entitlementError: null,
   loginToWatchForFree: false,
-  shouldJustWait: false
+  shouldJustWait: false,
+  streamInfo: {}
 };
 
 export function useEntitlementForAsset(

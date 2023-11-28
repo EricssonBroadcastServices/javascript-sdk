@@ -154,6 +154,7 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiTag.required = ["tagValues", "type"];
   spec.components.schemas.ApiTagValues.required = ["tagId"];
   spec.components.schemas.ApiSeason.required = ["season", "seasonId", "tvshowId", "localized", "episodes"];
+  spec.components.schemas.ApiEntitleResponseV2.required = ["streamInfo"];
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = {
