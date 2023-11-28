@@ -4,6 +4,7 @@ import { getLocalizedImageByType, getLocalizedValue } from "./localization";
 import { getDurationLocalized, getTimeString } from "./time";
 import { dateIntervalIsNow } from "./date";
 import { ImageFormat, fit } from "./image-scaling";
+import { CarouselItem } from "../interfaces/component-content";
 
 export function getTitleFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
   return getLocalizedValue(asset.localized, "title", locale, defaultLocale);
@@ -138,11 +139,13 @@ export function getAllTagIdsFromAsset(asset: Asset) {
   return asset.tags.flatMap(t => t.tagValues?.flatMap(t => t.tagId));
 }
 
-export function getChannelAssetTimeSlotString(asset: ChannelAsset) {
+export function getChannelAssetTimeSlotString(asset: ChannelAsset | CarouselItem) {
+  if (!asset.startTime || !asset.endTime) return null;
   return `${getTimeString(new Date(asset.startTime))} - ${getTimeString(new Date(asset.endTime))}`;
 }
 
-export function isChannelAssetLive(asset: ChannelAsset) {
+export function isChannelAssetLive(asset: ChannelAsset | CarouselItem): boolean {
+  if (!asset.startTime || !asset.endTime) return false;
   return dateIntervalIsNow(new Date(asset.startTime), new Date(asset.endTime));
 }
 
