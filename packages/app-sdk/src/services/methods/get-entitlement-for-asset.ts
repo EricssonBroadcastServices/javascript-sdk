@@ -19,7 +19,7 @@ export async function getEntitlementForAsset(
       paymentProvider,
       headers: { Authorization: `Bearer ${await service.context.getAuthToken()}` }
     })
-    .then(() => {
+    .then(res => {
       return {
         status: EntitlementStatus.ENTITLED,
         isEntitled: true,
@@ -31,7 +31,8 @@ export async function getEntitlementForAsset(
         isStreamLimitReached: false,
         entitlementError: null,
         loginToWatchForFree: false,
-        shouldJustWait: false
+        shouldJustWait: false,
+        streamInfo: res.streamInfo
       };
     })
     .catch(async err => {

@@ -1,8 +1,10 @@
+import { IExposureWLMenuItem } from "../interfaces";
 import { IExposureComponent, IExposureWLHerobannerItem } from "../interfaces/exposure-wl-component";
 import { IExposureWLPresentation } from "../interfaces/exposure-wl-presentation";
 import { IImage } from "../interfaces/image";
+import { lexer } from "marked";
 
-type LocalizedWLComponent = IExposureComponent | IExposureWLHerobannerItem;
+type LocalizedWLComponent = IExposureComponent | IExposureWLHerobannerItem | IExposureWLMenuItem;
 
 export function getLocalizedItemFromPresentation(presentation: IExposureWLPresentation, locale: string) {
   if (!presentation.localized) return presentation.fallback;
@@ -70,11 +72,17 @@ export function getTrailerAssetIdFromComponent(component: LocalizedWLComponent, 
   return localizedItem.trailerAssetId;
 }
 
+export function getTextComponentLexer(component: LocalizedWLComponent, locale) {
+  const body = getDescriptionFromWLComponent(component, locale);
+  return lexer(body);
+}
+
 export const WLComponentHelpers = {
   getTitle: getTitleFromWLComponent,
   getImageByTag: getImageByTagFromWLComponent,
   getDescription: getDescriptionFromWLComponent,
   getSubTitle: getSubTitleWLPresentation,
   getIframe: getIframeFromWLPresentation,
-  getTrailerAssetId: getTrailerAssetIdFromComponent
+  getTrailerAssetId: getTrailerAssetIdFromComponent,
+  getTextComponentLexer
 };

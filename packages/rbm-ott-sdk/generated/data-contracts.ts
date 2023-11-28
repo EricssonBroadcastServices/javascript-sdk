@@ -561,7 +561,7 @@ export interface EntitleResponseV2 {
    * Only used when we can actually play something, so at the moment we hard cord SUCCESS to make the move from v1 clients to v2 easy, they might expect SUCCESS
    */
   status?: string;
-  streamInfo?: StreamInfo;
+  streamInfo: StreamInfo;
   /** The time the entitle was made for */
   time?: string;
 }

@@ -1,4 +1,4 @@
-import { StoreProductOffering } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { StoreProductOffering, StreamInfo } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 interface PublicationReference {
   availableAt: string;
@@ -24,7 +24,7 @@ export const EntitlementActionType = {
   This action will only be returned for anonymous sessions */
   LOGIN: "LOGIN"
 } as const;
-export type EntitlementActionType = typeof EntitlementActionType[keyof typeof EntitlementActionType];
+export type EntitlementActionType = (typeof EntitlementActionType)[keyof typeof EntitlementActionType];
 
 export interface EntitlementActions {
   type: EntitlementActionType;
@@ -55,7 +55,7 @@ export const EntitlementStatus = {
   LOGIN: "LOGIN",
   WAIT: "WAIT"
 } as const;
-export type EntitlementStatus = typeof EntitlementStatus[keyof typeof EntitlementStatus];
+export type EntitlementStatus = (typeof EntitlementStatus)[keyof typeof EntitlementStatus];
 
 export interface EntitlementStatusResult {
   // this combines all the booleans in IEntitlementStatusResult into a single enum
@@ -76,4 +76,5 @@ export interface EntitlementStatusResult {
   accessLater: ListOffering[];
   // return a date if all the user has to do is wait
   startTime: null | Date;
+  streamInfo: StreamInfo;
 }

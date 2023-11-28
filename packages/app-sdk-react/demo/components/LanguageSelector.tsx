@@ -1,20 +1,20 @@
 import React from "react";
-import { useSystemConfigV2 } from "../../src";
 import { useSetSelectedLanguage, useSelectedLanguage } from "../../src/hooks/useSelectedLanguage";
+import { useAvailableLanguages } from "../../src/hooks/useSystemConfig";
 
 export function LanguageSelector() {
   const setSelectedLanguage = useSetSelectedLanguage();
   const selectedLanguage = useSelectedLanguage();
-  const [systemConfig] = useSystemConfigV2();
+  const availableLanguages = useAvailableLanguages();
   return (
     <div>
-      {systemConfig?.localization.displayLocales.map(l => (
+      {availableLanguages.map(l => (
         <button
-          style={{ backgroundColor: selectedLanguage === l ? "red" : "grey" }}
-          key={l}
-          onClick={() => setSelectedLanguage(l)}
+          style={{ backgroundColor: selectedLanguage === l.code ? "red" : "grey" }}
+          key={l.code}
+          onClick={() => setSelectedLanguage(l.code)}
         >
-          {l}
+          {l.nativeName}
         </button>
       ))}
     </div>
