@@ -14,7 +14,7 @@ export { useProductOfferings, refetchProductOfferings } from "./hooks/useProduct
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";
 export { useAsset } from "./hooks/useAsset";
 export { useAddAssetToFavorites, useRemoveAssetFromFavorites, useHandleAssetFavorites } from "./hooks/useFavorites";
-export { useBookmarks, useBookmarkPercentage } from "./hooks/useBookmarks";
+export * from "./hooks/useBookmarks";
 export { useChannelPicker } from "./hooks/useChannelPicker";
 export type { IStorage } from "./types/storage";
 export { usePage, useResolvedPage, PageType } from "./hooks/usePage";
@@ -27,3 +27,4 @@ export { useDeleteAccount } from "./hooks/useDeleteAccount";
 export * from "./hooks/useTagFeedFilter";
 export * from "./hooks/useInitialCarouselIndex";
 export * from "./hooks/useApi";
+export * from "./hooks/useProgramProgress";
