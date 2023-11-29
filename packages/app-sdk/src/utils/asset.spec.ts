@@ -1,5 +1,6 @@
 import { MarkerPoint } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { mockAsset, mockAssetEmptyLocalized } from "../../test-utils/mock-asset";
+import { mockRental, mockEventTicket, mockRentalForMockAsset } from "../../test-utils/mock-wl-productoffering";
 import { AssetHelpers } from "./asset";
 
 describe("AssetHelpers", () => {
@@ -53,5 +54,17 @@ describe("AssetHelpers", () => {
     expect(AssetHelpers.getPushNextCuePoint({ ...mockAsset, markerPoints: [testCredit] })).toBe(
       mockAsset.duration - 60_000
     );
+  });
+  it("gets required products", () => {
+    expect(AssetHelpers.getRequiredProducts(mockAsset)).toEqual([
+      "rental-tvod_82162E",
+      "d49b896d-98a0-4c73-ae09-7b6bce2fd364_82162E",
+      "1min1_82162E"
+    ]);
+  });
+  it("get product offerings applicable to asset", () => {
+    expect(
+      AssetHelpers.getApplicableProductOfferings(mockAsset, [mockRental, mockEventTicket, mockRentalForMockAsset])
+    ).toEqual([mockEventTicket, mockRentalForMockAsset]);
   });
 });

@@ -125,7 +125,7 @@ export const mockAsset: Asset = {
       countries: [],
       customData: null,
       devices: [],
-      fromDate: "2020-08-11T10:21:00Z",
+      fromDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7), // one week ago
       products: ["rental-tvod_82162E", "d49b896d-98a0-4c73-ae09-7b6bce2fd364_82162E", "1min1_82162E"],
       availabilityKeys: [
         "rental-tvod_82162E",
@@ -144,7 +144,7 @@ export const mockAsset: Asset = {
       countries: [],
       customData: null,
       devices: [],
-      fromDate: "2025-11-17T18:21:00Z",
+      fromDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // one week from now
       products: ["free_product_82162E"],
       availabilityKeys: ["free_product_82162E", "9086ffab-377f-4e2f-84dc-a597e6a2e8a8_82162E_free_product_82162E"],
       publicationDate: "2021-11-17T18:21:00Z",
