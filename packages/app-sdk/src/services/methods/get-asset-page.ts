@@ -40,7 +40,7 @@ export async function getAssetPage(
     useOnlyPlayableAssets = false
   }: GetAssetPageOptions
 ): Promise<ResolvedComponent[]> {
-  const asset = await getAsset.call(service.context, { assetId });
+  const asset = await getAsset.call(service.context, { assetId, includeSeasons: true, includeEpisodes: true });
 
   const generatedComponents: Promise<ResolvedComponent>[] = [];
 
