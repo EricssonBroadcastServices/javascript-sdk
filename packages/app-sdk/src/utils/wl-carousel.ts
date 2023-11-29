@@ -1,7 +1,9 @@
 import { IExposureWLCarousel, WLComponentSubType } from "../interfaces/exposure-wl-component";
 import { WLComponentHelpers } from "./wl-component";
 import { getIndexOfLiveOrClosestUpcomingDateInterval } from "./date";
-import { CarouselItem } from "../interfaces/component-content";
+import { CarouselItem, ResolvedComponent } from "../interfaces/component-content";
+import { Season } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { SeasonHelpers } from "./season";
 
 function getInitialSlideFromAssetList(carousel: IExposureWLCarousel, assetList: CarouselItem[], when = Date.now()) {
   switch (carousel.appSubType) {
@@ -21,7 +23,36 @@ function getInitialSlideFromAssetList(carousel: IExposureWLCarousel, assetList: 
   }
 }
 
+export function getResolvedCarouselComponentFromSeason(
+  seasonAsset: Season,
+  locale: string
+): ResolvedComponent<"carousel"> {
+  const component: IExposureWLCarousel = {
+    id: `seasonSelector-${seasonAsset.seasonId}`,
+    appType: "carousel",
+    presentation: {
+      fallback: {
+        title: SeasonHelpers.getTitle(seasonAsset, locale),
+        body: "",
+        images: []
+      },
+      localized: {}
+    }
+  };
+  const content = seasonAsset.episodes.map(asset => ({ asset }));
+  return {
+    component,
+    content,
+    presentationParameters: {
+      density: "MEDIUM",
+      carouselLayout: "carousel",
+      imageOrientation: "landscape"
+    }
+  };
+}
+
 export const WLCarouselHelpers = {
   ...WLComponentHelpers,
-  getInitialSlideFromAssetList
+  getInitialSlideFromAssetList,
+  getResolvedCarouselComponentFromSeason
 };

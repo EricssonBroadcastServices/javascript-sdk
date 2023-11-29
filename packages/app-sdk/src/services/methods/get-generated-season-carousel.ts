@@ -17,7 +17,7 @@ export async function getGeneratedSeasonCarousel(
   const { context } = service;
   const seasonAsset = await getSeason.call(service, { assetId: tvShowId, season: seasonNumber });
   const component: IExposureWLCarousel = {
-    id: `generated-searson-${tvShowId}-${seasonNumber}`,
+    id: `generated-season-${tvShowId}-${seasonNumber}`,
     appType: "carousel",
     contentUrl: {
       type: WLCarouselAssetQueryTypes.ASSET,
