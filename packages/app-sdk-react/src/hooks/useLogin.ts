@@ -54,7 +54,8 @@ export function useValidateSession() {
   const setSession = useSetSession();
   return useCallback(async () => {
     if (session?.sessionToken) {
-      return validateSessionToken.call(serviceContext).catch(err => {
+      const headers = { Authorization: `Bearer ${session.sessionToken}` };
+      return validateSessionToken.call(serviceContext, { headers }).catch(err => {
         if ((err as any)?.response?.status !== 401) {
           throw { code: ErrorCode.UNEXPECTED_SESSION_VALIDATION_ERROR, error: err, session };
         }
