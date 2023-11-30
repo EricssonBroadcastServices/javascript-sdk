@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { DeviceType } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { RedBeeProvider, IStorage, useConfig } from "../src/index";
-import { LanguageSelector } from "./components/LanguageSelector";
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { AssetPage } from "./pages/AssetPage";
