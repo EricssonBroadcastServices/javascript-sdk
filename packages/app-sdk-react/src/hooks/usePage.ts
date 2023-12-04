@@ -12,27 +12,20 @@ import { useTranslations } from "./useTranslations";
 export enum PageType {
   PAGE = "page",
   ASSET = "asset",
+  TAG = "asset",
   BROWSE = "browse",
+  PARTICIPANT = "participant",
   PLAY = "play"
 }
 
-export function usePage(pageId: string, pageType: PageType): TApiHook<IExposureWLPage> {
+export function usePage(pageId: string): TApiHook<IExposureWLPage> {
   const appService = useAppService();
   const countryCode = useCountryCode();
   const { data, isFetching, error } = useQuery(
     [QueryKeys.PAGE, pageId, countryCode],
     () => {
       if (!countryCode) return;
-      switch (pageType) {
-        case PageType.ASSET:
-          // TODO: implement asset page once meta adds that feature to the cms
-          return null;
-        case PageType.BROWSE:
-          // TODO: implement tag and participants pages once meta adds that feature to the cms
-          return null;
-        default:
-          return appService.getComponentById<IExposureWLPage>({ componentId: pageId, countryCode });
-      }
+      return appService.getComponentById<IExposureWLPage>({ componentId: pageId, countryCode });
     },
     { staleTime: 1000 * 60 * 10 }
   );
@@ -40,11 +33,11 @@ export function usePage(pageId: string, pageType: PageType): TApiHook<IExposureW
   return [data || null, isFetching, error];
 }
 
-export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<ResolvedComponent<any>[]> {
+export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedComponent<any>[]> {
   const [tagList] = useTagList();
   const countryCode = useCountryCode();
   const appService = useAppService();
-  const [page, pageLoading, pageError] = usePage(pageId, pageType);
+  const [page, pageLoading, pageError] = usePage(pageId);
   const [userSession] = useUserSession();
   const results: UseQueryResult<ResolvedComponent>[] = useQueries(
     (page?.components.pageBody || []).map(reference => {

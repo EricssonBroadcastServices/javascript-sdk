@@ -120,6 +120,11 @@ export const mockRental: StoreProductOffering = {
   paymentMethodTypes: ["card"]
 };
 
+export const mockRentalForMockAsset: StoreProductOffering = {
+  ...mockRental,
+  productIds: ["1min1_82162E"]
+};
+
 export const mockRentalWithRentalExpiryWindow: StoreProductOffering = {
   productOfferingType: "rental",
   rentalLength: "PT1M",

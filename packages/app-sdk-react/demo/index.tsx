@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { DeviceType } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { RedBeeProvider, IStorage, useConfig } from "../src/index";
-import { LanguageSelector } from "./components/LanguageSelector";
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { AssetPage } from "./pages/AssetPage";
@@ -12,6 +11,7 @@ import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
 import { TagPage } from "./pages/TagPage";
 import { DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
+import Footer from "./components/Footer/Footer";
 
 const deviceRegistration = {
   deviceId: "123",
@@ -39,6 +39,7 @@ export default function App() {
             <Route path=":id" element={<Page />} />
           </Route>
         </Routes>
+        <Footer />
       </HashRouter>
     </div>
   );

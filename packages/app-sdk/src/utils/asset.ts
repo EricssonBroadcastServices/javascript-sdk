@@ -1,4 +1,10 @@
-import { Asset, AssetType, ChannelAsset, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import {
+  Asset,
+  AssetType,
+  ChannelAsset,
+  ImageOrientation,
+  StoreProductOffering
+} from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { PublicationHelpers } from "./publication";
 import { getLocalizedImageByType, getLocalizedValue } from "./localization";
 import { getDurationLocalized, getTimeString } from "./time";
@@ -145,6 +151,21 @@ export function getPlayHistoryPercentageFromAsset(asset: Asset) {
   return Math.round((playHistory.lastViewedOffset * 100) / asset.duration);
 }
 
+export function getRequiredProductsForAsset(asset: Asset): string[] {
+  let publications = PublicationHelpers.getActivePublications(asset.publications);
+  if (PublicationHelpers.allInFuture(asset.publications)) {
+    publications = PublicationHelpers.getNextPublications(asset.publications);
+  }
+  return publications.flatMap(p => p.products);
+}
+
+export function getProductOfferingsApplicableToAsset(asset: Asset, availableProductOfferings: StoreProductOffering[]) {
+  const requiredProducts = getRequiredProductsForAsset(asset);
+  const buyable = availableProductOfferings.flatMap(p => p.productIds).filter(p => requiredProducts.includes(p));
+  console.log(requiredProducts, buyable);
+  return availableProductOfferings.filter(po => po.productIds.filter(pId => buyable.includes(pId)).length > 0);
+}
+
 export function getChannelAssetTimeSlotString(asset: ChannelAsset | CarouselItem) {
   if (!asset.startTime || !asset.endTime) return null;
   return `${getTimeString(new Date(asset.startTime))} - ${getTimeString(new Date(asset.endTime))}`;
@@ -174,5 +195,7 @@ export const AssetHelpers = {
   getDurationString: getAssetDurationString,
   getScaledImage: getScaledAssetImage,
   getAllTagIds: getAllTagIdsFromAsset,
-  getPlayHistoryPercentage: getPlayHistoryPercentageFromAsset
+  getPlayHistoryPercentage: getPlayHistoryPercentageFromAsset,
+  getRequiredProducts: getRequiredProductsForAsset,
+  getApplicableProductOfferings: getProductOfferingsApplicableToAsset
 };

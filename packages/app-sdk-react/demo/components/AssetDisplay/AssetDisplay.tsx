@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Asset, AssetType } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { AssetHelpers, ResolvedComponent, getTitleFromAsset } from "@ericssonbroadcastservices/app-sdk";
+import {
+  AssetHelpers,
+  ResolvedComponent,
+  WLCarouselHelpers,
+  getTitleFromAsset
+} from "@ericssonbroadcastservices/app-sdk";
 import { FavoriteButton } from "./FavoriteButton";
 import {
   useBookmarkPercentage,
@@ -14,6 +19,7 @@ import { PlayButton } from "./PlayButton";
 import ChannelPicker from "../../components/ChannelPicker/ChannelPicker";
 import "./asset-display.css";
 import { Link } from "react-router-dom";
+import { CarouselComponent } from "../Carousel/Carousel";
 
 const Entitlements = ({ asset }: { asset: Asset }) => {
   const [status] = useEntitlementForAsset({ asset }, {});
@@ -32,6 +38,9 @@ export const AssetDisplay = ({ content }: ResolvedComponent<"asset_display">) =>
   const [pnc] = usePushNextContentData(asset.assetId);
   const { upNext, recommendations } = pnc || {};
   const [continueWatching] = useContinueWatching(asset.assetId);
+  const seasonCarousels = useMemo(() => {
+    return asset.seasons?.map(s => WLCarouselHelpers.getResolvedCarouselComponentFromSeason(s, language));
+  }, [asset, language]);
   return (
     <>
       <div className="asset-display">
@@ -64,6 +73,9 @@ export const AssetDisplay = ({ content }: ResolvedComponent<"asset_display">) =>
         </div>
       </div>
       {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker selectedChannel={asset.assetId} />}
+      {seasonCarousels?.map(s => (
+        <CarouselComponent key={s.component.id} {...s} />
+      ))}
     </>
   );
 };
