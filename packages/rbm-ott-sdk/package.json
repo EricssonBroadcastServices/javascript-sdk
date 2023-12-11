@@ -3,13 +3,16 @@
   "version": "0.3.2",
   "description": "",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
-  "main": "generated/index.ts",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
     "generate": "ts-node generate.ts",
     "update-spec": "wget https://exposure.api.redbee.live/docs/api-docs/exposure -O exposure-spec.json"
   },
   "files": [
-    "generated"
+    "generated",
+    "dist"
   ],
   "repository": {
     "type": "git",
