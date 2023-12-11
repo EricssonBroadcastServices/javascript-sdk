@@ -1,10 +1,10 @@
-import { IExposureWLMenuItem } from "../interfaces";
+import { IExposureWLConfig, IExposureWLMenuItem } from "../interfaces";
 import { IExposureComponent, IExposureWLHerobannerItem } from "../interfaces/exposure-wl-component";
 import { IExposureWLPresentation } from "../interfaces/exposure-wl-presentation";
 import { IImage } from "../interfaces/image";
 import { lexer } from "marked";
 
-type LocalizedWLComponent = IExposureComponent | IExposureWLHerobannerItem | IExposureWLMenuItem;
+type LocalizedWLComponent = IExposureComponent | IExposureWLHerobannerItem | IExposureWLMenuItem | IExposureWLConfig;
 
 export function getLocalizedItemFromPresentation(presentation: IExposureWLPresentation, locale: string) {
   if (!presentation.localized) return presentation.fallback;
