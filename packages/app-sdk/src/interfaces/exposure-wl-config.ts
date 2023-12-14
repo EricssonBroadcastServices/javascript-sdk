@@ -12,6 +12,7 @@ export interface IConfigParameters {
   adsfile?: string;
   appadsfile?: string;
   googleTagManagerId?: string;
+  googlePlayStorePackageId?: string;
 }
 
 export interface IWLTheme {
