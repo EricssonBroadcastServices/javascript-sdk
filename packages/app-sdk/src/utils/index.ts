@@ -19,3 +19,4 @@ export * from "./http";
 export * from "./localization";
 export * from "./user-details";
 export * from "./localized-languages";
+export * from "./password";
