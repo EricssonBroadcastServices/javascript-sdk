@@ -15,3 +15,8 @@ export function useAvailableLanguages(): { code: string; name: string; nativeNam
     .map(languageCode => localizedLanguages.find(l => l.code === languageCode))
     .filter(i => i !== undefined) as { code: string; name: string; nativeName: string }[];
 }
+
+export function usePasswordPolicy() {
+  const [systemConfig] = useSystemConfigV2();
+  return systemConfig?.access.passwordPolicy;
+}

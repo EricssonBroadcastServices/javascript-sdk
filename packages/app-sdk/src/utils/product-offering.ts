@@ -76,10 +76,19 @@ export function getProductOfferingPricelessVATString(
   return vatString;
 }
 
+export function isProductOfferingFree(productOffering: StoreProductOffering): boolean {
+  return !!(
+    productOffering.offeringPrice.price.amount === 0 ||
+    productOffering.discount?.price?.amount === 0 ||
+    (productOffering.discount && productOffering.discount?.freePeriod)
+  );
+}
+
 export const ProductOfferingHelpers = {
   getTitle: getProductOfferingTitle,
   getDescription: getProductOfferingDescription,
   getRentalLengthDescription: getProductOfferingRentalLengthDescription,
   getPriceWithVATString: getProductOfferingPriceWithVATString,
-  getPricelessVATString: getProductOfferingPricelessVATString
+  getPricelessVATString: getProductOfferingPricelessVATString,
+  isFree: isProductOfferingFree
 };

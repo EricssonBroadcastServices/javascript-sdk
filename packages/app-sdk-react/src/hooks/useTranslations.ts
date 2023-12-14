@@ -5,7 +5,9 @@ import { QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
 import { useRedBeeState } from "../RedBeeProvider";
 
-export function useTranslations(): TApiHook<Translations> {
+const emptyTranslations = new Translations({});
+
+export function useTranslations(): TApiHook<Translations, Translations> {
   const locale = useSelectedLanguage();
   const { appService } = useRedBeeState();
   const { data, isLoading, error } = useQuery(
@@ -16,5 +18,5 @@ export function useTranslations(): TApiHook<Translations> {
     },
     { staleTime: 1000 * 60 * 60 }
   );
-  return [data || null, isLoading, error];
+  return [data || emptyTranslations, isLoading, error];
 }
