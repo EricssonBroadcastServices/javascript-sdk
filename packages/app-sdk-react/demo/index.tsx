@@ -12,6 +12,7 @@ import { Page } from "./pages/Page";
 import { TagPage } from "./pages/TagPage";
 import { DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
 import Footer from "./components/Footer/Footer";
+import { AccountPage } from "./pages/AccountPage";
 
 const deviceRegistration = {
   deviceId: "123",
@@ -29,6 +30,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/account" element={<AccountPage />} />
           <Route path="/tag">
             <Route path=":id" element={<TagPage />} />
           </Route>

@@ -29,3 +29,4 @@ export * from "./hooks/useInitialCarouselIndex";
 export * from "./hooks/useApi";
 export * from "./hooks/useProgramProgress";
 export * from "./Session";
+export * from "./hooks/useValidatePassword";
