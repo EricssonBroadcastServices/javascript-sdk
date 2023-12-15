@@ -1,8 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ActionType, useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useAppService, useServiceContext } from "./useApi";
-import { EssentialAppData, IExposureWLConfig, IExposureWLMenu, IWLTheme } from "@ericssonbroadcastservices/app-sdk";
+import {
+  EssentialAppData,
+  IExposureWLConfig,
+  IExposureWLFooter,
+  IExposureWLMenu,
+  IWLTheme,
+  WLComponentHelpers,
+  fitToWidth
+} from "@ericssonbroadcastservices/app-sdk";
 import { useSystemConfigV2 } from "./useSystemConfig";
 import { useSelectedLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
@@ -64,6 +72,11 @@ export function useMenu(): TApiHook<IExposureWLMenu> {
   return [essentialAppData?.menu || null, loading, null];
 }
 
+export function useFooter(): TApiHook<IExposureWLFooter> {
+  const [essentialAppData, loading] = useEssentialAppData();
+  return [essentialAppData?.footer || null, loading, null];
+}
+
 export function useTheme(): TApiHook<IWLTheme, IWLTheme> {
   const [config, isLoading] = useConfig();
   return [config?.theme || DEFAULT_THEME, isLoading, null];
@@ -117,4 +130,31 @@ export function useDocumentLinks(): AppDocuments {
       translations?.getText("PRIVACY_POLICY")
     )
   };
+}
+
+export function useServiceName(): string {
+  const [config] = useConfig();
+  const locale = useSelectedLanguage();
+  if (!config) return "";
+  return WLComponentHelpers.getTitle(config, locale);
+}
+
+export function useContactInformation() {
+  const [config] = useConfig();
+  if (!config) return null;
+  const {
+    parameters: { phone, website, email }
+  } = config;
+  return { phone, website, email };
+}
+
+export function useBackgroundImageUrl(size: number) {
+  const [config] = useConfig();
+  const locale = useSelectedLanguage();
+  return useMemo(() => {
+    if (!config) return;
+    const bgImg = WLComponentHelpers.getImageByTag(config, "background", locale);
+    if (!bgImg?.url) return;
+    return fitToWidth(bgImg.url, size);
+  }, [config]);
 }
