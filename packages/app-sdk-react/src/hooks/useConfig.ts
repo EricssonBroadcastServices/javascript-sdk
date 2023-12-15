@@ -139,6 +139,15 @@ export function useServiceName(): string {
   return WLComponentHelpers.getTitle(config, locale);
 }
 
+export function useContactInformation() {
+  const [config] = useConfig();
+  if (!config) return null;
+  const {
+    parameters: { phone, website, email }
+  } = config;
+  return { phone, website, email };
+}
+
 export function useBackgroundImageUrl(size: number) {
   const [config] = useConfig();
   const locale = useSelectedLanguage();

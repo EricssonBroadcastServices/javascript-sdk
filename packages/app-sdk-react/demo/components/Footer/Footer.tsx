@@ -1,5 +1,12 @@
 import React from "react";
-import { DocumentLink, useDocumentLinks, useFooter, useSelectedLanguage, useServiceContext } from "../../../src";
+import {
+  DocumentLink,
+  useContactInformation,
+  useDocumentLinks,
+  useFooter,
+  useSelectedLanguage,
+  useServiceContext
+} from "../../../src";
 import "./footer.css";
 import { IExposureWLMenuItem, WLComponentHelpers } from "@ericssonbroadcastservices/app-sdk";
 import { Link } from "react-router-dom";
@@ -53,6 +60,7 @@ function SocialMediaLink(item: IExposureWLMenuItem) {
 export default function Footer() {
   const docs = useDocumentLinks();
   const [footer] = useFooter();
+  const contactInformation = useContactInformation();
   return (
     <div className="footer-container">
       <div>
@@ -69,6 +77,11 @@ export default function Footer() {
         {footer?.components.socialMediaLinks?.map((sml, i) => {
           return <SocialMediaLink {...sml} key={i} />;
         })}
+      </div>
+      <div>
+        <p>{`Phone: ${contactInformation?.phone}`}</p>
+        <p>{`Email: ${contactInformation?.email}`}</p>
+        <p>{`Website: ${contactInformation?.website}`}</p>
       </div>
     </div>
   );
