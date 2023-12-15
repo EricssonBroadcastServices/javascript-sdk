@@ -1,4 +1,4 @@
-import { getAsset } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { DeviceRegistration, getAsset, login } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { expectAsset } from "../../test-utils/expectations";
 import { DeviceGroup } from "../interfaces/device-group";
 import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
@@ -18,8 +18,7 @@ function expectIsAssetList(assets: any[]) {
   });
 }
 
-const sessionToken =
-  "ses_a74c72db-302e-4e0a-bda9-b0777fbbb4ebp|03-047-61DD-3B0C_82162E|d4c5a7ba-41db-4419-8509-eda3e88e3e0f|null|1695023032272|1995023032212|false|cc1cf276-153a-4052-92f8-234f01341097_WEB|WEB||BSCUBSBU||WkKHk6cNYwC0flf6rGuwSotDRruDUk28GDqXfUXOpbs=";
+let sessionToken;
 
 const service = new WhiteLabelService({
   customer: "BSCU",
@@ -32,9 +31,22 @@ const service = new WhiteLabelService({
   }
 });
 
+const device: DeviceRegistration = {
+  deviceId: "123",
+  name: "e2etestDevice"
+};
+
 // @todo: add test for header footer, menu title
 
 describe("get carousel assets", () => {
+  beforeAll(async () => {
+    const session = await login.call(service.context, {
+      username: "simon.wallin1@mailinator.com",
+      password: "SimonTest",
+      device
+    });
+    sessionToken = session.sessionToken;
+  });
   it("finds and gets a continue watching carousel", async () => {
     const continueId = "5e3bc28b-54e1-4ef1-818b-61e661e1107e";
     const component = await service.getComponentById({ componentId: continueId, countryCode: "SE" });
