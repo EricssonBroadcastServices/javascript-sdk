@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import {
   ProductOfferingPurchases,
@@ -42,7 +42,7 @@ export function usePurchases(): TApiHook<ProductOfferingPurchases> {
 
 export function useTvodIds(): TApiHook<string[]> {
   const [purchaseResponse, isLoading, error] = usePurchases();
-  const tvodIds = purchaseResponse?.purchases?.flatMap(t => t.assetId || []) || [];
+  const tvodIds = useMemo(() => purchaseResponse?.purchases?.flatMap(t => t.assetId || []) || [], [purchaseResponse]);
   return [tvodIds, isLoading, error];
 }
 

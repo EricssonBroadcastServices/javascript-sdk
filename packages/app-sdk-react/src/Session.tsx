@@ -38,4 +38,20 @@ export class Session implements SessionData {
   get accountId() {
     return this.data.accountId;
   }
+
+  get crmToken() {
+    return this.data.crmToken;
+  }
+
+  get userId() {
+    return this.data.userId;
+  }
+
+  get userProfile() {
+    return this.data.userProfile;
+  }
+
+  get isOverDeviceLimit() {
+    return this.data.isOverDeviceLimit;
+  }
 }

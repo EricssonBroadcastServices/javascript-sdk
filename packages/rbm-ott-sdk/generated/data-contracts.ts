@@ -104,9 +104,9 @@ export interface AnalyticsConfig {
 
 export interface AnonymousSessionResponse {
   /** The time when the session expires */
-  expirationDateTime?: string;
+  expirationDateTime: string;
   /** The session token to use for subsequent requests. */
-  sessionToken?: string;
+  sessionToken: string;
 }
 
 /** Apple app store configuration */
@@ -825,7 +825,7 @@ export interface LoginResponse {
   /** The token of the underlying CRM to use if talking directly to the CRM. */
   crmToken?: string;
   /** The time when the session expires */
-  expirationDateTime?: string;
+  expirationDateTime: string;
   informationCollectionConsentGiven?: string;
   informationCollectionConsentRequiredDate?: string;
   /** If true to many devices are logged in and this session can not be used to play. */
@@ -835,7 +835,7 @@ export interface LoginResponse {
   /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
   profileType?: string;
   /** The session token to use for subsequent requests. */
-  sessionToken?: string;
+  sessionToken: string;
   /** The id of the user in the CRM. */
   userId?: string;
   userProfile?: UserProfile;
