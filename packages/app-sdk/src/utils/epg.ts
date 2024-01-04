@@ -30,9 +30,28 @@ export function getProgramTimeSlotString(program: ProgramResponse) {
   return `${getTimeString(new Date(program.startTime))}`;
 }
 
+function getCurrentProgramProgress(programs: ProgramResponse[]): number {
+  const liveProgram = programs.find(program => ChannelAssetHelpers.isLive(program));
+  if (!liveProgram) {
+    return 0;
+  }
+
+  const startTime = new Date(liveProgram.startTime);
+  const endTime = new Date(liveProgram.endTime);
+
+  if (startTime && endTime) {
+    const currentTime = Date.now() - startTime.getTime();
+    const duration = endTime.getTime() - startTime.getTime();
+    return Math.max(Math.min((currentTime / duration) * 100, 100), 0);
+  }
+
+  return 0;
+}
+
 export const EPGHelpers = {
   findOngoingPrograms,
   findCurrentAndUpcomingProgramsByHour,
+  getCurrentProgramProgress,
   isProgramLive: ChannelAssetHelpers.isLive,
   getProgramTimeSlotString: getProgramTimeSlotString
 };
