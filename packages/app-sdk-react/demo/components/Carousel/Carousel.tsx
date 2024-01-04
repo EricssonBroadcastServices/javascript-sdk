@@ -8,10 +8,11 @@ import {
   PresentationImageOrientation,
   ResolvedComponent,
   fitToWidth,
-  getTimeString
+  getTimeString,
+  TagHelpers
 } from "@ericssonbroadcastservices/app-sdk";
 import { ChannelAsset, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useInitialCarouselIndex, useSelectedLanguage, useTranslations } from "../../../src";
+import { useInitialCarouselIndex, useSelectedLanguage, useTag, useTranslations } from "../../../src";
 import CarouselHeader from "./CarouselHeader";
 import { useTagFeedFilter } from "../../../src";
 import { Link } from "react-router-dom";
@@ -20,6 +21,15 @@ import { getDayLocalized } from "@ericssonbroadcastservices/app-sdk";
 function getAspectRatioMultiplier(orientation: ImageOrientation) {
   if (orientation === "PORTRAIT") return 27.5 / 40.5;
   return 16 / 9;
+}
+
+function Tag({ tagId }: { tagId: string }) {
+  const [tag] = useTag(tagId);
+  const selectedLanguage = useSelectedLanguage();
+  if (!tag) {
+    return null;
+  }
+  return <p className="carousel-item-tag">{TagHelpers.getTitle(tag, selectedLanguage)}</p>;
 }
 
 function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
@@ -47,6 +57,11 @@ function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: 
               new Date(startTime)
             )} - ${getTimeString(new Date(endTime))}`}</span>
           )}
+          <div className="carousel-item-tag-container">
+            {asset.tags.map((tag, index) => (
+              <Tag key={index} tagId={tag.tagValues[0]?.tagId} />
+            ))}
+          </div>
 
           <h4>{AssetHelpers.getTitle(asset, locale)}</h4>
           <p>{AssetHelpers.getShortDescription(asset, locale)}</p>

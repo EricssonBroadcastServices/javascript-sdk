@@ -4,7 +4,6 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch",
     "test": "TZ=UTC jest",
     "test:watch": "jest --watch",
     "lint": "npm run lint:code && npm run lint:types",
