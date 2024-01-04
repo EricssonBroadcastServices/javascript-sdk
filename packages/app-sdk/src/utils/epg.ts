@@ -1,5 +1,6 @@
 import { ProgramResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { ChannelAssetHelpers } from "./asset";
+import { getTimeString } from "./time";
 
 function findOngoingPrograms(programs: ProgramResponse[], time = new Date()) {
   return programs.find(p => new Date(p.startTime) < time && new Date(p.endTime) > time);
@@ -24,9 +25,14 @@ function findCurrentAndUpcomingProgramsByHour(programs: ProgramResponse[], date:
   return programs.slice(startIndex, stopIndex);
 }
 
+export function getProgramTimeSlotString(program: ProgramResponse) {
+  if (!program.startTime) return null;
+  return `${getTimeString(new Date(program.startTime))}`;
+}
+
 export const EPGHelpers = {
   findOngoingPrograms,
   findCurrentAndUpcomingProgramsByHour,
   isProgramLive: ChannelAssetHelpers.isLive,
-  getProgramTimeSlotString: ChannelAssetHelpers.getTimeSlotString
+  getProgramTimeSlotString: getProgramTimeSlotString
 };
