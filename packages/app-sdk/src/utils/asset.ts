@@ -166,6 +166,10 @@ export function getProductOfferingsApplicableToAsset(asset: Asset, availableProd
   return availableProductOfferings.filter(po => po.productIds.filter(pId => buyable.includes(pId)).length > 0);
 }
 
+export function isAssetPlayable(asset: Asset) {
+  return asset.type !== "COLLECTION" && asset.type !== "TV_SHOW";
+}
+
 export function getChannelAssetTimeSlotString(asset: ChannelAsset | CarouselItem) {
   if (!asset.startTime || !asset.endTime) return null;
   return `${getTimeString(new Date(asset.startTime))} - ${getTimeString(new Date(asset.endTime))}`;
@@ -182,6 +186,7 @@ export const ChannelAssetHelpers = {
 };
 
 export const AssetHelpers = {
+  isAssetPlayable,
   getTitle: getTitleFromAsset,
   getMediumDescription: getMediumDescriptionFromAsset,
   getShortDescription: getShortDescriptionFromAsset,
