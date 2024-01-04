@@ -14,7 +14,7 @@ function invalidateFavourites() {
   queryClient.invalidateQueries(WLComponentSubType.FAVORITES);
 }
 
-export function useAddAssetToFavorites(assetId: string): TApiHook<() => void> {
+export function useAddAssetToFavorites(assetId: string): TApiHook<() => void, () => void> {
   const { serviceContext } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
@@ -39,7 +39,7 @@ export function useAddAssetToFavorites(assetId: string): TApiHook<() => void> {
   return [add, loading, error];
 }
 
-export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => void> {
+export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => void, () => void> {
   const { serviceContext } = useRedBeeState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
@@ -66,8 +66,8 @@ export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => voi
 
 type HandleAssetFavorites = {
   isInList: boolean;
-  add: (() => void) | null;
-  remove: (() => void) | null;
+  add: (() => void);
+  remove: (() => void);
 };
 
 export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFavorites, HandleAssetFavorites> {
