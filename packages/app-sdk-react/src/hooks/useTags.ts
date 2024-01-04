@@ -3,7 +3,6 @@ import { useQuery } from "react-query";
 import {
   addTagToPreferencesList,
   deleteTagFromPreferencesList,
-  getTagById,
   getTagsFromPreferencesList,
   listTags,
   PreferencesListResponse,
