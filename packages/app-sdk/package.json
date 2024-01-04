@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/app-sdk",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "",
   "scripts": {
     "build": "tsc",
