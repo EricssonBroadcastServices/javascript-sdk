@@ -1,4 +1,4 @@
-import { ProgramResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { ChannelAsset, ProgramResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { ChannelAssetHelpers } from "./asset";
 import { getTimeString } from "./time";
 
@@ -30,7 +30,7 @@ export function getProgramTimeSlotString(program: ProgramResponse) {
   return `${getTimeString(new Date(program.startTime))}`;
 }
 
-function getCurrentProgramProgress(programs: ProgramResponse[]): number {
+function getCurrentProgramProgress(programs: ProgramResponse[] | ChannelAsset[]): number {
   const liveProgram = programs.find(program => ChannelAssetHelpers.isLive(program));
   if (!liveProgram) {
     return 0;
