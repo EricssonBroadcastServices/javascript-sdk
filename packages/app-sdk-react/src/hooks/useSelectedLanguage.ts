@@ -38,3 +38,13 @@ export function useSelectedLanguage() {
   const { selectedLanguage } = useRedBeeState();
   return selectedLanguage || defaultLanguage;
 }
+
+export function useLanguage() {
+  const defaultLanguage = useDefaultLanguage();
+  const language = useSelectedLanguage();
+
+  return {
+    language,
+    defaultLanguage
+  };
+}
