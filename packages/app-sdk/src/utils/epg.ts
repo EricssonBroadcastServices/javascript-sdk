@@ -25,7 +25,7 @@ function findCurrentAndUpcomingProgramsByHour(programs: ProgramResponse[], date:
   return programs.slice(startIndex, stopIndex);
 }
 
-export function getProgramTimeSlotString(program: ProgramResponse) {
+export function getProgramTimeSlotString(program: ProgramResponse | ChannelAsset) {
   if (!program.startTime) return null;
   return `${getTimeString(new Date(program.startTime))}`;
 }
