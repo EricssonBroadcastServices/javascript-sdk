@@ -89,12 +89,6 @@ export interface DocumentLink {
   qrCode: string;
 }
 
-export interface AppDocuments {
-  termsAndConditions?: DocumentLink;
-  cookiePolicy?: DocumentLink;
-  privacyPolicy?: DocumentLink;
-}
-
 function toDocumentLink(url: string, locale: string, qrCodeBaseUrl: string, title: string): DocumentLink {
   return {
     title,
@@ -103,33 +97,33 @@ function toDocumentLink(url: string, locale: string, qrCodeBaseUrl: string, titl
     qrCode: `${qrCodeBaseUrl}/api/internal/qrcode?value=${url}`
   };
 }
-export function useDocumentLinks(): AppDocuments {
+export function useDocumentLinks(): DocumentLink[] {
   const [translations] = useTranslations();
   const { baseUrl } = useServiceContext();
   const locale = useSelectedLanguage();
   const [systemConfig] = useSystemConfigV2();
   const playerUrl = systemConfig?.playerUrl;
-  if (!playerUrl) return {};
-  return {
-    termsAndConditions: toDocumentLink(
+  if (!playerUrl) return [];
+  return [
+    toDocumentLink(
       `${playerUrl}/document/end_user_terms_and_conditions`,
       locale,
       baseUrl,
       translations?.getText("TERMS_AND_CONDITIONS")
     ),
-    cookiePolicy: toDocumentLink(
+    toDocumentLink(
       `${playerUrl}/document/end_user_cookie_policy`,
       locale,
       baseUrl,
       translations?.getText("COOKIE_POLICY")
     ),
-    privacyPolicy: toDocumentLink(
+    toDocumentLink(
       `${playerUrl}/document/end_user_privacy_policy`,
       locale,
       baseUrl,
       translations?.getText("PRIVACY_POLICY")
     )
-  };
+  ];
 }
 
 export function useServiceName(): string {
