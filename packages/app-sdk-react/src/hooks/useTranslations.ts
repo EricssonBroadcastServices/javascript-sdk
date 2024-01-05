@@ -16,7 +16,7 @@ export function useTranslations(): TApiHook<Translations, Translations> {
       if (!locale) return;
       return appService.getTranslations(locale);
     },
-    { staleTime: 1000 * 60 * 60 }
+    { staleTime: 1000 * 60 * 60, keepPreviousData: true }
   );
   return [data || emptyTranslations, isLoading, error];
 }
