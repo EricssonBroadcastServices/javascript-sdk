@@ -6,12 +6,17 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
+import { useAssetList } from "./useAssetList";
 
 const FAVORITES_LIST_ID = "favorites";
 
 function invalidateFavourites() {
   queryClient.invalidateQueries(QueryKeys.FAVORITE_ASSET_IN_LIST);
   queryClient.invalidateQueries(WLComponentSubType.FAVORITES);
+}
+
+export function useFavoritesList() {
+  return useAssetList(FAVORITES_LIST_ID);
 }
 
 export function useAddAssetToFavorites(assetId: string): TApiHook<() => void, () => void> {
@@ -66,8 +71,8 @@ export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => voi
 
 type HandleAssetFavorites = {
   isInList: boolean;
-  add: (() => void);
-  remove: (() => void);
+  add: () => void;
+  remove: () => void;
 };
 
 export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFavorites, HandleAssetFavorites> {
