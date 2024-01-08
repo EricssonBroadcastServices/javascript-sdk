@@ -84,7 +84,7 @@ async function fetchAllTags(ctx: ServiceContext) {
   const pageItems = await Promise.all(
     // +2 for mapping 0 => 1, + 1 for skipping the one we already fetched
     Array.from({ length: remainingPages }, (_, i) => i + 2).map(pageNumber =>
-      listTags.call(ctx, { pageSize: 100, pageNumber, sort: "-created" }).then(({ items }) => items)
+      listTags.call(ctx, { pageSize, pageNumber, sort: "-created" }).then(({ items }) => items)
     )
   );
 
