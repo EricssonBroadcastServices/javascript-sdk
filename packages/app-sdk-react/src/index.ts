@@ -10,7 +10,7 @@ export { useUserDetails, refetchUserDetails } from "./hooks/useUserDetails";
 export { useUserSession, useSetSession } from "./hooks/useUserSession";
 export * from "./hooks/useTags";
 export { useConsumedDiscounts, usePurchases, useTvodIds, useUnsubscribe, refetchPurchases } from "./hooks/usePurchases";
-export { useProductOfferings, refetchProductOfferings } from "./hooks/useProductOfferings";
+export * from "./hooks/useProductOfferings";
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";
 export { useAsset } from "./hooks/useAsset";
 export { useAddAssetToFavorites, useRemoveAssetFromFavorites, useHandleAssetFavorites } from "./hooks/useFavorites";

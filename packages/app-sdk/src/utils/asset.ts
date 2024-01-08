@@ -162,7 +162,6 @@ export function getRequiredProductsForAsset(asset: Asset): string[] {
 export function getProductOfferingsApplicableToAsset(asset: Asset, availableProductOfferings: StoreProductOffering[]) {
   const requiredProducts = getRequiredProductsForAsset(asset);
   const buyable = availableProductOfferings.flatMap(p => p.productIds).filter(p => requiredProducts.includes(p));
-  console.log(requiredProducts, buyable);
   return availableProductOfferings.filter(po => po.productIds.filter(pId => buyable.includes(pId)).length > 0);
 }
 

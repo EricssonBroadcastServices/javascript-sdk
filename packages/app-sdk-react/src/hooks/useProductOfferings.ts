@@ -1,10 +1,18 @@
 import { useQuery } from "react-query";
-import { PaymentProvider, StoreProductOffering, getOfferings } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import {
+  PaymentProvider,
+  StoreProductOffering,
+  StorePromotionProductOfferings,
+  getOfferings,
+  getOfferingsByVoucher
+} from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useCountryCode } from "./useGeolocation";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useConsumedDiscounts } from "./usePurchases";
+import { useServiceContext } from "./useApi";
+import { useUserSession } from "./useUserSession";
 
 const productOfferingsCacheTime = 1000 * 60 * 30;
 
@@ -44,6 +52,26 @@ export function useProductOfferings({
     isLoading,
     error
   ];
+}
+
+export function useProductOfferingsByVoucherCode(code: string): TApiHook<StoreProductOffering[]> {
+  const ctx = useServiceContext();
+  const [userSession] = useUserSession();
+  const { data, isLoading, error } = useQuery<StorePromotionProductOfferings | undefined>(
+    [QueryKeys.PRODUCT_OFFERINGS, code, userSession?.sessionToken],
+    async () => {
+      if (!userSession?.sessionToken) return undefined;
+      const headers = new Headers();
+      headers.set("Authorization", `Bearer ${userSession?.sessionToken}`);
+      const productOfferings = await getOfferingsByVoucher.call(ctx, {
+        voucherCode: code,
+        headers
+      });
+      return productOfferings || [];
+    },
+    { staleTime: productOfferingsCacheTime }
+  );
+  return [data?.productOfferings || [], isLoading, error];
 }
 
 export function refetchProductOfferings() {
