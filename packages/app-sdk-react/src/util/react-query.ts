@@ -27,6 +27,6 @@ export enum QueryKeys {
   FAVORITE_ASSET_IN_LIST = "favorite_asset_in_list",
   BOOKMARKS = "bookmarks",
   SYSTEM_CONFIG_V2 = "systemConfigV2",
-  TAG = "tag",
+  TAGS = "tags",
   AVAILABILITY_KEYS = "availabilityKeys"
 }

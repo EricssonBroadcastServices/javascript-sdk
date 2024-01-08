@@ -4,7 +4,6 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
