@@ -97,6 +97,9 @@ export function useTags(): TApiHook<TagType[], []> {
   return [data || [], isLoading, error];
 }
 
+/**
+ * **Notice**: useTag is just a convenient wrapper around useTag*s*, that assumes you want to fetch all tags once and reuse the same cache. If you just want to fetch one tag id, use `getTagById` from rbm-ott-sdk instead.
+ */
 export function useTag(tagId: string): TApiHook<TagType> {
   const [tags, isLoading, error] = useTags();
   const tag = isLoading || error ? null : tags.find(tag => tag.tagId === tagId);
