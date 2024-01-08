@@ -21,7 +21,7 @@ export * from "./hooks/usePage";
 export { usePushNextContentData } from "./hooks/usePushNextContentData";
 export * from "./hooks/useSystemConfig";
 export { ErrorCode } from "./util/error";
-export { queryClient, QueryKeys } from "./util/react-query";
+export * from "./util/react-query";
 export { useContinueWatching } from "./hooks/useContinueWatching";
 export { useDeleteAccount } from "./hooks/useDeleteAccount";
 export * from "./hooks/useTagFeedFilter";
