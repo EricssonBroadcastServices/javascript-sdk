@@ -21,3 +21,11 @@
 .carousel-item-meta {
   padding: 12px;
 }
+
+.carousel-item-tag-container {
+  display: flex;
+}
+
+.carousel-item-tag {
+  color: red; 
+}

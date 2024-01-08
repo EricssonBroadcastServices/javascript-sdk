@@ -1,5 +1,5 @@
 export { RedBeeContext, RedBeeProvider, ActionType, useRedBeeState, useRedBeeStateDispatch } from "./RedBeeProvider";
-export { useSelectedLanguage, useSetSelectedLanguage } from "./hooks/useSelectedLanguage";
+export * from "./hooks/useSelectedLanguage";
 export * from "./hooks/useGeolocation";
 export * from "./hooks/useConfig";
 export { useTranslations } from "./hooks/useTranslations";

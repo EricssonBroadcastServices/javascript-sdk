@@ -1,10 +1,9 @@
 {
   "name": "@ericssonbroadcastservices/whitelabel-sdk",
-  "version": "0.151.1",
+  "version": "0.152.0",
   "description": "",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch",
     "test": "TZ=UTC jest",
     "test:watch": "jest --watch",
     "lint": "npm run lint:code && npm run lint:types",
@@ -40,7 +39,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@ericssonbroadcastservices/exposure-sdk": "^0.118.1"
+    "@ericssonbroadcastservices/exposure-sdk": "^0.119.0"
   },
   "browserslist": [
     "defaults"

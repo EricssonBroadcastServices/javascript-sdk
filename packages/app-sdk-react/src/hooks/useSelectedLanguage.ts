@@ -4,9 +4,7 @@ import { refetchUserDetails, useUserDetails } from "./useUserDetails";
 import { useRedBeeStateDispatch, ActionType, useRedBeeState } from "../RedBeeProvider";
 import { useUserSession } from "./useUserSession";
 import { StorageKey } from "../util/storageKeys";
-
-// @TODO: use defaultLanguage from system config as the fallback instead
-const defaultLanguage = "en";
+import { useConfig } from "./useConfig";
 
 export function useSetSelectedLanguage() {
   const dispatch = useRedBeeStateDispatch();
@@ -30,7 +28,23 @@ export function useSetSelectedLanguage() {
   );
 }
 
+export function useDefaultLanguage() {
+  const [config] = useConfig();
+  return config?.systemConfig.defaultLocale || "en";
+}
+
 export function useSelectedLanguage() {
+  const defaultLanguage = useDefaultLanguage();
   const { selectedLanguage } = useRedBeeState();
   return selectedLanguage || defaultLanguage;
+}
+
+export function useLanguage() {
+  const defaultLanguage = useDefaultLanguage();
+  const language = useSelectedLanguage();
+
+  return {
+    language,
+    defaultLanguage
+  };
 }

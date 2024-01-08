@@ -5,8 +5,8 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 
 interface IActivationCodeData {
-  code: string;
-  expires: Date;
+  code?: string;
+  expires?: Date;
   isOverDeviceLimit: boolean;
   refresh: () => void;
 }
@@ -15,7 +15,7 @@ interface IActionvationCodeOptions {
   updateInterval?: number;
 }
 
-export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOptions): TApiHook<IActivationCodeData> {
+export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOptions): TApiHook<IActivationCodeData, IActivationCodeData> {
   const { customer, businessUnit, serviceContext, deviceRegistration } = useRedBeeState();
   const setSession = useSetSession();
   const [refreshCounter, setRefreshCounter] = useState(0);
@@ -85,5 +85,5 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
     // can't, and don't need to, add exposure as dependancy
   }, [customer, businessUnit, refreshCounter]);
 
-  return [{ ...(data as IActivationCodeData), refresh, isOverDeviceLimit }, isLoading, codeError];
+  return [{ ...data, refresh, isOverDeviceLimit }, isLoading, codeError];
 }
