@@ -52,7 +52,7 @@ export function useEntitlementForAsset(
     ],
     async () => {
       if (
-        !session?.isLoggedIn() ||
+        !session?.hasSession() ||
         !asset ||
         !customer ||
         !businessUnit ||
