@@ -2,8 +2,10 @@ import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import {
   ProductOfferingPurchases,
+  StorePurchaseTransaction,
   cancelPurchaseSubscription,
-  getOfferingPurchases
+  getOfferingPurchases,
+  getPurchaseTransactions
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
@@ -13,6 +15,26 @@ import { useSystemConfigV2 } from "./useSystemConfig";
 
 const purchasesCacheTime = 1000 * 60 * 30;
 
+export function usePurchaseTransactions(): TApiHook<StorePurchaseTransaction[]> {
+  const ctx = useServiceContext();
+  const [session] = useUserSession();
+
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.PURCHASES, session?.sessionToken],
+    () => {
+      if (session?.isLoggedIn()) {
+        const headers = new Headers();
+        headers.set("Authorization", `Bearer ${session?.sessionToken}`);
+        return getPurchaseTransactions.call(ctx, { headers });
+      }
+      return;
+    },
+    {
+      staleTime: purchasesCacheTime
+    }
+  );
+  return [data || [], isLoading, error];
+}
 export function usePurchases(): TApiHook<ProductOfferingPurchases> {
   const [login] = useUserSession();
   const ctx = useServiceContext();

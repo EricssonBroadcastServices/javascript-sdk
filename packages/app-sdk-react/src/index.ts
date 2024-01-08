@@ -9,7 +9,7 @@ export { useSearch } from "./hooks/useSearch";
 export { useUserDetails, refetchUserDetails } from "./hooks/useUserDetails";
 export { useUserSession, useSetSession } from "./hooks/useUserSession";
 export * from "./hooks/useTags";
-export { useConsumedDiscounts, usePurchases, useTvodIds, useUnsubscribe, refetchPurchases } from "./hooks/usePurchases";
+export * from "./hooks/usePurchases";
 export * from "./hooks/useProductOfferings";
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";
 export { useAsset } from "./hooks/useAsset";
