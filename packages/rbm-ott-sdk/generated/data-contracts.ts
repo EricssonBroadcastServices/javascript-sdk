@@ -1489,24 +1489,24 @@ export interface StorePurchase {
 export interface StorePurchaseTransaction {
   assetId?: string;
   created?: string;
-  from?: string;
+  from: string;
   localizedAsset?: StoreLocalizedTitle[];
   localizedProductOffering?: StoreLocalizedName[];
   productIds?: string[];
-  productOfferingId?: string;
+  productOfferingId: string;
   /** Type of offering: purchase, rental, event, subscription */
   productOfferingType?: string;
   renewAt?: string;
-  status?: string;
-  transactions?: StoreTransaction[];
-  until?: string;
+  status: string;
+  transactions: StoreTransaction[];
+  until: string;
   voucherCode?: string;
 }
 
 export interface StoreTransaction {
   amount?: string;
   attributes?: Record<string, string>;
-  completedTime?: string;
+  completedTime: string;
   /** @deprecated */
   id?: string;
   paymentProviderRequestId?: string;
@@ -1514,9 +1514,9 @@ export interface StoreTransaction {
   paymentProviderType?: string;
   productOfferingId?: string;
   receiptUrl?: string;
-  refunded?: boolean;
-  status?: StoreTransactionStatus;
-  transactionId?: string;
+  refunded: boolean;
+  status: StoreTransactionStatus;
+  transactionId: string;
 }
 
 export const StoreTransactionStatus = {

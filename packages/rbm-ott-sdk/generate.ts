@@ -157,6 +157,14 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiEntitleResponseV2.required = ["streamInfo"];
   spec.components.schemas.ApiLoginResponse.required = ["sessionToken", "expirationDateTime"];
   spec.components.schemas.ApiAnonymousSessionResponse.required = ["sessionToken", "expirationDateTime"];
+  spec.components.schemas.ApiStorePurchaseTransaction.required = [
+    "from",
+    "until",
+    "status",
+    "transactions",
+    "productOfferingId"
+  ];
+  spec.components.schemas.ApiStoreTransaction.required = ["transactionId", "completedTime", "refunded", "status"];
 
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = {
