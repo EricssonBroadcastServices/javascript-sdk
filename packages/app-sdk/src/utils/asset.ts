@@ -6,26 +6,71 @@ import {
   StoreProductOffering
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { PublicationHelpers } from "./publication";
-import { getLocalizedImageByType, getLocalizedValue } from "./localization";
+import {
+  getLocalizedImageByType,
+  getLocalizedValue,
+  DESCRIPTION_TYPES,
+  getAvailableDescriptions,
+  DESCRIPTION_MAX_LENGTHS
+} from "./localization";
 import { getDurationLocalized, getTimeString } from "./time";
 import { dateIntervalIsNow } from "./date";
 import { ImageFormat, fit } from "./image-scaling";
 import { CarouselItem } from "../interfaces/component-content";
+import truncate from "lodash.truncate";
 
-export function getTitleFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
-  return getLocalizedValue(asset.localized, "title", locale, defaultLocale);
+type LocalizedOptions = {
+  language: string;
+  defaultLanguage?: string;
+};
+
+type DescriptionOptions = LocalizedOptions & {
+  fallback?: boolean;
+};
+
+export function getTitleFromAsset(asset: Asset, options: LocalizedOptions) {
+  const { language, defaultLanguage } = options;
+  return getLocalizedValue(asset.localized, "title", language, defaultLanguage);
 }
 
-export function getShortDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
-  return getLocalizedValue(asset.localized, "shortDescription", locale, defaultLocale);
+function getDescription(asset: Asset, type: (typeof DESCRIPTION_TYPES)[number], options: DescriptionOptions) {
+  const { language, defaultLanguage, fallback } = options;
+  const description = getLocalizedValue(asset.localized, type, language, defaultLanguage);
+  if (!description && fallback) {
+    const availableDescriptions = getAvailableDescriptions(asset.localized, language, defaultLanguage);
+    if (availableDescriptions.length) {
+      return truncate(
+        getLocalizedValue(
+          asset.localized,
+          availableDescriptions[availableDescriptions.length - 1],
+          language,
+          defaultLanguage
+        ),
+        { length: DESCRIPTION_MAX_LENGTHS[type] }
+      );
+    }
+  }
+  return description;
 }
 
-export function getMediumDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
-  return getLocalizedValue(asset.localized, "description", locale, defaultLocale);
+export function getTinyDescriptionFromAsset(asset: Asset, options: DescriptionOptions) {
+  return getDescription(asset, "tinyDescription", options);
 }
 
-export function getLongDescriptionFromAsset(asset: Asset, locale: string, defaultLocale?: string) {
-  return getLocalizedValue(asset.localized, "longDescription", locale, defaultLocale);
+export function getShortDescriptionFromAsset(asset: Asset, options: DescriptionOptions) {
+  return getDescription(asset, "shortDescription", options);
+}
+
+export function getMediumDescriptionFromAsset(asset: Asset, options: DescriptionOptions) {
+  return getDescription(asset, "description", options);
+}
+
+export function getLongDescriptionFromAsset(asset: Asset, options: DescriptionOptions) {
+  return getDescription(asset, "longDescription", options);
+}
+
+export function getExtendedDescriptionFromAsset(asset: Asset, options: DescriptionOptions) {
+  return getDescription(asset, "extendedDescription", options);
 }
 
 export function getLocalizedAssetImage(
@@ -45,7 +90,8 @@ export function getScaledAssetImage({
   asset,
   imageType,
   orientation,
-  locale
+  language,
+  defaultLanguage
 }: {
   width?: number;
   height?: number;
@@ -53,9 +99,10 @@ export function getScaledAssetImage({
   asset: Asset;
   imageType: string;
   orientation: ImageOrientation;
-  locale: string;
+  language: string;
+  defaultLanguage?: string;
 }) {
-  const image = getLocalizedAssetImage(asset, orientation, imageType, locale);
+  const image = getLocalizedAssetImage(asset, orientation, imageType, language, defaultLanguage);
   if (!image?.url) return;
   return fit(image.url, { w: width, h: height, format });
 }
@@ -188,9 +235,11 @@ export const ChannelAssetHelpers = {
 export const AssetHelpers = {
   isAssetPlayable,
   getTitle: getTitleFromAsset,
-  getMediumDescription: getMediumDescriptionFromAsset,
+  getTinyDescription: getTinyDescriptionFromAsset,
   getShortDescription: getShortDescriptionFromAsset,
+  getMediumDescription: getMediumDescriptionFromAsset,
   getLongDescription: getLongDescriptionFromAsset,
+  getExtendedDescription: getExtendedDescriptionFromAsset,
   getStartTime: getAssetStartTime,
   getEndTime: getAssetEndtime,
   getLocalizedImage: getLocalizedAssetImage,
