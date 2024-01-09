@@ -28,5 +28,6 @@ export enum QueryKeys {
   BOOKMARKS = "bookmarks",
   SYSTEM_CONFIG_V2 = "systemConfigV2",
   TAGS = "tags",
-  AVAILABILITY_KEYS = "availabilityKeys"
+  AVAILABILITY_KEYS = "availabilityKeys",
+  PAYMENT_METHODS = "paymentMethods"
 }

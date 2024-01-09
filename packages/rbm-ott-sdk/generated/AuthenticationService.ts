@@ -107,7 +107,7 @@ export async function getOauthAuth({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<void>);
+  });
 }
 
 /**
@@ -131,7 +131,7 @@ export async function getOauthRedir({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<void>);
+  });
 }
 
 /**
