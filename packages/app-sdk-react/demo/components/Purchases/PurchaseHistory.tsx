@@ -1,31 +1,36 @@
 import React from "react";
 import { getLocalDateFormat } from "@ericssonbroadcastservices/app-sdk";
-import { useSelectedLanguage, useTranslations, usePurchaseTransactions } from "../../../src";
+import { useSelectedLanguage, useTranslations, usePurchaseTransactions, useTvodAssets } from "../../../src";
 import { Link } from "react-router-dom";
+import { CarouselItem, CarouselWrapper } from "../Carousel/Carousel";
 
 export function PurchaseHistory() {
   const [purchases, isLoading, error] = usePurchaseTransactions();
   const locale = useSelectedLanguage();
   const [translations] = useTranslations();
-
-  if (error) {
-    return (
-      <div>
-        <h3>Ooops something went wrong</h3>
-      </div>
-    );
-  }
-  if (purchases && purchases.length === 0 && !isLoading) {
-    return (
-      <div>
-        <p>{translations.getText("NO_PURCHASE_HISTORY")}</p>
-      </div>
-    );
-  }
+  const [tvods] = useTvodAssets();
 
   return (
     <div>
+      <h3>Tvods</h3>
+      <div>
+        <CarouselWrapper>
+          {tvods?.map(t => (
+            <CarouselItem key={t.assetId} item={{ asset: t }} orientation="LANDSCAPE" />
+          ))}
+        </CarouselWrapper>
+      </div>
       {isLoading && <p>Loading</p>}
+      {purchases && purchases.length === 0 && !isLoading && !error && (
+        <div>
+          <p>{translations.getText("NO_PURCHASE_HISTORY")}</p>
+        </div>
+      )}
+      {!!error && (
+        <div>
+          <h3>Ooops something went wrong</h3>
+        </div>
+      )}
       <table>
         <thead>
           <tr>

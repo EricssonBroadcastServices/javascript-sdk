@@ -54,13 +54,13 @@ export function useProductOfferings({
   ];
 }
 
-export function useProductOfferingsByVoucherCode(code: string): TApiHook<StoreProductOffering[]> {
+export function useProductOfferingsByVoucherCode(code?: string): TApiHook<StoreProductOffering[]> {
   const ctx = useServiceContext();
   const [userSession] = useUserSession();
   const { data, isLoading, error } = useQuery<StorePromotionProductOfferings | undefined>(
     [QueryKeys.PRODUCT_OFFERINGS, code, userSession?.sessionToken],
     async () => {
-      if (!userSession?.sessionToken) return undefined;
+      if (!userSession?.sessionToken || !code) return undefined;
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${userSession?.sessionToken}`);
       const productOfferings = await getOfferingsByVoucher.call(ctx, {

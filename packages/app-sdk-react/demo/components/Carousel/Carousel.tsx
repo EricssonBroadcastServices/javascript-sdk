@@ -32,7 +32,7 @@ function Tag({ tagId }: { tagId: string }) {
   return <p className="carousel-item-tag">{TagHelpers.getTitle(tag, selectedLanguage)}</p>;
 }
 
-function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
+export function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
   const { asset, startTime, endTime } = item;
   const locale = useSelectedLanguage();
   const [translations] = useTranslations();
