@@ -28,7 +28,7 @@ export function useCarouselItem(
       defaultLanguage
     }),
     tags: AssetHelpers.getAllTagIds(item.asset),
-    startDate: item.startTime ? getDayLocalized(new Date(item.startTime), translations) : undefined,
+    startDay: item.startTime ? getDayLocalized(new Date(item.startTime), translations) : undefined,
     startTime: ChannelAssetHelpers.getTimeSlotString(item) || undefined,
     image: AssetHelpers.getScaledImage({
       asset: item.asset,
