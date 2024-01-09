@@ -18,7 +18,7 @@ export function useCarouselItem(
   return {
     assetId: item.asset.assetId,
     isLive: ChannelAssetHelpers.isLive(item),
-    isLiveEvent: item.asset.type === AssetType.LIVE_EVENT,
+    isLiveEvent: item.asset.type === AssetType.LIVE_EVENT || item.asset.type === AssetType.EVENT,
     title: AssetHelpers.getTitle(item.asset, {
       language,
       defaultLanguage
