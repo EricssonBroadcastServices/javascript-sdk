@@ -1,9 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import {
+  Asset,
   ProductOfferingPurchases,
   StorePurchaseTransaction,
   cancelPurchaseSubscription,
+  getAccountAssetPurchases,
   getOfferingPurchases,
   getPurchaseTransactions
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
@@ -62,10 +64,28 @@ export function usePurchases(): TApiHook<ProductOfferingPurchases> {
   return [data || null, isLoading, error];
 }
 
+/** @deprecated use useTvodAssets instead */
 export function useTvodIds(): TApiHook<string[]> {
   const [purchaseResponse, isLoading, error] = usePurchases();
   const tvodIds = useMemo(() => purchaseResponse?.purchases?.flatMap(t => t.assetId || []) || [], [purchaseResponse]);
   return [tvodIds, isLoading, error];
+}
+
+export function useTvodAssets(): TApiHook<Asset[]> {
+  const [session] = useUserSession();
+  const ctx = useServiceContext();
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.PURCHASES, session],
+    () => {
+      console.log(session?.sessionToken);
+      if (!session?.sessionToken) return;
+      const headers = new Headers();
+      headers.set("Authorization", `Bearer ${session?.sessionToken}`);
+      return getAccountAssetPurchases.call(ctx, { headers });
+    },
+    { staleTime: purchasesCacheTime }
+  );
+  return [data || null, isLoading, error];
 }
 
 export function useConsumedDiscounts(): TApiHook<string[]> {
