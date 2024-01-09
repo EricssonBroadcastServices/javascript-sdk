@@ -2,21 +2,17 @@ import { PropsWithChildren, useMemo } from "react";
 import "./carousel.css";
 import React from "react";
 import {
-  AssetHelpers,
   CarouselItem,
-  ChannelAssetHelpers,
   PresentationImageOrientation,
   ResolvedComponent,
   fitToWidth,
-  getTimeString,
   TagHelpers
 } from "@ericssonbroadcastservices/app-sdk";
-import { ChannelAsset, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useCarouselItem, useInitialCarouselIndex, useSelectedLanguage, useTag, useTranslations } from "../../../src";
+import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { useCarouselItem, useInitialCarouselIndex, useSelectedLanguage, useTag } from "../../../src";
 import CarouselHeader from "./CarouselHeader";
 import { useTagFeedFilter } from "../../../src";
 import { Link } from "react-router-dom";
-import { getDayLocalized } from "@ericssonbroadcastservices/app-sdk";
 
 function getAspectRatioMultiplier(orientation: ImageOrientation) {
   if (orientation === "PORTRAIT") return 27.5 / 40.5;
@@ -35,7 +31,7 @@ function Tag({ tagId }: { tagId: string }) {
 export function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
   const width = orientation === "LANDSCAPE" ? 400 : 200;
   const height = width / getAspectRatioMultiplier(orientation);
-  const { assetId, image, startDate, startTime, tags, title, description, isLive } = useCarouselItem(item, {
+  const { assetId, image, startDay, startTime, tags, title, description, isLive } = useCarouselItem(item, {
     orientation,
     width,
     height
@@ -47,7 +43,7 @@ export function CarouselItem({ item, orientation }: { item: CarouselItem; orient
         {isLive && <div>LIVE</div>}
         <img src={image} />
         <div className="carousel-item-meta">
-          {startDate && startTime && <span>{`${startDate}: ${startTime}`}</span>}
+          {startDay && startTime && <span>{`${startDay}: ${startTime}`}</span>}
           <div className="carousel-item-tag-container">
             {tags.map((tag, index) => (
               <Tag key={index} tagId={tag} />
