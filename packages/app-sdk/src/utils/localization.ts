@@ -2,6 +2,31 @@ import { Image, ImageOrientation, LocalizedData, LocalizedTag } from "@ericssonb
 
 type Localized = LocalizedData & LocalizedTag;
 
+export const DESCRIPTION_TYPES = [
+  "tinyDescription",
+  "shortDescription",
+  "description",
+  "longDescription",
+  "extendedDescription"
+] as const;
+
+/**
+ * The maximum length of a description of a given type. Aligned with the customer portal.
+ */
+export const DESCRIPTION_MAX_LENGTHS: Record<(typeof DESCRIPTION_TYPES)[number], number> = {
+  tinyDescription: 80,
+  shortDescription: 140,
+  description: 250,
+  longDescription: Infinity,
+  extendedDescription: Infinity
+};
+
+export function getAvailableDescriptions(localized: Localized[], locale: string, defaultLocale?: string) {
+  return DESCRIPTION_TYPES.filter(descriptionType => {
+    return !!getLocalizedValue(localized, descriptionType, locale, defaultLocale);
+  });
+}
+
 export function getLocalizedValue<Key extends keyof Localized>(
   localized: Localized[],
   property: Key,

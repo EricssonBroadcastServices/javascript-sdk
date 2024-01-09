@@ -5,31 +5,88 @@ import { AssetHelpers } from "./asset";
 
 describe("AssetHelpers", () => {
   it("should find a title", () => {
-    expect(AssetHelpers.getTitle(mockAsset, "en")).toBe("enTitle");
-    expect(AssetHelpers.getTitle(mockAsset, "fr")).toBe("frTitle");
-    expect(AssetHelpers.getTitle(mockAsset, "blabla")).toBe("enTitle");
+    expect(
+      AssetHelpers.getTitle(mockAsset, {
+        language: "en"
+      })
+    ).toBe("enTitle");
+    expect(
+      AssetHelpers.getTitle(mockAsset, {
+        language: "fr"
+      })
+    ).toBe("frTitle");
+    expect(
+      AssetHelpers.getTitle(mockAsset, {
+        language: "blabla"
+      })
+    ).toBe("enTitle");
 
-    expect(AssetHelpers.getTitle(mockAssetEmptyLocalized, "en")).toBeUndefined();
+    expect(AssetHelpers.getTitle(mockAssetEmptyLocalized, { language: "en" })).toBeUndefined();
     // test fallback to locale
-    expect(AssetHelpers.getTitle(mockAsset, "blabla", "fr")).toBe("frTitle");
+    expect(
+      AssetHelpers.getTitle(mockAsset, {
+        language: "blabla",
+        defaultLanguage: "fr"
+      })
+    ).toBe("frTitle");
   });
+
   it("finds descriptions", () => {
-    expect(AssetHelpers.getShortDescription(mockAsset, "en")).toBe("enShortDesc");
-    expect(AssetHelpers.getMediumDescription(mockAsset, "en")).toBe("enDesc");
-    expect(AssetHelpers.getLongDescription(mockAsset, "en")).toBe("enLongDesc");
+    expect(
+      AssetHelpers.getShortDescription(mockAsset, {
+        language: "en"
+      })
+    ).toBe("enShortDesc");
+    expect(
+      AssetHelpers.getMediumDescription(mockAsset, {
+        language: "en"
+      })
+    ).toBe("enDesc");
+    expect(
+      AssetHelpers.getLongDescription(mockAsset, {
+        language: "en"
+      })
+    ).toBe("enLongDesc");
 
-    expect(AssetHelpers.getShortDescription(mockAsset, "fr")).toBe("frShortDesc");
-    expect(AssetHelpers.getMediumDescription(mockAsset, "fr")).toBe("frDesc");
-    expect(AssetHelpers.getLongDescription(mockAsset, "fr")).toBe("frLongDesc");
+    expect(
+      AssetHelpers.getShortDescription(mockAsset, {
+        language: "fr"
+      })
+    ).toBe("frShortDesc");
+    expect(
+      AssetHelpers.getMediumDescription(mockAsset, {
+        language: "fr"
+      })
+    ).toBe("frDesc");
+    expect(
+      AssetHelpers.getLongDescription(mockAsset, {
+        language: "fr"
+      })
+    ).toBe("frLongDesc");
 
-    expect(AssetHelpers.getShortDescription(mockAssetEmptyLocalized, "fr")).toBeUndefined();
-    expect(AssetHelpers.getMediumDescription(mockAssetEmptyLocalized, "fr")).toBeUndefined();
-    expect(AssetHelpers.getLongDescription(mockAssetEmptyLocalized, "fr")).toBeUndefined();
+    expect(AssetHelpers.getShortDescription(mockAssetEmptyLocalized, { language: "fr" })).toBeUndefined();
+    expect(AssetHelpers.getMediumDescription(mockAssetEmptyLocalized, { language: "fr" })).toBeUndefined();
+    expect(AssetHelpers.getLongDescription(mockAssetEmptyLocalized, { language: "fr" })).toBeUndefined();
 
     // test fallback to locale
-    expect(AssetHelpers.getMediumDescription(mockAsset, "blabla", "sv")).toBe("svDesc");
-    expect(AssetHelpers.getLongDescription(mockAsset, "blabla", "sv")).toBe("svLongDesc");
-    expect(AssetHelpers.getShortDescription(mockAsset, "blabla", "sv")).toBe("svShortDesc");
+    expect(
+      AssetHelpers.getMediumDescription(mockAsset, {
+        language: "blabla",
+        defaultLanguage: "sv"
+      })
+    ).toBe("svDesc");
+    expect(
+      AssetHelpers.getLongDescription(mockAsset, {
+        language: "blabla",
+        defaultLanguage: "sv"
+      })
+    ).toBe("svLongDesc");
+    expect(
+      AssetHelpers.getShortDescription(mockAsset, {
+        language: "blabla",
+        defaultLanguage: "sv"
+      })
+    ).toBe("svShortDesc");
   });
   it("finds an image by type and orientation", () => {
     expect(AssetHelpers.getLocalizedImage(mockAsset, "PORTRAIT", "banner", "en")?.url).toBe("enPosterImage.jpg");
