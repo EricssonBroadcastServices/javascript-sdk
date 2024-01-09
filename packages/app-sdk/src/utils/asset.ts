@@ -193,7 +193,7 @@ export function getAssetDurationString(asset: Asset, locale?: string) {
 }
 
 export function getAllTagIdsFromAsset(asset: Asset) {
-  return asset.tags.flatMap(t => t.tagValues?.flatMap(t => t.tagId));
+  return asset.tags.flatMap(t => t.tagValues?.map(t => t.tagId));
 }
 
 export function getPlayHistoryPercentageFromAsset(asset: Asset) {
