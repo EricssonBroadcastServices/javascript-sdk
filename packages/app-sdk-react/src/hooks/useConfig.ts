@@ -9,7 +9,6 @@ import {
   IExposureWLMenu,
   IWLTheme,
   WLComponentHelpers,
-  fitToWidth,
   FitOptions,
   fit
 } from "@ericssonbroadcastservices/app-sdk";
