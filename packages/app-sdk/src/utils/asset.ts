@@ -25,6 +25,10 @@ type LocalizedOptions = {
 };
 
 type DescriptionOptions = LocalizedOptions & {
+  /**
+   * if true, will return the longest available description if the requested one is not available.
+   * The returned description will be truncated to the max length of the requested description type.
+   */
   fallback?: boolean;
 };
 
