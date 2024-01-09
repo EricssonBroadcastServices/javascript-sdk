@@ -21,9 +21,9 @@ export const DESCRIPTION_MAX_LENGTHS: Record<(typeof DESCRIPTION_TYPES)[number],
   extendedDescription: Infinity
 };
 
-export function getAvailableDescriptions(asset: Localized[], locale: string, defaultLocale?: string) {
+export function getAvailableDescriptions(localized: Localized[], locale: string, defaultLocale?: string) {
   return DESCRIPTION_TYPES.filter(descriptionType => {
-    return !!getLocalizedValue(asset, descriptionType, locale, defaultLocale);
+    return !!getLocalizedValue(localized, descriptionType, locale, defaultLocale);
   });
 }
 
