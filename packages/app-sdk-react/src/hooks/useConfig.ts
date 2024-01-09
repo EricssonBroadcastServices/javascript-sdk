@@ -9,10 +9,11 @@ import {
   IExposureWLMenu,
   IWLTheme,
   WLComponentHelpers,
-  fitToWidth
+  FitOptions,
+  fit
 } from "@ericssonbroadcastservices/app-sdk";
 import { useSystemConfigV2 } from "./useSystemConfig";
-import { useSelectedLanguage } from "./useSelectedLanguage";
+import { useLanguage, useSelectedLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
 
 const configLoadingId = "configLoading";
@@ -142,13 +143,19 @@ export function useContactInformation() {
   return { phone, website, email };
 }
 
-export function useBackgroundImageUrl(size: number) {
+export function useConfigImage(tag: "logo" | "background", fitOptions: FitOptions) {
   const [config] = useConfig();
-  const locale = useSelectedLanguage();
+  const { language } = useLanguage();
+  if (!config) {
+    return;
+  }
   return useMemo(() => {
-    if (!config) return;
-    const bgImg = WLComponentHelpers.getImageByTag(config, "background", locale);
-    if (!bgImg?.url) return;
-    return fitToWidth(bgImg.url, size);
+    const image = WLComponentHelpers.getImageByTag(config, tag, language);
+    if (!image?.url) return;
+    return fit(image.url, fitOptions);
   }, [config]);
+}
+
+export function useBackgroundImageUrl(size: number) {
+  return useConfigImage("background", { w: size });
 }
