@@ -77,7 +77,6 @@ export function useTvodAssets(): TApiHook<Asset[]> {
   const { data, isLoading, error } = useQuery(
     [QueryKeys.PURCHASES, session],
     () => {
-      console.log(session?.sessionToken);
       if (!session?.sessionToken) return;
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${session?.sessionToken}`);
