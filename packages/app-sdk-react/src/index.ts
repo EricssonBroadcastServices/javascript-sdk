@@ -31,6 +31,7 @@ export * from "./hooks/useProgramProgress";
 export * from "./Session";
 export * from "./hooks/useValidatePassword";
 export * from "./hooks/useAvailabilityKeys";
+export * from "./hooks/useImageComponent";
 export * from "./hooks/useHeroBannerItem";
 export * from "./hooks/usePaymentMethods";
 export type { TApiHook } from "./types/type.apiHook";

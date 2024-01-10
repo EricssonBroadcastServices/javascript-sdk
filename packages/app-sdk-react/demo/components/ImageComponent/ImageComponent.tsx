@@ -1,22 +1,17 @@
-import { ResolvedComponent, WLComponentHelpers, fitToWidth } from "@ericssonbroadcastservices/app-sdk";
-import React, { useMemo } from "react";
+import { ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
+import React from "react";
 import "./image.css";
-import { useSelectedLanguage } from "../../../src";
+import { useImageComponent } from "../../../src";
 
 export const ImageComponent = ({ component }: ResolvedComponent<"image">) => {
-  const locale = useSelectedLanguage();
-  const imageUrl = useMemo(() => {
-    const image =
-      WLComponentHelpers.getImageByTag(component, "image", locale) || component.presentation?.fallback?.images?.[0];
-    return image?.url;
-  }, [component]);
-  if (!imageUrl) return null;
+  const { title, description, image } = useImageComponent(component, { width: 1000 });
+  if (!image) return null;
   return (
     <div className="container">
-      <img src={fitToWidth(imageUrl, 1000)} />
+      <img src={image} />
       <div className="image-meta">
-        <h3>{WLComponentHelpers.getTitle(component, locale)}</h3>
-        <p>{WLComponentHelpers.getDescription(component, locale)}</p>
+        <h3>{title}</h3>
+        <p>{description}</p>
       </div>
     </div>
   );
