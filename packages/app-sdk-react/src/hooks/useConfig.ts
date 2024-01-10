@@ -149,11 +149,13 @@ export function useConfigImage(tag: "logo" | "background", fitOptions: FitOption
   if (!config) {
     return;
   }
-  return useMemo(() => {
+  const imageUrl = useMemo(() => {
     const image = WLComponentHelpers.getImageByTag(config, tag, language);
     if (!image?.url) return;
     return fit(image.url, fitOptions);
   }, [config]);
+
+  return imageUrl;
 }
 
 export function useBackgroundImageUrl(size: number) {
