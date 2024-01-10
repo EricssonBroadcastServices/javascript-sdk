@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useUserDetails, useUserSession } from "../../src";
 import { useLogin, useLogout } from "../../src/hooks/useLogin";
 
@@ -9,13 +9,19 @@ export const Login = () => {
   const logout = useLogout();
   const [userDetails] = useUserDetails();
   const [session] = useUserSession();
+
+  const onClick = useCallback(() => {
+    if (session?.isLoggedIn()) return logout();
+    login(username, password).catch(err => {
+      console.log(err);
+    });
+  }, [username, password, session]);
+
   return (
     <div>
       <input value={username} onChange={e => setUsername(e.target.value)} />
       <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-      <button onClick={() => (session?.isLoggedIn() ? logout() : login(username, password))}>
-        {session?.isLoggedIn() ? "Log out" : "Login"}
-      </button>
+      <button onClick={onClick}>{session?.isLoggedIn() ? "Log out" : "Login"}</button>
       {session?.isLoggedIn() && <p>{`Logged in as: ${userDetails?.username}`}</p>}
       {session?.isAnonymous && <p>Logged in anonymously</p>}
       {!session && <p>Session is null</p>}

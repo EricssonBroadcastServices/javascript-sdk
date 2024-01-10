@@ -48,7 +48,7 @@ export function Menu() {
         ))}
 
         <NavLink to={`/login`}>
-          {userSession?.isLoggedIn() ? translations?.getText("LOG_IN") : translations?.getText("LOGOUT")}
+          {!userSession?.isLoggedIn() ? translations?.getText("LOG_IN") : translations?.getText("LOG_OUT")}
         </NavLink>
         {userSession?.isLoggedIn() && <span>{`Logged In as ${userDetails?.username}`}</span>}
       </nav>
