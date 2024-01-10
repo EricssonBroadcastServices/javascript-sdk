@@ -30,7 +30,7 @@ export async function getGeneratedCollectionEntriesCarousel(
     presentationParameters: {
       density: "MEDIUM",
       imageOrientation: "landscape",
-      carouselLayout: "carousel"
+      carouselLayout: "grid"
     }
   };
 }
