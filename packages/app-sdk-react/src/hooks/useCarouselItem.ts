@@ -1,4 +1,10 @@
-import { AssetHelpers, CarouselItem, ChannelAssetHelpers, getDayLocalized } from "@ericssonbroadcastservices/app-sdk";
+import {
+  AssetHelpers,
+  CarouselItem,
+  ChannelAssetHelpers,
+  getDayLocalized,
+  ImageFormat
+} from "@ericssonbroadcastservices/app-sdk";
 import { AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
@@ -9,9 +15,10 @@ export function useCarouselItem(
     orientation: ImageOrientation;
     width: number;
     height?: number;
+    imageFormat?: ImageFormat;
   }
 ) {
-  const { orientation, width, height } = options;
+  const { orientation, width, height, imageFormat } = options;
   const { language, defaultLanguage } = useLanguage();
   const [translations] = useTranslations();
 
@@ -33,7 +40,7 @@ export function useCarouselItem(
     image: AssetHelpers.getScaledImage({
       asset: item.asset,
       imageType: "cover",
-      format: "webp",
+      format: imageFormat,
       orientation,
       width,
       height,
