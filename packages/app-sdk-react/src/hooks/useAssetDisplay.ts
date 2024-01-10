@@ -72,8 +72,6 @@ export function useAssetDisplay(asset: Asset, options: UseAssetOptions) {
 
   const progress = useProgramProgress({ asset, live: entitlement.streamInfo.live });
 
-  console.log(progress, entitlement);
-
   return {
     ...defaults,
     seriesTitle,
