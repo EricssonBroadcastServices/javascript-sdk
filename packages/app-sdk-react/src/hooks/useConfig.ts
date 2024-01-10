@@ -146,10 +146,10 @@ export function useContactInformation() {
 export function useConfigImage(tag: "logo" | "background", fitOptions: FitOptions) {
   const [config] = useConfig();
   const { language } = useLanguage();
-  if (!config) {
-    return;
-  }
   const imageUrl = useMemo(() => {
+    if (!config) {
+      return;
+    }
     const image = WLComponentHelpers.getImageByTag(config, tag, language);
     if (!image?.url) return;
     return fit(image.url, fitOptions);
