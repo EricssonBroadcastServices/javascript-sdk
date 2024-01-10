@@ -35,4 +35,5 @@ export * from "./hooks/useCarouselItem";
 export * from "./hooks/useImageComponent";
 export * from "./hooks/useHeroBannerItem";
 export * from "./hooks/usePaymentMethods";
+export * from "./hooks/useAssetDisplay";
 export type { TApiHook } from "./types/type.apiHook";

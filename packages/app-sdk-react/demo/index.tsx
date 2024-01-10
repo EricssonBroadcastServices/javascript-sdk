@@ -20,6 +20,15 @@ const deviceRegistration = {
   type: DeviceType.WEB
 };
 
+export function getCustomerBusinessUnit() {
+  let { customer, businessUnit } = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+  if (!customer || !businessUnit) {
+    customer = "BSCU";
+    businessUnit = "BSBU";
+  }
+  return { customer, businessUnit };
+}
+
 export default function App() {
   const [config] = useConfig();
   if (!config) return null;
@@ -54,11 +63,12 @@ const storage: IStorage = {
 };
 
 function AppProvider() {
+  const { customer, businessUnit } = getCustomerBusinessUnit();
   return (
     <RedBeeProvider
       baseUrl={"https://exposure.api.redbee.dev"}
-      customer={"BSCU"}
-      businessUnit={"BSBU"}
+      customer={customer}
+      businessUnit={businessUnit}
       storage={storage}
       deviceRegistration={deviceRegistration}
       deviceGroup={DeviceGroup.WEB}

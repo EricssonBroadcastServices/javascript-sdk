@@ -25,14 +25,15 @@ function getInitialSlideFromAssetList(carousel: IExposureWLCarousel, assetList: 
 
 export function getResolvedCarouselComponentFromSeason(
   seasonAsset: Season,
-  locale: string
+  language: string,
+  defaultLanguage?: string
 ): ResolvedComponent<"carousel"> {
   const component: IExposureWLCarousel = {
     id: `seasonSelector-${seasonAsset.seasonId}`,
     appType: "carousel",
     presentation: {
       fallback: {
-        title: SeasonHelpers.getTitle(seasonAsset, locale),
+        title: SeasonHelpers.getTitle(seasonAsset, language, defaultLanguage),
         body: "",
         images: []
       },
