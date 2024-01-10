@@ -22,7 +22,7 @@ export function usePurchaseTransactions(): TApiHook<StorePurchaseTransaction[]> 
   const [session] = useUserSession();
 
   const { data, isLoading, error } = useQuery(
-    [QueryKeys.PURCHASES, session?.sessionToken],
+    [QueryKeys.PURCHASE_TRANSACTIONS, session?.sessionToken],
     () => {
       if (session?.isLoggedIn()) {
         const headers = new Headers();
@@ -93,7 +93,7 @@ export function useConsumedDiscounts(): TApiHook<string[]> {
 }
 
 export function refetchPurchases() {
-  return queryClient.invalidateQueries(QueryKeys.PURCHASES);
+  return queryClient.invalidateQueries([QueryKeys.PURCHASES, QueryKeys.PURCHASE_TRANSACTIONS]);
 }
 
 export function useUnsubscribe(): [(purchaseId: string) => void, boolean] {
