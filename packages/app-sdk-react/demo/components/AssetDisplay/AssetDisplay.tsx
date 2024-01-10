@@ -1,18 +1,12 @@
-import React, { useMemo } from "react";
-import { Asset, AssetType } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import {
-  AssetHelpers,
-  ResolvedComponent,
-  WLCarouselHelpers,
-  getTitleFromAsset
-} from "@ericssonbroadcastservices/app-sdk";
+import React from "react";
+import { AssetType } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { ResolvedComponent, EntitlementStatusResult } from "@ericssonbroadcastservices/app-sdk";
 import { FavoriteButton } from "./FavoriteButton";
 import {
-  useBookmarkPercentage,
-  useContinueWatching,
-  useEntitlementForAsset,
-  usePushNextContentData,
-  useSelectedLanguage
+  useAssetDisplay,
+  useAssetDisplayCollection,
+  useAssetDisplayTvShow,
+  usePushNextContentData
 } from "../../../src";
 import { JsonBox } from "../../components/JsonBox";
 import { PlayButton } from "./PlayButton";
@@ -21,8 +15,7 @@ import "./asset-display.css";
 import { Link } from "react-router-dom";
 import { CarouselComponent } from "../Carousel/Carousel";
 
-const Entitlements = ({ asset }: { asset: Asset }) => {
-  const [status] = useEntitlementForAsset({ asset }, {});
+const Entitlements = ({ status }: { status: EntitlementStatusResult }) => {
   return (
     <>
       <PlayButton entitlementResult={status} />
@@ -31,28 +24,25 @@ const Entitlements = ({ asset }: { asset: Asset }) => {
   );
 };
 
-export const AssetDisplay = ({ content }: ResolvedComponent<"asset_display">) => {
-  const asset = content;
-  const language = useSelectedLanguage();
-  const [bookmarkPercentage] = useBookmarkPercentage(asset.assetId);
+function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
+  const asset = props.content;
+  const { title, description, image, tags, entitlement, loadingEntitlement, progress } = useAssetDisplay(asset, {
+    width: 800
+  });
   const [pnc] = usePushNextContentData(asset.assetId);
   const { upNext, recommendations } = pnc || {};
-  const [continueWatching] = useContinueWatching(asset.assetId);
-  const seasonCarousels = useMemo(() => {
-    return asset.seasons?.map(s => WLCarouselHelpers.getResolvedCarouselComponentFromSeason(s, language));
-  }, [asset, language]);
+
   return (
     <>
       <div className="asset-display">
         <div className="asset-display-meta">
-          <h1>{getTitleFromAsset(asset, language)}</h1>
-          <p>{AssetHelpers.getLongDescription(asset, language)}</p>
+          <h1>{`${title}${loadingEntitlement ? " - loadingEntitlement" : ""}`}</h1>
+          <p>{description}</p>
           <FavoriteButton assetId={asset.assetId} />
-          <h4>{`Bookmark percentage: ${bookmarkPercentage}`}</h4>
-          <Entitlements asset={asset} />
-          <JsonBox json={JSON.stringify({ continueWatching }, null, 2)} title="Continue Watching asset" />
+          <h4>{`Bookmark percentage: ${progress.percentage}`}</h4>
+          <Entitlements status={entitlement} />
           <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data" />
-          {AssetHelpers.getAllTagIds(asset).map(id => {
+          {tags.map(id => {
             return (
               <Link to={`/tag/${id}`} key={id}>
                 <button>{id}</button>
@@ -61,21 +51,94 @@ export const AssetDisplay = ({ content }: ResolvedComponent<"asset_display">) =>
           })}
         </div>
         <div className="asset-display-img-section">
-          <img
-            src={AssetHelpers.getScaledImage({
-              width: 800,
-              imageType: "cover",
-              locale: language,
-              orientation: "LANDSCAPE",
-              asset
-            })}
-          ></img>
+          <img src={image}></img>
         </div>
       </div>
       {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker selectedChannel={asset.assetId} />}
-      {seasonCarousels?.map(s => (
+    </>
+  );
+}
+
+function AssetDisplayCollection(props: ResolvedComponent<"asset_display">) {
+  const asset = props.content;
+  const { title, description, tags, image, trailerAssetId } = useAssetDisplayCollection(asset, { width: 800 });
+  return (
+    <>
+      <div className="asset-display">
+        <div className="asset-display-meta">
+          <h1>{`${title}`}</h1>
+          <p>{description}</p>
+          {trailerAssetId && <p>{`Trailer asset id: ${trailerAssetId}`}</p>}
+          <FavoriteButton assetId={asset.assetId} />
+          {tags.map(id => {
+            return (
+              <Link to={`/tag/${id}`} key={id}>
+                <button>{id}</button>
+              </Link>
+            );
+          })}
+        </div>
+        <div className="asset-display-img-section">
+          <img src={image}></img>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
+  const asset = props.content;
+  const {
+    title,
+    description,
+    tags,
+    image,
+    loadingEntitlement,
+    loadingContinueWatching,
+    progress,
+    seasons,
+    continueWatching,
+    entitlement
+  } = useAssetDisplayTvShow(asset, { width: 800 });
+
+  const loading = loadingEntitlement || loadingContinueWatching;
+
+  return (
+    <>
+      <div className="asset-display">
+        <div className="asset-display-meta">
+          <h1>{`${title}${loading ? " - loading" : ""}`}</h1>
+          <p>{description}</p>
+          <FavoriteButton assetId={asset.assetId} />
+          <h4>{`Bookmark percentage: ${progress.percentage}`}</h4>
+          <Entitlements status={entitlement} />
+          <JsonBox json={JSON.stringify({ continueWatching }, null, 2)} title="Continue Watching asset" />
+          {tags.map(id => {
+            return (
+              <Link to={`/tag/${id}`} key={id}>
+                <button>{id}</button>
+              </Link>
+            );
+          })}
+        </div>
+        <div className="asset-display-img-section">
+          <img src={image}></img>
+        </div>
+      </div>
+      {seasons?.map(s => (
         <CarouselComponent key={s.component.id} {...s} />
       ))}
     </>
   );
+}
+
+export const AssetDisplay = (props: ResolvedComponent<"asset_display">) => {
+  switch (props.content.type) {
+    case AssetType.TV_SHOW:
+      return <AssetDisplayTvShow {...props} />;
+    case AssetType.COLLECTION:
+      return <AssetDisplayCollection {...props} />;
+    default:
+      return <AssetDisplayGeneric {...props} />;
+  }
 };

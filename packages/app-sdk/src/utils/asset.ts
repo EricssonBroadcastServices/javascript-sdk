@@ -187,9 +187,9 @@ export function getAssetIdentifier(asset: Asset) {
   return asset.slugs?.length > 0 ? asset.slugs[0] : asset.assetId;
 }
 
-export function getAssetDurationString(asset: Asset, locale?: string) {
+export function getAssetDurationString(asset: Asset, language: string, defaultLanguage: string) {
   if (!asset.duration) return;
-  return getDurationLocalized(asset.duration, locale);
+  return getDurationLocalized(asset.duration, language, defaultLanguage);
 }
 
 export function getAllTagIdsFromAsset(asset: Asset) {

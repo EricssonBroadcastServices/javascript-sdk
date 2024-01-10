@@ -32,4 +32,5 @@ export * from "./Session";
 export * from "./hooks/useValidatePassword";
 export * from "./hooks/useAvailabilityKeys";
 export * from "./hooks/usePaymentMethods";
+export * from "./hooks/useAssetDisplay";
 export type { TApiHook } from "./types/type.apiHook";

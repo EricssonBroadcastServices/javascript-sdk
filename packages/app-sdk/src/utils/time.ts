@@ -63,11 +63,10 @@ export const getTimeString = (date: Date) => {
   return date.toTimeString().slice(0, 5);
 };
 
-export const getDurationLocalized = (milliseconds: number, locale?: string) => {
-  const language = locale || "en";
+export const getDurationLocalized = (milliseconds: number, language: string, defaultLanguage: string) => {
   return humanizeDuration(milliseconds, {
     language: language,
-    fallbacks: ["en"],
+    fallbacks: [defaultLanguage, "en"],
     round: true
   });
 };

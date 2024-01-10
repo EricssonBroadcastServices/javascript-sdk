@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { useAsset } from "./useAsset";
 import { useBookmarkPercentage } from "./useBookmarks";
 import { useTranslations } from "./useTranslations";
 import { getEventProgress, getTimeLeft } from "@ericssonbroadcastservices/app-sdk";
+import { Asset } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 type TimeLeftProps = {
   percentageWatched?: number;
@@ -41,13 +41,12 @@ export function useGetTimeLeft({ percentageWatched, durationMs }: TimeLeftProps)
   return timeLeft;
 }
 
-export function useProgramProgress({ assetId, live }: { assetId?: string; live?: boolean }): {
+export function useProgramProgress({ asset, live }: { asset: Asset; live?: boolean }): {
   duration: number;
-  progress: number;
+  percentage: number;
 } {
-  const [asset] = useAsset(assetId);
-  const [assetProgress] = useBookmarkPercentage(assetId);
-  const [duration, progress] = useMemo(() => {
+  const [assetProgress] = useBookmarkPercentage(asset.assetId);
+  const [duration, percentage] = useMemo(() => {
     if (live && asset?.programs) {
       const programProgress = getEventProgress(asset.programs, asset.assetId);
       return [programProgress.duration, programProgress.progress];
@@ -55,7 +54,7 @@ export function useProgramProgress({ assetId, live }: { assetId?: string; live?:
       return [asset.duration, assetProgress];
     }
     return [0, 0];
-  }, [asset, assetProgress, assetId, live]);
+  }, [asset, assetProgress, live]);
 
-  return { duration, progress };
+  return { duration, percentage };
 }
