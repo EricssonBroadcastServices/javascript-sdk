@@ -46,7 +46,9 @@ export function useDeletePaymentMethod() {
   const [session] = useUserSession();
   return useCallback(
     (paymentMethodId: string) => {
-      if (!session?.isLoggedIn()) return;
+      if (!session?.isLoggedIn()) {
+        throw new Error("deleting a paymentmethod requires being logged in");
+      }
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${session?.sessionToken}`);
       return deleteStoredPaymentMethod.call(ctx, { paymentMethodId, headers }).then(() => {
@@ -62,7 +64,9 @@ export function useSetPreferredPaymentMethod() {
   const [session] = useUserSession();
   return useCallback(
     (paymentMethodId: string) => {
-      if (!session?.isLoggedIn()) return;
+      if (!session?.isLoggedIn()) {
+        throw new Error("setting a paymentmethod requires being logged in");
+      }
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${session?.sessionToken}`);
       return updatePreferredPaymentMethod.call(ctx, { paymentMethodId, headers }).then(() => {
