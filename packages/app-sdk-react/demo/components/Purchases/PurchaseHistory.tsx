@@ -1,15 +1,21 @@
 import React from "react";
-import { getLocalDateFormat } from "@ericssonbroadcastservices/app-sdk";
-import { useSelectedLanguage, useTranslations, usePurchaseTransactions, useTvodAssets } from "../../../src";
+import { ProductOfferingHelpers, getLocalDateFormat } from "@ericssonbroadcastservices/app-sdk";
+import {
+  useSelectedLanguage,
+  useTranslations,
+  usePurchaseTransactions,
+  useTvodAssets,
+  useActivePackages
+} from "../../../src";
 import { Link } from "react-router-dom";
 import { CarouselItem, CarouselWrapper } from "../Carousel/Carousel";
 
 export function PurchaseHistory() {
   const [purchases, isLoading, error] = usePurchaseTransactions();
+  const [activePackages] = useActivePackages();
   const locale = useSelectedLanguage();
   const [translations] = useTranslations();
   const [tvods] = useTvodAssets();
-
   return (
     <div>
       <h3>Tvods</h3>
@@ -19,6 +25,20 @@ export function PurchaseHistory() {
             <CarouselItem key={t.assetId} item={{ asset: t }} orientation="LANDSCAPE" />
           ))}
         </CarouselWrapper>
+      </div>
+      <div>
+        <h3>Active Packages</h3>
+        <div>
+          {activePackages?.map(purchase => {
+            return (
+              <div key={purchase.purchaseId}>
+                {purchase.apiStoreProductOffering && (
+                  <p>{ProductOfferingHelpers.getTitle(purchase.apiStoreProductOffering, "en")}</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
       {isLoading && <p>Loading</p>}
       {purchases && purchases.length === 0 && !isLoading && !error && (

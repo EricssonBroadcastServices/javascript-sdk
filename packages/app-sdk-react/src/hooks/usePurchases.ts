@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import {
   Asset,
+  ProductOfferingPurchase,
   ProductOfferingPurchases,
   StorePurchaseTransaction,
   cancelPurchaseSubscription,
@@ -62,6 +63,19 @@ export function usePurchases(): TApiHook<ProductOfferingPurchases> {
     }
   );
   return [data || null, isLoading, error];
+}
+
+export function useActivePackages(): TApiHook<ProductOfferingPurchase[]> {
+  const [purchaseResponse, isLoading, error] = usePurchases();
+  // Filter out TVODs and non-active packages
+  const purchases = useMemo(
+    () =>
+      purchaseResponse?.purchases?.filter(
+        p => p.apiStoreProductOffering && !p.apiStoreProductOffering.productRequiresSelectAsset
+      ),
+    [purchaseResponse]
+  );
+  return [purchases || [], isLoading, error];
 }
 
 /** @deprecated use useTvodAssets instead */
