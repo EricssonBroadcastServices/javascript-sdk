@@ -20,3 +20,8 @@ export function usePasswordPolicy() {
   const [systemConfig] = useSystemConfigV2();
   return systemConfig?.access.passwordPolicy;
 }
+
+export function useIsFreeForAll() {
+  const [systemConfig] = useSystemConfigV2();
+  return systemConfig?.frontendFeatures.shouldAlwaysUseAnonymousLogin;
+}

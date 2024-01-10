@@ -576,7 +576,7 @@ export async function resetPassword({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/password/reset/${username}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<void>);
+  });
 }
 
 /**

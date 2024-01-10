@@ -45,5 +45,8 @@ export interface IExposureWLConfig {
   };
   parameters: IConfigParameters;
   theme: IWLTheme;
+  /**
+   * @deprecated the system config should be fetched separately
+   */
   systemConfig: any;
 }

@@ -6,6 +6,7 @@ import VoucherForm from "../components/Vouchers/VoucherForm";
 import Favourites from "../components/Favourites/Favorites";
 import { PurchaseHistory } from "../components/Purchases/PurchaseHistory";
 import "./account-page.css";
+import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
 
 export const AccountPage = () => {
   const [userDetails] = useUserDetails();
@@ -26,6 +27,10 @@ export const AccountPage = () => {
       <section className="account-page-section">
         <h3>Favourites</h3>
         <Favourites />
+      </section>
+      <section className="account-page-section">
+        <h3>Payment methods</h3>
+        <PaymentMethods />
       </section>
       <section className="account-page-section">
         <h3>Redeem Voucher</h3>

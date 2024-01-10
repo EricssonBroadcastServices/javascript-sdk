@@ -165,7 +165,10 @@ function patchSpec(data: string): string {
     "productOfferingId"
   ];
   spec.components.schemas.ApiStoreTransaction.required = ["transactionId", "completedTime", "refunded", "status"];
-
+  spec.components.schemas.ApiPaymentMethod.required = ["id", "preferred"];
+  spec.components.schemas.ApiCardSummary.required = ["last4", "brand", "expiryMonth", "expiryYear"];
+  spec.components.schemas.ApiStripePaymentMethodsAndPrice.required = ["methodTypes"];
+  spec.components.schemas.ApiStripeWalletAndPrice.required = ["name", "price", "recurring"];
   /* Add and use payment provider enum type instead of string */
   spec.components.schemas.PaymentProvider = {
     type: "string",
