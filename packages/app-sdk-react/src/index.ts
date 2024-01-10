@@ -13,7 +13,7 @@ export * from "./hooks/usePurchases";
 export * from "./hooks/useProductOfferings";
 export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEntitlementForAsset";
 export { useAsset } from "./hooks/useAsset";
-export { useAddAssetToFavorites, useRemoveAssetFromFavorites, useHandleAssetFavorites } from "./hooks/useFavorites";
+export * from "./hooks/useFavorites";
 export * from "./hooks/useBookmarks";
 export { useChannelPicker } from "./hooks/useChannelPicker";
 export type { IStorage } from "./types/storage";
