@@ -299,13 +299,13 @@ export type CDN = Record<"host" | "profile" | "provider", string>;
 /** Summary of card details */
 export interface CardSummary {
   /** Last of digits of card number */
-  last4?: string;
+  last4: string;
   /** Type of card, e.g visa */
-  brand?: string;
+  brand: string;
   /** Expiry month e.g. "10" */
-  expiryMonth?: string;
+  expiryMonth: string;
   /** Expiry month e.g. "2022" */
-  expiryYear?: string;
+  expiryYear: string;
   /** Origin of the card E.g. Google Pay, Apple Pay. If empty, consider the origin to be the payment provider */
   origin?: string;
 }
@@ -971,8 +971,8 @@ export interface PaymentMethod {
   /** Summary of card details */
   cardSummary?: CardSummary;
   /** The id of the payment method */
-  id?: string;
-  preferred?: boolean;
+  id: string;
+  preferred: boolean;
 }
 
 export interface PaymentMethods {
@@ -1586,7 +1586,7 @@ export interface StripePaymentMethodTypeAndPrice {
 /** If Stripe is enabled. */
 export interface StripePaymentMethodsAndPrice {
   /** One entry for each relevant payment method type, such as "card", "ideal" */
-  methodTypes?: StripePaymentMethodTypeAndPrice[];
+  methodTypes: StripePaymentMethodTypeAndPrice[];
   /** One entry for each relevant wallet, such as "apple", "google" */
   wallets?: StripeWalletAndPrice[];
 }
@@ -1616,11 +1616,11 @@ export type StripeSetupIntentResponse = Record<"clientSecret" | "id", string>;
 /** One entry for each relevant wallet, such as "apple", "google" */
 export interface StripeWalletAndPrice {
   /** Name of wallet e.g apple or google */
-  name?: string;
+  name: string;
   /** Price after any discount */
-  price?: StorePriceTag;
+  price: StorePriceTag;
   /** Will payment be recurring */
-  recurring?: boolean;
+  recurring: boolean;
 }
 
 export interface SubtitleTrackInfo {

@@ -1,14 +1,14 @@
 import { isWebPSupported } from "./webp";
 
-interface IFitOptions {
-  w?: number;
-  h?: number;
-  format?: string;
-}
-
 export type ImageFormat = "webp" | "jpeg" | "png";
 
-export function fit(imageUrl: string | undefined, options: IFitOptions) {
+export type FitOptions = {
+  w?: number;
+  h?: number;
+  format?: ImageFormat;
+};
+
+export function fit(imageUrl: string | undefined, options: FitOptions) {
   if (!imageUrl) return "";
   if (!options?.format && isWebPSupported()) {
     options = options || {};
@@ -17,7 +17,7 @@ export function fit(imageUrl: string | undefined, options: IFitOptions) {
   const searchParams = new URLSearchParams();
   Object.entries(options).forEach(([key, value]) => {
     if (value) {
-      searchParams.set(key, value);
+      searchParams.set(key, value.toString());
     }
   });
   if (imageUrl.includes("?")) {

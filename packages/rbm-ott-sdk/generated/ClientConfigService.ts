@@ -52,7 +52,7 @@ export async function getFile({
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/file/${folder}/${fileName}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<void>);
+  });
 }
 
 /**
