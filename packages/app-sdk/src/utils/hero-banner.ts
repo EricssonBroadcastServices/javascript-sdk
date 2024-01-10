@@ -22,7 +22,7 @@ export function getScaledHeroBannerImage(
   let images =
     item.content.presentation &&
     getImagesFromWLPresentation(item.content.presentation, language)
-      .sort((a, b) => (b.width && a.width ? b.width - a.width : 0))
+      .sort((a, b) => (b.width && a.width ? a.width - b.width : 0))
       .sort((a, b) => (a.orientation && b.orientation ? (a.orientation === ImageOrientation.LANDSCAPE ? -1 : 1) : 0));
 
   // filter out portrait images if width or height isn't set as
