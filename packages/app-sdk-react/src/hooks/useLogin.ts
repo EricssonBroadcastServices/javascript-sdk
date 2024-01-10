@@ -39,13 +39,16 @@ export function useLogout() {
   const setSession = useSetSession();
   const { serviceContext } = useRedBeeState();
   const [session] = useUserSession();
-  return useCallback(async () => {
-    if (!session?.sessionToken) {
-      return;
-    }
-    const headers = { Authorization: `Bearer ${session?.sessionToken}` };
-    return logout.call(serviceContext, { headers, fromAllDevice: false }).finally(async () => setSession(null));
-  }, [session?.sessionToken]);
+  return useCallback(
+    async (fromAllDevice = false) => {
+      if (!session?.sessionToken) {
+        return;
+      }
+      const headers = { Authorization: `Bearer ${session?.sessionToken}` };
+      return logout.call(serviceContext, { headers, fromAllDevice }).finally(async () => setSession(null));
+    },
+    [session?.sessionToken]
+  );
 }
 
 export function useValidateSession() {
