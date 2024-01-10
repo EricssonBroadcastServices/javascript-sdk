@@ -73,7 +73,7 @@ export async function cancelPurchaseSubscription({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/purchase/subscriptions/${purchaseId}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<void>);
+  });
 }
 
 /**
@@ -98,7 +98,7 @@ export async function deleteStoredPaymentMethod({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/paymentmethods/${paymentMethodId}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<void>);
+  });
 }
 
 /**
