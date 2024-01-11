@@ -37,7 +37,7 @@ export function validatePassword({
     message = translations.getText("PASSWORD_ERROR_GROUPS").replace("{groups}", policy.minimumGroups.toString());
   }
   return {
-    valid: password !== "" && groupsOk && lengthOk,
+    valid: !message && password !== "" && groupsOk && lengthOk,
     message
   };
 }
