@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/rbm-ott-sdk",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
   "main": "dist/index.js",
