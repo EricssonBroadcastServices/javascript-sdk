@@ -31,7 +31,7 @@ export default function UpdateUserAttributes() {
   const { defaultLanguage } = useLanguage();
   const [userDetails] = useUserDetails();
   const [changedAttributes, setChangedAttributes] = useState<{ attributeId: string; value: string }[]>([]);
-  const setUserAttributes = useSetUserAttributes();
+  const [setUserAttributes] = useSetUserAttributes();
 
   const onAttributeChanged = useCallback(
     (attributeId: string, value: string) => {

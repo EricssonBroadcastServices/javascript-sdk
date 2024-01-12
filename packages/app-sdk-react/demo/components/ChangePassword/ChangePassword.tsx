@@ -10,7 +10,7 @@ export function ChangePassword() {
   // we only want to validate the newPassword in this case
   const { valid, message } = useValidatePasswords(newPassword, newPassword);
 
-  const changePassword = useChangePassword();
+  const [changePassword] = useChangePassword();
 
   const onSubmit = useCallback(() => {
     if (!valid) return;

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import {
   changeEmail,
@@ -11,7 +11,7 @@ import {
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSetSession, useUserSession } from "./useUserSession";
-import { TApiHook } from "../types/type.apiHook";
+import { TApiCallback, TApiHook } from "../types/type.apiHook";
 import { useServiceContext } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 
@@ -32,15 +32,22 @@ export function useUserDetails(): TApiHook<UserDetailsResponse> {
   return [data || null, isLoading, error];
 }
 
-export function useChangePassword() {
+export function useChangePassword(): TApiCallback<
+  (payload: { newPassword: string; currentPassword: string }) => Promise<void>
+> {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<unknown | null>(null);
   const { serviceContext, deviceRegistration } = useRedBeeState();
   const [userSession] = useUserSession();
   const setSession = useSetSession();
-  return useCallback(
+  const changePasswordCallback = useCallback(
     async ({ newPassword, currentPassword }: { newPassword: string; currentPassword: string }) => {
       if (!userSession?.sessionToken) {
-        throw new Error("Trying to change password without being logged in");
+        setError(new Error("Trying to change password without being logged in"));
+        return;
       }
+      setIsLoading(true);
+      setError(null);
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
       return changePassword
@@ -52,77 +59,126 @@ export function useChangePassword() {
         })
         .then(response => {
           setSession({ ...(response.loginResponse as LoginResponse), isAnonymous: false });
+        })
+        .catch(err => {
+          setError(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     },
     [serviceContext, setSession, userSession]
   );
+  return [changePasswordCallback, isLoading, error];
 }
 
-export function useChangeEmail() {
+export function useChangeEmail(): TApiCallback<(payload: { email: string; password: string }) => Promise<void>> {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<unknown | null>(null);
   const [userDetails] = useUserDetails();
   const [userSession] = useUserSession();
   const serviceContext = useServiceContext();
-  return useCallback(
+  const changeEmailCallback = useCallback(
     async ({ email, password }: { email: string; password: string }) => {
       if (email !== userDetails?.email) {
         if (!userSession?.sessionToken) {
-          throw new Error("Trying to change email without being logged in");
+          setError(new Error("Trying to change email without being logged in"));
+          return;
         }
+        setIsLoading(true);
+        setError(null);
         const headers = new Headers();
         headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
         return changeEmailAndUsername
           .call(serviceContext, { newEmailAddressAndUsername: email, password, headers })
           .then(() => {
             refetchUserDetails();
+          })
+          .catch(err => {
+            setError(err);
+          })
+          .finally(() => {
+            setIsLoading(false);
           });
       }
       return Promise.resolve();
     },
     [serviceContext, userDetails, userSession]
   );
+  return [changeEmailCallback, isLoading, error];
 }
 
-export function useChangeEmailSSO() {
+export function useChangeEmailSSO(): TApiCallback<(email: string) => Promise<void>> {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<unknown | null>(null);
   const serviceContext = useServiceContext();
   const [userSession] = useUserSession();
   const [userDetails] = useUserDetails();
   const { customer, businessUnit } = useServiceContext();
-  return useCallback(
-    async ({ email }: { email: string }) => {
+  const changeEmailSSO = useCallback(
+    async (email: string) => {
       if (email !== userDetails?.email) {
         if (!userSession?.sessionToken) {
-          throw new Error("Trying to change email without being logged in");
+          setError(new Error("Trying to change email without being logged in"));
+          return;
         }
+        setIsLoading(true);
+        setError(null);
         const headers = new Headers();
         headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
-        return changeEmail.call(serviceContext, { newEmailAddress: email, headers }).then(() => {
-          refetchUserDetails();
-        });
+        return changeEmail
+          .call(serviceContext, { newEmailAddress: email, headers })
+          .then(() => {
+            refetchUserDetails();
+          })
+          .catch(err => {
+            setError(err);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
       }
       return Promise.resolve();
     },
     [customer, businessUnit, userDetails]
   );
+  return [changeEmailSSO, isLoading, error];
 }
 
 type Attribute = { attributeId: string; value: any };
 
-export function useSetUserAttributes(): (attributes: { attributeId: string; value: any }[]) => Promise<void> {
+export function useSetUserAttributes(): TApiCallback<
+  (attributes: { attributeId: string; value: any }[]) => Promise<void>
+> {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<unknown | null>(null);
   const serviceContext = useServiceContext();
   const [userSession] = useUserSession();
-  return useCallback(
-    (attributes: Attribute[]): Promise<void> => {
+  const setUserAttributes = useCallback(
+    async (attributes: Attribute[]): Promise<void> => {
       if (!userSession?.sessionToken) {
-        throw new Error("Trying to change email without being logged in");
+        setError(new Error("Trying to update user attributes without being logged in"));
+        return;
       }
+      setIsLoading(true);
+      setError(null);
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
-      return putUserAttributes.call(serviceContext, { list: attributes, headers }).then(() => {
-        refetchUserDetails();
-      });
+      return putUserAttributes
+        .call(serviceContext, { list: attributes, headers })
+        .then(() => {
+          refetchUserDetails();
+        })
+        .catch(err => {
+          setError(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     },
     [serviceContext, userSession]
   );
+  return [setUserAttributes, isLoading, error];
 }
 
 export function refetchUserDetails() {

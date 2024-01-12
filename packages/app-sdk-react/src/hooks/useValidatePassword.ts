@@ -18,6 +18,7 @@ export function useIsPasswordValid(psw: string) {
   const policy = usePasswordPolicy();
   return useMemo(() => {
     if (!policy) return false;
-    return isPasswordValid(psw, policy);
+    const evaluation = isPasswordValid(psw, policy);
+    return evaluation.groupsOk && evaluation.lengthOk;
   }, [psw, policy]);
 }

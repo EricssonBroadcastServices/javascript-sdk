@@ -6,3 +6,5 @@
  * F = fallback return data
  */
 export type TApiHook<T, F = null> = [T | F, boolean, unknown | null];
+
+export type TApiCallback<T> = TApiHook<T, T>;

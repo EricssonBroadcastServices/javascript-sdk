@@ -3,7 +3,7 @@ import { useChangeEmail, useChangeEmailSSO, useUserDetails } from "../../../src/
 
 export function ChangeEmail() {
   const [userDetails] = useUserDetails();
-  const changeEmailAddress = useChangeEmail();
+  const [changeEmailAddress] = useChangeEmail();
   const [password, setPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
 
@@ -26,11 +26,11 @@ export function ChangeEmail() {
 
 export function ChangeEmailSSO() {
   const [userDetails] = useUserDetails();
-  const changeEmailAddress = useChangeEmailSSO();
+  const [changeEmailAddress] = useChangeEmailSSO();
   const [newEmail, setNewEmail] = useState("");
 
   const onSubmit = useCallback(() => {
-    return changeEmailAddress({ email: newEmail });
+    return changeEmailAddress(newEmail);
   }, [newEmail]);
 
   return (
