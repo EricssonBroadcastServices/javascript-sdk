@@ -6,6 +6,7 @@ import {
   changePassword,
   getUserDetails,
   LoginResponse,
+  putUserAttributes,
   UserDetailsResponse
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { queryClient, QueryKeys } from "../util/react-query";
@@ -72,7 +73,7 @@ export function useChangeEmail() {
         return changeEmailAndUsername
           .call(serviceContext, { newEmailAddressAndUsername: email, password, headers })
           .then(() => {
-            queryClient.invalidateQueries(QueryKeys.USER_DETAILS);
+            refetchUserDetails();
           });
       }
       return Promise.resolve();
@@ -95,7 +96,7 @@ export function useChangeEmailSSO() {
         const headers = new Headers();
         headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
         return changeEmail.call(serviceContext, { newEmailAddress: email, headers }).then(() => {
-          queryClient.invalidateQueries(QueryKeys.USER_DETAILS);
+          refetchUserDetails();
         });
       }
       return Promise.resolve();
@@ -104,20 +105,25 @@ export function useChangeEmailSSO() {
   );
 }
 
-/* type Attribute = { attributeId: string; value: any };
+type Attribute = { attributeId: string; value: any };
 
 export function useSetUserAttributes(): (attributes: { attributeId: string; value: any }[]) => Promise<void> {
   const serviceContext = useServiceContext();
-
+  const [userSession] = useUserSession();
   return useCallback(
     (attributes: Attribute[]): Promise<void> => {
-      return putUserAttributes.call(serviceContext, { attributes }).then(() => {
-        queryClient.invalidateQueries(QueryKeys.USER_DETAILS);
+      if (!userSession?.sessionToken) {
+        throw new Error("Trying to change email without being logged in");
+      }
+      const headers = new Headers();
+      headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
+      return putUserAttributes.call(serviceContext, { list: attributes, headers }).then(() => {
+        refetchUserDetails();
       });
     },
-    [serviceContext]
+    [serviceContext, userSession]
   );
-} */
+}
 
 export function refetchUserDetails() {
   return queryClient.invalidateQueries(QueryKeys.USER_DETAILS);

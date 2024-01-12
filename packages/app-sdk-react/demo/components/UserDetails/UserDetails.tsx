@@ -2,6 +2,7 @@ import React from "react";
 import { useUserDetails } from "../../../src";
 import { ChangePassword } from "../ChangePassword/ChangePassword";
 import { ChangeEmail, ChangeEmailSSO } from "../ChangeEmail/ChangeEmail";
+import UpdateUserAttributes from "../UpdateUserAttributes/UpdateUserAttributes";
 
 export default function UserDetails() {
   const [userDetails] = useUserDetails();
@@ -12,6 +13,7 @@ export default function UserDetails() {
       <ChangePassword />
       <ChangeEmail />
       <ChangeEmailSSO />
+      <UpdateUserAttributes />
     </div>
   );
 }
