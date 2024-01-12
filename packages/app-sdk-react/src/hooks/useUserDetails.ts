@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import {
   changeEmail,
   changeEmailAndUsername,
   changePassword,
+  ChangePasswordResponse,
   getUserDetails,
   LoginResponse,
   putUserAttributes,
@@ -11,7 +11,7 @@ import {
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSetSession, useUserSession } from "./useUserSession";
-import { TApiCallback, TApiHook } from "../types/type.apiHook";
+import { TApiMutation, TApiHook } from "../types/type.apiHook";
 import { useServiceContext } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 
@@ -32,153 +32,98 @@ export function useUserDetails(): TApiHook<UserDetailsResponse> {
   return [data || null, isLoading, error];
 }
 
-export function useChangePassword(): TApiCallback<
-  (payload: { newPassword: string; currentPassword: string }) => Promise<void>
+export function useChangePassword(): TApiMutation<
+  { newPassword: string; currentPassword: string },
+  ChangePasswordResponse
 > {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
   const { serviceContext, deviceRegistration } = useRedBeeState();
   const [userSession] = useUserSession();
   const setSession = useSetSession();
-  const changePasswordCallback = useCallback(
-    async ({ newPassword, currentPassword }: { newPassword: string; currentPassword: string }) => {
+
+  const mutation = useMutation({
+    onSuccess(data) {
+      setSession({ ...(data.loginResponse as LoginResponse), isAnonymous: false });
+    },
+    mutationKey: [deviceRegistration, serviceContext, setSession, userSession?.sessionToken],
+    mutationFn: async ({ newPassword, currentPassword }: { newPassword: string; currentPassword: string }) => {
       if (!userSession?.sessionToken) {
-        setError(new Error("Trying to change password without being logged in"));
-        return;
+        throw new Error("Trying to change password without being logged in");
       }
-      setIsLoading(true);
-      setError(null);
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
-      return changePassword
-        .call(serviceContext, {
-          newPassword,
-          oldPassword: currentPassword,
-          device: deviceRegistration,
-          headers
-        })
-        .then(response => {
-          setSession({ ...(response.loginResponse as LoginResponse), isAnonymous: false });
-        })
-        .catch(err => {
-          setError(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    },
-    [serviceContext, setSession, userSession]
-  );
-  return [changePasswordCallback, isLoading, error];
+      return changePassword.call(serviceContext, {
+        newPassword,
+        oldPassword: currentPassword,
+        device: deviceRegistration,
+        headers
+      });
+    }
+  });
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
-export function useChangeEmail(): TApiCallback<(payload: { email: string; password: string }) => Promise<void>> {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+export function useChangeEmail(): TApiMutation<{ email: string; password: string }, Response> {
   const [userDetails] = useUserDetails();
   const [userSession] = useUserSession();
   const serviceContext = useServiceContext();
-  const changeEmailCallback = useCallback(
-    async ({ email, password }: { email: string; password: string }) => {
-      if (email !== userDetails?.email) {
-        if (!userSession?.sessionToken) {
-          setError(new Error("Trying to change email without being logged in"));
-          return;
-        }
-        setIsLoading(true);
-        setError(null);
-        const headers = new Headers();
-        headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
-        return changeEmailAndUsername
-          .call(serviceContext, { newEmailAddressAndUsername: email, password, headers })
-          .then(() => {
-            refetchUserDetails();
-          })
-          .catch(err => {
-            setError(err);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+
+  const mutation = useMutation({
+    onSuccess: refetchUserDetails,
+    mutationKey: [serviceContext, userDetails, userSession],
+    mutationFn: async ({ email, password }: { email: string; password: string }) => {
+      if (!userSession?.sessionToken) {
+        throw new Error("Trying to change email without being logged in");
       }
-      return Promise.resolve();
-    },
-    [serviceContext, userDetails, userSession]
-  );
-  return [changeEmailCallback, isLoading, error];
+      const headers = new Headers();
+      headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
+      return changeEmailAndUsername.call(serviceContext, { newEmailAddressAndUsername: email, password, headers });
+    }
+  });
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
-export function useChangeEmailSSO(): TApiCallback<(email: string) => Promise<void>> {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+export function useChangeEmailSSO(): TApiMutation<string, Response> {
   const serviceContext = useServiceContext();
   const [userSession] = useUserSession();
   const [userDetails] = useUserDetails();
-  const { customer, businessUnit } = useServiceContext();
-  const changeEmailSSO = useCallback(
-    async (email: string) => {
-      if (email !== userDetails?.email) {
-        if (!userSession?.sessionToken) {
-          setError(new Error("Trying to change email without being logged in"));
-          return;
-        }
-        setIsLoading(true);
-        setError(null);
-        const headers = new Headers();
-        headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
-        return changeEmail
-          .call(serviceContext, { newEmailAddress: email, headers })
-          .then(() => {
-            refetchUserDetails();
-          })
-          .catch(err => {
-            setError(err);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+
+  const mutation = useMutation({
+    onSuccess: refetchUserDetails,
+    mutationKey: [serviceContext, userDetails, userSession],
+    mutationFn: async (email: string) => {
+      if (!userSession?.sessionToken) {
+        throw new Error("Trying to change email without being logged in");
       }
-      return Promise.resolve();
-    },
-    [customer, businessUnit, userDetails]
-  );
-  return [changeEmailSSO, isLoading, error];
+      const headers = new Headers();
+      headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
+      return changeEmail.call(serviceContext, { newEmailAddress: email, headers });
+    }
+  });
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
 type Attribute = { attributeId: string; value: any };
 
-export function useSetUserAttributes(): TApiCallback<
-  (attributes: { attributeId: string; value: any }[]) => Promise<void>
-> {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+export function useSetUserAttributes(): TApiMutation<{ attributeId: string; value: any }[], UserDetailsResponse> {
   const serviceContext = useServiceContext();
   const [userSession] = useUserSession();
-  const setUserAttributes = useCallback(
-    async (attributes: Attribute[]): Promise<void> => {
+
+  const mutation = useMutation({
+    onSuccess: refetchUserDetails,
+    mutationKey: [serviceContext, userSession],
+    mutationFn: async (attributes: Attribute[]) => {
       if (!userSession?.sessionToken) {
-        setError(new Error("Trying to update user attributes without being logged in"));
-        return;
+        throw new Error("Trying to update user attributes without being logged in");
       }
-      setIsLoading(true);
-      setError(null);
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
-      return putUserAttributes
-        .call(serviceContext, { list: attributes, headers })
-        .then(() => {
-          refetchUserDetails();
-        })
-        .catch(err => {
-          setError(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    },
-    [serviceContext, userSession]
-  );
-  return [setUserAttributes, isLoading, error];
+      return putUserAttributes.call(serviceContext, { list: attributes, headers });
+    }
+  });
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
 export function refetchUserDetails() {

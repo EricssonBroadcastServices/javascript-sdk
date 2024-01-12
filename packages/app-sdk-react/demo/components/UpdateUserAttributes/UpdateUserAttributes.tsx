@@ -31,7 +31,7 @@ export default function UpdateUserAttributes() {
   const { defaultLanguage } = useLanguage();
   const [userDetails] = useUserDetails();
   const [changedAttributes, setChangedAttributes] = useState<{ attributeId: string; value: string }[]>([]);
-  const [setUserAttributes] = useSetUserAttributes();
+  const [setUserAttributes, , isLoading, error] = useSetUserAttributes();
 
   const onAttributeChanged = useCallback(
     (attributeId: string, value: string) => {
@@ -50,7 +50,7 @@ export default function UpdateUserAttributes() {
   const onSave = useCallback(() => {
     if (!changedAttributes.length) return;
     setUserAttributes(changedAttributes);
-  }, [changedAttributes]);
+  }, [changedAttributes, setUserAttributes]);
 
   return (
     <div>
@@ -78,6 +78,8 @@ export default function UpdateUserAttributes() {
           </div>
         );
       })}
+      {(error as any) && <p>{(error as any).toString()}</p>}
+      {isLoading && <p>{isLoading.toString()}</p>}
       <button onClick={onSave} disabled={changedAttributes.length === 0} type="button">
         Save
       </button>
