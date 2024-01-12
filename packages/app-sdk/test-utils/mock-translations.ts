@@ -83,6 +83,7 @@ export const englishTranslations = {
   VALID_FOR: "Valid for {time}.",
   VALID_FOR_RECURRENCE: "Valid for {time} at a time. This offering will be automatically renewed",
   VALID_FOR_EXPIRY_WINDOW: "Valid for {time} once you start watching. You have {expiry} to start watching.",
+  USERNAME_ALREADY_IN_USE: "Username is already in use",
   DATES: {
     SECONDS: "seconds",
     MINUTE: "minute",
@@ -128,6 +129,7 @@ export const englishTranslations = {
     REMAINING: "remaining"
   },
   ERROR: {
+    STORED_PAYMENT_DETAILS: "You cannot delete your account before removing your stored payment methods.",
     LOGIN: {
       INVALID_CREDENTIALS: "Invalid credentials",
       UNKNOWN: "Something went wrong. Please try again."
