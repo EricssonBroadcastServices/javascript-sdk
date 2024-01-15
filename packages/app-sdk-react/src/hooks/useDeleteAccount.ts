@@ -1,32 +1,27 @@
-import { useCallback, useState } from "react";
 import { deleteUserDetails } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useServiceContext } from "./useApi";
 import { useSetSession, useUserSession } from "./useUserSession";
-import { TApiHook } from "../types/type.apiHook";
+import { TApiMutation } from "../types/type.apiHook";
+import { useMutation } from "react-query";
 
-export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>, (password: string) => Promise<void>> {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<unknown>(null);
+export function useDeleteAccount(): TApiMutation<string, void> {
   const [session] = useUserSession();
   const setSession = useSetSession();
   const ctx = useServiceContext();
-  const deleteAccount = useCallback(
-    async (password: string) => {
-      setLoading(true);
-      try {
-        if (!session?.isLoggedIn()) {
-          throw new Error("User needs to be logged in to request account deletion");
-        }
-        const headers = { Authorization: `Bearer ${session.sessionToken}` };
-        await deleteUserDetails.call(ctx, { password, headers });
-        setSession(null);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
+
+  const mutation = useMutation({
+    onSuccess: () => {
+      setSession(null);
     },
-    [setSession, ctx]
-  );
-  return [deleteAccount, loading, error];
+    mutationKey: [session, ctx, setSession],
+    mutationFn: async (password: string) => {
+      if (!session?.isLoggedIn()) {
+        throw new Error("User needs to be logged in to request account deletion");
+      }
+      const headers = { Authorization: `Bearer ${session.sessionToken}` };
+      await deleteUserDetails.call(ctx, { password, headers });
+      setSession(null);
+    }
+  });
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
