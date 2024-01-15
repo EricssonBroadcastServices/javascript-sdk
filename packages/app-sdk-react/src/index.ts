@@ -6,7 +6,7 @@ export { useTranslations } from "./hooks/useTranslations";
 export { useActivationCode } from "./hooks/useActivationCode";
 export { useLogout, useValidateSession, useLogin, useOauthLogin } from "./hooks/useLogin";
 export { useSearch } from "./hooks/useSearch";
-export { useUserDetails, refetchUserDetails } from "./hooks/useUserDetails";
+export * from "./hooks/useUserDetails";
 export { useUserSession, useSetSession } from "./hooks/useUserSession";
 export * from "./hooks/useTags";
 export * from "./hooks/usePurchases";
