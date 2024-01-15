@@ -2,6 +2,7 @@ import {
   AssetHelpers,
   getAssetDurationString,
   ImageFormat,
+  SeasonHelpers,
   WLCarouselHelpers
 } from "@ericssonbroadcastservices/app-sdk";
 import { Asset, AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
@@ -73,7 +74,12 @@ export function useAssetDisplay(asset: Asset, options: UseAssetOptions) {
 
   // if the asset is NOT a series but belongs to a series, get the series asset
   const [seriesAsset] = useAsset(asset.tvShowId);
+  const seasonAsset = asset.seasonId
+    ? seriesAsset?.seasons?.find(season => season.seasonId === asset.seasonId)
+    : undefined;
+
   const seriesTitle = seriesAsset ? AssetHelpers.getTitle(seriesAsset, { language, defaultLanguage }) : undefined;
+  const seasonTitle = seasonAsset ? SeasonHelpers.getTitle(seasonAsset, language, defaultLanguage) : undefined;
 
   const [entitlement, loadingEntitlement] = useEntitlementForAsset({ asset }, {});
 
@@ -83,6 +89,7 @@ export function useAssetDisplay(asset: Asset, options: UseAssetOptions) {
   return {
     ...defaults,
     seriesTitle,
+    seasonTitle,
     entitlement,
     loadingEntitlement,
     duration: getAssetDurationString(asset, language, defaultLanguage),
@@ -97,8 +104,14 @@ function useAssetDisplayDefaults(asset: Asset, options: UseAssetOptions) {
   const { width, height, imageFormat } = options;
   const { language, defaultLanguage } = useLanguage();
 
-  const title = AssetHelpers.getTitle(asset, { language, defaultLanguage }) ?? "";
+  const { tvShowId, episode } = asset;
+
   const description = AssetHelpers.getLongDescription(asset, { language, defaultLanguage, fallback: true }) ?? "";
+
+  let title = AssetHelpers.getTitle(asset, { language, defaultLanguage }) ?? "";
+  if (tvShowId && episode) {
+    title = `E${episode} ${title}`;
+  }
 
   const trailerAssetId = AssetHelpers.getTrailerAssetId(asset);
 
