@@ -14,6 +14,7 @@ import ChannelPicker from "../../components/ChannelPicker/ChannelPicker";
 import "./asset-display.css";
 import { Link } from "react-router-dom";
 import { CarouselComponent } from "../Carousel/Carousel";
+import AssetDisplayTagButton from "../TagButton/TagButton";
 
 const Entitlements = ({ status }: { status: EntitlementStatusResult }) => {
   return (
@@ -43,11 +44,7 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
           <Entitlements status={entitlement} />
           <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data" />
           {tags.map(id => {
-            return (
-              <Link to={`/tag/${id}`} key={id}>
-                <button>{id}</button>
-              </Link>
-            );
+            return <AssetDisplayTagButton tagId={id} key={id} />;
           })}
         </div>
         <div className="asset-display-img-section">
