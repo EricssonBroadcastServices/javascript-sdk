@@ -1,15 +1,14 @@
 import React from "react";
-import { useUserDetails, useUserSession } from "../../src";
+import { useUserSession } from "../../src";
 import { redirect } from "react-router-dom";
-import { ChangePassword } from "../components/ChangePassword/ChangePassword";
 import VoucherForm from "../components/Vouchers/VoucherForm";
 import Favourites from "../components/Favourites/Favorites";
 import { PurchaseHistory } from "../components/Purchases/PurchaseHistory";
 import "./account-page.css";
 import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
+import UserDetails from "../components/UserDetails/UserDetails";
 
 export const AccountPage = () => {
-  const [userDetails] = useUserDetails();
   const [session] = useUserSession();
   if (!session?.isLoggedIn) {
     redirect("/login");
@@ -18,11 +17,8 @@ export const AccountPage = () => {
   return (
     <div>
       <section className="account-page-section">
-        <h3>{userDetails?.displayName || userDetails?.username}</h3>
-      </section>
-      <section className="account-page-section">
-        <h3>Change password</h3>
-        <ChangePassword />
+        <h3>User Details</h3>
+        <UserDetails />
       </section>
       <section className="account-page-section">
         <h3>Favourites</h3>
