@@ -8,14 +8,17 @@ import { useUserSession } from "./useUserSession";
 export function useContinueWatching(tvshowid?: string): TApiHook<WatchedTvShowResponse> {
   const [session] = useUserSession();
   const { serviceContext } = useRedBeeState();
-  const { data, isLoading, error } = useQuery([QueryKeys.CONTINUE_WATCHING, tvshowid, serviceContext], () => {
-    if (!tvshowid || !session?.isLoggedIn()) {
-      return;
+  const { data, isLoading, error } = useQuery(
+    [QueryKeys.CONTINUE_WATCHING, tvshowid, serviceContext, session?.isLoggedIn()],
+    () => {
+      if (!tvshowid || !session?.isLoggedIn()) {
+        return;
+      }
+      return getContinueWatchingTvShow.call(serviceContext, {
+        tvshowid,
+        headers: { Authorization: `Bearer ${session.sessionToken}` }
+      });
     }
-    return getContinueWatchingTvShow.call(serviceContext, {
-      tvshowid,
-      headers: { Authorization: `Bearer ${session.sessionToken}` }
-    });
-  });
+  );
   return [data || null, isLoading, error];
 }
