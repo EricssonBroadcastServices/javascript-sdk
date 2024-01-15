@@ -44,6 +44,6 @@ export function useSetSession(): (sessionData: SessionData | null) => void {
         }
       }
     },
-    [dispatch]
+    [device, deviceId, dispatch, serviceContext, setSelectedLanguage, storage]
   );
 }
