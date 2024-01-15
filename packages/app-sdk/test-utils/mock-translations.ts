@@ -130,13 +130,39 @@ export const englishTranslations = {
   },
   ERROR: {
     STORED_PAYMENT_DETAILS: "You cannot delete your account before removing your stored payment methods.",
+    VOUCHER: {
+      INVALID_VOUCHER_CODE: "Invalid voucher",
+      ALREADY_REDEEMED_VOUCHER_CODE: "Your code has already been used",
+      VOUCHER_CODE_EXPIRED: "Your code has expired"
+    },
     LOGIN: {
       INVALID_CREDENTIALS: "Invalid credentials",
-      UNKNOWN: "Something went wrong. Please try again."
+      UNKNOWN: "Something went wrong. Please try again.",
+      MIGRATED_USER:
+        "Your account has been migrated to this service and an email has been sent with instructions for finishing your registration. Check your inbox."
     },
     PLAYER: {
       USER: "You're not able to play this asset right now. Please check your internet connection and try again.",
-      UNKNOWN: "Something went wrong. Please try again later."
+      UNKNOWN: "Something went wrong. Please try again later.",
+      GEO_BLOCKED: "This video is not available in your region.",
+      STREAM_LIMIT:
+        "You have reached the maximum number of concurrent streams permitted by your plan. If you would like to watch on another device, you'll first need to stop one of the other streams.",
+      DRM: "There seems to be an incompatibility issue watching this encrypted content. If you use an external display, make sure it supports HDCP. Also, make sure that you've allowed playback of protected content in your browser.",
+      IFRAME_MESSAGE: "This asset cannot be played on this site.",
+      IFRAME_ACTION: "Go to our website to play this asset."
+    },
+    IAP: {
+      REQUEST_PURCHASE_ERROR: "Oops! Something went wrong. Please try again later.",
+      NETWORK_ERROR: "The service is disconnected (check your internet connection.)",
+      USER_CANCELLED: "Purchase was cancelled",
+      SERVICE_ERROR:
+        "Billing is unavailable. This may be a problem with your payment, your device, or the store is down.",
+      DEVELOPER_ERROR: "We have some issue connecting to the payment service.",
+      NOT_CONNECTED: "Billing is unavailable. Please check that you are logged in to Google Play, and restart the app.",
+      NOT_CONNECTED_APPLE:
+        "Billing is unavailable. Please check that you are logged in to App Store, and restart the app.",
+      ITEM_UNAVAILABLE: "That item is unavailable.",
+      ALREADY_OWNED: "You already own this item."
     }
   }
 };
