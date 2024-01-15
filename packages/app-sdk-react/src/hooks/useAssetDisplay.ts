@@ -1,11 +1,16 @@
-import { AssetHelpers, ImageFormat, WLCarouselHelpers } from "@ericssonbroadcastservices/app-sdk";
+import {
+  AssetHelpers,
+  getAssetDurationString,
+  ImageFormat,
+  WLCarouselHelpers
+} from "@ericssonbroadcastservices/app-sdk";
 import { Asset, AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useMemo } from "react";
 import { useAsset } from "./useAsset";
 import { useBookmarkPercentage } from "./useBookmarks";
 import { useContinueWatching } from "./useContinueWatching";
 import { useEntitlementForAsset } from "./useEntitlementForAsset";
-import { useProgramProgress } from "./useProgramProgress";
+import { useProgramProgress, useTimeLeft } from "./useProgramProgress";
 import { useLanguage } from "./useSelectedLanguage";
 
 type UseAssetOptions = {
@@ -36,6 +41,7 @@ export function useAssetDisplayTvShow(asset: Asset, options: UseAssetOptions) {
   const [entitlement, loadingEntitlement] = useEntitlementForAsset({ asset: continueWatching?.asset }, {});
 
   const [bookmarkPercentage] = useBookmarkPercentage(continueWatching?.asset?.assetId);
+  const timeLeft = useTimeLeft({ percentageWatched: bookmarkPercentage ?? undefined, durationMs: asset.duration });
 
   const seasons = useMemo(() => {
     if (asset.seasons) {
@@ -55,7 +61,8 @@ export function useAssetDisplayTvShow(asset: Asset, options: UseAssetOptions) {
     loadingEntitlement,
     progress: {
       percentage: bookmarkPercentage,
-      duration: continueWatching?.asset?.duration
+      duration: continueWatching?.asset?.duration,
+      timeLeft
     }
   };
 }
@@ -71,13 +78,18 @@ export function useAssetDisplay(asset: Asset, options: UseAssetOptions) {
   const [entitlement, loadingEntitlement] = useEntitlementForAsset({ asset }, {});
 
   const progress = useProgramProgress({ asset, live: entitlement.streamInfo.live });
+  const timeLeft = useTimeLeft({ percentageWatched: progress.percentage, durationMs: asset.duration });
 
   return {
     ...defaults,
     seriesTitle,
     entitlement,
     loadingEntitlement,
-    progress
+    duration: getAssetDurationString(asset, language, defaultLanguage),
+    progress: {
+      ...progress,
+      timeLeft
+    }
   };
 }
 
