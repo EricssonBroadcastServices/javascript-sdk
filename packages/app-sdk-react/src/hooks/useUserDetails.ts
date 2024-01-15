@@ -106,7 +106,7 @@ export function useChangeEmailSSO(): TApiMutation<string, Response> {
 
 type Attribute = { attributeId: string; value: any };
 
-export function useSetUserAttributes(): TApiMutation<{ attributeId: string; value: any }[], UserDetailsResponse> {
+export function useSetUserAttributes(): TApiMutation<Attribute[], UserDetailsResponse> {
   const serviceContext = useServiceContext();
   const [userSession] = useUserSession();
 
