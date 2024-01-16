@@ -21,6 +21,6 @@ export function usePushNextContentData(
           setError(err);
         });
     }
-  }, [assetId, customer, businessUnit]);
+  }, [assetId, customer, businessUnit, appService]);
   return [pushNextContent || null, false, error];
 }

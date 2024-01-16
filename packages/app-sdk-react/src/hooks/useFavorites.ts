@@ -1,12 +1,11 @@
-import { useCallback, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { addToAssetList, deleteFromAssetList, getFromAssetList } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { WLComponentSubType } from "@ericssonbroadcastservices/app-sdk";
-import { useRedBeeState } from "../RedBeeProvider";
-import { TApiHook } from "../types/type.apiHook";
+import { TApiHook, TApiMutation } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
 import { useAssetList } from "./useAssetList";
+import { useServiceContext } from "./useApi";
 
 const FAVORITES_LIST_ID = "favorites";
 
@@ -19,54 +18,40 @@ export function useFavoritesList() {
   return useAssetList(FAVORITES_LIST_ID);
 }
 
-export function useAddAssetToFavorites(assetId: string): TApiHook<() => void, () => void> {
-  const { serviceContext } = useRedBeeState();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<any>(null);
+export function useAddAssetToFavorites(assetId: string): TApiMutation<void, void> {
+  const serviceContext = useServiceContext();
   const [session] = useUserSession();
 
-  const add = useCallback(async () => {
-    setLoading(true);
-    try {
+  const mutation = useMutation({
+    onSuccess: invalidateFavourites,
+    mutationKey: [session, serviceContext, assetId],
+    mutationFn: async () => {
       if (!session?.isLoggedIn()) {
         throw new Error("User needs to be logged in to add to favorites");
       }
       const headers = { Authorization: `Bearer ${session?.sessionToken}` };
       await addToAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
-      invalidateFavourites();
-    } catch (e) {
-      setError(e);
-    } finally {
-      setLoading(false);
     }
-  }, [serviceContext, assetId]);
-
-  return [add, loading, error];
+  });
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
-export function useRemoveAssetFromFavorites(assetId: string): TApiHook<() => void, () => void> {
-  const { serviceContext } = useRedBeeState();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<any>(null);
+export function useRemoveAssetFromFavorites(assetId: string): TApiMutation<void, void> {
+  const serviceContext = useServiceContext();
   const [session] = useUserSession();
 
-  const remove = useCallback(async () => {
-    setLoading(true);
-    try {
+  const mutation = useMutation({
+    onSuccess: invalidateFavourites,
+    mutationKey: [session, serviceContext, assetId],
+    mutationFn: async () => {
       if (!session?.isLoggedIn()) {
         throw new Error("User needs to be logged in to remove from favorites");
       }
       const headers = { Authorization: `Bearer ${session?.sessionToken}` };
       await deleteFromAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
-      invalidateFavourites();
-    } catch (e) {
-      setError(e);
-    } finally {
-      setLoading(false);
     }
-  }, [serviceContext, assetId]);
-
-  return [remove, loading, error];
+  });
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
 type HandleAssetFavorites = {
@@ -76,9 +61,9 @@ type HandleAssetFavorites = {
 };
 
 export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFavorites, HandleAssetFavorites> {
-  const { serviceContext } = useRedBeeState();
-  const [handleAdd, loadingAdd] = useAddAssetToFavorites(assetId);
-  const [handleRemove, loadingRemove] = useRemoveAssetFromFavorites(assetId);
+  const serviceContext = useServiceContext();
+  const [handleAdd, , loadingAdd, addError] = useAddAssetToFavorites(assetId);
+  const [handleRemove, , loadingRemove, removeError] = useRemoveAssetFromFavorites(assetId);
   const [session] = useUserSession();
   const handler: HandleAssetFavorites = {
     isInList: false,
@@ -105,5 +90,5 @@ export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFa
 
   handler.isInList = !!data;
 
-  return [handler, loadingAdd || loadingRemove || loadingList, error];
+  return [handler, loadingAdd || loadingRemove || loadingList, error || addError || removeError];
 }

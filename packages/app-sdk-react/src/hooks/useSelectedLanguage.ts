@@ -24,7 +24,7 @@ export function useSetSelectedLanguage() {
       await updateUserDetails.call(serviceContext, { language, headers });
       refetchUserDetails();
     },
-    [serviceContext, dispatch]
+    [dispatch, storage, session, userDetails?.language, serviceContext]
   );
 }
 

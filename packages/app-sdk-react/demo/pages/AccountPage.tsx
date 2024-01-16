@@ -7,35 +7,40 @@ import { PurchaseHistory } from "../components/Purchases/PurchaseHistory";
 import "./account-page.css";
 import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
 import UserDetails from "../components/UserDetails/UserDetails";
+import { DeleteAccountButton } from "../components/DeleteAccountButton";
 
 export const AccountPage = () => {
   const [session] = useUserSession();
-  if (!session?.isLoggedIn) {
+  if (!session?.isLoggedIn()) {
     redirect("/login");
     return null;
   }
   return (
     <div>
-      <section className="account-page-section">
-        <h3>User Details</h3>
+      <details className="account-page-section">
+        <summary>User Details</summary>
         <UserDetails />
-      </section>
-      <section className="account-page-section">
-        <h3>Favourites</h3>
+      </details>
+      <details className="account-page-section">
+        <summary>Favourites</summary>
         <Favourites />
-      </section>
-      <section className="account-page-section">
-        <h3>Payment methods</h3>
+      </details>
+      <details className="account-page-section">
+        <summary>Payment methods</summary>
         <PaymentMethods />
-      </section>
-      <section className="account-page-section">
-        <h3>Redeem Voucher</h3>
+      </details>
+      <details className="account-page-section">
+        <summary>Redeem Voucher</summary>
         <VoucherForm />
-      </section>
-      <section className="account-page-section">
-        <h3>Purchase history</h3>
+      </details>
+      <details className="account-page-section">
+        <summary>Purchase history</summary>
         <PurchaseHistory />
-      </section>
+      </details>
+      <details className="account-page-section">
+        <summary>Delete account</summary>
+        <DeleteAccountButton />
+      </details>
     </div>
   );
 };

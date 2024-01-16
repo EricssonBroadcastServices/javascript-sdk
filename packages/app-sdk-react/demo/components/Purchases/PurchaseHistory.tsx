@@ -5,7 +5,8 @@ import {
   useTranslations,
   usePurchaseTransactions,
   useTvodAssets,
-  useActivePackages
+  useActivePackages,
+  useUnsubscribe
 } from "../../../src";
 import { Link } from "react-router-dom";
 import { CarouselItem, CarouselWrapper } from "../Carousel/Carousel";
@@ -16,6 +17,7 @@ export function PurchaseHistory() {
   const locale = useSelectedLanguage();
   const [translations] = useTranslations();
   const [tvods] = useTvodAssets();
+  const [unsubscribe] = useUnsubscribe();
   return (
     <div>
       <h3>Tvods</h3>
@@ -31,9 +33,14 @@ export function PurchaseHistory() {
         <div>
           {activePackages?.map(purchase => {
             return (
-              <div key={purchase.purchaseId}>
+              <div style={{ display: "flex" }} key={purchase.purchaseId}>
                 {purchase.apiStoreProductOffering && (
                   <p>{ProductOfferingHelpers.getTitle(purchase.apiStoreProductOffering, "en")}</p>
+                )}
+                {purchase.apiStoreProductOffering?.recurrence && purchase.renewAt && purchase.purchaseId && (
+                  <button onClick={() => unsubscribe({ purchaseId: purchase.purchaseId as string })}>
+                    Unsubscribe
+                  </button>
                 )}
               </div>
             );
