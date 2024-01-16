@@ -30,6 +30,10 @@ describe("Error translator factory", () => {
       expect(error.getUserErrorMessage(mockTranslations)).toEqual(
         mockTranslations.getText(["ERROR", "STORED_PAYMENT_DETAILS"])
       );
+      error.metadata.code = undefined;
+      expect(error.getUserErrorMessage(mockTranslations, "OLD_PASSWORD_IS_NOT_CORRECT")).toEqual(
+        mockTranslations.getText("INVALID_CREDENTIALS")
+      );
     });
     it("Login error", () => {
       const error = new LoginError("INVALID_CREDENTIALS", { code: 400, rawError: "Bad Request" });
@@ -44,6 +48,9 @@ describe("Error translator factory", () => {
       );
       error.message = "USERNAME_ALREADY_IN_USE";
       expect(error.getUserErrorMessage(mockTranslations)).toEqual(mockTranslations.getText("USERNAME_ALREADY_IN_USE"));
+      expect(error.getUserErrorMessage(mockTranslations, "PASSWORD_UPDATED")).toEqual(
+        mockTranslations.getText("PASSWORD_UPDATED")
+      );
     });
     it("Login error is correctly translated when using fromFetchError", () => {
       const fromFetchError = AppError.fromFetchError;
@@ -70,6 +77,9 @@ describe("Error translator factory", () => {
       );
       error.message = "NOT_A_REAL_MESSAGE";
       expect(error.getUserErrorMessage(mockTranslations)).toEqual(mockTranslations.getText("UNKNOWN_ERROR"));
+      expect(error.getUserErrorMessage(mockTranslations, "Test 123")).toEqual(
+        mockTranslations.getText("UNKNOWN_ERROR")
+      );
     });
   });
   describe("fromFetchError should return a string that can be translated for", () => {

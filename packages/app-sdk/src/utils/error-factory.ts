@@ -120,16 +120,18 @@ export class AppError extends Error {
     return [this.message, this.metadata.code, this.metadata.rawError];
   }
 
-  getUserErrorMessage(translations: Translations): string {
-    return translations.getText(this.message) || translations.getText("UNKNOWN_ERROR");
+  getUserErrorMessage(translations: Translations, errorMessage?: string): string {
+    const message = errorMessage || this.message;
+    return translations.getText(message) || translations.getText("UNKNOWN_ERROR");
   }
 }
 
 export class LoginError extends AppError {
   readonly category: TCategory = "LOGIN";
 
-  getUserErrorMessage(translations: Translations): string {
-    switch (this.message) {
+  getUserErrorMessage(translations: Translations, errorMessage?: string): string {
+    const message = errorMessage || this.message;
+    switch (message) {
       case "INVALID_CREDENTIALS":
       case "BAD_PASSWORD":
         return translations.getText(["ERROR", "LOGIN", "INVALID_CREDENTIALS"]);
@@ -138,7 +140,7 @@ export class LoginError extends AppError {
       case "USERNAME_ALREADY_IN_USE":
         return translations.getText("USERNAME_ALREADY_IN_USE");
       default:
-        return translations.getText(this.message) || translations.getText(["ERROR", "LOGIN", "UNKNOWN"]);
+        return translations.getText(message) || translations.getText(["ERROR", "LOGIN", "UNKNOWN"]);
     }
   }
 }
@@ -146,19 +148,20 @@ export class LoginError extends AppError {
 export class VoucherError extends AppError {
   readonly category: TCategory = "VOUCHER";
 
-  getUserErrorMessage(translations: Translations): string {
+  getUserErrorMessage(translations: Translations, errorMessage?: string): string {
+    const message = errorMessage || this.message;
     switch (this.metadata.code) {
       case 404:
         return translations.getText(["ERROR", "VOUCHER", "INVALID_VOUCHER_CODE"]);
       case 422:
-        switch (this.message) {
+        switch (message) {
           case "CODE_ALREADY_REDEEMED":
             return translations.getText(["ERROR", "VOUCHER", "ALREADY_REDEEMED_VOUCHER_CODE"]);
           case "CODE_EXPIRED":
             return translations.getText(["ERROR", "VOUCHER", "VOUCHER_CODE_EXPIRED"]);
         }
       default:
-        return translations.getText(this.message) || translations.getText("UNKNOWN_ERROR");
+        return translations.getText(message) || translations.getText("UNKNOWN_ERROR");
     }
   }
 }
@@ -166,7 +169,7 @@ export class VoucherError extends AppError {
 export class PaymentError extends AppError {
   readonly category: TCategory = "PAYMENT";
 
-  getUserErrorMessage(translations: Translations): string {
+  getUserErrorMessage(translations: Translations, errorMessage?: string): string {
     switch (this.metadata.code) {
       case 404:
         return translations.getText("NOT_FOUND");
@@ -176,8 +179,8 @@ export class PaymentError extends AppError {
             return translations.getText(["ERROR", "STORED_PAYMENT_DETAILS"]);
         }
     }
-
-    switch (this.message) {
+    const message = errorMessage || this.message;
+    switch (message) {
       case "BAD_PASSWORD":
       case "OLD_PASSWORD_IS_NOT_CORRECT":
         return translations.getText("INVALID_CREDENTIALS");
@@ -186,7 +189,7 @@ export class PaymentError extends AppError {
       case "NOT_FOUND":
         return translations.getText("NOT_FOUND");
       default:
-        return translations.getText(this.message) || translations.getText("UNKNOWN_ERROR");
+        return translations.getText(message) || translations.getText("UNKNOWN_ERROR");
     }
   }
 }
