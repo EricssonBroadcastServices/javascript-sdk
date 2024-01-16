@@ -1,6 +1,6 @@
 import { Translations } from "./wl-translations";
 
-export type TCategory = "GENERIC" | "LOGIN" | "VOUCHER" | "PAYMENT";
+export type TCategory = "APP" | "LOGIN" | "VOUCHER" | "PAYMENT" | string;
 
 export interface IErrorMetadata {
   code?: number;
@@ -8,7 +8,7 @@ export interface IErrorMetadata {
 }
 
 export interface IMessageMap {
-  [key: string]: string | string[];
+  [key: string]: string;
 }
 
 export interface ICodeMap {
@@ -22,32 +22,28 @@ export interface IFromFetchError {
   errorType?: TCategory;
 }
 
-const genericMsgMap: IMessageMap = {
+const appMsgMap: IMessageMap = {
   "Bad Request": "NOT_ALLOWED",
   Unauthorized: "NOT_ALLOWED",
   Forbidden: "NOT_ALLOWED",
   "Not Found": "NOT_FOUND",
-  "Request Timeout": ["LOGIN", "UNKNOWN"],
-  Conflict: ["LOGIN", "UNKNOWN"],
+  "Request Timeout": "RETRY",
+  Conflict: "RETRY",
   "Unprocessable Content": "UNKNOWN",
-  "Too Many Requests": ["LOGIN", "UNKNOWN"],
+  "Too Many Requests": "RETRY",
   "Internal Server Error": "UNKNOWN_ERROR",
   "Bad Gateway": "UNKNOWN_ERROR",
-  "Service Unavailable": ["LOGIN", "UNKNOWN"],
-  "Gateway Timeout": ["LOGIN", "UNKNOWN"]
+  "Service Unavailable": "RETRY",
+  "Gateway Timeout": "RETRY"
 };
 
-const voucherMsgMap: IMessageMap = {
-  ...genericMsgMap,
-  "Not Found": ["ERROR", "VOUCHER", "INVALID_VOUCHER_CODE"]
+const loginMsgMap: IMessageMap = {
+  ...appMsgMap,
+  Unauthorized: "INVALID_CREDENTIALS",
+  Forbidden: "INVALID_CREDENTIALS"
 };
 
-const paymentMsgMap: IMessageMap = {
-  ...genericMsgMap,
-  Forbidden: ["ERROR", "STORED_PAYMENT_DETAILS"]
-};
-
-const genericCodeMap: ICodeMap = {
+const appCodeMap: ICodeMap = {
   400: "Bad Request",
   401: "Unauthorized",
   403: "Forbidden",
@@ -62,10 +58,9 @@ const genericCodeMap: ICodeMap = {
   504: "Gateway Timeout"
 };
 
-export class GenericError extends Error {
-  category: TCategory = "GENERIC";
+export class AppError extends Error {
+  category: TCategory = "APP";
   metadata: IErrorMetadata;
-  messageMap = genericMsgMap;
 
   constructor(message: string, { code, rawError }: IErrorMetadata) {
     super(message);
@@ -75,29 +70,49 @@ export class GenericError extends Error {
     };
   }
 
+  static fromUnknown(err: unknown): AppError {
+    return new AppError("UNKNOWN_ERROR", {
+      rawError: err instanceof Error ? err.message : String(err)
+    });
+  }
+
   static fromFetchError({
     error,
-    codeMap = genericCodeMap,
-    messageMap = genericMsgMap,
+    codeMap = appCodeMap,
+    messageMap = appMsgMap,
     errorType
-  }: IFromFetchError): string | string[] {
+  }: IFromFetchError): AppError | LoginError | VoucherError | PaymentError {
     const errorCode = error.status;
     const errorMessage = error.statusText;
+    let appError = AppError;
     if (errorType) {
       switch (errorType) {
         case "PAYMENT":
-          messageMap = paymentMsgMap;
+          appError = PaymentError;
           break;
         case "VOUCHER":
-          messageMap = voucherMsgMap;
+          appError = VoucherError;
+        case "LOGIN":
+          appError = LoginError;
+          messageMap = loginMsgMap;
+          break;
       }
     }
     if (errorCode && codeMap[errorCode]) {
-      return messageMap[codeMap[errorCode]];
+      return new appError(messageMap[codeMap[errorCode]], {
+        code: errorCode,
+        rawError: errorMessage
+      });
     } else if (errorMessage && messageMap[errorMessage]) {
-      return messageMap[errorMessage];
+      return new appError(messageMap[errorMessage], {
+        code: errorCode,
+        rawError: errorMessage
+      });
     } else {
-      return "UNKNOWN_ERROR";
+      return new appError("UNKNOWN_ERROR", {
+        code: errorCode,
+        rawError: errorMessage
+      });
     }
   }
 
@@ -106,11 +121,11 @@ export class GenericError extends Error {
   }
 
   getUserErrorMessage(translations: Translations): string {
-    return translations.getText("UNKNOWN_ERROR");
+    return translations.getText(this.message) || translations.getText("UNKNOWN_ERROR");
   }
 }
 
-export class LoginError extends GenericError {
+export class LoginError extends AppError {
   readonly category: TCategory = "LOGIN";
 
   getUserErrorMessage(translations: Translations): string {
@@ -123,12 +138,12 @@ export class LoginError extends GenericError {
       case "USERNAME_ALREADY_IN_USE":
         return translations.getText("USERNAME_ALREADY_IN_USE");
       default:
-        return translations.getText(["ERROR", "LOGIN", "UNKNOWN"]);
+        return translations.getText(this.message) || translations.getText(["ERROR", "LOGIN", "UNKNOWN"]);
     }
   }
 }
 
-export class VoucherError extends GenericError {
+export class VoucherError extends AppError {
   readonly category: TCategory = "VOUCHER";
 
   getUserErrorMessage(translations: Translations): string {
@@ -143,12 +158,12 @@ export class VoucherError extends GenericError {
             return translations.getText(["ERROR", "VOUCHER", "VOUCHER_CODE_EXPIRED"]);
         }
       default:
-        return translations.getText("UNKNOWN_ERROR");
+        return translations.getText(this.message) || translations.getText("UNKNOWN_ERROR");
     }
   }
 }
 
-export class PaymentError extends GenericError {
+export class PaymentError extends AppError {
   readonly category: TCategory = "PAYMENT";
 
   getUserErrorMessage(translations: Translations): string {
@@ -171,7 +186,7 @@ export class PaymentError extends GenericError {
       case "NOT_FOUND":
         return translations.getText("NOT_FOUND");
       default:
-        return translations.getText("UNKNOWN_ERROR");
+        return translations.getText(this.message) || translations.getText("UNKNOWN_ERROR");
     }
   }
 }
