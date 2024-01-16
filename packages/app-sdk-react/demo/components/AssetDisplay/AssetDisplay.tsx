@@ -27,12 +27,10 @@ const Entitlements = ({ status }: { status: EntitlementStatusResult }) => {
 
 function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
   const asset = props.content;
-  const { title, seriesTitle, seasonTitle, description, image, tags, entitlement, loadingEntitlement, progress } = useAssetDisplay(
-    asset,
-    {
+  const { title, seriesTitle, seasonTitle, description, image, tags, entitlement, loadingEntitlement, progress } =
+    useAssetDisplay(asset, {
       width: 800
-    }
-  );
+    });
   const [pnc] = usePushNextContentData(asset.assetId);
   const { upNext, recommendations } = pnc || {};
 
@@ -41,7 +39,7 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
       <div className="asset-display">
         <div className="asset-display-meta">
           <h1>{`${title}${loadingEntitlement ? " - loadingEntitlement" : ""}`}</h1>
-          <h2>{`${seriesTitle} - ${seasonTitle}`}</h2>
+          <h2>{seriesTitle && seasonTitle ? `${seriesTitle} - ${seasonTitle}` : seriesTitle}</h2>
           <p>{description}</p>
           <FavoriteButton assetId={asset.assetId} />
           <h4>{`Bookmark percentage: ${progress.percentage}`}</h4>

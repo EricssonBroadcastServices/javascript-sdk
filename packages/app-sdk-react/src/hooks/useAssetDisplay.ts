@@ -13,6 +13,7 @@ import { useContinueWatching } from "./useContinueWatching";
 import { useEntitlementForAsset } from "./useEntitlementForAsset";
 import { useProgramProgress, useTimeLeft } from "./useProgramProgress";
 import { useLanguage } from "./useSelectedLanguage";
+import { useTranslations } from "./useTranslations";
 
 type UseAssetOptions = {
   width: number;
@@ -69,6 +70,7 @@ export function useAssetDisplayTvShow(asset: Asset, options: UseAssetOptions) {
 }
 
 export function useAssetDisplay(asset: Asset, options: UseAssetOptions) {
+  const [translations] = useTranslations();
   const { language, defaultLanguage } = useLanguage();
   const defaults = useAssetDisplayDefaults(asset, options);
 
@@ -79,7 +81,10 @@ export function useAssetDisplay(asset: Asset, options: UseAssetOptions) {
     : undefined;
 
   const seriesTitle = seriesAsset ? AssetHelpers.getTitle(seriesAsset, { language, defaultLanguage }) : undefined;
-  const seasonTitle = seasonAsset ? SeasonHelpers.getTitle(seasonAsset, language, defaultLanguage) : undefined;
+  const seasonTitle = seasonAsset
+    ? SeasonHelpers.getTitle(seasonAsset, language, defaultLanguage) ||
+      `${translations.getText(["ASSETS", "SEASON"])} ${seasonAsset.season}`
+    : undefined;
 
   const [entitlement, loadingEntitlement] = useEntitlementForAsset({ asset }, {});
 
