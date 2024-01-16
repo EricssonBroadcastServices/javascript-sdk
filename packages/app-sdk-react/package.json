@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/app-sdk-react",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "app-sdk react utils for white label apps",
   "author": "simonwallin <simon.wallin@eyevinn.se>",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
