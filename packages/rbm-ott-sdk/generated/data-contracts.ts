@@ -44,7 +44,7 @@ export interface ActiveChannels {
   pageSize?: number;
 }
 
-export interface AdClips {
+export interface AdClip {
   category?: string;
   duration?: number;
   impressionUrlTemplates?: string[];
@@ -74,7 +74,7 @@ export interface AddPaymentMethodResponse {
 
 export interface Ads {
   adMarkers?: AdMarker[];
-  clips?: AdClips[];
+  clips?: AdClip[];
   insertionDuration?: number;
   insertionMaxCount?: number;
   stitcher?: string;

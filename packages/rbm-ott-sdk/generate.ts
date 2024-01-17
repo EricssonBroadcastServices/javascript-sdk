@@ -27,6 +27,9 @@ import { generateApi } from "swagger-typescript-api";
 
 /* Keep all patches that really should be fixed in the back-end in one place to make it easier to forward the info to the BE-team later */
 function patchSpec(data: string): string {
+  const renameTypes = {
+    AdClips: "AdClip", // Because it's one clip, not a list
+  }
   data = data.replaceAll("customerUnit", "customer"); // fix inconsistent naming of "customer" param
   data = data.replaceAll("frirslogin awgane", "firebase login"); // just a comment typo
 
@@ -45,7 +48,15 @@ function patchSpec(data: string): string {
     `${SCHEMA_PREFIX}Asset`
   );
 
+  for (let [oldName, newName] of Object.entries(renameTypes)) {
+    data = data.replaceAll(`${SCHEMA_PREFIX}${oldName}`, `${SCHEMA_PREFIX}${newName}`);
+  }
+
   const spec = JSON.parse(data);
+
+  for (let [oldName, newName] of Object.entries(renameTypes)) {
+    spec.components.schemas[newName] = spec.components.schemas[oldName]
+  }
 
   // Fix incorrect return types that shouldn't be arrays:
   fixFalseListSchema(
