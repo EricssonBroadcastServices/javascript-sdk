@@ -2,39 +2,79 @@ import { useCallback } from "react";
 import { useSetSession, useUserSession } from "./useUserSession";
 import { useRedBeeState } from "../RedBeeProvider";
 import { ErrorCode } from "../util/error";
-import { login, loginOauth, logout, validateSessionToken } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import {
+  LoginResponse,
+  login,
+  loginFirebase,
+  loginOauth,
+  logout,
+  validateSessionToken
+} from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { TApiMutation } from "../types/type.apiHook";
 import { useMutation } from "react-query";
+import { useLanguage } from "./useSelectedLanguage";
 
 type TUseLogin = { username: string; password: string };
 
-export function useLogin(): TApiMutation<TUseLogin, void> {
+export function useLogin(): TApiMutation<TUseLogin, LoginResponse> {
   const { deviceRegistration, serviceContext } = useRedBeeState();
   const setSession = useSetSession();
   const mutation = useMutation({
+    onSuccess(data) {
+      setSession(data);
+    },
     mutationKey: [deviceRegistration, serviceContext, setSession],
-    mutationFn: async ({ username, password }: TUseLogin) => {
-      setSession(
-        await login.call(serviceContext, {
-          username,
-          password,
-          device: deviceRegistration,
-          informationCollectionConsentGivenNow: false
-        })
-      );
+    mutationFn: ({ username, password }: TUseLogin) => {
+      return login.call(serviceContext, {
+        username,
+        password,
+        device: deviceRegistration,
+        informationCollectionConsentGivenNow: false
+      });
     }
   });
   return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
-export function useOauthLogin(): TApiMutation<string, void> {
+export function useOauthLogin(): TApiMutation<string, LoginResponse> {
+  const { language } = useLanguage();
   const { deviceRegistration, serviceContext } = useRedBeeState();
   const setSession = useSetSession();
 
   const mutation = useMutation({
-    mutationKey: [deviceRegistration, serviceContext, setSession],
-    mutationFn: async (token: string) => {
-      setSession(await loginOauth.call(serviceContext, { token, device: deviceRegistration }));
+    onSuccess(data) {
+      setSession(data);
+    },
+    mutationKey: [deviceRegistration, serviceContext, setSession, language],
+    mutationFn: (token: string) => {
+      return loginOauth.call(serviceContext, { token, device: deviceRegistration, language });
+    }
+  });
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+}
+
+type LoginFirebasePayload = {
+  username: string;
+  email?: string;
+  displayName?;
+  emailVerified?: boolean;
+  providerId?: string;
+  accessToken: string;
+};
+
+export function useFirebaseLogin(): TApiMutation<LoginFirebasePayload, LoginResponse> {
+  const { language } = useLanguage();
+  const { deviceRegistration, serviceContext } = useRedBeeState();
+  const setSession = useSetSession();
+
+  const mutation = useMutation({
+    onSuccess(data) {
+      setSession(data);
+    },
+    mutationKey: [deviceRegistration, serviceContext, setSession, language],
+    mutationFn: (params: LoginFirebasePayload) => {
+      return loginFirebase.call(serviceContext, { ...params, device: deviceRegistration, language });
     }
   });
 
