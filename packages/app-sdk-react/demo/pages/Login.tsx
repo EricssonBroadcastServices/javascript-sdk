@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from "react";
 import { useUserDetails, useUserSession } from "../../src";
 import { useLogin, useLogout } from "../../src/hooks/useLogin";
+import { SetNewPassword } from "../components/SetNewPassword/SetNewPassword";
+import { ConfirmSignup } from "../components/ConfirmSignup/ConfirmSignup";
 
 export const Login = () => {
   const [username, setUsername] = useState("");
@@ -23,6 +25,9 @@ export const Login = () => {
       {session?.isLoggedIn() && <p>{`Logged in as: ${userDetails?.username}`}</p>}
       {session?.isAnonymous && <p>Logged in anonymously</p>}
       {!session && <p>Session is null</p>}
+
+      {!session?.isLoggedIn() && <SetNewPassword />}
+      {!session?.isLoggedIn() && <ConfirmSignup />}
     </div>
   );
 };

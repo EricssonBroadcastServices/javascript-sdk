@@ -36,4 +36,6 @@ export * from "./hooks/useImageComponent";
 export * from "./hooks/useHeroBannerItem";
 export * from "./hooks/usePaymentMethods";
 export * from "./hooks/useAssetDisplay";
+export * from "./hooks/useSetNewPassword";
+export * from "./hooks/useConfirmSignup";
 export type { TApiHook, TApiMutation } from "./types/type.apiHook";
