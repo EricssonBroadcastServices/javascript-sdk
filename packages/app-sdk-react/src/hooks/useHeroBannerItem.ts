@@ -6,7 +6,7 @@ import {
 } from "@ericssonbroadcastservices/app-sdk";
 import { useLanguage } from "./useSelectedLanguage";
 
-export function useHerobannerItem(
+export function useHeroBannerItem(
   item: IExposureWLHerobannerItem,
   options: { width: number; height?: number; imageFormat?: ImageFormat }
 ) {

@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/app-sdk",
-  "version": "0.5.0",
+  "version": "0.6.1",
   "description": "",
   "scripts": {
     "build": "tsc",
@@ -28,7 +28,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@ericssonbroadcastservices/rbm-ott-sdk": "^0.3.6",
+    "@ericssonbroadcastservices/rbm-ott-sdk": "^0.3.7",
     "humanize-duration": "^3.27.1",
     "iso8601-duration": "^1.2.0",
     "lodash.truncate": "^4.4.2",

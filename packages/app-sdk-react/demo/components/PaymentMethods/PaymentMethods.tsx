@@ -12,8 +12,8 @@ function Card(props: CardSummary) {
 
 export default function PaymentMethods() {
   const [paymentMethods] = usePaymentMethods();
-  const deletePaymentMethod = useDeletePaymentMethod();
-  const setPreferredPaymentMethod = useSetPreferredPaymentMethod();
+  const [deletePaymentMethod] = useDeletePaymentMethod();
+  const [setPreferredPaymentMethod] = useSetPreferredPaymentMethod();
   return (
     <div className="payment-method-container">
       {paymentMethods?.map(method => {

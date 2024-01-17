@@ -1,5 +1,4 @@
-import { useCallback, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import {
   addTagToPreferencesList,
   deleteTagFromPreferencesList,
@@ -10,11 +9,16 @@ import {
   TagType
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { queryClient, QueryKeys } from "../util/react-query";
-import { TApiHook } from "../types/type.apiHook";
+import { TApiHook, TApiMutation } from "../types/type.apiHook";
 import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
+import { useMemo } from "react";
 
 const TAG_FEED_LIST_ID = "tagfeed";
+
+function refetchTagList() {
+  return queryClient.invalidateQueries(QueryKeys.TAGS_LIST);
+}
 
 export function useTagList(): TApiHook<PreferencesListResponse> {
   const ctx = useServiceContext();
@@ -27,54 +31,53 @@ export function useTagList(): TApiHook<PreferencesListResponse> {
   return [data || null, isLoading, error];
 }
 
-export function useAddTag(tagId: string): TApiHook<() => void, () => void> {
+export function useAddTag(tagId: string): TApiMutation<void, null> {
   const ctx = useServiceContext();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<any>(null);
+  const [session] = useUserSession();
 
-  const add = useCallback(async () => {
-    const [session] = useUserSession();
-    setLoading(true);
-    try {
+  const mutation = useMutation({
+    onSuccess: refetchTagList,
+    mutationKey: [ctx, session, tagId],
+    mutationFn: async () => {
       if (!session?.isLoggedIn()) {
         throw new Error("User needs to be logged in to edit tags");
       }
       const headers = { Authorization: `Bearer ${session.sessionToken}` };
       await addTagToPreferencesList.call(ctx, { list: TAG_FEED_LIST_ID, id: tagId, headers });
-      queryClient.invalidateQueries(QueryKeys.TAGS_LIST);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
     }
-  }, []);
+  });
 
-  return [add, loading, error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
-export function useRemoveTag(tagId: string): TApiHook<() => void, () => void> {
+export function useRemoveTag(tagId: string): TApiMutation<void, null> {
   const ctx = useServiceContext();
   const [session] = useUserSession();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<any>(null);
 
-  const remove = useCallback(async () => {
-    setLoading(true);
-    try {
+  const mutation = useMutation({
+    onSuccess: refetchTagList,
+    mutationKey: [ctx, session, tagId],
+    mutationFn: async () => {
       if (!session?.isLoggedIn()) {
         throw new Error("User needs to be logged in to edit tags");
       }
       const headers = { Authorization: `Bearer ${session.sessionToken}` };
       await deleteTagFromPreferencesList.call(ctx, { list: TAG_FEED_LIST_ID, id: tagId, headers });
-      queryClient.invalidateQueries(QueryKeys.TAGS_LIST);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
     }
-  }, []);
+  });
 
-  return [remove, loading, error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+}
+
+type THandleTags = { add: () => void; remove: () => void; isFollowed: boolean };
+
+export function useHandleFollowTag(tagId: string): TApiHook<THandleTags, THandleTags> {
+  const [add, , addLoading, addError] = useAddTag(tagId);
+  const [remove, , removeLoading, removeError] = useRemoveTag(tagId);
+  const [tagList] = useTagList();
+  const isFollowed = useMemo(() => !!tagList?.items?.some(t => t.id === tagId), [tagId, tagList?.items]);
+
+  return [{ add, remove, isFollowed }, addLoading || removeLoading, addError || removeError];
 }
 
 async function fetchAllTags(ctx: ServiceContext) {

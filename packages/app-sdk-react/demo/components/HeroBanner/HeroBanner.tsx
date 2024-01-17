@@ -1,11 +1,11 @@
 import { IExposureWLHerobannerItem, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
 import React from "react";
-import { useHerobannerItem } from "../../../src";
+import { useHeroBannerItem } from "../../../src";
 import "./herobanner.css";
 import { CarouselWrapper } from "../Carousel/Carousel";
 
 function HeroBannerItem(item: IExposureWLHerobannerItem) {
-  const { title, description, image, trailerAssetId } = useHerobannerItem(item, {
+  const { title, description, image, trailerAssetId } = useHeroBannerItem(item, {
     width: 300
   });
   return (

@@ -22,14 +22,21 @@ export function useCarouselItem(
   const { language, defaultLanguage } = useLanguage();
   const [translations] = useTranslations();
 
+  const { tvShowId, season, episode } = item.asset
+
+  let title = AssetHelpers.getTitle(item.asset, {
+    language,
+    defaultLanguage
+  });
+  if (tvShowId && season && episode) {
+    title = `S${season} E${episode} ${title}`;
+  }
+
   return {
     assetId: item.asset.assetId,
     isLive: ChannelAssetHelpers.isLive(item),
     isLiveEvent: item.asset.type === AssetType.LIVE_EVENT || item.asset.type === AssetType.EVENT,
-    title: AssetHelpers.getTitle(item.asset, {
-      language,
-      defaultLanguage
-    }),
+    title,
     description: AssetHelpers.getShortDescription(item.asset, {
       language,
       defaultLanguage

@@ -8,6 +8,7 @@ import { useCountryCode } from "./useGeolocation";
 import { IExposureWLPage, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
 import { useSelectedLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
+import { useMemo } from "react";
 
 export enum PageType {
   PAGE = "page",
@@ -64,17 +65,19 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
       };
     })
   ) as UseQueryResult<ResolvedComponent<any>>[];
+
   const somethingIsLoading = results.some(r => r.isLoading) || pageLoading;
-  if (somethingIsLoading) {
-    return [null, true, pageError || results.find(r => !!r.error)?.error];
-  }
-  return [
-    results
+
+  const data = useMemo(() => {
+    if (somethingIsLoading) {
+      return null;
+    }
+    return results
       .filter(r => r.data?.component && r.data.presentationParameters)
-      .map(r => r.data) as ResolvedComponent<any>[],
-    false,
-    pageError || results.find(r => !!r.error)?.error
-  ];
+      .map(r => r.data) as ResolvedComponent<any>[];
+  }, [somethingIsLoading]);
+
+  return [data, somethingIsLoading, pageError || results.find(r => !!r.error)?.error];
 }
 
 export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponent[]> {

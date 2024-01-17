@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useState } from "react";
-import { useQuery } from "react-query";
+import { useMemo } from "react";
+import { useMutation, useQuery } from "react-query";
 import {
   Asset,
   ProductOfferingPurchase,
@@ -12,7 +12,7 @@ import {
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
-import { TApiHook } from "../types/type.apiHook";
+import { TApiHook, TApiMutation } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSystemConfigV2 } from "./useSystemConfig";
 
@@ -110,25 +110,23 @@ export function refetchPurchases() {
   return queryClient.invalidateQueries([QueryKeys.PURCHASES, QueryKeys.PURCHASE_TRANSACTIONS]);
 }
 
-export function useUnsubscribe(): [(purchaseId: string) => void, boolean] {
-  const [loading, setLoading] = useState(false);
+type TUseUnsubscribe = { purchaseId: string };
+
+export function useUnsubscribe(): TApiMutation<TUseUnsubscribe, void> {
   const [session] = useUserSession();
   const ctx = useServiceContext();
-  const unsubscribe = useCallback(
-    async (purchaseId: string) => {
-      setLoading(true);
-      try {
-        if (!session?.isLoggedIn()) {
-          throw new Error("User needs to be logged in to unsubscribe");
-        }
-        const headers = { Authorization: `Bearer ${session.sessionToken}` };
-        await cancelPurchaseSubscription.call(ctx, { purchaseId, headers });
-        refetchPurchases();
-      } finally {
-        setLoading(false);
+
+  const mutation = useMutation({
+    onSuccess: refetchPurchases,
+    mutationKey: [ctx, session],
+    mutationFn: async ({ purchaseId }: TUseUnsubscribe) => {
+      if (!session?.isLoggedIn()) {
+        throw new Error("User needs to be logged in to unsubscribe");
       }
-    },
-    [ctx, session?.sessionToken]
-  );
-  return [unsubscribe, loading];
+      const headers = { Authorization: `Bearer ${session.sessionToken}` };
+      await cancelPurchaseSubscription.call(ctx, { purchaseId, headers });
+    }
+  });
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }

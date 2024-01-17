@@ -9,7 +9,7 @@ import { useUserSession } from "./useUserSession";
 export function useBookmarks(): TApiHook<LastViewedOffset[]> {
   const ctx = useServiceContext();
   const [session] = useUserSession();
-  const { data, isLoading, error } = useQuery([QueryKeys.BOOKMARKS], async () => {
+  const { data, isLoading, error } = useQuery([QueryKeys.BOOKMARKS, session?.isLoggedIn()], async () => {
     if (!session?.isLoggedIn()) {
       return [];
     }

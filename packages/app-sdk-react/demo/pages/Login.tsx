@@ -5,18 +5,16 @@ import { useLogin, useLogout } from "../../src/hooks/useLogin";
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const login = useLogin();
-  const logout = useLogout();
+  const [login, , , error] = useLogin();
+  const [logout] = useLogout();
   const [userDetails] = useUserDetails();
   const [session] = useUserSession();
 
   const onClick = useCallback(() => {
-    if (session?.isLoggedIn()) return logout();
-    login(username, password).catch(err => {
-      console.log(err);
-    });
-  }, [username, password, session]);
-
+    if (session?.isLoggedIn()) return logout({});
+    login({ username, password });
+  }, [session, logout, login, username, password]);
+  console.log(error);
   return (
     <div>
       <input value={username} onChange={e => setUsername(e.target.value)} />

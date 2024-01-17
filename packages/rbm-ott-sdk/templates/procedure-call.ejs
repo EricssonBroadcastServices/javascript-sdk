@@ -36,6 +36,9 @@ function checkParamName(name, type) {
 function getRestParamsWithDefaults() {
   const defaults = Object.entries({ ...defaultParams, ...renamedParams });
   if (!defaults.length) {
+    if (body.schema?.type === "array") {   
+      return "_data.list"; 
+    }
     return "_data";
   }
   return `{ ${defaults.map(([k, v]) => `${k}: ${v}`).join(", ")}, ..._data }`;
@@ -74,12 +77,24 @@ const queryParams = (route.queryObjectSchema?.$parsed?.content || []).flatMap(({
   return [];
 });
 
-const bodyParams = Object.entries(body.schema?.properties || {}).map(([name, param]) => ({
-  name: checkParamName(name, "body"),
-  optional: !body.schema.required?.includes(name),
-  ...param,
-  type: param.$parsed?.content,
-}));
+let bodyParams = [];
+if (body.schema?.type === "object") {
+  bodyParams = Object.entries(body.schema?.properties || {}).map(([name, param]) => ({
+    name: checkParamName(name, "body"),
+    optional: !body.schema.required?.includes(name),
+    ...param,
+    type: param.$parsed?.content,
+  }));
+} else if (body.schema?.type === "array") {
+  bodyParams = [{
+    name: "list",
+    optional: !body.required,
+    type: body.type,
+  }]
+} else if (body.schema?.type) {
+  throw new Error(`Missing implementation for body param type "${body.schema?.type}"`);
+}
+
 
 const methodArgs = _.sortBy([
   ...pathParams,

@@ -536,9 +536,14 @@ export async function putUserAttributes({
   headers,
   ..._data
 }: {
+  list: {
+    /** id of the attribute */
+    attributeId: string;
+    value?: object;
+  }[];
   /** Optional headers */
   headers?: HeadersInit;
-} = {}) {
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request({
@@ -550,7 +555,7 @@ export async function putUserAttributes({
       ...Object.fromEntries(new Headers(headers))
     }),
     ctx,
-    body: _data
+    body: _data.list
   }).then(response => response.json() as Promise<UserDetailsResponse>);
 }
 

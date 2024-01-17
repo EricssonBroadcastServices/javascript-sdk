@@ -3,11 +3,12 @@ import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
 import { QueryKeys } from "../util/react-query";
 import { availabilityKeys } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { TApiHook } from "../types/type.apiHook";
 
-export function useAvailabilityKeys(): [string[], boolean] {
+export function useAvailabilityKeys(): TApiHook<string[]> {
   const ctx = useServiceContext();
   const [session] = useUserSession();
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, error } = useQuery(
     [QueryKeys.AVAILABILITY_KEYS, session?.sessionToken],
     () => {
       if (!session?.hasSession()) return undefined;
@@ -16,5 +17,5 @@ export function useAvailabilityKeys(): [string[], boolean] {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data?.availabilityKeys || [], isLoading];
+  return [data?.availabilityKeys || [], isLoading, error];
 }

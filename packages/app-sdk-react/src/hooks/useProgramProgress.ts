@@ -9,7 +9,7 @@ type TimeLeftProps = {
   durationMs?: number;
 };
 
-export function useGetTimeLeft({ percentageWatched, durationMs }: TimeLeftProps): string {
+export function useTimeLeft({ percentageWatched, durationMs }: TimeLeftProps): string {
   const [translations] = useTranslations();
   const [timeLeft, setTimeLeft] = useState("");
 

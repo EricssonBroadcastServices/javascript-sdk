@@ -1,12 +1,12 @@
-import { useCallback } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import {
   deleteStoredPaymentMethod,
   getStoredPaymentMethods,
+  JsonAccount,
   PaymentMethod,
   updatePreferredPaymentMethod
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { TApiHook } from "../types/type.apiHook";
+import { TApiHook, TApiMutation } from "../types/type.apiHook";
 import { useSystemConfigV2 } from "./useSystemConfig";
 import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
@@ -41,38 +41,42 @@ export function refetchPaymentMethods() {
   return queryClient.invalidateQueries(QueryKeys.PAYMENT_METHODS);
 }
 
-export function useDeletePaymentMethod() {
+export function useDeletePaymentMethod(): TApiMutation<string, Response> {
   const ctx = useServiceContext();
   const [session] = useUserSession();
-  return useCallback(
-    (paymentMethodId: string) => {
+
+  const mutation = useMutation({
+    onSuccess: refetchPaymentMethods,
+    mutationKey: [session, ctx],
+    mutationFn: (paymentMethodId: string) => {
       if (!session?.isLoggedIn()) {
         throw new Error("deleting a paymentmethod requires being logged in");
       }
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${session?.sessionToken}`);
-      return deleteStoredPaymentMethod.call(ctx, { paymentMethodId, headers }).then(() => {
-        refetchPaymentMethods();
-      });
-    },
-    [session, ctx]
-  );
+      return deleteStoredPaymentMethod.call(ctx, { paymentMethodId, headers });
+    }
+  });
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }
 
-export function useSetPreferredPaymentMethod() {
+export function useSetPreferredPaymentMethod(): TApiMutation<string, JsonAccount> {
   const ctx = useServiceContext();
   const [session] = useUserSession();
-  return useCallback(
-    (paymentMethodId: string) => {
+
+  const mutation = useMutation({
+    onSuccess: refetchPaymentMethods,
+    mutationKey: [session, ctx],
+    mutationFn: (paymentMethodId: string) => {
       if (!session?.isLoggedIn()) {
         throw new Error("setting a paymentmethod requires being logged in");
       }
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${session?.sessionToken}`);
-      return updatePreferredPaymentMethod.call(ctx, { paymentMethodId, headers }).then(() => {
-        refetchPaymentMethods();
-      });
-    },
-    [ctx, session]
-  );
+      return updatePreferredPaymentMethod.call(ctx, { paymentMethodId, headers });
+    }
+  });
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
 }

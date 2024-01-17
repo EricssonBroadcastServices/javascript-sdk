@@ -26,6 +26,8 @@ export function useImageComponent(
   return {
     title,
     description,
-    image: fitToWidth(image?.url, width, imageFormat)
+    image: fitToWidth(image?.url, width, imageFormat),
+    originalHeight: image?.height,
+    originalWidth: image?.width
   };
 }

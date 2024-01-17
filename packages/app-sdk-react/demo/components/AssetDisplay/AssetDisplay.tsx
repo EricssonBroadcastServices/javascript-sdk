@@ -14,6 +14,7 @@ import ChannelPicker from "../../components/ChannelPicker/ChannelPicker";
 import "./asset-display.css";
 import { Link } from "react-router-dom";
 import { CarouselComponent } from "../Carousel/Carousel";
+import AssetDisplayTagButton from "../TagButton/TagButton";
 
 const Entitlements = ({ status }: { status: EntitlementStatusResult }) => {
   return (
@@ -26,9 +27,10 @@ const Entitlements = ({ status }: { status: EntitlementStatusResult }) => {
 
 function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
   const asset = props.content;
-  const { title, description, image, tags, entitlement, loadingEntitlement, progress } = useAssetDisplay(asset, {
-    width: 800
-  });
+  const { title, seriesTitle, seasonTitle, description, image, tags, entitlement, loadingEntitlement, progress } =
+    useAssetDisplay(asset, {
+      width: 800
+    });
   const [pnc] = usePushNextContentData(asset.assetId);
   const { upNext, recommendations } = pnc || {};
 
@@ -37,17 +39,14 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
       <div className="asset-display">
         <div className="asset-display-meta">
           <h1>{`${title}${loadingEntitlement ? " - loadingEntitlement" : ""}`}</h1>
+          <h2>{seriesTitle && seasonTitle ? `${seriesTitle} - ${seasonTitle}` : seriesTitle}</h2>
           <p>{description}</p>
           <FavoriteButton assetId={asset.assetId} />
           <h4>{`Bookmark percentage: ${progress.percentage}`}</h4>
           <Entitlements status={entitlement} />
           <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data" />
           {tags.map(id => {
-            return (
-              <Link to={`/tag/${id}`} key={id}>
-                <button>{id}</button>
-              </Link>
-            );
+            return <AssetDisplayTagButton tagId={id} key={id} />;
           })}
         </div>
         <div className="asset-display-img-section">

@@ -1,45 +1,46 @@
 import React from "react";
-import { useUserDetails, useUserSession } from "../../src";
+import { useUserSession } from "../../src";
 import { redirect } from "react-router-dom";
-import { ChangePassword } from "../components/ChangePassword/ChangePassword";
 import VoucherForm from "../components/Vouchers/VoucherForm";
 import Favourites from "../components/Favourites/Favorites";
 import { PurchaseHistory } from "../components/Purchases/PurchaseHistory";
 import "./account-page.css";
 import PaymentMethods from "../components/PaymentMethods/PaymentMethods";
+import UserDetails from "../components/UserDetails/UserDetails";
+import { DeleteAccountButton } from "../components/DeleteAccountButton";
 
 export const AccountPage = () => {
-  const [userDetails] = useUserDetails();
   const [session] = useUserSession();
-  if (!session?.isLoggedIn) {
+  if (!session?.isLoggedIn()) {
     redirect("/login");
     return null;
   }
   return (
     <div>
-      <section className="account-page-section">
-        <h3>{userDetails?.displayName || userDetails?.username}</h3>
-      </section>
-      <section className="account-page-section">
-        <h3>Change password</h3>
-        <ChangePassword />
-      </section>
-      <section className="account-page-section">
-        <h3>Favourites</h3>
+      <details className="account-page-section">
+        <summary>User Details</summary>
+        <UserDetails />
+      </details>
+      <details className="account-page-section">
+        <summary>Favourites</summary>
         <Favourites />
-      </section>
-      <section className="account-page-section">
-        <h3>Payment methods</h3>
+      </details>
+      <details className="account-page-section">
+        <summary>Payment methods</summary>
         <PaymentMethods />
-      </section>
-      <section className="account-page-section">
-        <h3>Redeem Voucher</h3>
+      </details>
+      <details className="account-page-section">
+        <summary>Redeem Voucher</summary>
         <VoucherForm />
-      </section>
-      <section className="account-page-section">
-        <h3>Purchase history</h3>
+      </details>
+      <details className="account-page-section">
+        <summary>Purchase history</summary>
         <PurchaseHistory />
-      </section>
+      </details>
+      <details className="account-page-section">
+        <summary>Delete account</summary>
+        <DeleteAccountButton />
+      </details>
     </div>
   );
 };

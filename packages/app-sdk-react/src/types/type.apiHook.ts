@@ -1,8 +1,16 @@
-/* uniform return type for hooks returning data that is fetched async */
+/* uniform return type for hooks returning or mutating data that is fetched async */
 
-/**
- * [data, isLoading, error]
- * T = return data
- * F = fallback return data
- */
-export type TApiHook<T, F = null> = [T | F, boolean, unknown | null];
+type TErrorType = unknown;
+
+export type TApiHook<TReturnData, TFallbackReturnData = null> = [
+  TReturnData | TFallbackReturnData,
+  boolean,
+  TErrorType | null
+];
+
+export type TApiMutation<TParams, TReturnData, TFallbackReturnData = null> = [
+  (params: TParams) => void,
+  TReturnData | TFallbackReturnData,
+  boolean,
+  TErrorType | null
+];
