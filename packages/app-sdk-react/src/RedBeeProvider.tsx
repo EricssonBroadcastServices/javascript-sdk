@@ -7,6 +7,7 @@ import { queryClient } from "./util/react-query";
 import { IStorage } from "./types/storage";
 import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
 import { Session } from "./Session";
+
 export interface IRedBeeState {
   essentialAppData: EssentialAppData | null;
   loading: string[];
@@ -128,6 +129,8 @@ interface IRedBeeProvider {
   storage?: IStorage;
   deviceRegistration: Required<DeviceRegistration>;
   autoFetchConfig?: boolean;
+  /** optionally pass in a sessionToken to restore a session created elsewhere */
+  sessionToken?: string;
   /** Listen for any errors when initially verifying the session.
    * Should session validation fail for any unknown reason, for example network error, the apps should retry validation.
    * When this is triggered, the current session will not have been cleared from storage, but it will also not be passed to the RedBee state
@@ -162,7 +165,8 @@ export function RedBeeProvider({
   baseUrl,
   children,
   autoFetchConfig,
-  onSessionValidationError
+  onSessionValidationError,
+  sessionToken
 }: IRedBeeProvider) {
   if (!customer || !businessUnit) {
     throw new Error("customer and businessUnit are required");
@@ -184,6 +188,7 @@ export function RedBeeProvider({
       deviceGroup={deviceGroup}
       baseUrl={baseUrl}
       onSessionValidationError={onSessionValidationError}
+      sessionToken={sessionToken}
     >
       <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>
     </InitialPropsProvider>
