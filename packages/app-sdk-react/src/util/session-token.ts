@@ -32,11 +32,13 @@ export function parseSessionToken(token: string): IParsedToken | null {
 interface IValidateAndReconstructSessionFromSessionToken {
   context: ServiceContext;
   sessionToken: string;
+  storage?: IStorage;
 }
 
 export async function validateAndReconstructSessionFromSessionToken({
   context,
-  sessionToken
+  sessionToken,
+  storage
 }: IValidateAndReconstructSessionFromSessionToken): Promise<Session | null> {
   try {
     const headers = { Authorization: `Bearer ${sessionToken}` };
@@ -58,6 +60,8 @@ export async function validateAndReconstructSessionFromSessionToken({
       child: false,
       userProfile: res.userProfile
     };
+
+    storage?.setItem(StorageKey.SESSION, JSON.stringify(sessionData));
 
     return new Session(sessionData);
   } catch (err) {

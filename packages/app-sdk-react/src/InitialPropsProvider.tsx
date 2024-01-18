@@ -45,10 +45,15 @@ export function InitialPropsProvider({
 
       let session: SessionData | null = null;
 
-      // if a sessionToken has been pass in: use that if possible
+      // if a sessionToken has been passed in: use that if possible
       if (sessionToken) {
-        session = await validateAndReconstructSessionFromSessionToken({ context: serviceContext, sessionToken });
+        session = await validateAndReconstructSessionFromSessionToken({
+          context: serviceContext,
+          sessionToken,
+          storage
+        });
       }
+      // if there still is no session, use one from storage, if possible
       if (!session) {
         try {
           const [validatedSession, validationError] = await getValidatedPersistedSession({
