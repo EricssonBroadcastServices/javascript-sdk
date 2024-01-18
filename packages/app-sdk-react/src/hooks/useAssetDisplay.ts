@@ -42,7 +42,10 @@ export function useAssetDisplayTvShow(asset: Asset, options: UseAssetOptions) {
   const [continueWatching, loadingContinueWatching] = useContinueWatching(asset.assetId);
   const [entitlement, loadingEntitlement] = useEntitlementForAsset({ asset: continueWatching?.asset }, {});
 
-  const [bookmarkPercentage] = useBookmarkPercentage(continueWatching?.asset?.assetId);
+  const [bookmarkPercentage] = useBookmarkPercentage(
+    continueWatching?.asset?.assetId,
+    continueWatching?.asset?.duration
+  );
   const timeLeft = useTimeLeft({ percentageWatched: bookmarkPercentage ?? undefined, durationMs: asset.duration });
 
   const seasons = useMemo(() => {
