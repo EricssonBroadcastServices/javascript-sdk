@@ -4,6 +4,7 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useContinueWatching(tvshowid?: string): TApiHook<WatchedTvShowResponse> {
   const [session] = useUserSession();
@@ -20,5 +21,5 @@ export function useContinueWatching(tvshowid?: string): TApiHook<WatchedTvShowRe
       });
     }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, AppError.fromUnknown(error)];
 }

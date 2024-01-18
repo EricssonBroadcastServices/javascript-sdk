@@ -1,6 +1,7 @@
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 /* uniform return type for hooks returning or mutating data that is fetched async */
 
-type TErrorType = unknown;
+type TErrorType = AppError;
 
 export type TApiHook<TReturnData, TFallbackReturnData = null> = [
   TReturnData | TFallbackReturnData,

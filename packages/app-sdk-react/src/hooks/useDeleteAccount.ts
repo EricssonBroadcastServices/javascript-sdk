@@ -3,6 +3,7 @@ import { useServiceContext } from "./useApi";
 import { useSetSession, useUserSession } from "./useUserSession";
 import { TApiMutation } from "../types/type.apiHook";
 import { useMutation } from "react-query";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useDeleteAccount(): TApiMutation<string, void> {
   const [session] = useUserSession();
@@ -23,5 +24,5 @@ export function useDeleteAccount(): TApiMutation<string, void> {
       setSession(null);
     }
   });
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }

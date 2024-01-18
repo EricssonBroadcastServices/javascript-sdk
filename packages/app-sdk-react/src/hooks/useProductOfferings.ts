@@ -13,6 +13,7 @@ import { queryClient, QueryKeys } from "../util/react-query";
 import { useConsumedDiscounts } from "./usePurchases";
 import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 const productOfferingsCacheTime = 1000 * 60 * 30;
 
@@ -50,7 +51,7 @@ export function useProductOfferings({
       return p;
     }) || [],
     isLoading,
-    error
+    AppError.fromUnknown(error)
   ];
 }
 
@@ -71,7 +72,7 @@ export function useProductOfferingsByVoucherCode(code?: string): TApiHook<StoreP
     },
     { staleTime: productOfferingsCacheTime }
   );
-  return [data?.productOfferings || [], isLoading, error];
+  return [data?.productOfferings || [], isLoading, AppError.fromUnknown(error)];
 }
 
 export function refetchProductOfferings() {

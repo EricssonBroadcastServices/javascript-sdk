@@ -13,6 +13,7 @@ import {
 import { TApiMutation } from "../types/type.apiHook";
 import { useMutation } from "react-query";
 import { useLanguage } from "./useSelectedLanguage";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 type TUseLogin = { username: string; password: string };
 
@@ -33,7 +34,7 @@ export function useLogin(): TApiMutation<TUseLogin, LoginResponse> {
       });
     }
   });
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }
 
 export function useOauthLogin(): TApiMutation<string, LoginResponse> {
@@ -51,7 +52,7 @@ export function useOauthLogin(): TApiMutation<string, LoginResponse> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }
 
 type LoginFirebasePayload = {
@@ -78,7 +79,7 @@ export function useFirebaseLogin(): TApiMutation<LoginFirebasePayload, LoginResp
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }
 
 type TUseLogout = { fromAllDevice?: boolean };
@@ -99,7 +100,7 @@ export function useLogout(): TApiMutation<TUseLogout, object> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }
 
 export function useValidateSession() {

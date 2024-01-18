@@ -4,6 +4,7 @@ import { useUserSession } from "./useUserSession";
 import { QueryKeys } from "../util/react-query";
 import { availabilityKeys } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { TApiHook } from "../types/type.apiHook";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useAvailabilityKeys(): TApiHook<string[]> {
   const ctx = useServiceContext();
@@ -17,5 +18,5 @@ export function useAvailabilityKeys(): TApiHook<string[]> {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data?.availabilityKeys || [], isLoading, error];
+  return [data?.availabilityKeys || [], isLoading, AppError.fromUnknown(error)];
 }

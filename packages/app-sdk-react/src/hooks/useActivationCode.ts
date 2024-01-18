@@ -3,6 +3,7 @@ import { consumeActivationCode, createActivationCode } from "@ericssonbroadcasts
 import { useSetSession } from "./useUserSession";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 interface IActivationCodeData {
   code?: string;
@@ -78,7 +79,7 @@ export function useActivationCode({
           });
         })
         .catch(err => {
-          setCodeError(err);
+          setCodeError(AppError.fromUnknown(err));
         })
         .finally(() => {
           setIsLoading(false);

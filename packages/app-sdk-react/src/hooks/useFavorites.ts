@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "react-query";
 import { addToAssetList, deleteFromAssetList, getFromAssetList } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WLComponentSubType } from "@ericssonbroadcastservices/app-sdk";
+import { AppError, WLComponentSubType } from "@ericssonbroadcastservices/app-sdk";
 import { TApiHook, TApiMutation } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
@@ -33,7 +33,7 @@ export function useAddAssetToFavorites(assetId: string): TApiMutation<void, void
       await addToAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
     }
   });
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }
 
 export function useRemoveAssetFromFavorites(assetId: string): TApiMutation<void, void> {
@@ -51,7 +51,7 @@ export function useRemoveAssetFromFavorites(assetId: string): TApiMutation<void,
       await deleteFromAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
     }
   });
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }
 
 type HandleAssetFavorites = {
@@ -90,5 +90,5 @@ export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFa
 
   handler.isInList = !!data;
 
-  return [handler, loadingAdd || loadingRemove || loadingList, error || addError || removeError];
+  return [handler, loadingAdd || loadingRemove || loadingList, AppError.fromUnknown(error) || addError || removeError];
 }

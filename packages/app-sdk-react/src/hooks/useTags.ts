@@ -13,6 +13,7 @@ import { TApiHook, TApiMutation } from "../types/type.apiHook";
 import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
 import { useMemo } from "react";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 const TAG_FEED_LIST_ID = "tagfeed";
 
@@ -28,7 +29,7 @@ export function useTagList(): TApiHook<PreferencesListResponse> {
     const headers = { Authorization: `Bearer ${session.sessionToken}` };
     return getTagsFromPreferencesList.call(ctx, { list: TAG_FEED_LIST_ID, headers });
   });
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, AppError.fromUnknown(error)];
 }
 
 export function useAddTag(tagId: string): TApiMutation<void, null> {
@@ -47,7 +48,7 @@ export function useAddTag(tagId: string): TApiMutation<void, null> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }
 
 export function useRemoveTag(tagId: string): TApiMutation<void, null> {
@@ -66,7 +67,7 @@ export function useRemoveTag(tagId: string): TApiMutation<void, null> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
 }
 
 type THandleTags = { add: () => void; remove: () => void; isFollowed: boolean };
@@ -97,7 +98,7 @@ async function fetchAllTags(ctx: ServiceContext) {
 export function useTags(): TApiHook<TagType[], []> {
   const ctx = useServiceContext();
   const { data, isLoading, error } = useQuery([QueryKeys.TAGS], () => fetchAllTags(ctx), { staleTime: 1000 * 60 * 60 });
-  return [data || [], isLoading, error];
+  return [data || [], isLoading, AppError.fromUnknown(error)];
 }
 
 /**
@@ -106,5 +107,5 @@ export function useTags(): TApiHook<TagType[], []> {
 export function useTag(tagId: string): TApiHook<TagType> {
   const [tags, isLoading, error] = useTags();
   const tag = isLoading || error ? null : tags.find(tag => tag.tagId === tagId);
-  return [tag || null, isLoading, error];
+  return [tag || null, isLoading, AppError.fromUnknown(error)];
 }

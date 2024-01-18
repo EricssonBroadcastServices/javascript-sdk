@@ -7,6 +7,7 @@ import { Asset, SearchList, getAssets, searchAsset, searchV3 } from "@ericssonbr
 import { useSystemConfigV2 } from "./useSystemConfig";
 import { useCountryCode } from "./useGeolocation";
 import { useConfig } from "./useConfig";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 /** return assets matching the provided search term */
 export function useSearch(term: string, debounceTime = 300): TApiHook<SearchList> {
@@ -25,7 +26,7 @@ export function useSearch(term: string, debounceTime = 300): TApiHook<SearchList
     });
   });
   const isLoadingOrDebouncing = term !== "" && (isLoading || term !== debouncedTerm);
-  return [data || null, isLoadingOrDebouncing, error];
+  return [data || null, isLoadingOrDebouncing, AppError.fromUnknown(error)];
 }
 
 type TSearchParams = {
@@ -69,5 +70,5 @@ export function useExpandedSearch({
       });
   });
   const isLoadingOrDebouncing = term !== "" && (isLoading || term !== debouncedTerm);
-  return [data || null, isLoadingOrDebouncing, error];
+  return [data || null, isLoadingOrDebouncing, AppError.fromUnknown(error)];
 }
