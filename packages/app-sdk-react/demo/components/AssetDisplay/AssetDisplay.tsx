@@ -48,6 +48,14 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
           {tags.map(id => {
             return <AssetDisplayTagButton tagId={id} key={id} />;
           })}
+          {asset.participants.map(p => {
+            if (!p.name) return;
+            return (
+              <Link key={p.name} to={`/participant/${p.name}`}>
+                {p.name}
+              </Link>
+            );
+          })}
         </div>
         <div className="asset-display-img-section">
           <img src={image}></img>
@@ -116,6 +124,14 @@ function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
             return (
               <Link to={`/tag/${id}`} key={id}>
                 <button>{id}</button>
+              </Link>
+            );
+          })}
+          {asset.participants.map(p => {
+            if (!p.name) return;
+            return (
+              <Link key={p.name} to={`/participant/${p.name}`}>
+                {p.name}
               </Link>
             );
           })}

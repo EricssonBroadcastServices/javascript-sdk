@@ -109,3 +109,15 @@ export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]>
   );
   return [data || null, isLoading, error];
 }
+
+export function useResolvedParticipantPage(participantName: string): TApiHook<ResolvedComponent[]> {
+  const appService = useAppService();
+  const { data, isLoading, error } = useQuery(
+    [participantName],
+    () => {
+      return appService.getParticipantPage(participantName);
+    },
+    { staleTime: 1000 * 60 * 10 }
+  );
+  return [data || null, isLoading, error];
+}
