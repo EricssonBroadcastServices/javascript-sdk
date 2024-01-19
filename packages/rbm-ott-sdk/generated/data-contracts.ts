@@ -330,8 +330,6 @@ export interface Carousel {
   titles?: LocalizedTitle[];
 }
 
-export type CencConfigurationResponse = Record<"com.microsoft.playready" | "com.widevine.alpha", string>;
-
 export interface ChangePasswordResponse {
   loginResponse?: LoginResponse;
 }
@@ -538,17 +536,6 @@ export interface DrmUrls {
   licenseServerUrl: string;
 }
 
-export interface EDRMConfigurationResponse {
-  /** The ad parameter to use. */
-  adParameter?: string;
-  /** The id of the owner of the media. */
-  ownerId?: string;
-  /** The url of the server to use. */
-  requestUrl?: string;
-  /** The user token. */
-  userToken?: string;
-}
-
 export type EmptyResponse = object;
 
 export interface EntitleResponseV2 {
@@ -616,11 +603,6 @@ export interface ExternalPaymentConfig {
 }
 
 export type ExternalReference = Record<"locator" | "type" | "value", string>;
-
-export type FairplayConfigurationResponse = Record<
-  "certificateUrl" | "licenseAcquisitionUrl" | "secondaryMediaLocator",
-  string
->;
 
 export interface Filters {
   filters?: FiltersFilter[];
@@ -1029,63 +1011,6 @@ export interface PinCodeResponse {
   modified: string;
   /** Id of PIN */
   pinId: string;
-}
-
-export interface PlayResponse {
-  /** Media locator to used for add servers SDKs */
-  adMediaLocator?: string;
-  /** If airplay is blocked */
-  airplayBlocked?: boolean;
-  cencConfig?: CencConfigurationResponse;
-  edrmConfig?: EDRMConfigurationResponse;
-  /** The type of entitlement that granted access to this play. */
-  entitlementType?: "AVOD" | "FVOD" | "SVOD" | "TVOD";
-  fairplayConfig?: FairplayConfigurationResponse;
-  /** If fast forward is enabled */
-  ffEnabled?: boolean;
-  /** Last viewed offset */
-  lastViewedOffset?: number;
-  /** Last viewed time */
-  lastViewedTime?: number;
-  /** The datetime of activation of the drm license. */
-  licenseActivation?: string;
-  /** The datetime of expiration of the drm license. */
-  licenseExpiration?: string;
-  /** The reason of expiration of the drm license. */
-  licenseExpirationReason?: LicenseExpirationReason;
-  /** If this is a live entitlement. */
-  live?: boolean;
-  /** Live time */
-  liveTime?: number;
-  /** Max bitrate to use */
-  maxBitrate?: number;
-  /** Max height resolution */
-  maxResHeight?: number;
-  /** MDN Request Router Url */
-  mdnRequestRouterUrl?: string;
-  /**
-   * The information needed to locate the media. FOR EDRM this will be the media uid, for other formats it's the URL
-   * of the media.
-   */
-  mediaLocator?: string;
-  /** Min bitrate to use */
-  minBitrate?: number;
-  /** Unique id of this playback session, all analytics events for this session should be reported on with this id */
-  playSessionId?: string;
-  /**
-   * Play token to use for either PlayReady or MRR.
-   * Will be empty if the status is not SUCCESS.
-   */
-  playToken?: string;
-  /** The expiration of the the play token. The player needs to be initialized and done the play call before this. */
-  playTokenExpiration?: string;
-  /** Identity of the product that permitted playback of the asset */
-  productId?: string;
-  /** If rewind is enabled */
-  rwEnabled?: boolean;
-  /** If timeshift is disabled */
-  timeshiftEnabled?: boolean;
-  widevineConfig?: WidevineConfigurationResponse;
 }
 
 export interface PlayResponseV2 {
@@ -1941,8 +1866,4 @@ export interface WatchedTvShowResponse {
   asset?: Asset;
   lastViewedOffset?: number;
   startedWatching?: boolean;
-}
-
-export interface WidevineConfigurationResponse {
-  certificateUrl?: string;
 }

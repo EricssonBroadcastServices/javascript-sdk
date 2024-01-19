@@ -54,6 +54,8 @@ function patchSpec(data: string): string {
 
   const spec = JSON.parse(data);
 
+  delete spec.components.schemas.ApiPlayResponse;
+
   for (let [oldName, newName] of Object.entries(renameTypes)) {
     spec.components.schemas[newName] = spec.components.schemas[oldName]
   }
