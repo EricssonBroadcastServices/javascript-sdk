@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useSetSession, useUserSession } from "./useUserSession";
 import { useRedBeeState } from "../RedBeeProvider";
 import { ErrorCode } from "../util/error";
@@ -34,7 +34,21 @@ export function useLogin(): TApiMutation<TUseLogin, LoginResponse> {
       });
     }
   });
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
+
+  const appError = useMemo(() => {
+    if (!mutation.error) return null;
+    // TODO: solve typing somehow. err.response is added by rbmottsdk
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (mutation.error instanceof Error && mutation.error.response) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return AppError.fromFetchError({ error: mutation.error.response as Response, errorType: "LOGIN" });
+    }
+    throw AppError.fromUnknown(mutation.error);
+  }, [mutation.error]);
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, appError];
 }
 
 export function useOauthLogin(): TApiMutation<string, LoginResponse> {
