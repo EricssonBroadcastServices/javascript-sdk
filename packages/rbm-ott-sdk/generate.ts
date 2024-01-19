@@ -29,6 +29,8 @@ import { generateApi } from "swagger-typescript-api";
 function patchSpec(data: string): string {
   const renameTypes = {
     AdClips: "AdClip", // Because it's one clip, not a list
+    ApiEntitleResponseV2: "ApiEntitleResponse",
+    ApiPlayResponseV2: "ApiPlayResponse",
   }
   data = data.replaceAll("customerUnit", "customer"); // fix inconsistent naming of "customer" param
   data = data.replaceAll("frirslogin awgane", "firebase login"); // just a comment typo
@@ -53,8 +55,6 @@ function patchSpec(data: string): string {
   }
 
   const spec = JSON.parse(data);
-
-  delete spec.components.schemas.ApiPlayResponse;
 
   for (let [oldName, newName] of Object.entries(renameTypes)) {
     spec.components.schemas[newName] = spec.components.schemas[oldName]

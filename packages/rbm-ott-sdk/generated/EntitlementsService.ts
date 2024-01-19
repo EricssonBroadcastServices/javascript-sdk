@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------
  */
 
-import { AvailabilityKeys, EntitleResponseV2, PaymentProvider, PlayResponseV2 } from "./data-contracts";
+import { AvailabilityKeys, EntitleResponse, PaymentProvider, PlayResponse } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
@@ -65,7 +65,7 @@ export async function availabilityKeys({
  * @description Check if the user is/will be allowed to play using current configuration.
  * @summary Do an entitlement check.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle
- * @response `200` `EntitleResponseV2` success
+ * @response `200` `EntitleResponse` success
  * @response `400` `void` INVALID_JSON. If JSON received is not valid JSON.
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `403` `void` FORBIDDEN. If this business unit has been configured to require server to server authentication, but it is not valid. NOT_AVAILABLE. The asset is not available (playable) even if the asset itself is known. BLOCKED. All play requests for the asset is currently blocked. (for instance blacked out or catchup blocked) GEO_BLOCKED. Play is not allowed in selected region. CONCURRENT_STREAMS_LIMIT_REACHED. Play is not allowed due to concurrent streams limitation. NOT_PUBLISHED. The asset is not published. NOT_ENTITLED. The user does not have access to play the asset.
@@ -95,14 +95,14 @@ export async function entitle({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<EntitleResponseV2>);
+  }).then(response => response.json() as Promise<EntitleResponse>);
 }
 
 /**
  * @description If the entitlement checks pass it will return the information needed to initialize the player.
  * @summary Do a play call.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/play
- * @response `200` `PlayResponseV2` success
+ * @response `200` `PlayResponse` success
  * @response `400` `void` INVALID_JSON. If JSON received is not valid JSON. INVALID_START_TIME. Invalid startTime. INVALID_END_TIME. Invalid endTime. END_TIME_WITHOUT_START_TIME_IS_NOT_ALLOWED. Only endTime without startTime is not allowed. START_TIME_MUST_BE_BEFORE_END_TIME. StartTime must be before endTime. START_TIME_OLD. StartTime is not accepted. It is too old. START_TIME_OLD_WHEN_NO_END_TIME. StartTime is not accepted. It is too old when no endTime is provided. START_TIME_IN_THE_FUTURE. StartTime cannot be in the future. START_END_TIME_DURATION_TO_LONG. The duration between startTime and endTime is to long.
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid. INVALID_ADOBE_AUTH. The provided adobe play token is not valid.
  * @response `403` `void` FORBIDDEN. If this business unit has been configured to require server to server authentication, but it is not valid. NOT_AVAILABLE. The asset is not available (playable) even if the asset itself is known. BLOCKED. All play requests for the asset is currently blocked. (for instance blacked out or catchup blocked) GEO_BLOCKED. Play is not allowed in selected region. CONCURRENT_STREAMS_LIMIT_REACHED. Play is not allowed due to concurrent streams limitation. NOT_PUBLISHED. The asset is not published. NOT_ENTITLED. The user does not have access to play the asset.
@@ -246,7 +246,7 @@ export async function play({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<PlayResponseV2>);
+  }).then(response => response.json() as Promise<PlayResponse>);
 }
 
 export class EntitlementsService {

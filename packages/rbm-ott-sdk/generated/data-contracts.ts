@@ -538,7 +538,7 @@ export interface DrmUrls {
 
 export type EmptyResponse = object;
 
-export interface EntitleResponseV2 {
+export interface EntitleResponse {
   /** The account id */
   accountId?: string;
   entitleExposure?: boolean;
@@ -1013,7 +1013,7 @@ export interface PinCodeResponse {
   pinId: string;
 }
 
-export interface PlayResponseV2 {
+export interface PlayResponse {
   /** The account id */
   accountId?: string;
   ads?: Ads;
