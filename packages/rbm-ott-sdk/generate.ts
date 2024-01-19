@@ -180,11 +180,17 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiCardSummary.required = ["last4", "brand", "expiryMonth", "expiryYear"];
   spec.components.schemas.ApiStripePaymentMethodsAndPrice.required = ["methodTypes"];
   spec.components.schemas.ApiStripeWalletAndPrice.required = ["name", "price", "recurring"];
-  /* Add and use payment provider enum type instead of string */
+  // Add known enum types (instead of strings)
   spec.components.schemas.PaymentProvider = {
     type: "string",
     enum: ["stripe", "googleplay", "appstore", "external", "deny"]
   };
+  spec.components.schemas.AdClipCategory = {enum: ["ad", "vod"], "type": "string" };
+  spec.components.schemas.AdClips.properties.category = { "$ref": "#/components/schemas/AdClipCategory" };
+  spec.components.schemas.AdStitcher = {enum: ["GENERIC", "INTERNAL", "NOWTILUS"], "type": "string" };
+  spec.components.schemas.Ads.properties.stitcher = { "$ref": "#/components/schemas/AdStitcher" }
+  spec.components.schemas.MarkerType = {enum: ["INTRO", "CREDITS", "POINT", "CHAPTER"], "type": "string" };
+  spec.components.schemas.ApiMarkerPoint.properties.type = { "$ref": "#/components/schemas/MarkerType" }
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle"].get.parameters.find(
     (param: any) => param.name === "paymentProvider"
   ).schema = { $ref: "#/components/schemas/PaymentProvider" };

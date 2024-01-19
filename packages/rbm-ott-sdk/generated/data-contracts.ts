@@ -45,7 +45,7 @@ export interface ActiveChannels {
 }
 
 export interface AdClip {
-  category?: string;
+  category?: AdClipCategory;
   duration?: number;
   impressionUrlTemplates?: string[];
   title?: string;
@@ -54,12 +54,25 @@ export interface AdClip {
   videoClicks?: AdVideoClicks;
 }
 
+export const AdClipCategory = {
+  AD: "ad",
+  VOD: "vod"
+} as const;
+export type AdClipCategory = (typeof AdClipCategory)[keyof typeof AdClipCategory];
+
 export interface AdMarker {
   duration?: string;
   id?: string;
   offset?: number;
   type?: string;
 }
+
+export const AdStitcher = {
+  GENERIC: "GENERIC",
+  INTERNAL: "INTERNAL",
+  NOWTILUS: "NOWTILUS"
+} as const;
+export type AdStitcher = (typeof AdStitcher)[keyof typeof AdStitcher];
 
 export type AdTrackingEvents = Record<"complete" | "firstQuartile" | "midpoint" | "thirdQuartile", string[]>;
 
@@ -77,7 +90,7 @@ export interface Ads {
   clips?: AdClip[];
   insertionDuration?: number;
   insertionMaxCount?: number;
-  stitcher?: string;
+  stitcher?: AdStitcher;
   stitcherProfileId?: string;
   stitcherSession?: string;
 }
@@ -852,8 +865,16 @@ export interface MarkerPoint {
   localized?: SimpleLocalizedData[];
   offset?: number;
   thumbnail?: string;
-  type?: string;
+  type?: MarkerType;
 }
+
+export const MarkerType = {
+  CHAPTER: "CHAPTER",
+  CREDITS: "CREDITS",
+  INTRO: "INTRO",
+  POINT: "POINT"
+} as const;
+export type MarkerType = (typeof MarkerType)[keyof typeof MarkerType];
 
 export interface Media {
   /** The DRM of the media. */
