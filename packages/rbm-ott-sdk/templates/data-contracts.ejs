@@ -17,7 +17,7 @@ const buildGenerics = (contract) => {
 
 const dataContractTemplates = {
   enum: (contract) => {
-    const content = contract.$content.map(({ key, value }) => `${key}: ${value},`).join("\n");
+    const content = contract.$content.map(({ key, value }) => `${key.toUpperCase()}: ${value},`).join("\n");
     return `const ${contract.name} = {
       ${content}
     } as const;

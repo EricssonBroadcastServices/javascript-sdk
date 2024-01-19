@@ -980,11 +980,11 @@ export interface PaymentMethods {
 }
 
 export const PaymentProvider = {
-  Appstore: "appstore",
-  Deny: "deny",
-  External: "external",
-  Googleplay: "googleplay",
-  Stripe: "stripe"
+  APPSTORE: "appstore",
+  DENY: "deny",
+  EXTERNAL: "external",
+  GOOGLEPLAY: "googleplay",
+  STRIPE: "stripe"
 } as const;
 export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider];
 
@@ -1520,10 +1520,10 @@ export interface StoreTransaction {
 }
 
 export const StoreTransactionStatus = {
-  Accepted: "accepted",
-  Cancelled: "cancelled",
-  Pending: "pending",
-  Rejected: "rejected"
+  ACCEPTED: "accepted",
+  CANCELLED: "cancelled",
+  PENDING: "pending",
+  REJECTED: "rejected"
 } as const;
 export type StoreTransactionStatus = (typeof StoreTransactionStatus)[keyof typeof StoreTransactionStatus];
 
