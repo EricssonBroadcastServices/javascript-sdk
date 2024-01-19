@@ -220,10 +220,15 @@ describe("Error translator factory", () => {
     });
     it("Unknown error", () => {
       const fromUnknownError = AppError.fromUnknown;
-      const error = new Response("", { status: 400, statusText: "Bad Request" });
-      expect(mockTranslations.getText(fromUnknownError(error).message)).toEqual(
+      const error_1 = new Response("", { status: 400, statusText: "Bad Request" });
+      expect(mockTranslations.getText(fromUnknownError(error_1).message)).toEqual(
         mockTranslations.getText("UNKNOWN_ERROR")
       );
+      const error_2 = new PaymentError("PRODUCT_ALREADY_BOUGHT", { code: 400, rawError: "Bad Request" });
+      expect(mockTranslations.getText(fromUnknownError(error_2).message)).toEqual(
+        mockTranslations.getText("PRODUCT_ALREADY_BOUGHT")
+      );
+      expect(fromUnknownError(error_2)).toBeInstanceOf(PaymentError);
     });
   });
 });

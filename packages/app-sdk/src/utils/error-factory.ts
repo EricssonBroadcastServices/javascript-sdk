@@ -71,6 +71,7 @@ export class AppError extends Error {
   }
 
   static fromUnknown(err: unknown): AppError {
+    if (err instanceof AppError) return err;
     return new AppError("UNKNOWN_ERROR", {
       rawError: err instanceof Error ? err.message : String(err)
     });
