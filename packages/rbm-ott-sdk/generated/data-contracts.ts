@@ -323,13 +323,6 @@ export interface CardSummary {
   origin?: string;
 }
 
-export interface Carousel {
-  carouselId?: string;
-  items?: AssetList;
-  sortOrder?: number;
-  titles?: LocalizedTitle[];
-}
-
 export interface ChangePasswordResponse {
   loginResponse?: LoginResponse;
 }
@@ -802,8 +795,6 @@ export interface LocalizedTag {
   locale: string;
   title?: string;
 }
-
-export type LocalizedTitle = Record<"locale" | "title", string>;
 
 export interface Location {
   /** ISO country code or null if unknown. */

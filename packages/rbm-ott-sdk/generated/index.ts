@@ -9,7 +9,6 @@
 
 import { AssetService } from "./AssetService";
 import { AuthenticationService } from "./AuthenticationService";
-import { CarouselService } from "./CarouselService";
 import { ClientConfigService } from "./ClientConfigService";
 import { CustomerConfigService } from "./CustomerConfigService";
 import { DeviceService } from "./DeviceService";
@@ -35,7 +34,6 @@ import { UserService } from "./UserService";
 class RBMOTTSDK {
   asset: AssetService;
   authentication: AuthenticationService;
-  carousel: CarouselService;
   clientConfig: ClientConfigService;
   customerConfig: CustomerConfigService;
   device: DeviceService;
@@ -59,7 +57,6 @@ class RBMOTTSDK {
   constructor(public context: ServiceContext) {
     this.asset = new AssetService(context);
     this.authentication = new AuthenticationService(context);
-    this.carousel = new CarouselService(context);
     this.clientConfig = new ClientConfigService(context);
     this.customerConfig = new CustomerConfigService(context);
     this.device = new DeviceService(context);
@@ -89,7 +86,6 @@ export { request };
 export * from "./data-contracts";
 export * from "./AssetService";
 export * from "./AuthenticationService";
-export * from "./CarouselService";
 export * from "./ClientConfigService";
 export * from "./CustomerConfigService";
 export * from "./DeviceService";

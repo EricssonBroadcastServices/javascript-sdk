@@ -238,6 +238,11 @@ function patchSpec(data: string): string {
     "/v3/customer/{customer}/businessunit/{businessUnit}/content/search/asset/query/{query}"
   ].get.parameters.find((q: any) => q.name === "locales").name = "locale";
 
+  // Remove carousel service
+  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup"].get;
+  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup/{groupId}"].get;
+  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup/{groupId}/carousel/{carouselId}"].get;
+
   // Ignore problematic endpoints
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get; // name-clashes, duplicate,experimantal and unused
   delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work? (always returns "Unknown error" 500 and is void return type)
