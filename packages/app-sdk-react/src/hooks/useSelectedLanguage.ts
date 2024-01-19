@@ -28,12 +28,12 @@ export function useSetSelectedLanguage() {
   );
 }
 
-export function useDefaultLanguage() {
+export function useDefaultLanguage(): string {
   const [config] = useConfig();
   return config?.systemConfig.defaultLocale || "en";
 }
 
-export function useSelectedLanguage() {
+export function useSelectedLanguage(): string {
   const defaultLanguage = useDefaultLanguage();
   const { selectedLanguage } = useRedBeeState();
   return selectedLanguage || defaultLanguage;
