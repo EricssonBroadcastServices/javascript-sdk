@@ -242,6 +242,10 @@ function patchSpec(data: string): string {
   delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup"].get;
   delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup/{groupId}"].get;
   delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup/{groupId}/carousel/{carouselId}"].get;
+  // Remove rating service
+  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/rating/all"].get;
+  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}"];
+  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}/all"].get;
 
   // Ignore problematic endpoints
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get; // name-clashes, duplicate,experimantal and unused

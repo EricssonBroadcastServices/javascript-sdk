@@ -619,27 +619,6 @@ export interface FrontendFeatures {
   shouldAlwaysUseAnonymousLogin: boolean;
 }
 
-export interface GetAllUserContentRatingsForAssetResponse {
-  assetId?: string;
-  creationDate?: string;
-  lastModificationDate?: string;
-  rating?: number;
-  userId?: string;
-}
-
-export interface GetAllUserContentRatingsForUserResponse {
-  assetId?: string;
-  creationDate?: string;
-  lastModificationDate?: string;
-  rating?: number;
-}
-
-export interface GetUserContentRatingResponse {
-  creationDate?: string;
-  lastModificationDate?: string;
-  rating?: number;
-}
-
 /** Google play configuration */
 export interface GooglePlayConfig {
   /** Google play enabled */
