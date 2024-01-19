@@ -44,6 +44,8 @@ export function useLogin(): TApiMutation<TUseLogin, LoginResponse> {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return AppError.fromFetchError({ error: mutation.error.response as Response, errorType: "LOGIN" });
+    } else if (mutation.error instanceof AppError) {
+      return mutation.error;
     }
     throw AppError.fromUnknown(mutation.error);
   }, [mutation.error]);
