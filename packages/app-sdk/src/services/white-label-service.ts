@@ -58,7 +58,8 @@ import {
   GetGeneratedEpgCarouselFromAssetIdOptions,
   GetGeneratedByMetadataCarouselOptions,
   GetGeneratedOthersHaveWatchedOptions,
-  GetGeneratedSeasonCarouselOptions
+  GetGeneratedSeasonCarouselOptions,
+  getParticipantPage
 } from "./methods";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
@@ -178,6 +179,10 @@ export class WhiteLabelService {
 
   public async getGeneratedOthersHaveWatchedCarousel(args: GetGeneratedOthersHaveWatchedOptions) {
     return getGeneratedOthersHaveWatchedCarousel(args);
+  }
+
+  public async getParticipantPage(participantName: string) {
+    return getParticipantPage(this, { participantName });
   }
 
   public async getTagPage(tagId: string, locale: string) {
