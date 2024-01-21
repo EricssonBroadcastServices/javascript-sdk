@@ -32,6 +32,11 @@ export interface AccessConfig {
   signupModel: "confirmed" | "provisioned" | "unconfirmed";
 }
 
+export interface AccountDownload {
+  accountId?: string;
+  assets?: AssetDownload[];
+}
+
 export interface ActivationCodeResponse {
   /** 6 characters drawn from set 123456789ABCDEF */
   code: string;
@@ -191,6 +196,13 @@ export interface Asset {
   userData?: UserAssetData;
 }
 
+export interface AssetDownload {
+  assetId?: string;
+  changed?: string;
+  downloadCount?: number;
+  downloads?: Download[];
+}
+
 export interface AssetList {
   items: Asset[];
   pageNumber: number;
@@ -275,23 +287,6 @@ export interface AvailabilityKeys {
   expiryDate?: string;
   futureAvailabilityKeys?: string[];
 }
-
-export interface BookkeeperAccount {
-  accountId?: string;
-  assets?: BookkeeperAsset[];
-}
-
-export interface BookkeeperAsset {
-  assetId?: string;
-  changed?: string;
-  downloadCount?: number;
-  downloads?: BookkeeperDownload[];
-}
-
-export type BookkeeperDownload = Record<
-  "clientIp" | "deviceId" | "deviceModelId" | "deviceType" | "time" | "type" | "userId",
-  string
->;
 
 export interface Bookmarks {
   /**
@@ -488,7 +483,12 @@ export interface Didomi {
   tvNoticeId?: string;
 }
 
-export interface DownloadInfoResponse {
+export type Download = Record<
+  "clientIp" | "deviceId" | "deviceModelId" | "deviceType" | "time" | "type" | "userId",
+  string
+>;
+
+export interface DownloadInfo {
   accountId?: string;
   assetId?: string;
   audios?: Track[];
@@ -523,6 +523,11 @@ export interface DownloadResponse {
   publicationId?: string;
   requestId?: string;
 }
+
+export type DownloadVerified = Record<
+  "accountId" | "assetId" | "productId" | "publicationEnd" | "publicationId" | "requestId",
+  string
+>;
 
 export interface DrmUrls {
   certificateUrl: string;
@@ -1801,11 +1806,6 @@ export interface UserSelfServiceCreateResponse {
    */
   unConfirmed?: boolean;
 }
-
-export type VerifiedResponse = Record<
-  "accountId" | "assetId" | "productId" | "publicationEnd" | "publicationId" | "requestId",
-  string
->;
 
 export interface VideoTrack {
   bitrate?: number;

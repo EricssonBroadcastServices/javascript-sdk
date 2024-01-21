@@ -31,6 +31,11 @@ function patchSpec(data: string): string {
     AdClips: "AdClip", // Because it's one clip, not a list
     ApiEntitleResponseV2: "ApiEntitleResponse",
     ApiPlayResponseV2: "ApiPlayResponse",
+    ApiBookkeeperAccount: "AccountDownload",
+    ApiBookkeeperAsset: "AssetDownload",
+    ApiBookkeeperDownload: "Download",
+    ApiDownloadInfoResponse: "DownloadInfo",
+    ApiVerifiedResponse: "DownloadVerified",
   }
   data = data.replaceAll("customerUnit", "customer"); // fix inconsistent naming of "customer" param
   data = data.replaceAll("frirslogin awgane", "firebase login"); // just a comment typo

@@ -8,12 +8,12 @@
  */
 
 import {
-  BookkeeperAccount,
-  BookkeeperAsset,
-  DownloadInfoResponse,
+  AccountDownload,
+  AssetDownload,
+  DownloadInfo,
   DownloadResponse,
-  Message,
-  VerifiedResponse
+  DownloadVerified,
+  Message
 } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
@@ -95,7 +95,7 @@ export async function download({
 /**
  * @summary Register a completed download of an asset.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadcompleted
- * @response `default` `BookkeeperAsset` success
+ * @response `default` `AssetDownload` success
  */
 export async function downloadCompleted({
   assetId,
@@ -113,14 +113,14 @@ export async function downloadCompleted({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadcompleted`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<BookkeeperAsset>);
+  }).then(response => response.json() as Promise<AssetDownload>);
 }
 
 /**
  * @description It will also return information about different download alternatives.
  * @summary Checks if the user is entitled to download the asset.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadinfo
- * @response `200` `DownloadInfoResponse` success
+ * @response `200` `DownloadInfo` success
  * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
  * @response `403` `void` MAX_DOWNLOAD_COUNT_LIMIT_REACHED. Max number of downloads for this asset reached. FORBIDDEN. Operation is not allowed.
  * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is no found. UNKNOWN_ASSET. If the asset is not found.
@@ -144,14 +144,14 @@ export async function downloadInfo({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<DownloadInfoResponse>);
+  }).then(response => response.json() as Promise<DownloadInfo>);
 }
 
 /**
  * @description This will count as a new download.
  * @summary Register license renewed for a downloaded asset.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadrenewed
- * @response `default` `BookkeeperAsset` success
+ * @response `default` `AssetDownload` success
  */
 export async function downloadRenewed({
   assetId,
@@ -169,14 +169,14 @@ export async function downloadRenewed({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadrenewed`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<BookkeeperAsset>);
+  }).then(response => response.json() as Promise<AssetDownload>);
 }
 
 /**
  * @description Verifies that an asset is still valid for offline play and get when publication ends.
  * @summary Verify a download.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadverified
- * @response `default` `VerifiedResponse` success
+ * @response `default` `DownloadVerified` success
  */
 export async function downloadVerified({
   assetId,
@@ -194,13 +194,13 @@ export async function downloadVerified({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadverified`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<VerifiedResponse>);
+  }).then(response => response.json() as Promise<DownloadVerified>);
 }
 
 /**
  * @summary Get information about all downloads done by an account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
- * @response `default` `BookkeeperAccount` success
+ * @response `default` `AccountDownload` success
  */
 export async function getDownloadsForAccount({
   headers
@@ -215,13 +215,13 @@ export async function getDownloadsForAccount({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<BookkeeperAccount>);
+  }).then(response => response.json() as Promise<AccountDownload>);
 }
 
 /**
  * @summary Get information for all downloads for an asset done by an account.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
- * @response `default` `BookkeeperAsset` success
+ * @response `default` `AssetDownload` success
  */
 export async function getDownloadsForAsset({
   assetId,
@@ -239,7 +239,7 @@ export async function getDownloadsForAsset({
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  }).then(response => response.json() as Promise<BookkeeperAsset>);
+  }).then(response => response.json() as Promise<AssetDownload>);
 }
 
 export class DownloadsService {
