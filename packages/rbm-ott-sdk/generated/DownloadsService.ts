@@ -7,20 +7,14 @@
  * ----------------------------------------------------------------
  */
 
-import {
-  AccountDownload,
-  AssetDownload,
-  DownloadInfo,
-  DownloadResponse,
-  DownloadVerified,
-  Message
-} from "./data-contracts";
+import { AccountDownload, AssetDownload, Download, DownloadInfo, DownloadVerified, Message } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @summary Unregister all downloads done by an account.
+ * @description Unregister all downloads completed by an account.
+ * @summary Unregister all downloads done by an account
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
- * @response `default` `Message` success
+ * @response `200` `Message` OK
  */
 export async function deleteDownloadsForAccount({
   headers
@@ -39,15 +33,16 @@ export async function deleteDownloadsForAccount({
 }
 
 /**
- * @summary Unregister all downloads for an asset done by an account.
+ * @description Unregister all downloads for a specific asset completed by an account.
+ * @summary Unregister all downloads for an asset done by an account
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
- * @response `default` `Message` success
+ * @response `200` `Message` OK
  */
 export async function deleteDownloadsForAsset({
   assetId,
   headers
 }: {
-  /** The id of the asset. */
+  /** The asset ID */
   assetId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -63,20 +58,24 @@ export async function deleteDownloadsForAsset({
 }
 
 /**
- * @summary Perform a download operation that will give the client media locators and license information.
+ * @description Initiate the download of an asset for offline play.
+ * @summary Download Asset
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/download
- * @response `200` `DownloadResponse` success
- * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
- * @response `403` `void` MAX_DOWNLOAD_COUNT_LIMIT_REACHED. Max number of downloads for this asset reached. FORBIDDEN. Operation is not allowed.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is no found. UNKNOWN_ASSET. If the asset is not found.
+ * @response `200` `Download` OK
  */
 export async function download({
   assetId,
   headers,
   ..._data
 }: {
+  /** The asset ID */
   assetId: string;
-  /** The time to be used when checking download info. */
+  /**
+   * Is Proxy. FOR INTERNAL USE
+   * @default false
+   */
+  proxy?: boolean;
+  /** The time to be used when checking entitlement */
   time?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -89,19 +88,20 @@ export async function download({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<DownloadResponse>);
+  }).then(response => response.json() as Promise<Download>);
 }
 
 /**
- * @summary Register a completed download of an asset.
+ * @description Register that a download of an asset has been completed.
+ * @summary Register a completed download of an asset
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadcompleted
- * @response `default` `AssetDownload` success
+ * @response `200` `AssetDownload` OK
  */
 export async function downloadCompleted({
   assetId,
   headers
 }: {
-  /** The id of the asset. */
+  /** The asset ID */
   assetId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -117,21 +117,24 @@ export async function downloadCompleted({
 }
 
 /**
- * @description It will also return information about different download alternatives.
- * @summary Checks if the user is entitled to download the asset.
+ * @description Retrieve download information for a specific asset.
+ * @summary Get download info
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadinfo
- * @response `200` `DownloadInfo` success
- * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
- * @response `403` `void` MAX_DOWNLOAD_COUNT_LIMIT_REACHED. Max number of downloads for this asset reached. FORBIDDEN. Operation is not allowed.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is no found. UNKNOWN_ASSET. If the asset is not found.
+ * @response `200` `DownloadInfo` OK
  */
 export async function downloadInfo({
   assetId,
   headers,
   ..._data
 }: {
+  /** The asset ID */
   assetId: string;
-  /** The time to be used when checking download info. */
+  /**
+   * Is Proxy. FOR INTERNAL USE
+   * @default false
+   */
+  proxy?: boolean;
+  /** The time to be used when checking entitlement */
   time?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -148,16 +151,16 @@ export async function downloadInfo({
 }
 
 /**
- * @description This will count as a new download.
- * @summary Register license renewed for a downloaded asset.
+ * @description Register that a downloaded asset's license has been renewed.
+ * @summary Register license renewed for a downloaded asset
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadrenewed
- * @response `default` `AssetDownload` success
+ * @response `200` `AssetDownload` OK
  */
 export async function downloadRenewed({
   assetId,
   headers
 }: {
-  /** The id of the asset. */
+  /** The asset ID */
   assetId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -174,16 +177,24 @@ export async function downloadRenewed({
 
 /**
  * @description Verifies that an asset is still valid for offline play and get when publication ends.
- * @summary Verify a download.
+ * @summary Verify a download
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadverified
- * @response `default` `DownloadVerified` success
+ * @response `200` `DownloadVerified` OK
  */
 export async function downloadVerified({
   assetId,
-  headers
+  headers,
+  ..._data
 }: {
-  /** The id of the asset. */
+  /** The asset ID */
   assetId: string;
+  /**
+   * Is Proxy. FOR INTERNAL USE
+   * @default false
+   */
+  proxy?: boolean;
+  /** The time to be used when checking entitlement */
+  time?: string;
   /** Optional headers */
   headers?: HeadersInit;
 }) {
@@ -193,14 +204,16 @@ export async function downloadVerified({
     method: "GET",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloadverified`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
+    ctx,
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<DownloadVerified>);
 }
 
 /**
- * @summary Get information about all downloads done by an account.
+ * @description Retrieve information about all downloads completed by an account.
+ * @summary Get information about all downloads done by an account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
- * @response `default` `AccountDownload` success
+ * @response `200` `AccountDownload` OK
  */
 export async function getDownloadsForAccount({
   headers
@@ -219,15 +232,16 @@ export async function getDownloadsForAccount({
 }
 
 /**
- * @summary Get information for all downloads for an asset done by an account.
+ * @description Retrieve information about all downloads for a specific asset completed by an account.
+ * @summary Get information for all downloads for an asset done by an account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
- * @response `default` `AssetDownload` success
+ * @response `200` `AssetDownload` OK
  */
 export async function getDownloadsForAsset({
   assetId,
   headers
 }: {
-  /** The id of the asset. */
+  /** The asset ID */
   assetId: string;
   /** Optional headers */
   headers?: HeadersInit;

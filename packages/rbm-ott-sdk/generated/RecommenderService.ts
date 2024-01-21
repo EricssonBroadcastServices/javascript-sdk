@@ -21,6 +21,7 @@ export async function getContinueWatching({
   headers,
   ..._data
 }: {
+  assetTypes?: string[];
   /** If we should only return assets that have publications on this service */
   service?: string;
   tagIds?: string[];
@@ -52,6 +53,8 @@ export async function getRecommendationsForAsset({
 }: {
   /** The assetId that you have just played. */
   assetId: string;
+  /** Only include assets not geoblocked by given country */
+  allowedCountry?: string;
   /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   /** If we should only return assets that have publications on this service */
@@ -82,6 +85,8 @@ export async function getRecommendationsForUser({
   headers,
   ..._data
 }: {
+  /** Only include assets not geoblocked by given country */
+  allowedCountry?: string;
   /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   /** If we should only return assets that have publications on this service */

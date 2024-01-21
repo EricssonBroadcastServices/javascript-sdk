@@ -29,13 +29,6 @@ import { generateApi } from "swagger-typescript-api";
 function patchSpec(data: string): string {
   const renameTypes = {
     AdClips: "AdClip", // Because it's one clip, not a list
-    ApiEntitleResponseV2: "ApiEntitleResponse",
-    ApiPlayResponseV2: "ApiPlayResponse",
-    ApiBookkeeperAccount: "AccountDownload",
-    ApiBookkeeperAsset: "AssetDownload",
-    ApiBookkeeperDownload: "Download",
-    ApiDownloadInfoResponse: "DownloadInfo",
-    ApiVerifiedResponse: "DownloadVerified",
   }
   data = data.replaceAll("customerUnit", "customer"); // fix inconsistent naming of "customer" param
   data = data.replaceAll("frirslogin awgane", "firebase login"); // just a comment typo
@@ -159,7 +152,7 @@ function patchSpec(data: string): string {
     "canManagePayments",
     "canManagePurchases"
   ];
-  spec.components.schemas.ApiProduct.required = ["id", "name", "entitlementRequired", "blocked", "anonymousAllowed"];
+  spec.components.schemas.Product.required = ["id", "name", "entitlementRequired", "blocked", "anonymousAllowed"];
   spec.components.schemas.ApiTagList.required = ["items", "pageSize", "pageNumber", "totalCount"];
   spec.components.schemas.ApiTagType.required = ["tagId", "scheme", "localized"];
   spec.components.schemas.ApiImage.required = ["orientation", "url", "width", "height"];
@@ -173,7 +166,7 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiTag.required = ["tagValues", "type"];
   spec.components.schemas.ApiTagValues.required = ["tagId"];
   spec.components.schemas.ApiSeason.required = ["season", "seasonId", "tvshowId", "localized", "episodes"];
-  spec.components.schemas.ApiEntitleResponseV2.required = ["streamInfo"];
+  spec.components.schemas.EntitleResponse.required = ["streamInfo"];
   spec.components.schemas.ApiLoginResponse.required = ["sessionToken", "expirationDateTime"];
   spec.components.schemas.ApiAnonymousSessionResponse.required = ["sessionToken", "expirationDateTime"];
   spec.components.schemas.ApiStorePurchaseTransaction.required = [
@@ -211,6 +204,13 @@ function patchSpec(data: string): string {
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle"].get.parameters.find(
     (param: any) => param.name === "paymentProvider"
   ).schema = { $ref: "#/components/schemas/PaymentProvider" };
+  // Restore props from the play response format.drm that was removed from the exposure spec,
+  // but we depend on it in the player, and the back-end still sends it. 
+  Object.assign(spec.components.schemas.DRMLicense.properties, {
+    "com.microsoft.playready": { $ref: `${SCHEMA_PREFIX}DrmUrls` },
+    "com.widevine.alpha": { $ref: `${SCHEMA_PREFIX}DrmUrls` },
+    "com.apple.fps": { $ref: `${SCHEMA_PREFIX}DrmUrls` },
+  });
 
   // Override inconsistent, vague or otherwise bad method names
   spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/location"].get.operationId = "getLocation"; // was "get" (vague)
@@ -243,19 +243,28 @@ function patchSpec(data: string): string {
     "/v3/customer/{customer}/businessunit/{businessUnit}/content/search/asset/query/{query}"
   ].get.parameters.find((q: any) => q.name === "locales").name = "locale";
 
-  // Remove carousel service
-  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup"].get;
-  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup/{groupId}"].get;
-  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/carouselgroup/{groupId}/carousel/{carouselId}"].get;
-  // Remove rating service
-  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/rating/all"].get;
-  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}"];
-  delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/rating/asset/{assetId}/all"].get;
+  const playParams = spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/play"].get.parameters
+  playParams.forEach((param: any) => {
+    if (["audioOnly", "autoplay", "ccpaConsent", "gdprOptin", "limitAdTracking", "live", "mute", "persistent", "timeShift"].includes(param.name)) {
+      param.schema.type = "boolean";
+    } else if (["end", "start", "width", "height", "latitude", "longitude", "maxFrameRate"].includes(param.name)) {
+      param.schema.type = "integer";
+    }
+  });
 
   // Ignore problematic endpoints
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get; // name-clashes, duplicate,experimantal and unused
   delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work? (always returns "Unknown error" 500 and is void return type)
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/xmltv"].get; // returns xml, but declared as application/json, probably not meant to be part of this SDK
+
+  // Delete problematic unused types (cashes with other types or fails to get detected as unused by the generator)
+  delete spec.components.schemas.ApiPlayResponse; // old unused play response
+  delete spec.components.schemas.Tv; // xmltv types
+  delete spec.components.schemas.Audio;
+  delete spec.components.schemas.Video;
+  delete spec.components.schemas.Channel;
+  delete spec.components.schemas.DisplayName;
+  delete spec.components.schemas.Icon;
 
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch
