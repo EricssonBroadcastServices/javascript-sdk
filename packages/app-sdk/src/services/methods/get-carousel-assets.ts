@@ -19,7 +19,8 @@ export async function getCarouselAssets(
   if (carousel.appSubType === "TagFeedQuery") {
     if (!carousel.contentPreferencesUrl?.url) return [];
 
-    const userTagList = await getTagList(context, "tagfeed");
+    const userTagList = await getTagList(context, "tagfeed").catch(() => null);
+    if (userTagList === null) return [];
 
     let urlString = carousel.contentPreferencesUrl.url;
 
