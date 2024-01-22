@@ -29,7 +29,6 @@ export async function getEssentialAppDataByOrigin(
     ...context,
     customer: config.customer,
     businessUnit: config.businessUnit,
-    // TODO: maybe provide alternatives as options
     baseUrl: !!config.systemConfig.production ? liveBaseUrl : devBaseUrl
   };
 
