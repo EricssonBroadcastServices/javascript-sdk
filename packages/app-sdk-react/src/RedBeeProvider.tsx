@@ -2,7 +2,6 @@ import { WhiteLabelService as AppService, DeviceGroup, EssentialAppData } from "
 import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
-import { useFetchConfig } from "./hooks/useConfig";
 import { queryClient } from "./util/react-query";
 import { IStorage } from "./types/storage";
 import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
@@ -115,8 +114,7 @@ export function useRedBeeStateDispatch() {
   return dispatch;
 }
 
-function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode; autoFetchConfig: boolean }) {
-  useFetchConfig(!autoFetchConfig);
+function ChildrenRenderer({ children }: { children?: React.ReactNode }) {
   return <>{children}</>;
 }
 
@@ -128,7 +126,6 @@ interface IRedBeeProvider {
   deviceGroup: DeviceGroup;
   storage?: IStorage;
   deviceRegistration: Required<DeviceRegistration>;
-  autoFetchConfig?: boolean;
   /** optionally pass in a sessionToken to restore a session created elsewhere */
   sessionToken?: string;
   /** Listen for any errors when initially verifying the session.
@@ -138,19 +135,13 @@ interface IRedBeeProvider {
   onSessionValidationError?: (err: unknown) => void;
 }
 
-function RedBeeStateHolder({
-  children,
-  autoFetchConfig = false
-}: {
-  autoFetchConfig: boolean;
-  children?: React.ReactNode;
-}) {
+function RedBeeStateHolder({ children }: { children?: React.ReactNode }) {
   const initialState = useContext(InitialPropsContext);
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <QueryClientProvider client={queryClient}>
       <RedBeeContext.Provider value={[state, dispatch]}>
-        <ChildrenRenderer autoFetchConfig={autoFetchConfig}>{children}</ChildrenRenderer>
+        <ChildrenRenderer>{children}</ChildrenRenderer>
       </RedBeeContext.Provider>
     </QueryClientProvider>
   );
@@ -164,7 +155,6 @@ export function RedBeeProvider({
   deviceGroup,
   baseUrl,
   children,
-  autoFetchConfig,
   onSessionValidationError,
   sessionToken
 }: IRedBeeProvider) {
@@ -190,7 +180,7 @@ export function RedBeeProvider({
       onSessionValidationError={onSessionValidationError}
       sessionToken={sessionToken}
     >
-      <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>
+      <RedBeeStateHolder>{children}</RedBeeStateHolder>
     </InitialPropsProvider>
   );
 }

@@ -1,12 +1,10 @@
-import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelService as AppService, DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
+import { DeviceRegistration } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
-import { StorageKey } from "./util/storageKeys";
-import { Session, SessionData } from "./Session";
-import { getValidatedPersistedSession, validateAndReconstructSessionFromSessionToken } from "./util/session-token";
+import { getInitialStateByCustomerAndBusinessUnit } from "./util/initial-props";
+import { DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
 
@@ -37,62 +35,17 @@ export function InitialPropsProvider({
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      const serviceContext: ServiceContext = {
+      const state = await getInitialStateByCustomerAndBusinessUnit({
         customer,
         businessUnit,
-        baseUrl
-      };
-
-      let session: SessionData | null = null;
-
-      // if a sessionToken has been passed in: use that if possible
-      if (sessionToken) {
-        session = await validateAndReconstructSessionFromSessionToken({
-          context: serviceContext,
-          sessionToken,
-          storage
-        });
-      }
-      // if there still is no session, use one from storage, if possible
-      if (!session) {
-        try {
-          const [validatedSession, validationError] = await getValidatedPersistedSession({
-            storage,
-            customer,
-            businessUnit,
-            baseUrl,
-            deviceRegistration
-          });
-          session = validatedSession;
-          if (validationError) {
-            onSessionValidationError?.(validationError);
-          }
-        } catch (err) {
-          session = null;
-        }
-      }
-
-      const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
-
-      async function getAuthToken() {
-        return session?.sessionToken;
-      }
-      const appService = new AppService({ ...serviceContext, deviceGroup, getAuthToken });
-      setState({
-        session: session && new Session(session),
-        selectedLanguage: persistedSelectedLanguage || null,
-        loading: [],
-        customer,
-        businessUnit,
-        storage: storage || null,
-        deviceRegistration,
         baseUrl,
-        essentialAppData: null,
+        sessionToken,
+        storage,
         deviceGroup,
-        unavailable: false,
-        serviceContext,
-        appService
+        deviceRegistration,
+        onSessionValidationError
       });
+      setState(state);
       setIsReady(true);
     }
     initStorage();

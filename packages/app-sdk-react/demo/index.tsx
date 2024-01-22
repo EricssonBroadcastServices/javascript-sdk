@@ -75,7 +75,6 @@ function AppProvider() {
       storage={storage}
       deviceRegistration={deviceRegistration}
       deviceGroup={DeviceGroup.WEB}
-      autoFetchConfig
       onSessionValidationError={err => console.log(err, "sessionValidationError")}
       sessionToken={searchParams.get("sessionToken") || undefined}
     >
