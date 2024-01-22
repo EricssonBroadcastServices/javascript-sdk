@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Asset, PaymentProvider } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { AppError, EntitlementActionType, EntitlementStatus, EntitlementStatusResult } from "@ericssonbroadcastservices/app-sdk";
+import {
+  AppError,
+  EntitlementActionType,
+  EntitlementStatus,
+  EntitlementStatusResult
+} from "@ericssonbroadcastservices/app-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
 import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";

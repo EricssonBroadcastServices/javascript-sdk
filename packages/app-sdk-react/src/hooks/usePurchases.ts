@@ -37,7 +37,7 @@ export function usePurchaseTransactions(): TApiHook<StorePurchaseTransaction[]> 
       staleTime: purchasesCacheTime
     }
   );
-  return [data || [], isLoading, AppError.fromUnknown(error)];
+  return [data || [], isLoading, AppError.fromUnknown(error, "PAYMENT")];
 }
 export function usePurchases(): TApiHook<ProductOfferingPurchases> {
   const [login] = useUserSession();
@@ -63,7 +63,7 @@ export function usePurchases(): TApiHook<ProductOfferingPurchases> {
       staleTime: purchasesCacheTime
     }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, AppError.fromUnknown(error, "PAYMENT")];
 }
 
 export function useActivePackages(): TApiHook<ProductOfferingPurchase[]> {
@@ -99,7 +99,7 @@ export function useTvodAssets(): TApiHook<Asset[]> {
     },
     { staleTime: purchasesCacheTime }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, AppError.fromUnknown(error, "PAYMENT")];
 }
 
 export function useConsumedDiscounts(): TApiHook<string[]> {

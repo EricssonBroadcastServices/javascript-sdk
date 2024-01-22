@@ -70,11 +70,25 @@ export class AppError extends Error {
     };
   }
 
-  static fromUnknown(err: unknown): AppError {
+  static fromUnknown(err: unknown, context?: TCategory): AppError {
     if (err instanceof AppError) return err;
-    return new AppError("UNKNOWN_ERROR", {
-      rawError: err instanceof Error ? err.message : String(err)
-    });
+    const rawError = err instanceof Error ? err.stack || err.message : String(err);
+    let message = "UNKNOWN_ERROR";
+    if (err instanceof Error) {
+      message = err.message;
+    } else if (err instanceof Response) {
+      message = err.statusText;
+    }
+    switch (context) {
+      case "LOGIN":
+        return new LoginError(message, { rawError });
+      case "VOUCHER":
+        return new VoucherError(message, { rawError });
+      case "PAYMENT":
+        return new PaymentError(message, { rawError });
+      default:
+        return new AppError(message, { rawError });
+    }
   }
 
   static fromFetchError({

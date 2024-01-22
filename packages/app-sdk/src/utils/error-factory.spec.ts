@@ -221,14 +221,22 @@ describe("Error translator factory", () => {
     it("Unknown error", () => {
       const fromUnknownError = AppError.fromUnknown;
       const error_1 = new Response("", { status: 400, statusText: "Bad Request" });
-      expect(mockTranslations.getText(fromUnknownError(error_1).message)).toEqual(
-        mockTranslations.getText("UNKNOWN_ERROR")
-      );
-      const error_2 = new PaymentError("PRODUCT_ALREADY_BOUGHT", { code: 400, rawError: "Bad Request" });
-      expect(mockTranslations.getText(fromUnknownError(error_2).message)).toEqual(
+      expect(fromUnknownError(error_1).message).toEqual("Bad Request");
+      expect(fromUnknownError(error_1)).toBeInstanceOf(AppError);
+      const error_2 = new Response("", { status: 400, statusText: "Bad Request" });
+      expect(fromUnknownError(error_2, "LOGIN")).toBeInstanceOf(LoginError);
+      expect(fromUnknownError(error_2, "LOGIN").message).toEqual("Bad Request");
+
+      const error_3 = new PaymentError("PRODUCT_ALREADY_BOUGHT", { code: 400, rawError: "Bad Request" });
+      expect(mockTranslations.getText(fromUnknownError(error_3).message)).toEqual(
         mockTranslations.getText("PRODUCT_ALREADY_BOUGHT")
       );
-      expect(fromUnknownError(error_2)).toBeInstanceOf(PaymentError);
+      expect(fromUnknownError(error_3)).toBeInstanceOf(PaymentError);
+      const error_4 = new Error("Bad Request");
+      expect(fromUnknownError(error_4, "VOUCHER").category).toEqual("VOUCHER");
+      expect(fromUnknownError(error_4, "VOUCHER").message).toEqual("Bad Request");
+      expect(fromUnknownError(error_4, "PAYMENT").category).toEqual("PAYMENT");
+      expect(fromUnknownError(error_4, "PAYMENT").message).toEqual("Bad Request");
     });
   });
 });
