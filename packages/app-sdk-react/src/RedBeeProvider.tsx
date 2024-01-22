@@ -1,4 +1,9 @@
-import { WhiteLabelService as AppService, DeviceGroup, EssentialAppData } from "@ericssonbroadcastservices/app-sdk";
+import {
+  WhiteLabelService as AppService,
+  DeviceGroup,
+  EssentialAppData,
+  GetEssentialAppDataByOriginOptions
+} from "@ericssonbroadcastservices/app-sdk";
 import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
@@ -120,8 +125,9 @@ function ChildrenRenderer({ children }: { children?: React.ReactNode }) {
 
 interface IRedBeeProvider {
   baseUrl: string;
-  customer: string;
-  businessUnit: string;
+  customer?: string;
+  businessUnit?: string;
+  origin?: GetEssentialAppDataByOriginOptions;
   children?: React.ReactNode;
   deviceGroup: DeviceGroup;
   storage?: IStorage;
@@ -151,6 +157,7 @@ export function RedBeeProvider({
   storage,
   customer,
   businessUnit,
+  origin,
   deviceRegistration,
   deviceGroup,
   baseUrl,
@@ -158,10 +165,10 @@ export function RedBeeProvider({
   onSessionValidationError,
   sessionToken
 }: IRedBeeProvider) {
-  if (!customer || !businessUnit) {
-    throw new Error("customer and businessUnit are required");
+  if ((!customer || !businessUnit) && !origin) {
+    throw new Error("customer and businessUnit, or origin, are required");
   }
-  if (!baseUrl || !deviceGroup || !deviceRegistration) {
+  if ((!baseUrl && !origin) || !deviceGroup || !deviceRegistration) {
     throw new Error(
       `Missing required prop in RedBeeProvider. You provided: baseUrl: ${baseUrl}, deviceGroup: ${deviceGroup}, deviceRegistration: ${deviceRegistration}`
     );
@@ -174,6 +181,7 @@ export function RedBeeProvider({
       storage={storage}
       customer={customer}
       businessUnit={businessUnit}
+      origin={origin}
       deviceRegistration={deviceRegistration}
       deviceGroup={deviceGroup}
       baseUrl={baseUrl}
