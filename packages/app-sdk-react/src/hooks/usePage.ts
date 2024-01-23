@@ -119,5 +119,5 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, error ? AppError.fromUnknown(error) : null];
 }
