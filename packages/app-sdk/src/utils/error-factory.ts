@@ -80,7 +80,7 @@ export class AppError extends Error {
       if (error.response) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        return AppError.fromFetchError({ error, errorType });
+        return AppError.fromFetchError({ error: error.response, errorType });
       }
       message = error.message;
     } else if (error instanceof Response) {

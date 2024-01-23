@@ -107,7 +107,5 @@ export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]>
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return [data || null, isLoading, AppError.fromUnknown(error)];
 }
