@@ -70,7 +70,7 @@ export class AppError extends Error {
     };
   }
 
-  static fromUnknown(error: unknown, context?: TCategory): AppError | LoginError | VoucherError | PaymentError {
+  static fromUnknown(error: unknown, errorType?: TCategory): AppError | LoginError | VoucherError | PaymentError {
     if (error instanceof AppError) return error;
     let message = "UNKNOWN_ERROR";
     if (error instanceof Error) {
@@ -80,14 +80,14 @@ export class AppError extends Error {
       if (error.response) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        return AppError.fromFetchError({ error, errorType: context });
+        return AppError.fromFetchError({ error, errorType });
       }
       message = error.message;
     } else if (error instanceof Response) {
-      return AppError.fromFetchError({ error, errorType: context });
+      return AppError.fromFetchError({ error, errorType });
     }
     const rawError = error instanceof Error ? error.stack || error.message : String(error);
-    switch (context) {
+    switch (errorType) {
       case "LOGIN":
         return new LoginError(message, { rawError });
       case "VOUCHER":

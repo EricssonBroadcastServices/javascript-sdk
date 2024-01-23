@@ -77,6 +77,8 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
       .map(r => r.data) as ResolvedComponent<any>[];
   }, [somethingIsLoading]);
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return [data, somethingIsLoading, pageError || AppError.fromUnknown(results.find(r => !!r.error)?.error)];
 }
 
