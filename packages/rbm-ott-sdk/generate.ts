@@ -27,6 +27,9 @@ import { generateApi } from "swagger-typescript-api";
 
 /* Keep all patches that really should be fixed in the back-end in one place to make it easier to forward the info to the BE-team later */
 function patchSpec(data: string): string {
+  const renameTypes = {
+    AdClips: "AdClip", // Because it's one clip, not a list
+  }
   data = data.replaceAll("customerUnit", "customer"); // fix inconsistent naming of "customer" param
   data = data.replaceAll("frirslogin awgane", "firebase login"); // just a comment typo
 
@@ -45,7 +48,17 @@ function patchSpec(data: string): string {
     `${SCHEMA_PREFIX}Asset`
   );
 
+  for (let [oldName, newName] of Object.entries(renameTypes)) {
+    data = data.replaceAll(`${SCHEMA_PREFIX}${oldName}`, `${SCHEMA_PREFIX}${newName}`);
+  }
+
   const spec = JSON.parse(data);
+
+  delete spec.components.schemas.ApiPlayResponse;
+
+  for (let [oldName, newName] of Object.entries(renameTypes)) {
+    spec.components.schemas[newName] = spec.components.schemas[oldName]
+  }
 
   // Fix incorrect return types that shouldn't be arrays:
   fixFalseListSchema(
@@ -147,6 +160,7 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiImage.required = ["orientation", "url", "width", "height"];
   spec.components.schemas.ApiLocalizedData.required = ["locale"];
   spec.components.schemas.ApiLocalizedTag.required = ["locale"];
+  spec.components.schemas.ApiSimpleLocalizedData.required = ["locale"];
   spec.components.schemas.ApiActivationCodeResponse.required = ["code", "expires"];
   spec.components.schemas.ApiSearchList.required = ["items", "pageNumber", "pageSize", "totalCount"];
   spec.components.schemas.ApiSearch.required = ["asset"];
@@ -169,11 +183,26 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiCardSummary.required = ["last4", "brand", "expiryMonth", "expiryYear"];
   spec.components.schemas.ApiStripePaymentMethodsAndPrice.required = ["methodTypes"];
   spec.components.schemas.ApiStripeWalletAndPrice.required = ["name", "price", "recurring"];
-  /* Add and use payment provider enum type instead of string */
+  spec.components.schemas.Sprites.required = ["width"];
+  spec.components.schemas.ApiMarkerPoint.required = [
+    "offset",
+  ];
+  spec.components.schemas.DrmUrls.required = [
+    "certificateUrl", "licenseServerUrl"
+  ];
+  spec.components.schemas.MediaFormat.required = ["format"];
+  // Add known enum types (instead of strings)
   spec.components.schemas.PaymentProvider = {
     type: "string",
     enum: ["stripe", "googleplay", "appstore", "external", "deny"]
   };
+  spec.components.schemas.AdClipCategory = {enum: ["ad", "vod"], "type": "string" };
+  spec.components.schemas.AdClips.properties.category = { "$ref": "#/components/schemas/AdClipCategory" };
+  spec.components.schemas.AdStitcher = {enum: ["GENERIC", "INTERNAL", "NOWTILUS"], "type": "string" };
+  spec.components.schemas.Ads.required = ["stitcher"];
+  spec.components.schemas.Ads.properties.stitcher = { "$ref": "#/components/schemas/AdStitcher" }
+  spec.components.schemas.MarkerType = {enum: ["INTRO", "CREDITS", "POINT", "CHAPTER"], "type": "string" };
+  spec.components.schemas.ApiMarkerPoint.properties.type = { "$ref": "#/components/schemas/MarkerType" }
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/entitle"].get.parameters.find(
     (param: any) => param.name === "paymentProvider"
   ).schema = { $ref: "#/components/schemas/PaymentProvider" };
@@ -211,7 +240,8 @@ function patchSpec(data: string): string {
 
   // Ignore problematic endpoints
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get; // name-clashes, duplicate,experimantal and unused
-  delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work?  (always returns "Unknown error" 500 and is void return type)
+  delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work? (always returns "Unknown error" 500 and is void return type)
+  delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/xmltv"].get; // returns xml, but declared as application/json, probably not meant to be part of this SDK
 
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch
@@ -251,8 +281,8 @@ function patchSpec(data: string): string {
   spec.components.schemas.ImageOrientation = makeSchemafromProp(
     spec.components.schemas.ApiImage.properties.orientation
   );
-  spec.components.schemas.EntitlementStatus = makeSchemafromProp(
-    spec.components.schemas.ApiIsEntitledResponse.properties.status
+  spec.components.schemas.LicenseExpirationReason = makeSchemafromProp(
+    spec.components.schemas.DRMLicense.properties.licenseExpirationReason
   );
   spec.components.schemas.ProductOfferingPurchaseStatus = makeSchemafromProp(
     spec.components.schemas.ApiProductOfferingPurchase.properties.status

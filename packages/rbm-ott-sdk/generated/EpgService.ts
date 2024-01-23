@@ -342,42 +342,6 @@ export async function getProgram({
   }).then(response => response.json() as Promise<ProgramResponse>);
 }
 
-/**
- * @summary Gets epg data for a specific channel in XML TV format.
- * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/xmltv
- * @response `default` `ChannelEPGResponse` success
- */
-export async function getXmlTvEpgForChannel({
-  channelId,
-  headers,
-  ..._data
-}: {
-  /** The id of the channel to get EPG for. Slugs supported. */
-  channelId: string;
-  /**
-   * Days back compared to midnight of the date to get EPG for.
-   * @default 0
-   */
-  daysBackward?: number;
-  /**
-   * Days forward compared to midnight of the date to get EPG for.
-   * @default 10
-   */
-  daysForward?: number;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/xmltv`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx,
-    query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<ChannelEPGResponse>);
-}
-
 export class EpgService {
   // @ts-ignore
   constructor(private context: ServiceContext) {}
@@ -389,5 +353,4 @@ export class EpgService {
   getNextProgram = getNextProgram;
   getNextProgramForAsset = getNextProgramForAsset;
   getProgram = getProgram;
-  getXmlTvEpgForChannel = getXmlTvEpgForChannel;
 }

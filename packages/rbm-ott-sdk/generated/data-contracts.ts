@@ -44,8 +44,8 @@ export interface ActiveChannels {
   pageSize?: number;
 }
 
-export interface AdClips {
-  category?: string;
+export interface AdClip {
+  category?: AdClipCategory;
   duration?: number;
   impressionUrlTemplates?: string[];
   title?: string;
@@ -54,12 +54,25 @@ export interface AdClips {
   videoClicks?: AdVideoClicks;
 }
 
+export const AdClipCategory = {
+  AD: "ad",
+  VOD: "vod"
+} as const;
+export type AdClipCategory = (typeof AdClipCategory)[keyof typeof AdClipCategory];
+
 export interface AdMarker {
   duration?: string;
   id?: string;
   offset?: number;
   type?: string;
 }
+
+export const AdStitcher = {
+  GENERIC: "GENERIC",
+  INTERNAL: "INTERNAL",
+  NOWTILUS: "NOWTILUS"
+} as const;
+export type AdStitcher = (typeof AdStitcher)[keyof typeof AdStitcher];
 
 export type AdTrackingEvents = Record<"complete" | "firstQuartile" | "midpoint" | "thirdQuartile", string[]>;
 
@@ -74,10 +87,10 @@ export interface AddPaymentMethodResponse {
 
 export interface Ads {
   adMarkers?: AdMarker[];
-  clips?: AdClips[];
+  clips?: AdClip[];
   insertionDuration?: number;
   insertionMaxCount?: number;
-  stitcher?: string;
+  stitcher: AdStitcher;
   stitcherProfileId?: string;
   stitcherSession?: string;
 }
@@ -317,8 +330,6 @@ export interface Carousel {
   titles?: LocalizedTitle[];
 }
 
-export type CencConfigurationResponse = Record<"com.microsoft.playready" | "com.widevine.alpha", string>;
-
 export interface ChangePasswordResponse {
   loginResponse?: LoginResponse;
 }
@@ -414,7 +425,7 @@ export interface DRMLicense {
   /** The datetime of expiration of the drm license. */
   licenseExpiration?: number;
   /** The reason of expiration of the drm license. */
-  licenseExpirationReason?: EntitlementStatus;
+  licenseExpirationReason?: LicenseExpirationReason;
 }
 
 export interface Device {
@@ -520,17 +531,9 @@ export interface DownloadResponse {
   requestId?: string;
 }
 
-export type DrmUrls = Record<"certificateUrl" | "licenseServerUrl", string>;
-
-export interface EDRMConfigurationResponse {
-  /** The ad parameter to use. */
-  adParameter?: string;
-  /** The id of the owner of the media. */
-  ownerId?: string;
-  /** The url of the server to use. */
-  requestUrl?: string;
-  /** The user token. */
-  userToken?: string;
+export interface DrmUrls {
+  certificateUrl: string;
+  licenseServerUrl: string;
 }
 
 export type EmptyResponse = object;
@@ -566,22 +569,6 @@ export interface EntitleResponseV2 {
   time?: string;
 }
 
-export const EntitlementStatus = {
-  ANONYMOUS_IP_BLOCKED: "ANONYMOUS_IP_BLOCKED",
-  CONCURRENT_STREAMS_LIMIT_REACHED: "CONCURRENT_STREAMS_LIMIT_REACHED",
-  DEVICE_BLOCKED: "DEVICE_BLOCKED",
-  DOWNLOAD_BLOCKED: "DOWNLOAD_BLOCKED",
-  EPG_PLAY_MAX_HOURS: "EPG_PLAY_MAX_HOURS",
-  GAP_IN_EPG: "GAP_IN_EPG",
-  GEO_BLOCKED: "GEO_BLOCKED",
-  LICENSE_EXPIRED: "LICENSE_EXPIRED",
-  NOT_AVAILABLE_IN_FORMAT: "NOT_AVAILABLE_IN_FORMAT",
-  NOT_ENABLED: "NOT_ENABLED",
-  NOT_ENTITLED: "NOT_ENTITLED",
-  SUCCESS: "SUCCESS"
-} as const;
-export type EntitlementStatus = (typeof EntitlementStatus)[keyof typeof EntitlementStatus];
-
 export type EpgInfo = Record<"enabled" | "entitlementCheck", boolean>;
 
 export interface EpgSearchHits {
@@ -616,11 +603,6 @@ export interface ExternalPaymentConfig {
 }
 
 export type ExternalReference = Record<"locator" | "type" | "value", string>;
-
-export type FairplayConfigurationResponse = Record<
-  "certificateUrl" | "licenseAcquisitionUrl" | "secondaryMediaLocator",
-  string
->;
 
 export interface Filters {
   filters?: FiltersFilter[];
@@ -772,6 +754,22 @@ export interface LastViewedOffsetList {
   pageSize?: number;
 }
 
+export const LicenseExpirationReason = {
+  ANONYMOUS_IP_BLOCKED: "ANONYMOUS_IP_BLOCKED",
+  CONCURRENT_STREAMS_LIMIT_REACHED: "CONCURRENT_STREAMS_LIMIT_REACHED",
+  DEVICE_BLOCKED: "DEVICE_BLOCKED",
+  DOWNLOAD_BLOCKED: "DOWNLOAD_BLOCKED",
+  EPG_PLAY_MAX_HOURS: "EPG_PLAY_MAX_HOURS",
+  GAP_IN_EPG: "GAP_IN_EPG",
+  GEO_BLOCKED: "GEO_BLOCKED",
+  LICENSE_EXPIRED: "LICENSE_EXPIRED",
+  NOT_AVAILABLE_IN_FORMAT: "NOT_AVAILABLE_IN_FORMAT",
+  NOT_ENABLED: "NOT_ENABLED",
+  NOT_ENTITLED: "NOT_ENTITLED",
+  SUCCESS: "SUCCESS"
+} as const;
+export type LicenseExpirationReason = (typeof LicenseExpirationReason)[keyof typeof LicenseExpirationReason];
+
 export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string>;
 
 /** Locale configuration */
@@ -850,10 +848,18 @@ export interface Marker {
 export interface MarkerPoint {
   endOffset?: number;
   localized?: SimpleLocalizedData[];
-  offset?: number;
+  offset: number;
   thumbnail?: string;
-  type?: string;
+  type?: MarkerType;
 }
+
+export const MarkerType = {
+  CHAPTER: "CHAPTER",
+  CREDITS: "CREDITS",
+  INTRO: "INTRO",
+  POINT: "POINT"
+} as const;
+export type MarkerType = (typeof MarkerType)[keyof typeof MarkerType];
 
 export interface Media {
   /** The DRM of the media. */
@@ -878,7 +884,7 @@ export interface Media {
 
 export interface MediaFormat {
   drm?: DRMLicense;
-  format?: MediaFormatType;
+  format: MediaFormatType;
   liveDelay?: number;
   mediaLocator?: string;
   orgMediaLocator?: string;
@@ -980,11 +986,11 @@ export interface PaymentMethods {
 }
 
 export const PaymentProvider = {
-  Appstore: "appstore",
-  Deny: "deny",
-  External: "external",
-  Googleplay: "googleplay",
-  Stripe: "stripe"
+  APPSTORE: "appstore",
+  DENY: "deny",
+  EXTERNAL: "external",
+  GOOGLEPLAY: "googleplay",
+  STRIPE: "stripe"
 } as const;
 export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider];
 
@@ -1005,63 +1011,6 @@ export interface PinCodeResponse {
   modified: string;
   /** Id of PIN */
   pinId: string;
-}
-
-export interface PlayResponse {
-  /** Media locator to used for add servers SDKs */
-  adMediaLocator?: string;
-  /** If airplay is blocked */
-  airplayBlocked?: boolean;
-  cencConfig?: CencConfigurationResponse;
-  edrmConfig?: EDRMConfigurationResponse;
-  /** The type of entitlement that granted access to this play. */
-  entitlementType?: "AVOD" | "FVOD" | "SVOD" | "TVOD";
-  fairplayConfig?: FairplayConfigurationResponse;
-  /** If fast forward is enabled */
-  ffEnabled?: boolean;
-  /** Last viewed offset */
-  lastViewedOffset?: number;
-  /** Last viewed time */
-  lastViewedTime?: number;
-  /** The datetime of activation of the drm license. */
-  licenseActivation?: string;
-  /** The datetime of expiration of the drm license. */
-  licenseExpiration?: string;
-  /** The reason of expiration of the drm license. */
-  licenseExpirationReason?: EntitlementStatus;
-  /** If this is a live entitlement. */
-  live?: boolean;
-  /** Live time */
-  liveTime?: number;
-  /** Max bitrate to use */
-  maxBitrate?: number;
-  /** Max height resolution */
-  maxResHeight?: number;
-  /** MDN Request Router Url */
-  mdnRequestRouterUrl?: string;
-  /**
-   * The information needed to locate the media. FOR EDRM this will be the media uid, for other formats it's the URL
-   * of the media.
-   */
-  mediaLocator?: string;
-  /** Min bitrate to use */
-  minBitrate?: number;
-  /** Unique id of this playback session, all analytics events for this session should be reported on with this id */
-  playSessionId?: string;
-  /**
-   * Play token to use for either PlayReady or MRR.
-   * Will be empty if the status is not SUCCESS.
-   */
-  playToken?: string;
-  /** The expiration of the the play token. The player needs to be initialized and done the play call before this. */
-  playTokenExpiration?: string;
-  /** Identity of the product that permitted playback of the asset */
-  productId?: string;
-  /** If rewind is enabled */
-  rwEnabled?: boolean;
-  /** If timeshift is disabled */
-  timeshiftEnabled?: boolean;
-  widevineConfig?: WidevineConfigurationResponse;
 }
 
 export interface PlayResponseV2 {
@@ -1322,14 +1271,14 @@ export interface SessionResponse {
 
 export interface SimpleLocalizedData {
   image?: Image;
-  locale?: string;
+  locale: string;
   title?: string;
 }
 
 export interface Sprites {
   offsetInMs?: number;
   vtt?: string;
-  width?: number;
+  width: number;
 }
 
 export interface StoreAppStoreReference {
@@ -1520,10 +1469,10 @@ export interface StoreTransaction {
 }
 
 export const StoreTransactionStatus = {
-  Accepted: "accepted",
-  Cancelled: "cancelled",
-  Pending: "pending",
-  Rejected: "rejected"
+  ACCEPTED: "accepted",
+  CANCELLED: "cancelled",
+  PENDING: "pending",
+  REJECTED: "rejected"
 } as const;
 export type StoreTransactionStatus = (typeof StoreTransactionStatus)[keyof typeof StoreTransactionStatus];
 
@@ -1917,8 +1866,4 @@ export interface WatchedTvShowResponse {
   asset?: Asset;
   lastViewedOffset?: number;
   startedWatching?: boolean;
-}
-
-export interface WidevineConfigurationResponse {
-  certificateUrl?: string;
 }
