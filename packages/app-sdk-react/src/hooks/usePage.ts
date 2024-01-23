@@ -77,7 +77,7 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
       .map(r => r.data) as ResolvedComponent<any>[];
   }, [somethingIsLoading]);
 
-  return [data, somethingIsLoading, pageError || AppError.fromUnknown(results.find(r => !!r.error)?.error)];
+  return [data, somethingIsLoading, pageError ? AppError.fromUnknown(results.find(r => !!r.error)?.error) : null];
 }
 
 export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponent[]> {
