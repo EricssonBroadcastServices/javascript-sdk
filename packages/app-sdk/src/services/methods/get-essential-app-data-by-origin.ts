@@ -20,7 +20,7 @@ export async function getEssentialAppDataByOrigin(
   const location = await getLocationFromReferer.call(context);
   const { countryCode } = location;
   if (!countryCode) {
-    throw Error("Couldn't get all the things");
+    throw Error("Could not resolve geo location");
   }
   const config = await getConfigByOrigin(context, { countryCode, origin: cleanHostName(hostname) });
 
@@ -38,7 +38,7 @@ export async function getEssentialAppDataByOrigin(
   const systemConfigRequest = getSystemConfigV2.call(newContext, { countryCode });
   let footerRequest: Promise<IExposureWLFooter> | undefined;
   if (!menuReference) {
-    throw new Error("nOoooo!");
+    throw new Error("Found no configured menu component");
   }
   const menuRequest = getComponentByReference<IExposureWLMenu>(newContext, { wlReference: menuReference, countryCode });
   if (footerReference) {

@@ -9,7 +9,7 @@ export async function getEssentialAppData(context: WhiteLabelServiceContext): Pr
   const location = await getLocationFromReferer.call(context);
   const { countryCode } = location;
   if (!countryCode) {
-    throw Error("Couldn't get all the things");
+    throw Error("Could not resolve geo location");
   }
   const systemConfigRequest = getSystemConfigV2.call(context, { countryCode });
   const config = await getConfigByCustomerAndBusinessUnit(context, { countryCode });
@@ -17,7 +17,7 @@ export async function getEssentialAppData(context: WhiteLabelServiceContext): Pr
   const footerReference = config.components.footer?.[0];
   let footerRequest: Promise<IExposureWLFooter> | undefined;
   if (!menuReference) {
-    throw new Error("nOoooo!");
+    throw new Error("Found no configured menu component");
   }
   const menuRequest = getComponentByReference<IExposureWLMenu>(context, { wlReference: menuReference, countryCode });
   if (footerReference) {
