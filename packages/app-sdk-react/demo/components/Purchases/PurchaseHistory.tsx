@@ -6,7 +6,8 @@ import {
   usePurchaseTransactions,
   useTvodAssets,
   useActivePackages,
-  useUnsubscribe
+  useUnsubscribe,
+  refetchPurchases
 } from "../../../src";
 import { Link } from "react-router-dom";
 import { CarouselItem, CarouselWrapper } from "../Carousel/Carousel";
@@ -20,6 +21,7 @@ export function PurchaseHistory() {
   const [unsubscribe] = useUnsubscribe();
   return (
     <div>
+      <button onClick={() => refetchPurchases()}>Refetch Purchases</button>
       <h3>Tvods</h3>
       <div>
         <CarouselWrapper>

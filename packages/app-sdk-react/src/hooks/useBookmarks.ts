@@ -19,7 +19,7 @@ export function useBookmarks(): TApiHook<LastViewedOffset[]> {
 }
 
 export function refetchBookmarks() {
-  return queryClient.invalidateQueries([QueryKeys.BOOKMARKS]);
+  return queryClient.invalidateQueries(QueryKeys.BOOKMARKS);
 }
 
 export function useBookmarkPercentage(assetId?: string, duration?: number): TApiHook<number> {
