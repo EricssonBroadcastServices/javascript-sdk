@@ -84,7 +84,7 @@ export class AppError extends Error {
       }
       message = error.message;
     } else if (error instanceof Response) {
-      return AppError.fromFetchError({ error, errorType });
+      return AppError.fromFetchError({ error: error as Response, errorType });
     }
     const rawError = error instanceof Error ? error.stack || error.message : String(error);
     switch (errorType) {
