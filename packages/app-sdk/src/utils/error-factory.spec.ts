@@ -221,11 +221,11 @@ describe("Error translator factory", () => {
     it("Unknown error", () => {
       const fromUnknownError = AppError.fromUnknown;
       const error_1 = new Response("", { status: 400, statusText: "Bad Request" });
-      expect(fromUnknownError(error_1).message).toEqual("Bad Request");
+      expect(fromUnknownError(error_1).message).toEqual("NOT_ALLOWED");
       expect(fromUnknownError(error_1)).toBeInstanceOf(AppError);
       const error_2 = new Response("", { status: 400, statusText: "Bad Request" });
       expect(fromUnknownError(error_2, "LOGIN")).toBeInstanceOf(LoginError);
-      expect(fromUnknownError(error_2, "LOGIN").message).toEqual("Bad Request");
+      expect(fromUnknownError(error_2, "LOGIN").message).toEqual("NOT_ALLOWED");
 
       const error_3 = new PaymentError("PRODUCT_ALREADY_BOUGHT", { code: 400, rawError: "Bad Request" });
       expect(mockTranslations.getText(fromUnknownError(error_3).message)).toEqual(
