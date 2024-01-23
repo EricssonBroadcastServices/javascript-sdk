@@ -20,3 +20,5 @@ export * from "./get-push-next-content-data";
 export * from "./get-resolved-component-by-reference";
 export * from "./get-tag-list";
 export * from "./get-tag-page";
+export * from "./get-participants-carousel";
+export * from "./get-participants-page";

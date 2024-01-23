@@ -9,7 +9,7 @@ import {
   TagHelpers
 } from "@ericssonbroadcastservices/app-sdk";
 import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useCarouselItem, useInitialCarouselIndex, useSelectedLanguage, useTag } from "../../../src";
+import { useBookmarkPercentage, useCarouselItem, useInitialCarouselIndex, useSelectedLanguage, useTag } from "../../../src";
 import CarouselHeader from "./CarouselHeader";
 import { useTagFeedFilter } from "../../../src";
 import { Link } from "react-router-dom";
@@ -37,6 +37,9 @@ export function CarouselItem({ item, orientation }: { item: CarouselItem; orient
     height
   });
 
+
+  const [percentage] = useBookmarkPercentage(item.asset.assetId, item.asset.duration);
+
   return (
     <Link to={`/asset/${assetId}`}>
       <div className="carousel-item">
@@ -52,6 +55,7 @@ export function CarouselItem({ item, orientation }: { item: CarouselItem; orient
 
           <h4>{title}</h4>
           <p>{description}</p>
+          {percentage && <p>Bookmark: {percentage}%</p>}
         </div>
       </div>
     </Link>

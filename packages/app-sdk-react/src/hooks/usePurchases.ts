@@ -107,8 +107,11 @@ export function useConsumedDiscounts(): TApiHook<string[]> {
   return [purchaseResponse?.consumedProductOfferingDiscounts || [], isLoading, error];
 }
 
-export function refetchPurchases() {
-  return queryClient.invalidateQueries([QueryKeys.PURCHASES, QueryKeys.PURCHASE_TRANSACTIONS]);
+export async function refetchPurchases() {
+  await Promise.all([
+    queryClient.invalidateQueries(QueryKeys.PURCHASES),
+    queryClient.invalidateQueries(QueryKeys.PURCHASE_TRANSACTIONS)
+  ]);
 }
 
 type TUseUnsubscribe = { purchaseId: string };

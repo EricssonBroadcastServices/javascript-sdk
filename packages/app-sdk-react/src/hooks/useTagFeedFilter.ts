@@ -1,7 +1,9 @@
 import { AssetHelpers, CarouselItem } from "@ericssonbroadcastservices/app-sdk";
 import { useMemo, useState } from "react";
 
-export function useTagFeedFilter(componentAssets: CarouselItem[]): [CarouselItem[], (tagIds: string[]) => void] {
+export function useTagFeedFilter(
+  componentAssets: CarouselItem[]
+): [CarouselItem[], (tagIds: string[]) => void, string[]] {
   const [tagFilter, setTagFilter] = useState<string[]>([]);
   const assets: CarouselItem[] = useMemo(() => {
     if (!componentAssets) return [];
@@ -10,5 +12,5 @@ export function useTagFeedFilter(componentAssets: CarouselItem[]): [CarouselItem
       AssetHelpers.getAllTagIds(item.asset).some(tagId => tagFilter.includes(tagId as string))
     );
   }, [tagFilter, componentAssets]);
-  return [assets, setTagFilter];
+  return [assets, setTagFilter, tagFilter];
 }

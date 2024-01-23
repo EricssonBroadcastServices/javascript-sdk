@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import { getLastViewedOffsetList, LastViewedOffset } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useServiceContext } from "./useApi";
-import { useAsset } from "./useAsset";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
@@ -21,17 +20,16 @@ export function useBookmarks(): TApiHook<LastViewedOffset[]> {
 }
 
 export function refetchBookmarks() {
-  return queryClient.invalidateQueries([QueryKeys.BOOKMARKS]);
+  return queryClient.invalidateQueries(QueryKeys.BOOKMARKS);
 }
 
-export function useBookmarkPercentage(assetId?: string): TApiHook<number> {
-  const [asset, assetIsLoading, assetError] = useAsset(assetId);
+export function useBookmarkPercentage(assetId?: string, duration?: number): TApiHook<number> {
   const [bookmarks, bookmarksIsLoading, bookmarksError] = useBookmarks();
   const bookmark = bookmarks?.find(b => b.assetId === assetId);
-  if (!bookmark || !asset) return [0, assetIsLoading || bookmarksIsLoading, assetError || bookmarksError];
+  if (!bookmark || !duration) return [0, bookmarksIsLoading, bookmarksError];
   return [
-    Math.round((((bookmark.lastViewedOffset as number) * 100) / asset.duration) as number),
-    assetIsLoading || bookmarksIsLoading,
-    assetError || bookmarksError
+    Math.round((((bookmark.lastViewedOffset as number) * 100) / duration) as number),
+    bookmarksIsLoading,
+    bookmarksError
   ];
 }

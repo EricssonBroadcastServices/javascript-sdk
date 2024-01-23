@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { DeviceType } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { RedBeeProvider, IStorage, useConfig } from "../src/index";
-import { Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter, useSearchParams } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { AssetPage } from "./pages/AssetPage";
 import "./index.css";
@@ -13,6 +13,7 @@ import { TagPage } from "./pages/TagPage";
 import { DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
 import Footer from "./components/Footer/Footer";
 import { AccountPage } from "./pages/AccountPage";
+import { ParticipantPage } from "./pages/ParticipantPage";
 
 const deviceRegistration = {
   deviceId: "123",
@@ -34,24 +35,25 @@ export default function App() {
   if (!config) return null;
   return (
     <div>
-      <HashRouter>
-        <Menu />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/tag">
-            <Route path=":id" element={<TagPage />} />
-          </Route>
-          <Route path="/asset">
-            <Route path=":id" element={<AssetPage />} />
-          </Route>
-          <Route path="/page">
-            <Route path=":id" element={<Page />} />
-          </Route>
-        </Routes>
-        <Footer />
-      </HashRouter>
+      <Menu />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/account" element={<AccountPage />} />
+        <Route path="/tag">
+          <Route path=":id" element={<TagPage />} />
+        </Route>
+        <Route path="/participant">
+          <Route path=":id" element={<ParticipantPage />} />
+        </Route>
+        <Route path="/asset">
+          <Route path=":id" element={<AssetPage />} />
+        </Route>
+        <Route path="/page">
+          <Route path=":id" element={<Page />} />
+        </Route>
+      </Routes>
+      <Footer />
     </div>
   );
 }
@@ -64,6 +66,7 @@ const storage: IStorage = {
 
 function AppProvider() {
   const { customer, businessUnit } = getCustomerBusinessUnit();
+  const [searchParams] = useSearchParams();
   return (
     <RedBeeProvider
       baseUrl={"https://exposure.api.redbee.dev"}
@@ -74,10 +77,16 @@ function AppProvider() {
       deviceGroup={DeviceGroup.WEB}
       autoFetchConfig
       onSessionValidationError={err => console.log(err, "sessionValidationError")}
+      sessionToken={searchParams.get("sessionToken") || undefined}
     >
       <App />
     </RedBeeProvider>
   );
 }
 
-ReactDOM.render(<AppProvider />, document.getElementById("app"));
+ReactDOM.render(
+  <HashRouter>
+    <AppProvider />
+  </HashRouter>,
+  document.getElementById("app")
+);

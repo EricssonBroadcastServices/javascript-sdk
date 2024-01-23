@@ -45,7 +45,7 @@ export function useProgramProgress({ asset, live }: { asset: Asset; live?: boole
   duration: number;
   percentage: number;
 } {
-  const [assetProgress] = useBookmarkPercentage(asset.assetId);
+  const [assetProgress] = useBookmarkPercentage(asset.assetId, asset.duration);
   const [duration, percentage] = useMemo(() => {
     if (live && asset?.programs) {
       const programProgress = getEventProgress(asset.programs, asset.assetId);
