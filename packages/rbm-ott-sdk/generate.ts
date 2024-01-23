@@ -538,7 +538,7 @@ generateApi({
       .join(";\n");
     const importStatements = ["http-client", ...Object.values(moduleNames)]
       .sort(Intl.Collator().compare)
-      .map(name => [name, name === "http-client" ? "request, ServiceContext" : name]);
+      .map(name => [name, name === "http-client" ? "request, ServiceContext, ResponseError" : name]);
     const imports = importStatements
       .map(([fileName, module]) => `import { ${module} } from "./${fileName}"`)
       .join(";\n");
@@ -546,7 +546,7 @@ generateApi({
       ";\n  "
     )};\n  constructor(public context: ServiceContext) {\n    ${props.join(
       ";\n    "
-    )};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport { request };\nexport * from \"./data-contracts\";\n${exports};\n`;
+    )};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport { request, ResponseError };\nexport * from \"./data-contracts\";\n${exports};\n`;
 
     files.push({ fileName: "index", fileExtension: "ts", fileContent });
 

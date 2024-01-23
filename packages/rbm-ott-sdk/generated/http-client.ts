@@ -39,8 +39,17 @@ function createSanitizedSearchParams(query: QueryParams = {}): URLSearchParams {
   return params;
 }
 
+export class ResponseError extends Error {
+  public response?: Response;
+
+  constructor(message: string, response: Response | undefined) {
+    super(message);
+    this.response = response;
+  }
+}
+
 function defaultErrorFactory(response: Response) {
-  return Object.assign(new Error(`HTTP Error: ${response.statusText} (${response.status})`), { response });
+  return new ResponseError(`HTTP Error: ${response.statusText} (${response.status})`, response);
 }
 
 export async function request({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<Response> {

@@ -18,7 +18,7 @@ import { DownloadsService } from "./DownloadsService";
 import { EntitlementsService } from "./EntitlementsService";
 import { EpgService } from "./EpgService";
 import { EventService } from "./EventService";
-import { request, ServiceContext } from "./http-client";
+import { request, ServiceContext, ResponseError } from "./http-client";
 import { LocationService } from "./LocationService";
 import { PreferencesService } from "./PreferencesService";
 import { RatingService } from "./RatingService";
@@ -85,7 +85,7 @@ class RBMOTTSDK {
 
 export default RBMOTTSDK;
 export type { ServiceContext };
-export { request };
+export { request, ResponseError };
 export * from "./data-contracts";
 export * from "./AssetService";
 export * from "./AuthenticationService";

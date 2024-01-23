@@ -1,3 +1,4 @@
+import { ResponseError } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { Translations } from "./wl-translations";
 
 export type TCategory = "APP" | "LOGIN" | "VOUCHER" | "PAYMENT" | string;
@@ -73,13 +74,9 @@ export class AppError extends Error {
   static fromUnknown(error: unknown, errorType?: TCategory): AppError | LoginError | VoucherError | PaymentError {
     if (error instanceof AppError) return error;
     let message = "UNKNOWN_ERROR";
-    if (error instanceof Error) {
-      // TODO: solve typing somehow. err.response is added by rbmottsdk
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+    // custom error thrown by rbm-ott-sdk
+    if (error instanceof ResponseError) {
       if (error.response) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         return AppError.fromFetchError({ error: error.response, errorType });
       }
       message = error.message;
