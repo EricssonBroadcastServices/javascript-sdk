@@ -238,7 +238,8 @@ function patchSpec(data: string): string {
 
   // Ignore problematic endpoints
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get; // name-clashes, duplicate,experimantal and unused
-  delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work?  (always returns "Unknown error" 500 and is void return type)
+  delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work? (always returns "Unknown error" 500 and is void return type)
+  delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/xmltv"].get; // returns xml, but declared as application/json, probably not meant to be part of this SDK
 
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch
