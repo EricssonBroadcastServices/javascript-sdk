@@ -70,7 +70,7 @@ export class AppError extends Error {
     };
   }
 
-  static fromUnknown(err: unknown, context?: TCategory): AppError {
+  static fromUnknown(err: unknown, context?: TCategory): AppError | LoginError | VoucherError | PaymentError {
     if (err instanceof AppError) return err;
     const rawError = err instanceof Error ? err.stack || err.message : String(err);
     let message = "UNKNOWN_ERROR";
