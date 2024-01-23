@@ -90,7 +90,7 @@ export interface Ads {
   clips?: AdClip[];
   insertionDuration?: number;
   insertionMaxCount?: number;
-  stitcher?: AdStitcher;
+  stitcher: AdStitcher;
   stitcherProfileId?: string;
   stitcherSession?: string;
 }
@@ -533,7 +533,10 @@ export interface DownloadResponse {
   requestId?: string;
 }
 
-export type DrmUrls = Record<"certificateUrl" | "licenseServerUrl", string>;
+export interface DrmUrls {
+  certificateUrl: string;
+  licenseServerUrl: string;
+}
 
 export interface EDRMConfigurationResponse {
   /** The ad parameter to use. */
@@ -863,7 +866,7 @@ export interface Marker {
 export interface MarkerPoint {
   endOffset?: number;
   localized?: SimpleLocalizedData[];
-  offset?: number;
+  offset: number;
   thumbnail?: string;
   type?: MarkerType;
 }
@@ -899,7 +902,7 @@ export interface Media {
 
 export interface MediaFormat {
   drm?: DRMLicense;
-  format?: MediaFormatType;
+  format: MediaFormatType;
   liveDelay?: number;
   mediaLocator?: string;
   orgMediaLocator?: string;
@@ -1343,14 +1346,14 @@ export interface SessionResponse {
 
 export interface SimpleLocalizedData {
   image?: Image;
-  locale?: string;
+  locale: string;
   title?: string;
 }
 
 export interface Sprites {
   offsetInMs?: number;
   vtt?: string;
-  width?: number;
+  width: number;
 }
 
 export interface StoreAppStoreReference {

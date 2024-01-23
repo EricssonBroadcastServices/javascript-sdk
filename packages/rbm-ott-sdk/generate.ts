@@ -158,6 +158,7 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiImage.required = ["orientation", "url", "width", "height"];
   spec.components.schemas.ApiLocalizedData.required = ["locale"];
   spec.components.schemas.ApiLocalizedTag.required = ["locale"];
+  spec.components.schemas.ApiSimpleLocalizedData.required = ["locale"];
   spec.components.schemas.ApiActivationCodeResponse.required = ["code", "expires"];
   spec.components.schemas.ApiSearchList.required = ["items", "pageNumber", "pageSize", "totalCount"];
   spec.components.schemas.ApiSearch.required = ["asset"];
@@ -180,6 +181,14 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiCardSummary.required = ["last4", "brand", "expiryMonth", "expiryYear"];
   spec.components.schemas.ApiStripePaymentMethodsAndPrice.required = ["methodTypes"];
   spec.components.schemas.ApiStripeWalletAndPrice.required = ["name", "price", "recurring"];
+  spec.components.schemas.Sprites.required = ["width"];
+  spec.components.schemas.ApiMarkerPoint.required = [
+    "offset",
+  ];
+  spec.components.schemas.DrmUrls.required = [
+    "certificateUrl", "licenseServerUrl"
+  ];
+  spec.components.schemas.MediaFormat.required = ["format"];
   // Add known enum types (instead of strings)
   spec.components.schemas.PaymentProvider = {
     type: "string",
@@ -188,6 +197,7 @@ function patchSpec(data: string): string {
   spec.components.schemas.AdClipCategory = {enum: ["ad", "vod"], "type": "string" };
   spec.components.schemas.AdClips.properties.category = { "$ref": "#/components/schemas/AdClipCategory" };
   spec.components.schemas.AdStitcher = {enum: ["GENERIC", "INTERNAL", "NOWTILUS"], "type": "string" };
+  spec.components.schemas.Ads.required = ["stitcher"];
   spec.components.schemas.Ads.properties.stitcher = { "$ref": "#/components/schemas/AdStitcher" }
   spec.components.schemas.MarkerType = {enum: ["INTRO", "CREDITS", "POINT", "CHAPTER"], "type": "string" };
   spec.components.schemas.ApiMarkerPoint.properties.type = { "$ref": "#/components/schemas/MarkerType" }
