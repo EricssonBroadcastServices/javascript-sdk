@@ -77,8 +77,6 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
       .map(r => r.data) as ResolvedComponent<any>[];
   }, [somethingIsLoading]);
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return [data, somethingIsLoading, pageError || AppError.fromUnknown(results.find(r => !!r.error)?.error)];
 }
 
@@ -109,5 +107,7 @@ export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]>
     },
     { staleTime: 1000 * 60 * 10 }
   );
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return [data || null, isLoading, AppError.fromUnknown(error)];
 }
