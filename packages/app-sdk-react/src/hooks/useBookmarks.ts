@@ -16,7 +16,7 @@ export function useBookmarks(): TApiHook<LastViewedOffset[]> {
     const headers = { Authorization: `Bearer ${session?.sessionToken}` };
     return (await getLastViewedOffsetList.call(ctx, { headers })).items;
   });
-  return [data || [], isLoading, AppError.fromUnknown(error)];
+  return [data || [], isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function refetchBookmarks() {

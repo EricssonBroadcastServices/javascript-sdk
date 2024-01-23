@@ -15,7 +15,7 @@ export function useGeolocation(): TApiHook<Location> {
     },
     { staleTime: 1000 * 60 * 60 * 24 }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function useCountryCode() {

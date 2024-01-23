@@ -18,5 +18,5 @@ export function useAssetList(listId: string): TApiHook<AssetListItemResponse[]> 
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

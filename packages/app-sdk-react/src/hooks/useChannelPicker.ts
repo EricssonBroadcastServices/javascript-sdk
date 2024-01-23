@@ -22,5 +22,5 @@ export function useChannelPicker(
     },
     { refetchInterval: updateInterval }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

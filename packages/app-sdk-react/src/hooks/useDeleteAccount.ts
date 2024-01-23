@@ -24,5 +24,10 @@ export function useDeleteAccount(): TApiMutation<string, void> {
       setSession(null);
     }
   });
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
+  ];
 }

@@ -16,5 +16,5 @@ export function useAsset(assetId?: string): TApiHook<Asset> {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

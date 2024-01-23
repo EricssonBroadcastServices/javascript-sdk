@@ -22,5 +22,5 @@ export function usePushNextContentData(
         });
     }
   }, [assetId, customer, businessUnit, appService]);
-  return [pushNextContent || null, false, AppError.fromUnknown(error)];
+  return [pushNextContent || null, false, !!error ? AppError.fromUnknown(error) : null];
 }

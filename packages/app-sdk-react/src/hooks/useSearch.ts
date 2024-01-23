@@ -26,7 +26,7 @@ export function useSearch(term: string, debounceTime = 300): TApiHook<SearchList
     });
   });
   const isLoadingOrDebouncing = term !== "" && (isLoading || term !== debouncedTerm);
-  return [data || null, isLoadingOrDebouncing, AppError.fromUnknown(error)];
+  return [data || null, isLoadingOrDebouncing, !!error ? AppError.fromUnknown(error) : null];
 }
 
 type TSearchParams = {
@@ -70,5 +70,5 @@ export function useExpandedSearch({
       });
   });
   const isLoadingOrDebouncing = term !== "" && (isLoading || term !== debouncedTerm);
-  return [data || null, isLoadingOrDebouncing, AppError.fromUnknown(error)];
+  return [data || null, isLoadingOrDebouncing, !!error ? AppError.fromUnknown(error) : null];
 }

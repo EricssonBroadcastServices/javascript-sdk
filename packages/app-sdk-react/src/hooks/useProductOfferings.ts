@@ -51,7 +51,7 @@ export function useProductOfferings({
       return p;
     }) || [],
     isLoading,
-    AppError.fromUnknown(error)
+    !!error ? AppError.fromUnknown(error) : null
   ];
 }
 
@@ -72,7 +72,7 @@ export function useProductOfferingsByVoucherCode(code?: string): TApiHook<StoreP
     },
     { staleTime: productOfferingsCacheTime }
   );
-  return [data?.productOfferings || [], isLoading, AppError.fromUnknown(error, "VOUCHER")];
+  return [data?.productOfferings || [], isLoading, !!error ? AppError.fromUnknown(error, "VOUCHER") : null];
 }
 
 export function refetchProductOfferings() {

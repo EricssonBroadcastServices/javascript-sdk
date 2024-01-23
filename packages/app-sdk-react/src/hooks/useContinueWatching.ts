@@ -21,5 +21,5 @@ export function useContinueWatching(tvshowid?: string): TApiHook<WatchedTvShowRe
       });
     }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

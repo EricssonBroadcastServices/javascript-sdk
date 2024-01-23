@@ -35,7 +35,7 @@ export function usePaymentMethods(): TApiHook<PaymentMethod[]> {
       refetchOnWindowFocus: false
     }
   );
-  return [data?.methods || null, isLoading, AppError.fromUnknown(error, "PAYMENT")];
+  return [data?.methods || null, isLoading, !!error ? AppError.fromUnknown(error, "PAYMENT") : null];
 }
 
 export function refetchPaymentMethods() {
@@ -59,7 +59,12 @@ export function useDeletePaymentMethod(): TApiMutation<string, Response> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error, "PAYMENT")];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error, "PAYMENT") : null
+  ];
 }
 
 export function useSetPreferredPaymentMethod(): TApiMutation<string, JsonAccount> {
@@ -79,5 +84,10 @@ export function useSetPreferredPaymentMethod(): TApiMutation<string, JsonAccount
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error, "PAYMENT")];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error, "PAYMENT") : null
+  ];
 }

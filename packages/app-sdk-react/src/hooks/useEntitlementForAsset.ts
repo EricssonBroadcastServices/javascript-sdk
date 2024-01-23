@@ -121,5 +121,5 @@ export function useEntitlementForAsset(
       clearTimeout(timeout);
     };
   }, [data, confirmEntitlementOnStart]);
-  return [result, isLoading || offeringsLoading, AppError.fromUnknown(error)];
+  return [result, isLoading || offeringsLoading, !!error ? AppError.fromUnknown(error) : null];
 }

@@ -18,5 +18,5 @@ export function useTranslations(): TApiHook<Translations, Translations> {
     },
     { staleTime: 1000 * 60 * 60, keepPreviousData: true }
   );
-  return [data || emptyTranslations, isLoading, AppError.fromUnknown(error)];
+  return [data || emptyTranslations, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

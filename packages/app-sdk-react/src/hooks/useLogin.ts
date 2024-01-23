@@ -34,7 +34,12 @@ export function useLogin(): TApiMutation<TUseLogin, LoginResponse> {
       });
     }
   });
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error, "LOGIN")];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error, "LOGIN") : null
+  ];
 }
 
 export function useOauthLogin(): TApiMutation<string, LoginResponse> {
@@ -79,7 +84,12 @@ export function useFirebaseLogin(): TApiMutation<LoginFirebasePayload, LoginResp
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error, "LOGIN")];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error, "LOGIN") : null
+  ];
 }
 
 type TUseLogout = { fromAllDevice?: boolean };
@@ -100,7 +110,12 @@ export function useLogout(): TApiMutation<TUseLogout, object> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error, "LOGIN")];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error, "LOGIN") : null
+  ];
 }
 
 export function useValidateSession() {

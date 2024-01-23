@@ -92,7 +92,7 @@ export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponen
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]> {
@@ -107,7 +107,7 @@ export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]>
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function useResolvedParticipantPage(participantName: string): TApiHook<ResolvedComponent[]> {

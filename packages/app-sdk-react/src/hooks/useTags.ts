@@ -29,7 +29,7 @@ export function useTagList(): TApiHook<PreferencesListResponse> {
     const headers = { Authorization: `Bearer ${session.sessionToken}` };
     return getTagsFromPreferencesList.call(ctx, { list: TAG_FEED_LIST_ID, headers });
   });
-  return [data || null, isLoading, AppError.fromUnknown(error)];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function useAddTag(tagId: string): TApiMutation<void, null> {
@@ -48,7 +48,12 @@ export function useAddTag(tagId: string): TApiMutation<void, null> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
+  ];
 }
 
 export function useRemoveTag(tagId: string): TApiMutation<void, null> {
@@ -67,7 +72,12 @@ export function useRemoveTag(tagId: string): TApiMutation<void, null> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
+  ];
 }
 
 type THandleTags = { add: () => void; remove: () => void; isFollowed: boolean };
@@ -98,7 +108,7 @@ async function fetchAllTags(ctx: ServiceContext) {
 export function useTags(): TApiHook<TagType[], []> {
   const ctx = useServiceContext();
   const { data, isLoading, error } = useQuery([QueryKeys.TAGS], () => fetchAllTags(ctx), { staleTime: 1000 * 60 * 60 });
-  return [data || [], isLoading, AppError.fromUnknown(error)];
+  return [data || [], isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 /**
@@ -107,5 +117,5 @@ export function useTags(): TApiHook<TagType[], []> {
 export function useTag(tagId: string): TApiHook<TagType> {
   const [tags, isLoading, error] = useTags();
   const tag = isLoading || error ? null : tags.find(tag => tag.tagId === tagId);
-  return [tag || null, isLoading, AppError.fromUnknown(error)];
+  return [tag || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

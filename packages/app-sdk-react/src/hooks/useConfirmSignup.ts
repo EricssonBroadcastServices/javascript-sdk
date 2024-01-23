@@ -23,5 +23,10 @@ export function useConfirmSignup(): TApiMutation<TConfirmSignupParams, ConfirmAc
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
+  ];
 }

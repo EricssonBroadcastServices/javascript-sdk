@@ -16,5 +16,10 @@ export function useSetNewPassword(): TApiMutation<TSetNewPasswordParams, Respons
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error)];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
+  ];
 }

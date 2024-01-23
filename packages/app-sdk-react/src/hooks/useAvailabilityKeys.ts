@@ -18,5 +18,5 @@ export function useAvailabilityKeys(): TApiHook<string[]> {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data?.availabilityKeys || [], isLoading, AppError.fromUnknown(error)];
+  return [data?.availabilityKeys || [], isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
