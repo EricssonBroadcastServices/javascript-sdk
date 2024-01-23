@@ -427,7 +427,7 @@ export interface DRMLicense {
   /** The datetime of expiration of the drm license. */
   licenseExpiration?: number;
   /** The reason of expiration of the drm license. */
-  licenseExpirationReason?: EntitlementStatus;
+  licenseExpirationReason?: LicenseExpirationReason;
 }
 
 export interface Device {
@@ -581,22 +581,6 @@ export interface EntitleResponseV2 {
   /** The time the entitle was made for */
   time?: string;
 }
-
-export const EntitlementStatus = {
-  ANONYMOUS_IP_BLOCKED: "ANONYMOUS_IP_BLOCKED",
-  CONCURRENT_STREAMS_LIMIT_REACHED: "CONCURRENT_STREAMS_LIMIT_REACHED",
-  DEVICE_BLOCKED: "DEVICE_BLOCKED",
-  DOWNLOAD_BLOCKED: "DOWNLOAD_BLOCKED",
-  EPG_PLAY_MAX_HOURS: "EPG_PLAY_MAX_HOURS",
-  GAP_IN_EPG: "GAP_IN_EPG",
-  GEO_BLOCKED: "GEO_BLOCKED",
-  LICENSE_EXPIRED: "LICENSE_EXPIRED",
-  NOT_AVAILABLE_IN_FORMAT: "NOT_AVAILABLE_IN_FORMAT",
-  NOT_ENABLED: "NOT_ENABLED",
-  NOT_ENTITLED: "NOT_ENTITLED",
-  SUCCESS: "SUCCESS"
-} as const;
-export type EntitlementStatus = (typeof EntitlementStatus)[keyof typeof EntitlementStatus];
 
 export type EpgInfo = Record<"enabled" | "entitlementCheck", boolean>;
 
@@ -787,6 +771,22 @@ export interface LastViewedOffsetList {
   pageNumber?: number;
   pageSize?: number;
 }
+
+export const LicenseExpirationReason = {
+  ANONYMOUS_IP_BLOCKED: "ANONYMOUS_IP_BLOCKED",
+  CONCURRENT_STREAMS_LIMIT_REACHED: "CONCURRENT_STREAMS_LIMIT_REACHED",
+  DEVICE_BLOCKED: "DEVICE_BLOCKED",
+  DOWNLOAD_BLOCKED: "DOWNLOAD_BLOCKED",
+  EPG_PLAY_MAX_HOURS: "EPG_PLAY_MAX_HOURS",
+  GAP_IN_EPG: "GAP_IN_EPG",
+  GEO_BLOCKED: "GEO_BLOCKED",
+  LICENSE_EXPIRED: "LICENSE_EXPIRED",
+  NOT_AVAILABLE_IN_FORMAT: "NOT_AVAILABLE_IN_FORMAT",
+  NOT_ENABLED: "NOT_ENABLED",
+  NOT_ENTITLED: "NOT_ENTITLED",
+  SUCCESS: "SUCCESS"
+} as const;
+export type LicenseExpirationReason = (typeof LicenseExpirationReason)[keyof typeof LicenseExpirationReason];
 
 export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string>;
 
@@ -1052,7 +1052,7 @@ export interface PlayResponse {
   /** The datetime of expiration of the drm license. */
   licenseExpiration?: string;
   /** The reason of expiration of the drm license. */
-  licenseExpirationReason?: EntitlementStatus;
+  licenseExpirationReason?: LicenseExpirationReason;
   /** If this is a live entitlement. */
   live?: boolean;
   /** Live time */

@@ -279,8 +279,8 @@ function patchSpec(data: string): string {
   spec.components.schemas.ImageOrientation = makeSchemafromProp(
     spec.components.schemas.ApiImage.properties.orientation
   );
-  spec.components.schemas.EntitlementStatus = makeSchemafromProp(
-    spec.components.schemas.ApiIsEntitledResponse.properties.status
+  spec.components.schemas.LicenseExpirationReason = makeSchemafromProp(
+    spec.components.schemas.DRMLicense.properties.licenseExpirationReason
   );
   spec.components.schemas.ProductOfferingPurchaseStatus = makeSchemafromProp(
     spec.components.schemas.ApiProductOfferingPurchase.properties.status
