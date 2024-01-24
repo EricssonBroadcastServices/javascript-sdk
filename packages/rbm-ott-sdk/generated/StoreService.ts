@@ -193,6 +193,31 @@ export async function getCountryOfferingsByVoucher({
 }
 
 /**
+ * @summary Get product offerings available for this account's labels. This endpoint is to be only used if labels are used, which will be far from normal.
+ * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/label/{labelFilter}
+ * @response `200` `StoreProductOfferings` Successful
+ * @response `404` `StoreProductOfferings` LABEL_FILTER_NOT_FOUND The provided labelFilterId was not found
+ */
+export async function getOfferingByLabel({
+  labelFilter,
+  headers
+}: {
+  /** The label filter id */
+  labelFilter: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "GET",
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/label/${labelFilter}`,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
+    ctx
+  }).then(response => response.json() as Promise<StoreProductOfferings>);
+}
+
+/**
  * @summary Get currently active purchases of the user's account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase
  * @response `200` `ProductOfferingPurchases` Successful
@@ -691,6 +716,7 @@ export class StoreService {
   getAccountTransactions = getAccountTransactions;
   getAccountTransactionsWithProductOffering = getAccountTransactionsWithProductOffering;
   getCountryOfferingsByVoucher = getCountryOfferingsByVoucher;
+  getOfferingByLabel = getOfferingByLabel;
   getOfferingPurchases = getOfferingPurchases;
   getOfferings = getOfferings;
   getOfferingsByCountry = getOfferingsByCountry;

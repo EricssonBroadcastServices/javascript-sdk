@@ -32,6 +32,18 @@ export interface AccessConfig {
   signupModel: "confirmed" | "provisioned" | "unconfirmed";
 }
 
+export interface AccountDownload {
+  accountId?: string;
+  assets?: AssetDownload[];
+}
+
+export interface AccountProducts {
+  account?: string;
+  entitleExposure?: boolean;
+  entitled?: Product[];
+  notEntitled?: Product[];
+}
+
 export interface ActivationCodeResponse {
   /** 6 characters drawn from set 123456789ABCDEF */
   code: string;
@@ -66,6 +78,13 @@ export interface AdMarker {
   offset?: number;
   type?: string;
 }
+
+export interface AdRoll {
+  customParams?: Record<string, string>;
+  defaultDuration?: string;
+}
+
+export type AdRollConfig = Record<"mid" | "post" | "pre", AdRoll>;
 
 export const AdStitcher = {
   GENERIC: "GENERIC",
@@ -191,6 +210,13 @@ export interface Asset {
   userData?: UserAssetData;
 }
 
+export interface AssetDownload {
+  assetId?: string;
+  changed?: string;
+  downloadCount?: number;
+  downloads?: Download[];
+}
+
 export interface AssetList {
   items: Asset[];
   pageNumber: number;
@@ -276,36 +302,7 @@ export interface AvailabilityKeys {
   futureAvailabilityKeys?: string[];
 }
 
-export interface BookkeeperAccount {
-  accountId?: string;
-  assets?: BookkeeperAsset[];
-}
-
-export interface BookkeeperAsset {
-  assetId?: string;
-  changed?: string;
-  downloadCount?: number;
-  downloads?: BookkeeperDownload[];
-}
-
-export type BookkeeperDownload = Record<
-  "clientIp" | "deviceId" | "deviceModelId" | "deviceType" | "time" | "type" | "userId",
-  string
->;
-
-export interface Bookmarks {
-  /**
-   * Only relevant for VOD.
-   * This is the offset from the start off the VOD is ms
-   */
-  lastViewedOffset?: number;
-  /**
-   * Only relevant for LIVE.
-   * This is the offset from the start of the stream in ms.
-   * Since we always use unix epoch as start for our channels this will be a UNIX timestamp when the user hit pause while watching live
-   */
-  liveTime?: number;
-}
+export type Bookmarks = Record<"lastViewedOffset" | "liveTime", number>;
 
 export type CDN = Record<"host" | "profile" | "provider", string>;
 
@@ -321,13 +318,6 @@ export interface CardSummary {
   expiryYear: string;
   /** Origin of the card E.g. Google Pay, Apple Pay. If empty, consider the origin to be the payment provider */
   origin?: string;
-}
-
-export interface Carousel {
-  carouselId?: string;
-  items?: AssetList;
-  sortOrder?: number;
-  titles?: LocalizedTitle[];
 }
 
 export interface ChangePasswordResponse {
@@ -393,19 +383,12 @@ export interface ContinueUph2Assets {
 }
 
 export interface ContractRestrictions {
-  /** Is apple airplay allowed or not */
   airplayEnabled?: boolean;
-  /** Is the user allowed to fast forward */
   ffEnabled?: boolean;
-  /** What is the highest bitrate that should be used */
   maxBitrate?: number;
-  /** What is the highest resolution allowed */
   maxResHeight?: number;
-  /** What is the lowest bitrate that should be used */
   minBitrate?: number;
-  /** Is the user allowed to rewind */
   rwEnabled?: boolean;
-  /** Is the user allowed to timeshift (skip) */
   timeshiftEnabled?: boolean;
 }
 
@@ -420,11 +403,8 @@ export interface DRMLicense {
   "com.apple.fps"?: DrmUrls;
   "com.microsoft.playready"?: DrmUrls;
   "com.widevine.alpha"?: DrmUrls;
-  /** The datetime of activation of the drm license. */
   licenseActivation?: number;
-  /** The datetime of expiration of the drm license. */
   licenseExpiration?: number;
-  /** The reason of expiration of the drm license. */
   licenseExpirationReason?: LicenseExpirationReason;
 }
 
@@ -495,7 +475,12 @@ export interface Didomi {
   tvNoticeId?: string;
 }
 
-export interface DownloadInfoResponse {
+export type Download = Record<
+  "clientIp" | "deviceId" | "deviceModelId" | "deviceType" | "time" | "type" | "userId",
+  string
+>;
+
+export interface DownloadInfo {
   accountId?: string;
   assetId?: string;
   audios?: Track[];
@@ -510,26 +495,10 @@ export interface DownloadInfoResponse {
   videos?: VideoTrack[];
 }
 
-export interface DownloadResponse {
-  accountId?: string;
-  analytics?: Analytics;
-  assetId?: string;
-  cdn?: CDN;
-  downloadCount?: number;
-  durationInMs?: number;
-  formats?: MediaFormatDownload[];
-  materialId?: string;
-  materialVersion?: number;
-  maxDownloadCount?: number;
-  playSessionId?: string;
-  playToken?: string;
-  playTokenExpiration?: number;
-  playTokenExpirationReason?: string;
-  productId?: string;
-  publicationEnd?: string;
-  publicationId?: string;
-  requestId?: string;
-}
+export type DownloadVerified = Record<
+  "accountId" | "assetId" | "productId" | "publicationEnd" | "publicationId" | "requestId",
+  string
+>;
 
 export interface DrmUrls {
   certificateUrl: string;
@@ -538,34 +507,20 @@ export interface DrmUrls {
 
 export type EmptyResponse = object;
 
-export interface EntitleResponseV2 {
-  /** The account id */
+export interface EntitleResponse {
   accountId?: string;
   entitleExposure?: boolean;
-  /** The entitlement end time */
   entitlementEnd?: string;
-  /** Identity of the entitlement that permitted playback of the asset. */
   entitlementId?: string;
-  /** The entitlement start time */
   entitlementStart?: string;
-  formats?: MediaFormat[];
-  /** Identity of the product that permitted playback of the asset */
+  formats?: MediaFormatEntitle[];
   productId?: string;
-  /** The publication end time */
   publicationEnd?: string;
-  /** Identity of the publication that permitted playback of the asset. */
   publicationId?: string;
-  /** The publication start time */
   publicationStart?: string;
-  /** The request id, used for internal debugging. */
   requestId?: string;
-  /**
-   * Status
-   * Only used when we can actually play something, so at the moment we hard cord SUCCESS to make the move from v1 clients to v2 easy, they might expect SUCCESS
-   */
   status?: string;
   streamInfo: StreamInfo;
-  /** The time the entitle was made for */
   time?: string;
 }
 
@@ -624,27 +579,6 @@ export interface FrontendFeatures {
   searchLocales: string[];
   /** Should device always login anonymous. */
   shouldAlwaysUseAnonymousLogin: boolean;
-}
-
-export interface GetAllUserContentRatingsForAssetResponse {
-  assetId?: string;
-  creationDate?: string;
-  lastModificationDate?: string;
-  rating?: number;
-  userId?: string;
-}
-
-export interface GetAllUserContentRatingsForUserResponse {
-  assetId?: string;
-  creationDate?: string;
-  lastModificationDate?: string;
-  rating?: number;
-}
-
-export interface GetUserContentRatingResponse {
-  creationDate?: string;
-  lastModificationDate?: string;
-  rating?: number;
 }
 
 /** Google play configuration */
@@ -766,7 +700,8 @@ export const LicenseExpirationReason = {
   NOT_AVAILABLE_IN_FORMAT: "NOT_AVAILABLE_IN_FORMAT",
   NOT_ENABLED: "NOT_ENABLED",
   NOT_ENTITLED: "NOT_ENTITLED",
-  SUCCESS: "SUCCESS"
+  SUCCESS: "SUCCESS",
+  VPN_BLOCKED: "VPN_BLOCKED"
 } as const;
 export type LicenseExpirationReason = (typeof LicenseExpirationReason)[keyof typeof LicenseExpirationReason];
 
@@ -802,8 +737,6 @@ export interface LocalizedTag {
   locale: string;
   title?: string;
 }
-
-export type LocalizedTitle = Record<"locale" | "title", string>;
 
 export interface Location {
   /** ISO country code or null if unknown. */
@@ -891,10 +824,8 @@ export interface MediaFormat {
   vastUrl?: string;
 }
 
-export interface MediaFormatDownload {
-  drm?: DRMLicense;
+export interface MediaFormatEntitle {
   format?: MediaFormatType;
-  mediaLocator?: string;
 }
 
 export const MediaFormatType = {
@@ -1013,54 +944,38 @@ export interface PinCodeResponse {
   pinId: string;
 }
 
-export interface PlayResponseV2 {
-  /** The account id */
+export interface PlayResponse {
   accountId?: string;
   ads?: Ads;
   analytics?: Analytics;
   assetId?: string;
-  /** Is the material an audio only asset or is it audio+video */
   audioOnly?: boolean;
   bookmarks?: Bookmarks;
   cdn?: CDN;
-  /** Number of concurrent sessions */
   concurrentSessionsCount?: number;
   contractRestrictions?: ContractRestrictions;
-  /** Duration of the material. This is the new value that MUST be and should stay as milliseconds */
+  deviceId?: string;
+  deviceType?: string;
   durationInMilliseconds?: number;
-  /** Duration of the material. This is deprecated and must contain duratin in micro seconds and not milliseconds */
   durationInMs?: number;
   entitleExposure?: boolean;
-  /** The type of entitlement that granted access to this play. */
   entitlementType?: "AVOD" | "FVOD" | "SVOD" | "TVOD";
   epg?: EpgInfo;
-  /** Formats */
   formats?: MediaFormat[];
-  /** The material id for the material used in this play response. Just available for testing purposes. */
   materialId?: string;
-  /** The material profile, materials can be used for different purposes using profiles */
   materialProfile?: string;
-  /** The material version for the material used in this play response. Just available for testing purposes. */
   materialVersion?: number;
-  /** Unique id of this playback session, all analytics events for this session should be reported on with this id */
   playSessionId?: string;
-  /** The play token */
   playToken?: string;
-  /** The expiration of the the play token. The player needs to be initialized and have done the play call before this. */
   playTokenExpiration?: number;
-  /** Why does the play token expire */
   playTokenExpirationReason?: string;
-  /** Identity of the product that permitted playback of the asset */
   productId?: string;
-  /** Identity of the publication that permitted playback of the asset. */
   publicationId?: string;
-  /** Type of publishing type, Just available for testing. Should we really return this here? why? */
   publishingType?: string;
-  /** The request id, used for internal debugging. */
   requestId?: string;
-  /** Information about available sprites */
   sprites?: Sprites[];
   streamInfo?: StreamInfo;
+  userId?: string;
 }
 
 export interface PreferencesListItem {
@@ -1739,19 +1654,19 @@ export interface UserAttributesLocalizedMetadata {
 export type UserAttributesRange = Record<"max" | "min", object>;
 
 export interface UserCapabilities {
-  /** True if user name is not equal to the user's email address and the user may change the email address. */
+  /** True if user name is not equal to the user's email address and the user may change the email address using this API. */
   canChangeEmail: boolean;
-  /** True if the user can change password here. */
+  /** True if the user can change password using this API. */
   canChangePassword: boolean;
-  /** True if user name equals the user's email address and the user may change this; password required */
+  /** True if user name equals the user's email address and the user may change this using this API; password required */
   canChangeUserNameAndEmail: boolean;
-  /** True if user can manage user profiles and cancel account */
+  /** True if user can cancel account using this API. */
   canManageAccount: boolean;
-  /** True if user can manage devices */
+  /** True if user can manage devices using this API. */
   canManageDevices: boolean;
-  /** True if user can manage payment methods, such as credit cards */
+  /** True if user can manage payment methods, such as credit cards using this API. */
   canManagePayments: boolean;
-  /** True if user can manage purchase, such as adding and cancelling subscriptions */
+  /** True if user can manage purchase, such as adding and cancelling subscriptions using this API. */
   canManagePurchases: boolean;
 }
 
@@ -1831,11 +1746,6 @@ export interface UserSelfServiceCreateResponse {
    */
   unConfirmed?: boolean;
 }
-
-export type VerifiedResponse = Record<
-  "accountId" | "assetId" | "productId" | "publicationEnd" | "publicationId" | "requestId",
-  string
->;
 
 export interface VideoTrack {
   bitrate?: number;

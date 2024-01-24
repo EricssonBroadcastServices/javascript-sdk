@@ -9,7 +9,6 @@
 
 import { AssetService } from "./AssetService";
 import { AuthenticationService } from "./AuthenticationService";
-import { CarouselService } from "./CarouselService";
 import { ClientConfigService } from "./ClientConfigService";
 import { CustomerConfigService } from "./CustomerConfigService";
 import { DeviceService } from "./DeviceService";
@@ -20,8 +19,9 @@ import { EpgService } from "./EpgService";
 import { EventService } from "./EventService";
 import { request, ServiceContext } from "./http-client";
 import { LocationService } from "./LocationService";
+import { MrssService } from "./MrssService";
 import { PreferencesService } from "./PreferencesService";
-import { RatingService } from "./RatingService";
+import { PrometheusService } from "./PrometheusService";
 import { RecommenderService } from "./RecommenderService";
 import { SearchService } from "./SearchService";
 import { SeasonService } from "./SeasonService";
@@ -35,7 +35,6 @@ import { UserService } from "./UserService";
 class RBMOTTSDK {
   asset: AssetService;
   authentication: AuthenticationService;
-  carousel: CarouselService;
   clientConfig: ClientConfigService;
   customerConfig: CustomerConfigService;
   device: DeviceService;
@@ -45,8 +44,9 @@ class RBMOTTSDK {
   epg: EpgService;
   event: EventService;
   location: LocationService;
+  mrss: MrssService;
   preferences: PreferencesService;
-  rating: RatingService;
+  prometheus: PrometheusService;
   recommender: RecommenderService;
   search: SearchService;
   season: SeasonService;
@@ -59,7 +59,6 @@ class RBMOTTSDK {
   constructor(public context: ServiceContext) {
     this.asset = new AssetService(context);
     this.authentication = new AuthenticationService(context);
-    this.carousel = new CarouselService(context);
     this.clientConfig = new ClientConfigService(context);
     this.customerConfig = new CustomerConfigService(context);
     this.device = new DeviceService(context);
@@ -69,8 +68,9 @@ class RBMOTTSDK {
     this.epg = new EpgService(context);
     this.event = new EventService(context);
     this.location = new LocationService(context);
+    this.mrss = new MrssService(context);
     this.preferences = new PreferencesService(context);
-    this.rating = new RatingService(context);
+    this.prometheus = new PrometheusService(context);
     this.recommender = new RecommenderService(context);
     this.search = new SearchService(context);
     this.season = new SeasonService(context);
@@ -89,7 +89,6 @@ export { request };
 export * from "./data-contracts";
 export * from "./AssetService";
 export * from "./AuthenticationService";
-export * from "./CarouselService";
 export * from "./ClientConfigService";
 export * from "./CustomerConfigService";
 export * from "./DeviceService";
@@ -99,8 +98,9 @@ export * from "./EntitlementsService";
 export * from "./EpgService";
 export * from "./EventService";
 export * from "./LocationService";
+export * from "./MrssService";
 export * from "./PreferencesService";
-export * from "./RatingService";
+export * from "./PrometheusService";
 export * from "./RecommenderService";
 export * from "./SearchService";
 export * from "./SeasonService";
