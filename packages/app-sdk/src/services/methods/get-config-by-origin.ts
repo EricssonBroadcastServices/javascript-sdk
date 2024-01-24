@@ -3,7 +3,7 @@ import { IExposureWLConfig } from "../../interfaces";
 
 export interface GetConfigByOriginOptions {
   origin: string;
-  countryCode: string;
+  countryCode?: string;
 }
 
 export async function getConfigByOrigin(
