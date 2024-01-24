@@ -1,20 +1,19 @@
-import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelService as AppService, DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
+import { DeviceRegistration } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 import React, { useEffect, useState } from "react";
 import { IStorage } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
-import { StorageKey } from "./util/storageKeys";
-import { Session, SessionData } from "./Session";
-import { getValidatedPersistedSession, validateAndReconstructSessionFromSessionToken } from "./util/session-token";
+import { getInitialStateByCustomerAndBusinessUnit, getInitialStateByOrigin } from "./util/initial-props";
+import { DeviceGroup, GetEssentialAppDataByOriginOptions } from "@ericssonbroadcastservices/app-sdk";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
 
 interface IInitialPropsProvider {
   storage?: IStorage;
   baseUrl: string;
-  customer: string;
-  businessUnit: string;
+  customer?: string;
+  businessUnit?: string;
+  origin?: GetEssentialAppDataByOriginOptions;
   deviceRegistration: Required<DeviceRegistration>;
   children?: React.ReactNode;
   deviceGroup: DeviceGroup;
@@ -27,6 +26,7 @@ export function InitialPropsProvider({
   storage,
   customer,
   businessUnit,
+  origin,
   baseUrl,
   deviceRegistration,
   deviceGroup,
@@ -37,63 +37,34 @@ export function InitialPropsProvider({
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     async function initStorage() {
-      const serviceContext: ServiceContext = {
-        customer,
-        businessUnit,
-        baseUrl
-      };
-
-      let session: SessionData | null = null;
-
-      // if a sessionToken has been passed in: use that if possible
-      if (sessionToken) {
-        session = await validateAndReconstructSessionFromSessionToken({
-          context: serviceContext,
+      if (customer && businessUnit) {
+        const state = await getInitialStateByCustomerAndBusinessUnit({
+          customer,
+          businessUnit,
+          baseUrl,
           sessionToken,
-          storage
+          storage,
+          deviceGroup,
+          deviceRegistration,
+          onSessionValidationError
         });
+        setState(state);
+        setIsReady(true);
+      } else if (origin) {
+        const state = await getInitialStateByOrigin({
+          origin,
+          baseUrl,
+          sessionToken,
+          storage,
+          deviceGroup,
+          deviceRegistration,
+          onSessionValidationError
+        });
+        setState(state);
+        setIsReady(true);
+      } else {
+        console.error("Either customer & businessUnit, or origin have to be provided");
       }
-      // if there still is no session, use one from storage, if possible
-      if (!session) {
-        try {
-          const [validatedSession, validationError] = await getValidatedPersistedSession({
-            storage,
-            customer,
-            businessUnit,
-            baseUrl,
-            deviceRegistration
-          });
-          session = validatedSession;
-          if (validationError) {
-            onSessionValidationError?.(validationError);
-          }
-        } catch (err) {
-          session = null;
-        }
-      }
-
-      const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
-
-      async function getAuthToken() {
-        return session?.sessionToken;
-      }
-      const appService = new AppService({ ...serviceContext, deviceGroup, getAuthToken });
-      setState({
-        session: session && new Session(session),
-        selectedLanguage: persistedSelectedLanguage || null,
-        loading: [],
-        customer,
-        businessUnit,
-        storage: storage || null,
-        deviceRegistration,
-        baseUrl,
-        essentialAppData: null,
-        deviceGroup,
-        unavailable: false,
-        serviceContext,
-        appService
-      });
-      setIsReady(true);
     }
     initStorage();
     // eslint-disable-next-line react-hooks/exhaustive-deps

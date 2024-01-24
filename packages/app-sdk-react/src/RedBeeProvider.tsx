@@ -1,8 +1,12 @@
-import { WhiteLabelService as AppService, DeviceGroup, EssentialAppData } from "@ericssonbroadcastservices/app-sdk";
+import {
+  WhiteLabelService as AppService,
+  DeviceGroup,
+  EssentialAppData,
+  GetEssentialAppDataByOriginOptions
+} from "@ericssonbroadcastservices/app-sdk";
 import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import React, { Dispatch, useContext, useReducer } from "react";
 import { QueryClientProvider } from "react-query";
-import { useFetchConfig } from "./hooks/useConfig";
 import { queryClient } from "./util/react-query";
 import { IStorage } from "./types/storage";
 import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvider";
@@ -115,20 +119,19 @@ export function useRedBeeStateDispatch() {
   return dispatch;
 }
 
-function ChildrenRenderer({ children, autoFetchConfig }: { children?: React.ReactNode; autoFetchConfig: boolean }) {
-  useFetchConfig(!autoFetchConfig);
+function ChildrenRenderer({ children }: { children?: React.ReactNode }) {
   return <>{children}</>;
 }
 
 interface IRedBeeProvider {
   baseUrl: string;
-  customer: string;
-  businessUnit: string;
+  customer?: string;
+  businessUnit?: string;
+  origin?: GetEssentialAppDataByOriginOptions;
   children?: React.ReactNode;
   deviceGroup: DeviceGroup;
   storage?: IStorage;
   deviceRegistration: Required<DeviceRegistration>;
-  autoFetchConfig?: boolean;
   /** optionally pass in a sessionToken to restore a session created elsewhere */
   sessionToken?: string;
   /** Listen for any errors when initially verifying the session.
@@ -138,19 +141,13 @@ interface IRedBeeProvider {
   onSessionValidationError?: (err: unknown) => void;
 }
 
-function RedBeeStateHolder({
-  children,
-  autoFetchConfig = false
-}: {
-  autoFetchConfig: boolean;
-  children?: React.ReactNode;
-}) {
+function RedBeeStateHolder({ children }: { children?: React.ReactNode }) {
   const initialState = useContext(InitialPropsContext);
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <QueryClientProvider client={queryClient}>
       <RedBeeContext.Provider value={[state, dispatch]}>
-        <ChildrenRenderer autoFetchConfig={autoFetchConfig}>{children}</ChildrenRenderer>
+        <ChildrenRenderer>{children}</ChildrenRenderer>
       </RedBeeContext.Provider>
     </QueryClientProvider>
   );
@@ -160,18 +157,18 @@ export function RedBeeProvider({
   storage,
   customer,
   businessUnit,
+  origin,
   deviceRegistration,
   deviceGroup,
   baseUrl,
   children,
-  autoFetchConfig,
   onSessionValidationError,
   sessionToken
 }: IRedBeeProvider) {
-  if (!customer || !businessUnit) {
-    throw new Error("customer and businessUnit are required");
+  if ((!customer || !businessUnit) && !origin) {
+    throw new Error("customer and businessUnit, or origin, are required");
   }
-  if (!baseUrl || !deviceGroup || !deviceRegistration) {
+  if ((!baseUrl && !origin) || !deviceGroup || !deviceRegistration) {
     throw new Error(
       `Missing required prop in RedBeeProvider. You provided: baseUrl: ${baseUrl}, deviceGroup: ${deviceGroup}, deviceRegistration: ${deviceRegistration}`
     );
@@ -184,13 +181,14 @@ export function RedBeeProvider({
       storage={storage}
       customer={customer}
       businessUnit={businessUnit}
+      origin={origin}
       deviceRegistration={deviceRegistration}
       deviceGroup={deviceGroup}
       baseUrl={baseUrl}
       onSessionValidationError={onSessionValidationError}
       sessionToken={sessionToken}
     >
-      <RedBeeStateHolder autoFetchConfig={!!autoFetchConfig}>{children}</RedBeeStateHolder>
+      <RedBeeStateHolder>{children}</RedBeeStateHolder>
     </InitialPropsProvider>
   );
 }

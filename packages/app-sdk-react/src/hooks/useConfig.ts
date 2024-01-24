@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from "react";
-import { ActionType, useRedBeeState, useRedBeeStateDispatch } from "../RedBeeProvider";
+import { useMemo } from "react";
+import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { useAppService, useServiceContext } from "./useApi";
+import { useServiceContext } from "./useApi";
 import {
   EssentialAppData,
   IExposureWLConfig,
@@ -31,32 +31,6 @@ const DEFAULT_THEME: IWLTheme = {
   primaryBrandColor: "#000000",
   heroBannerTextColor: "#ffffff"
 };
-
-export function useFetchConfig(disabled = false): void {
-  const dispatch = useRedBeeStateDispatch();
-  const { customer, businessUnit } = useRedBeeState();
-  const appService = useAppService();
-  useEffect(() => {
-    if (disabled || !customer || !businessUnit) return;
-    dispatch({ type: ActionType.START_LOADING, id: configLoadingId });
-    appService
-      .getEssentialAppData()
-      .then(
-        data => {
-          return dispatch({ type: ActionType.SET_ESSENTIAL_APP_DATA, data });
-        },
-        () => {
-          return dispatch({ type: ActionType.SET_APP_UNAVAILABLE });
-        }
-      )
-      .finally(() => {
-        dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
-      });
-    return () => {
-      dispatch({ type: ActionType.STOP_LOADING, id: configLoadingId });
-    };
-  }, [disabled]);
-}
 
 export function useEssentialAppData(): TApiHook<EssentialAppData> {
   const state = useRedBeeState();

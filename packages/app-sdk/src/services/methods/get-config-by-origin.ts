@@ -3,11 +3,12 @@ import { IExposureWLConfig } from "../../interfaces";
 
 export interface GetConfigByOriginOptions {
   origin: string;
+  countryCode: string;
 }
 
 export async function getConfigByOrigin(
   context: Omit<ServiceContext, "customer" | "businessUnit">,
-  { origin }: GetConfigByOriginOptions
+  { origin, countryCode }: GetConfigByOriginOptions
 ): Promise<IExposureWLConfig> {
   if (!origin) {
     return Promise.reject(new Error("[WhiteLabelService] No origin set"));
@@ -15,7 +16,8 @@ export async function getConfigByOrigin(
   return (
     await getWLConfigWithDomain.call(context, {
       configId: "sandwich",
-      host: origin
+      host: origin,
+      allowedCountry: countryCode
     })
   ).json() as Promise<IExposureWLConfig>;
 }

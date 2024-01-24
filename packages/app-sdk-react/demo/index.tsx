@@ -21,13 +21,23 @@ const deviceRegistration = {
   type: DeviceType.WEB
 };
 
-export function getCustomerBusinessUnit() {
+export function getOrganizationUnitConfig(useOriginConfig = false) {
+  if (useOriginConfig)
+    return {
+      origin: {
+        hostname: "https://bsbu.enigmatv.io",
+        devBaseUrl: "https://exposure.api.redbee.dev",
+        liveBaseUrl: "https://exposure.api.redbee.live"
+      },
+      baseUrl: ""
+    };
+
   let { customer, businessUnit } = Object.fromEntries(new URLSearchParams(window.location.search).entries());
   if (!customer || !businessUnit) {
     customer = "BSCU";
     businessUnit = "BSBU";
   }
-  return { customer, businessUnit };
+  return { customer, businessUnit, baseUrl: "https://exposure.api.redbee.dev" };
 }
 
 export default function App() {
@@ -65,17 +75,14 @@ const storage: IStorage = {
 };
 
 function AppProvider() {
-  const { customer, businessUnit } = getCustomerBusinessUnit();
+  const ouParams = getOrganizationUnitConfig();
   const [searchParams] = useSearchParams();
   return (
     <RedBeeProvider
-      baseUrl={"https://exposure.api.redbee.dev"}
-      customer={customer}
-      businessUnit={businessUnit}
+      {...ouParams}
       storage={storage}
       deviceRegistration={deviceRegistration}
       deviceGroup={DeviceGroup.WEB}
-      autoFetchConfig
       onSessionValidationError={err => console.log(err, "sessionValidationError")}
       sessionToken={searchParams.get("sessionToken") || undefined}
     >
