@@ -4,6 +4,7 @@ import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
 import { useWLApi } from "./useApi";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useTranslations(): TApiHook<Translations> {
   const wlApi = useWLApi();
@@ -16,5 +17,5 @@ export function useTranslations(): TApiHook<Translations> {
     },
     { staleTime: 1000 * 60 * 60 }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

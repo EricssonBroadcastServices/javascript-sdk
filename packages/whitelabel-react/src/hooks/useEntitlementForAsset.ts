@@ -8,6 +8,7 @@ import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSetSession, useUserSession } from "./useUserSession";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
@@ -120,5 +121,5 @@ export function useEntitlementForAsset(
       clearTimeout(timeout);
     };
   }, [data, confirmEntitlementOnStart]);
-  return [result, isLoading || offeringsLoading, error];
+  return [result, isLoading || offeringsLoading, !!error ? AppError.fromUnknown(error) : null];
 }

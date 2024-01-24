@@ -5,6 +5,7 @@ import { TApiHook } from "../types/type.apiHook";
 import { useExposureApi } from "./useApi";
 import { useUserSession } from "./useUserSession";
 import { useCallback, useState } from "react";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 const TAG_FEED_LIST_ID = "tagfeed";
 
@@ -17,7 +18,7 @@ export function useTagList(): TApiHook<PreferenceListTags> {
       listId: TAG_FEED_LIST_ID
     });
   });
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function useAddTag(tagId: string): TApiHook<() => void, () => void> {
@@ -38,7 +39,7 @@ export function useAddTag(tagId: string): TApiHook<() => void, () => void> {
       .finally(() => setLoading(false));
   }, []);
 
-  return [add, loading, error];
+  return [add, loading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function useRemoveTag(tagId: string): TApiHook<() => void, () => void> {
@@ -59,5 +60,5 @@ export function useRemoveTag(tagId: string): TApiHook<() => void, () => void> {
       .finally(() => setLoading(false));
   }, []);
 
-  return [remove, loading, error];
+  return [remove, loading, !!error ? AppError.fromUnknown(error) : null];
 }

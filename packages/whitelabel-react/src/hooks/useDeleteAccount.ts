@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useExposureApi } from "./useApi";
 import { useSetSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>, (password: string) => Promise<void>> {
   const [loading, setLoading] = useState(false);
@@ -26,5 +27,5 @@ export function useDeleteAccount(): TApiHook<(password: string) => Promise<void>
     },
     [setSession, exposureApi]
   );
-  return [deleteAccount, loading, error];
+  return [deleteAccount, loading, !!error ? AppError.fromUnknown(error) : null];
 }

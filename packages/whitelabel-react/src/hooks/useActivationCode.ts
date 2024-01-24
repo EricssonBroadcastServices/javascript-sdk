@@ -4,6 +4,7 @@ import { useExposureApi } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { IDeviceInfo } from "@ericssonbroadcastservices/exposure-sdk";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 interface IActivationCodeData {
   code: string;
@@ -86,7 +87,7 @@ export function useActivationCode({ updateInterval = 5000 }: IActionvationCodeOp
           });
         })
         .catch(err => {
-          setCodeError(err);
+          setCodeError(AppError.fromUnknown(err));
         })
         .finally(() => {
           setIsLoading(false);

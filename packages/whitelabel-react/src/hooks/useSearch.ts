@@ -5,6 +5,7 @@ import { TApiHook } from "../types/type.apiHook";
 import { useWLApi } from "./useApi";
 import { useConfig } from "./useConfig";
 import { useDebounce } from "./useDebounce";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useSearch(term: string, debounceTime = 300): TApiHook<WLAsset[]> {
   const wlApi = useWLApi();
@@ -15,5 +16,5 @@ export function useSearch(term: string, debounceTime = 300): TApiHook<WLAsset[]>
     return wlApi.search({ url: searchUrl, searchTerm: debouncedTerm });
   });
   const isLoadingOrDebouncing = term !== "" && (isLoading || term !== debouncedTerm);
-  return [data || null, isLoadingOrDebouncing, error];
+  return [data || null, isLoadingOrDebouncing, !!error ? AppError.fromUnknown(error) : null];
 }

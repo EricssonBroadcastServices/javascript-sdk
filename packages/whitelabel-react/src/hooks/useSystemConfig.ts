@@ -5,6 +5,7 @@ import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "../util/react-query";
 import { useExposureApi } from "./useApi";
 import { useGeolocation } from "./useGeolocation";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useSystemConfigV2(): TApiHook<ISystemConfigV2> {
   const exposureApi = useExposureApi();
@@ -18,5 +19,5 @@ export function useSystemConfigV2(): TApiHook<ISystemConfigV2> {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

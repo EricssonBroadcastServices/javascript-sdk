@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { useExposureApi } from "./useApi";
 import { QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useGeolocation(): TApiHook<IUserLocation> {
   const exposureApi = useExposureApi();
@@ -13,5 +14,5 @@ export function useGeolocation(): TApiHook<IUserLocation> {
     },
     { staleTime: 1000 * 60 * 60 * 24 }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

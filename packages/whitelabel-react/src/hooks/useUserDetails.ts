@@ -5,6 +5,7 @@ import { useUserSession } from "./useUserSession";
 import { useExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { useRedBeeState } from "../RedBeeProvider";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useUserDetails(): TApiHook<IUserDetails> {
   const [userSession] = useUserSession();
@@ -18,7 +19,7 @@ export function useUserDetails(): TApiHook<IUserDetails> {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function refetchUserDetails() {

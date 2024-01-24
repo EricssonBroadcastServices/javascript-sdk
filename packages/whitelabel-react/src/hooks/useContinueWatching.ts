@@ -4,6 +4,7 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { useWLApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "../util/react-query";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useContinueWatching(tvShowId?: string): TApiHook<WLAsset> {
   const wlApi = useWLApi();
@@ -20,5 +21,5 @@ export function useContinueWatching(tvShowId?: string): TApiHook<WLAsset> {
       });
     }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

@@ -6,6 +6,7 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useConsumedDiscounts, usePurchases } from "./usePurchases";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 const productOfferingsCacheTime = 1000 * 60 * 30;
 
@@ -44,7 +45,7 @@ export function useProductOfferings(options?: IUseProductOfferings): TApiHook<IP
       return p;
     }) || [],
     isLoading,
-    error
+    !!error ? AppError.fromUnknown(error) : null
   ];
 }
 

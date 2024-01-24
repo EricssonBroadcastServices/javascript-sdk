@@ -5,6 +5,7 @@ import { useExposureApi } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { WLComponentSubType } from "@ericssonbroadcastservices/whitelabel-sdk";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 const FAVORITES_LIST_ID = "favorites";
 
@@ -104,6 +105,6 @@ export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFa
       add: handleAdd
     },
     loadingAdd || loadingRemove || loadingList,
-    error
+    !!error ? AppError.fromUnknown(error) : null
   ];
 }

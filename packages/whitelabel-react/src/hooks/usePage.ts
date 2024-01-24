@@ -20,6 +20,8 @@ import { useTagList } from "../hooks/useTags";
 import { useSetSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useMemo } from "react";
 
 export enum PageType {
   PAGE = "page",
@@ -65,8 +67,8 @@ export function usePage(pageId: string, pageType: PageType): TApiHook<WLPageMode
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  if (isFetching) return [null, true, error];
-  return [data || null, isFetching, error];
+  if (isFetching) return [null, true, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isFetching, !!error ? AppError.fromUnknown(error) : null];
 }
 
 function getComponentConstructor(reference: WLReference) {
@@ -148,12 +150,16 @@ export function useResolvedPage(pageId: string, pageType: PageType): TApiHook<IR
     })
   ) as UseQueryResult<IResolvedComponent>[];
   const somethingIsLoading = results.some(r => r.isLoading) || pageLoading;
+  const componentError = useMemo(() => {
+    const err = results.find(r => !!r.error)?.error;
+    return err ? AppError.fromUnknown(err) : null;
+  }, [results]);
   if (somethingIsLoading) {
-    return [null, true, pageError || results.find(r => !!r.error)?.error];
+    return [null, true, pageError || componentError];
   }
   return [
     results.filter(r => r.data?.component && r.data.reference).map(r => r.data) as IResolvedComponent[],
     false,
-    pageError || results.find(r => !!r.error)?.error
+    pageError || componentError
   ];
 }

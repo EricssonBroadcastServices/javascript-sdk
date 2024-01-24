@@ -7,6 +7,7 @@ import { useUserSession } from "./useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSystemConfigV2 } from "./useSystemConfig";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 const purchasesCacheTime = 1000 * 60 * 30;
 
@@ -30,7 +31,7 @@ export function usePurchases(): TApiHook<PurchaseResponse> {
       staleTime: purchasesCacheTime
     }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error, "PAYMENT") : null];
 }
 
 export function useTvodIds(): TApiHook<string[]> {

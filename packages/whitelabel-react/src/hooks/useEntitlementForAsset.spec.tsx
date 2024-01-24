@@ -5,6 +5,7 @@ import { DeviceType, EntitlementActionType, ExposureApi, IDeviceInfo } from "@er
 import { RedBeeProvider, useEntitlementForAsset } from "..";
 import {
   DeviceGroup,
+  EntitlementStatus,
   IEntitlementStatusResult,
   WhiteLabelService,
   WLAsset

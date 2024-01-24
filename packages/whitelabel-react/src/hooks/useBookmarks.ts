@@ -4,13 +4,14 @@ import { useExposureApi } from "./useApi";
 import { useAsset } from "./useAsset";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 export function useBookmarks(): TApiHook<IBookmark[]> {
   const exposureApi = useExposureApi();
   const { data, isLoading, error } = useQuery([QueryKeys.BOOKMARKS], () => {
     return exposureApi.content.getBookmarks({});
   });
-  return [data || [], isLoading, error];
+  return [data || [], isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
 
 export function refetchBookmarks() {
