@@ -114,7 +114,7 @@ export async function getInitialStateByOrigin({
   onSessionValidationError?: (err: unknown) => void;
 }): Promise<IRedBeeState> {
   const { context, ...essentialAppData } = await getEssentialAppDataByOrigin(
-    { baseUrl: origin.hostname, deviceGroup, getAuthToken: () => Promise.resolve(undefined) },
+    { baseUrl: origin.origin, deviceGroup, getAuthToken: () => Promise.resolve(undefined) },
     origin
   );
 

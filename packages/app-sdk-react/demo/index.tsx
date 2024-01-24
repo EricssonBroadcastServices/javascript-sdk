@@ -24,12 +24,13 @@ const deviceRegistration = {
 export function getOrganizationUnitConfig(useOriginConfig = false) {
   if (useOriginConfig)
     return {
+      baseUrl: "",
       origin: {
-        hostname: "https://bsbu.enigmatv.io",
+        hostname: window.location.hostname,
+        origin: window.location.origin,
         devBaseUrl: "https://exposure.api.redbee.dev",
         liveBaseUrl: "https://exposure.api.redbee.live"
-      },
-      baseUrl: ""
+      }
     };
 
   let { customer, businessUnit } = Object.fromEntries(new URLSearchParams(window.location.search).entries());

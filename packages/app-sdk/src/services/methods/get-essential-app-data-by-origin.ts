@@ -5,7 +5,12 @@ import { EssentialAppData } from "../../interfaces/essential-app-data";
 import { getConfigByOrigin } from "./get-config-by-origin";
 import { WhiteLabelServiceContext } from "../white-label-service";
 
-export type GetEssentialAppDataByOriginOptions = { hostname: string; devBaseUrl: string; liveBaseUrl: string };
+export type GetEssentialAppDataByOriginOptions = {
+  hostname: string;
+  origin: string;
+  devBaseUrl: string;
+  liveBaseUrl: string;
+};
 
 function cleanHostName(hostname: string) {
   if (hostname.startsWith("https://")) return hostname.replace("https://", "");

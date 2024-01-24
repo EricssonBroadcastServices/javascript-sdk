@@ -17,6 +17,19 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
   },
+  devServer: {
+    proxy: [
+      {
+        context: ["/v1", "/v2", "/v3", "/v2/whitelabel"],
+        target: "https://exposure.api.redbee.dev", // Prestage
+        // target: "https://exposure.api.redbee.live", // Prod
+        changeOrigin: true,
+        headers: {
+          "www-authenticate": "Bearer"
+        }
+      }
+    ]
+  },
   module: {
     rules: [
       {
