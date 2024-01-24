@@ -75,6 +75,7 @@ export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFa
   const [handleAdd, , loadingAdd, addError] = useAddAssetToFavorites(assetId);
   const [handleRemove, , loadingRemove, removeError] = useRemoveAssetFromFavorites(assetId);
   const [session] = useUserSession();
+  const favoritesError = addError || removeError;
   const handler: HandleAssetFavorites = {
     isInList: false,
     remove: handleRemove,
@@ -103,6 +104,6 @@ export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFa
   return [
     handler,
     loadingAdd || loadingRemove || loadingList,
-    !!error ? AppError.fromUnknown(error) : null || addError || removeError
+    !!error ? AppError.fromUnknown(error) : null || favoritesError
   ];
 }

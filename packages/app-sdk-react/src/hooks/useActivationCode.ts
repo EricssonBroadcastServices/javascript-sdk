@@ -79,7 +79,7 @@ export function useActivationCode({
           });
         })
         .catch(err => {
-          setCodeError(!!err ? AppError.fromUnknown(err) : null);
+          setCodeError(AppError.fromUnknown(err));
         })
         .finally(() => {
           setIsLoading(false);

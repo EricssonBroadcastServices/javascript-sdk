@@ -76,8 +76,12 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
       .filter(r => r.data?.component && r.data.presentationParameters)
       .map(r => r.data) as ResolvedComponent<any>[];
   }, [somethingIsLoading]);
+  const componentError = useMemo(() => {
+    const err = results.find(r => !!r.error)?.error;
+    return err ? AppError.fromUnknown(err) : null;
+  }, [results]);
 
-  return [data, somethingIsLoading, pageError ? AppError.fromUnknown(results.find(r => !!r.error)?.error) : null];
+  return [data, somethingIsLoading, pageError || componentError];
 }
 
 export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponent[]> {
@@ -119,5 +123,5 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }
