@@ -2,6 +2,7 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useQuery } from "react-query";
 import { getActiveChannels, ChannelStatus } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 const DEFAULT_INTERVAL = 60000; // 1 minute
 
@@ -21,5 +22,5 @@ export function useChannelPicker(
     },
     { refetchInterval: updateInterval }
   );
-  return [data || null, isLoading, error];
+  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

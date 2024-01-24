@@ -70,10 +70,33 @@ export class AppError extends Error {
     };
   }
 
-  static fromUnknown(err: unknown): AppError {
-    return new AppError("UNKNOWN_ERROR", {
-      rawError: err instanceof Error ? err.message : String(err)
-    });
+  static fromUnknown(error: unknown, errorType?: TCategory): AppError | LoginError | VoucherError | PaymentError {
+    if (error instanceof AppError) return error;
+    let message = "UNKNOWN_ERROR";
+    if (error instanceof Error) {
+      // TODO: solve typing somehow. err.response is added by rbmottsdk
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (error.response) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return AppError.fromFetchError({ error: error.response, errorType });
+      }
+      message = error.message;
+    } else if (error instanceof Response) {
+      return AppError.fromFetchError({ error: error as Response, errorType });
+    }
+    const rawError = error instanceof Error ? error.stack || error.message : String(error);
+    switch (errorType) {
+      case "LOGIN":
+        return new LoginError(message, { rawError });
+      case "VOUCHER":
+        return new VoucherError(message, { rawError });
+      case "PAYMENT":
+        return new PaymentError(message, { rawError });
+      default:
+        return new AppError(message, { rawError });
+    }
   }
 
   static fromFetchError({

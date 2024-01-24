@@ -3,6 +3,7 @@ import { TApiMutation } from "../types/type.apiHook";
 import { useMutation } from "react-query";
 import { useSetSession } from "./useUserSession";
 import { useRedBeeState } from "../RedBeeProvider";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 type TConfirmSignupParams = { token: string };
 
@@ -22,5 +23,10 @@ export function useConfirmSignup(): TApiMutation<TConfirmSignupParams, ConfirmAc
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
+  ];
 }

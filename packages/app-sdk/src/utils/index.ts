@@ -21,3 +21,4 @@ export * from "./user-details";
 export * from "./localized-languages";
 export * from "./password";
 export * from "./hero-banner";
+export * from "./error-factory";

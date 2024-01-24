@@ -11,6 +11,7 @@ import { useSystemConfigV2 } from "./useSystemConfig";
 import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
 import { queryClient, QueryKeys } from "../util/react-query";
+import { AppError } from "@ericssonbroadcastservices/app-sdk";
 
 const paymentMethodsCacheTime = 1000 * 60 * 30;
 
@@ -34,7 +35,7 @@ export function usePaymentMethods(): TApiHook<PaymentMethod[]> {
       refetchOnWindowFocus: false
     }
   );
-  return [data?.methods || null, isLoading, error];
+  return [data?.methods || null, isLoading, !!error ? AppError.fromUnknown(error, "PAYMENT") : null];
 }
 
 export function refetchPaymentMethods() {
@@ -58,7 +59,12 @@ export function useDeletePaymentMethod(): TApiMutation<string, Response> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error, "PAYMENT") : null
+  ];
 }
 
 export function useSetPreferredPaymentMethod(): TApiMutation<string, JsonAccount> {
@@ -78,5 +84,10 @@ export function useSetPreferredPaymentMethod(): TApiMutation<string, JsonAccount
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, mutation.error];
+  return [
+    mutation.mutate,
+    mutation.data || null,
+    mutation.isLoading,
+    !!mutation.error ? AppError.fromUnknown(mutation.error, "PAYMENT") : null
+  ];
 }

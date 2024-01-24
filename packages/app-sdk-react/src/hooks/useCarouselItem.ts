@@ -22,7 +22,7 @@ export function useCarouselItem(
   const { language, defaultLanguage } = useLanguage();
   const [translations] = useTranslations();
 
-  const { tvShowId, season, episode } = item.asset
+  const { tvShowId, season, episode } = item.asset;
 
   let title = AssetHelpers.getTitle(item.asset, {
     language,
