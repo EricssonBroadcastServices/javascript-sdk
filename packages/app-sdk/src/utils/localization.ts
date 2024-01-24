@@ -37,7 +37,8 @@ export function getLocalizedValue<Key extends keyof Localized>(
     return undefined;
   }
   const localeItem = localized.find(localizedItem => localizedItem.locale === locale);
-  if (!localeItem || !localeItem[property] || (Array.isArray(localeItem[property]) && !localeItem[property]?.length)) {
+  const value = localeItem?.[property];
+  if (!value || (Array.isArray(value) && !value?.length)) {
     if (defaultLocale) {
       return getLocalizedValue(localized, property, defaultLocale);
     }
@@ -46,7 +47,7 @@ export function getLocalizedValue<Key extends keyof Localized>(
     }
     return getLocalizedValue(localized, property, localized[0].locale);
   }
-  return localeItem[property] ? (localeItem[property] as Localized[Key]) : undefined;
+  return value ? (value as Localized[Key]) : undefined;
 }
 
 function sortByResolution(a: Image, b: Image) {
