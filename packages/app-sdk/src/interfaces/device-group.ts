@@ -5,4 +5,4 @@ export const DeviceGroup = {
   TABLET: "TABLET",
   TV: "TV"
 } as const;
-export type DeviceGroup = typeof DeviceGroup[keyof typeof DeviceGroup];
+export type DeviceGroup = (typeof DeviceGroup)[keyof typeof DeviceGroup];

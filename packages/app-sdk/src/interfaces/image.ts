@@ -8,7 +8,7 @@ export const ImageType = {
   COVER: "cover",
   OTHER: "other"
 } as const;
-export type ImageType = typeof ImageType[keyof typeof ImageType];
+export type ImageType = (typeof ImageType)[keyof typeof ImageType];
 
 export interface IImage {
   url: string;

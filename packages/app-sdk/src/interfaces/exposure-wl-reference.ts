@@ -6,21 +6,21 @@ export const CarouselLayout = {
   GRID: "grid",
   LIST: "list"
 } as const;
-export type CarouselLayout = typeof CarouselLayout[keyof typeof CarouselLayout];
+export type CarouselLayout = (typeof CarouselLayout)[keyof typeof CarouselLayout];
 
 export const PresentationImageOrientation = {
   LANDSCAPE: "landscape",
   PORTRAIT: "portrait"
 } as const;
 export type PresentationImageOrientation =
-  typeof PresentationImageOrientation[keyof typeof PresentationImageOrientation];
+  (typeof PresentationImageOrientation)[keyof typeof PresentationImageOrientation];
 
 export const CarouselDensity = {
   LOW: "LOW",
   MEDIUM: "MEDIUM",
   HIGH: "HIGH"
 } as const;
-export type CarouselDensity = typeof CarouselDensity[keyof typeof CarouselDensity];
+export type CarouselDensity = (typeof CarouselDensity)[keyof typeof CarouselDensity];
 
 export interface IExposureWLReference {
   name?: string;

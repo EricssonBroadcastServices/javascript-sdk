@@ -3,7 +3,7 @@ export const ImageOrientation = {
   PORTRAIT: "PORTRAIT",
   SQUARE: "SQUARE"
 } as const;
-export type ImageOrientation = typeof ImageOrientation[keyof typeof ImageOrientation];
+export type ImageOrientation = (typeof ImageOrientation)[keyof typeof ImageOrientation];
 
 export enum ImageType {
   POSTER = "poster",

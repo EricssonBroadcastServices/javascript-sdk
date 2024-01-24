@@ -24,13 +24,13 @@ export const WLCarouselAssetQueryTypes = {
   // SingleAsset is not currently used
   SINGLE_ASSET: "SingleAsset"
 } as const;
-export type WLCarouselAssetQueryTypes = typeof WLCarouselAssetQueryTypes[keyof typeof WLCarouselAssetQueryTypes];
+export type WLCarouselAssetQueryTypes = (typeof WLCarouselAssetQueryTypes)[keyof typeof WLCarouselAssetQueryTypes];
 
 export const WLHeroBannerItemType = {
   HEROBANNER_ITEM: "herobanner_item",
   VIDEO_HEROBANNER_ITEM: "video_herobanner_item"
 } as const;
-export type WLHeroBannerItemType = typeof WLHeroBannerItemType[keyof typeof WLHeroBannerItemType];
+export type WLHeroBannerItemType = (typeof WLHeroBannerItemType)[keyof typeof WLHeroBannerItemType];
 
 export const WLComponentType = {
   CAROUSEL: "carousel",
@@ -45,7 +45,7 @@ export const WLComponentType = {
   IFRAME: "iframe",
   TAG_TYPE: "tagtype"
 } as const;
-export type WLComponentType = typeof WLComponentType[keyof typeof WLComponentType];
+export type WLComponentType = (typeof WLComponentType)[keyof typeof WLComponentType];
 
 export const WLComponentSubType = {
   EPG: "Epg",
@@ -54,7 +54,7 @@ export const WLComponentSubType = {
   CONTINUE_WATCHING: "ContinueWatching",
   TAGS_QUERY: "TagsQuery"
 } as const;
-export type WLComponentSubType = typeof WLComponentSubType[keyof typeof WLComponentSubType];
+export type WLComponentSubType = (typeof WLComponentSubType)[keyof typeof WLComponentSubType];
 
 interface IExposureComponentParameters {
   assetSearchTypes?: string;

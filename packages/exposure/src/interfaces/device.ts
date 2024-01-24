@@ -7,7 +7,7 @@ export const DeviceType = {
   CONSOLE: "CONSOLE",
   STB: "STB"
 } as const;
-export type DeviceType = typeof DeviceType[keyof typeof DeviceType];
+export type DeviceType = (typeof DeviceType)[keyof typeof DeviceType];
 
 export interface IDeviceInfo {
   type: DeviceType;
