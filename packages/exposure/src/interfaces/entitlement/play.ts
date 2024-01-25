@@ -3,7 +3,7 @@ export const DRMType = {
   WIDEVINE: "com.widevine.alpha",
   FAIRPLAY: "com.apple.fps"
 } as const;
-export type DRMType = typeof DRMType[keyof typeof DRMType];
+export type DRMType = (typeof DRMType)[keyof typeof DRMType];
 
 export const FormatType = {
   DASH: "DASH",
@@ -12,20 +12,20 @@ export const FormatType = {
   MP4: "MP4",
   MP3: "MP3"
 } as const;
-export type FormatType = typeof FormatType[keyof typeof FormatType];
+export type FormatType = (typeof FormatType)[keyof typeof FormatType];
 
 export const Stitcher = {
   GENERIC: "GENERIC",
   INTERNAL: "INTERNAL",
   NOWTILUS: "NOWTILUS"
 } as const;
-export type Stitcher = typeof Stitcher[keyof typeof Stitcher];
+export type Stitcher = (typeof Stitcher)[keyof typeof Stitcher];
 
 export const AdClipCategory = {
   VOD: "vod",
   AD: "ad"
 } as const;
-export type AdClipCategory = typeof AdClipCategory[keyof typeof AdClipCategory];
+export type AdClipCategory = (typeof AdClipCategory)[keyof typeof AdClipCategory];
 
 export class IDRM {
   licenseServerUrl: string;

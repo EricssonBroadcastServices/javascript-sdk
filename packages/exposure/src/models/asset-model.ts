@@ -97,7 +97,7 @@ export const MarkerType = {
   POINT: "POINT",
   CHAPTER: "CHAPTER"
 } as const;
-export type MarkerType = typeof MarkerType[keyof typeof MarkerType];
+export type MarkerType = (typeof MarkerType)[keyof typeof MarkerType];
 
 interface IEventTimes {
   startTime: string;
