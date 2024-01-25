@@ -1,5 +1,11 @@
-import { Asset, PaymentProvider, StoreProductOffering, entitle } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { EntitlementStatus, EntitlementStatusResult } from "../../interfaces/entitlement-result";
+import {
+  Asset,
+  PaymentProvider,
+  ResponseError,
+  StoreProductOffering,
+  entitle
+} from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { EntitlementError, EntitlementStatus, EntitlementStatusResult } from "../../interfaces/entitlement-result";
 import { WhiteLabelService } from "../white-label-service";
 import { errorToEntitlementResult } from "../../utils/entitlement";
 
@@ -36,6 +42,11 @@ export async function getEntitlementForAsset(
       };
     })
     .catch(async err => {
-      return errorToEntitlementResult(await (err.response as Response).json(), asset, availableProductOfferings);
+      if (err instanceof ResponseError) {
+        return errorToEntitlementResult(err.responseBody as EntitlementError, asset, availableProductOfferings);
+      } else if (err.response instanceof Response) {
+        return errorToEntitlementResult(await (err.response as Response).json(), asset, availableProductOfferings);
+      }
+      throw err;
     });
 }
