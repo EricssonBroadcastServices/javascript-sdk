@@ -80,7 +80,7 @@ export function getTrailerAssetIdFromComponent(component: LocalizedWLComponent, 
   return localizedItem.trailerAssetId;
 }
 
-export function getTextComponentLexer(component: LocalizedWLComponent, language) {
+export function getTextComponentLexer(component: LocalizedWLComponent, language: string) {
   const body = getDescriptionFromWLComponent(component, language);
   return lexer(body);
 }

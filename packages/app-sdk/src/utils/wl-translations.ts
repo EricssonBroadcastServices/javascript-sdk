@@ -1,5 +1,5 @@
 export class Translations {
-  constructor(public data) {}
+  constructor(public data: any) {}
   public getText = (key: string | (string | number)[]) => {
     if (typeof key === "string") {
       return this.data[key] || "";
