@@ -1,6 +1,7 @@
 import {
   AssetHelpers,
   getAssetDurationString,
+  getTitleFromAsset,
   ImageFormat,
   SeasonHelpers,
   WLCarouselHelpers
@@ -57,10 +58,18 @@ export function useAssetDisplayTvShow(asset: Asset, options: UseAssetOptions) {
     return [];
   }, [asset, language, defaultLanguage]);
 
+  const continueWatchingTitle =
+    continueWatching?.asset &&
+    `S${continueWatching.asset.season} E${continueWatching.asset.episode} ${getTitleFromAsset(continueWatching.asset, {
+      language,
+      defaultLanguage
+    })}`;
+
   return {
     ...defaults,
     seasons,
     continueWatching,
+    continueWatchingTitle,
     loadingContinueWatching,
     entitlement,
     loadingEntitlement,

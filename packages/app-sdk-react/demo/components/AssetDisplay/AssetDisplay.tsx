@@ -104,6 +104,7 @@ function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
     progress,
     seasons,
     continueWatching,
+    continueWatchingTitle,
     entitlement
   } = useAssetDisplayTvShow(asset, { width: 800 });
 
@@ -118,7 +119,10 @@ function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
           <FavoriteButton assetId={asset.assetId} />
           <h4>{`Bookmark percentage: ${progress.percentage}`}</h4>
           <Entitlements status={entitlement} />
-          <JsonBox json={JSON.stringify({ continueWatching }, null, 2)} title="Continue Watching asset" />
+          <JsonBox
+            json={JSON.stringify({ continueWatching }, null, 2)}
+            title={`Continue watching: ${continueWatchingTitle}`}
+          />
           {tags.map(id => {
             return (
               <Link to={`/tag/${id}`} key={id}>
