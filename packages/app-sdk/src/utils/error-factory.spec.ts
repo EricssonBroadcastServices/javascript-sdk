@@ -1,4 +1,3 @@
-// import { ResponseError } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { ResponseError } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { englishTranslations } from "../../test-utils/mock-translations";
 import { AppError } from "./error-factory";
