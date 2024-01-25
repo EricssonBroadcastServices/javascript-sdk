@@ -33,7 +33,6 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
     });
   const [pnc] = usePushNextContentData(asset.assetId);
   const { upNext, recommendations } = pnc || {};
-
   return (
     <>
       <div className="asset-display">
