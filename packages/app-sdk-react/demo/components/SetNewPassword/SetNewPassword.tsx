@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from "react";
-import { useIsPasswordValid, useSetNewPassword } from "../../../src";
+import { useIsPasswordValid, useSetNewPassword, useTranslations } from "../../../src";
 
 export function SetNewPassword() {
+  const [translations] = useTranslations();
   const [token, setToken] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [setNewPassword] = useSetNewPassword();
+  const [setNewPassword, , , error] = useSetNewPassword();
 
   const valid = useIsPasswordValid(password);
 
@@ -21,6 +22,7 @@ export function SetNewPassword() {
       <button onClick={onSubmit} disabled={!valid}>
         Submit
       </button>
+      {error && <p style={{ color: "red" }}>{error.getUserErrorMessage(translations)}</p>}
     </div>
   );
 }
