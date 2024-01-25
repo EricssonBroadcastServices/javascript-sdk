@@ -1,6 +1,6 @@
 # app-sdk-react
 
-A package for react utilities shared among the white label apps using react.
+A react wrapper around `app-sdk` and `rbm-ott-sdk`. Includes react utilities shared among the white label apps using react.
 
 Run the demo application by running 
 ```npm run demo```
