@@ -11,6 +11,7 @@ export const queryClient = new QueryClient({
 });
 
 export enum QueryKeys {
+  ESSENTIAL_APP_DATA = "essentialAppData",
   ASSET = "asset",
   CONTINUE_WATCHING = "continueWatching",
   COMPONENT = "component",

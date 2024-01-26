@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { DeviceType } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { RedBeeProvider, IStorage, useConfig } from "../src/index";
@@ -10,7 +10,7 @@ import { Login } from "./pages/Login";
 import { Menu } from "./components/Menu";
 import { Page } from "./pages/Page";
 import { TagPage } from "./pages/TagPage";
-import { DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
+import { AppError, DeviceGroup } from "@ericssonbroadcastservices/app-sdk";
 import Footer from "./components/Footer/Footer";
 import { AccountPage } from "./pages/AccountPage";
 import { ParticipantPage } from "./pages/ParticipantPage";
@@ -76,19 +76,29 @@ const storage: IStorage = {
 };
 
 function AppProvider() {
-  const ouParams = getOrganizationUnitConfig();
+  const [fatalError, setFatalError] = useState<AppError | null>(null);
+  const ouParams = getOrganizationUnitConfig(true);
   const [searchParams] = useSearchParams();
+  console.log(fatalError, fatalError?.metadata);
   return (
-    <RedBeeProvider
-      {...ouParams}
-      storage={storage}
-      deviceRegistration={deviceRegistration}
-      deviceGroup={DeviceGroup.WEB}
-      onSessionValidationError={err => console.log(err, "sessionValidationError")}
-      sessionToken={searchParams.get("sessionToken") || undefined}
-    >
-      <App />
-    </RedBeeProvider>
+    <>
+      {fatalError && (
+        <div>
+          <h1>Oh, no! Something went horribly wrong</h1>
+        </div>
+      )}
+      <RedBeeProvider
+        {...ouParams}
+        storage={storage}
+        deviceRegistration={deviceRegistration}
+        deviceGroup={DeviceGroup.WEB}
+        onSessionValidationError={err => console.log(err, "sessionValidationError")}
+        sessionToken={searchParams.get("sessionToken") || undefined}
+        onUnrecoverableInitialError={setFatalError}
+      >
+        <App />
+      </RedBeeProvider>
+    </>
   );
 }
 

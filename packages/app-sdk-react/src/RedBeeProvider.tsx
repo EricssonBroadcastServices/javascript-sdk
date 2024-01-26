@@ -1,4 +1,5 @@
 import {
+  AppError,
   WhiteLabelService as AppService,
   DeviceGroup,
   EssentialAppData,
@@ -139,17 +140,18 @@ interface IRedBeeProvider {
    * When this is triggered, the current session will not have been cleared from storage, but it will also not be passed to the RedBee state
    */
   onSessionValidationError?: (err: unknown) => void;
+  /** @description will trigger when the RedBeeProvider can't resolve a valid initial state.
+   * This has to be provided and handled by the app implementing the RedBeeProvider */
+  onUnrecoverableInitialError: (err: AppError) => void;
 }
 
 function RedBeeStateHolder({ children }: { children?: React.ReactNode }) {
   const initialState = useContext(InitialPropsContext);
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <QueryClientProvider client={queryClient}>
-      <RedBeeContext.Provider value={[state, dispatch]}>
-        <ChildrenRenderer>{children}</ChildrenRenderer>
-      </RedBeeContext.Provider>
-    </QueryClientProvider>
+    <RedBeeContext.Provider value={[state, dispatch]}>
+      <ChildrenRenderer>{children}</ChildrenRenderer>
+    </RedBeeContext.Provider>
   );
 }
 
@@ -163,6 +165,7 @@ export function RedBeeProvider({
   baseUrl,
   children,
   onSessionValidationError,
+  onUnrecoverableInitialError,
   sessionToken
 }: IRedBeeProvider) {
   if ((!customer || !businessUnit) && !origin) {
@@ -177,18 +180,21 @@ export function RedBeeProvider({
     console.warn("[RedBeeProvider] not providing a storage module means no data will be persisted between sessions");
   }
   return (
-    <InitialPropsProvider
-      storage={storage}
-      customer={customer}
-      businessUnit={businessUnit}
-      origin={origin}
-      deviceRegistration={deviceRegistration}
-      deviceGroup={deviceGroup}
-      baseUrl={baseUrl}
-      onSessionValidationError={onSessionValidationError}
-      sessionToken={sessionToken}
-    >
-      <RedBeeStateHolder>{children}</RedBeeStateHolder>
-    </InitialPropsProvider>
+    <QueryClientProvider client={queryClient}>
+      <InitialPropsProvider
+        storage={storage}
+        customer={customer}
+        businessUnit={businessUnit}
+        origin={origin}
+        deviceRegistration={deviceRegistration}
+        deviceGroup={deviceGroup}
+        baseUrl={baseUrl}
+        onSessionValidationError={onSessionValidationError}
+        sessionToken={sessionToken}
+        onUnrecoverableInitialError={onUnrecoverableInitialError}
+      >
+        <RedBeeStateHolder>{children}</RedBeeStateHolder>
+      </InitialPropsProvider>
+    </QueryClientProvider>
   );
 }
