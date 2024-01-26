@@ -13,7 +13,7 @@ export function useGeolocation(): TApiHook<Location> {
     () => {
       return getLocation.call(ctx);
     },
-    { staleTime: 1000 * 60 * 60 * 24 }
+    { staleTime: 1000 * 60 * 60 * 24, cacheTime: 1000 * 60 * 60 * 24 }
   );
   return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
 }

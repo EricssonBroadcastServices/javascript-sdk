@@ -80,7 +80,7 @@ export function InitialPropsProvider({
         throw new Error("Either customer & businessUnit, or origin have to be provided");
       }
     },
-    { staleTime: 1000 * 60 * 60 * 24 }
+    { staleTime: Infinity, cacheTime: Infinity }
   );
   if (!isFetched || !data || !!error) return null;
   return <InitialPropsContext.Provider value={data}>{children}</InitialPropsContext.Provider>;
