@@ -98,7 +98,6 @@ export async function getInitialStateByCustomerAndBusinessUnit({
  * */
 export async function getInitialStateByOrigin({
   origin,
-  baseUrl,
   sessionToken,
   storage,
   deviceRegistration,
@@ -162,7 +161,7 @@ export async function getInitialStateByOrigin({
     businessUnit: context.businessUnit,
     storage: storage || null,
     deviceRegistration,
-    baseUrl,
+    baseUrl: context.baseUrl,
     essentialAppData,
     deviceGroup,
     unavailable: !essentialAppData,
