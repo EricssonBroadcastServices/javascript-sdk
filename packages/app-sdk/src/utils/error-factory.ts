@@ -85,8 +85,6 @@ export class AppError extends Error {
             return translations.getText(["ERROR", "LOGIN", "MIGRATED_USER"]);
           case "USERNAME_ALREADY_IN_USE":
             return translations.getText("USERNAME_ALREADY_IN_USE");
-          default:
-            return translations.getText(["ERROR", "LOGIN", "UNKNOWN"]);
         }
       default:
         switch (this.metadata.code) {
@@ -108,9 +106,15 @@ export class AppError extends Error {
           case "NOT_FOUND":
             return translations.getText("NOT_FOUND");
           default:
-            return translations.getText(this.message) !== ""
-              ? translations.getText(this.message)
-              : translations.getText("UNKNOWN_ERROR");
+            // if the message has a direct match in translations, return that.
+            const directMessage = translations.getText(this.message);
+            if (directMessage) return directMessage;
+
+            // for unknown Login errors, we present a slighly nicer message
+            if (this.errorType === "LOGIN") {
+              return translations.getText(["ERROR", "LOGIN", "UNKNOWN"]);
+            }
+            return translations.getText("UNKNOWN_ERROR");
         }
     }
   }
