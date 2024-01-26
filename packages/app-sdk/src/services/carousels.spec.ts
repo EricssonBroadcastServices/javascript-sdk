@@ -18,7 +18,7 @@ function expectIsAssetList(assets: any[]) {
   });
 }
 
-let sessionToken;
+let sessionToken: string | undefined;
 
 const service = new WhiteLabelService({
   customer: "BSCU",
@@ -113,8 +113,8 @@ describe("get carousel assets", () => {
       countryCode: "SE"
     });
     expect(resolved.presentationParameters.backgroundImage).toBe(carouselRef.images?.[0]);
-    resolved.content?.forEach(caruoselItem => {
-      expect(caruoselItem.asset).toEqual(expectAsset());
+    resolved.content?.forEach(carouselItem => {
+      expect(carouselItem.asset).toEqual(expectAsset());
     });
   });
   it("gets a generated carousel by tagId", async () => {
