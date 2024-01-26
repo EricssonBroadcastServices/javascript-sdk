@@ -32,7 +32,7 @@ function internalIsWebPSupported() {
     // Use canvas hack for webkit-based browsers
     // Kudos to Rui Marques: https://stackoverflow.com/a/27232658/7897049
     const e = window.document.createElement("canvas");
-    return e?.toDataURL ? e.toDataURL("image/webp").indexOf("data:image/webp") == 0 : false;
+    return e.toDataURL?.("image/webp")?.indexOf("data:image/webp") === 0;
   }
   return false;
 }
