@@ -1,10 +1,11 @@
 import { DeviceRegistration } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
-import React, { useEffect, useState } from "react";
-import { IStorage } from ".";
+import React from "react";
+import { IStorage, QueryKeys } from ".";
 import { IRedBeeState } from "./RedBeeProvider";
 import { getInitialStateByCustomerAndBusinessUnit, getInitialStateByOrigin } from "./util/initial-props";
-import { DeviceGroup, GetEssentialAppDataByOriginOptions } from "@ericssonbroadcastservices/app-sdk";
+import { AppError, DeviceGroup, GetEssentialAppDataByOriginOptions } from "@ericssonbroadcastservices/app-sdk";
+import { useQuery } from "react-query";
 
 export const InitialPropsContext = React.createContext<IRedBeeState>({} as IRedBeeState);
 
@@ -18,6 +19,7 @@ interface IInitialPropsProvider {
   children?: React.ReactNode;
   deviceGroup: DeviceGroup;
   onSessionValidationError?: (err: unknown) => void;
+  onUnrecoverableInitialError: (err: AppError) => void;
   sessionToken?: string;
 }
 
@@ -31,14 +33,14 @@ export function InitialPropsProvider({
   deviceRegistration,
   deviceGroup,
   onSessionValidationError,
-  sessionToken
+  sessionToken,
+  onUnrecoverableInitialError
 }: IInitialPropsProvider) {
-  const [state, setState] = useState<IRedBeeState | null>(null);
-  const [isReady, setIsReady] = useState(false);
-  useEffect(() => {
-    async function initStorage() {
+  const { data, isFetched, error } = useQuery(
+    [QueryKeys.ESSENTIAL_APP_DATA],
+    async () => {
       if (customer && businessUnit) {
-        const state = await getInitialStateByCustomerAndBusinessUnit({
+        return await getInitialStateByCustomerAndBusinessUnit({
           customer,
           businessUnit,
           baseUrl,
@@ -47,11 +49,17 @@ export function InitialPropsProvider({
           deviceGroup,
           deviceRegistration,
           onSessionValidationError
+        }).catch(err => {
+          const error = AppError.fromUnknown(err);
+
+          // communicate unrecoverable error to parent components
+          onUnrecoverableInitialError(error);
+
+          // throw error to avoid rendering children with an invalid state
+          throw error;
         });
-        setState(state);
-        setIsReady(true);
       } else if (origin) {
-        const state = await getInitialStateByOrigin({
+        return await getInitialStateByOrigin({
           origin,
           baseUrl,
           sessionToken,
@@ -59,16 +67,21 @@ export function InitialPropsProvider({
           deviceGroup,
           deviceRegistration,
           onSessionValidationError
+        }).catch(err => {
+          const error = AppError.fromUnknown(err);
+
+          // communicate unrecoverable error to parent components
+          onUnrecoverableInitialError(error);
+
+          // throw error to avoid rendering children with an invalid state
+          throw error;
         });
-        setState(state);
-        setIsReady(true);
       } else {
-        console.error("Either customer & businessUnit, or origin have to be provided");
+        throw new Error("Either customer & businessUnit, or origin have to be provided");
       }
-    }
-    initStorage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  if (!isReady || !state) return null;
-  return <InitialPropsContext.Provider value={state}>{children}</InitialPropsContext.Provider>;
+    },
+    { staleTime: Infinity, cacheTime: Infinity }
+  );
+  if (!isFetched || !data || !!error) return null;
+  return <InitialPropsContext.Provider value={data}>{children}</InitialPropsContext.Provider>;
 }

@@ -73,7 +73,7 @@ export async function getInitialStateByCustomerAndBusinessUnit({
   }
   const appService = new AppService({ ...serviceContext, deviceGroup, getAuthToken });
 
-  const essentialAppData = await appService.getEssentialAppData().catch(() => null);
+  const essentialAppData = await appService.getEssentialAppData();
 
   return {
     session: session && new Session(session),
@@ -98,7 +98,6 @@ export async function getInitialStateByCustomerAndBusinessUnit({
  * */
 export async function getInitialStateByOrigin({
   origin,
-  baseUrl,
   sessionToken,
   storage,
   deviceRegistration,
@@ -162,7 +161,7 @@ export async function getInitialStateByOrigin({
     businessUnit: context.businessUnit,
     storage: storage || null,
     deviceRegistration,
-    baseUrl,
+    baseUrl: context.baseUrl,
     essentialAppData,
     deviceGroup,
     unavailable: !essentialAppData,
