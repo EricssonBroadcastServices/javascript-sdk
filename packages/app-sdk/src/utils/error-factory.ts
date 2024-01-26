@@ -99,6 +99,7 @@ export class AppError extends Error {
             }
         }
         switch (this.message) {
+          case "INCORRECT_CREDENTIALS":
           case "BAD_PASSWORD":
           case "OLD_PASSWORD_IS_NOT_CORRECT":
             return translations.getText("INVALID_CREDENTIALS");
