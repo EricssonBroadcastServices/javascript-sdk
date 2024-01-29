@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------
  */
 
-import { ServiceContext, request } from "./http-client";
+import { ServiceContext, request } from "./http-client.js";
 
 /**
  * @request GET:/prometheus

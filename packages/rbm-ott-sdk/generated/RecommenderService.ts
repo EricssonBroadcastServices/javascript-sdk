@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { ContinueUph2Assets, RecommendedAssets, RecommendedWatchNext } from "./data-contracts";
-import { QueryParams, ServiceContext, request } from "./http-client";
+import { ContinueUph2Assets, RecommendedAssets, RecommendedWatchNext } from "./data-contracts.js";
+import { QueryParams, ServiceContext, request } from "./http-client.js";
 
 /**
  * @summary Get list of assets to continue watching

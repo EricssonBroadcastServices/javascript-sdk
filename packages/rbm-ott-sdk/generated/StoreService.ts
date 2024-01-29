@@ -27,8 +27,8 @@ import {
   StorePromotionProductOfferings,
   StorePurchaseTransaction,
   StripePurchaseRequest
-} from "./data-contracts";
-import { QueryParams, ServiceContext, request } from "./http-client";
+} from "./data-contracts.js";
+import { QueryParams, ServiceContext, request } from "./http-client.js";
 
 /**
  * @summary Add payment method

@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { LastViewedOffsetList, WatchedTvShowResponse } from "./data-contracts";
-import { QueryParams, ServiceContext, request } from "./http-client";
+import { LastViewedOffsetList, WatchedTvShowResponse } from "./data-contracts.js";
+import { QueryParams, ServiceContext, request } from "./http-client.js";
 
 /**
  * @summary Deletes an asset from the last viewed asset list.

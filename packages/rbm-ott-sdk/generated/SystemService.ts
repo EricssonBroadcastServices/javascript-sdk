@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { SystemConfig } from "./data-contracts";
-import { QueryParams, ServiceContext, request } from "./http-client";
+import { SystemConfig } from "./data-contracts.js";
+import { QueryParams, ServiceContext, request } from "./http-client.js";
 
 /**
  * @description paymentType. accountConfirmationRequired, if true, the user need to confirm the self service created user with token from mail/sms. allowAccessWithoutLogin, if true, the user may get limited access without being logged in. currencies, valid currencies. displayLocales, valid locales. informationCollectionConsentDate, date which teh user should hav give consent after. environment, PRESTAGE or PRODUCTION

@@ -4,12 +4,15 @@
   "description": "",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "sideEffects": false,
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "tsc",
     "watch": "tsc --watch",
-    "generate": "ts-node generate.ts",
-    "update-spec": "ts-node update-spec.ts"
+    "generate": "node --loader ts-node/esm ./generate.ts",
+    "update-spec": "node --loader ts-node/esm ./update-spec.ts"
   },
   "files": [
     "generated",
