@@ -1,3 +1,5 @@
+import { describe, expect, test as it } from "@jest/globals";
+
 import { expectTagType } from "../../test-utils/expectations";
 import { DeviceGroup } from "../interfaces/device-group";
 import { IExposureWLCategoriesComponent } from "../interfaces/exposure-wl-component";

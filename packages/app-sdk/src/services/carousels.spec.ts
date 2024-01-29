@@ -1,3 +1,5 @@
+import { describe, expect, beforeAll, test as it } from "@jest/globals";
+
 import { DeviceRegistration, getAsset, login } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { expectAsset } from "../../test-utils/expectations";
 import { DeviceGroup } from "../interfaces/device-group";

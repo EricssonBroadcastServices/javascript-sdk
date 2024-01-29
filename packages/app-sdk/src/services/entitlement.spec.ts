@@ -17,7 +17,7 @@ const needsPurchaseId = "2a7fc5e2-18b5-40e8-b02b-cebfdb173931_35FC49";
 const isEntitledId = "external_tears_of_steel_E5D874b";
 const availableInFutureId = "647b725c-a3af-4795-b1a4-dc78cf14955f_35FC49";
 
-xdescribe("get entitlement for asset", () => {
+describe.skip("get entitlement for asset", () => {
   it("get successful entitlements", async () => {
     const availableProductOfferings = await getOfferings.call(service, { countryCode: "SE" });
     const asset = await service.getAssetById(isEntitledId);

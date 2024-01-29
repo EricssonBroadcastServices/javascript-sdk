@@ -1,3 +1,5 @@
+import { describe, expect, it } from "@jest/globals";
+
 import { expectAsset, expectProgram } from "../../test-utils/expectations";
 import { DeviceGroup } from "../interfaces/device-group";
 import { IExpoureWLEpgComponent } from "../interfaces/exposure-wl-component";
