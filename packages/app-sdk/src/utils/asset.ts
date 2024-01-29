@@ -5,19 +5,20 @@ import {
   ImageOrientation,
   StoreProductOffering
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { PublicationHelpers } from "./publication";
+import truncate from "lodash.truncate";
+
+import { PublicationHelpers } from "./publication.js";
 import {
   getLocalizedImageByType,
   getLocalizedValue,
   DESCRIPTION_TYPES,
   getAvailableDescriptions,
   DESCRIPTION_MAX_LENGTHS
-} from "./localization";
-import { getDurationLocalized, getTimeString } from "./time";
-import { dateIntervalIsNow } from "./date";
-import { ImageFormat, fit } from "./image-scaling";
-import { CarouselItem } from "../interfaces/component-content";
-import truncate from "lodash.truncate";
+} from "./localization.js";
+import { getDurationLocalized, getTimeString } from "./time.js";
+import { dateIntervalIsNow } from "./date.js";
+import { ImageFormat, fit } from "./image-scaling.js";
+import { CarouselItem } from "../interfaces/component-content.js";
 
 type LocalizedOptions = {
   language: string;

@@ -1,6 +1,6 @@
 import { parse, toSeconds } from "iso8601-duration";
 import humanizeDuration from "humanize-duration";
-import { Translations } from "./wl-translations";
+import { Translations } from "./wl-translations.js";
 
 export interface Duration {
   years: number;

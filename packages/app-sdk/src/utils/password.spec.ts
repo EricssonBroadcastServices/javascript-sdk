@@ -1,5 +1,5 @@
 import { PasswordPolicy } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { isPasswordValid } from "./password";
+import { isPasswordValid } from "./password.js";
 
 describe("CheckPasswordResponse", () => {
   it("should validate password", () => {

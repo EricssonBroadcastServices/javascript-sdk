@@ -2,7 +2,10 @@
   "name": "@ericssonbroadcastservices/app-sdk",
   "version": "0.10.0",
   "description": "",
+  "type": "module",
+  "sideEffects": false,
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "TZ=UTC bun test --coverage",

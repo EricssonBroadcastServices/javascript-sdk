@@ -1,15 +1,15 @@
 import { getAsset } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelService } from "../white-label-service";
-import { ResolvedComponent } from "../../interfaces/component-content";
-import { AssetHelpers } from "../../utils/asset";
-import { getGeneratedCarouselByTagId } from "./get-generated-carousel-by-tag-id";
-import { getGeneratedEpgCarouselFromAssetId } from "./get-generated-epg-carousel";
-import { Translations } from "../../utils/wl-translations";
-import { getGeneratedCollectionEntriesCarousel } from "./get-generated-collection-entries-carousel";
-import { getGeneratedTrailersForAssetCarousel } from "./get-generated-trailers-carousel";
-import { getGeneratedByMetadataCarousel } from "./get-generated-by-metadata-carousel";
-import { getGeneratedOthersHaveWatchedCarousel } from "./get-generated-others-have-watched-carousel";
-import { getGeneratedSeasonCarousel } from "./get-generated-season-carousel";
+import { WhiteLabelService } from "../white-label-service.js";
+import { ResolvedComponent } from "../../interfaces/component-content.js";
+import { AssetHelpers } from "../../utils/asset.js";
+import { getGeneratedCarouselByTagId } from "./get-generated-carousel-by-tag-id.js";
+import { getGeneratedEpgCarouselFromAssetId } from "./get-generated-epg-carousel.js";
+import { Translations } from "../../utils/wl-translations.js";
+import { getGeneratedCollectionEntriesCarousel } from "./get-generated-collection-entries-carousel.js";
+import { getGeneratedTrailersForAssetCarousel } from "./get-generated-trailers-carousel.js";
+import { getGeneratedByMetadataCarousel } from "./get-generated-by-metadata-carousel.js";
+import { getGeneratedOthersHaveWatchedCarousel } from "./get-generated-others-have-watched-carousel.js";
+import { getGeneratedSeasonCarousel } from "./get-generated-season-carousel.js";
 
 export interface GetAssetPageOptions {
   assetId: string;

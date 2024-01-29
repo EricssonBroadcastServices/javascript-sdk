@@ -1,5 +1,5 @@
 import { getTagsFromPreferencesList } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelServiceContext } from "../white-label-service";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
 
 export async function getTagList(context: WhiteLabelServiceContext, listId: string) {
   return getTagsFromPreferencesList.call(context, {

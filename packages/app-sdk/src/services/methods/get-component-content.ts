@@ -1,14 +1,14 @@
-import { ComponentContentMap } from "../../interfaces/component-content";
+import { ComponentContentMap } from "../../interfaces/component-content.js";
 import {
   IExposureComponent,
   IExposureWLCarousel,
   IExposureWLCategoriesComponent,
   IExpoureWLEpgComponent
-} from "../../interfaces/exposure-wl-component";
-import { WhiteLabelServiceContext } from "../white-label-service";
-import { getCarouselAssets } from "./get-carousel-assets";
-import { getCategoriesContent } from "./get-categories-content";
-import { getEpgContent } from "./get-epg-content";
+} from "../../interfaces/exposure-wl-component.js";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
+import { getCarouselAssets } from "./get-carousel-assets.js";
+import { getCategoriesContent } from "./get-categories-content.js";
+import { getEpgContent } from "./get-epg-content.js";
 
 export interface GetComponentContentOptions {
   component: IExposureComponent;

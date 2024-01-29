@@ -1,9 +1,9 @@
 import { getLocationFromReferer, getSystemConfigV2 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelServiceContext } from "../white-label-service";
-import { IExposureWLFooter, IExposureWLMenu } from "../../interfaces/exposure-wl-menu";
-import { getConfigByCustomerAndBusinessUnit } from "./get-config-by-customer-and-businessUnit";
-import { getComponentByReference } from "./get-component-by-reference";
-import { EssentialAppData } from "../../interfaces/essential-app-data";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
+import { IExposureWLFooter, IExposureWLMenu } from "../../interfaces/exposure-wl-menu.js";
+import { getConfigByCustomerAndBusinessUnit } from "./get-config-by-customer-and-businessUnit.js";
+import { getComponentByReference } from "./get-component-by-reference.js";
+import { EssentialAppData } from "../../interfaces/essential-app-data.js";
 
 export async function getEssentialAppData(context: WhiteLabelServiceContext): Promise<EssentialAppData> {
   const location = await getLocationFromReferer.call(context);

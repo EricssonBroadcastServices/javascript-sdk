@@ -1,6 +1,6 @@
 import { StoreProductOffering } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { ProductOfferingHelpers } from "./product-offering";
-import { PriceHelpers } from "./price";
+import { ProductOfferingHelpers } from "./product-offering.js";
+import { PriceHelpers } from "./price.js";
 import {
   mockEventTicket,
   mockRecurrence,

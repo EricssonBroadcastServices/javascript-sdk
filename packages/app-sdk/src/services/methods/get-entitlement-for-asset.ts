@@ -5,9 +5,9 @@ import {
   StoreProductOffering,
   entitle
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { EntitlementError, EntitlementStatus, EntitlementStatusResult } from "../../interfaces/entitlement-result";
-import { WhiteLabelService } from "../white-label-service";
-import { errorToEntitlementResult } from "../../utils/entitlement";
+import { EntitlementError, EntitlementStatus, EntitlementStatusResult } from "../../interfaces/entitlement-result.js";
+import { WhiteLabelService } from "../white-label-service.js";
+import { errorToEntitlementResult } from "../../utils/entitlement.js";
 
 export interface GetEntitlementForAssetOptions {
   asset: Asset;

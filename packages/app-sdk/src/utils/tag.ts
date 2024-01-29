@@ -1,5 +1,5 @@
 import { ImageOrientation, TagType } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { getLocalizedImageByType, getLocalizedValue } from "./localization";
+import { getLocalizedImageByType, getLocalizedValue } from "./localization.js";
 
 export function getTagTitle(tag: TagType, locale: string, defaultLocale?: string) {
   return getLocalizedValue(tag.localized, "title", locale, defaultLocale);

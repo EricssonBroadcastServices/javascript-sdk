@@ -1,10 +1,10 @@
-import { PublicationHelpers } from "./publication";
+import { PublicationHelpers } from "./publication.js";
 import {
   blockedPublication,
   publicationsJson,
   publicationsJsonOnlyActive,
   publicationsJsonOnlyFuture
-} from "../../test-utils/mockPublication";
+} from "../../test-utils/mockPublication.js";
 
 describe("Publication", () => {
   it("is active or not active", () => {

@@ -1,7 +1,7 @@
-import { IExposureComponent } from "../../interfaces/exposure-wl-component";
-import { IExposureWLReference } from "../../interfaces/exposure-wl-reference";
-import { WhiteLabelServiceContext } from "../white-label-service";
-import { getComponentById } from "./get-component-by-id";
+import { IExposureComponent } from "../../interfaces/exposure-wl-component.js";
+import { IExposureWLReference } from "../../interfaces/exposure-wl-reference.js";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
+import { getComponentById } from "./get-component-by-id.js";
 
 export interface GetComponentByReferenceOptions {
   wlReference: IExposureWLReference;

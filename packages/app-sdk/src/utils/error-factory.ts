@@ -1,5 +1,5 @@
 import { ResponseError } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { Translations } from "./wl-translations";
+import { Translations } from "./wl-translations.js";
 
 export type TErrorType = "APP" | "LOGIN" | "VOUCHER" | "PAYMENT";
 

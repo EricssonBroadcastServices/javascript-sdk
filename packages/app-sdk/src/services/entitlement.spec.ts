@@ -1,6 +1,6 @@
 import { getOfferings } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { DeviceGroup } from "../interfaces/device-group";
-import { WhiteLabelService } from "./white-label-service";
+import { DeviceGroup } from "../interfaces/device-group.js";
+import { WhiteLabelService } from "./white-label-service.js";
 
 const sessionToken =
   "ses_7de87970-6322-4b16-a665-169865838197p|acc_28fc6fc0-2789-4ab8-a15d-9ead7f4da7a6_E5D874b|usr_f291a6dc-e4fa-44cc-8cec-1e48f18eb76f_E5D874b|null|1695809944516|1995809944134|false|4adbac2a-048e-40d8-8a79-a08be97bc281_WEB|WEB||PlayersSDKTesting||jghsYQKN/lFsKC0xqWdhclKSK8AQqtfnOpnsE9ZRSho=";

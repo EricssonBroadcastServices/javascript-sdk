@@ -1,9 +1,9 @@
 import { getAsset } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { ResolvedComponent } from "../../interfaces/component-content";
-import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component";
-import { WhiteLabelServiceContext } from "../white-label-service";
-import { Translations } from "../../utils/wl-translations";
-import { getComponentContent } from "./get-component-content";
+import { ResolvedComponent } from "../../interfaces/component-content.js";
+import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component.js";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
+import { Translations } from "../../utils/wl-translations.js";
+import { getComponentContent } from "./get-component-content.js";
 
 export interface GetGeneratedTrailersForAssetCarouselOptions {
   assetId: string;

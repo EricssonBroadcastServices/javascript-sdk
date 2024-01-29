@@ -1,8 +1,9 @@
-import { IExposureWLConfig, IExposureWLMenuItem } from "../interfaces";
-import { IExposureComponent, IExposureWLHerobannerItem } from "../interfaces/exposure-wl-component";
-import { IExposureWLPresentation } from "../interfaces/exposure-wl-presentation";
-import { IImage } from "../interfaces/image";
 import { lexer } from "marked";
+
+import { IExposureWLConfig, IExposureWLMenuItem } from "../interfaces/index.js";
+import { IExposureComponent, IExposureWLHerobannerItem } from "../interfaces/exposure-wl-component.js";
+import { IExposureWLPresentation } from "../interfaces/exposure-wl-presentation.js";
+import { IImage } from "../interfaces/image.js";
 
 type LocalizedWLComponent = IExposureComponent | IExposureWLHerobannerItem | IExposureWLMenuItem | IExposureWLConfig;
 

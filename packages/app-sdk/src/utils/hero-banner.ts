@@ -1,7 +1,7 @@
 import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { IExposureWLHerobannerItem } from "../interfaces";
-import { fit, ImageFormat } from "./image-scaling";
-import { getImageByTagFromWLPresentation, getImagesFromWLPresentation } from "./wl-component";
+import { IExposureWLHerobannerItem } from "../interfaces/index.js";
+import { fit, ImageFormat } from "./image-scaling.js";
+import { getImageByTagFromWLPresentation, getImagesFromWLPresentation } from "./wl-component.js";
 
 export function getScaledHeroBannerImage(
   item: IExposureWLHerobannerItem,

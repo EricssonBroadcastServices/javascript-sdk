@@ -1,11 +1,11 @@
 import { describe, expect, beforeAll, test as it } from "@jest/globals";
 
 import { DeviceRegistration, getAsset, login } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { expectAsset } from "../../test-utils/expectations";
-import { DeviceGroup } from "../interfaces/device-group";
-import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
-import { WhiteLabelService } from "./white-label-service";
-import { WLComponentHelpers } from "../utils/wl-component";
+import { expectAsset } from "../../test-utils/expectations.js";
+import { DeviceGroup } from "../interfaces/device-group.js";
+import { IExposureWLReference } from "../interfaces/exposure-wl-reference.js";
+import { WhiteLabelService } from "./white-label-service.js";
+import { WLComponentHelpers } from "../utils/wl-component.js";
 
 function expectIsAssetList(assets: any[]) {
   assets.forEach(({ asset }) => {

@@ -1,6 +1,6 @@
-import { IExposureWLAction } from "./exposure-wl-action";
-import { IExposureComponent } from "./exposure-wl-component";
-import { IExposureWLPresentation } from "./exposure-wl-presentation";
+import { IExposureWLAction } from "./exposure-wl-action.js";
+import { IExposureComponent } from "./exposure-wl-component.js";
+import { IExposureWLPresentation } from "./exposure-wl-presentation.js";
 
 export interface IExposureWLMenuItem {
   appType: string;

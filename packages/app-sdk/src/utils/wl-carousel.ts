@@ -1,9 +1,10 @@
-import { IExposureWLCarousel, WLComponentSubType } from "../interfaces/exposure-wl-component";
-import { WLComponentHelpers } from "./wl-component";
-import { getIndexOfLiveOrClosestUpcomingDateInterval } from "./date";
-import { CarouselItem, ResolvedComponent } from "../interfaces/component-content";
 import { Season } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { SeasonHelpers } from "./season";
+
+import { IExposureWLCarousel, WLComponentSubType } from "../interfaces/exposure-wl-component.js";
+import { WLComponentHelpers } from "./wl-component.js";
+import { getIndexOfLiveOrClosestUpcomingDateInterval } from "./date.js";
+import { CarouselItem, ResolvedComponent } from "../interfaces/component-content.js";
+import { SeasonHelpers } from "./season.js";
 
 function getInitialSlideFromAssetList(carousel: IExposureWLCarousel, assetList: CarouselItem[], when = Date.now()) {
   switch (carousel.appSubType) {

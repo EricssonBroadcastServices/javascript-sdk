@@ -1,4 +1,4 @@
-import { Translations } from "./wl-translations";
+import { Translations } from "./wl-translations.js";
 
 const oneDayInMS = 1000 * 60 * 60 * 24;
 
