@@ -117,7 +117,7 @@ export function useContactInformation() {
   return { phone, website, email };
 }
 
-export function useConfigImage(tag: "logo" | "background", fitOptions: FitOptions) {
+export function useConfigImage(tag: "logo" | "background" | "staticBackground" | string, fitOptions: FitOptions) {
   const [config] = useConfig();
   const { language } = useLanguage();
   const imageUrl = useMemo(() => {
@@ -127,7 +127,7 @@ export function useConfigImage(tag: "logo" | "background", fitOptions: FitOption
     const image = WLComponentHelpers.getImageByTag(config, tag, language);
     if (!image?.url) return;
     return fit(image.url, fitOptions);
-  }, [config]);
+  }, [config, fitOptions, language, tag]);
 
   return imageUrl;
 }
