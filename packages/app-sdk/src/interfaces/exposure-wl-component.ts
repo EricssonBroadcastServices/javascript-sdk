@@ -1,5 +1,5 @@
-import { IExposureWLAction } from "./exposure-wl-action";
-import { IExposureWLPresentation } from "./exposure-wl-presentation";
+import { IExposureWLAction } from "./exposure-wl-action.js";
+import { IExposureWLPresentation } from "./exposure-wl-presentation.js";
 
 export const WLCarouselAssetQueryTypes = {
   // used for carousels

@@ -5,7 +5,7 @@ import {
   getNextProgramForAsset,
   getRecommendationsForAsset
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { PublicationHelpers } from "../../utils/publication";
+import { PublicationHelpers } from "../../utils/publication.js";
 
 export interface GetPushNextContentDataOptions {
   /** The id of the asset */

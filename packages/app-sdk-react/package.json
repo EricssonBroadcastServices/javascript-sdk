@@ -21,7 +21,7 @@
     "demo": "webpack-dev-server",
     "watch": "npm run demo",
     "build": "tsc",
-    "test": "jest"
+    "test": "bun test"
   },
   "bugs": {
     "url": "https://github.com/EricssonBroadcastServices/javascript-sdk/issues"

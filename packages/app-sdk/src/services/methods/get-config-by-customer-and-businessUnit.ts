@@ -1,6 +1,6 @@
 import { getWLConfig } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelServiceContext } from "../white-label-service";
-import { IExposureWLConfig } from "../../interfaces/exposure-wl-config";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
+import { IExposureWLConfig } from "../../interfaces/exposure-wl-config.js";
 
 export interface GetConfigByCustomerAndBusinessUnitOptions {
   countryCode: string;

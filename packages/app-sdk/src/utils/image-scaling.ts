@@ -1,4 +1,4 @@
-import { isWebPSupported } from "./webp";
+import { isWebPSupported } from "./webp.js";
 
 export type ImageFormat = "webp" | "jpeg" | "png";
 

@@ -1,6 +1,6 @@
 import { ChannelEPGResponse, getEpgForChannel } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { DeviceGroup } from "../interfaces/device-group";
-import { WhiteLabelService } from "./white-label-service";
+import { DeviceGroup } from "../interfaces/device-group.js";
+import { WhiteLabelService } from "./white-label-service.js";
 
 const service = new WhiteLabelService({
   customer: "BSCU",

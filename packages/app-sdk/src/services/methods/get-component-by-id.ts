@@ -1,6 +1,6 @@
 import { getWLComponent } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { IExposureComponent } from "../../interfaces/exposure-wl-component";
-import { WhiteLabelServiceContext } from "../white-label-service";
+import { IExposureComponent } from "../../interfaces/exposure-wl-component.js";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
 
 export interface GetComponentByIdOptions {
   componentId: string;

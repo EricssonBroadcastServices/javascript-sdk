@@ -1,9 +1,9 @@
-import { ComponentContentMap, ComponentComponentMap, ResolvedComponent } from "../../interfaces/component-content";
-import { WLComponentType } from "../../interfaces/exposure-wl-component";
-import { IExposureWLReference } from "../../interfaces/exposure-wl-reference";
-import { WhiteLabelServiceContext } from "../white-label-service";
-import { getComponentByReference } from "./get-component-by-reference";
-import { getComponentContent } from "./get-component-content";
+import { ComponentContentMap, ComponentComponentMap, ResolvedComponent } from "../../interfaces/component-content.js";
+import { WLComponentType } from "../../interfaces/exposure-wl-component.js";
+import { IExposureWLReference } from "../../interfaces/exposure-wl-reference.js";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
+import { getComponentByReference } from "./get-component-by-reference.js";
+import { getComponentContent } from "./get-component-content.js";
 
 export interface GetResolvedComponentByReferenceOptions {
   wlReference: IExposureWLReference;

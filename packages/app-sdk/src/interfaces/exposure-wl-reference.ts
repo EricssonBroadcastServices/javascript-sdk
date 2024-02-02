@@ -1,5 +1,5 @@
-import { IImage } from "./image";
-import { WLComponentSubType, WLComponentType } from "./exposure-wl-component";
+import { IImage } from "./image.js";
+import { WLComponentSubType, WLComponentType } from "./exposure-wl-component.js";
 
 export const CarouselLayout = {
   CAROUSEL: "carousel",

@@ -1,8 +1,8 @@
 import { Asset, ChannelEPGResponse, ProgramResponse, getAsset } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { EpgComponentContent } from "../../interfaces/component-content";
-import { IExpoureWLEpgComponent } from "../../interfaces/exposure-wl-component";
-import { WhiteLabelServiceContext } from "../white-label-service";
-import { get } from "../../utils/http";
+import { EpgComponentContent } from "../../interfaces/component-content.js";
+import { IExpoureWLEpgComponent } from "../../interfaces/exposure-wl-component.js";
+import { WhiteLabelServiceContext } from "../white-label-service.js";
+import { get } from "../../utils/http.js";
 
 export async function getEpgContent(
   context: WhiteLabelServiceContext,

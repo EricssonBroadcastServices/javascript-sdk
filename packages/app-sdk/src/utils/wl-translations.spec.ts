@@ -1,5 +1,5 @@
-import { Translations } from "./wl-translations";
-import { englishTranslations } from "../../test-utils/mock-translations";
+import { Translations } from "./wl-translations.js";
+import { englishTranslations } from "../../test-utils/mock-translations.js";
 
 const mockTranslations = new Translations({
   ...englishTranslations,

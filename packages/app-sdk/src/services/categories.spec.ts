@@ -1,8 +1,10 @@
-import { expectTagType } from "../../test-utils/expectations";
-import { DeviceGroup } from "../interfaces/device-group";
-import { IExposureWLCategoriesComponent } from "../interfaces/exposure-wl-component";
-import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
-import { WhiteLabelService } from "./white-label-service";
+import { describe, expect, test as it } from "@jest/globals";
+
+import { expectTagType } from "../../test-utils/expectations.js";
+import { DeviceGroup } from "../interfaces/device-group.js";
+import { IExposureWLCategoriesComponent } from "../interfaces/exposure-wl-component.js";
+import { IExposureWLReference } from "../interfaces/exposure-wl-reference.js";
+import { WhiteLabelService } from "./white-label-service.js";
 
 const service = new WhiteLabelService({
   customer: "Players",

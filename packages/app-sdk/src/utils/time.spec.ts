@@ -1,4 +1,4 @@
-import { parseISOStringToDuration, Duration, parseSecondsToDuration, getTimeString } from "./time";
+import { parseISOStringToDuration, Duration, parseSecondsToDuration, getTimeString } from "./time.js";
 
 const baseDuration: Duration = {
   years: 0,

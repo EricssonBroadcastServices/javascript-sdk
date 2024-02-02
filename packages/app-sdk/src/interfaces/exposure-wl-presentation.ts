@@ -1,4 +1,4 @@
-import { IImage } from "./image";
+import { IImage } from "./image.js";
 
 export interface IWLIframe {
   url: string;

@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { ActiveChannels, ChannelEPGResponse, ChannelStatus, ProgramResponse } from "./data-contracts";
-import { QueryParams, ServiceContext, request } from "./http-client";
+import { ActiveChannels, ChannelEPGResponse, ChannelStatus, ProgramResponse } from "./data-contracts.js";
+import { QueryParams, ServiceContext, request } from "./http-client.js";
 
 /**
  * @description Status of a channel includes whether it is available (in the case of virtual channels) and the currently playing assets. This endpoint only considers active virtual channels.

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { mockImageComponent, mockWLCarousel } from "../../test-utils/mock-components";
-import { WLComponentHelpers } from "./wl-component";
+import { mockImageComponent, mockWLCarousel } from "../../test-utils/mock-components.js";
+import { WLComponentHelpers } from "./wl-component.js";
 
 describe("WLComponentHeloers", () => {
   it("should return a title", () => {

@@ -1,7 +1,7 @@
 import { MarkerPoint } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { mockAsset, mockAssetEmptyLocalized } from "../../test-utils/mock-asset";
-import { mockRental, mockEventTicket, mockRentalForMockAsset } from "../../test-utils/mock-wl-productoffering";
-import { AssetHelpers } from "./asset";
+import { mockAsset, mockAssetEmptyLocalized } from "../../test-utils/mock-asset.js";
+import { mockRental, mockEventTicket, mockRentalForMockAsset } from "../../test-utils/mock-wl-productoffering.js";
+import { AssetHelpers } from "./asset.js";
 
 describe("AssetHelpers", () => {
   it("should find a title", () => {

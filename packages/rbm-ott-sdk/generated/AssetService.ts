@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { Asset, AssetList, AssetType, DeviceType, Season, SeasonList } from "./data-contracts";
-import { QueryParams, ServiceContext, request } from "./http-client";
+import { Asset, AssetList, AssetType, DeviceType, Season, SeasonList } from "./data-contracts.js";
+import { QueryParams, ServiceContext, request } from "./http-client.js";
 
 /**
  * @summary Gets an asset by asset id.

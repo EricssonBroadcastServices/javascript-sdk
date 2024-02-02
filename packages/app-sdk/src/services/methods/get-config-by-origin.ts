@@ -1,5 +1,6 @@
 import { ServiceContext, getWLConfigWithDomain } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { IExposureWLConfig } from "../../interfaces";
+
+import { IExposureWLConfig } from "../../interfaces/index.js";
 
 export interface GetConfigByOriginOptions {
   origin: string;

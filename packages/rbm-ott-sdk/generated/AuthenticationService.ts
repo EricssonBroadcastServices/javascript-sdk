@@ -15,8 +15,8 @@ import {
   EmptyResponse,
   LoginResponse,
   SessionResponse
-} from "./data-contracts";
-import { QueryParams, ServiceContext, request } from "./http-client";
+} from "./data-contracts.js";
+import { QueryParams, ServiceContext, request } from "./http-client.js";
 
 /**
  * @description If the user is the account's owner, then all the sessions of the account will be deleted. If a deleted session was created with 'userSession' : true, then the history of that session will not be revealed in any forthcoming sessions with this username. This request is privileged and thus needs server to server authentication.

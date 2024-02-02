@@ -4,12 +4,15 @@
   "description": "",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "sideEffects": false,
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "tsc",
     "watch": "tsc --watch",
-    "generate": "ts-node generate.ts",
-    "update-spec": "ts-node update-spec.ts"
+    "generate": "bun ./generate.ts",
+    "update-spec": "bun ./update-spec.ts"
   },
   "files": [
     "generated",
@@ -23,7 +26,6 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "swagger-typescript-api": "^13.0.3",
-    "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }
 }
