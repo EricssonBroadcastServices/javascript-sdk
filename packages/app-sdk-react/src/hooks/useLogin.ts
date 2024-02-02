@@ -13,7 +13,7 @@ import {
 import { TApiMutation } from "../types/type.apiHook";
 import { useMutation } from "react-query";
 import { useLanguage } from "./useSelectedLanguage";
-import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 type TUseLogin = { username: string; password: string };
 
@@ -34,12 +34,7 @@ export function useLogin(): TApiMutation<TUseLogin, LoginResponse> {
       });
     }
   });
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error, "LOGIN") : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error, "LOGIN")];
 }
 
 export function useOauthLogin(): TApiMutation<string, LoginResponse> {
@@ -57,7 +52,7 @@ export function useOauthLogin(): TApiMutation<string, LoginResponse> {
     }
   });
 
-  return [mutation.mutate, mutation.data || null, mutation.isLoading, AppError.fromUnknown(mutation.error, "LOGIN")];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error, "LOGIN")];
 }
 
 type LoginFirebasePayload = {
@@ -84,12 +79,7 @@ export function useFirebaseLogin(): TApiMutation<LoginFirebasePayload, LoginResp
     }
   });
 
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error, "LOGIN") : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error, "LOGIN")];
 }
 
 type TUseLogout = { fromAllDevice?: boolean };
@@ -110,12 +100,7 @@ export function useLogout(): TApiMutation<TUseLogout, object> {
     }
   });
 
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error, "LOGIN") : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error, "LOGIN")];
 }
 
 export function useValidateSession() {

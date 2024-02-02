@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Asset } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { AppError, PushNextContent } from "@ericssonbroadcastservices/app-sdk";
+import { PushNextContent } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 export function usePushNextContentData(
   assetId?: string
@@ -22,5 +23,5 @@ export function usePushNextContentData(
         });
     }
   }, [assetId, customer, businessUnit, appService]);
-  return [pushNextContent || null, false, !!error ? AppError.fromUnknown(error) : null];
+  return [pushNextContent || null, false, useAppError(error)];
 }

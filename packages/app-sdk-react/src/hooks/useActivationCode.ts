@@ -3,7 +3,7 @@ import { consumeActivationCode, createActivationCode } from "@ericssonbroadcasts
 import { useSetSession } from "./useUserSession";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 interface IActivationCodeData {
   code?: string;
@@ -79,7 +79,7 @@ export function useActivationCode({
           });
         })
         .catch(err => {
-          setCodeError(AppError.fromUnknown(err));
+          setCodeError(err);
         })
         .finally(() => {
           setIsLoading(false);
@@ -88,5 +88,5 @@ export function useActivationCode({
     // can't, and don't need to, add exposure as dependency
   }, [customer, businessUnit, refreshCounter, serviceContext]);
 
-  return [{ ...data, refresh, isOverDeviceLimit }, isLoading, codeError];
+  return [{ ...data, refresh, isOverDeviceLimit }, isLoading, useAppError(codeError)];
 }

@@ -4,7 +4,7 @@ import { TApiHook } from "../types/type.apiHook";
 import { QueryKeys } from "../util/react-query";
 import { useServiceContext } from "./useApi";
 import { useUserSession } from "./useUserSession";
-import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 export function useAssetList(listId: string): TApiHook<AssetListItemResponse[]> {
   const serviceContext = useServiceContext();
@@ -18,5 +18,5 @@ export function useAssetList(listId: string): TApiHook<AssetListItemResponse[]> 
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }

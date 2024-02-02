@@ -4,7 +4,7 @@ import { useServiceContext } from "./useApi";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
-import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 export function useBookmarks(): TApiHook<LastViewedOffset[]> {
   const ctx = useServiceContext();
@@ -16,7 +16,7 @@ export function useBookmarks(): TApiHook<LastViewedOffset[]> {
     const headers = { Authorization: `Bearer ${session?.sessionToken}` };
     return (await getLastViewedOffsetList.call(ctx, { headers })).items;
   });
-  return [data || [], isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || [], isLoading, useAppError(error)];
 }
 
 export function refetchBookmarks() {

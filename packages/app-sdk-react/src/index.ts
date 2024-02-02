@@ -38,4 +38,5 @@ export * from "./hooks/usePaymentMethods";
 export * from "./hooks/useAssetDisplay";
 export * from "./hooks/useSetNewPassword";
 export * from "./hooks/useConfirmSignup";
+export * from "./hooks/useAppError";
 export type { TApiHook, TApiMutation } from "./types/type.apiHook";
