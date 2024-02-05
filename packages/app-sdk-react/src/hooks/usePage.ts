@@ -5,10 +5,11 @@ import { useTagList } from "../hooks/useTags";
 import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { useCountryCode } from "./useGeolocation";
-import { AppError, IExposureWLPage, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
+import { IExposureWLPage, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
 import { useSelectedLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
 import { useMemo } from "react";
+import { useAppError } from "./useAppError";
 
 export enum PageType {
   PAGE = "page",
@@ -30,8 +31,9 @@ export function usePage(pageId: string): TApiHook<IExposureWLPage> {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  if (isFetching) return [null, true, error ? AppError.fromUnknown(error) : null];
-  return [data || null, isFetching, error ? AppError.fromUnknown(error) : null];
+  const appError = useAppError(error);
+  if (isFetching) return [null, true, appError];
+  return [data || null, isFetching, appError];
 }
 
 export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedComponent<any>[]> {
@@ -77,11 +79,11 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
       .map(r => r.data) as ResolvedComponent<any>[];
   }, [somethingIsLoading]);
   const componentError = useMemo(() => {
-    const err = results.find(r => !!r.error)?.error;
-    return err ? AppError.fromUnknown(err) : null;
+    return results.find(r => !!r.error)?.error;
   }, [results]);
+  const appError = useAppError(componentError);
 
-  return [data, somethingIsLoading, pageError || componentError];
+  return [data, somethingIsLoading, pageError || appError];
 }
 
 export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponent[]> {
@@ -96,7 +98,7 @@ export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponen
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }
 
 export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]> {
@@ -111,7 +113,7 @@ export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]>
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }
 
 export function useResolvedParticipantPage(participantName: string): TApiHook<ResolvedComponent[]> {
@@ -123,5 +125,5 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }

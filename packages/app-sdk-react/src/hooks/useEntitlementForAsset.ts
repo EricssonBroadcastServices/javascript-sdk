@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Asset, PaymentProvider } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import {
-  AppError,
-  EntitlementActionType,
-  EntitlementStatus,
-  EntitlementStatusResult
-} from "@ericssonbroadcastservices/app-sdk";
+import { EntitlementActionType, EntitlementStatus, EntitlementStatusResult } from "@ericssonbroadcastservices/app-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
 import { useProductOfferings } from "../hooks/useProductOfferings";
 import { TApiHook } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSetSession, useUserSession } from "./useUserSession";
+import { useAppError } from "./useAppError";
 
 export function refetchAssetEntitlements() {
   return queryClient.invalidateQueries(QueryKeys.ASSET_ENTITLEMENT);
@@ -121,5 +117,5 @@ export function useEntitlementForAsset(
       clearTimeout(timeout);
     };
   }, [data, confirmEntitlementOnStart]);
-  return [result, isLoading || offeringsLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [result, isLoading || offeringsLoading, useAppError(error)];
 }
