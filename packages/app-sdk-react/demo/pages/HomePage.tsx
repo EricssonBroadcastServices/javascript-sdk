@@ -24,13 +24,6 @@ export const HomePage = () => {
   const validateSession = useValidateSession();
   const [systemConfig] = useSystemConfigV2();
 
-  if (state.unavailable) {
-    return <h1>App unavailable 😭</h1>;
-  }
-  if (!config) {
-    return <h1>Loading...</h1>;
-  }
-
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <button onClick={() => refetchAppData()}>Invalidate everything react-query</button>
