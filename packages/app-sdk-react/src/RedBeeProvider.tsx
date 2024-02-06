@@ -14,19 +14,18 @@ import { InitialPropsContext, InitialPropsProvider } from "./InitialPropsProvide
 import { Session } from "./Session";
 
 export interface IRedBeeState {
-  essentialAppData: EssentialAppData | null;
+  essentialAppData: EssentialAppData;
   loading: string[];
   storage: IStorage | null;
   deviceRegistration: Required<DeviceRegistration>;
   session: Session | null;
-  selectedLanguage: string | null;
+  selectedLanguage: string;
   customer: string;
   baseUrl: string;
   businessUnit: string;
   serviceContext: ServiceContext;
   appService: AppService;
   deviceGroup: DeviceGroup;
-  unavailable: boolean;
 }
 
 export enum ActionType {
@@ -35,7 +34,6 @@ export enum ActionType {
   SET_SELECTED_LANGUAGE = "setSelectedLanguage",
   START_LOADING = "startLoading",
   STOP_LOADING = "stopLoading",
-  SET_APP_UNAVAILABLE = "setUnavailable"
 }
 
 interface IAction {
@@ -99,11 +97,6 @@ function reducer(state: IRedBeeState, action: TAction): IRedBeeState {
         businessUnit,
         essentialAppData: data,
         selectedLanguage: state.selectedLanguage || data.systemConfig.localization.defaultLocale
-      };
-    case ActionType.SET_APP_UNAVAILABLE:
-      return {
-        ...state,
-        unavailable: true
       };
     default:
       return state;

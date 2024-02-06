@@ -77,7 +77,7 @@ export async function getInitialStateByCustomerAndBusinessUnit({
 
   return {
     session: session && new Session(session),
-    selectedLanguage: persistedSelectedLanguage || null,
+    selectedLanguage: persistedSelectedLanguage || essentialAppData.systemConfig.localization.defaultLocale,
     loading: [],
     customer,
     businessUnit,
@@ -86,7 +86,6 @@ export async function getInitialStateByCustomerAndBusinessUnit({
     baseUrl,
     essentialAppData,
     deviceGroup,
-    unavailable: !essentialAppData,
     serviceContext,
     appService
   };
@@ -155,7 +154,7 @@ export async function getInitialStateByOrigin({
 
   return {
     session: session && new Session(session),
-    selectedLanguage: persistedSelectedLanguage || null,
+    selectedLanguage: persistedSelectedLanguage || essentialAppData.systemConfig.localization.defaultLocale,
     loading: [],
     customer: context.customer,
     businessUnit: context.businessUnit,
@@ -164,7 +163,6 @@ export async function getInitialStateByOrigin({
     baseUrl: context.baseUrl,
     essentialAppData,
     deviceGroup,
-    unavailable: !essentialAppData,
     serviceContext: context,
     appService
   };
