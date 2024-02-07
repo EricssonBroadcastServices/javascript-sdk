@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { ComponentFilters } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { ComponentFilters } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Get user location and the filters to use in calls to the client configuration endpoints.

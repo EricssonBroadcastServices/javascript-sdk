@@ -1,6 +1,6 @@
 import { ChannelAsset, ProgramResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { ChannelAssetHelpers } from "./asset.js";
-import { getTimeString } from "./time.js";
+import { ChannelAssetHelpers } from "./asset";
+import { getTimeString } from "./time";
 
 function findOngoingPrograms(programs: ProgramResponse[], time = new Date()) {
   return programs.find(p => new Date(p.startTime) < time && new Date(p.endTime) > time);

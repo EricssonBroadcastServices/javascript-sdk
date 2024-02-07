@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { Season, SeasonList } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { Season, SeasonList } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a specific season by id.

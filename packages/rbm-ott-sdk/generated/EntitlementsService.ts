@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { AccountProducts, AvailabilityKeys, EntitleResponse, PaymentProvider, PlayResponse } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { AccountProducts, AvailabilityKeys, EntitleResponse, PaymentProvider, PlayResponse } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @description Returns two lists: 'entitled' and 'notEntitled' products for a given organization unit. The 'entitled' list contains products the account has access to, while the 'notEntitled' list contains products the account has no access to.

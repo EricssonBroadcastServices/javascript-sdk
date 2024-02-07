@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { AdRollConfig } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { AdRollConfig } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @description Retrieve AdRoll configuration for a specific business unit.

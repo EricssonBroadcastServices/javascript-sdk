@@ -1,5 +1,5 @@
-import { IExposureWLCarousel, ResolvedComponent } from "../../interfaces/index.js";
-import { WhiteLabelService } from "../white-label-service.js";
+import { IExposureWLCarousel, ResolvedComponent } from "../../interfaces";
+import { WhiteLabelService } from "../white-label-service";
 
 export async function getGeneratedParticipantCarousel({
   participantName,

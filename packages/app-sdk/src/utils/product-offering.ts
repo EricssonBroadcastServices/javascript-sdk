@@ -1,8 +1,8 @@
 import { StoreProductOffering, StoreProductOfferingPrice } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { Translations } from "./wl-translations.js";
-import { getLocalDateFormat } from "./date.js";
-import { PriceHelpers } from "./price.js";
-import { getDateObjectFromISOString, iso8601ToReadableString } from "./time.js";
+import { Translations } from "./wl-translations";
+import { getLocalDateFormat } from "./date";
+import { PriceHelpers } from "./price";
+import { getDateObjectFromISOString, iso8601ToReadableString } from "./time";
 
 export function getProductOfferingTitle(offering: StoreProductOffering, locale: string) {
   if (offering.localizedMetadata.length === 0) {

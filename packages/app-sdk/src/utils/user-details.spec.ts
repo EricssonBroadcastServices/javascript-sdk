@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { UserDetailsResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { UserDetailsHelpers } from "./user-details.js";
+import { UserDetailsHelpers } from "./user-details";
 
 const mockDetails: UserDetailsResponse = {
   displayName: "",

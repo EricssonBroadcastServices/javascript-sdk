@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { AssetListItemResponse, PreferencesListResponse, UserPreferenceResponse } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { AssetListItemResponse, PreferencesListResponse, UserPreferenceResponse } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Adds an item to a list.

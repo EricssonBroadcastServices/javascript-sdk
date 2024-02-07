@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { TimeResponse } from "./data-contracts.js";
-import { ServiceContext, request } from "./http-client.js";
+import { TimeResponse } from "./data-contracts";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @description Gets the current server UTC time.

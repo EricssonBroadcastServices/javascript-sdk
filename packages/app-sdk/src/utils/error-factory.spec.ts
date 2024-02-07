@@ -1,7 +1,7 @@
 import { ResponseError } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { englishTranslations } from "../../test-utils/mock-translations.js";
-import { AppError } from "./error-factory.js";
-import { Translations } from "./wl-translations.js";
+import { englishTranslations } from "../../test-utils/mock-translations";
+import { AppError } from "./error-factory";
+import { Translations } from "./wl-translations";
 
 const mockTranslations = new Translations(englishTranslations);
 

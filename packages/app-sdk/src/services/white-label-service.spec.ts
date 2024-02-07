@@ -1,10 +1,10 @@
-import { DeviceGroup } from "../interfaces/device-group.js";
-import { WhiteLabelService } from "./white-label-service.js";
-import { WLConfig } from "../utils/wl-config.js";
-import { IExposureWLPage } from "../interfaces/exposure-wl-page.js";
-import { WLComponentHelpers } from "../utils/wl-component.js";
-import { IExposureWLReference } from "../interfaces/exposure-wl-reference.js";
-import { IExposureWLCarousel } from "../interfaces/exposure-wl-component.js";
+import { DeviceGroup } from "../interfaces/device-group";
+import { WhiteLabelService } from "./white-label-service";
+import { WLConfig } from "../utils/wl-config";
+import { IExposureWLPage } from "../interfaces/exposure-wl-page";
+import { WLComponentHelpers } from "../utils/wl-component";
+import { IExposureWLReference } from "../interfaces/exposure-wl-reference";
+import { IExposureWLCarousel } from "../interfaces/exposure-wl-component";
 
 const service = new WhiteLabelService({
   customer: "BSCU",

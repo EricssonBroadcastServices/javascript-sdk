@@ -1,5 +1,5 @@
 import { PasswordPolicy } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { Translations } from "./wl-translations.js";
+import { Translations } from "./wl-translations";
 
 const UPPERCASE = new RegExp("[A-Z]");
 const LOWERCASE = new RegExp("[a-z]");

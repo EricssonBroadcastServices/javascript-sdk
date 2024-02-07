@@ -7,14 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import {
-  AutocompleteItem,
-  AutocompleteItem2,
-  EpgSearchHits,
-  MultiSearchResponse,
-  SearchList
-} from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { AutocompleteItem, AutocompleteItem2, EpgSearchHits, MultiSearchResponse, SearchList } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Does prefix autocomplete for a query.

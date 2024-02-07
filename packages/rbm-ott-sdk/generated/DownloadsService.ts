@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { AccountDownload, AssetDownload, Download, DownloadInfo, DownloadVerified, Message } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { AccountDownload, AssetDownload, Download, DownloadInfo, DownloadVerified, Message } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @description Unregister all downloads completed by an account.

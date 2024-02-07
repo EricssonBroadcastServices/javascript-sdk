@@ -587,19 +587,19 @@ generateApi({
       props.push(`this.${moduleNS} = new ${moduleName}(context)`);
     }
     const exports = Object.values(moduleNames)
-      .map(fileName => `export * from "./${fileName}.js"`)
+      .map(fileName => `export * from "./${fileName}"`)
       .join(";\n");
     const importStatements = ["http-client", ...Object.values(moduleNames)]
       .sort(Intl.Collator().compare)
       .map(name => [name, name === "http-client" ? "request, ServiceContext, ResponseError" : name]);
     const imports = importStatements
-      .map(([fileName, module]) => `import { ${module} } from "./${fileName}.js"`)
+      .map(([fileName, module]) => `import { ${module} } from "./${fileName}"`)
       .join(";\n");
     const fileContent = `${imports};\n\nclass RBMOTTSDK {\n  ${typeDeclarations.join(
       ";\n  "
     )};\n  constructor(public context: ServiceContext) {\n    ${props.join(
       ";\n    "
-    )};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport { request, ResponseError };\nexport * from \"./data-contracts.js\";\n${exports};\n`;
+    )};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport { request, ResponseError };\nexport * from \"./data-contracts\";\n${exports};\n`;
 
     files.push({ fileName: "index", fileExtension: "ts", fileContent });
 

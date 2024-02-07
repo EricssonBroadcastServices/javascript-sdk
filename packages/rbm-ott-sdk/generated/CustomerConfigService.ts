@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { ConfigFile, ConfigFilesResponse } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { ConfigFile, ConfigFilesResponse } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a JSON configuration file stored on customer level.

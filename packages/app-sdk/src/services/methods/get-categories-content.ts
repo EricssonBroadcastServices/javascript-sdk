@@ -1,7 +1,7 @@
 import { TagList } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { get } from "../../utils/http.js";
-import { WhiteLabelServiceContext } from "../white-label-service.js";
-import { IExposureWLCategoriesComponent } from "../../interfaces/exposure-wl-component.js";
+import { get } from "../../utils/http";
+import { WhiteLabelServiceContext } from "../white-label-service";
+import { IExposureWLCategoriesComponent } from "../../interfaces/exposure-wl-component";
 
 export async function getCategoriesContent(
   context: WhiteLabelServiceContext,

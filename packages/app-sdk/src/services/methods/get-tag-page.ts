@@ -1,10 +1,10 @@
 import { Image, TagType, getTagById } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { WhiteLabelService } from "../white-label-service.js";
-import { ResolvedComponent } from "../../interfaces/component-content.js";
-import { getGeneratedCarouselByTagId } from "./get-generated-carousel-by-tag-id.js";
-import { TagHelpers } from "../../utils/tag.js";
-import { IExposureComponent, IExposureWLImageComponent } from "../../interfaces/exposure-wl-component.js";
-import { IImage } from "../../interfaces/image.js";
+import { WhiteLabelService } from "../white-label-service";
+import { ResolvedComponent } from "../../interfaces/component-content";
+import { getGeneratedCarouselByTagId } from "./get-generated-carousel-by-tag-id";
+import { TagHelpers } from "../../utils/tag";
+import { IExposureComponent, IExposureWLImageComponent } from "../../interfaces/exposure-wl-component";
+import { IImage } from "../../interfaces/image";
 export interface GetTagPageOptions {
   tagId: string;
   locale: string;

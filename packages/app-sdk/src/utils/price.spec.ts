@@ -1,5 +1,5 @@
 import { StorePriceTag } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { PriceHelpers } from "./price.js";
+import { PriceHelpers } from "./price";
 
 describe("price", () => {
   it("returns proper price", () => {

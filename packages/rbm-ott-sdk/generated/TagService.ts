@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { AssetType, TagList, TagType } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { AssetType, TagList, TagType } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Gets a tag by id.

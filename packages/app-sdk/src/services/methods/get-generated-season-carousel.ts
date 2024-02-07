@@ -1,8 +1,8 @@
 import { getSeason } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { IExposureWLCarousel, WLCarouselAssetQueryTypes } from "../../interfaces/exposure-wl-component.js";
-import { WhiteLabelService } from "../white-label-service.js";
-import { SeasonHelpers } from "../../utils/season.js";
-import { ResolvedComponent } from "../../interfaces/component-content.js";
+import { IExposureWLCarousel, WLCarouselAssetQueryTypes } from "../../interfaces/exposure-wl-component";
+import { WhiteLabelService } from "../white-label-service";
+import { SeasonHelpers } from "../../utils/season";
+import { ResolvedComponent } from "../../interfaces/component-content";
 
 export type GetGeneratedSeasonCarouselOptions = {
   tvShowId: string;
