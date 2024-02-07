@@ -1,5 +1,5 @@
-import { IExposureWLPresentation } from "./exposure-wl-presentation.js";
-import { IExposureWLReference } from "./exposure-wl-reference.js";
+import { IExposureWLPresentation } from "./exposure-wl-presentation";
+import { IExposureWLReference } from "./exposure-wl-reference";
 
 export interface IConfigParameters {
   chromecastAppId?: string;

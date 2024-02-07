@@ -1,8 +1,8 @@
 import { Asset, AssetType } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { ResolvedComponent } from "../../interfaces/component-content.js";
-import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component.js";
-import { WhiteLabelService } from "../white-label-service.js";
-import { Translations } from "../../utils/wl-translations.js";
+import { ResolvedComponent } from "../../interfaces/component-content";
+import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component";
+import { WhiteLabelService } from "../white-label-service";
+import { Translations } from "../../utils/wl-translations";
 
 export type GetGeneratedByMetadataCarouselOptions = {
   asset: Asset;

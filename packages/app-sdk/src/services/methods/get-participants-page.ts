@@ -1,6 +1,6 @@
 import { WhiteLabelService } from "../white-label-service";
-import { ResolvedComponent } from "../../interfaces/component-content.js";
-import { getGeneratedParticipantCarousel } from "./get-participants-carousel.js";
+import { ResolvedComponent } from "../../interfaces/component-content";
+import { getGeneratedParticipantCarousel } from "./get-participants-carousel";
 
 export interface GetParticipantPageOptions {
   participantName: string;

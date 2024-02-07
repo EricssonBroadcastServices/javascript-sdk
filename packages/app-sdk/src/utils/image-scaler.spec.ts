@@ -1,4 +1,4 @@
-import { fitToHeight, fitToWidth } from "./image-scaling.js";
+import { fitToHeight, fitToWidth } from "./image-scaling";
 
 describe("Image scaler", () => {
   it("should add query params", () => {

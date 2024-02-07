@@ -1,9 +1,9 @@
 import { getTagById } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { ResolvedComponent } from "../../interfaces/component-content.js";
-import { WhiteLabelService } from "../white-label-service.js";
-import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component.js";
-import { TagHelpers } from "../../utils/tag.js";
-import { CarouselLayout } from "../../interfaces/exposure-wl-reference.js";
+import { ResolvedComponent } from "../../interfaces/component-content";
+import { WhiteLabelService } from "../white-label-service";
+import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component";
+import { TagHelpers } from "../../utils/tag";
+import { CarouselLayout } from "../../interfaces/exposure-wl-reference";
 
 export interface GetGeneratedCarouselByTagIdOptions {
   tagId: string;

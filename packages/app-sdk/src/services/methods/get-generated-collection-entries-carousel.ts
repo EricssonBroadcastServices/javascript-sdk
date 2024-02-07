@@ -1,7 +1,7 @@
-import { ResolvedComponent } from "../../interfaces/component-content.js";
-import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component.js";
-import { WhiteLabelServiceContext } from "../white-label-service.js";
-import { getCarouselAssets } from "./get-carousel-assets.js";
+import { ResolvedComponent } from "../../interfaces/component-content";
+import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component";
+import { WhiteLabelServiceContext } from "../white-label-service";
+import { getCarouselAssets } from "./get-carousel-assets";
 
 export interface GetGeneratedCollectionEntriesCarouselOptions {
   assetId: string;

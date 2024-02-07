@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { mockEpgCarousel, mockWLCarousel } from "../../test-utils/mock-components.js";
-import { mockEpgAssetList } from "../../test-utils/mock-epg-asset-list.js";
-import { WLCarouselHelpers } from "./wl-carousel.js";
+import { mockEpgCarousel, mockWLCarousel } from "../../test-utils/mock-components";
+import { mockEpgAssetList } from "../../test-utils/mock-epg-asset-list";
+import { WLCarouselHelpers } from "./wl-carousel";
 
 describe("WLComponentHeloers", () => {
   it("should find initial index", () => {

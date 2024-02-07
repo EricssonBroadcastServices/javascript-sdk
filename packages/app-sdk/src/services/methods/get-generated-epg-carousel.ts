@@ -1,8 +1,8 @@
-import { ResolvedComponent } from "../../interfaces/component-content.js";
-import { IExposureWLCarousel, WLCarouselAssetQueryTypes } from "../../interfaces/exposure-wl-component.js";
-import { Translations } from "../../utils/wl-translations.js";
-import { WhiteLabelServiceContext } from "../white-label-service.js";
-import { getComponentContent } from "./get-component-content.js";
+import { ResolvedComponent } from "../../interfaces/component-content";
+import { IExposureWLCarousel, WLCarouselAssetQueryTypes } from "../../interfaces/exposure-wl-component";
+import { Translations } from "../../utils/wl-translations";
+import { WhiteLabelServiceContext } from "../white-label-service";
+import { getComponentContent } from "./get-component-content";
 
 export interface GetGeneratedEpgCarouselFromAssetIdOptions {
   assetId: string;

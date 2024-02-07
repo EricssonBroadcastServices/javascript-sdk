@@ -5,11 +5,11 @@ import {
   ChannelEPGResponse,
   EventList
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { CarouselItem } from "../../interfaces/component-content.js";
-import { IExposureWLCarousel, WLCarouselAssetQueryTypes } from "../../interfaces/exposure-wl-component.js";
-import { WhiteLabelServiceContext } from "../white-label-service.js";
-import { getTagList } from "./get-tag-list.js";
-import { get } from "../../utils/http.js";
+import { CarouselItem } from "../../interfaces/component-content";
+import { IExposureWLCarousel, WLCarouselAssetQueryTypes } from "../../interfaces/exposure-wl-component";
+import { WhiteLabelServiceContext } from "../white-label-service";
+import { getTagList } from "./get-tag-list";
+import { get } from "../../utils/http";
 
 export async function getCarouselAssets(
   context: WhiteLabelServiceContext,

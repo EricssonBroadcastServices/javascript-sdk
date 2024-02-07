@@ -1,5 +1,3 @@
-import { expect } from "@jest/globals";
-
 export function expectAsset() {
   return expect.objectContaining({
     assetId: expect.any(String)

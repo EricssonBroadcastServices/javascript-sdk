@@ -1,6 +1,6 @@
 import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { IImage } from "../interfaces/index.js";
-import { getScaledHeroBannerImage } from "./hero-banner.js";
+import { IImage } from "../interfaces";
+import { getScaledHeroBannerImage } from "./hero-banner";
 
 function getPresentation(images: IImage[]) {
   return {

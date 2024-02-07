@@ -6,8 +6,8 @@ import {
   EntitlementError,
   EntitlementActionType,
   EntitlementActions
-} from "../interfaces/entitlement-result.js";
-import { AssetHelpers } from "./asset.js";
+} from "../interfaces/entitlement-result";
+import { AssetHelpers } from "./asset";
 
 function offeringToListOffering(
   productOffering: StoreProductOffering,

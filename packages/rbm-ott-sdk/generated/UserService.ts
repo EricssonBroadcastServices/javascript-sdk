@@ -18,8 +18,8 @@ import {
   UserDetailsResponse,
   UserProfiles,
   UserSelfServiceCreateResponse
-} from "./data-contracts.js";
-import { ServiceContext, request } from "./http-client.js";
+} from "./data-contracts";
+import { ServiceContext, request } from "./http-client";
 
 /**
  * @summary Add a user profile.

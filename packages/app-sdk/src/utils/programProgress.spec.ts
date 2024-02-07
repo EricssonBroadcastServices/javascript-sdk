@@ -1,6 +1,5 @@
+import { getEventProgress, getTimeLeft } from "./programProgress";
 import { Program } from "@ericssonbroadcastservices/rbm-ott-sdk";
-
-import { getEventProgress, getTimeLeft } from "./programProgress.js";
 
 describe("programProgress", () => {
   Date.now = jest.fn(() => 1695904199500);

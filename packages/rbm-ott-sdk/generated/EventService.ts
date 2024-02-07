@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------
  */
 
-import { EventList } from "./data-contracts.js";
-import { QueryParams, ServiceContext, request } from "./http-client.js";
+import { EventList } from "./data-contracts";
+import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Get events.

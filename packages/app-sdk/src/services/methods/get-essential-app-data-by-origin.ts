@@ -1,9 +1,9 @@
 import { getLocationFromReferer, getSystemConfigV2 } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { IExposureWLFooter, IExposureWLMenu } from "../../interfaces/exposure-wl-menu.js";
-import { getComponentByReference } from "./get-component-by-reference.js";
-import { EssentialAppData } from "../../interfaces/essential-app-data.js";
-import { getConfigByOrigin } from "./get-config-by-origin.js";
-import { WhiteLabelServiceContext } from "../white-label-service.js";
+import { IExposureWLFooter, IExposureWLMenu } from "../../interfaces/exposure-wl-menu";
+import { getComponentByReference } from "./get-component-by-reference";
+import { EssentialAppData } from "../../interfaces/essential-app-data";
+import { getConfigByOrigin } from "./get-config-by-origin";
+import { WhiteLabelServiceContext } from "../white-label-service";
 
 export type GetEssentialAppDataByOriginOptions = {
   hostname: string;

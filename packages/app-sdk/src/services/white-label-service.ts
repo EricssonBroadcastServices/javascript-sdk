@@ -1,26 +1,26 @@
 import { getAsset, getAssets, Asset, ServiceContext, AssetType } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { DeviceGroup } from "../interfaces/device-group.js";
+import { DeviceGroup } from "../interfaces/device-group";
 import {
   IExposureComponent,
   IExposureWLCarousel,
   IExposureWLCategoriesComponent,
   IExpoureWLEpgComponent,
   WLComponentType
-} from "../interfaces/exposure-wl-component.js";
-import { PushNextContent } from "../interfaces/push-next-content.js";
+} from "../interfaces/exposure-wl-component";
+import { PushNextContent } from "../interfaces/push-next-content";
 
-import { EntitlementStatusResult } from "../interfaces/entitlement-result.js";
+import { EntitlementStatusResult } from "../interfaces/entitlement-result";
 import {
   CarouselItem,
   ComponentContentMap,
   EpgComponentContent,
   ResolvedComponent
-} from "../interfaces/component-content.js";
+} from "../interfaces/component-content";
 
-import { get } from "../utils/http.js";
-import { Translations } from "../utils/wl-translations.js";
-import { Feature, isFeatureEnabled } from "../utils/legacy-features.js";
-import { EssentialAppData } from "../interfaces/essential-app-data.js";
+import { get } from "../utils/http";
+import { Translations } from "../utils/wl-translations";
+import { Feature, isFeatureEnabled } from "../utils/legacy-features";
+import { EssentialAppData } from "../interfaces/essential-app-data";
 import {
   GetComponentByIdOptions,
   GetComponentByReferenceOptions,
@@ -60,7 +60,7 @@ import {
   GetGeneratedOthersHaveWatchedOptions,
   GetGeneratedSeasonCarouselOptions,
   getParticipantPage
-} from "./methods/index.js";
+} from "./methods";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;

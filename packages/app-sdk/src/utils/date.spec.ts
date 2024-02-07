@@ -1,6 +1,6 @@
-import { englishTranslations } from "../../test-utils/mock-translations.js";
-import { getDayLocalized, getIndexOfLiveOrClosestUpcomingDateInterval } from "./date.js";
-import { Translations } from "./wl-translations.js";
+import { englishTranslations } from "../../test-utils/mock-translations";
+import { getDayLocalized, getIndexOfLiveOrClosestUpcomingDateInterval } from "./date";
+import { Translations } from "./wl-translations";
 
 const mockTranslations = new Translations(englishTranslations);
 

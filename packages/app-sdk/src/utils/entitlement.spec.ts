@@ -1,5 +1,5 @@
-import { EntitlementActionType, EntitlementActions } from "../interfaces/entitlement-result.js";
-import { shouldJustWait } from "./entitlement.js";
+import { EntitlementActionType, EntitlementActions } from "../interfaces/entitlement-result";
+import { shouldJustWait } from "./entitlement";
 
 describe("should just wait", () => {
   it("no actions", () => {

@@ -1,5 +1,5 @@
-import { IExposureComponent } from "./exposure-wl-component.js";
-import { IExposureWLReference } from "./exposure-wl-reference.js";
+import { IExposureComponent } from "./exposure-wl-component";
+import { IExposureWLReference } from "./exposure-wl-reference";
 
 export interface IExposureWLPage extends IExposureComponent {
   name?: string;
