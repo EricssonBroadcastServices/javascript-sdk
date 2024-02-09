@@ -14,7 +14,7 @@ import { useAppError } from "./useAppError";
 export enum PageType {
   PAGE = "page",
   ASSET = "asset",
-  TAG = "asset",
+  TAG = "tag",
   BROWSE = "browse",
   PARTICIPANT = "participant",
   PLAY = "play"
