@@ -93,8 +93,10 @@ export interface IExposureWLCategoriesComponent extends IExposureComponent {
 
 export interface IExposureWLHerobannerItem {
   appType: WLHeroBannerItemType;
+  appSubType?: string;
   presentation?: IExposureWLPresentation;
   content: {
+    type?: string;
     presentation?: IExposureWLPresentation;
   };
   actions?: { default: IExposureWLAction };

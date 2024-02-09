@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { mockImageComponent, mockWLCarousel } from "../../test-utils/mock-components";
+import {
+  mockHerobannerItem,
+  mockHerobannerItemFromAsset,
+  mockImageComponent,
+  mockWLCarousel
+} from "../../test-utils/mock-components";
 import { WLComponentHelpers } from "./wl-component";
 
 describe("WLComponentHeloers", () => {
@@ -13,6 +18,19 @@ describe("WLComponentHeloers", () => {
     expect(WLComponentHelpers.getSubTitle(mockWLCarousel, "something unknown")).toBe("A bunch of animated shortfilms");
     expect(WLComponentHelpers.getSubTitle(mockWLCarousel, "sv")).toBe("A bunch of animated shortfilms");
   });
+
+  it("should use content.presentation for herobanner items, if available", () => {
+    expect(WLComponentHelpers.getTitle(mockHerobannerItemFromAsset, "it")).toBe("The Undertaker");
+    expect(WLComponentHelpers.getTrailerAssetId(mockHerobannerItemFromAsset, "it")).toBe(
+      "b7b6c343-90e9-40b4-be50-ef11f0149c91_AEBE0Fc"
+    );
+  });
+
+  it("should return standard presentation for items without presentation.content", () => {
+    expect(WLComponentHelpers.getTitle(mockHerobannerItem, "it")).toBe("just testing");
+    expect(WLComponentHelpers.getTrailerAssetId(mockHerobannerItem, "it")).toBe("123");
+  });
+
   it("should return a description", () => {
     expect(WLComponentHelpers.getDescription(mockImageComponent, "en")).toBe(
       "Everyone should be free to create 3D CG content, with free technical and creative production means and free access to markets."
