@@ -6,7 +6,7 @@ import {
   SeasonHelpers,
   WLCarouselHelpers
 } from "@ericssonbroadcastservices/app-sdk";
-import { Asset, AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { Asset, AssetType, ImageOrientation, PaymentProvider } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useMemo } from "react";
 import { useAsset } from "./useAsset";
 import { useBookmarkPercentage } from "./useBookmarks";
@@ -20,6 +20,7 @@ type UseAssetOptions = {
   width: number;
   height?: number;
   imageFormat?: ImageFormat;
+  paymentProvider?: PaymentProvider;
 };
 
 export function useAssetDisplayCollection(asset: Asset, options: UseAssetOptions) {
@@ -41,7 +42,10 @@ export function useAssetDisplayTvShow(asset: Asset, options: UseAssetOptions) {
   const defaults = useAssetDisplayDefaults(asset, options);
 
   const [continueWatching, loadingContinueWatching] = useContinueWatching(asset.assetId);
-  const [entitlement, loadingEntitlement] = useEntitlementForAsset({ asset: continueWatching?.asset }, {});
+  const [entitlement, loadingEntitlement] = useEntitlementForAsset(
+    { asset: continueWatching?.asset, paymentProvider: options.paymentProvider },
+    {}
+  );
 
   const [bookmarkPercentage] = useBookmarkPercentage(
     continueWatching?.asset?.assetId,
@@ -98,7 +102,10 @@ export function useAssetDisplay(asset: Asset, options: UseAssetOptions) {
       `${translations.getText(["ASSETS", "SEASON"])} ${seasonAsset.season}`
     : undefined;
 
-  const [entitlement, loadingEntitlement] = useEntitlementForAsset({ asset }, {});
+  const [entitlement, loadingEntitlement] = useEntitlementForAsset(
+    { asset, paymentProvider: options.paymentProvider },
+    {}
+  );
 
   const progress = useProgramProgress({ asset, live: entitlement.streamInfo.live });
   const timeLeft = useTimeLeft({ percentageWatched: progress.percentage, durationMs: asset.duration });
