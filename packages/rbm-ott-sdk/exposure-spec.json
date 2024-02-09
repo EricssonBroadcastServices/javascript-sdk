@@ -2361,36 +2361,39 @@
     "/v1/customer/{customer}/businessunit/{businessUnit}/document": {
       "get": {
         "tags": [
-          "document"
+          "documents"
         ],
-        "summary": "Gets document.",
+        "summary": "Get Document.",
+        "description": "Get the requested document.",
         "operationId": "getDocument",
         "parameters": [
           {
             "name": "customer",
             "in": "path",
-            "description": "The customer unit.",
+            "description": "The customer",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampleSetFlag": false
             }
           },
           {
             "name": "businessUnit",
             "in": "path",
-            "description": "The business unit.",
+            "description": "The business unit",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampleSetFlag": false
             }
           },
           {
             "name": "documentId",
             "in": "query",
-            "description": "Which document to fetch",
             "required": true,
             "schema": {
               "type": "string",
+              "exampleSetFlag": false,
               "enum": [
                 "end_user_consent",
                 "end_user_cookie_policy",
@@ -2408,37 +2411,51 @@
           {
             "name": "customDocumentName",
             "in": "query",
+            "description": "Custom name if documentId == custom_document",
+            "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampleSetFlag": false
             }
           },
           {
             "name": "preferredLanguage",
             "in": "query",
-            "description": "ISO 639-1 language code. If not stated or not supported fall back to other languages will be performed.",
+            "description": "Use user language. If not stated system default is used.",
+            "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampleSetFlag": false
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "success",
+            "description": "Successful",
             "content": {
-              "application/json;charset=utf-8": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiHtmlDocument"
                 }
               }
             }
           },
-          "404": {
-            "description": "UNKNOWN_BUSINESS_UNIT. If the business unit is not found.",
-            "content": {}
-          },
-          "422": {
-            "description": "BAD_DOCUMENT_ID. Unrecognized documentId.<br>UNKNOWN_LANGUAGE. Unrecognized documentId.",
-            "content": {}
+          "4xx": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "The the business unit cannot be found.": {
+                    "description": "The the business unit cannot be found.",
+                    "valueSetFlag": false,
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_BUSINESS_UNIT\"\n}"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3634,7 +3651,7 @@
         ],
         "summary": "Get time.",
         "description": "Gets the current server UTC time.",
-        "operationId": "time",
+        "operationId": "time_1",
         "parameters": [
           {
             "name": "customer",
@@ -9898,7 +9915,7 @@
         ],
         "summary": "Get time.",
         "description": "Gets the current server UTC time.",
-        "operationId": "time_1",
+        "operationId": "time",
         "responses": {
           "200": {
             "description": "Successful",
@@ -20807,5 +20824,27 @@
         "bearerFormat": "JWT"
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "system",
+      "description": "System configuration."
+    },
+    {
+      "name": "time",
+      "description": "System time."
+    },
+    {
+      "name": "location",
+      "description": "Get location based on IP-address."
+    },
+    {
+      "name": "documents",
+      "description": "Get documents, e.g. privacy policy."
+    },
+    {
+      "name": "store",
+      "description": "Manage purchases and payments."
+    }
+  ]
 }
