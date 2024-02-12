@@ -16,7 +16,8 @@ export type WLActionType = (typeof WLActionType)[keyof typeof WLActionType];
 
 export const WLInternalActionType = {
   ExternalUrlAction: "ExternalUrlAction",
-  BlockAction: "BlockAction"
+  BlockAction: "BlockAction",
+  AssetAction: "AssetAction"
 } as const;
 export type WLInternalActionType = (typeof WLInternalActionType)[keyof typeof WLInternalActionType];
 
@@ -29,4 +30,5 @@ export interface IExposureWLAction {
   localizedUrl?: {
     [key: string]: string;
   };
+  slugs?: string[];
 }

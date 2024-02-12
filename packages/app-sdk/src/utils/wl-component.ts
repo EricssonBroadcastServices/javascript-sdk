@@ -6,19 +6,24 @@ import { lexer } from "marked";
 
 type LocalizedWLComponent = IExposureComponent | IExposureWLHerobannerItem | IExposureWLMenuItem | IExposureWLConfig;
 
+function selectPresentation(component: LocalizedWLComponent) {
+  return (component as IExposureWLHerobannerItem).content?.presentation || component.presentation;
+}
+
 export function getLocalizedItemFromPresentation(presentation: IExposureWLPresentation, language: string) {
   if (!presentation.localized) return presentation.fallback;
   return presentation.localized[language] || presentation.fallback;
 }
 
 export function getTitleFromWLComponent(component: LocalizedWLComponent, language: string): string {
-  if (!component.presentation) return "";
-  const localizedItem = getLocalizedItemFromPresentation(component.presentation, language);
+  const presentation = selectPresentation(component);
+  if (!presentation) return "";
+  const localizedItem = getLocalizedItemFromPresentation(presentation, language);
   if (!localizedItem) {
     return "";
   }
   if (!localizedItem.title) {
-    return component.presentation.fallback?.title || "";
+    return presentation.fallback?.title || "";
   }
   return localizedItem.title;
 }
@@ -45,37 +50,41 @@ export function getImageByTagFromWLComponent(component: LocalizedWLComponent, ta
 }
 
 export function getDescriptionFromWLComponent(component: LocalizedWLComponent, language: string): string {
-  if (!component.presentation) return "";
-  const localizedItem = getLocalizedItemFromPresentation(component.presentation, language);
+  const presentation = selectPresentation(component);
+  if (!presentation) return "";
+  const localizedItem = getLocalizedItemFromPresentation(presentation, language);
   if (!localizedItem || !localizedItem.body) {
-    return component.presentation.fallback?.body || "";
+    return presentation.fallback?.body || "";
   }
   return localizedItem.body;
 }
 
 export function getSubTitleWLPresentation(component: LocalizedWLComponent, language: string): string {
-  if (!component.presentation) return "";
-  const localizedItem = getLocalizedItemFromPresentation(component.presentation, language);
+  const presentation = selectPresentation(component);
+  if (!presentation) return "";
+  const localizedItem = getLocalizedItemFromPresentation(presentation, language);
   if (!localizedItem || !localizedItem.subTitle) {
-    return component.presentation.fallback?.subTitle || "";
+    return presentation.fallback?.subTitle || "";
   }
   return localizedItem.subTitle;
 }
 
 export function getIframeFromWLPresentation(component: LocalizedWLComponent, language: string) {
-  if (!component.presentation) return null;
-  const localizedItem = getLocalizedItemFromPresentation(component.presentation, language);
+  const presentation = selectPresentation(component);
+  if (!presentation) return null;
+  const localizedItem = getLocalizedItemFromPresentation(presentation, language);
   if (!localizedItem || !localizedItem.iframe) {
-    return component.presentation.fallback?.iframe || null;
+    return presentation.fallback?.iframe || null;
   }
   return localizedItem.iframe;
 }
 
 export function getTrailerAssetIdFromComponent(component: LocalizedWLComponent, language: string) {
-  if (!component.presentation) return null;
-  const localizedItem = getLocalizedItemFromPresentation(component.presentation, language);
+  const presentation = selectPresentation(component);
+  if (!presentation) return null;
+  const localizedItem = getLocalizedItemFromPresentation(presentation, language);
   if (!localizedItem || !localizedItem.trailerAssetId) {
-    return component.presentation.fallback?.trailerAssetId || null;
+    return presentation.fallback?.trailerAssetId || null;
   }
   return localizedItem.trailerAssetId;
 }

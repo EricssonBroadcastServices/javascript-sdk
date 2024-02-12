@@ -1,4 +1,8 @@
-import { IExposureWLCarousel, IExposureWLImageComponent } from "../src/interfaces/exposure-wl-component";
+import {
+  IExposureWLCarousel,
+  IExposureWLHerobannerItem,
+  IExposureWLImageComponent
+} from "../src/interfaces/exposure-wl-component";
 
 export const mockWLCarousel: IExposureWLCarousel = {
   id: "c225a4a3-14a7-4c90-99e8-74d958236502",
@@ -131,5 +135,103 @@ export const mockEpgCarousel: IExposureWLCarousel = {
   },
   parameters: {
     assetSearchTypes: "MOVIE,TV_SHOW,EPISODE,TV_CHANNEL,LIVE_EVENT,EVENT"
+  }
+};
+
+export const mockHerobannerItemFromAsset: IExposureWLHerobannerItem = {
+  appType: "herobanner_item",
+  appSubType: "Asset",
+  presentation: {
+    fallback: {
+      body: "   "
+    },
+    localized: {
+      it: {
+        body: "   "
+      }
+    }
+  },
+  actions: {
+    default: {
+      type: "AssetAction",
+      verb: "NavigateToDetails",
+      assetId: "f8c17c6d-d05e-4717-a185-7c625a8dc661_AEBE0Fc",
+      slugs: ["the-undertaker"]
+    }
+  },
+  content: {
+    type: "PresentationFromAsset",
+    presentation: {
+      fallback: {
+        title: "The Undertaker",
+        body: "   ",
+        images: [
+          {
+            url: "https://AEBE0Fc-az-westeurope-fsly.cdn.redbee.live/imagescaler002/ixmedia/assets/f8c17c6d-d05e-4717-a185-7c625a8dc661_AEBE0Fc/posters/dc28986b1d9a4289b0a12f6f6c5cf041/dc28986b1d9a4289b0a12f6f6c5cf041.jpg",
+            orientation: "LANDSCAPE",
+            tags: ["cover"],
+            height: 1080,
+            width: 1920
+          },
+          {
+            url: "https://AEBE0Fc-az-westeurope-fsly.cdn.redbee.live/imagescaler002/ixmedia/assets/f8c17c6d-d05e-4717-a185-7c625a8dc661_AEBE0Fc/posters/6fa971becf119299f1109d4ed3b8ae4b/6fa971becf119299f1109d4ed3b8ae4b.jpg",
+            orientation: "PORTRAIT",
+            tags: ["cover"],
+            height: 1200,
+            width: 800
+          }
+        ],
+        trailerAssetId: "b7b6c343-90e9-40b4-be50-ef11f0149c91_AEBE0Fc"
+      },
+      localized: {
+        it: {
+          title: "The Undertaker",
+          body: "   ",
+          images: [
+            {
+              url: "https://AEBE0Fc-az-westeurope-fsly.cdn.redbee.live/imagescaler002/ixmedia/assets/f8c17c6d-d05e-4717-a185-7c625a8dc661_AEBE0Fc/posters/6fa971becf119299f1109d4ed3b8ae4b/6fa971becf119299f1109d4ed3b8ae4b.jpg",
+              orientation: "PORTRAIT",
+              tags: ["cover"],
+              height: 1200,
+              width: 800
+            },
+            {
+              url: "https://AEBE0Fc-az-westeurope-fsly.cdn.redbee.live/imagescaler002/ixmedia/assets/f8c17c6d-d05e-4717-a185-7c625a8dc661_AEBE0Fc/posters/dc28986b1d9a4289b0a12f6f6c5cf041/dc28986b1d9a4289b0a12f6f6c5cf041.jpg",
+              orientation: "LANDSCAPE",
+              tags: ["cover"],
+              height: 1080,
+              width: 1920
+            }
+          ],
+          trailerAssetId: "b7b6c343-90e9-40b4-be50-ef11f0149c91_AEBE0Fc"
+        }
+      }
+    }
+  }
+};
+
+export const mockHerobannerItem: IExposureWLHerobannerItem = {
+  appType: "herobanner_item",
+  appSubType: "Asset",
+  presentation: {
+    fallback: {
+      body: "   "
+    },
+    localized: {
+      it: {
+        body: "   ",
+        title: "just testing",
+        trailerAssetId: "123"
+      }
+    }
+  },
+  content: {},
+  actions: {
+    default: {
+      type: "AssetAction",
+      verb: "NavigateToDetails",
+      assetId: "f8c17c6d-d05e-4717-a185-7c625a8dc661_AEBE0Fc",
+      slugs: ["the-undertaker"]
+    }
   }
 };
