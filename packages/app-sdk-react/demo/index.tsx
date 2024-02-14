@@ -77,7 +77,7 @@ const storage: IStorage = {
 
 function AppProvider() {
   const [fatalError, setFatalError] = useState<AppError | null>(null);
-  const ouParams = getOrganizationUnitConfig(true);
+  const ouParams = getOrganizationUnitConfig(false);
   const [searchParams] = useSearchParams();
   console.log(fatalError, fatalError?.metadata);
   return (
