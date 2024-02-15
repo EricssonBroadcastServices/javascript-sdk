@@ -4,6 +4,7 @@ import { useExposureApi } from "./useApi";
 import { useRedBeeStateDispatch, ActionType, useRedBeeState } from "../RedBeeProvider";
 import { useUserSession } from "./useUserSession";
 import { StorageKey } from "../util/storageKeys";
+import { useSystemConfigV2 } from "./useSystemConfig";
 
 export function useSetSelectedLanguage() {
   const exposureApi = useExposureApi();
@@ -31,6 +32,10 @@ export function useSetSelectedLanguage() {
 }
 
 export function useSelectedLanguage() {
+  const [systemConfig] = useSystemConfigV2();
   const { selectedLanguage } = useRedBeeState();
+  if (systemConfig?.localization.displayLocales.length === 1) {
+    return systemConfig.localization.defaultLocale;
+  }
   return selectedLanguage;
 }
