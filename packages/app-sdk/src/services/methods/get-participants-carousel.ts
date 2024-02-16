@@ -8,15 +8,13 @@ export async function getGeneratedParticipantCarousel({
   participantName: string;
   service: WhiteLabelService;
 }): Promise<ResolvedComponent<"carousel">> {
-  const query = `participant.name:${participantName}`;
+  const query = `participants.name:${participantName}`;
 
   const searchParams = new URLSearchParams({
     pageSize: "100",
     fieldSet: "ALL",
     query
   });
-
-  console.log(query);
 
   const component: IExposureWLCarousel = {
     id: `generated-participant-${participantName}`,
