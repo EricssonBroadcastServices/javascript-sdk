@@ -4,7 +4,14 @@ import { useLanguage } from "./useSelectedLanguage";
 
 export function useEPGProgram(program: ProgramResponse) {
   const language = useLanguage();
-  const title = getTitleFromAsset(program.asset, language) ?? "";
+
+  const { tvShowId, season, episode } = program.asset;
+
+  let title = getTitleFromAsset(program.asset, language);
+  if (tvShowId && season && episode) {
+    title = `S${season} E${episode} ${title}`;
+  }
+
   const time = EPGHelpers.getProgramTimeSlotString(program) ?? "";
   const isLive = EPGHelpers.isProgramLive(program);
   return {
