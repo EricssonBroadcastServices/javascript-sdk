@@ -32,10 +32,13 @@ export function useEPGEntry(
       ...language
     });
 
-  const programs = useMemo(
-    () => EPGHelpers.findCurrentAndUpcomingProgramsByHour(entry.programs, time),
-    [entry.programs, time]
-  );
+  const programs = useMemo(() => {
+    const programs = EPGHelpers.findCurrentAndUpcomingProgramsByHour(entry.programs, time);
+    if (programs.length > 3) {
+      programs.length = 3;
+    }
+    return programs;
+  }, [entry.programs, time]);
 
   const progress = EPGHelpers.getCurrentProgramProgress(programs);
 
