@@ -19,7 +19,6 @@ function getAssetRelevanceItems(asset: Asset) {
 
 export function sortByRelevance(asset: Asset) {
   const assetRelevanceItems = getAssetRelevanceItems(asset);
-  console.log("bwallberg", assetRelevanceItems)
   return (a: CarouselItem, b: CarouselItem) => {
     return (
       intersectionUnique(assetRelevanceItems, getAssetRelevanceItems(b.asset)).length -
