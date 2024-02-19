@@ -32,6 +32,8 @@ export function useCarouselItem(
     title = `S${season} E${episode} ${title}`;
   }
 
+  const startTime = item.startTime ?? AssetHelpers.getStartTime(item.asset);
+
   return {
     assetId: item.asset.assetId,
     isLive: ChannelAssetHelpers.isLive(item),
@@ -42,7 +44,7 @@ export function useCarouselItem(
       defaultLanguage
     }),
     tags: AssetHelpers.getAllTagIds(item.asset),
-    startDay: item.startTime ? getDayLocalized(new Date(item.startTime), translations) : undefined,
+    startDay: startTime ? getDayLocalized(new Date(startTime), translations) : undefined,
     startTime: ChannelAssetHelpers.getTimeSlotString(item) || undefined,
     image: AssetHelpers.getScaledImage({
       asset: item.asset,
