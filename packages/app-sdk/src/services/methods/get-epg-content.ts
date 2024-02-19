@@ -25,8 +25,5 @@ export async function getEpgContent(
       return null;
     }
   });
-  return (await Promise.all(channels)).filter(c => c !== null) as {
-    channel: Asset;
-    programs: ProgramResponse[];
-  }[];
+  return (await Promise.all(channels)).filter((c): c is { channel: Asset; programs: ProgramResponse[] } => c !== null);
 }
