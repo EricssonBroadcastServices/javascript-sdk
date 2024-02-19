@@ -13,7 +13,7 @@ function getAssetRelevanceItems(asset: Asset) {
 }
 
 /**
- * Sort an array of IWLCarousel items based on their similarity to an Asset.
+ * Sort an array of CarouselItem based on their similarity to an Asset.
  * Similarity is based on tags and participants. The more matches, the higher up the item will be sorted
  */
 
