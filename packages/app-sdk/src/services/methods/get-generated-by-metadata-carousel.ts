@@ -3,6 +3,7 @@ import { ResolvedComponent } from "../../interfaces/component-content";
 import { IExposureWLCarousel } from "../../interfaces/exposure-wl-component";
 import { WhiteLabelService } from "../white-label-service";
 import { Translations } from "../../utils/wl-translations";
+import { sortByRelevance } from "../../utils/sort-by-relevance";
 
 export type GetGeneratedByMetadataCarouselOptions = {
   asset: Asset;
@@ -68,7 +69,7 @@ export async function getGeneratedByMetadataCarousel({
   const content = await service.getCarouselAssets(component);
   return {
     component,
-    content,
+    content: content.sort(sortByRelevance(asset)),
     presentationParameters: {
       density: "MEDIUM",
       carouselLayout: "carousel",
