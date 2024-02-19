@@ -220,14 +220,11 @@ export function isAssetPlayable(asset: Asset) {
   return asset.type !== "COLLECTION" && asset.type !== "TV_SHOW";
 }
 
-export function getChannelAssetTimeSlotString({ startTime, endTime, asset }: ChannelAsset | CarouselItem) {
+export function getChannelAssetTimeSlotString(item: ChannelAsset | CarouselItem) {
+  const startTime = item.startTime ? new Date(item.startTime) : getAssetStartTime(item.asset);
+  const endTime = item.endTime ? new Date(item.endTime) : getAssetEndtime(item.asset);
   if (!startTime || !endTime) {
-    if (asset.programs && asset.programs.length === 1) {
-      startTime = asset.programs[0].startTime;
-      endTime = asset.programs[0].endTime;
-    } else {
-      return null;
-    }
+    return null;
   }
   return `${getTimeString(new Date(startTime))} - ${getTimeString(new Date(endTime))}`;
 }
