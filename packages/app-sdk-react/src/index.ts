@@ -5,7 +5,7 @@ export * from "./hooks/useConfig";
 export { useTranslations } from "./hooks/useTranslations";
 export { useActivationCode } from "./hooks/useActivationCode";
 export * from "./hooks/useLogin";
-export { useSearch } from "./hooks/useSearch";
+export * from "./hooks/useSearch";
 export * from "./hooks/useUserDetails";
 export { useUserSession, useSetSession } from "./hooks/useUserSession";
 export * from "./hooks/useTags";
