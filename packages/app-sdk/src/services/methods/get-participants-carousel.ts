@@ -41,7 +41,7 @@ export async function getGeneratedParticipantCarousel({
     content,
     presentationParameters: {
       density: "MEDIUM",
-      carouselLayout: "carousel",
+      carouselLayout: "grid",
       imageOrientation: "landscape"
     }
   };
