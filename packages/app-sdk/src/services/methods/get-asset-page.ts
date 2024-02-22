@@ -81,6 +81,11 @@ export async function getAssetPage(
           excludedAssetId: asset.assetId,
           locale,
           onlyIncludePlayableAssets: useOnlyPlayableAssets
+        }).then(resolvedComponent => {
+          if (resolvedComponent.content.length < 4) {
+            throw new Error(`Tag ${tagId} contained less than 4 items`);
+          }
+          return resolvedComponent;
         })
       );
     });
