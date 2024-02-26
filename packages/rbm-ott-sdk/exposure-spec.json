@@ -7935,6 +7935,55 @@
         }
       }
     },
+    "/v2/customer/{customer}/businessunit/{businessUnit}/user/delete": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete personal data.",
+        "description": "Use the v3 version",
+        "operationId": "deleteDetails_1",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiCredentials"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      }
+    },
     "/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/label/{labelFilter}": {
       "get": {
         "tags": [
@@ -11655,12 +11704,12 @@
           "user"
         ],
         "summary": "Delete personal data.",
-        "operationId": "deleteUserDetailsV3",
+        "description": "The account will be anonymonized and not be possible to use.",
+        "operationId": "deleteDetails",
         "parameters": [
           {
             "name": "customer",
             "in": "path",
-            "description": "The customer.",
             "required": true,
             "schema": {
               "type": "string"
@@ -11669,7 +11718,6 @@
           {
             "name": "businessUnit",
             "in": "path",
-            "description": "The business unit",
             "required": true,
             "schema": {
               "type": "string"
@@ -11687,16 +11735,10 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "NO_SESSION_TOKEN. If the session is not found.<br>INVALID_SESSION_TOKEN. If the session is expired.<br>BAD_PASSWORD. The provided password is faulty.",
-            "content": {}
-          },
-          "403": {
-            "description": "BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION<br>STORED_PAYMENT_DETAILS, the account cannot be deleted as there are stored payment details for the account.<br>OWNER_OF_ACCOUNT_WITH_NON_OWNER_USER, this user can not be deleted as there are other non-owners in the account.<br>NOT_ALLOWED_IN_ANONYMOUS_SESSION.<br>NOT_ALLOWED_IN_SESSION_USER_SESSION.<br>NOT_SUPPORTED_FOR_FEDERATED_USER",
-            "content": {}
+          "200": {
+            "description": "OK"
           }
         },
-        "x-codegen-request-body-name": "credentials",
         "security": [
           {
             "bearer-key": []
@@ -13924,18 +13966,19 @@
               "$ref": "#/components/schemas/PasswordTuple"
             }
           }
-        }
+        },
+        "description": "Value is ignored"
       },
       "ApiCredentialsV3": {
-        "required": [
-          "password"
-        ],
         "type": "object",
         "properties": {
           "password": {
-            "type": "string"
+            "type": "string",
+            "description": "Value is ignored.",
+            "deprecated": true
           }
-        }
+        },
+        "description": "Value is ignored"
       },
       "ApiDeleteUsersSessionsRequest": {
         "required": [
