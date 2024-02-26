@@ -6,8 +6,8 @@ import { PushNextContent } from "@ericssonbroadcastservices/app-sdk";
 import { useAppError } from "./useAppError";
 
 export function usePushNextContentData(
-  assetId?: string,
-  pushNextProgram?: boolean
+  assetId: string | undefined,
+  pushNextProgram = true
 ): TApiHook<{ upNext?: Asset; recommendations: Asset[] | null }> {
   const { customer, businessUnit, appService } = useRedBeeState();
   const [pushNextContent, setPushNextContent] = useState<PushNextContent | null>(null);
@@ -15,7 +15,7 @@ export function usePushNextContentData(
   useEffect(() => {
     if (assetId) {
       appService
-        .getPushNextContentData({ assetId, pushNextProgram: !!pushNextProgram })
+        .getPushNextContentData({ assetId, pushNextProgram: pushNextProgram })
         .then(pnc => {
           setPushNextContent(pnc);
         })
