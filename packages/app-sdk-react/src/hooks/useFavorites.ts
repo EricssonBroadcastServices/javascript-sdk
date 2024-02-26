@@ -31,9 +31,7 @@ export function useAddAssetToFavorites(assetId: string): TApiMutation<void, void
         throw new Error("User needs to be logged in to add to favorites");
       }
       const headers = { Authorization: `Bearer ${session?.sessionToken}` };
-      await addToAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers }).then(() => {
-        queryClient.invalidateQueries(WLComponentSubType.FAVORITES);
-      });
+      await addToAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
     }
   });
   return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
@@ -51,9 +49,7 @@ export function useRemoveAssetFromFavorites(assetId: string): TApiMutation<void,
         throw new Error("User needs to be logged in to remove from favorites");
       }
       const headers = { Authorization: `Bearer ${session?.sessionToken}` };
-      await deleteFromAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers }).then(() => {
-        queryClient.invalidateQueries(WLComponentSubType.FAVORITES);
-      });
+      await deleteFromAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
     }
   });
   return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
