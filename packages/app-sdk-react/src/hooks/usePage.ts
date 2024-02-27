@@ -68,7 +68,7 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
   ) as UseQueryResult<ResolvedComponent<any>>[];
 
   const somethingIsLoading = results.some(r => r.isLoading) || pageLoading;
-
+  const somethingIsFetching = results.some(r => r.isFetching);
   const data = useMemo(() => {
     if (somethingIsLoading) {
       return null;
@@ -76,7 +76,12 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
     return results
       .filter(r => r.data?.component && r.data.presentationParameters)
       .map(r => r.data) as ResolvedComponent<any>[];
-  }, [results, somethingIsLoading]);
+    // We only want to recalculate the data when the complete response is meaningfull to the app.
+    // Hence we return null when something is loading, and rerun the calculation whenever something is fetching(updating)
+    // adding results as a dep in useMemo would increase the number of renders since it would recaluculate data, every time
+    // a since query completes
+  }, [somethingIsFetching, somethingIsLoading]);
+
   const componentError = useMemo(() => {
     return results.find(r => !!r.error)?.error;
   }, [results]);
