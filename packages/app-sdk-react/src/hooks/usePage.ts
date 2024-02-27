@@ -76,7 +76,7 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
     return results
       .filter(r => r.data?.component && r.data.presentationParameters)
       .map(r => r.data) as ResolvedComponent<any>[];
-  }, [somethingIsLoading]);
+  }, [results, somethingIsLoading]);
   const componentError = useMemo(() => {
     return results.find(r => !!r.error)?.error;
   }, [results]);
