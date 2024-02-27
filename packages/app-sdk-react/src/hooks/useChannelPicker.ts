@@ -13,7 +13,7 @@ export function useChannelPicker(
   const { data, isLoading, error } = useQuery(
     [customer, businessUnit, selectedLanguage],
     () => {
-      return getActiveChannels.call(serviceContext, {}).then(channels => {
+      return getActiveChannels.call(serviceContext, { sortingLocale: selectedLanguage }).then(channels => {
         // filter function ensures channelStatus adhered to Required<ChannelStatus>
         return channels.apiChannelStatuses?.filter(
           c => !!c.channel?.assetId && c.active && !!c.assets

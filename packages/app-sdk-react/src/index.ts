@@ -42,4 +42,5 @@ export * from "./hooks/useAppError";
 export * from "./hooks/useEPG";
 export * from "./hooks/useEPGEntry";
 export * from "./hooks/useEPGProgram";
+export * from "./hooks/useChannelPickerItem";
 export type { TApiHook, TApiMutation } from "./types/type.apiHook";

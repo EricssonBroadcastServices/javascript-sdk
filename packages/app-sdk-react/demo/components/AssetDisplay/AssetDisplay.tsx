@@ -60,7 +60,12 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
           <img src={image}></img>
         </div>
       </div>
-      {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker selectedChannel={asset.assetId} />}
+      {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && (
+        <div>
+          <h1>ChannelPicker</h1>
+          <ChannelPicker selectedChannel={asset.assetId} />
+        </div>
+      )}
     </>
   );
 }
@@ -143,9 +148,7 @@ function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
           <img src={image}></img>
         </div>
       </div>
-      {seasons?.map(s => (
-        <CarouselComponent key={s.component.id} {...s} />
-      ))}
+      {seasons?.map(s => <CarouselComponent key={s.component.id} {...s} />)}
     </>
   );
 }
