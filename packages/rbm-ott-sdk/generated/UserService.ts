@@ -14,7 +14,6 @@ import {
   DeviceRegistration,
   LabelFilter,
   LoginResponse,
-  PasswordTuple,
   PinCodeResponse,
   UserDetailsResponse,
   UserProfiles,
@@ -379,36 +378,6 @@ export async function deleteDetails({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`,
-    headers: new Headers({
-      accept: "application/json",
-      "content-type": "application/json",
-      ...Object.fromEntries(new Headers(headers))
-    }),
-    ctx,
-    body: _data
-  });
-}
-
-/**
- * @description Use the v3 version
- * @summary Delete personal data.
- * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/user/delete
- * @deprecated
- * @response `200` `void` OK
- */
-export async function deleteDetails_({
-  headers,
-  ..._data
-}: {
-  passwordTuples: PasswordTuple[];
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`,
     headers: new Headers({
       accept: "application/json",
       "content-type": "application/json",
@@ -892,7 +861,6 @@ export class UserService {
   createNewAccount = createNewAccount;
   createPinCode = createPinCode;
   deleteDetails = deleteDetails;
-  deleteDetails_ = deleteDetails_;
   deletePinCode = deletePinCode;
   deleteUserProfile = deleteUserProfile;
   getAccountLabels = getAccountLabels;

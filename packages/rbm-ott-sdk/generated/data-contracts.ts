@@ -114,11 +114,6 @@ export interface Ads {
   stitcherSession?: string;
 }
 
-export interface Algorithm {
-  pbkdf2Iterations?: number;
-  algorithmName?: "CLEAR" | "NO_PASSWORD" | "PBKDF2";
-}
-
 export interface Analytics {
   baseUrl?: string;
   bucket?: number;
@@ -893,11 +888,6 @@ export interface PasswordPolicy {
   minimumGroups: number;
   /** Minimum number of characters in passwords */
   minimumLength: number;
-}
-
-export interface PasswordTuple {
-  algorithm?: Algorithm;
-  value?: string;
 }
 
 /** Payments configuration */

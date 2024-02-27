@@ -433,6 +433,8 @@ delete spec.paths["/docs/api-docs/{api}"];
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/asset"];
 // delete 307 redirect endpoint (cannot be used in an SDK)
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail"];
+// delete deprecated endpoint to user deleting
+delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/delete"];
 
 const unhandledPathEnums = new Set<string>();
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
