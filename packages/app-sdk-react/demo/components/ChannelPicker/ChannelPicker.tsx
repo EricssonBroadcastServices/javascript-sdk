@@ -1,6 +1,5 @@
 import React from "react";
-import { useChannelPicker, useSelectedLanguage } from "../../../src";
-import { AssetHelpers, ChannelAssetHelpers } from "@ericssonbroadcastservices/app-sdk";
+import { useChannelPicker, useChannelPickerItem } from "../../../src";
 import { CarouselWrapper } from "../Carousel/Carousel";
 import { ChannelStatus } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import "./channel-picker.css";
@@ -10,55 +9,33 @@ const fallbackImage =
   "https://raw.githubusercontent.com/koehlersimon/fallback/master/Resources/Public/Images/placeholder.jpg";
 
 function ChannelPickerItem({ channelStatus, isActive }: { channelStatus: ChannelStatus; isActive: boolean }) {
-  const locale = useSelectedLanguage();
-  if (!channelStatus.channel) return null;
-  const channelLogoUrl = AssetHelpers.getScaledImage({
-    asset: channelStatus.channel,
-    width: 150,
-    imageType: "logo",
-    orientation: "LANDSCAPE",
-    locale
-  });
-  const channelCoverUrl = AssetHelpers.getScaledImage({
-    asset: channelStatus.channel,
-    width: 600,
-    imageType: "cover",
-    orientation: "LANDSCAPE",
-    locale
+  const { title, image, logo, progress, timeSlot } = useChannelPickerItem(channelStatus, {
+    logo: {
+      width: 150
+    },
+    image: {
+      width: 600
+    }
   });
 
-  const activeChannelAsset = channelStatus.assets?.find(p => ChannelAssetHelpers.isLive(p));
-  const activeChannelCoverImage = activeChannelAsset
-    ? AssetHelpers.getScaledImage({
-        asset: activeChannelAsset.asset,
-        width: 600,
-        imageType: "cover",
-        orientation: "LANDSCAPE",
-        locale
-      })
-    : undefined;
-  const imageUrl = activeChannelCoverImage || channelCoverUrl || fallbackImage;
-  const useChannelLogo = !!channelLogoUrl && activeChannelCoverImage;
+  if (!channelStatus.channel) {
+    return null;
+  }
+
   return (
-    <Link to={`/asset/${channelStatus.channel.assetId}`} className="item">
+    <Link to={`/asset/${channelStatus.channel.assetId}`} className="carousel-item">
       {isActive && <span className="on-now-indicator">On Now</span>}
-      <img className="image" src={imageUrl} alt="an EPG Image" />
-      {useChannelLogo && (
+      <img className="image" src={image || fallbackImage} alt="an EPG Image" />
+      {logo && (
         <div className="channel-img">
-          <img src={channelLogoUrl} />
+          <img src={logo} />
         </div>
       )}
-      {activeChannelAsset && (
-        <span>
-          <h4>{AssetHelpers.getTitle(activeChannelAsset.asset, locale)}</h4>
-          <p>{ChannelAssetHelpers.getTimeSlotString(activeChannelAsset)}</p>
-        </span>
-      )}
-      {!activeChannelAsset && AssetHelpers.getTitle(channelStatus.channel, locale) && (
-        <span>
-          <h4>{AssetHelpers.getTitle(channelStatus.channel, locale)}</h4>
-        </span>
-      )}
+      <span>
+        <h4>{title}</h4>
+        <p>{timeSlot}</p>
+        <p>{`Progress: ${progress}%`}</p>
+      </span>
     </Link>
   );
 }

@@ -12,6 +12,7 @@
 }
 
 .carousel-item {
+  position: relative;
   margin: 10px;
   box-shadow: 3px 3px 12px 0px black;
   background-color: black;
