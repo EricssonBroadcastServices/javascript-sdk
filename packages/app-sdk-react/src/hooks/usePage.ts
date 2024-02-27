@@ -48,8 +48,8 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
         retry: false,
         staleTime: reference.hasAuthorizedContent ? 0 : 1000 * 60 * 10,
         queryKey: [
-          countryCode,
           reference.appSubType,
+          countryCode,
           reference.referenceId,
           reference.parameters,
           reference.referenceUrl,
@@ -61,7 +61,6 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
           if (!userSession?.isLoggedIn() && reference.hasAuthorizedContent === true) {
             return undefined;
           }
-
           return appService.getResolvedComponentByReference({ wlReference: reference, countryCode });
         }
       };
