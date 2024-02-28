@@ -12,12 +12,12 @@ export function useCategoryItem(
   }
 ) {
   const { width, height, imageFormat } = options;
-  const { language } = useLanguage();
+  const { language, defaultLanguage } = useLanguage();
   return useMemo(() => {
-    const tagImage = TagHelpers.getImages(tag, language)?.find(i => i.url);
+    const tagImage = TagHelpers.getImages(tag, language, defaultLanguage)?.find(i => i.url);
     return {
-      title: TagHelpers.getTitle(tag, language),
+      title: TagHelpers.getTitle(tag, language, defaultLanguage),
       image: tagImage?.url ? fit(tagImage.url, { w: width, h: height, format: imageFormat }) : undefined
     };
-  }, [height, imageFormat, language, tag, width]);
+  }, [defaultLanguage, height, imageFormat, language, tag, width]);
 }
