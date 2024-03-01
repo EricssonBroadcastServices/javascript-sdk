@@ -19,8 +19,8 @@ const exposureApi = new ExposureApi({
 describe("userdetails", () => {
   beforeAll(async () => {
     const session = await exposureApi.authentication.login({
-      username: "simon.wallin1@mailinator.com",
-      password: "SimonTest",
+      username: "redbeetester@mailinator.com",
+      password: "RedBeeTest",
       device: {
         type: DeviceType.WEB,
         deviceId: "integrationTestDevice",
