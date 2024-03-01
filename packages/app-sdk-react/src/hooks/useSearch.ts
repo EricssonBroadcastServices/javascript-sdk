@@ -65,7 +65,9 @@ export function useExpandedSearch({
         const query = `tags.tagId:${tagHitIds.join(" OR ")}`;
         return getAssets.call(ctx, { allowedCountry: countryCode, query, pageSize: 100 }).then(tagAssets => {
           const assetHits = res.assetHits?.items.map(a => a.asset) || [];
-          return [...assetHits, ...tagAssets.items];
+          return [...assetHits, ...tagAssets.items].filter(
+            (a, i, arr) => arr.findIndex(b => b?.assetId === a?.assetId) === i
+          );
         });
       });
   });
