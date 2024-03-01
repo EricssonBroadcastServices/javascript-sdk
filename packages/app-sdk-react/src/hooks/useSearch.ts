@@ -70,5 +70,9 @@ export function useExpandedSearch({
       });
   });
   const isLoadingOrDebouncing = term !== "" && (isLoading || term !== debouncedTerm);
-  return [data || null, isLoadingOrDebouncing, useAppError(error)];
+  return [
+    data?.filter((a, i, arr) => arr.findIndex(b => b?.assetId === a?.assetId) === i) || null,
+    isLoadingOrDebouncing,
+    useAppError(error)
+  ];
 }
