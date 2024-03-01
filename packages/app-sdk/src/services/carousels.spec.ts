@@ -41,8 +41,8 @@ const device: DeviceRegistration = {
 describe("get carousel assets", () => {
   beforeAll(async () => {
     const session = await login.call(service.context, {
-      username: "simon.wallin1@mailinator.com",
-      password: "SimonTest",
+      username: "redbeetester@mailinator.com",
+      password: "RedBeeTest",
       device
     });
     sessionToken = session.sessionToken;

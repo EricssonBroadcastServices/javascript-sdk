@@ -22,8 +22,8 @@ const assetId = "9086ffab-377f-4e2f-84dc-a597e6a2e8a8_82162E";
 describe("preferences", () => {
   beforeAll(async () => {
     const session = await exposureApi.authentication.login({
-      username: "simon.wallin1@mailinator.com",
-      password: "SimonTest",
+      username: "redbeetester@mailinator.com",
+      password: "RedBeeTest",
       device: {
         type: DeviceType.WEB,
         deviceId: "integrationTestDevice",
