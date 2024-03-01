@@ -5,7 +5,7 @@ import { TApiMutation } from "../types/type.apiHook";
 import { useMutation } from "react-query";
 import { useAppError } from "./useAppError";
 
-export function useDeleteAccount(): TApiMutation<void, void> {
+export function useDeleteAccount(): TApiMutation<void, boolean> {
   const [session] = useUserSession();
   const setSession = useSetSession();
   const ctx = useServiceContext();
@@ -20,8 +20,10 @@ export function useDeleteAccount(): TApiMutation<void, void> {
         throw new Error("User needs to be logged in to request account deletion");
       }
       const headers = { Authorization: `Bearer ${session.sessionToken}` };
-      await deleteDetails.call(ctx, { headers });
-      setSession(null);
+      return deleteDetails.call(ctx, { headers }).then(() => {
+        setSession(null);
+        return true;
+      });
     }
   });
   return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
