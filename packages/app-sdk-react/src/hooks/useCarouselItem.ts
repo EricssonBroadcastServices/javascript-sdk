@@ -5,9 +5,29 @@ import {
   getDayLocalized,
   ImageFormat
 } from "@ericssonbroadcastservices/app-sdk";
-import { AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { Asset, AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
+
+type DescriptionVariant = "MEDIUM" | "SHORT" | "LONG";
+
+function selectDescription(
+  variant: DescriptionVariant,
+  asset: Asset,
+  language: {
+    language: string;
+    defaultLanguage: string;
+  }
+) {
+  switch (variant) {
+    case "MEDIUM":
+      return AssetHelpers.getMediumDescription(asset, { ...language, fallback: true });
+    case "SHORT":
+      return AssetHelpers.getShortDescription(asset, { ...language, fallback: true });
+    case "LONG":
+      return AssetHelpers.getLongDescription(asset, { ...language, fallback: true });
+  }
+}
 
 export function useCarouselItem(
   item: CarouselItem,
@@ -16,6 +36,7 @@ export function useCarouselItem(
     width: number;
     height?: number;
     imageFormat?: ImageFormat;
+    descriptionVariant?: DescriptionVariant;
   }
 ) {
   const { orientation, width, height, imageFormat } = options;
@@ -39,10 +60,7 @@ export function useCarouselItem(
     isLive: ChannelAssetHelpers.isLive(item),
     isLiveEvent: item.asset.type === AssetType.LIVE_EVENT || item.asset.type === AssetType.EVENT,
     title,
-    description: AssetHelpers.getShortDescription(item.asset, {
-      language,
-      defaultLanguage
-    }),
+    description: selectDescription(options.descriptionVariant || "MEDIUM", item.asset, { language, defaultLanguage }),
     tags: AssetHelpers.getAllTagIds(item.asset),
     startDay: startTime ? getDayLocalized(new Date(startTime), translations) : undefined,
     startTime: ChannelAssetHelpers.getTimeSlotString(item) || undefined,
