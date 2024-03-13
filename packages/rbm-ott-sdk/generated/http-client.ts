@@ -39,8 +39,23 @@ function createSanitizedSearchParams(query: QueryParams = {}): URLSearchParams {
   return params;
 }
 
-function defaultErrorFactory(response: Response) {
-  return Object.assign(new Error(`HTTP Error: ${response.statusText} (${response.status})`), { response });
+export class ResponseError extends Error {
+  public readonly responseBody?: Record<string, any>;
+  public readonly response: Response;
+  constructor(response: Response, responseBody?: Record<string, any>) {
+    super(`HTTP Error: ${response.statusText} (${response.status})`);
+    this.responseBody = responseBody;
+    this.response = response;
+  }
+}
+
+async function defaultErrorFactory(response: Response) {
+  try {
+    const responseBody = await response.json();
+    return new ResponseError(response, responseBody);
+  } catch {
+    return new ResponseError(response);
+  }
 }
 
 export async function request({ method, url, headers, query = {}, body, ctx }: requestArgs): Promise<Response> {
@@ -53,7 +68,7 @@ export async function request({ method, url, headers, query = {}, body, ctx }: r
   }
   const response = await fetch(fullUrl, params);
   if (!response.ok) {
-    throw (ctx?.errorFactory || defaultErrorFactory)(response);
+    throw await (ctx?.errorFactory || defaultErrorFactory)(response);
   }
   return response;
 }

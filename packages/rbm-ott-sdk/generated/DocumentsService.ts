@@ -11,17 +11,16 @@ import { HtmlDocument } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @summary Gets document.
+ * @description Get the requested document.
+ * @summary Get Document.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/document
- * @response `200` `HtmlDocument` success
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
- * @response `422` `void` BAD_DOCUMENT_ID. Unrecognized documentId. UNKNOWN_LANGUAGE. Unrecognized documentId.
+ * @response `200` `HtmlDocument` Successful
+ * @response `4xx` `APIErrorMessage` Failed
  */
 export async function getDocument({
   headers,
   ..._data
 }: {
-  /** Which document to fetch */
   documentId:
     | "CUSTOM_DOCUMENT"
     | "END_USER_CONSENT"
@@ -33,8 +32,9 @@ export async function getDocument({
     | "end_user_cookie_policy"
     | "end_user_privacy_policy"
     | "end_user_terms_and_conditions";
+  /** Custom name if documentId == custom_document */
   customDocumentName?: string;
-  /** ISO 639-1 language code. If not stated or not supported fall back to other languages will be performed. */
+  /** Use user language. If not stated system default is used. */
   preferredLanguage?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -50,7 +50,7 @@ export async function getDocument({
   }).then(response => response.json() as Promise<HtmlDocument>);
 }
 
-export class DocumentService {
+export class DocumentsService {
   // @ts-ignore
   constructor(private context: ServiceContext) {}
   getDocument = getDocument;

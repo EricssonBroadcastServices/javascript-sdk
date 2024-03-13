@@ -2,7 +2,7 @@ import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useQuery } from "react-query";
 import { getActiveChannels, ChannelStatus } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 const DEFAULT_INTERVAL = 60000; // 1 minute
 
@@ -13,7 +13,7 @@ export function useChannelPicker(
   const { data, isLoading, error } = useQuery(
     [customer, businessUnit, selectedLanguage],
     () => {
-      return getActiveChannels.call(serviceContext, {}).then(channels => {
+      return getActiveChannels.call(serviceContext, { sortingLocale: selectedLanguage }).then(channels => {
         // filter function ensures channelStatus adhered to Required<ChannelStatus>
         return channels.apiChannelStatuses?.filter(
           c => !!c.channel?.assetId && c.active && !!c.assets
@@ -22,5 +22,5 @@ export function useChannelPicker(
     },
     { refetchInterval: updateInterval }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }

@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Asset } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
-import { AppError, PushNextContent } from "@ericssonbroadcastservices/app-sdk";
+import { PushNextContent } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 export function usePushNextContentData(
-  assetId?: string
+  assetId: string | undefined,
+  pushNextProgram = true
 ): TApiHook<{ upNext?: Asset; recommendations: Asset[] | null }> {
   const { customer, businessUnit, appService } = useRedBeeState();
   const [pushNextContent, setPushNextContent] = useState<PushNextContent | null>(null);
@@ -13,7 +15,7 @@ export function usePushNextContentData(
   useEffect(() => {
     if (assetId) {
       appService
-        .getPushNextContentData({ assetId })
+        .getPushNextContentData({ assetId, pushNextProgram: pushNextProgram })
         .then(pnc => {
           setPushNextContent(pnc);
         })
@@ -21,6 +23,6 @@ export function usePushNextContentData(
           setError(err);
         });
     }
-  }, [assetId, customer, businessUnit, appService]);
-  return [pushNextContent || null, false, !!error ? AppError.fromUnknown(error) : null];
+  }, [assetId, customer, businessUnit, appService, pushNextProgram]);
+  return [pushNextContent || null, false, useAppError(error)];
 }

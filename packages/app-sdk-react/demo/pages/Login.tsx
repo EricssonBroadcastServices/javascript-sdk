@@ -17,6 +17,8 @@ export const Login = () => {
     if (session?.isLoggedIn()) return logout({});
     login({ username, password });
   }, [session, logout, login, username, password]);
+
+  console.log(error, error?.message, error?.metadata);
   return (
     <div>
       <input value={username} onChange={e => setUsername(e.target.value)} />

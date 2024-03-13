@@ -5,15 +5,16 @@ import { useTagList } from "../hooks/useTags";
 import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { useCountryCode } from "./useGeolocation";
-import { AppError, IExposureWLPage, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
+import { IExposureWLPage, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
 import { useSelectedLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
 import { useMemo } from "react";
+import { useAppError } from "./useAppError";
 
 export enum PageType {
   PAGE = "page",
   ASSET = "asset",
-  TAG = "asset",
+  TAG = "tag",
   BROWSE = "browse",
   PARTICIPANT = "participant",
   PLAY = "play"
@@ -30,8 +31,9 @@ export function usePage(pageId: string): TApiHook<IExposureWLPage> {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  if (isFetching) return [null, true, error ? AppError.fromUnknown(error) : null];
-  return [data || null, isFetching, error ? AppError.fromUnknown(error) : null];
+  const appError = useAppError(error);
+  if (isFetching) return [null, true, appError];
+  return [data || null, isFetching, appError];
 }
 
 export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedComponent<any>[]> {
@@ -46,8 +48,8 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
         retry: false,
         staleTime: reference.hasAuthorizedContent ? 0 : 1000 * 60 * 10,
         queryKey: [
-          countryCode,
           reference.appSubType,
+          countryCode,
           reference.referenceId,
           reference.parameters,
           reference.referenceUrl,
@@ -59,7 +61,6 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
           if (!userSession?.isLoggedIn() && reference.hasAuthorizedContent === true) {
             return undefined;
           }
-
           return appService.getResolvedComponentByReference({ wlReference: reference, countryCode });
         }
       };
@@ -67,7 +68,7 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
   ) as UseQueryResult<ResolvedComponent<any>>[];
 
   const somethingIsLoading = results.some(r => r.isLoading) || pageLoading;
-
+  const somethingIsFetching = results.some(r => r.isFetching);
   const data = useMemo(() => {
     if (somethingIsLoading) {
       return null;
@@ -75,13 +76,18 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
     return results
       .filter(r => r.data?.component && r.data.presentationParameters)
       .map(r => r.data) as ResolvedComponent<any>[];
-  }, [somethingIsLoading]);
-  const componentError = useMemo(() => {
-    const err = results.find(r => !!r.error)?.error;
-    return err ? AppError.fromUnknown(err) : null;
-  }, [results]);
+    // We only want to recalculate the data when the complete response is meaningfull to the app.
+    // Hence we return null when something is loading, and rerun the calculation whenever something is fetching(updating)
+    // adding results as a dep in useMemo would increase the number of renders since it would recaluculate data, every time
+    // a since query completes
+  }, [somethingIsFetching, somethingIsLoading]);
 
-  return [data, somethingIsLoading, pageError || componentError];
+  const componentError = useMemo(() => {
+    return results.find(r => !!r.error)?.error;
+  }, [results]);
+  const appError = useAppError(componentError);
+
+  return [data, somethingIsLoading, pageError || appError];
 }
 
 export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponent[]> {
@@ -96,7 +102,7 @@ export function useResolvedAssetPage(assetId: string): TApiHook<ResolvedComponen
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }
 
 export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]> {
@@ -111,7 +117,7 @@ export function useResolvedTagPage(tagId: string): TApiHook<ResolvedComponent[]>
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }
 
 export function useResolvedParticipantPage(participantName: string): TApiHook<ResolvedComponent[]> {
@@ -123,5 +129,5 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }

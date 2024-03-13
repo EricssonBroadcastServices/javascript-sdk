@@ -5,11 +5,11 @@ import {
   IExposureWLHerobanner,
   IExposureWLImageComponent,
   WLComponentType
-} from "./exposure-wl-component";
-import { CarouselDensity, CarouselLayout, PresentationImageOrientation } from "./exposure-wl-reference";
-import { IImage } from "./image";
-import { IExposureWLMenu } from "./exposure-wl-menu";
-import { IExposureWLPage } from "./exposure-wl-page";
+} from "./exposure-wl-component.js";
+import { CarouselDensity, CarouselLayout, PresentationImageOrientation } from "./exposure-wl-reference.js";
+import { IImage } from "./image.js";
+import { IExposureWLMenu } from "./exposure-wl-menu.js";
+import { IExposureWLPage } from "./exposure-wl-page.js";
 
 export type CarouselItem = { asset: Asset; startTime?: string; endTime?: string };
 

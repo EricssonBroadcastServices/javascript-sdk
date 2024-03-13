@@ -1,4 +1,4 @@
-import { DeviceRegistration, ServiceContext } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { DeviceRegistration, ServiceContext, SystemConfig } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { getValidatedPersistedSession, validateAndReconstructSessionFromSessionToken } from "./session-token";
 import { Session, SessionData } from "../Session";
 import { IStorage } from "../types/storage";
@@ -10,6 +10,22 @@ import {
   getEssentialAppDataByOrigin,
   GetEssentialAppDataByOriginOptions
 } from "@ericssonbroadcastservices/app-sdk";
+
+async function selectValidLangauge(systemConfig: SystemConfig, storage?: IStorage) {
+  const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
+
+  let selectedLanguage = systemConfig.localization.defaultLocale;
+
+  if (persistedSelectedLanguage && systemConfig.localization.displayLocales.includes(persistedSelectedLanguage)) {
+    selectedLanguage = persistedSelectedLanguage;
+  }
+
+  if (selectedLanguage !== persistedSelectedLanguage) {
+    storage?.setItem(StorageKey.LOCALE, selectedLanguage);
+  }
+
+  return selectedLanguage;
+}
 
 /** @description get an initial state based on customer/businessUnit/baseUrl and the provided storage module */
 export async function getInitialStateByCustomerAndBusinessUnit({
@@ -66,18 +82,18 @@ export async function getInitialStateByCustomerAndBusinessUnit({
     }
   }
 
-  const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
-
   async function getAuthToken() {
     return session?.sessionToken;
   }
   const appService = new AppService({ ...serviceContext, deviceGroup, getAuthToken });
 
-  const essentialAppData = await appService.getEssentialAppData().catch(() => null);
+  const essentialAppData = await appService.getEssentialAppData();
+
+  const selectedLanguage = await selectValidLangauge(essentialAppData.systemConfig, storage);
 
   return {
     session: session && new Session(session),
-    selectedLanguage: persistedSelectedLanguage || null,
+    selectedLanguage,
     loading: [],
     customer,
     businessUnit,
@@ -86,7 +102,6 @@ export async function getInitialStateByCustomerAndBusinessUnit({
     baseUrl,
     essentialAppData,
     deviceGroup,
-    unavailable: !essentialAppData,
     serviceContext,
     appService
   };
@@ -98,7 +113,6 @@ export async function getInitialStateByCustomerAndBusinessUnit({
  * */
 export async function getInitialStateByOrigin({
   origin,
-  baseUrl,
   sessionToken,
   storage,
   deviceRegistration,
@@ -147,7 +161,7 @@ export async function getInitialStateByOrigin({
     }
   }
 
-  const persistedSelectedLanguage = await storage?.getItem(StorageKey.LOCALE);
+  const selectedLanguage = await selectValidLangauge(essentialAppData.systemConfig, storage);
 
   async function getAuthToken() {
     return session?.sessionToken;
@@ -156,16 +170,15 @@ export async function getInitialStateByOrigin({
 
   return {
     session: session && new Session(session),
-    selectedLanguage: persistedSelectedLanguage || null,
+    selectedLanguage: selectedLanguage,
     loading: [],
     customer: context.customer,
     businessUnit: context.businessUnit,
     storage: storage || null,
     deviceRegistration,
-    baseUrl,
+    baseUrl: context.baseUrl,
     essentialAppData,
     deviceGroup,
-    unavailable: !essentialAppData,
     serviceContext: context,
     appService
   };

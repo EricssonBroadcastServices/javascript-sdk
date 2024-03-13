@@ -1,11 +1,12 @@
 import { useMutation, useQuery } from "react-query";
 import { addToAssetList, deleteFromAssetList, getFromAssetList } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { AppError, WLComponentSubType } from "@ericssonbroadcastservices/app-sdk";
+import { WLComponentSubType } from "@ericssonbroadcastservices/app-sdk";
 import { TApiHook, TApiMutation } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useUserSession } from "./useUserSession";
 import { useAssetList } from "./useAssetList";
 import { useServiceContext } from "./useApi";
+import { useAppError } from "./useAppError";
 
 const FAVORITES_LIST_ID = "favorites";
 
@@ -33,12 +34,7 @@ export function useAddAssetToFavorites(assetId: string): TApiMutation<void, void
       await addToAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
     }
   });
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
 }
 
 export function useRemoveAssetFromFavorites(assetId: string): TApiMutation<void, void> {
@@ -56,12 +52,7 @@ export function useRemoveAssetFromFavorites(assetId: string): TApiMutation<void,
       await deleteFromAssetList.call(serviceContext, { assetId, list: FAVORITES_LIST_ID, headers });
     }
   });
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
 }
 
 type HandleAssetFavorites = {
@@ -98,12 +89,9 @@ export function useHandleAssetFavorites(assetId: string): TApiHook<HandleAssetFa
       return false;
     }
   });
+  const appError = useAppError(error);
 
   handler.isInList = !!data;
 
-  return [
-    handler,
-    loadingAdd || loadingRemove || loadingList,
-    !!error ? AppError.fromUnknown(error) : null || favoritesError
-  ];
+  return [handler, loadingAdd || loadingRemove || loadingList, !!error ? appError : null || favoritesError];
 }

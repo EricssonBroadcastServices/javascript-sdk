@@ -356,6 +356,39 @@ export async function createPinCode({
 }
 
 /**
+ * @description The account will be anonymonized and not be possible to use.
+ * @summary Delete personal data.
+ * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/user/delete
+ * @response `200` `void` OK
+ */
+export async function deleteDetails({
+  headers,
+  ..._data
+}: {
+  /**
+   * Value is ignored.
+   *  * @deprecated
+   */
+  password?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+} = {}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "POST",
+    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`,
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
+    ctx,
+    body: _data
+  });
+}
+
+/**
  * @summary Delete a pin code.
  * @request DELETE:/v3/customer/{customer}/businessunit/{businessUnit}/user/pincode/pin/{pincodeId}
  * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired.
@@ -377,31 +410,6 @@ export async function deletePinCode({
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/pincode/pin/${pincodeId}`,
     headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  });
-}
-
-/**
- * @summary Delete personal data.
- * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/user/delete
- * @response `401` `void` NO_SESSION_TOKEN. If the session is not found. INVALID_SESSION_TOKEN. If the session is expired. BAD_PASSWORD. The provided password is faulty.
- * @response `403` `void` BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION STORED_PAYMENT_DETAILS, the account cannot be deleted as there are stored payment details for the account. OWNER_OF_ACCOUNT_WITH_NON_OWNER_USER, this user can not be deleted as there are other non-owners in the account. NOT_ALLOWED_IN_ANONYMOUS_SESSION. NOT_ALLOWED_IN_SESSION_USER_SESSION. NOT_SUPPORTED_FOR_FEDERATED_USER
- */
-export async function deleteUserDetails({
-  headers,
-  ..._data
-}: {
-  password: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/user/delete`,
-    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx,
-    body: _data
   });
 }
 
@@ -852,8 +860,8 @@ export class UserService {
   createActivationCode = createActivationCode;
   createNewAccount = createNewAccount;
   createPinCode = createPinCode;
+  deleteDetails = deleteDetails;
   deletePinCode = deletePinCode;
-  deleteUserDetails = deleteUserDetails;
   deleteUserProfile = deleteUserProfile;
   getAccountLabels = getAccountLabels;
   getPinCodes = getPinCodes;

@@ -1,9 +1,10 @@
 {
   "name": "@ericssonbroadcastservices/rbm-ott-sdk",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "description": "",
   "homepage": "https://github.com/EricssonBroadcastServices/javascript-sdk#readme",
   "main": "dist/index.js",
+  "sideEffects": false,
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",

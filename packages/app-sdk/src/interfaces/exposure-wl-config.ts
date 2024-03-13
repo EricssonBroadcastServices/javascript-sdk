@@ -26,6 +26,9 @@ export interface IWLTheme {
   primaryBackgroundColor: string;
   secondaryBackgroundColor: string;
   primaryBrandColor: string;
+  /**
+   * @deprecated use `primaryTextColor` instead
+   */
   heroBannerTextColor: string;
   fontLight?: string;
   fontRegular?: string;

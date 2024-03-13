@@ -433,6 +433,8 @@ delete spec.paths["/docs/api-docs/{api}"];
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/asset"];
 // delete 307 redirect endpoint (cannot be used in an SDK)
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail"];
+// delete deprecated endpoint to user deleting
+delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/delete"];
 
 const unhandledPathEnums = new Set<string>();
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
@@ -591,7 +593,7 @@ generateApi({
       .join(";\n");
     const importStatements = ["http-client", ...Object.values(moduleNames)]
       .sort(Intl.Collator().compare)
-      .map(name => [name, name === "http-client" ? "request, ServiceContext" : name]);
+      .map(name => [name, name === "http-client" ? "request, ServiceContext, ResponseError" : name]);
     const imports = importStatements
       .map(([fileName, module]) => `import { ${module} } from "./${fileName}"`)
       .join(";\n");
@@ -599,7 +601,7 @@ generateApi({
       ";\n  "
     )};\n  constructor(public context: ServiceContext) {\n    ${props.join(
       ";\n    "
-    )};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport { request };\nexport * from \"./data-contracts\";\n${exports};\n`;
+    )};\n  }\n}\n\nexport default RBMOTTSDK;\nexport type { ServiceContext };\nexport { request, ResponseError };\nexport * from \"./data-contracts\";\n${exports};\n`;
 
     files.push({ fileName: "index", fileExtension: "ts", fileContent });
 

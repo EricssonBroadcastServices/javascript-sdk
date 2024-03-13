@@ -18,43 +18,29 @@ import { useTranslations } from "./useTranslations";
 
 const configLoadingId = "configLoading";
 
-const DEFAULT_THEME: IWLTheme = {
-  dark: "#000000",
-  light: "#ffffff",
-  error: "#ff0000",
-  success: "#00ff00",
-  warning: "#ffff00",
-  primaryTextColor: "#ffffff",
-  secondaryTextColor: "#d3d3d3",
-  primaryBackgroundColor: "#000000",
-  secondaryBackgroundColor: "#5a5a5a",
-  primaryBrandColor: "#000000",
-  heroBannerTextColor: "#ffffff"
-};
-
-export function useEssentialAppData(): TApiHook<EssentialAppData> {
+export function useEssentialAppData(): TApiHook<EssentialAppData, EssentialAppData> {
   const state = useRedBeeState();
-  return [state.essentialAppData || null, state.loading.includes(configLoadingId), null];
+  return [state.essentialAppData, state.loading.includes(configLoadingId), null];
 }
 
-export function useConfig(): TApiHook<IExposureWLConfig> {
+export function useConfig(): TApiHook<IExposureWLConfig, IExposureWLConfig> {
   const [essentialAppData, loading] = useEssentialAppData();
-  return [essentialAppData?.config || null, loading, null];
+  return [essentialAppData.config, loading, null];
 }
 
-export function useMenu(): TApiHook<IExposureWLMenu> {
+export function useMenu(): TApiHook<IExposureWLMenu, IExposureWLMenu> {
   const [essentialAppData, loading] = useEssentialAppData();
-  return [essentialAppData?.menu || null, loading, null];
+  return [essentialAppData.menu, loading, null];
 }
 
-export function useFooter(): TApiHook<IExposureWLFooter> {
+export function useFooter(): TApiHook<IExposureWLFooter, undefined> {
   const [essentialAppData, loading] = useEssentialAppData();
-  return [essentialAppData?.footer || null, loading, null];
+  return [essentialAppData.footer, loading, null];
 }
 
 export function useTheme(): TApiHook<IWLTheme, IWLTheme> {
   const [config, isLoading] = useConfig();
-  return [config?.theme || DEFAULT_THEME, isLoading, null];
+  return [config.theme, isLoading, null];
 }
 
 export interface DocumentLink {
@@ -110,24 +96,20 @@ export function useServiceName(): string {
 
 export function useContactInformation() {
   const [config] = useConfig();
-  if (!config) return null;
   const {
     parameters: { phone, website, email }
   } = config;
   return { phone, website, email };
 }
 
-export function useConfigImage(tag: "logo" | "background", fitOptions: FitOptions) {
+export function useConfigImage(tag: "logo" | "background" | "staticBackground" | string, fitOptions: FitOptions) {
   const [config] = useConfig();
   const { language } = useLanguage();
   const imageUrl = useMemo(() => {
-    if (!config) {
-      return;
-    }
     const image = WLComponentHelpers.getImageByTag(config, tag, language);
     if (!image?.url) return;
     return fit(image.url, fitOptions);
-  }, [config]);
+  }, [config, fitOptions, language, tag]);
 
   return imageUrl;
 }

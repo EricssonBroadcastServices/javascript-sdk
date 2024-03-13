@@ -4,7 +4,7 @@ import { useServiceContext } from "./useApi";
 import { QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
 import { useRedBeeState } from "../RedBeeProvider";
-import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 export function useGeolocation(): TApiHook<Location> {
   const ctx = useServiceContext();
@@ -13,9 +13,9 @@ export function useGeolocation(): TApiHook<Location> {
     () => {
       return getLocation.call(ctx);
     },
-    { staleTime: 1000 * 60 * 60 * 24 }
+    { staleTime: 1000 * 60 * 60 * 24, cacheTime: 1000 * 60 * 60 * 24 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }
 
 export function useCountryCode() {

@@ -15,7 +15,7 @@ import { useUserSession } from "./useUserSession";
 import { TApiHook, TApiMutation } from "../types/type.apiHook";
 import { queryClient, QueryKeys } from "../util/react-query";
 import { useSystemConfigV2 } from "./useSystemConfig";
-import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 const purchasesCacheTime = 1000 * 60 * 30;
 
@@ -37,7 +37,7 @@ export function usePurchaseTransactions(): TApiHook<StorePurchaseTransaction[]> 
       staleTime: purchasesCacheTime
     }
   );
-  return [data || [], isLoading, !!error ? AppError.fromUnknown(error, "PAYMENT") : null];
+  return [data || [], isLoading, useAppError(error, "PAYMENT")];
 }
 export function usePurchases(): TApiHook<ProductOfferingPurchases> {
   const [login] = useUserSession();
@@ -63,7 +63,7 @@ export function usePurchases(): TApiHook<ProductOfferingPurchases> {
       staleTime: purchasesCacheTime
     }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error, "PAYMENT") : null];
+  return [data || null, isLoading, useAppError(error, "PAYMENT")];
 }
 
 export function useActivePackages(): TApiHook<ProductOfferingPurchase[]> {
@@ -99,7 +99,7 @@ export function useTvodAssets(): TApiHook<Asset[]> {
     },
     { staleTime: purchasesCacheTime }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error, "PAYMENT") : null];
+  return [data || null, isLoading, useAppError(error, "PAYMENT")];
 }
 
 export function useConsumedDiscounts(): TApiHook<string[]> {
@@ -132,10 +132,5 @@ export function useUnsubscribe(): TApiMutation<TUseUnsubscribe, void> {
     }
   });
 
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
 }

@@ -2361,36 +2361,39 @@
     "/v1/customer/{customer}/businessunit/{businessUnit}/document": {
       "get": {
         "tags": [
-          "document"
+          "documents"
         ],
-        "summary": "Gets document.",
+        "summary": "Get Document.",
+        "description": "Get the requested document.",
         "operationId": "getDocument",
         "parameters": [
           {
             "name": "customer",
             "in": "path",
-            "description": "The customer unit.",
+            "description": "The customer",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampleSetFlag": false
             }
           },
           {
             "name": "businessUnit",
             "in": "path",
-            "description": "The business unit.",
+            "description": "The business unit",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampleSetFlag": false
             }
           },
           {
             "name": "documentId",
             "in": "query",
-            "description": "Which document to fetch",
             "required": true,
             "schema": {
               "type": "string",
+              "exampleSetFlag": false,
               "enum": [
                 "end_user_consent",
                 "end_user_cookie_policy",
@@ -2408,37 +2411,51 @@
           {
             "name": "customDocumentName",
             "in": "query",
+            "description": "Custom name if documentId == custom_document",
+            "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampleSetFlag": false
             }
           },
           {
             "name": "preferredLanguage",
             "in": "query",
-            "description": "ISO 639-1 language code. If not stated or not supported fall back to other languages will be performed.",
+            "description": "Use user language. If not stated system default is used.",
+            "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampleSetFlag": false
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "success",
+            "description": "Successful",
             "content": {
-              "application/json;charset=utf-8": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiHtmlDocument"
                 }
               }
             }
           },
-          "404": {
-            "description": "UNKNOWN_BUSINESS_UNIT. If the business unit is not found.",
-            "content": {}
-          },
-          "422": {
-            "description": "BAD_DOCUMENT_ID. Unrecognized documentId.<br>UNKNOWN_LANGUAGE. Unrecognized documentId.",
-            "content": {}
+          "4xx": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "The the business unit cannot be found.": {
+                    "description": "The the business unit cannot be found.",
+                    "valueSetFlag": false,
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_BUSINESS_UNIT\"\n}"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3634,7 +3651,7 @@
         ],
         "summary": "Get time.",
         "description": "Gets the current server UTC time.",
-        "operationId": "time",
+        "operationId": "time_1",
         "parameters": [
           {
             "name": "customer",
@@ -7918,6 +7935,55 @@
         }
       }
     },
+    "/v2/customer/{customer}/businessunit/{businessUnit}/user/delete": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete personal data.",
+        "description": "Use the v3 version",
+        "operationId": "deleteDetails_1",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiCredentials"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      }
+    },
     "/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/label/{labelFilter}": {
       "get": {
         "tags": [
@@ -9898,7 +9964,7 @@
         ],
         "summary": "Get time.",
         "description": "Gets the current server UTC time.",
-        "operationId": "time_1",
+        "operationId": "time",
         "responses": {
           "200": {
             "description": "Successful",
@@ -11638,12 +11704,12 @@
           "user"
         ],
         "summary": "Delete personal data.",
-        "operationId": "deleteUserDetailsV3",
+        "description": "The account will be anonymonized and not be possible to use.",
+        "operationId": "deleteDetails",
         "parameters": [
           {
             "name": "customer",
             "in": "path",
-            "description": "The customer.",
             "required": true,
             "schema": {
               "type": "string"
@@ -11652,7 +11718,6 @@
           {
             "name": "businessUnit",
             "in": "path",
-            "description": "The business unit",
             "required": true,
             "schema": {
               "type": "string"
@@ -11670,16 +11735,10 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "NO_SESSION_TOKEN. If the session is not found.<br>INVALID_SESSION_TOKEN. If the session is expired.<br>BAD_PASSWORD. The provided password is faulty.",
-            "content": {}
-          },
-          "403": {
-            "description": "BUSINESS_UNITS_CRM_DOES_NOT_SUPPORT_OPERATION<br>STORED_PAYMENT_DETAILS, the account cannot be deleted as there are stored payment details for the account.<br>OWNER_OF_ACCOUNT_WITH_NON_OWNER_USER, this user can not be deleted as there are other non-owners in the account.<br>NOT_ALLOWED_IN_ANONYMOUS_SESSION.<br>NOT_ALLOWED_IN_SESSION_USER_SESSION.<br>NOT_SUPPORTED_FOR_FEDERATED_USER",
-            "content": {}
+          "200": {
+            "description": "OK"
           }
         },
-        "x-codegen-request-body-name": "credentials",
         "security": [
           {
             "bearer-key": []
@@ -13907,18 +13966,19 @@
               "$ref": "#/components/schemas/PasswordTuple"
             }
           }
-        }
+        },
+        "description": "Value is ignored"
       },
       "ApiCredentialsV3": {
-        "required": [
-          "password"
-        ],
         "type": "object",
         "properties": {
           "password": {
-            "type": "string"
+            "type": "string",
+            "description": "Value is ignored.",
+            "deprecated": true
           }
-        }
+        },
+        "description": "Value is ignored"
       },
       "ApiDeleteUsersSessionsRequest": {
         "required": [
@@ -20807,5 +20867,27 @@
         "bearerFormat": "JWT"
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "system",
+      "description": "System configuration."
+    },
+    {
+      "name": "time",
+      "description": "System time."
+    },
+    {
+      "name": "location",
+      "description": "Get location based on IP-address."
+    },
+    {
+      "name": "documents",
+      "description": "Get documents, e.g. privacy policy."
+    },
+    {
+      "name": "store",
+      "description": "Manage purchases and payments."
+    }
+  ]
 }

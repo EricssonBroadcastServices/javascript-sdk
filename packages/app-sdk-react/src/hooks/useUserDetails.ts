@@ -14,7 +14,7 @@ import { useSetSession, useUserSession } from "./useUserSession";
 import { TApiMutation, TApiHook } from "../types/type.apiHook";
 import { useServiceContext } from "./useApi";
 import { useRedBeeState } from "../RedBeeProvider";
-import { AppError } from "@ericssonbroadcastservices/app-sdk";
+import { useAppError } from "./useAppError";
 
 export function useUserDetails(): TApiHook<UserDetailsResponse> {
   const [session] = useUserSession();
@@ -30,7 +30,7 @@ export function useUserDetails(): TApiHook<UserDetailsResponse> {
     },
     { staleTime: 1000 * 60 * 10 }
   );
-  return [data || null, isLoading, !!error ? AppError.fromUnknown(error) : null];
+  return [data || null, isLoading, useAppError(error)];
 }
 
 export function useChangePassword(): TApiMutation<
@@ -61,12 +61,7 @@ export function useChangePassword(): TApiMutation<
     }
   });
 
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
 }
 
 export function useChangeEmail(): TApiMutation<{ email: string; password: string }, Response> {
@@ -86,12 +81,7 @@ export function useChangeEmail(): TApiMutation<{ email: string; password: string
       return changeEmailAndUsername.call(serviceContext, { newEmailAddressAndUsername: email, password, headers });
     }
   });
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
 }
 
 export function useChangeEmailSSO(): TApiMutation<string, Response> {
@@ -112,12 +102,7 @@ export function useChangeEmailSSO(): TApiMutation<string, Response> {
     }
   });
 
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
 }
 
 type Attribute = { attributeId: string; value: any };
@@ -139,12 +124,7 @@ export function useSetUserAttributes(): TApiMutation<Attribute[], UserDetailsRes
     }
   });
 
-  return [
-    mutation.mutate,
-    mutation.data || null,
-    mutation.isLoading,
-    !!mutation.error ? AppError.fromUnknown(mutation.error) : null
-  ];
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error)];
 }
 
 export function refetchUserDetails() {

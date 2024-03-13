@@ -33,7 +33,6 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
     });
   const [pnc] = usePushNextContentData(asset.assetId);
   const { upNext, recommendations } = pnc || {};
-
   return (
     <>
       <div className="asset-display">
@@ -61,7 +60,12 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
           <img src={image}></img>
         </div>
       </div>
-      {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && <ChannelPicker selectedChannel={asset.assetId} />}
+      {asset?.assetId && asset?.type === AssetType.TV_CHANNEL && (
+        <div>
+          <h1>ChannelPicker</h1>
+          <ChannelPicker selectedChannel={asset.assetId} />
+        </div>
+      )}
     </>
   );
 }
@@ -105,6 +109,7 @@ function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
     progress,
     seasons,
     continueWatching,
+    continueWatchingTitle,
     entitlement
   } = useAssetDisplayTvShow(asset, { width: 800 });
 
@@ -119,7 +124,10 @@ function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
           <FavoriteButton assetId={asset.assetId} />
           <h4>{`Bookmark percentage: ${progress.percentage}`}</h4>
           <Entitlements status={entitlement} />
-          <JsonBox json={JSON.stringify({ continueWatching }, null, 2)} title="Continue Watching asset" />
+          <JsonBox
+            json={JSON.stringify({ continueWatching }, null, 2)}
+            title={`Continue watching: ${continueWatchingTitle}`}
+          />
           {tags.map(id => {
             return (
               <Link to={`/tag/${id}`} key={id}>
@@ -140,9 +148,7 @@ function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
           <img src={image}></img>
         </div>
       </div>
-      {seasons?.map(s => (
-        <CarouselComponent key={s.component.id} {...s} />
-      ))}
+      {seasons?.map(s => <CarouselComponent key={s.component.id} {...s} />)}
     </>
   );
 }
