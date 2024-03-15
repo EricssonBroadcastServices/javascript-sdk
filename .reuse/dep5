@@ -1,0 +1,24 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: @redbeemedia/javascript-sdk
+Upstream-Contact: Red Bee Media Ltd <https://www.redbeemedia.com>
+Source: https://www.redbeemedia.com
+
+Files: packages/*/src/*
+Copyright: 2024 Red Bee Media Ltd
+License: Apache-2.0
+
+Files: packages/*/demo/*
+Copyright: 2024 Red Bee Media Ltd
+License: Apache-2.0
+
+Files: packages/*/test-utils/*
+Copyright: 2024 Red Bee Media Ltd
+License: Apache-2.0
+
+Files: packages/*/generated/*
+Copyright: 2024 Red Bee Media Ltd
+License: Apache-2.0
+
+Files: packages/*/templates/*
+Copyright: 2024 Red Bee Media Ltd
+License: Apache-2.0
