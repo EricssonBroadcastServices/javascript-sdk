@@ -59,6 +59,7 @@ export type WLComponentSubType = (typeof WLComponentSubType)[keyof typeof WLComp
 interface IExposureComponentParameters {
   assetSearchTypes?: string;
   assetTitles?: "show" | "hide";
+  carouselNavigation?: "GO_TO_DETAILS" | "PLAY";
 }
 export interface IExposureComponent {
   id: string;

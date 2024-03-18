@@ -9,7 +9,13 @@ import {
   TagHelpers
 } from "@ericssonbroadcastservices/app-sdk";
 import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useBookmarkPercentage, useCarouselItem, useInitialCarouselIndex, useSelectedLanguage, useTag } from "../../../src";
+import {
+  useBookmarkPercentage,
+  useCarouselItem,
+  useInitialCarouselIndex,
+  useSelectedLanguage,
+  useTag
+} from "../../../src";
 import CarouselHeader from "./CarouselHeader";
 import { useTagFeedFilter } from "../../../src";
 import { Link } from "react-router-dom";
@@ -28,7 +34,15 @@ function Tag({ tagId }: { tagId: string }) {
   return <p className="carousel-item-tag">{TagHelpers.getTitle(tag, selectedLanguage)}</p>;
 }
 
-export function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
+export function CarouselItem({
+  item,
+  orientation,
+  goDirectlyToPlay
+}: {
+  item: CarouselItem;
+  orientation: ImageOrientation;
+  goDirectlyToPlay: boolean;
+}) {
   const width = orientation === "LANDSCAPE" ? 400 : 200;
   const height = width / getAspectRatioMultiplier(orientation);
   const { assetId, image, startDay, startTime, tags, title, description, isLive } = useCarouselItem(item, {
@@ -37,11 +51,10 @@ export function CarouselItem({ item, orientation }: { item: CarouselItem; orient
     height
   });
 
-
   const [percentage] = useBookmarkPercentage(item.asset.assetId, item.asset.duration);
 
   return (
-    <Link to={`/asset/${assetId}`}>
+    <Link to={`/${goDirectlyToPlay ? "play" : "asset"}/${assetId}`}>
       <div className="carousel-item">
         {isLive && <div>LIVE</div>}
         <img src={image} />
@@ -70,7 +83,6 @@ function convertImageOrientation(o: PresentationImageOrientation): ImageOrientat
 export function CarouselComponent(props: ResolvedComponent<"carousel">) {
   const [assets, setTagFilter] = useTagFeedFilter(props.content);
 
-  if (!props.content.length) return null;
   const orientation = convertImageOrientation(props.presentationParameters.imageOrientation);
   const bgImage = useMemo(() => {
     if (props.presentationParameters.backgroundImage?.url) {
@@ -79,6 +91,8 @@ export function CarouselComponent(props: ResolvedComponent<"carousel">) {
   }, [props.presentationParameters.backgroundImage?.url]);
 
   const initialIndex = useInitialCarouselIndex(assets);
+
+  if (!props.content.length) return null;
 
   return (
     <div
@@ -92,7 +106,12 @@ export function CarouselComponent(props: ResolvedComponent<"carousel">) {
       <h3>Initial index: {initialIndex}</h3>
       <CarouselWrapper>
         {assets.map(item => (
-          <CarouselItem orientation={orientation} key={item.asset.assetId} item={item} />
+          <CarouselItem
+            goDirectlyToPlay={props.component.parameters?.carouselNavigation === "PLAY"}
+            orientation={orientation}
+            key={item.asset.assetId}
+            item={item}
+          />
         ))}
       </CarouselWrapper>
     </div>
