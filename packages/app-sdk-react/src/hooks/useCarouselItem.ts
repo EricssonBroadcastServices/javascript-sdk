@@ -8,6 +8,8 @@ import {
 import { Asset, AssetType, ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
+import { useOnNowForChannel } from "./useOnNow";
+import { useChannelPickerItem } from "./useChannelPickerItem";
 
 type DescriptionVariant = "MEDIUM" | "SHORT" | "LONG";
 
@@ -37,13 +39,14 @@ export function useCarouselItem(
     height?: number;
     imageFormat?: ImageFormat;
     descriptionVariant?: DescriptionVariant;
+    useProgramInfoForLiveChannels?: boolean;
   }
 ) {
-  const { orientation, width, height, imageFormat } = options;
+  const { orientation, width, height, imageFormat, useProgramInfoForLiveChannels = true } = options;
   const { language, defaultLanguage } = useLanguage();
   const [translations] = useTranslations();
 
-  const { tvShowId, season, episode } = item.asset;
+  const { tvShowId, season, episode, type } = item.asset;
 
   let title = AssetHelpers.getTitle(item.asset, {
     language,
@@ -55,24 +58,36 @@ export function useCarouselItem(
 
   const startTime = item.startTime ?? AssetHelpers.getStartTime(item.asset);
 
+  const [channelStatus] = useOnNowForChannel({
+    channelId: useProgramInfoForLiveChannels && item.asset.type === "TV_CHANNEL" ? item.asset.assetId : undefined
+  });
+
+  const channelItem = useChannelPickerItem(channelStatus || {}, {
+    image: { width, height, format: imageFormat },
+    logo: { width: Math.round(width / 4), height: height ? Math.round(height / 4) : undefined, format: imageFormat }
+  });
+
   return {
     assetId: item.asset.assetId,
     isLive: ChannelAssetHelpers.isLive(item),
     isLiveEvent: item.asset.type === AssetType.LIVE_EVENT || item.asset.type === AssetType.EVENT,
-    title,
+    title: channelItem.title || title,
     description: selectDescription(options.descriptionVariant || "MEDIUM", item.asset, { language, defaultLanguage }),
     tags: AssetHelpers.getAllTagIds(item.asset),
-    startDay: startTime ? getDayLocalized(new Date(startTime), translations) : undefined,
-    startTime: ChannelAssetHelpers.getTimeSlotString(item) || undefined,
-    image: AssetHelpers.getScaledImage({
-      asset: item.asset,
-      imageType: "cover",
-      format: imageFormat,
-      orientation,
-      width,
-      height,
-      language,
-      defaultLanguage
-    })
+    startDay: startTime && type !== "TV_CHANNEL" ? getDayLocalized(new Date(startTime), translations) : undefined,
+    startTime: channelItem.timeSlot || ChannelAssetHelpers.getTimeSlotString(item) || undefined,
+    logo: channelItem.logo,
+    image:
+      channelItem.image ||
+      AssetHelpers.getScaledImage({
+        asset: item.asset,
+        imageType: "cover",
+        format: imageFormat,
+        orientation,
+        width,
+        height,
+        language,
+        defaultLanguage
+      })
   };
 }

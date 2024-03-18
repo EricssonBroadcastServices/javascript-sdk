@@ -15,7 +15,7 @@ export { refetchAssetEntitlements, useEntitlementForAsset } from "./hooks/useEnt
 export { useAsset } from "./hooks/useAsset";
 export * from "./hooks/useFavorites";
 export * from "./hooks/useBookmarks";
-export { useChannelPicker } from "./hooks/useChannelPicker";
+export { useOnNow, useOnNow as useChannelPicker, useOnNowForChannel } from "./hooks/useOnNow";
 export type { IStorage } from "./types/storage";
 export * from "./hooks/usePage";
 export { usePushNextContentData } from "./hooks/usePushNextContentData";

@@ -35,10 +35,10 @@ export function getOrganizationUnitConfig(useOriginConfig = false) {
 
   let { customer, businessUnit } = Object.fromEntries(new URLSearchParams(window.location.search).entries());
   if (!customer || !businessUnit) {
-    customer = "BSCU";
-    businessUnit = "BSBU";
+    customer = "Nova";
+    businessUnit = "novatvprod";
   }
-  return { customer, businessUnit, baseUrl: "https://exposure.api.redbee.dev" };
+  return { customer, businessUnit, baseUrl: "https://exposure.api.redbee.live" };
 }
 
 export default function App() {

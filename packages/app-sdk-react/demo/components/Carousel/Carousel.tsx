@@ -9,7 +9,13 @@ import {
   TagHelpers
 } from "@ericssonbroadcastservices/app-sdk";
 import { ImageOrientation } from "@ericssonbroadcastservices/rbm-ott-sdk";
-import { useBookmarkPercentage, useCarouselItem, useInitialCarouselIndex, useSelectedLanguage, useTag } from "../../../src";
+import {
+  useBookmarkPercentage,
+  useCarouselItem,
+  useInitialCarouselIndex,
+  useSelectedLanguage,
+  useTag
+} from "../../../src";
 import CarouselHeader from "./CarouselHeader";
 import { useTagFeedFilter } from "../../../src";
 import { Link } from "react-router-dom";
@@ -31,12 +37,11 @@ function Tag({ tagId }: { tagId: string }) {
 export function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
   const width = orientation === "LANDSCAPE" ? 400 : 200;
   const height = width / getAspectRatioMultiplier(orientation);
-  const { assetId, image, startDay, startTime, tags, title, description, isLive } = useCarouselItem(item, {
+  const { assetId, image, startDay, startTime, tags, title, description, isLive, logo } = useCarouselItem(item, {
     orientation,
     width,
     height
   });
-
 
   const [percentage] = useBookmarkPercentage(item.asset.assetId, item.asset.duration);
 
@@ -45,8 +50,9 @@ export function CarouselItem({ item, orientation }: { item: CarouselItem; orient
       <div className="carousel-item">
         {isLive && <div>LIVE</div>}
         <img src={image} />
+        {logo && <img style={{ position: "absolute", top: "10px", right: "10px" }} src={logo} />}
         <div className="carousel-item-meta">
-          {startDay && startTime && <span>{`${startDay}: ${startTime}`}</span>}
+          {startTime && <span>{`${startDay || ""} ${startTime}`}</span>}
           <div className="carousel-item-tag-container">
             {tags.map((tag, index) => (
               <Tag key={index} tagId={tag} />
@@ -70,7 +76,6 @@ function convertImageOrientation(o: PresentationImageOrientation): ImageOrientat
 export function CarouselComponent(props: ResolvedComponent<"carousel">) {
   const [assets, setTagFilter] = useTagFeedFilter(props.content);
 
-  if (!props.content.length) return null;
   const orientation = convertImageOrientation(props.presentationParameters.imageOrientation);
   const bgImage = useMemo(() => {
     if (props.presentationParameters.backgroundImage?.url) {
@@ -79,7 +84,7 @@ export function CarouselComponent(props: ResolvedComponent<"carousel">) {
   }, [props.presentationParameters.backgroundImage?.url]);
 
   const initialIndex = useInitialCarouselIndex(assets);
-
+  if (!props.content.length) return null;
   return (
     <div
       className="carousel-component-container"
