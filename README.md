@@ -1,4 +1,13 @@
+<!--
+SPDX-FileCopyrightText: 2024 Red Bee Media Ltd <https://www.redbeemedia.com/>
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 # JavaScript SDKs
+
+[![REUSE status](https://api.reuse.software/badge/github.com/EricssonBroadcastServices/javascript-sdk)](https://api.reuse.software/info/github.com/EricssonBroadcastServices/javascript-sdk)
+
 This repository contains a collection of packages consumed by the white label apps, and all players running javascript. The idea is to enable as much code sharing as possible between the various apps and players.
 
 ### Packages
