@@ -3,22 +3,38 @@ Upstream-Name: @redbeemedia/javascript-sdk
 Upstream-Contact: Red Bee Media Ltd <https://www.redbeemedia.com>
 Source: https://www.redbeemedia.com
 
+Files: *.js *.json *.cjs *.ts
+Copyright: 2024 Red Bee Media Ltd
+License: MIT
+
+Files: packages/*/.gitignore
+Copyright: 2024 Red Bee Media Ltd
+License: CC0-1.0
+
+Files: packages/*/README.md packages/*/CHANGELOG.md
+Copyright: 2024 Red Bee Media Ltd
+License: CC-BY-SA-4.0
+
+Files: packages/*/.babelrc 
+Copyright: 2024 Red Bee Media Ltd
+License: MIT
+
 Files: packages/*/src/*
 Copyright: 2024 Red Bee Media Ltd
-License: Apache-2.0
+License: MIT
 
 Files: packages/*/demo/*
 Copyright: 2024 Red Bee Media Ltd
-License: Apache-2.0
+License: MIT
 
 Files: packages/*/test-utils/*
 Copyright: 2024 Red Bee Media Ltd
-License: Apache-2.0
+License: MIT
 
 Files: packages/*/generated/*
 Copyright: 2024 Red Bee Media Ltd
-License: Apache-2.0
+License: MIT
 
 Files: packages/*/templates/*
 Copyright: 2024 Red Bee Media Ltd
-License: Apache-2.0
+License: MIT
