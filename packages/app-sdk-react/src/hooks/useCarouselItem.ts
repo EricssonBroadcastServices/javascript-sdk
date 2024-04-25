@@ -55,6 +55,9 @@ export function useCarouselItem(
 
   const startTime = item.startTime ?? AssetHelpers.getStartTime(item.asset);
 
+  // as far as I can tell, this is the best way to distinguish between epg entries and events
+  const isEvent = !!item.asset.event;
+
   return {
     assetId: item.asset.assetId,
     isLive: ChannelAssetHelpers.isLive(item),
@@ -63,7 +66,9 @@ export function useCarouselItem(
     description: selectDescription(options.descriptionVariant || "MEDIUM", item.asset, { language, defaultLanguage }),
     tags: AssetHelpers.getAllTagIds(item.asset),
     startDay: startTime ? getDayLocalized(new Date(startTime), translations) : undefined,
-    startTime: ChannelAssetHelpers.getTimeSlotString(item) || undefined,
+    startTime: isEvent
+      ? ChannelAssetHelpers.getStartTimeString(item)
+      : ChannelAssetHelpers.getTimeSlotString(item) || undefined,
     image: AssetHelpers.getScaledImage({
       asset: item.asset,
       imageType: "cover",
