@@ -43,10 +43,9 @@ export async function getGeneratedTrailersForAssetCarousel(
   };
 
   const content = await getComponentContent<"carousel">(context, { component });
-
   return {
     component,
-    content,
+    content: content.length > 1 ? content : [],
     presentationParameters: {
       density: "MEDIUM",
       carouselLayout: "carousel",
