@@ -34,7 +34,15 @@ function Tag({ tagId }: { tagId: string }) {
   return <p className="carousel-item-tag">{TagHelpers.getTitle(tag, selectedLanguage)}</p>;
 }
 
-export function CarouselItem({ item, orientation }: { item: CarouselItem; orientation: ImageOrientation }) {
+export function CarouselItem({
+  item,
+  orientation,
+  goDirectlyToPlay
+}: {
+  item: CarouselItem;
+  orientation: ImageOrientation;
+  goDirectlyToPlay: boolean;
+}) {
   const width = orientation === "LANDSCAPE" ? 400 : 200;
   const height = width / getAspectRatioMultiplier(orientation);
   const { assetId, image, startDay, startTime, tags, title, description, isLive, logo } = useCarouselItem(item, {
@@ -46,7 +54,7 @@ export function CarouselItem({ item, orientation }: { item: CarouselItem; orient
   const [percentage] = useBookmarkPercentage(item.asset.assetId, item.asset.duration);
 
   return (
-    <Link to={`/asset/${assetId}`}>
+    <Link to={`/${goDirectlyToPlay ? "play" : "asset"}/${assetId}`}>
       <div className="carousel-item">
         {isLive && <div>LIVE</div>}
         <img src={image} />
@@ -84,7 +92,9 @@ export function CarouselComponent(props: ResolvedComponent<"carousel">) {
   }, [props.presentationParameters.backgroundImage?.url]);
 
   const initialIndex = useInitialCarouselIndex(assets);
+
   if (!props.content.length) return null;
+
   return (
     <div
       className="carousel-component-container"
@@ -97,7 +107,12 @@ export function CarouselComponent(props: ResolvedComponent<"carousel">) {
       <h3>Initial index: {initialIndex}</h3>
       <CarouselWrapper>
         {assets.map(item => (
-          <CarouselItem orientation={orientation} key={item.asset.assetId} item={item} />
+          <CarouselItem
+            goDirectlyToPlay={props.component.parameters?.carouselNavigation === "PLAY"}
+            orientation={orientation}
+            key={item.asset.assetId}
+            item={item}
+          />
         ))}
       </CarouselWrapper>
     </div>

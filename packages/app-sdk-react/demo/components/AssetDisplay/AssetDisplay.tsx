@@ -44,8 +44,8 @@ function AssetDisplayGeneric(props: ResolvedComponent<"asset_display">) {
           <h4>{`Bookmark percentage: ${progress.percentage}`}</h4>
           <Entitlements status={entitlement} />
           <JsonBox json={JSON.stringify({ upNext, recommendations }, null, 2)} title="PNC Data" />
-          {tags.map(id => {
-            return <AssetDisplayTagButton tagId={id} key={id} />;
+          {tags.map((id, index) => {
+            return <AssetDisplayTagButton tagId={id} key={id + index} />;
           })}
           {asset.participants.map(p => {
             if (!p.name) return;
@@ -128,17 +128,17 @@ function AssetDisplayTvShow(props: ResolvedComponent<"asset_display">) {
             json={JSON.stringify({ continueWatching }, null, 2)}
             title={`Continue watching: ${continueWatchingTitle}`}
           />
-          {tags.map(id => {
+          {tags.map((id, index) => {
             return (
-              <Link to={`/tag/${id}`} key={id}>
+              <Link to={`/tag/${id}`} key={id + index}>
                 <button>{id}</button>
               </Link>
             );
           })}
-          {asset.participants.map(p => {
+          {asset.participants.map((p, index) => {
             if (!p.name) return;
             return (
-              <Link key={p.name} to={`/participant/${p.name}`}>
+              <Link key={p.name + index} to={`/participant/${p.name}`}>
                 {p.name}
               </Link>
             );

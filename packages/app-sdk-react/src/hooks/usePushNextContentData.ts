@@ -12,8 +12,10 @@ export function usePushNextContentData(
   const { customer, businessUnit, appService } = useRedBeeState();
   const [pushNextContent, setPushNextContent] = useState<PushNextContent | null>(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (assetId) {
+      setLoading(true);
       appService
         .getPushNextContentData({ assetId, pushNextProgram: pushNextProgram })
         .then(pnc => {
@@ -21,8 +23,11 @@ export function usePushNextContentData(
         })
         .catch(err => {
           setError(err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, [assetId, customer, businessUnit, appService, pushNextProgram]);
-  return [pushNextContent || null, false, useAppError(error)];
+  return [pushNextContent || null, loading, useAppError(error)];
 }

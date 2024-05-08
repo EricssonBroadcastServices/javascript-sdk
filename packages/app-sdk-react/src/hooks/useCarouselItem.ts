@@ -66,6 +66,13 @@ export function useCarouselItem(
     image: { width, height, format: imageFormat },
     logo: { width: Math.round(width / 4), height: height ? Math.round(height / 4) : undefined, format: imageFormat }
   });
+  // as far as I can tell, this is the best way to distinguish between epg entries and events
+  const isEvent = !!item.asset.event;
+
+  const startTimeString =
+    channelItem.timeSlot || isEvent
+      ? ChannelAssetHelpers.getStartTimeString(item)
+      : ChannelAssetHelpers.getTimeSlotString(item) || undefined;
 
   return {
     assetId: item.asset.assetId,
@@ -75,7 +82,7 @@ export function useCarouselItem(
     description: selectDescription(options.descriptionVariant || "MEDIUM", item.asset, { language, defaultLanguage }),
     tags: AssetHelpers.getAllTagIds(item.asset),
     startDay: startTime && type !== "TV_CHANNEL" ? getDayLocalized(new Date(startTime), translations) : undefined,
-    startTime: channelItem.timeSlot || ChannelAssetHelpers.getTimeSlotString(item) || undefined,
+    startTime: startTimeString,
     logo: channelItem.logo,
     image:
       channelItem.image ||

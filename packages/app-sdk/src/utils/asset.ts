@@ -234,9 +234,18 @@ export function isChannelAssetLive(asset: ChannelAsset | CarouselItem): boolean 
   return dateIntervalIsNow(new Date(asset.startTime), new Date(asset.endTime));
 }
 
+export function getChannelAssetStartTimeString(item: ChannelAsset | CarouselItem) {
+  const startTime = item.startTime ? new Date(item.startTime) : getAssetStartTime(item.asset);
+  if (!startTime) {
+    return null;
+  }
+  return getTimeString(new Date(startTime));
+}
+
 export const ChannelAssetHelpers = {
   isLive: isChannelAssetLive,
-  getTimeSlotString: getChannelAssetTimeSlotString
+  getTimeSlotString: getChannelAssetTimeSlotString,
+  getStartTimeString: getChannelAssetStartTimeString
 };
 
 export const AssetHelpers = {
