@@ -1,9 +1,10 @@
-import { ChannelStatus, getActiveChannels, getChannelStatus } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { ChannelStatus, getActiveChannels } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useQuery } from "react-query";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
 import { useAppError } from "./useAppError";
 import { QueryKeys } from "../util/react-query";
+import { useMemo } from "react";
 
 const DEFAULT_INTERVAL = 60000 * 10; // 10 minutes
 
@@ -31,14 +32,9 @@ export function useOnNowForChannel({
   channelId,
   updateInterval = DEFAULT_INTERVAL
 }: TUseOnNowForChannel): TApiHook<ChannelStatus> {
-  const { customer, businessUnit, selectedLanguage, serviceContext } = useRedBeeState();
-  const { data, isLoading, error } = useQuery(
-    [QueryKeys.ON_NOW, customer, businessUnit, selectedLanguage, channelId],
-    () => {
-      if (!channelId) return;
-      return getChannelStatus.call(serviceContext, { channelId });
-    },
-    { refetchInterval: updateInterval }
-  );
+  const [onNow, isLoading, error] = useOnNow(updateInterval);
+  const data = useMemo(() => {
+    return onNow?.find(c => c.channel.assetId === channelId);
+  }, [channelId, onNow]);
   return [data || null, isLoading, useAppError(error)];
 }

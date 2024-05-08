@@ -57,6 +57,8 @@ export function useCarouselItem(
     imageFormat?: ImageFormat;
     descriptionVariant?: DescriptionVariant;
     useProgramInfoForLiveChannels?: boolean;
+    /** @description The interval for updating program info for live channels, in millisec. Defaults to 10 mins  */
+    onNowInfoUpdateInterval?: number;
   }
 ): IUseChannelPickerItem {
   const { orientation, width, height, imageFormat, useProgramInfoForLiveChannels = true } = options;
@@ -76,7 +78,8 @@ export function useCarouselItem(
   const startTime = item.startTime ?? AssetHelpers.getStartTime(item.asset);
 
   const [channelStatus] = useOnNowForChannel({
-    channelId: useProgramInfoForLiveChannels && item.asset.type === "TV_CHANNEL" ? item.asset.assetId : undefined
+    channelId: useProgramInfoForLiveChannels && item.asset.type === "TV_CHANNEL" ? item.asset.assetId : undefined,
+    updateInterval: options.onNowInfoUpdateInterval
   });
 
   const channelItem = useChannelPickerItem(channelStatus || {}, {
