@@ -37,5 +37,6 @@ export enum QueryKeys {
   SYSTEM_CONFIG_V2 = "systemConfigV2",
   TAGS = "tags",
   AVAILABILITY_KEYS = "availabilityKeys",
-  PAYMENT_METHODS = "paymentMethods"
+  PAYMENT_METHODS = "paymentMethods",
+  ON_NOW = "onNow"
 }

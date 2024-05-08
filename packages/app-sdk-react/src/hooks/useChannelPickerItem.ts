@@ -13,6 +13,7 @@ type UseChannelPickerItemOptions = {
     width: number;
     height?: number;
     format?: ImageFormat;
+    orientation?: ImageOrientation;
   };
 };
 
@@ -38,7 +39,7 @@ export function useChannelPickerItem(
   const logo = channel
     ? AssetHelpers.getScaledImage({
         asset: channel,
-        orientation: ImageOrientation.LANDSCAPE,
+        orientation: options.image.orientation || ImageOrientation.LANDSCAPE,
         imageType: "logo",
         ...options.logo,
         ...language

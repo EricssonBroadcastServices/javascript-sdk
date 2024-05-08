@@ -45,21 +45,27 @@ export function CarouselItem({
 }) {
   const width = orientation === "LANDSCAPE" ? 400 : 200;
   const height = width / getAspectRatioMultiplier(orientation);
-  const { assetId, image, startDay, startTime, tags, title, description, isLive } = useCarouselItem(item, {
-    orientation,
-    width,
-    height
-  });
+  const { assetId, image, startDay, startTime, tags, title, description, isLive, logo, progress } = useCarouselItem(
+    item,
+    {
+      orientation,
+      width,
+      height,
+      onNowInfoUpdateInterval: 60_000
+    }
+  );
 
   const [percentage] = useBookmarkPercentage(item.asset.assetId, item.asset.duration);
 
+  const assetProgress = progress || percentage;
   return (
     <Link to={`/${goDirectlyToPlay ? "play" : "asset"}/${assetId}`}>
       <div className="carousel-item">
         {isLive && <div>LIVE</div>}
         <img src={image} />
+        {logo && <img style={{ position: "absolute", top: "10px", right: "10px" }} src={logo} />}
         <div className="carousel-item-meta">
-          {startDay && startTime && <span>{`${startDay}: ${startTime}`}</span>}
+          {startTime && <span>{`${startDay || ""} ${startTime}`}</span>}
           <div className="carousel-item-tag-container">
             {tags.map((tag, index) => (
               <Tag key={index} tagId={tag} />
@@ -68,7 +74,7 @@ export function CarouselItem({
 
           <h4>{title}</h4>
           <p>{description}</p>
-          {percentage && <p>Bookmark: {percentage}%</p>}
+          {assetProgress && <p>Progress: {assetProgress}%</p>}
         </div>
       </div>
     </Link>
