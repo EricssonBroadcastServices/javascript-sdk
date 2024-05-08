@@ -31,6 +31,23 @@ function selectDescription(
   }
 }
 
+interface IUseChannelPickerItem {
+  assetId: string;
+  isLive: boolean;
+  isLiveEvent: boolean;
+  title?: string;
+  description?: string;
+  tags: string[];
+  startDay?: string;
+  startTime?: string;
+  /** @description a channel logo. Will be defined if the main image is taken from the currently live program */
+  logo?: string;
+  /** @description the main image for the asset. In case of a channel, the image could be from the currently live program */
+  image?: string;
+  /** @description represents the progress of the asset. Currently only set for programs on TV_CHANNELS */
+  progress: number;
+}
+
 export function useCarouselItem(
   item: CarouselItem,
   options: {
@@ -41,7 +58,7 @@ export function useCarouselItem(
     descriptionVariant?: DescriptionVariant;
     useProgramInfoForLiveChannels?: boolean;
   }
-) {
+): IUseChannelPickerItem {
   const { orientation, width, height, imageFormat, useProgramInfoForLiveChannels = true } = options;
   const { language, defaultLanguage } = useLanguage();
   const [translations] = useTranslations();
@@ -71,7 +88,7 @@ export function useCarouselItem(
 
   // startTime for the actual asset
   const assetStartTimeString = isEvent
-    ? ChannelAssetHelpers.getStartTimeString(item)
+    ? ChannelAssetHelpers.getStartTimeString(item) || undefined
     : ChannelAssetHelpers.getTimeSlotString(item) || undefined;
 
   // if there is a channelItem, that takes precedence
@@ -87,6 +104,7 @@ export function useCarouselItem(
     startDay: startTime && type !== "TV_CHANNEL" ? getDayLocalized(new Date(startTime), translations) : undefined,
     startTime: startTimeString,
     logo: channelItem.logo,
+    progress: channelItem.progress,
     image:
       channelItem.image ||
       AssetHelpers.getScaledImage({
