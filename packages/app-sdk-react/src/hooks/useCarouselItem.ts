@@ -69,16 +69,19 @@ export function useCarouselItem(
   // as far as I can tell, this is the best way to distinguish between epg entries and events
   const isEvent = !!item.asset.event;
 
-  const startTimeString =
-    channelItem.timeSlot || isEvent
-      ? ChannelAssetHelpers.getStartTimeString(item)
-      : ChannelAssetHelpers.getTimeSlotString(item) || undefined;
+  // startTime for the actual asset
+  const assetStartTimeString = isEvent
+    ? ChannelAssetHelpers.getStartTimeString(item)
+    : ChannelAssetHelpers.getTimeSlotString(item) || undefined;
+
+  // if there is a channelItem, that takes precedence
+  const startTimeString = channelItem.timeSlot || assetStartTimeString;
 
   return {
     assetId: item.asset.assetId,
     isLive: ChannelAssetHelpers.isLive(item),
     isLiveEvent: item.asset.type === AssetType.LIVE_EVENT || item.asset.type === AssetType.EVENT,
-    title: channelItem.title || title,
+    title: channelItem.title && channelItem.title !== title ? `${title} - ${channelItem.title}` : title,
     description: selectDescription(options.descriptionVariant || "MEDIUM", item.asset, { language, defaultLanguage }),
     tags: AssetHelpers.getAllTagIds(item.asset),
     startDay: startTime && type !== "TV_CHANNEL" ? getDayLocalized(new Date(startTime), translations) : undefined,
