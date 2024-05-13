@@ -107,7 +107,7 @@ export function useCarouselItem(
     startDay: startTime && type !== "TV_CHANNEL" ? getDayLocalized(new Date(startTime), translations) : undefined,
     startTime: startTimeString,
     logo: channelItem.logo,
-    progress: channelItem.progress,
+    progress: channelItem.progress || AssetHelpers.getPlayHistoryPercentage(item.asset) || 0,
     image:
       channelItem.image ||
       AssetHelpers.getScaledImage({
