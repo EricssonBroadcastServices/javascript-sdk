@@ -21,6 +21,7 @@ type UseAssetOptions = {
   height?: number;
   imageFormat?: ImageFormat;
   paymentProvider?: PaymentProvider;
+  imageType?: string;
 };
 
 export function useAssetDisplayCollection(asset: Asset, options: UseAssetOptions) {
@@ -143,7 +144,7 @@ function useAssetDisplayDefaults(asset: Asset, options: UseAssetOptions) {
     asset,
     width,
     height,
-    imageType: "cover",
+    imageType: options.imageType ?? "cover",
     format: imageFormat,
     orientation: ImageOrientation.LANDSCAPE,
     language,

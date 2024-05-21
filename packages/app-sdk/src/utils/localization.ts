@@ -71,9 +71,15 @@ export function getLocalizedImageByType(
   }
 
   const imagesByCorrectOrientation = allImages.filter(i => i.orientation === orientation.toUpperCase());
-  const imagesByCorrectType = imagesByCorrectOrientation.filter(i => i.type === imageType);
-  if (imagesByCorrectType.length > 0) {
-    return imagesByCorrectType[0];
+  const imageByCorrectType = imagesByCorrectOrientation.find(i => i.type === imageType);
+  if (imageByCorrectType) {
+    return imageByCorrectType;
+  }
+  if (imageType !== "cover") {
+    const imageByCoverType = imagesByCorrectOrientation.find(i => i.type === "cover");
+    if (imageByCoverType) {
+      return imageByCoverType;
+    }
   }
   if (imagesByCorrectOrientation.length > 0) {
     return imagesByCorrectOrientation[0];
