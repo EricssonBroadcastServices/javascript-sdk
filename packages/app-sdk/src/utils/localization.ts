@@ -58,6 +58,7 @@ export function getLocalizedImageByType(
   localized: Localized[],
   orientation: ImageOrientation,
   imageType: string,
+  imageTypeFallback: string,
   locale: string,
   defaultLocale?: string
 ): Image | undefined {
@@ -75,10 +76,10 @@ export function getLocalizedImageByType(
   if (imageByCorrectType) {
     return imageByCorrectType;
   }
-  if (imageType !== "cover") {
-    const imageByCoverType = imagesByCorrectOrientation.find(i => i.type === "cover");
-    if (imageByCoverType) {
-      return imageByCoverType;
+  if (imageType !== imageTypeFallback) {
+    const imageByFallbackType = imagesByCorrectOrientation.find(i => i.type === imageTypeFallback);
+    if (imageByFallbackType) {
+      return imageByFallbackType;
     }
   }
   if (imagesByCorrectOrientation.length > 0) {

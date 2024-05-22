@@ -22,6 +22,7 @@ type UseAssetOptions = {
   imageFormat?: ImageFormat;
   paymentProvider?: PaymentProvider;
   imageType?: string;
+  imageTypeFallback?: string;
 };
 
 export function useAssetDisplayCollection(asset: Asset, options: UseAssetOptions) {
@@ -145,6 +146,7 @@ function useAssetDisplayDefaults(asset: Asset, options: UseAssetOptions) {
     width,
     height,
     imageType: options.imageType ?? "cover",
+    imageTypeFallback: options.imageTypeFallback ?? "cover",
     format: imageFormat,
     orientation: ImageOrientation.LANDSCAPE,
     language,
