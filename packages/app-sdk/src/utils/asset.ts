@@ -82,9 +82,17 @@ export function getLocalizedAssetImage(
   imageOrientation: ImageOrientation,
   imageType: string,
   locale: string,
+  imageTypeFallback?: string,
   defaultLocale?: string
 ) {
-  return getLocalizedImageByType(asset.localized, imageOrientation, imageType, locale, defaultLocale);
+  return getLocalizedImageByType(
+    asset.localized,
+    imageOrientation,
+    imageType,
+    locale,
+    imageTypeFallback,
+    defaultLocale
+  );
 }
 
 export function getScaledAssetImage({
@@ -93,6 +101,7 @@ export function getScaledAssetImage({
   format,
   asset,
   imageType,
+  imageTypeFallback,
   orientation,
   language,
   defaultLanguage
@@ -104,9 +113,10 @@ export function getScaledAssetImage({
   imageType: string;
   orientation: ImageOrientation;
   language: string;
+  imageTypeFallback?: string;
   defaultLanguage?: string;
 }) {
-  const image = getLocalizedAssetImage(asset, orientation, imageType, language, defaultLanguage);
+  const image = getLocalizedAssetImage(asset, orientation, imageType, language, imageTypeFallback, defaultLanguage);
   if (!image?.url) return;
   return fit(image.url, { w: width, h: height, format });
 }
