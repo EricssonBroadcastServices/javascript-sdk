@@ -6,18 +6,11 @@
     "declaration": true,
     "sourceRoot": "/src",
     "target": "es3",
+    "ignoreDeprecations": "5.0",
     "skipLibCheck": true,
-    "lib": [
-      "es6",
-      "es7",
-      "dom"
-    ],
+    "lib": ["es6", "es7", "dom"],
     "outDir": "dist/"
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-  ]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules"]
 }
