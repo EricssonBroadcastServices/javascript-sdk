@@ -1,5 +1,5 @@
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
-import * as querystring from "query-string";
+import querystring from "query-string";
 
 export interface GetDocumentOptions extends CustomerAndBusinessUnitOptions {
   documentId: string;
