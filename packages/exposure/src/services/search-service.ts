@@ -1,4 +1,4 @@
-import querystring from "query-string";
+import * as querystring from "query-string";
 import { BaseService, CustomerAndBusinessUnitOptions } from "./base-service";
 import { deserialize } from "../decorators/property-mapper";
 import { Asset } from "../models/asset-model";

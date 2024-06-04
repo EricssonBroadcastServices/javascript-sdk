@@ -36,7 +36,7 @@
     "iso8601-duration": "^2.1.2",
     "marked": "^12.0.2",
     "marked-mangle": "^1.1.7",
-    "query-string": "^9.0.0",
+    "query-string": "^7.0.1",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {

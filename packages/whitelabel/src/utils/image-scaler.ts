@@ -1,4 +1,4 @@
-import querystring from "query-string";
+import * as querystring from "query-string";
 import { isWebPSupported } from "./webp";
 
 export enum ImageSizes {

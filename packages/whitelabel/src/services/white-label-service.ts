@@ -8,7 +8,7 @@ import {
   TPaymentProvider,
   IEntitlementResponse
 } from "@ericssonbroadcastservices/exposure-sdk";
-import querystring from "query-string";
+import * as querystring from "query-string";
 import { IWLEPG } from "../interfaces/wl-epg";
 import { errorToEntitlementResult } from "../utils/entitlement";
 import { DeviceGroup } from "../interfaces/device-group";
