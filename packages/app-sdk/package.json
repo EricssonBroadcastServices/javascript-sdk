@@ -29,10 +29,10 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@ericssonbroadcastservices/rbm-ott-sdk": "^0.7.1",
-    "humanize-duration": "^3.27.1",
-    "iso8601-duration": "^1.2.0",
+    "humanize-duration": "^3.32.1",
+    "iso8601-duration": "^2.1.2",
     "lodash.truncate": "^4.4.2",
-    "marked": "^2.0.1"
+    "marked": "^12.0.2"
   },
   "browserslist": [
     "defaults"

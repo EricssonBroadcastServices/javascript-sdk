@@ -1,4 +1,5 @@
-import * as marked from "marked";
+import { marked } from "marked";
+import { mangle } from "marked-mangle";
 import { jsonProperty, deserialize, IImage, WLComponentType } from "@ericssonbroadcastservices/exposure-sdk";
 import { WLAsset } from "./wl-asset";
 import { ImageScaler } from "../utils/image-scaler";
@@ -14,9 +15,7 @@ import { getIndexOfLiveOrClosestUpcomingDateInterval } from "../utils/date";
 import { IWLCategoriesComponent } from "../interfaces/wl-categories-component";
 import { IWLAssetTag } from "../interfaces/wl-tag";
 
-marked.setOptions({
-  mangle: false
-});
+marked.use(mangle());
 
 export enum CarouselSubType {
   EPG = "epg",
@@ -133,8 +132,8 @@ export class WLTextComponent extends WLComponent implements IWLTextComponent {
   @jsonProperty()
   public body: string;
 
-  public getHtml(): string {
-    return marked(this.body);
+  public async getHtml() {
+    return await marked(this.body);
   }
 
   public getLexer() {

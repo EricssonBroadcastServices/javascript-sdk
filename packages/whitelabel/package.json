@@ -30,13 +30,14 @@
     "@ericssonbroadcastservices/exposure-sdk": ">= 0.96"
   },
   "dependencies": {
-    "axios": "^0.24.0",
-    "date-fns": "^2.27.0",
-    "humanize-duration": "^3.27.1",
-    "iso8601-duration": "^1.2.0",
-    "marked": "^2.0.1",
+    "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
+    "humanize-duration": "^3.32.1",
+    "iso8601-duration": "^2.1.2",
+    "marked": "^12.0.2",
+    "marked-mangle": "^1.1.7",
     "query-string": "^7.0.1",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@ericssonbroadcastservices/exposure-sdk": "^0.119.1"

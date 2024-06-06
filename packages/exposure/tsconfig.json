@@ -3,6 +3,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "sourceRoot": "/src",
+    "ignoreDeprecations": "5.0",
     "target": "es3",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -18,21 +19,9 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
-    "lib": [
-      "es6",
-      "es7",
-      "dom",
-      "ES2019"
-    ],
+    "lib": ["es6", "es7", "dom", "ES2019"],
     "outDir": "dist/"
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "test-utils/test-utils"
-  ]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts", "**/*.spec.tsx", "test-utils/test-utils"]
 }
