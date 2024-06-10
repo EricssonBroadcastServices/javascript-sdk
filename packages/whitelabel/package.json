@@ -1,6 +1,6 @@
 {
   "name": "@ericssonbroadcastservices/whitelabel-sdk",
-  "version": "0.152.2",
+  "version": "0.152.3",
   "description": "",
   "scripts": {
     "build": "tsc",
@@ -40,7 +40,7 @@
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
-    "@ericssonbroadcastservices/exposure-sdk": "^0.119.1"
+    "@ericssonbroadcastservices/exposure-sdk": "^0.119.2"
   },
   "browserslist": [
     "defaults"
