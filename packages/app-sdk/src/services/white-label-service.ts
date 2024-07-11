@@ -51,6 +51,7 @@ import {
   getGeneratedTrailersForAssetCarousel,
   getPushNextContentData,
   getTagPage,
+  getSeeAllPage,
   GetPushNextContentDataOptions,
   GetGeneratedCarouselByTagIdOptions,
   GetGeneratedCollectionEntriesCarouselOptions,
@@ -61,7 +62,6 @@ import {
   GetGeneratedSeasonCarouselOptions,
   getParticipantPage
 } from "./methods";
-import { getSeeAllCarousel } from "./methods/get-see-all-caorusel";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
@@ -187,7 +187,7 @@ export class WhiteLabelService {
   }
 
   public async getSeeAllPage(tagId: string) {
-    return getSeeAllCarousel(this, tagId);
+    return getSeeAllPage(this, tagId);
   }
 
   public async getTagPage(tagId: string, locale: string) {

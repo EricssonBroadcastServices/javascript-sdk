@@ -134,11 +134,11 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
 }
 
 export function useResolvedSeeAllPage(tagId: string): TApiHook<ResolvedComponent[]> {
-  const appService = useAppService() as any;
+  const appService = useAppService();
   const { data, isLoading, error } = useQuery(
     [tagId],
     () => {
-      return appService.getSeeAllPage?.(tagId);
+      return appService.getSeeAllPage(tagId);
     },
     { staleTime: 1000 * 60 * 10 }
   );

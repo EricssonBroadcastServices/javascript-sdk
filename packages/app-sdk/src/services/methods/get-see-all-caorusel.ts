@@ -32,7 +32,8 @@ export async function getSeeAllCarousel(service: WhiteLabelService, tagId: strin
     content,
     presentationParameters: {
       density: "MEDIUM",
-      imageOrientation: "landscape"
+      imageOrientation: "landscape",
+      carouselLayout: "carousel"
     }
-  };
+  } as const;
 }

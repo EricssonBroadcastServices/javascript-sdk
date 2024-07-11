@@ -13,7 +13,7 @@ export class WhiteLabelService extends BaseService {
         if (!component) {
           return;
         }
-        const { assetSearchTypes, ...parameters } = component.parameters;
+        const { ...parameters } = component.parameters;
         const images = component.presentation.fallback.images.reduce((map: Record<string, string>, { url, tags }) => {
           map[tags[0]] = url;
           return map;
