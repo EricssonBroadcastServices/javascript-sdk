@@ -61,6 +61,7 @@ import {
   GetGeneratedSeasonCarouselOptions,
   getParticipantPage
 } from "./methods";
+import { getSeeAllCarousel } from "./methods/get-see-all-caorusel";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
   deviceGroup: DeviceGroup;
@@ -183,6 +184,10 @@ export class WhiteLabelService {
 
   public async getParticipantPage(participantName: string) {
     return getParticipantPage(this, { participantName });
+  }
+
+  public async getSeeAllPage(tagId: string) {
+    return getSeeAllCarousel(this, tagId);
   }
 
   public async getTagPage(tagId: string, locale: string) {

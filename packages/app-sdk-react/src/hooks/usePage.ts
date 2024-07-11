@@ -132,3 +132,15 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
   );
   return [data || null, isLoading, useAppError(error)];
 }
+
+export function useResolvedSeeAllPage(tagId: string): TApiHook<ResolvedComponent[]> {
+  const appService = useAppService() as any;
+  const { data, isLoading, error } = useQuery(
+    [tagId],
+    () => {
+      return appService.getSeeAllPage?.(tagId);
+    },
+    { staleTime: 1000 * 60 * 10 }
+  );
+  return [data || null, isLoading, useAppError(error)];
+}
