@@ -32,6 +32,7 @@ export type ComponentContentMap = {
   [WLComponentType.MENU]: undefined;
   [WLComponentType.PAGE]: undefined;
   [WLComponentType.TEXT]: undefined;
+  [WLComponentType.SEE_ALL]: undefined;
 };
 
 export type ComponentComponentMap = {
@@ -46,6 +47,7 @@ export type ComponentComponentMap = {
   [WLComponentType.MENU]: IExposureWLMenu;
   [WLComponentType.PAGE]: IExposureWLPage;
   [WLComponentType.TEXT]: IExposureComponent;
+  [WLComponentType.SEE_ALL]: IExposureComponent;
 };
 
 // export type ComponentContent = CarouselItem[] | TagList | EpgComponentContent;

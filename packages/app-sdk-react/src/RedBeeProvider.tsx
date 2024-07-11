@@ -33,7 +33,7 @@ export enum ActionType {
   SET_SESSION = "setSession",
   SET_SELECTED_LANGUAGE = "setSelectedLanguage",
   START_LOADING = "startLoading",
-  STOP_LOADING = "stopLoading",
+  STOP_LOADING = "stopLoading"
 }
 
 interface IAction {

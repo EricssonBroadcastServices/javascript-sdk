@@ -17,7 +17,8 @@ export enum PageType {
   TAG = "tag",
   BROWSE = "browse",
   PARTICIPANT = "participant",
-  PLAY = "play"
+  PLAY = "play",
+  SEE_ALL = "seeAll"
 }
 
 export function usePage(pageId: string): TApiHook<IExposureWLPage> {
@@ -126,6 +127,18 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
     [participantName],
     () => {
       return appService.getParticipantPage(participantName);
+    },
+    { staleTime: 1000 * 60 * 10 }
+  );
+  return [data || null, isLoading, useAppError(error)];
+}
+
+export function useResolvedSeeAllPage(tagId: string): TApiHook<ResolvedComponent[]> {
+  const appService = useAppService();
+  const { data, isLoading, error } = useQuery(
+    [tagId],
+    () => {
+      return appService.getSeeAllPage(tagId);
     },
     { staleTime: 1000 * 60 * 10 }
   );

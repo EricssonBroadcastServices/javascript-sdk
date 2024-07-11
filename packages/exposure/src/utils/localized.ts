@@ -83,6 +83,7 @@ function maxLengthString(aString: string, maxLength: number | null): string {
 function getShortDescription(
   localized: ILocalizedMetadata[],
   locale: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   maxLength: number | null = null,
   defaultLocale?: string
 ): string {

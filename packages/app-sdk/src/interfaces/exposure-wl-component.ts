@@ -43,7 +43,8 @@ export const WLComponentType = {
   TEXT: "text",
   EPG: "epg",
   IFRAME: "iframe",
-  TAG_TYPE: "tagtype"
+  TAG_TYPE: "tagtype",
+  SEE_ALL: "seeAll"
 } as const;
 export type WLComponentType = (typeof WLComponentType)[keyof typeof WLComponentType];
 

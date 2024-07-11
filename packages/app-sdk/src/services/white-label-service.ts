@@ -51,6 +51,7 @@ import {
   getGeneratedTrailersForAssetCarousel,
   getPushNextContentData,
   getTagPage,
+  getSeeAllPage,
   GetPushNextContentDataOptions,
   GetGeneratedCarouselByTagIdOptions,
   GetGeneratedCollectionEntriesCarouselOptions,
@@ -183,6 +184,10 @@ export class WhiteLabelService {
 
   public async getParticipantPage(participantName: string) {
     return getParticipantPage(this, { participantName });
+  }
+
+  public async getSeeAllPage(tagId: string) {
+    return getSeeAllPage(this, tagId);
   }
 
   public async getTagPage(tagId: string, locale: string) {
