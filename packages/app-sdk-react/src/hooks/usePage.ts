@@ -17,7 +17,8 @@ export enum PageType {
   TAG = "tag",
   BROWSE = "browse",
   PARTICIPANT = "participant",
-  PLAY = "play"
+  PLAY = "play",
+  SEE_ALL = "seeAll"
 }
 
 export function usePage(pageId: string): TApiHook<IExposureWLPage> {
