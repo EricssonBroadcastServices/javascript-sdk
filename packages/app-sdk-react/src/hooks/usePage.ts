@@ -5,11 +5,12 @@ import { useTagList } from "../hooks/useTags";
 import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { useCountryCode } from "./useGeolocation";
-import { IExposureWLPage, ResolvedComponent } from "@ericssonbroadcastservices/app-sdk";
+import { IExposureWLPage, ResolvedComponent, WLConfig } from "@ericssonbroadcastservices/app-sdk";
 import { useSelectedLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
 import { useMemo } from "react";
 import { useAppError } from "./useAppError";
+import { useConfig } from "./useConfig";
 
 export enum PageType {
   PAGE = "page",
@@ -81,6 +82,7 @@ export function useResolvedComponentPage(pageId: string): TApiHook<ResolvedCompo
     // Hence we return null when something is loading, and rerun the calculation whenever something is fetching(updating)
     // adding results as a dep in useMemo would increase the number of renders since it would recaluculate data, every time
     // a since query completes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [somethingIsFetching, somethingIsLoading]);
 
   const componentError = useMemo(() => {
@@ -133,14 +135,58 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
   return [data || null, isLoading, useAppError(error)];
 }
 
-export function useResolvedSeeAllPage(tagId: string): TApiHook<ResolvedComponent[]> {
+export function useResolvedSeeAllPage(pageId: string): TApiHook<ResolvedComponent<any>[]> {
+  const [tagList] = useTagList();
+  const countryCode = useCountryCode();
   const appService = useAppService();
-  const { data, isLoading, error } = useQuery(
-    [tagId],
-    () => {
-      return appService.getSeeAllPage(tagId);
-    },
-    { staleTime: 1000 * 60 * 10 }
-  );
-  return [data || null, isLoading, useAppError(error)];
+  const [config] = useConfig();
+  const [page, pageLoading, pageError] = usePage(WLConfig.getHomePageId(config) || "");
+  const [userSession] = useUserSession();
+  const results: UseQueryResult<ResolvedComponent>[] = useQueries(
+    (page?.components.pageBody || []).map(reference => {
+      return {
+        retry: false,
+        staleTime: reference.hasAuthorizedContent ? 0 : 1000 * 60 * 10,
+        queryKey: [
+          reference.appSubType,
+          countryCode,
+          reference.referenceId,
+          reference.parameters,
+          reference.referenceUrl,
+          reference.hasAuthorizedContent ? userSession?.sessionToken : null,
+          reference?.appSubType === "TagFeedQuery" ? tagList?.query : null
+        ],
+        queryFn: async () => {
+          if (!countryCode) return;
+          if (!userSession?.isLoggedIn() && reference.hasAuthorizedContent === true) {
+            return undefined;
+          }
+          return appService.getSeeAllPage({ wlReference: reference, countryCode });
+        }
+      };
+    })
+  ) as UseQueryResult<ResolvedComponent<any>>[];
+
+  const somethingIsLoading = results.some(r => r.isLoading) || pageLoading;
+  const somethingIsFetching = results.some(r => r.isFetching);
+  const data = useMemo(() => {
+    if (somethingIsLoading) {
+      return null;
+    }
+    return results
+      .filter(r => r.data?.component && r.data.presentationParameters && r.data.component.id === pageId)
+      .map(r => r.data) as ResolvedComponent<any>[];
+    // We only want to recalculate the data when the complete response is meaningfull to the app.
+    // Hence we return null when something is loading, and rerun the calculation whenever something is fetching(updating)
+    // adding results as a dep in useMemo would increase the number of renders since it would recaluculate data, every time
+    // a since query completes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [somethingIsFetching, somethingIsLoading]);
+
+  const componentError = useMemo(() => {
+    return results.find(r => !!r.error)?.error;
+  }, [results]);
+  const appError = useAppError(componentError);
+
+  return [data, somethingIsLoading, pageError || appError];
 }
