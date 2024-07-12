@@ -17,10 +17,8 @@ export async function getResolvedSeeAllPage<T extends keyof ComponentContentMap 
   const component = await getComponentByReference<ComponentComponentMap[T]>(context, { wlReference, countryCode });
   const newComponent = {
     ...component,
-    appType: "seeAll",
     contentUrl: { ...component.contentUrl, url: component.contentUrl?.url?.replace?.(/pageSize=\d/, "pageSize=140") }
   };
-
   const componentContent = await getComponentContent<T>(context, { component: newComponent });
   return {
     component: newComponent,

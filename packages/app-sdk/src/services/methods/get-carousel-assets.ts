@@ -90,7 +90,8 @@ export async function getCarouselAssets(
           })) || []
         );
       case WLCarouselAssetQueryTypes.ASSET:
-        return (await get<AssetList>({ url: contentUrl })).items.map(asset => ({ asset }));
+        const assetResult = await get<AssetList>({ url: contentUrl });
+        return assetResult.items.map(asset => ({ asset, totalCount: assetResult.totalCount }));
       default:
         console.warn("trying to resolve unsupported carousel");
         return [];

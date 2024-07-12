@@ -11,7 +11,7 @@ import { IImage } from "./image.js";
 import { IExposureWLMenu } from "./exposure-wl-menu.js";
 import { IExposureWLPage } from "./exposure-wl-page.js";
 
-export type CarouselItem = { asset: Asset; startTime?: string; endTime?: string };
+export type CarouselItem = { asset: Asset; startTime?: string; endTime?: string; totalCount?: number };
 
 export type EPGComponentEntry = {
   channel: Asset;
