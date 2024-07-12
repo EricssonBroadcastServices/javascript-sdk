@@ -51,7 +51,6 @@ import {
   getGeneratedTrailersForAssetCarousel,
   getPushNextContentData,
   getTagPage,
-  getSeeAllPage,
   GetPushNextContentDataOptions,
   GetGeneratedCarouselByTagIdOptions,
   GetGeneratedCollectionEntriesCarouselOptions,
@@ -60,7 +59,8 @@ import {
   GetGeneratedByMetadataCarouselOptions,
   GetGeneratedOthersHaveWatchedOptions,
   GetGeneratedSeasonCarouselOptions,
-  getParticipantPage
+  getParticipantPage,
+  getResolvedSeeAllPage
 } from "./methods";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
@@ -186,8 +186,10 @@ export class WhiteLabelService {
     return getParticipantPage(this, { participantName });
   }
 
-  public async getSeeAllPage(tagId: string) {
-    return getSeeAllPage(this, tagId);
+  public async getSeeAllPage<T extends keyof ComponentContentMap | WLComponentType>(
+    args: GetResolvedComponentByReferenceOptions
+  ): Promise<ResolvedComponent<T>> {
+    return getResolvedSeeAllPage(this.context, args);
   }
 
   public async getTagPage(tagId: string, locale: string) {

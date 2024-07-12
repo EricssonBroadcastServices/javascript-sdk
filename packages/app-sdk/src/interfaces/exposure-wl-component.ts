@@ -72,6 +72,7 @@ export interface IExposureComponent {
   changed?: string;
   name?: string;
   actions?: { default?: IExposureWLAction };
+  contentUrl?: { url?: string; authorized?: boolean; type?: string };
 }
 
 interface IContentUrl {
