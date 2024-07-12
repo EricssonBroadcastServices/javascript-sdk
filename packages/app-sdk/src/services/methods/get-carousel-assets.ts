@@ -46,14 +46,13 @@ export async function getCarouselAssets(
       case WLCarouselAssetQueryTypes.RECOMMENDED:
       case WLCarouselAssetQueryTypes.RECENTLY_WATCHED:
         if (!sessionToken) return [];
-        return (
-          await get<AssetList>({
-            url: contentUrl,
-            headers: {
-              Authorization: `Bearer ${sessionToken}`
-            }
-          })
-        ).items.map(asset => ({ asset }));
+        const result = await get<AssetList>({
+          url: contentUrl,
+          headers: {
+            Authorization: `Bearer ${sessionToken}`
+          }
+        });
+        return result.items.map(asset => ({ asset, totalCount: result.totalCount }));
       case WLCarouselAssetQueryTypes.EPG:
         return (
           (await get<ChannelEPGResponse>({ url: contentUrl })).programs?.map(({ asset, startTime, endTime }) => ({
