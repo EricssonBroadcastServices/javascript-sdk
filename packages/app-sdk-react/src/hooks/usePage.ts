@@ -142,12 +142,14 @@ export function useResolvedSeeAllPage(pageId: string): TApiHook<ResolvedComponen
   const [config] = useConfig();
   const [page, pageLoading, pageError] = usePage(WLConfig.getHomePageId(config) || "");
   const [userSession] = useUserSession();
+  const filterPage = page?.components.pageBody.filter(p => p.referenceId === pageId);
   const results: UseQueryResult<ResolvedComponent>[] = useQueries(
-    (page?.components.pageBody || []).map(reference => {
+    (filterPage || []).map(reference => {
       return {
         retry: false,
         staleTime: reference.hasAuthorizedContent ? 0 : 1000 * 60 * 10,
         queryKey: [
+          PageType.SEE_ALL,
           reference.appSubType,
           countryCode,
           reference.referenceId,
@@ -175,12 +177,14 @@ export function useResolvedSeeAllPage(pageId: string): TApiHook<ResolvedComponen
     }
     return results
       .filter(r => r.data?.component && r.data.presentationParameters && r.data.component.id === pageId)
-      .map(r => r.data) as ResolvedComponent<any>[];
-    // We only want to recalculate the data when the complete response is meaningfull to the app.
-    // Hence we return null when something is loading, and rerun the calculation whenever something is fetching(updating)
-    // adding results as a dep in useMemo would increase the number of renders since it would recaluculate data, every time
-    // a since query completes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      .map(r => r.data)
+      ?.map(p => ({
+        ...p,
+        component: {
+          ...p?.component,
+          appType: PageType.SEE_ALL
+        }
+      })) as ResolvedComponent<any>[];
   }, [somethingIsFetching, somethingIsLoading]);
 
   const componentError = useMemo(() => {
