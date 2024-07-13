@@ -91,6 +91,7 @@ export function getTrailerAssetIdFromComponent(component: LocalizedWLComponent, 
 
 export function getTextComponentLexer(component: LocalizedWLComponent, language: string) {
   const body = getDescriptionFromWLComponent(component, language);
+  if (body == null) return null;
   return lexer(body);
 }
 

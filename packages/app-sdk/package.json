@@ -32,7 +32,7 @@
     "humanize-duration": "^3.32.1",
     "iso8601-duration": "^2.1.2",
     "lodash.truncate": "^4.4.2",
-    "marked": "^12.0.2"
+    "marked": "^2.0.1"
   },
   "browserslist": [
     "defaults"
