@@ -5,12 +5,18 @@ import { useTagList } from "../hooks/useTags";
 import { useUserSession } from "../hooks/useUserSession";
 import { TApiHook } from "../types/type.apiHook";
 import { useCountryCode } from "./useGeolocation";
-import { IExposureWLPage, ResolvedComponent, WLConfig } from "@ericssonbroadcastservices/app-sdk";
+import {
+  IExposureWLCategoriesComponent,
+  IExposureWLPage,
+  ResolvedComponent,
+  WLConfig
+} from "@ericssonbroadcastservices/app-sdk";
 import { useSelectedLanguage } from "./useSelectedLanguage";
 import { useTranslations } from "./useTranslations";
 import { useMemo } from "react";
 import { useAppError } from "./useAppError";
 import { useConfig } from "./useConfig";
+import { TagList } from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 export enum PageType {
   PAGE = "page",
@@ -193,4 +199,27 @@ export function useResolvedSeeAllPage(pageId: string): TApiHook<ResolvedComponen
   const appError = useAppError(componentError);
 
   return [data, somethingIsLoading, pageError || appError];
+}
+
+export function useGetcategoriesComponentNextPage(
+  categoriesComponent: IExposureWLCategoriesComponent,
+  nextPageNumber?: number
+): TApiHook<TagList> {
+  const appService = useAppService();
+  const url = new URL(categoriesComponent.contentUrl.url, appService.context.baseUrl);
+  const params = new URLSearchParams(url.search);
+  const pageNumberFromParams = params.get("pageNumber") || 1;
+  const nextPage = nextPageNumber || Number(pageNumberFromParams) + 1;
+  params.set("pageNumber", nextPage.toString());
+  categoriesComponent.contentUrl.url = url.pathname + params.toString();
+
+  const { data, isLoading, error } = useQuery(
+    [categoriesComponent],
+    () => {
+      return appService.getCategoriesContent(categoriesComponent);
+    },
+    { staleTime: 1000 * 60 * 10 }
+  );
+
+  return [data || null, isLoading, useAppError(error)];
 }
