@@ -219,5 +219,8 @@ export function useGetcategoriesComponentNextPage(
     { staleTime: 1000 * 60 * 10 }
   );
 
-  return useMemo(() => [data || null, isLoading, error], [data, error, isLoading]);
+  const errorResult = useAppError(error);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => [data || null, isLoading, errorResult], [nextPageNumber, errorResult, isLoading]);
 }
