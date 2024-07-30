@@ -203,15 +203,13 @@ export function useResolvedSeeAllPage(pageId: string): TApiHook<ResolvedComponen
 
 export function useGetcategoriesComponentNextPage(
   categoriesComponent: IExposureWLCategoriesComponent,
-  nextPageNumber?: number
+  nextPageNumber: number
 ): TApiHook<TagList> {
   const appService = useAppService();
   const url = new URL(categoriesComponent.contentUrl.url, appService.context.baseUrl);
   const params = new URLSearchParams(url.search);
-  const pageNumberFromParams = params.get("pageNumber") || 1;
-  const nextPage = nextPageNumber || Number(pageNumberFromParams) + 1;
-  params.set("pageNumber", nextPage.toString());
-  categoriesComponent.contentUrl.url = url.pathname + params.toString();
+  params.set("pageNumber", nextPageNumber.toString());
+  categoriesComponent.contentUrl.url = url.pathname + `?${params.toString()}`;
 
   const { data, isLoading, error } = useQuery(
     [categoriesComponent],
@@ -221,5 +219,8 @@ export function useGetcategoriesComponentNextPage(
     { staleTime: 1000 * 60 * 10 }
   );
 
-  return [data || null, isLoading, useAppError(error)];
+  const errorResult = useAppError(error);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => [data || null, isLoading, errorResult], [nextPageNumber, errorResult, isLoading]);
 }
