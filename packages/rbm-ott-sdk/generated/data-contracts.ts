@@ -198,6 +198,7 @@ export interface Asset {
   season?: string;
   seasonId?: string;
   seasons?: Season[];
+  seoData?: LocalizedSeoData[];
   slugs: string[];
   spokenLanguages: string[];
   studio?: string;
@@ -730,6 +731,8 @@ export interface LocalizedData {
 }
 
 export type LocalizedPersonData = Record<"bio" | "locale", string>;
+
+export type LocalizedSeoData = Record<"locale" | "seoDescription" | "seoTitle", string>;
 
 export interface LocalizedTag {
   description?: string;
