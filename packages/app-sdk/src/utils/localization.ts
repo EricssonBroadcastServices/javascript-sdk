@@ -1,4 +1,10 @@
-import { Image, ImageOrientation, LocalizedData, LocalizedTag } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import {
+  Image,
+  ImageOrientation,
+  LocalizedData,
+  LocalizedSeoData,
+  LocalizedTag
+} from "@ericssonbroadcastservices/rbm-ott-sdk";
 
 type Localized = LocalizedData & LocalizedTag;
 
@@ -48,6 +54,29 @@ export function getLocalizedValue<Key extends keyof Localized>(
     return undefined;
   }
   return getLocalizedValue(localized, property, localized[0].locale);
+}
+
+export function getLocalizedSEOValue<Key extends keyof LocalizedSeoData>(
+  localized: LocalizedSeoData[],
+  property: Key,
+  locale: string,
+  defaultLocale?: string
+): LocalizedSeoData[Key] | undefined {
+  if (!localized || localized.length === 0) {
+    return undefined;
+  }
+  const localeItem = localized.find(localizedItem => localizedItem.locale === locale);
+  const value = localeItem?.[property];
+  if (value && (!Array.isArray(value) || value.length)) {
+    return value ? (value as LocalizedSeoData[Key]) : undefined;
+  }
+  if (defaultLocale) {
+    return getLocalizedSEOValue(localized, property, defaultLocale);
+  }
+  if (locale === localized[0].locale) {
+    return undefined;
+  }
+  return getLocalizedSEOValue(localized, property, localized[0].locale);
 }
 
 function sortByResolution(a: Image, b: Image) {

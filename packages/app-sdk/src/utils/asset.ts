@@ -11,7 +11,8 @@ import {
   getLocalizedValue,
   DESCRIPTION_TYPES,
   getAvailableDescriptions,
-  DESCRIPTION_MAX_LENGTHS
+  DESCRIPTION_MAX_LENGTHS,
+  getLocalizedSEOValue
 } from "./localization";
 import { getDurationLocalized, getTimeString } from "./time";
 import { dateIntervalIsNow } from "./date";
@@ -35,6 +36,11 @@ type DescriptionOptions = LocalizedOptions & {
 export function getTitleFromAsset(asset: Asset, options: LocalizedOptions) {
   const { language, defaultLanguage } = options;
   return getLocalizedValue(asset.localized, "title", language, defaultLanguage);
+}
+
+export function getSEOTitleFromAsset(asset: Asset, options: LocalizedOptions) {
+  const { language, defaultLanguage } = options;
+  return asset.seoData && getLocalizedSEOValue(asset.seoData, "seoTitle", language, defaultLanguage);
 }
 
 function getDescription(asset: Asset, type: (typeof DESCRIPTION_TYPES)[number], options: DescriptionOptions) {
@@ -75,6 +81,11 @@ export function getLongDescriptionFromAsset(asset: Asset, options: DescriptionOp
 
 export function getExtendedDescriptionFromAsset(asset: Asset, options: DescriptionOptions) {
   return getDescription(asset, "extendedDescription", options);
+}
+
+export function getSEODescriptionFormAsset(asset: Asset, options: LocalizedOptions) {
+  const { language, defaultLanguage } = options;
+  return asset.seoData && getLocalizedSEOValue(asset.seoData, "seoDescription", language, defaultLanguage);
 }
 
 export function getLocalizedAssetImage(

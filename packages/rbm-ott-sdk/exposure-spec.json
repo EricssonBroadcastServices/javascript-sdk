@@ -12872,6 +12872,12 @@
               "$ref": "#/components/schemas/ApiLocalizedData"
             }
           },
+          "seoData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiLocalizedSeoData"
+            }
+          },
           "markers": {
             "type": "array",
             "items": {
@@ -14928,6 +14934,20 @@
             "type": "string"
           },
           "title": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiLocalizedSeoData": {
+        "type": "object",
+        "properties": {
+          "seoDescription": {
+            "type": "string"
+          },
+          "seoTitle": {
+            "type": "string"
+          },
+          "locale": {
             "type": "string"
           }
         }
