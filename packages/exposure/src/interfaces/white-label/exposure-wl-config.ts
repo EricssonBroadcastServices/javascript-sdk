@@ -13,6 +13,8 @@ export interface IConfigParameters {
   adsfile?: string;
   appadsfile?: string;
   googleTagManagerId?: string;
+  copyright?: string;
+  copyrightLink?: string;
 }
 
 export interface IWLTheme {
