@@ -11,32 +11,23 @@ import { Asset, AssetList, AssetType, DeviceType, Season, SeasonList } from "./d
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @summary Gets an asset by asset id.
+ * @summary Get an asset by asset id or slug.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}
- * @response `200` `Asset` success
- * @response `404` `void` UNKNOWN_ASSET. If the asset cannot be found.
+ * @response `200` `Asset` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getAsset({
   assetId,
   headers,
   ..._data
 }: {
-  /** The id of the asset. Slugs supported. */
   assetId: string;
-  /** Filter results on if the asset (or episodes) are published in the country specified by this parameter. */
   allowedCountry?: string;
-  /**
-   * Set to true to include episodes for the asset in the response. Only applicable if the
-   * asset is a tv show. Setting this to true will cause seasons to be includeSeasons true.
-   */
   includeEpisodes?: boolean;
-  /**
-   * Set to true to include seasons for the asset in the response. Only applicable if the
-   * asset is a tv show.
-   */
   includeSeasons?: boolean;
   /** @default true */
   onlyPublished?: boolean;
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   service?: string;
   /** Optional headers */
@@ -54,41 +45,32 @@ export async function getAsset({
 }
 
 /**
- * @summary Gets an asset by asset id.
+ * @summary Get an asset by asset id or slug.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}
- * @response `200` `Asset` success
- * @response `404` `void` UNKNOWN_ASSET. If the asset cannot be found.
+ * @response `200` `Asset` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getAssetPartial<T = any>({
   assetId,
   headers,
   ..._data
 }: {
-  /** The id of the asset. Slugs supported. */
   assetId: string;
-  /** Filter results on if the asset (or episodes) are published in the country specified by this parameter. */
   allowedCountry?: string;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /**
-   * Set to true to include episodes for the asset in the response. Only applicable if the
-   * asset is a tv show. Setting this to true will cause seasons to be includeSeasons true.
-   */
   includeEpisodes?: boolean;
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /**
-   * Set to true to include seasons for the asset in the response. Only applicable if the
-   * asset is a tv show.
-   */
   includeSeasons?: boolean;
   /** @default true */
   onlyPublished?: boolean;
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   service?: string;
   /** Optional headers */
@@ -109,74 +91,48 @@ export async function getAssetPartial<T = any>({
  * @description Main endpoint for listing/searching for assets. Make sure that calls to this endpoint are called with a limited set of parameter permutations to allow responses to be served from a cache.
  * @summary Lists assets.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset
- * @response `200` `AssetList` success
- * @response `400` `void` INVALID_QUERY. If the free text query is not a valid elasticsearch query string query. Result window is too large. If the pageSize times the pageNumber is greater than 10000.
+ * @response `200` `AssetList` Successful.
+ * @response `400` `APIErrorMessage` User error.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getAssets({
   headers,
   ..._data
 }: {
-  /** If we should only return assets that are not geo blocking in this country */
   allowedCountry?: string;
-  /** The asset ids to filter by. */
   assetIds?: string[];
-  /** The asset type to filter by. */
   assetType?: AssetType;
-  /**
-   * The optional query to filter by in fields nested under publications.devices. In the
-   * elasticsearch query string query format,
-   * I.E: "publications.devices.rights.threeGBlocked:false AND
-   * publications.devices.os:IOS"
-   */
   deviceQuery?: string;
-  /** If we should only return assets that are allowed to play on this device */
   deviceType?: DeviceType;
-  /** @default false */
   includeTvShow?: boolean;
-  /** Will only return assets that has an empty value in the field specified in this field */
   missingFieldsFilter?: string;
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number. Note that pageNumber * pageSize cannot exceed 10000 or an error
-   * will occur.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page. Note that pageNumber * pageSize cannot exceed
-   * 10000 or an error will occur.
    * @default 50
+   * @min 1
+   * @max 200
    */
   pageSize?: number;
   /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
-  /**
-   * Only return assets that are playable (has a publication.from) earlier than from
-   * now+X hours and are published at the moment.
-   */
+  /** @min 0 */
   playableWithinHours?: number;
-  /** If we should only return assets that have publications on any of these products */
   products?: string[];
-  /** Only return assets that if they have programs, only have programs on provided channel ids. Comma separated list. */
   programsOnChannelIds?: string;
-  /**
-   * The optional query to filter by in fields nested under publications except
-   * publications.devices. In the elasticsearch query string query format,
-   * I.E: "publications.rights.wifiBlocked:true"
-   */
+  /** @min 0 */
+  publicationEndsWithinDays?: number;
   publicationQuery?: string;
-  /**
-   * The optional query to filter by. In the elasticsearch query string query format,
-   * I.E: "tags.genres:action AND localized.en-us.title:armageddon"
-   */
+  /** @min 0 */
+  publicationStartsWithinDays?: number;
+  /** The optional query to filter by. In the elasticsearch query string query format, I.E: "tagsIds:action AND localized.en-us.title:armageddon" */
   query?: string;
-  /** If we should only return assets that have publications on this service */
   service?: string;
-  /** The sort parameter in the format of first,-second. */
   sort?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -196,83 +152,57 @@ export async function getAssets({
  * @description Main endpoint for listing/searching for assets. Make sure that calls to this endpoint are called with a limited set of parameter permutations to allow responses to be served from a cache.
  * @summary Lists assets.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset
- * @response `200` `AssetList` success
- * @response `400` `void` INVALID_QUERY. If the free text query is not a valid elasticsearch query string query. Result window is too large. If the pageSize times the pageNumber is greater than 10000.
+ * @response `200` `AssetList` Successful.
+ * @response `400` `APIErrorMessage` User error.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getAssetsPartial<T = any>({
   headers,
   ..._data
 }: {
-  /** If we should only return assets that are not geo blocking in this country */
   allowedCountry?: string;
-  /** The asset ids to filter by. */
   assetIds?: string[];
-  /** The asset type to filter by. */
   assetType?: AssetType;
-  /**
-   * The optional query to filter by in fields nested under publications.devices. In the
-   * elasticsearch query string query format,
-   * I.E: "publications.devices.rights.threeGBlocked:false AND
-   * publications.devices.os:IOS"
-   */
   deviceQuery?: string;
-  /** If we should only return assets that are allowed to play on this device */
   deviceType?: DeviceType;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /** @default false */
   includeTvShow?: boolean;
-  /** Will only return assets that has an empty value in the field specified in this field */
   missingFieldsFilter?: string;
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number. Note that pageNumber * pageSize cannot exceed 10000 or an error
-   * will occur.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page. Note that pageNumber * pageSize cannot exceed
-   * 10000 or an error will occur.
    * @default 50
+   * @min 1
+   * @max 200
    */
   pageSize?: number;
   /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
-  /**
-   * Only return assets that are playable (has a publication.from) earlier than from
-   * now+X hours and are published at the moment.
-   */
+  /** @min 0 */
   playableWithinHours?: number;
-  /** If we should only return assets that have publications on any of these products */
   products?: string[];
-  /** Only return assets that if they have programs, only have programs on provided channel ids. Comma separated list. */
   programsOnChannelIds?: string;
-  /**
-   * The optional query to filter by in fields nested under publications except
-   * publications.devices. In the elasticsearch query string query format,
-   * I.E: "publications.rights.wifiBlocked:true"
-   */
+  /** @min 0 */
+  publicationEndsWithinDays?: number;
   publicationQuery?: string;
-  /**
-   * The optional query to filter by. In the elasticsearch query string query format,
-   * I.E: "tags.genres:action AND localized.en-us.title:armageddon"
-   */
+  /** @min 0 */
+  publicationStartsWithinDays?: number;
+  /** The optional query to filter by. In the elasticsearch query string query format, I.E: "tagsIds:action AND localized.en-us.title:armageddon" */
   query?: string;
-  /** If we should only return assets that have publications on this service */
   service?: string;
-  /** The sort parameter in the format of first,-second. */
   sort?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -289,37 +219,32 @@ export async function getAssetsPartial<T = any>({
 }
 
 /**
- * @summary Gets the entries of a collection.
+ * @summary Get the entries of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/collectionentries
- * @response `200` `AssetList` success
- * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
+ * @response `200` `AssetList` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getCollectionEntries({
   assetId,
   headers,
   ..._data
 }: {
-  /** The id of the collection. Slugs supported. */
+  /** Collection id. Slugs supported. */
   assetId: string;
+  allowedCountry?: string;
+  deviceType?: DeviceType;
   /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
-  /**
-   * The number of items to show per page
-   * @default 50
-   */
+  /** @default 50 */
   pageSize?: number;
+  products?: string[];
   service?: string;
-  /** Sort order. Used as tiebreaker if naturalSortOrder is specified. */
   sort?: string;
-  /**
-   * Sort entries by the sort order parameter on the collection reference. Sort parameter is the
-   * tiebreaker.
-   */
   sortOrder?: "ASC" | "DESC";
   /** Optional headers */
   headers?: HeadersInit;
@@ -336,46 +261,41 @@ export async function getCollectionEntries({
 }
 
 /**
- * @summary Gets the entries of a collection.
+ * @summary Get the entries of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/collectionentries
- * @response `200` `AssetList` success
- * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
+ * @response `200` `AssetList` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getCollectionEntriesPartial<T = any>({
   assetId,
   headers,
   ..._data
 }: {
-  /** The id of the collection. Slugs supported. */
+  /** Collection id. Slugs supported. */
   assetId: string;
-  /** Comma separated list of fields to remove from the response. */
+  allowedCountry?: string;
+  deviceType?: DeviceType;
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
   /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
-  /**
-   * The number of items to show per page
-   * @default 50
-   */
+  /** @default 50 */
   pageSize?: number;
+  products?: string[];
   service?: string;
-  /** Sort order. Used as tiebreaker if naturalSortOrder is specified. */
   sort?: string;
-  /**
-   * Sort entries by the sort order parameter on the collection reference. Sort parameter is the
-   * tiebreaker.
-   */
   sortOrder?: "ASC" | "DESC";
   /** Optional headers */
   headers?: HeadersInit;
@@ -392,10 +312,10 @@ export async function getCollectionEntriesPartial<T = any>({
 }
 
 /**
- * @summary Gets episodes for a season.
+ * @summary Get episodes for a season.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season/{season}/episode
- * @response `200` `AssetList` success
- * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
+ * @response `200` `AssetList` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getEpisodes({
   assetId,
@@ -403,21 +323,16 @@ export async function getEpisodes({
   headers,
   ..._data
 }: {
-  /** The id of the tv show. Slugs supported. */
   assetId: string;
-  /** An integer season number. */
   season: number;
   /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
-  /**
-   * The number of items to show per page
-   * @default 50
-   */
+  /** @default 50 */
   pageSize?: number;
   service?: string;
   /** Optional headers */
@@ -435,10 +350,10 @@ export async function getEpisodes({
 }
 
 /**
- * @summary Gets episodes for a season.
+ * @summary Get episodes for a season.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season/{season}/episode
- * @response `200` `AssetList` success
- * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
+ * @response `200` `AssetList` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getEpisodesPartial<T = any>({
   assetId,
@@ -446,30 +361,25 @@ export async function getEpisodesPartial<T = any>({
   headers,
   ..._data
 }: {
-  /** The id of the tv show. Slugs supported. */
   assetId: string;
-  /** An integer season number. */
   season: number;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
   /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
-  /**
-   * The number of items to show per page
-   * @default 50
-   */
+  /** @default 50 */
   pageSize?: number;
   service?: string;
   /** Optional headers */
@@ -487,20 +397,22 @@ export async function getEpisodesPartial<T = any>({
 }
 
 /**
- * @summary Gets the next entry of a collection.
+ * @summary Get the next entry of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{collectionId}/collectionentries/{referenceEntryId}/next
- * @response `200` `Asset` success
- * @response `404` `void` NO_ENTRY_FOUND. If the provided episode does not exist, or if there is no next episode available.
+ * @response `200` `Asset` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getNextCollectionEntry({
   collectionId,
   referenceEntryId,
-  headers
+  headers,
+  ..._data
 }: {
-  /** The id of the collection. */
   collectionId: string;
-  /** The id of reference collection entry. */
   referenceEntryId: string;
+  allowedCountry?: string;
+  deviceType?: DeviceType;
+  products?: string[];
   /** Optional headers */
   headers?: HeadersInit;
 }) {
@@ -510,21 +422,21 @@ export async function getNextCollectionEntry({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/next`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
+    ctx,
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<Asset>);
 }
 
 /**
- * @summary Gets the next episode relative to an episode.
+ * @summary Get the next episode of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/next
- * @response `200` `Asset` success
- * @response `404` `void` NO_EPISODE_FOUND. If the provided episode does not exist, or if there is no next episode available.
+ * @response `200` `Asset` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getNextEpisode({
   assetId,
   headers
 }: {
-  /** The id of the current episode. */
   assetId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -540,20 +452,22 @@ export async function getNextEpisode({
 }
 
 /**
- * @summary Gets the previous entry of a collection.
+ * @summary Get the previous entry of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{collectionId}/collectionentries/{referenceEntryId}/previous
- * @response `200` `Asset` success
- * @response `404` `void` NO_ENTRY_FOUND. If the provided episode does not exist, or if there is no next episode available.
+ * @response `200` `Asset` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getPreviousCollectionEntry({
   collectionId,
   referenceEntryId,
-  headers
+  headers,
+  ..._data
 }: {
-  /** The id of the collection. */
   collectionId: string;
-  /** The id of reference collection entry. */
   referenceEntryId: string;
+  allowedCountry?: string;
+  deviceType?: DeviceType;
+  products?: string[];
   /** Optional headers */
   headers?: HeadersInit;
 }) {
@@ -563,21 +477,21 @@ export async function getPreviousCollectionEntry({
     method: "GET",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/${collectionId}/collectionentries/${referenceEntryId}/previous`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
+    ctx,
+    query: _data as unknown as QueryParams
   }).then(response => response.json() as Promise<Asset>);
 }
 
 /**
- * @summary Gets the previous episode relative to an episode.
+ * @summary Get the previous episode of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/previous
- * @response `200` `Asset` success
- * @response `404` `void` NO_EPISODE_FOUND. If the provided episode does not exist or if there is no previous episode available.
+ * @response `200` `Asset` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getPreviousEpisode({
   assetId,
   headers
 }: {
-  /** The id of the current episode. */
   assetId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -593,10 +507,10 @@ export async function getPreviousEpisode({
 }
 
 /**
- * @summary Gets a specific season.
+ * @summary Get a season of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season/{season}
- * @response `200` `Season` success
- * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
+ * @response `200` `Season` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getSeason({
   assetId,
@@ -604,9 +518,7 @@ export async function getSeason({
   headers,
   ..._data
 }: {
-  /** The id of the tv show. Slugs supported. */
   assetId: string;
-  /** An integer season number. */
   season: number;
   /** @default true */
   onlyPublished?: boolean;
@@ -626,10 +538,10 @@ export async function getSeason({
 }
 
 /**
- * @summary Gets a specific season.
+ * @summary Get a season of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season/{season}
- * @response `200` `Season` success
- * @response `404` `void` UNKNOWN_SEASON. If the season is not found.
+ * @response `200` `Season` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getSeasonPartial<T = any>({
   assetId,
@@ -637,18 +549,16 @@ export async function getSeasonPartial<T = any>({
   headers,
   ..._data
 }: {
-  /** The id of the tv show. Slugs supported. */
   assetId: string;
-  /** An integer season number. */
   season: number;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
   /** @default true */
   onlyPublished?: boolean;
@@ -668,21 +578,24 @@ export async function getSeasonPartial<T = any>({
 }
 
 /**
- * @summary Gets seasons for an asset.
+ * @summary Get seasons of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season
- * @response `default` `SeasonList` success
+ * @response `200` `SeasonList` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getSeasonsForTvShow({
   assetId,
   headers,
   ..._data
 }: {
-  /** The id of the asset. Slugs supported. */
   assetId: string;
   includeEpisodes?: boolean;
   /** @default true */
   onlyPublished?: boolean;
-  /** @default 1 */
+  /**
+   * @default 1
+   * @min 1
+   */
   pageNumber?: number;
   /** @default 50 */
   pageSize?: number;
@@ -703,30 +616,33 @@ export async function getSeasonsForTvShow({
 }
 
 /**
- * @summary Gets seasons for an asset.
+ * @summary Get seasons of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season
- * @response `default` `SeasonList` success
+ * @response `200` `SeasonList` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getSeasonsForTvShowPartial<T = any>({
   assetId,
   headers,
   ..._data
 }: {
-  /** The id of the asset. Slugs supported. */
   assetId: string;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
   includeEpisodes?: boolean;
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
   /** @default true */
   onlyPublished?: boolean;
-  /** @default 1 */
+  /**
+   * @default 1
+   * @min 1
+   */
   pageNumber?: number;
   /** @default 50 */
   pageSize?: number;

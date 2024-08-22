@@ -102,9 +102,9 @@ export async function deleteStoredPaymentMethod({
 }
 
 /**
- * @summary Get all active asset purchases for account.
+ * @summary Get all active asset purchases for account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/assets
- * @response `default` `(Asset)[]` success
+ * @response `200` `(Asset)[]` Successful
  */
 export async function getAccountAssetPurchases({
   headers

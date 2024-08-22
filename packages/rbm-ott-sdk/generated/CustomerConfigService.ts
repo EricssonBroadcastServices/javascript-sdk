@@ -11,48 +11,19 @@ import { ConfigFile, ConfigFilesResponse } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @summary Gets a JSON configuration file stored on customer level.
- * @request GET:/v1/customer/{customer}/config/{fileName}
- * @response `default` `ConfigFile` success
- */
-export async function getConfigCuFile({
-  fileName,
-  headers,
-  ..._data
-}: {
-  /** The file to get. */
-  fileName: string;
-  /** The version of the file to get. */
-  version?: number;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "GET",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config/${fileName}`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx,
-    query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<ConfigFile>);
-}
-
-/**
- * @summary Gets a JSON configuration file.
+ * @summary Get a configuration file.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/config/{fileName}
- * @response `default` `ConfigFile` success
+ * @response `200` `ConfigFile` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getConfigFile({
   fileName,
   headers,
   ..._data
 }: {
-  /** The file to get. */
   fileName: string;
   /** @default false */
   paymentMethodPreview?: boolean;
-  version?: number;
   /** Optional headers */
   headers?: HeadersInit;
 }) {
@@ -64,6 +35,30 @@ export async function getConfigFile({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
+  }).then(response => response.json() as Promise<ConfigFile>);
+}
+
+/**
+ * @summary Get a customer level configuration file.
+ * @request GET:/v1/customer/{customer}/config/{fileName}
+ * @response `200` `ConfigFile` Successful.
+ * @response `404` `APIErrorMessage` Not found.
+ */
+export async function getConfigFileCu({
+  fileName,
+  headers
+}: {
+  fileName: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "GET",
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/config/${fileName}`,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
+    ctx
   }).then(response => response.json() as Promise<ConfigFile>);
 }
 
@@ -100,27 +95,6 @@ export async function getConfigFileCustomDomainInPath({
 }
 
 /**
- * @summary Lists existing configuration files.
- * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/config
- * @response `default` `ConfigFilesResponse` success
- */
-export async function getConfigFiles({
-  headers
-}: {
-  /** Optional headers */
-  headers?: HeadersInit;
-} = {}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "GET",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
-  }).then(response => response.json() as Promise<ConfigFilesResponse>);
-}
-
-/**
  * @summary Lists existing configuration files on customer level.
  * @request GET:/v1/customer/{customer}/config
  * @response `default` `ConfigFilesResponse` success
@@ -144,9 +118,8 @@ export async function getConfigFilesCu({
 export class CustomerConfigService {
   // @ts-ignore
   constructor(private context: ServiceContext) {}
-  getConfigCuFile = getConfigCuFile;
   getConfigFile = getConfigFile;
+  getConfigFileCu = getConfigFileCu;
   getConfigFileCustomDomainInPath = getConfigFileCustomDomainInPath;
-  getConfigFiles = getConfigFiles;
   getConfigFilesCu = getConfigFilesCu;
 }

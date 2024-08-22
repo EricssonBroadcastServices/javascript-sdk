@@ -7,13 +7,15 @@
  * ----------------------------------------------------------------
  */
 
-import { ComponentFilters } from "./data-contracts";
+import { Component, ComponentFilters, Config } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @summary Get user location and the filters to use in calls to the client configuration endpoints.
+ * @description This response also includes the user location so there is no need to make an extra call to fetch that.
+ * @summary Get the filters to use in calls to the client configuration endpoints.
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/filters
- * @response `default` `ComponentFilters` success
+ * @response `200` `ComponentFilters` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getComponentFilters({
   headers
@@ -56,9 +58,10 @@ export async function getFile({
 }
 
 /**
- * @summary Get config component
+ * @summary Get component.
  * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/config/{configId}/component/{componentId}
- * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
+ * @response `200` `Component` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getWLComponent({
   configId,
@@ -66,11 +69,8 @@ export async function getWLComponent({
   headers,
   ..._data
 }: {
-  /** The config id. */
   configId: string;
-  /** The component id. */
   componentId: string;
-  /** Add allowed country parameter to any server side asset searches that are made. */
   allowedCountry?: string;
   /** Comma separated list of filters. I.e: "type:value,type2:value2" */
   filters?: string;
@@ -82,57 +82,26 @@ export async function getWLComponent({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}/component/${componentId}`,
-    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  });
+  }).then(response => response.json() as Promise<Component>);
 }
 
 /**
- * @summary Get the top level config object.
- * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/config/{configId}
- * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
- */
-export async function getWLConfig({
-  configId,
-  headers,
-  ..._data
-}: {
-  /** The id of the config. */
-  configId: string;
-  allowedCountry?: string;
-  /** Comma separated list of filters. I.e: "type:value,type2:value2" */
-  filters?: string;
-  /** @default false */
-  paymentMethodPreview?: boolean;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "GET",
-    url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
-    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
-    ctx,
-    query: _data as unknown as QueryParams
-  });
-}
-
-/**
- * @summary Get the top level config object.
+ * @description This endpoint uses the hostname instead of explicit customer/business unit pair to identify the business unit.
+ * @summary Get the top level config object, hostname version.
  * @request GET:/v2/whitelabel/origin/{host}/config/{configId}
- * @response `400` `void` INVALID_FILTERS. If the filters are invalid.
+ * @response `200` `Config` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
-export async function getWLConfigWithDomain({
+export async function getWlConfig({
   host,
   configId,
   headers,
   ..._data
 }: {
-  /** The host that will be mapped to a business unit. */
   host: string;
-  /** The id of the config. */
   configId: string;
   allowedCountry?: string;
   /** Comma separated list of filters. I.e: "type:value,type2:value2" */
@@ -147,10 +116,42 @@ export async function getWLConfigWithDomain({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v2/whitelabel/origin/${host}/config/${configId}`,
-    headers: new Headers({ ...Object.fromEntries(new Headers(headers)) }),
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  });
+  }).then(response => response.json() as Promise<Config>);
+}
+
+/**
+ * @description This endpoint uses the hostname instead of explicit customer/business unit pair to identify the business unit.
+ * @summary Get the top level config object.
+ * @request GET:/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/config/{configId}
+ * @response `200` `Config` Successful
+ * @response `404` `APIErrorMessage` Not found.
+ */
+export async function getWLConfig({
+  configId,
+  headers,
+  ..._data
+}: {
+  configId: string;
+  allowedCountry?: string;
+  /** Comma separated list of filters. I.e: "type:value,type2:value2" */
+  filters?: string;
+  /** @default false */
+  paymentMethodPreview?: boolean;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "GET",
+    url: `${ctx.baseUrl}/v2/whitelabel/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/config/${configId}`,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
+    ctx,
+    query: _data as unknown as QueryParams
+  }).then(response => response.json() as Promise<Config>);
 }
 
 export class ClientConfigService {
@@ -159,6 +160,6 @@ export class ClientConfigService {
   getComponentFilters = getComponentFilters;
   getFile = getFile;
   getWLComponent = getWLComponent;
+  getWlConfig = getWlConfig;
   getWLConfig = getWLConfig;
-  getWLConfigWithDomain = getWLConfigWithDomain;
 }
