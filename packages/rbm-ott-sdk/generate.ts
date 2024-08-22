@@ -68,11 +68,6 @@ function patchSpec(data: string): string {
     spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.responses["200"]
   );
 
-  // Add missing return type ApiLoginResponse for oauthLogin
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin"].post.responses.default.content[
-    "application/json"
-  ] = { schema: { $ref: "#/components/schemas/ApiLoginResponse" } };
-
   /* Mark properties as non-optional */
   spec.components.schemas.ApiAssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
   spec.components.schemas.ApiAsset.required = [
@@ -266,6 +261,26 @@ function patchSpec(data: string): string {
   delete spec.components.schemas.DisplayName;
   delete spec.components.schemas.Icon;
 
+  Object.entries(spec.paths).forEach((path: any) => {
+    // Make sure {date} parameters have a description set (else it throws an error in ETA argToTmpl method)
+    if (path[0].includes('{date}')) {
+      Object.entries(path[1]).forEach((method: any) => {
+        method[1].parameters.forEach((param: any) => {
+          if (param.name == "date" && param.description == undefined) {
+            param.description = ""
+          }
+        });
+      });
+    }
+
+    // Delete deprecated endpoints
+    Object.entries(path[1]).forEach((method: any) => {
+      if (method[1].deprecated === true) {
+        delete spec.paths[path[0]][method[0]]
+      }
+    });
+  });
+
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch
   const tagNameToCamelCase: Record<string, string> = {
@@ -435,6 +450,8 @@ delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/as
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail"];
 // delete deprecated endpoint to user deleting
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/delete"];
+// delete faulty "search" path
+delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query/"];
 
 const unhandledPathEnums = new Set<string>();
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
