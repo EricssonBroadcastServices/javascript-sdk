@@ -8,8 +8,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "generate": "ts-node generate.ts",
-    "update-spec": "ts-node update-spec.ts"
+    "generate": "npx ts-node generate.ts",
+    "update-spec": "npx ts-node update-spec.ts"
   },
   "files": [
     "generated",
@@ -20,7 +20,7 @@
     "url": "git+https://github.com/EricssonBroadcastServices/javascript-sdk.git"
   },
   "author": "Albin Larsson <albin.larsson@eyevinn.se>",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "devDependencies": {
     "swagger-typescript-api": "^13.0.3",
     "ts-node": "^10.9.2",
