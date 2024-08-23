@@ -44,10 +44,7 @@ export async function getPushNextContentData(
     }
   } catch (err) {}
   try {
-    recommendations = [
-      ...recommendations,
-      ...(await getWatchNext.call(context, { assetId })).items
-    ].slice(0, 3);
+    recommendations = [...recommendations, ...(await getWatchNext.call(context, { assetId })).items].slice(0, 3);
   } catch (err) {}
   return {
     upNext: upNextAsset,

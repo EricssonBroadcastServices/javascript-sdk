@@ -45,7 +45,7 @@ export function useAssetDisplayTvShow(asset: Asset, options: UseAssetOptions) {
 
   const [continueWatching, loadingContinueWatching] = useContinueWatching(asset.assetId);
   const [entitlement, loadingEntitlement] = useEntitlementForAsset(
-    { asset: continueWatching?.asset, paymentProvider: options.paymentProvider },
+    { asset: continueWatching?.asset as Asset, paymentProvider: options.paymentProvider },
     {}
   );
 
@@ -66,7 +66,7 @@ export function useAssetDisplayTvShow(asset: Asset, options: UseAssetOptions) {
 
   const continueWatchingTitle =
     continueWatching?.asset &&
-    `S${continueWatching.asset.season} E${continueWatching.asset.episode} ${getTitleFromAsset(continueWatching.asset, {
+    `S${continueWatching.asset.season} E${continueWatching.asset.episode} ${getTitleFromAsset(continueWatching.asset as Asset, {
       language,
       defaultLanguage
     })}`;

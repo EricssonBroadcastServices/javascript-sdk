@@ -206,10 +206,9 @@ function patchSpec(data: string): string {
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous"; // was "anonymousSessionV2" (inconsistent with the other login methods)
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].get.operationId = "getUserDetails"; // was "userDetailsGetV2" (Yoda)
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].put.operationId = "updateUserDetails"; // was "userDetailsUpdateV2" (Yoda)
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}"].put.operationId =
-    "updateUserProfile"; // was "userProfileUpdate" (Yoda)
-  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/recommend/user"].get.operationId =
-    "getRecommendationsForUser"; // was "getUserRecommendations"
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}"].put.operationId = "updateUserProfile"; // was "userProfileUpdate" (Yoda)
+  spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/user/changeEmailAndUsername"].put.operationId = "changeEmailAndUsername"; // was "changeEmail_1"
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/recommend/user"].get.operationId = "getRecommendationsForUser"; // was "getUserRecommendations"
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next"].get.operationId =
     "getNextProgramForAsset"; // was "getNextProgramForAsset2", but there is no "getNextProgramForAsset(1)", and also the numbers should be "v1", "v2", "v3" etc corresponding to the url, not just "2"
   spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.operationId =

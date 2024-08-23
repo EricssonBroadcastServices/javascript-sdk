@@ -1,4 +1,4 @@
-import { setPasswordWithToken } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { setPassword } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { TApiMutation } from "../types/type.apiHook";
 import { useMutation } from "react-query";
 import { useServiceContext } from "./useApi";
@@ -12,7 +12,7 @@ export function useSetNewPassword(): TApiMutation<TSetNewPasswordParams, Respons
   const mutation = useMutation({
     mutationKey: [ctx],
     mutationFn: ({ token, password }: TSetNewPasswordParams) => {
-      return setPasswordWithToken.call(ctx, { token, password });
+      return setPassword.call(ctx, { token, password });
     }
   });
 

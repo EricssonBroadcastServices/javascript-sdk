@@ -6,7 +6,7 @@ import {
   ChangePasswordResponse,
   getUserDetails,
   LoginResponse,
-  putUserAttributes,
+  setAttributes,
   UserDetailsResponse
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { queryClient, QueryKeys } from "../util/react-query";
@@ -120,7 +120,7 @@ export function useSetUserAttributes(): TApiMutation<Attribute[], UserDetailsRes
       }
       const headers = new Headers();
       headers.set("Authorization", `Bearer ${userSession.sessionToken}`);
-      return putUserAttributes.call(serviceContext, { list: attributes, headers });
+      return setAttributes.call(serviceContext, { list: attributes, headers });
     }
   });
 

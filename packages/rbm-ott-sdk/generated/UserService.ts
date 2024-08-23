@@ -52,7 +52,7 @@ export async function changeEmail({
  * @request PUT:/v3/customer/{customer}/businessunit/{businessUnit}/user/changeEmailAndUsername
  * @response `200` `void` OK
  */
-export async function changeEmail_({
+export async function changeEmailAndUsername({
   headers,
   ..._data
 }: {
@@ -369,7 +369,7 @@ export class UserService {
   // @ts-ignore
   constructor(private context: ServiceContext) {}
   changeEmail = changeEmail;
-  changeEmail_ = changeEmail_;
+  changeEmailAndUsername = changeEmailAndUsername;
   changePassword = changePassword;
   confirmUserWithToken = confirmUserWithToken;
   deleteDetails = deleteDetails;

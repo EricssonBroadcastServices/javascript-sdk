@@ -10,11 +10,9 @@ export async function getConfigByCustomerAndBusinessUnit(
   context: WhiteLabelServiceContext,
   { countryCode }: GetConfigByCustomerAndBusinessUnitOptions
 ) {
-  return (
-    await getWLConfig.call(context, {
-      configId: "sandwich",
-      allowedCountry: countryCode,
-      filters: `DEVICE:${context.deviceGroup}`
-    })
-  ) as Promise<IExposureWLConfig>;
+  return (await getWLConfig.call(context, {
+    configId: "sandwich",
+    allowedCountry: countryCode,
+    filters: `DEVICE:${context.deviceGroup}`
+  })) as Promise<IExposureWLConfig>;
 }

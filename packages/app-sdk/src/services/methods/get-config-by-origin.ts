@@ -13,11 +13,9 @@ export async function getConfigByOrigin(
   if (!origin) {
     return Promise.reject(new Error("[WhiteLabelService] No origin set"));
   }
-  return (
-    await getWlConfig.call(context, {
-      configId: "sandwich",
-      host: origin,
-      allowedCountry: countryCode
-    })
-  ) as Promise<IExposureWLConfig>;
+  return (await getWlConfig.call(context, {
+    configId: "sandwich",
+    host: origin,
+    allowedCountry: countryCode
+  })) as Promise<IExposureWLConfig>;
 }
