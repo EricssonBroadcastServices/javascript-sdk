@@ -57,9 +57,7 @@ export async function getEpg({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date
-      .toISOString()
-      .substring(0, 10)}`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/date/${date.toISOString().substring(0, 10)}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
@@ -115,9 +113,7 @@ export async function getEpgForChannel({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date
-      .toISOString()
-      .substring(0, 10)}`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date.toISOString().substring(0, 10)}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
@@ -173,9 +169,7 @@ export async function getEpgForChannels({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date
-      .toISOString()
-      .substring(0, 10)}`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date.toISOString().substring(0, 10)}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams

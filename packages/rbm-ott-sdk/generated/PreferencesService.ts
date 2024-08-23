@@ -7,7 +7,12 @@
  * ----------------------------------------------------------------
  */
 
-import { AssetListItemResponse, PreferencesResponse, UserPreferenceResponse } from "./data-contracts";
+import {
+  AssetListItemResponse,
+  PreferencesListResponse,
+  PreferencesResponse,
+  UserPreferenceResponse
+} from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
@@ -283,7 +288,7 @@ export async function getPreferences({
 /**
  * @summary Get a tag list for a user.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag
- * @response `200` `void` Successful
+ * @response `200` `PreferencesListResponse` Successful
  * @response `404` `APIErrorMessage` Not found.
  */
 export async function getTagsFromPreferencesList({
@@ -301,7 +306,7 @@ export async function getTagsFromPreferencesList({
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  });
+  }).then(response => response.json() as Promise<PreferencesListResponse>);
 }
 
 /**

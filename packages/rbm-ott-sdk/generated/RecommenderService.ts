@@ -46,7 +46,7 @@ export async function continueWatching({
  * @response `401` `APIErrorMessage` Authorization Error: NO_SESSION_TOKEN - If the session token is missing INVALID_SESSION_TOKEN - If the session token is provided but not valid
  * @response `404` `APIErrorMessage` UNKNOWN_BUSINESS_UNIT - If the business unit is not found.
  */
-export async function getUserRecommendations({
+export async function getRecommendationsForUser({
   headers,
   ..._data
 }: {
@@ -110,6 +110,6 @@ export class RecommenderService {
   // @ts-ignore
   constructor(private context: ServiceContext) {}
   continueWatching = continueWatching;
-  getUserRecommendations = getUserRecommendations;
+  getRecommendationsForUser = getRecommendationsForUser;
   getWatchNext = getWatchNext;
 }

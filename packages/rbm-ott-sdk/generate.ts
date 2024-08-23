@@ -42,12 +42,6 @@ function patchSpec(data: string): string {
   );
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
 
-  // Override duplicate asset schemas/interfaces that in turn duplicate the whole type tree
-  data = data.replaceAll(
-    /#\/components\/schemas\/(UPHAsset|AssetResponse|ApiContinueWatchingAsset)/g,
-    `${SCHEMA_PREFIX}Asset`
-  );
-
   for (let [oldName, newName] of Object.entries(renameTypes)) {
     data = data.replaceAll(`${SCHEMA_PREFIX}${oldName}`, `${SCHEMA_PREFIX}${newName}`);
   }
@@ -57,16 +51,6 @@ function patchSpec(data: string): string {
   for (let [oldName, newName] of Object.entries(renameTypes)) {
     spec.components.schemas[newName] = spec.components.schemas[oldName]
   }
-
-  // Fix incorrect return types that shouldn't be arrays:
-  fixFalseListSchema(
-    spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset"].get.responses[
-      "200"
-    ]
-  );
-  fixFalseListSchema(
-    spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.responses["200"]
-  );
 
   /* Mark properties as non-optional */
   spec.components.schemas.ApiAssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
@@ -334,11 +318,6 @@ function patchSpec(data: string): string {
 
 function makeSchemafromProp(prop: any & { enum: string; type: string }) {
   return { enum: prop.enum, type: prop.type };
-}
-
-function fixFalseListSchema(response: any) {
-  const responseTypeSpec = Object.values(response.content)[0] as any;
-  responseTypeSpec.schema = responseTypeSpec.schema.items;
 }
 
 function formatTypeName(name: string) {

@@ -449,48 +449,38 @@ export async function searchEpgPartial<T = any>({
 }
 
 /**
- * @summary EXPERIMENTAL - List assets - same query params as search
- * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query
- * @response `default` `SearchList` success
+ * @description I.e. list assets with same query params as search.
+ * @summary Search V2 with empty query
+ * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query/
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchNoQuery({
   headers,
   ..._data
 }: {
-  /** Filter on allowed in country. */
   allowedCountry?: string;
-  /** Filter for material duration. Lower limit. */
   durationLower?: number;
-  /** Filter for material duration. Upper limit. */
   durationUpper?: number;
-  /** Only return assets that has downloadBlocked set to false in a publication. */
   onlyDownloadable?: boolean;
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   service?: string;
-  /** Subtitle filter. Comma separated list of languages. */
   subtitles?: string;
-  /** Tag ids to filter on. */
   tags?: string[];
-  /**
-   * The comma separates list of asset types to filter on.
-   * @default "MOVIE,TV_SHOW"
-   */
+  /** @default "MOVIE,TV_SHOW" */
   types?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -499,7 +489,7 @@ export async function searchNoQuery({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
@@ -507,57 +497,47 @@ export async function searchNoQuery({
 }
 
 /**
- * @summary EXPERIMENTAL - List assets - same query params as search
- * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query
- * @response `default` `SearchList` success
+ * @description I.e. list assets with same query params as search.
+ * @summary Search V2 with empty query
+ * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query/
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchNoQueryPartial<T = any>({
   headers,
   ..._data
 }: {
-  /** Filter on allowed in country. */
   allowedCountry?: string;
-  /** Filter for material duration. Lower limit. */
   durationLower?: number;
-  /** Filter for material duration. Upper limit. */
   durationUpper?: number;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /** Only return assets that has downloadBlocked set to false in a publication. */
   onlyDownloadable?: boolean;
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   service?: string;
-  /** Subtitle filter. Comma separated list of languages. */
   subtitles?: string;
-  /** Tag ids to filter on. */
   tags?: string[];
-  /**
-   * The comma separates list of asset types to filter on.
-   * @default "MOVIE,TV_SHOW"
-   */
+  /** @default "MOVIE,TV_SHOW" */
   types?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -566,7 +546,7 @@ export async function searchNoQueryPartial<T = any>({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams

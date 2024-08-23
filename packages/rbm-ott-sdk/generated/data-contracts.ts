@@ -250,6 +250,59 @@ export type AssetQueryUrl = ContentUrl & {
   url?: string;
 };
 
+export interface AssetResponse {
+  adminDisplayName?: string;
+  assetId?: string;
+  audioTracks?: string[];
+  changed?: string;
+  channelFeatures?: ("VIRTUAL" | "VC_CURATED" | "VC_PERSONALIZED" | "VC_SCHEDULED" | "EPG")[];
+  collections?: CollectionReferenceResponse[];
+  created?: string;
+  customData?: JsonNode;
+  defaultAudioTrack?: string;
+  duration?: string;
+  episode?: string;
+  event?: EventDataResponse;
+  expires?: string;
+  externalReferences?: ExternalReferenceResponse[];
+  geoCountries?: string[];
+  ingestFlow?: string;
+  isLive?: boolean;
+  linkedEntities?: LinkedEntityResponse[];
+  localizedData?: LocalizedDataResponse[];
+  markers?: Marker[];
+  materialType?: AssetMaterialType;
+  materials?: MaterialResponse[];
+  medias?: MediaResponse[];
+  mrrCluster?: string;
+  originalTitle?: string;
+  originalTitleLanguage?: string;
+  overlayWidgetLayoutId?: string;
+  parentalRatings?: ParentalRatingResponse[];
+  participants?: PersonResponse[];
+  popularity?: Popularity;
+  popularityScores?: Record<string, string>;
+  productionCountries?: string[];
+  productionYear?: number;
+  programs?: ProgramListEntryResponse[];
+  publicCustomData?: JsonNode;
+  publications?: PublicationResponse[];
+  rating?: number;
+  releaseDate?: string;
+  runtime?: number;
+  season?: string;
+  seasonId?: string;
+  slugs?: string[];
+  spokenLanguages?: string[];
+  studio?: string;
+  subtitles?: string[];
+  systemTags?: TagResponse[];
+  tags?: TagResponse[];
+  trackSizes?: TrackSizes;
+  tvShowId?: string;
+  type?: AssetType;
+}
+
 export interface AssetRights {
   activation?: string;
   airplayBlocked?: boolean;
@@ -363,6 +416,11 @@ export interface CollectionReference {
   collectionId?: string;
 }
 
+export interface CollectionReferenceResponse {
+  collectionId?: string;
+  sortOrder?: number;
+}
+
 export type Component = ComponentBase & {
   actions?: Record<string, AssetAction | ComponentAction | ExternalUrlAction | SimpleAction>;
   appSubType?: string;
@@ -471,7 +529,50 @@ export interface ContentUrl {
 }
 
 export interface ContinueUph2Assets {
-  items?: Asset[];
+  items?: ContinueWatchingAsset[];
+}
+
+export interface ContinueWatchingAsset {
+  assetId?: string;
+  audioTracks?: string[];
+  changed?: string;
+  collections?: CollectionReference[];
+  created?: string;
+  customData?: JsonNode;
+  defaultAudioTrack?: string;
+  duration?: number;
+  episode?: string;
+  expires?: string;
+  externalReferences?: ExternalReferenceResponse[];
+  geoCountries?: string[];
+  linkedEntities?: LinkedEntityResponse[];
+  live?: boolean;
+  localized?: LocalizedDataResponse[];
+  markers?: Marker[];
+  materialType?: AssetMaterialType;
+  medias?: MediaResponse[];
+  originalTitle?: string;
+  originalTitleLanguage?: string;
+  parentalRatings?: ParentalRatingResponse[];
+  participants?: PersonResponse[];
+  popularityScores?: Record<string, string>;
+  productionCountries?: string[];
+  productionYear?: number;
+  publications?: Publication[];
+  rating?: number;
+  releaseDate?: string;
+  runtime?: number;
+  season?: string;
+  seasonId?: string;
+  seasons?: SeasonResponse[];
+  slugs?: string[];
+  spokenLanguages?: string[];
+  subtitles?: string[];
+  tags?: TagResponse[];
+  trackSizes?: TrackSizes;
+  tvShowId?: string;
+  type?: AssetType;
+  userData?: UserAssetData;
 }
 
 export type ContinueWatchingUrl = ContentUrl & {
@@ -647,6 +748,11 @@ export interface Event {
   startTime: string;
 }
 
+export type EventDataResponse = Record<
+  "channelId" | "endTime" | "id" | "publicEndTime" | "publicStartTime" | "startTime",
+  string
+>;
+
 export interface EventList {
   items?: Event[];
   pageNumber?: number;
@@ -663,6 +769,8 @@ export interface ExternalPaymentConfig {
 }
 
 export type ExternalReference = Record<"locator" | "type" | "value", string>;
+
+export type ExternalReferenceResponse = Record<"locator" | "type" | "value", string>;
 
 export type ExternalUrlAction = Action & {
   localizedUrl?: Record<string, string>;
@@ -739,6 +847,17 @@ export const ImageOrientation = {
 } as const;
 export type ImageOrientation = (typeof ImageOrientation)[keyof typeof ImageOrientation];
 
+export interface ImageResponse {
+  caption?: string;
+  copyright?: string;
+  height?: number;
+  orientation?: ImageOrientation;
+  priority?: number;
+  type?: string;
+  url?: string;
+  width?: number;
+}
+
 export interface InitializePaymentResponse {
   /** If Stripe is enabled. */
   stripe?: StripePaymentMethodsAndPrice;
@@ -768,6 +887,23 @@ export interface LabelFilter {
   labelFilterId: string;
 }
 
+export interface LastViewedOffset {
+  assetId?: string;
+  channelId?: string;
+  lastViewedOffset?: number;
+  lastViewedTime?: number;
+  liveTime?: number;
+  programId?: string;
+  userId?: string;
+}
+
+export interface LastViewedOffsetList {
+  count?: number;
+  items?: LastViewedOffset[];
+  pageNumber?: number;
+  pageSize?: number;
+}
+
 export const LicenseExpirationReason = {
   ANONYMOUS_IP_BLOCKED: "ANONYMOUS_IP_BLOCKED",
   CONCURRENT_STREAMS_LIMIT_REACHED: "CONCURRENT_STREAMS_LIMIT_REACHED",
@@ -786,6 +922,8 @@ export const LicenseExpirationReason = {
 export type LicenseExpirationReason = (typeof LicenseExpirationReason)[keyof typeof LicenseExpirationReason];
 
 export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string>;
+
+export type LinkedEntityResponse = Record<"entityId" | "entityType" | "linkType", string>;
 
 export type LiveEventsUrl = ContentUrl & {
   authorized?: boolean;
@@ -815,7 +953,24 @@ export interface LocalizedData {
   title?: string;
 }
 
+export interface LocalizedDataResponse {
+  description?: string;
+  extendedDescription?: string;
+  images?: ImageResponse[];
+  locale?: string;
+  longDescription?: string;
+  longFormDescription?: string;
+  seoDescription?: string;
+  seoTitle?: string;
+  shortDescription?: string;
+  sortingTitle?: string;
+  tinyDescription?: string;
+  title?: string;
+}
+
 export type LocalizedPersonData = Record<"bio" | "locale", string>;
+
+export type LocalizedPersonDataResponse = Record<"bio" | "locale", string>;
 
 export type LocalizedSeoData = Record<"locale" | "seoDescription" | "seoTitle", string>;
 
@@ -886,6 +1041,14 @@ export interface MarkerPoint {
   type?: MarkerType;
 }
 
+export interface MarkerPointResponse {
+  localized?: SimpleLocalizedResponse[];
+  markerTime?: string;
+  markerTimeEnd?: string;
+  thumbnail?: boolean;
+  type?: string;
+}
+
 export const MarkerType = {
   CHAPTER: "CHAPTER",
   CREDITS: "CREDITS",
@@ -893,6 +1056,20 @@ export const MarkerType = {
   POINT: "POINT"
 } as const;
 export type MarkerType = (typeof MarkerType)[keyof typeof MarkerType];
+
+export interface MaterialResponse {
+  adMarkers?: Marker[];
+  audioTracks?: string[];
+  defaultAudioTrack?: string;
+  duration?: string;
+  markerPoints?: MarkerPointResponse[];
+  materialType?: AssetMaterialType;
+  profile?: string[];
+  subtitles?: string[];
+  validFrom?: string;
+  validTo?: string;
+  version?: number;
+}
 
 export interface Media {
   drm?: string;
@@ -930,6 +1107,25 @@ export const MediaFormatType = {
 } as const;
 export type MediaFormatType = (typeof MediaFormatType)[keyof typeof MediaFormatType];
 
+export interface MediaResponse {
+  bitrates?: number[];
+  changed?: string;
+  created?: string;
+  drm?: string;
+  duration?: number;
+  format?: string;
+  height?: number;
+  ingestionProfile?: string;
+  keyId?: string;
+  mediaId?: string;
+  mediaLocator?: string;
+  name?: string;
+  programId?: string;
+  status?: string;
+  subtitles?: SubtitleResponse[];
+  width?: number;
+}
+
 export interface Message {
   message?: string;
 }
@@ -945,6 +1141,8 @@ export interface OverlayWidget {
 }
 
 export type ParentalRating = Record<"country" | "rating" | "scheme", string>;
+
+export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", string>;
 
 export interface ParentalRatingsFilter {
   ratings?: Record<string, string[]>;
@@ -1023,6 +1221,16 @@ export interface Person {
   role?: string;
 }
 
+export interface PersonResponse {
+  dateOfBirth?: string;
+  dateOfDeath?: string;
+  function?: string;
+  localizedPersonData?: LocalizedPersonDataResponse[];
+  name?: string;
+  personId?: string;
+  role?: string;
+}
+
 export interface PinCodeResponse {
   /** List of application specified grants. */
   grants: string[];
@@ -1065,6 +1273,20 @@ export interface PlayResponse {
   streamInfo?: StreamInfo;
   subtitles?: Subtitle[];
   userId?: string;
+}
+
+export type Popularity = Record<"month" | "week", number>;
+
+export interface PreferencesListItem {
+  id?: string;
+  lastUpdated?: string;
+  metadata?: Record<string, string>;
+  order?: number;
+}
+
+export interface PreferencesListResponse {
+  items?: PreferencesListItem[];
+  query?: string;
 }
 
 export interface PreferencesResponse {
@@ -1163,6 +1385,16 @@ export interface Program {
   startTime: string;
 }
 
+export interface ProgramListEntryResponse {
+  catchupBlocked?: boolean;
+  channelId?: string;
+  endTime?: string;
+  programId?: string;
+  publicEndTime?: string;
+  publicStartTime?: string;
+  startTime?: string;
+}
+
 export interface ProgramResponse {
   asset: Asset;
   assetId: string;
@@ -1190,6 +1422,20 @@ export interface Publication {
   rights?: AssetRights;
   services?: string[];
   toDate: string;
+}
+
+export interface PublicationResponse {
+  contractId?: string;
+  countries?: string[];
+  customData?: JsonNode;
+  devices?: Device[];
+  fromDate?: string;
+  products?: string[];
+  publicationDate?: string;
+  publicationId?: string;
+  rights?: Rights;
+  services?: string[];
+  toDate?: string;
 }
 
 export interface PurchaseResponse {
@@ -1221,6 +1467,36 @@ export interface RecommendedWatchNext {
 }
 
 export type Result = Record<"type" | "value", string>;
+
+export interface Rights {
+  activation?: string;
+  airplayBlocked?: boolean;
+  amcDebugLogEnabled?: boolean;
+  analyticsEnabled?: boolean;
+  downloadBlocked?: boolean;
+  expiration?: string;
+  ffEnabled?: boolean;
+  fourGBlocked?: boolean;
+  fwEnabled?: boolean;
+  hdmiblocked?: boolean;
+  jailbrokenBlocked?: boolean;
+  locationEnabled?: boolean;
+  maxAds?: number;
+  maxBitrate?: number;
+  maxDownloadCount?: number;
+  maxFileSize?: number;
+  maxPlayPosition?: number;
+  maxResHeight?: number;
+  maxResWidth?: number;
+  minBitrate?: number;
+  minPlayPosition?: number;
+  playCount?: number;
+  rwEnabled?: boolean;
+  sessionShiftEnabled?: boolean;
+  streamingBlocked?: boolean;
+  threeGBlocked?: boolean;
+  wifiBlocked?: boolean;
+}
 
 export interface Search {
   asset: Asset;
@@ -1262,6 +1538,32 @@ export interface SeasonList {
   totalCount?: number;
 }
 
+export interface SeasonResponse {
+  availableDate?: string;
+  changed?: string;
+  created?: string;
+  customData?: JsonNode;
+  endYear?: number;
+  episodeCount?: number;
+  episodes?: AssetResponse[];
+  externalReferences?: ExternalReferenceResponse[];
+  linkedEntities?: LinkedEntityResponse[];
+  localizedData?: LocalizedDataResponse[];
+  originalTitle?: string;
+  originalTitleLanguage?: string;
+  parentalRatings?: ParentalRatingResponse[];
+  participants?: PersonResponse[];
+  productionCountries?: string[];
+  productionYear?: number;
+  publishedDate?: string;
+  season?: string;
+  seasonId?: string;
+  startYear?: number;
+  studio?: string;
+  tags?: TagResponse[];
+  tvShowId?: string;
+}
+
 /** Sentry configuaration */
 export interface SentryConfig {
   /** If Sentry is to be enabled */
@@ -1288,6 +1590,12 @@ export type SimpleAction = Action;
 export interface SimpleLocalizedData {
   image?: Image;
   locale: string;
+  title?: string;
+}
+
+export interface SimpleLocalizedResponse {
+  image?: ImageResponse;
+  locale?: string;
   title?: string;
 }
 
@@ -1597,6 +1905,8 @@ export interface StripeWalletAndPrice {
 
 export type Subtitle = Record<"label" | "language" | "url", string>;
 
+export type SubtitleResponse = Record<"language" | "location" | "name", string>;
+
 export interface SubtitleTrackInfo {
   fileSize?: number;
   language?: string;
@@ -1651,6 +1961,13 @@ export interface TagList {
   totalCount: number;
 }
 
+export interface TagResponse {
+  changed?: string;
+  created?: string;
+  tagValues?: TagValuesResponse[];
+  type?: string;
+}
+
 export interface TagSearch {
   highlightedTitle?: string;
   tag?: TagType;
@@ -1679,6 +1996,10 @@ export type TagTypeUrl = ContentUrl & {
 
 export interface TagValues {
   tagId: string;
+}
+
+export interface TagValuesResponse {
+  tagId?: string;
 }
 
 export interface TimeResponse {
@@ -1718,6 +2039,61 @@ export type TvodUrl = ContentUrl & {
   authorized?: boolean;
   url?: string;
 };
+
+export interface UPHAsset {
+  assetId?: string;
+  audioTracks?: string[];
+  changed?: string;
+  collections?: CollectionReference[];
+  created?: string;
+  customData?: JsonNode;
+  defaultAudioTrack?: string;
+  duration?: number;
+  episode?: string;
+  expires?: string;
+  externalReferences?: ExternalReferenceResponse[];
+  geoCountries?: string[];
+  linkedEntities?: LinkedEntityResponse[];
+  live?: boolean;
+  localized?: LocalizedDataResponse[];
+  markers?: Marker[];
+  materialType?: AssetMaterialType;
+  medias?: MediaResponse[];
+  originalTitle?: string;
+  originalTitleLanguage?: string;
+  parentalRatings?: ParentalRatingResponse[];
+  participants?: PersonResponse[];
+  popularityScores?: Record<string, string>;
+  productionCountries?: string[];
+  productionYear?: number;
+  publications?: Publication[];
+  rating?: number;
+  releaseDate?: string;
+  runtime?: number;
+  season?: string;
+  seasonId?: string;
+  seasons?: SeasonResponse[];
+  slugs?: string[];
+  spokenLanguages?: string[];
+  subtitles?: string[];
+  tags?: TagResponse[];
+  trackSizes?: TrackSizes;
+  tvShowId?: string;
+  type?: AssetType;
+}
+
+export interface UserAssetData {
+  playHistory?: UserAssetPlayHistory;
+}
+
+export interface UserAssetPlayHistory {
+  channelId?: string;
+  errorMessage?: string;
+  lastViewedOffset?: number;
+  /** @deprecated */
+  lastViewedTime?: number;
+  programId?: string;
+}
 
 export interface UserAttributeResponse {
   /** attributeId */
@@ -1850,7 +2226,7 @@ export interface VouchersConfig {
 }
 
 export interface WatchedTvShowResponse {
-  asset?: Asset;
+  asset?: UPHAsset;
   lastViewedOffset?: number;
   startedWatching?: boolean;
 }

@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------
  */
 
-import { WatchedTvShowResponse } from "./data-contracts";
+import { LastViewedOffsetList, WatchedTvShowResponse } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
@@ -65,7 +65,7 @@ export async function getEpisodeInProgress({
 /**
  * @summary Gets last viewed offset for assets for a user
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset
- * @response `200` `void` Successful
+ * @response `200` `LastViewedOffsetList` Successful
  * @response `401` `APIErrorMessage` Authorization Error: NO_SESSION_TOKEN - If the session token is missing INVALID_SESSION_TOKEN - If the session token is provided but not valid.
  * @response `404` `APIErrorMessage` UNKNOWN_BUSINESS_UNIT - If the business unit is not found.
  */
@@ -101,7 +101,7 @@ export async function getLastViewedOffsetList({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  });
+  }).then(response => response.json() as Promise<LastViewedOffsetList>);
 }
 
 export class UserPlayHistoryService {
