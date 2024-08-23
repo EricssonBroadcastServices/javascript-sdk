@@ -224,6 +224,8 @@ function patchSpec(data: string): string {
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].put.operationId = "updateUserDetails"; // was "userDetailsUpdateV2" (Yoda)
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}"].put.operationId =
     "updateUserProfile"; // was "userProfileUpdate" (Yoda)
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/recommend/user"].get.operationId =
+    "getRecommendationsForUser"; // was "getUserRecommendations"
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next"].get.operationId =
     "getNextProgramForAsset"; // was "getNextProgramForAsset2", but there is no "getNextProgramForAsset(1)", and also the numbers should be "v1", "v2", "v3" etc corresponding to the url, not just "2"
   spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.operationId =
@@ -450,8 +452,6 @@ delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/export/as
 delete spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/thumbnail"];
 // delete deprecated endpoint to user deleting
 delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/delete"];
-// delete faulty "search" path
-delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query/"];
 
 const unhandledPathEnums = new Set<string>();
 for (let [path, methods] of Object.entries(spec.paths) as [string, any][]) {
@@ -589,6 +589,7 @@ generateApi({
         // (`delete spec.paths[...].get`), or add it to the exceptions (`onFormatRouteName` hook)
         throw new Error(`Duplicate routes found after renaming: ${dupes}`);
       }
+      return apiConfig;
     }
   }
 })
