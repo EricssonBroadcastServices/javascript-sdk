@@ -16,5 +16,5 @@ export async function getConfigByCustomerAndBusinessUnit(
       allowedCountry: countryCode,
       filters: `DEVICE:${context.deviceGroup}`
     })
-  ).json() as Promise<IExposureWLConfig>;
+  ) as Promise<IExposureWLConfig>;
 }

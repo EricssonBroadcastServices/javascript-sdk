@@ -3,7 +3,7 @@ import {
   ServiceContext,
   getNextEpisode,
   getNextProgramForAsset,
-  getRecommendationsForAsset
+  getWatchNext
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { PublicationHelpers } from "../../utils/publication";
 
@@ -46,7 +46,7 @@ export async function getPushNextContentData(
   try {
     recommendations = [
       ...recommendations,
-      ...(await getRecommendationsForAsset.call(context, { assetId })).items
+      ...(await getWatchNext.call(context, { assetId })).items
     ].slice(0, 3);
   } catch (err) {}
   return {

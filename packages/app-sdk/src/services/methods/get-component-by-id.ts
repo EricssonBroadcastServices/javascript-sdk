@@ -18,5 +18,5 @@ export async function getComponentById<T extends IExposureComponent>(
       componentId,
       filters: `DEVICE:${context.deviceGroup}`
     })
-  ).json();
+  ) as unknown as T;
 }

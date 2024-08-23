@@ -1,4 +1,4 @@
-import { ServiceContext, getWLConfigWithDomain } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { ServiceContext, getWlConfig } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { IExposureWLConfig } from "../../interfaces";
 
 export interface GetConfigByOriginOptions {
@@ -14,10 +14,10 @@ export async function getConfigByOrigin(
     return Promise.reject(new Error("[WhiteLabelService] No origin set"));
   }
   return (
-    await getWLConfigWithDomain.call(context, {
+    await getWlConfig.call(context, {
       configId: "sandwich",
       host: origin,
       allowedCountry: countryCode
     })
-  ).json() as Promise<IExposureWLConfig>;
+  ) as Promise<IExposureWLConfig>;
 }
