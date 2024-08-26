@@ -7,22 +7,29 @@
  * ----------------------------------------------------------------
  */
 
-import { AutocompleteItem, AutocompleteItem2, EpgSearchHits, MultiSearchResponse, SearchList } from "./data-contracts";
+import {
+  AutocompleteItem,
+  AutocompleteItem2,
+  EpgSearchHits,
+  MultiSearchResponse,
+  ParentalRatingsFilter,
+  SearchList,
+  TagSearchList
+} from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
  * @summary Does prefix autocomplete for a query.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/autocomplete/{query}
- * @response `default` `(AutocompleteItem)[]` success
+ * @response `200` `(AutocompleteItem)[]` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function autocomplete({
   query,
   headers,
   ..._data
 }: {
-  /** The query to autocomplete. */
   query: string;
-  /** The locale to autocomplete in. */
   locale?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -39,26 +46,20 @@ export async function autocomplete({
 }
 
 /**
- * @description EXPERIMENTAL. May change without notice.
- * @summary Does prefix autocomplete on asset titles.
+ * @summary Autocomplete of asset titles.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/asset/title/autocomplete/{query}
- * @response `default` `(AutocompleteItem2)[]` success
+ * @response `200` `(AutocompleteItem2)[]` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function autocompleteAssetTitle({
   query,
   headers,
   ..._data
 }: {
-  /** The query to autocomplete. */
   query: string;
-  /** The locale to autocomplete in. */
   locales?: string[];
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
-  parentalRatings?: string;
-  /**
-   * The comma separates list of asset types to filter on.
-   * @default "MOVIE,TV_SHOW"
-   */
+  parentalRatings?: ParentalRatingsFilter;
+  /** @default "MOVIE,TV_SHOW" */
   types?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -75,21 +76,18 @@ export async function autocompleteAssetTitle({
 }
 
 /**
- * @description EXPERIMENTAL. May change without notice.
- * @summary Does prefix autocomplete on tag titles.
+ * @summary Autocomplete V3 of asset titles.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/tag/title/autocomplete/{query}
- * @response `default` `(AutocompleteItem2)[]` success
+ * @response `200` `(AutocompleteItem2)[]` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function autocompleteTagTitle({
   query,
   headers,
   ..._data
 }: {
-  /** The query to autocomplete. */
   query: string;
-  /** The locales to autocomplete in. */
-  locales?: string[];
-  /** The schemes to autocomplete in. */
+  locale?: string[];
   scheme?: string[];
   /** Optional headers */
   headers?: HeadersInit;
@@ -108,16 +106,15 @@ export async function autocompleteTagTitle({
 /**
  * @summary Gets spelling suggestions for a key.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/suggestions/{query}
- * @response `default` `(AutocompleteItem)[]` success
+ * @response `200` `(AutocompleteItem)[]` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getSuggestions({
   query,
   headers,
   ..._data
 }: {
-  /** The query to autocomplete. */
   query: string;
-  /** The locale to autocomplete in. */
   locale?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -134,42 +131,37 @@ export async function getSuggestions({
 }
 
 /**
- * @summary Searches for a query.
+ * @summary Title search V1.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/query/{query}
- * @response `default` `SearchList` success
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function search({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
   allowedCountry?: string;
-  /** The locale to search in. */
   locale?: string;
   /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
   /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   service?: string;
-  /**
-   * The sort parameter in the format of first,-second. Defaults to sorting by
-   * relevance.
-   */
   sort?: string;
   /**
-   * The comma separates list of types to search in.
+   * Comma separated list of types.
    * @default "MOVIE,TV_SHOW"
    */
   types?: string;
@@ -188,48 +180,46 @@ export async function search({
 }
 
 /**
- * @summary Searches for a query.
+ * @summary Title search V1.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/query/{query}
- * @response `default` `SearchList` success
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchPartial<T = any>({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
   allowedCountry?: string;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
-  /** @default "PARTIAL" */
+  /**
+   * Field set to return.
+   * @default "PARTIAL"
+   */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /** The locale to search in. */
   locale?: string;
   /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
   /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   service?: string;
-  /**
-   * The sort parameter in the format of first,-second. Defaults to sorting by
-   * relevance.
-   */
   sort?: string;
   /**
-   * The comma separates list of types to search in.
+   * Comma separated list of types.
    * @default "MOVIE,TV_SHOW"
    */
   types?: string;
@@ -248,45 +238,38 @@ export async function searchPartial<T = any>({
 }
 
 /**
- * @description EXPERIMENTAL. May change without notice.
- * @summary Prefix search on asset titles.
+ * @description Prefix search on asset titles.
+ * @summary Asset search V3.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/asset/query/{query}
- * @response `default` `SearchList` success
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
-export async function searchAsset({
+export async function searchAssets({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
   allowedCountry?: string;
-  /** The locales to search in. */
   locale?: string[];
   /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
   /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
+  products?: string[];
   service?: string;
-  /**
-   * The sort parameter in the format of first,-second. Defaults to sorting by
-   * relevance.
-   */
   sort?: string;
-  /**
-   * The comma separates list of types to search in.
-   * @default "MOVIE,TV_SHOW"
-   */
+  /** @default "MOVIE,TV_SHOW" */
   types?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -303,51 +286,47 @@ export async function searchAsset({
 }
 
 /**
- * @description EXPERIMENTAL. May change without notice.
- * @summary Prefix search on asset titles.
+ * @description Prefix search on asset titles.
+ * @summary Asset search V3.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/asset/query/{query}
- * @response `default` `SearchList` success
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
-export async function searchAssetPartial<T = any>({
+export async function searchAssetsPartial<T = any>({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
   allowedCountry?: string;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
-  /** @default "PARTIAL" */
+  /**
+   * Field set to return.
+   * @default "PARTIAL"
+   */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /** The locales to search in. */
   locale?: string[];
   /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
   /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
+  products?: string[];
   service?: string;
-  /**
-   * The sort parameter in the format of first,-second. Defaults to sorting by
-   * relevance.
-   */
   sort?: string;
-  /**
-   * The comma separates list of types to search in.
-   * @default "MOVIE,TV_SHOW"
-   */
+  /** @default "MOVIE,TV_SHOW" */
   types?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -470,48 +449,38 @@ export async function searchEpgPartial<T = any>({
 }
 
 /**
- * @summary EXPERIMENTAL - List assets - same query params as search
- * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query
- * @response `default` `SearchList` success
+ * @description I.e. list assets with same query params as search.
+ * @summary Search V2 with empty query
+ * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query/
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchNoQuery({
   headers,
   ..._data
 }: {
-  /** Filter on allowed in country. */
   allowedCountry?: string;
-  /** Filter for material duration. Lower limit. */
   durationLower?: number;
-  /** Filter for material duration. Upper limit. */
   durationUpper?: number;
-  /** Only return assets that has downloadBlocked set to false in a publication. */
   onlyDownloadable?: boolean;
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   service?: string;
-  /** Subtitle filter. Comma separated list of languages. */
   subtitles?: string;
-  /** Tag ids to filter on. */
   tags?: string[];
-  /**
-   * The comma separates list of asset types to filter on.
-   * @default "MOVIE,TV_SHOW"
-   */
+  /** @default "MOVIE,TV_SHOW" */
   types?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -520,7 +489,7 @@ export async function searchNoQuery({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
@@ -528,57 +497,47 @@ export async function searchNoQuery({
 }
 
 /**
- * @summary EXPERIMENTAL - List assets - same query params as search
- * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query
- * @response `default` `SearchList` success
+ * @description I.e. list assets with same query params as search.
+ * @summary Search V2 with empty query
+ * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query/
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchNoQueryPartial<T = any>({
   headers,
   ..._data
 }: {
-  /** Filter on allowed in country. */
   allowedCountry?: string;
-  /** Filter for material duration. Lower limit. */
   durationLower?: number;
-  /** Filter for material duration. Upper limit. */
   durationUpper?: number;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /** Only return assets that has downloadBlocked set to false in a publication. */
   onlyDownloadable?: boolean;
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
   service?: string;
-  /** Subtitle filter. Comma separated list of languages. */
   subtitles?: string;
-  /** Tag ids to filter on. */
   tags?: string[];
-  /**
-   * The comma separates list of asset types to filter on.
-   * @default "MOVIE,TV_SHOW"
-   */
+  /** @default "MOVIE,TV_SHOW" */
   types?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -587,7 +546,7 @@ export async function searchNoQueryPartial<T = any>({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/query/`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
@@ -595,31 +554,29 @@ export async function searchNoQueryPartial<T = any>({
 }
 
 /**
- * @description EXPERMIENTAL. May change without notice.
- * @summary Prefix search on tag titles.
+ * @description Prefix search on tag titles.
+ * @summary Tag search V3.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/tag/query/{query}
- * @response `default` `SearchList` success
+ * @response `200` `TagSearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchTags({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
-  /** The locales to search in. */
   locales?: string[];
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** The schemes to autocomplete in. */
   scheme?: string[];
   /** Optional headers */
   headers?: HeadersInit;
@@ -632,41 +589,42 @@ export async function searchTags({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
-  }).then(response => response.json() as Promise<SearchList>);
+  }).then(response => response.json() as Promise<TagSearchList>);
 }
 
 /**
- * @description EXPERMIENTAL. May change without notice.
- * @summary Prefix search on tag titles.
+ * @description Prefix search on tag titles.
+ * @summary Tag search V3.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/tag/query/{query}
- * @response `default` `SearchList` success
+ * @response `200` `TagSearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchTagsPartial<T = any>({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
-  /** @default "PARTIAL" */
+  /**
+   * Field set to return.
+   * @default "PARTIAL"
+   */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /** The locales to search in. */
   locales?: string[];
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** The schemes to autocomplete in. */
   scheme?: string[];
   /** Optional headers */
   headers?: HeadersInit;
@@ -683,53 +641,43 @@ export async function searchTagsPartial<T = any>({
 }
 
 /**
- * @summary EXPERIMENTAL - Free text query in selected fields in assets.
+ * @description Free text query in selected fields in assets.
+ * @summary Search V2
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query/{query}
- * @response `default` `SearchList` success
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchV2({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
-  /** Filter on allowed in country. */
   allowedCountry?: string;
-  /** Filter for material duration. Lower limit. */
   durationLower?: number;
-  /** Filter for material duration. Upper limit. */
   durationUpper?: number;
-  /** The locales to search in. */
   locale?: string[];
-  /** Only return assets that has downloadBlocked set to false in a publication. */
   onlyDownloadable?: boolean;
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
-  /** The schemes of tags to search. If no schemes, tags will not be searched. */
   schemes?: string[];
   service?: string;
-  /** Subtitle filter. Comma separated list of languages. */
   subtitles?: string;
-  /** Tag ids to filter on. */
   tags?: string[];
   /**
-   * The comma separates list of asset types to filter on.
+   * Comma separated list of types.
    * @default "MOVIE,TV_SHOW"
    */
   types?: string;
@@ -748,62 +696,52 @@ export async function searchV2({
 }
 
 /**
- * @summary EXPERIMENTAL - Free text query in selected fields in assets.
+ * @description Free text query in selected fields in assets.
+ * @summary Search V2
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/content/search/query/{query}
- * @response `default` `SearchList` success
+ * @response `200` `SearchList` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchV2Partial<T = any>({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
-  /** Filter on allowed in country. */
   allowedCountry?: string;
-  /** Filter for material duration. Lower limit. */
   durationLower?: number;
-  /** Filter for material duration. Upper limit. */
   durationUpper?: number;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /** The locales to search in. */
   locale?: string[];
-  /** Only return assets that has downloadBlocked set to false in a publication. */
   onlyDownloadable?: boolean;
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
-  /** The schemes of tags to search. If no schemes, tags will not be searched. */
   schemes?: string[];
   service?: string;
-  /** Subtitle filter. Comma separated list of languages. */
   subtitles?: string;
-  /** Tag ids to filter on. */
   tags?: string[];
   /**
-   * The comma separates list of asset types to filter on.
+   * Comma separated list of types.
    * @default "MOVIE,TV_SHOW"
    */
   types?: string;
@@ -822,40 +760,35 @@ export async function searchV2Partial<T = any>({
 }
 
 /**
- * @description EXPERIMENTAL. May change without notice.
- * @summary Prefix search on asset and tags.
+ * @description Prefix search on assets and tags.
+ * @summary Multi search V3.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/query/{query}
- * @response `default` `MultiSearchResponse` success
+ * @response `200` `MultiSearchResponse` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchV3({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
-  /** Filter on allowed in country. */
   allowedCountry?: string;
-  /** The locales to search in. */
   locale?: string[];
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
+  products?: string[];
   /** The schemes of tags to search. If no schemes, tags will not be searched. */
   schemes?: string[];
   service?: string;
-  tagResultSort?: string;
   /**
-   * The comma separates list of asset types to filter on.
+   * Comma separated list of types.
    * @default "MOVIE,TV_SHOW"
    */
   types?: string;
@@ -874,49 +807,44 @@ export async function searchV3({
 }
 
 /**
- * @description EXPERIMENTAL. May change without notice.
- * @summary Prefix search on asset and tags.
+ * @description Prefix search on assets and tags.
+ * @summary Multi search V3.
  * @request GET:/v3/customer/{customer}/businessunit/{businessUnit}/content/search/query/{query}
- * @response `default` `MultiSearchResponse` success
+ * @response `200` `MultiSearchResponse` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function searchV3Partial<T = any>({
   query,
   headers,
   ..._data
 }: {
-  /** The query to search for. */
   query: string;
-  /** Filter on allowed in country. */
   allowedCountry?: string;
-  /** Comma separated list of fields to remove from the response. */
+  /** Comma separated list of field names to exclude from response. */
   excludeFields?: string;
   /**
-   * The set of fields to include by default.
+   * Field set to return.
    * @default "PARTIAL"
    */
   fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
+  /** Comma separated list of field names to include in response. */
   includeFields?: string;
-  /** The locales to search in. */
   locale?: string[];
-  /**
-   * If we should only return assets that are at the moment published
-   * @default true
-   */
+  /** @default true */
   onlyPublished?: boolean;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
    */
   pageSize?: number;
-  /** Filter on parental rating (format of COUNTRY:RATING,COUNTRY:RATING2) */
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
   parentalRatings?: string;
+  products?: string[];
   /** The schemes of tags to search. If no schemes, tags will not be searched. */
   schemes?: string[];
   service?: string;
-  tagResultSort?: string;
   /**
-   * The comma separates list of asset types to filter on.
+   * Comma separated list of types.
    * @default "MOVIE,TV_SHOW"
    */
   types?: string;
@@ -943,8 +871,8 @@ export class SearchService {
   getSuggestions = getSuggestions;
   search = search;
   searchPartial = searchPartial;
-  searchAsset = searchAsset;
-  searchAssetPartial = searchAssetPartial;
+  searchAssets = searchAssets;
+  searchAssetsPartial = searchAssetsPartial;
   searchEpg = searchEpg;
   searchEpgPartial = searchEpgPartial;
   searchNoQuery = searchNoQuery;

@@ -7,31 +7,20 @@
  * ----------------------------------------------------------------
  */
 
-import {
-  AnonymousSessionResponse,
-  CreateSessionResponse,
-  Device,
-  DeviceRegistration,
-  EmptyResponse,
-  LoginResponse,
-  SessionResponse
-} from "./data-contracts";
+import { CreateSessionResponse, DeviceRegistration, JsonNode, LoginResponse, SessionResponse } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @description If the user is the account's owner, then all the sessions of the account will be deleted. If a deleted session was created with 'userSession' : true, then the history of that session will not be revealed in any forthcoming sessions with this username. This request is privileged and thus needs server to server authentication.
- * @summary Deletes all sessions created by a user.
+ * @description This request is privileged and thus needs server to server authentication.
+ * @summary Deletes all sessions created by or for a user.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/session/delete
- * @response `400` `void` INVALID_JSON. If JSON received is not valid JSON.
- * @response `403` `void` FORBIDDEN. The calling server is not authenticated using for instance api key.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
+ * @response `200` `void` OK
  */
 export async function deleteSessions({
   headers,
   ..._data
 }: {
-  /** The users login name */
+  /** The user's (login) username. */
   username: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -41,7 +30,11 @@ export async function deleteSessions({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/session/delete`,
-    headers: new Headers({ "content-type": "application/json", ...Object.fromEntries(new Headers(headers)) }),
+    headers: new Headers({
+      accept: "application/json",
+      "content-type": "application/json",
+      ...Object.fromEntries(new Headers(headers))
+    }),
     ctx,
     body: _data
   });
@@ -49,24 +42,20 @@ export async function deleteSessions({
 
 /**
  * @description This request is privileged and thus needs server to server authentication.
- * @summary Creates a session for an external user - a user known only by the caller.
+ * @summary Creates a session for an external user - a user known only by the caller
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/externalusersession
- * @response `200` `CreateSessionResponse` success
- * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON.
- * @response `403` `void` FORBIDDEN. The calling server is not authenticated using for instance api key. NOT_CONFIGURED. The OU is not configured to use the v2 API
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
+ * @response `200` `CreateSessionResponse` OK
  */
 export async function externalUserSession({
   headers,
   ..._data
 }: {
-  /** Will be used as accountId and, if userId is not provided, as userId */
+  /** Will be used as accountId and, if userId is not provided, as userId. */
   accountId: string;
   device: DeviceRegistration;
-  /** The time that the session should expire. */
+  /** When the session should expire. */
   expiration: string;
-  /** Optional userId, if not provided accountId will be used also as userId */
+  /** Optional userId, if not provided accountId will be used also as userId. */
   userId?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -87,18 +76,20 @@ export async function externalUserSession({
 }
 
 /**
+ * @description Limited availability, not for general use.
+ * @summary Part of OAuth Login
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauth/auth
- * @response `default` `void` success
+ * @response `200` `JsonNode` OK
  */
 export async function getOauthAuth({
   headers,
   ..._data
 }: {
-  client_id?: string;
-  redirect_uri?: string;
+  client_id: string;
+  redirect_uri: string;
   /** Optional headers */
   headers?: HeadersInit;
-} = {}) {
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request({
@@ -107,22 +98,24 @@ export async function getOauthAuth({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  });
+  }).then(response => response.json() as Promise<JsonNode>);
 }
 
 /**
+ * @description Limited availability, not for general use.
+ * @summary Part of OAuth Login
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauth/redir
- * @response `default` `void` success
+ * @response `200` `JsonNode` OK
  */
 export async function getOauthRedir({
   headers,
   ..._data
 }: {
-  code?: string;
-  state?: string;
+  code: string;
+  state: string;
   /** Optional headers */
   headers?: HeadersInit;
-} = {}) {
+}) {
   // @ts-ignore
   const ctx = (this.context || this) as ServiceContext;
   return request({
@@ -131,33 +124,24 @@ export async function getOauthRedir({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  });
+  }).then(response => response.json() as Promise<JsonNode>);
 }
 
 /**
- * @summary Performs a login.
+ * @summary Login with username and password.
  * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/auth/login
- * @response `200` `LoginResponse` success
- * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
- * @response `401` `void` INCORRECT_CREDENTIALS. If the underlying CRM does not deem the credentials valid. MIGRATED_USER. The user is migrated from another platform and has yet no password. The "new user email" has been resent.
- * @response `403` `void` INFORMATION_COLLECTION_CONSENT_MISSING. The user is required to give consent to collect NOT_CONFIGURED. The OU is not configured to use the v2 API e.g EE2
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
- * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
+ * @response `200` `LoginResponse` OK
  */
 export async function login({
   headers,
   ..._data
 }: {
-  /** The users login name, e.g. email */
+  /** Username of the user. */
   username: string;
   device: DeviceRegistration;
-  /** Password. */
+  /** User's password. */
   password?: string;
-  /**
-   * TRUE: Consent to collect personal information is given.
-   * FALSE or null: consent is not given now. This may be fine if consent already is given.
-   */
+  /** true if consent to collect personal information is given. null == false */
   informationCollectionConsentGivenNow?: boolean;
   /** Optional headers */
   headers?: HeadersInit;
@@ -178,71 +162,36 @@ export async function login({
 }
 
 /**
- * @summary Creates an anonymous session.
- * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous
- * @response `200` `AnonymousSessionResponse` success
- * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
- * @response `403` `void` FORBIDDEN. If the business unit is not configured to support anonymous sessions.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
- */
-export async function loginAnonymous({
-  headers,
-  ..._data
-}: {
-  device: Device;
-  /** The device id. */
-  deviceId: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/auth/anonymous`,
-    headers: new Headers({
-      accept: "application/json",
-      "content-type": "application/json",
-      ...Object.fromEntries(new Headers(headers))
-    }),
-    ctx,
-    body: _data
-  }).then(response => response.json() as Promise<AnonymousSessionResponse>);
-}
-
-/**
  * @summary Performs a login using a Firebase access token.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/firebaseLogin
- * @response `200` `LoginResponse` success
- * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
- * @response `403` `void` INFORMATION_COLLECTION_CONSENT_MISSING. The user is required to give consent to collect NOT_CONFIGURED. The OU is not configured to use the v2 API e.g EE2 USERNAME_ALREADY_IN_USE. The email address is used by another account
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
- * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
+ * @response `200` `LoginResponse` OK
  */
 export async function loginFirebase({
   headers,
   ..._data
 }: {
-  /** The users login name, 'firebase..&lt;uid&gt;' */
+  /** The user's login name, 'firebase..<uid> */
   username: string;
   device: DeviceRegistration;
-  /** Email, used for Firebase user creation. */
+  /** The user's email address, if provided it may be used. The email could also be taken from he access token. */
   email?: string;
-  /** Display name, used for Firebase user creation. */
+  /** The user's display name, if provided it may be used. The name could also be taken from he access token's name field. */
   displayName?: string;
-  /** Email verified, used for Firebase user creation. */
+  /**
+   * Ignored.
+   *  * @deprecated
+   */
   emailVerified?: boolean;
-  /** Firebase provider, used for Firebase user creation. */
+  /**
+   * Ignored.
+   *  * @deprecated
+   */
   providerId?: string;
   /** Firebase access token. */
   accessToken?: string;
-  /**
-   * When should the session created by this authentication request expire
-   * and force the user to log in again.
-   */
+  /** When should the session expire. If omitted system default is applied. */
   expiration?: string;
-  /** The user's preferred language. Only used if first login when creating the user */
+  /** The user's preferred language. Only used at first login when creating the user. */
   language?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -265,20 +214,16 @@ export async function loginFirebase({
 /**
  * @summary Performs a login using a Gigya JWT.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/gigyaLogin
- * @response `200` `LoginResponse` success
- * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
- * @response `403` `void` INFORMATION_COLLECTION_CONSENT_MISSING. The user is required to give consent to collect NOT_CONFIGURED. The OU is not configured to use Gigya.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
+ * @response `200` `LoginResponse` OK
  */
 export async function loginGigya({
   headers,
   ..._data
 }: {
-  /** Gigya JWT. */
+  /** The Gigya JWT. */
   jwt: string;
   device: DeviceRegistration;
-  /** The user's preferred language. Only used if first login when creating the user */
+  /** The user's preferred language. Only used at first login when creating the user. */
   language?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -299,17 +244,19 @@ export async function loginGigya({
 }
 
 /**
+ * @description Limited availability, not for general use.
+ * @summary Performs a login using OAuth.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin
- * @response `default` `LoginResponse` success
+ * @response `200` `LoginResponse` OK
  */
 export async function loginOauth({
   headers,
   ..._data
 }: {
-  /** OAuth access token. */
+  /**  OAuth access token. */
   token: string;
   device: DeviceRegistration;
-  /** The user's preferred language. Only used if firebase login creating the user */
+  /** The user's preferred language. Only used at first login when creating the user. */
   language?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -330,23 +277,26 @@ export async function loginOauth({
 }
 
 /**
- * @summary EXPERIMENTAL Performs a login using an OpenIdConnect JWT.
+ * @summary Performs a login using either: * an ID token (obtained using the Implicit flow with Form Post) * or a code and an optional code_verifier (obtained using the Authorization Code with PKCE flow)
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/oidcLogin
- * @response `200` `LoginResponse` success
- * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
- * @response `403` `void` INFORMATION_COLLECTION_CONSENT_MISSING. The user is required to give consent to collect NOT_CONFIGURED. The OU is not configured to use OpenIdConnect.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
+ * @response `200` `LoginResponse` Successful
+ * @response `400` `APIErrorMessage` Malformed payload
  */
 export async function loginOpenIdConnect({
   headers,
   ..._data
 }: {
-  /** JWT. */
-  jwt: string;
   device: DeviceRegistration;
-  /** The user's preferred language. Only used if first login when creating the user */
+  /** ID token */
+  jwt?: string;
+  /** code from the Authorization Code flow */
+  code?: string;
+  /** The user's preferred language. Only used at first login when creating the user. */
   language?: string;
+  /** challenge used in the Authorization Code with PKCE flow */
+  code_verifier?: string;
+  /** a valid redirect URI configured on the OP */
+  redirect_uri?: string;
   /** Optional headers */
   headers?: HeadersInit;
 }) {
@@ -366,23 +316,18 @@ export async function loginOpenIdConnect({
 }
 
 /**
- * @summary Performs a login using a Adobe Primetime media token.
+ * @summary Performs a login an Adobe Primetime media token.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/adobePrimetimeLogin
- * @response `200` `LoginResponse` success
- * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. SESSION_LIMIT_EXCEEDED. If the account has exceeded the number of allowed sessions. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON. THIRD_PARTY_ERROR. If third party login generate error message, for detail error code see field extendedMessage.
- * @response `403` `void` INFORMATION_COLLECTION_CONSENT_MISSING. The user is required to give consent to collect NOT_CONFIGURED. The OU is not configured to use Primetime.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
- * @response `429` `void` TEMPORARILY_LOCKED. Login is blocked for the account or IP-address for a while due to too many failed login attempts
+ * @response `200` `LoginResponse` OK
  */
 export async function loginPrimetime({
   headers,
   ..._data
 }: {
-  /** Adobe Primetime AuthZ media token. */
+  /** The Adobe Primetime AuthZ media token. */
   mediaToken: string;
   device: DeviceRegistration;
-  /** The user's preferred language. Only used if first login when creating the user */
+  /** The user's preferred language. Only used at first login when creating the user. */
   language?: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -403,17 +348,18 @@ export async function loginPrimetime({
 }
 
 /**
- * @summary Logout.
+ * @summary Log out.
  * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/auth/login
- * @response `200` `EmptyResponse` success
- * @response `401` `void` NO_SESSION_TOKEN. If Bearer is missing in authorization header.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
+ * @response `200` `void` OK
  */
 export async function logout({
   headers,
   ..._data
 }: {
-  /** @default false */
+  /**
+   * If true all sessions are ended.
+   * @default false
+   */
   fromAllDevice?: boolean;
   /** Optional headers */
   headers?: HeadersInit;
@@ -426,40 +372,27 @@ export async function logout({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
-  }).then(response => response.json() as Promise<EmptyResponse>);
+  });
 }
 
 /**
  * @description This request is privileged and thus needs server to server authentication.
- * @summary Creates a session for a API-Key user.
+ * @summary Creates a session for a API-Key user
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/auth/session
- * @response `200` `CreateSessionResponse` success
- * @response `400` `void` DEVICE_LIMIT_EXCEEDED. If the account has exceeded the number of allowed devices. UNKNOWN_DEVICE_ID. If the device body is not included and the device id is not found. INVALID_JSON. If JSON received is not valid JSON.
- * @response `403` `void` FORBIDDEN. The calling server is not authenticated using for instance api key. NOT_CONFIGURED. The OU is not configured to use the v2 API
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit cannot be found.
- * @response `422` `void` JSON_DOES_NOT_FOLLOW_CONTRACT. If the JSON does not follow the contract. I.E. unknown ENUM sent, strings in place of integers, missing values etc.
+ * @response `200` `LoginResponse` OK
  */
 export async function session({
   headers,
   ..._data
 }: {
-  /** The users login name */
+  /** Username of the user. */
   username: string;
   device: DeviceRegistration;
-  /**
-   * When should the session created by this authentication request expire
-   * and force the user to log in again.
-   */
+  /** When should the session expire. If omitted system default is applied. */
   expiration?: string;
-  /**
-   * Should the session be unique or connected to a userId.
-   * If true the session will only be connected to an account but not to a user
-   */
+  /** To be true in very special cases and then you will now. */
   sessionUser?: boolean;
-  /**
-   * TRUE: Consent to collect personal information is given.
-   * FALSE or null: consent is not given now. This may be fine if consent already is given.
-   */
+  /** true if consent to collect personal information is given. null == false */
   informationCollectionConsentGivenNow?: boolean;
   /** Optional headers */
   headers?: HeadersInit;
@@ -476,16 +409,14 @@ export async function session({
     }),
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<CreateSessionResponse>);
+  }).then(response => response.json() as Promise<LoginResponse>);
 }
 
 /**
  * @description Checks if the session is still valid. If the session is marked "overTheDeviceLimit" ths session is valid but may only be used to list and delete devices. By deleting another device the "overTheDeviceLimit" will be cleared.
  * @summary Validate session.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/auth/session
- * @response `200` `SessionResponse` success
- * @response `401` `void` INVALID_SESSION_TOKEN. If the session token is invalid
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found.
+ * @response `200` `SessionResponse` OK
  */
 export async function validateSessionToken({
   headers
@@ -511,7 +442,6 @@ export class AuthenticationService {
   getOauthAuth = getOauthAuth;
   getOauthRedir = getOauthRedir;
   login = login;
-  loginAnonymous = loginAnonymous;
   loginFirebase = loginFirebase;
   loginGigya = loginGigya;
   loginOauth = loginOauth;

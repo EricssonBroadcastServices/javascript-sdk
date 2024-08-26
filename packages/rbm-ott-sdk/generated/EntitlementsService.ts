@@ -128,7 +128,7 @@ export async function play({
   /** A consent string passed from various Consent Management Platforms (CMP’s). Used for SSAI. */
   consent?: string;
   /** A comma-separated list for sending additional custom non-SDK supported SSAI parameters. Used for SSAI. */
-  customParams?: string;
+  custom?: string[];
   /** Manufacturer of device such as Apple or Samsung. Used for SSAI. */
   deviceMake?: string;
   /** Device model. Used for SSAI. */

@@ -7,13 +7,16 @@
  * ----------------------------------------------------------------
  */
 
+import { LabelFilter } from "./data-contracts";
 import { ServiceContext, request } from "./http-client";
 
 /**
- * @request GET:/prometheus
- * @response `default` `void` success
+ * @description This can be used in special applications to e.g. get appropriate product offerings
+ * @summary Get current accounts labelFilter
+ * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/label/filter
+ * @response `200` `LabelFilter` OK
  */
-export async function prometheus({
+export async function getAccountLabels({
   headers
 }: {
   /** Optional headers */
@@ -23,14 +26,14 @@ export async function prometheus({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/prometheus`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/label/filter`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
-  });
+  }).then(response => response.json() as Promise<LabelFilter>);
 }
 
-export class PrometheusService {
+export class AccountLabelsService {
   // @ts-ignore
   constructor(private context: ServiceContext) {}
-  prometheus = prometheus;
+  getAccountLabels = getAccountLabels;
 }

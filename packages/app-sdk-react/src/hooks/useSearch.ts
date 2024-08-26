@@ -3,7 +3,7 @@ import { QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
 import { useServiceContext } from "./useApi";
 import { useDebounce } from "./useDebounce";
-import { Asset, SearchList, getAssets, searchAsset, searchV3 } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { Asset, SearchList, getAssets, searchAssets, searchV3 } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useSystemConfigV2 } from "./useSystemConfig";
 import { useCountryCode } from "./useGeolocation";
 import { useConfig } from "./useConfig";
@@ -18,7 +18,7 @@ export function useSearch(term: string, debounceTime = 300): TApiHook<SearchList
   const [config] = useConfig();
   const { data, isLoading, error } = useQuery([QueryKeys.SEARCH, debouncedTerm], () => {
     if (!debouncedTerm || term === "") return;
-    return searchAsset.call(ctx, {
+    return searchAssets.call(ctx, {
       query: term,
       locale: systemConfig?.frontendFeatures.searchLocales,
       allowedCountry: countryCode,

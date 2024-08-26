@@ -2,6 +2,7 @@ import {
   Asset,
   AssetType,
   ChannelAsset,
+  ContinueWatchingAsset,
   ImageOrientation,
   StoreProductOffering
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
@@ -218,7 +219,7 @@ export function getAllTagIdsFromAsset(asset: Asset) {
 }
 
 export function getPlayHistoryPercentageFromAsset(asset: Asset) {
-  const playHistory = asset.userData?.playHistory;
+  const playHistory = (asset as ContinueWatchingAsset).userData?.playHistory;
   if (!playHistory?.lastViewedOffset || !asset.duration) return null;
   return Math.round((playHistory.lastViewedOffset * 100) / asset.duration);
 }

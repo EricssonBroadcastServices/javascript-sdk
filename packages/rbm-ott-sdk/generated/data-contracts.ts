@@ -44,8 +44,12 @@ export interface AccountProducts {
   notEntitled?: Product[];
 }
 
+export interface Action {
+  type: string;
+  verb?: string;
+}
+
 export interface ActivationCodeResponse {
-  /** 6 characters drawn from set 123456789ABCDEF */
   code: string;
   expires: string;
 }
@@ -110,8 +114,8 @@ export interface Ads {
   insertionDuration?: number;
   insertionMaxCount?: number;
   stitcher: AdStitcher;
-  stitcherProfileId?: string;
   stitcherSession?: string;
+  tenantId?: string;
 }
 
 export interface Analytics {
@@ -135,9 +139,9 @@ export interface AnalyticsConfig {
 }
 
 export interface AnonymousSessionResponse {
-  /** The time when the session expires */
+  /** The ISO 8601 time when the session expires. */
   expirationDateTime: string;
-  /** The session token to use for subsequent requests. */
+  /** The (bearer) session token to use in subsequent requests. */
   sessionToken: string;
 }
 
@@ -185,15 +189,14 @@ export interface Asset {
   overlayWidgets?: OverlayWidget[];
   parentalRatings: ParentalRating[];
   participants: Person[];
-  /** A key value object */
-  popularityScores?: object;
+  popularityScores?: Record<string, string>;
   productionCountries: string[];
   productionYear?: number;
+  program?: Program;
   programs?: Program[];
   publications: Publication[];
   rating?: number;
   releaseDate?: string;
-  /** The duration of the asset in seconds. */
   runtime?: number;
   season?: string;
   seasonId?: string;
@@ -208,8 +211,12 @@ export interface Asset {
   tvShow?: TvShowInfo;
   tvShowId?: string;
   type: AssetType;
-  userData?: UserAssetData;
 }
+
+export type AssetAction = Action & {
+  assetId?: string;
+  slugs?: string[];
+};
 
 export interface AssetDownload {
   assetId?: string;
@@ -229,8 +236,7 @@ export interface AssetListItemResponse {
   asset: Asset;
   assetId: string;
   lastUpdated?: string;
-  /** A key value object */
-  metadata?: object;
+  metadata?: Record<string, string>;
   order?: number;
 }
 
@@ -239,8 +245,65 @@ export const AssetMaterialType = {
 } as const;
 export type AssetMaterialType = (typeof AssetMaterialType)[keyof typeof AssetMaterialType];
 
+export type AssetQueryUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
+
+export interface AssetResponse {
+  adminDisplayName?: string;
+  assetId?: string;
+  audioTracks?: string[];
+  changed?: string;
+  channelFeatures?: ("VIRTUAL" | "VC_CURATED" | "VC_PERSONALIZED" | "VC_SCHEDULED" | "EPG")[];
+  collections?: CollectionReferenceResponse[];
+  created?: string;
+  customData?: JsonNode;
+  defaultAudioTrack?: string;
+  duration?: string;
+  episode?: string;
+  event?: EventDataResponse;
+  expires?: string;
+  externalReferences?: ExternalReferenceResponse[];
+  geoCountries?: string[];
+  ingestFlow?: string;
+  isLive?: boolean;
+  linkedEntities?: LinkedEntityResponse[];
+  localizedData?: LocalizedDataResponse[];
+  markers?: Marker[];
+  materialType?: AssetMaterialType;
+  materials?: MaterialResponse[];
+  medias?: MediaResponse[];
+  mrrCluster?: string;
+  originalTitle?: string;
+  originalTitleLanguage?: string;
+  overlayWidgetLayoutId?: string;
+  parentalRatings?: ParentalRatingResponse[];
+  participants?: PersonResponse[];
+  popularity?: Popularity;
+  popularityScores?: Record<string, string>;
+  productionCountries?: string[];
+  productionYear?: number;
+  programs?: ProgramListEntryResponse[];
+  publicCustomData?: JsonNode;
+  publications?: PublicationResponse[];
+  rating?: number;
+  releaseDate?: string;
+  runtime?: number;
+  season?: string;
+  seasonId?: string;
+  slugs?: string[];
+  spokenLanguages?: string[];
+  studio?: string;
+  subtitles?: string[];
+  systemTags?: TagResponse[];
+  tags?: TagResponse[];
+  trackSizes?: TrackSizes;
+  tvShowId?: string;
+  type?: AssetType;
+}
+
 export interface AssetRights {
-  HDMIBlocked?: boolean;
   activation?: string;
   airplayBlocked?: boolean;
   amcDebugLogEnabled?: boolean;
@@ -251,6 +314,7 @@ export interface AssetRights {
   expiration?: string;
   ffEnabled?: boolean;
   fourGBlocked?: boolean;
+  hdmiblocked?: boolean;
   jailbrokenBlocked?: boolean;
   locationEnabled?: boolean;
   maxAds?: number;
@@ -322,7 +386,7 @@ export interface CardSummary {
 }
 
 export interface ChangePasswordResponse {
-  loginResponse?: LoginResponse;
+  loginResponse: LoginResponse;
 }
 
 export interface ChannelAsset {
@@ -334,9 +398,13 @@ export interface ChannelAsset {
 export interface ChannelEPGResponse {
   channelId: string;
   programs: ProgramResponse[];
-  /** This is the total number of hits for all channels, not only this. */
   totalHitsAllChannels: number;
 }
+
+export type ChannelEpgUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
 
 export interface ChannelStatus {
   active?: boolean;
@@ -348,10 +416,79 @@ export interface CollectionReference {
   collectionId?: string;
 }
 
+export interface CollectionReferenceResponse {
+  collectionId?: string;
+  sortOrder?: number;
+}
+
+export type Component = ComponentBase & {
+  actions?: Record<string, AssetAction | ComponentAction | ExternalUrlAction | SimpleAction>;
+  appSubType?: string;
+  appType?: string;
+  changed?: string;
+  components?: Components;
+  content?: PresentationFromAssetContent;
+  contentPreferencesUrl?: TagFeedUrl;
+  contentUrl?:
+    | AssetQueryUrl
+    | ChannelEpgUrl
+    | ContinueWatchingUrl
+    | EpgUrl
+    | FavouritesUrl
+    | LiveEventsUrl
+    | RecentlyWatchedUrl
+    | RecommendedUrl
+    | SingleAssetUrl
+    | TagTypeUrl
+    | TvodUrl;
+  created?: string;
+  id?: string;
+  name?: string;
+  otherPresentations?: Record<string, Presentation>;
+  parameters?: Record<string, string>;
+  presentation?: Presentation;
+};
+
+export type ComponentAction = Action & {
+  componentId?: string;
+  url?: string;
+};
+
+export interface ComponentBase {
+  type: string;
+}
+
 export interface ComponentFilters {
   countryCode?: string;
   filters?: Result[];
   locationKnown?: boolean;
+}
+
+export type ComponentReference = ComponentBase & {
+  appSubType?: string;
+  appType?: string;
+  hasAuthorizedContent?: boolean;
+  images?: Image[];
+  name?: string;
+  parameters?: Record<string, string>;
+  referenceId?: string;
+  referenceUrl?: string;
+};
+
+export type Components = Record<string, (Component | ComponentReference)[]>;
+
+export interface Config {
+  businessUnit?: string;
+  changed?: string;
+  components?: Record<string, (Component | ComponentReference)[]>;
+  created?: string;
+  customer?: string;
+  id?: string;
+  name?: string;
+  parameters?: Record<string, string>;
+  presentation?: Presentation;
+  systemConfig?: SystemConfig;
+  theme?: Record<string, string>;
 }
 
 export interface ConfigFile {
@@ -379,9 +516,69 @@ export interface ConsentManagement {
   didomi: Didomi;
 }
 
-export interface ContinueUph2Assets {
-  items?: Asset[];
+export interface Content {
+  type: string;
 }
+
+export interface ContentPreferencesUrl {
+  type: string;
+}
+
+export interface ContentUrl {
+  type: string;
+}
+
+export interface ContinueUph2Assets {
+  items?: ContinueWatchingAsset[];
+}
+
+export interface ContinueWatchingAsset {
+  assetId?: string;
+  audioTracks?: string[];
+  changed?: string;
+  collections?: CollectionReference[];
+  created?: string;
+  customData?: JsonNode;
+  defaultAudioTrack?: string;
+  duration?: number;
+  episode?: string;
+  expires?: string;
+  externalReferences?: ExternalReferenceResponse[];
+  geoCountries?: string[];
+  linkedEntities?: LinkedEntityResponse[];
+  live?: boolean;
+  localized?: LocalizedDataResponse[];
+  markers?: Marker[];
+  materialType?: AssetMaterialType;
+  medias?: MediaResponse[];
+  originalTitle?: string;
+  originalTitleLanguage?: string;
+  parentalRatings?: ParentalRatingResponse[];
+  participants?: PersonResponse[];
+  popularityScores?: Record<string, string>;
+  productionCountries?: string[];
+  productionYear?: number;
+  publications?: Publication[];
+  rating?: number;
+  releaseDate?: string;
+  runtime?: number;
+  season?: string;
+  seasonId?: string;
+  seasons?: SeasonResponse[];
+  slugs?: string[];
+  spokenLanguages?: string[];
+  subtitles?: string[];
+  tags?: TagResponse[];
+  trackSizes?: TrackSizes;
+  tvShowId?: string;
+  type?: AssetType;
+  userData?: UserAssetData;
+}
+
+export type ContinueWatchingUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
 
 export interface ContractRestrictions {
   airplayEnabled?: boolean;
@@ -394,9 +591,9 @@ export interface ContractRestrictions {
 }
 
 export interface CreateSessionResponse {
-  /** The time when the session expires */
+  /** The time when the session expires. */
   expirationDateTime?: string;
-  /** The session token to use for subsequent requests. */
+  /** The session (bearer) token to use for subsequent requests. */
   sessionToken?: string;
 }
 
@@ -410,32 +607,40 @@ export interface DRMLicense {
 }
 
 export interface Device {
-  height?: number;
-  manufacturer?: string;
-  model?: string;
-  name?: string;
-  os?: string;
-  osVersion?: string;
+  /**
+   * Not used any longer
+   * @deprecated
+   */
+  deviceModelId?: string;
+  /** The type of device */
   type: DeviceType;
-  width?: number;
 }
 
 export interface DeviceRegistration {
-  /** The device id. */
+  /** A unique ID of this device, used for logins from the device. */
   deviceId: string;
-  /** The user's name of the device. */
+  /** The user's name of the device */
   name: string;
-  type?: DeviceType;
+  /** The type of device */
+  type: DeviceType;
 }
 
 export interface DeviceResponseV2 {
+  /** If true to many devices are logged in and this session can not be used to play. Normally this will not happen. */
   aboveDeviceLimit?: boolean;
+  /** True if this device is teh device used to list this device.. */
   currentDevice?: boolean;
+  /** When the device was first created. */
   deviceCreated?: string;
+  /** Device id. */
   deviceId?: string;
+  /** Device name. */
   deviceName?: string;
+  /** Device types. */
   deviceType?: string;
+  /** When the session was created. */
   sessionCreated?: string;
+  /** When the session expires. */
   sessionExpires?: string;
 }
 
@@ -445,7 +650,6 @@ export interface DeviceRights {
   os?: string;
   osVersion?: string;
   rights?: AssetRights;
-  type?: DeviceType;
 }
 
 export const DeviceType = {
@@ -460,7 +664,6 @@ export const DeviceType = {
 export type DeviceType = (typeof DeviceType)[keyof typeof DeviceType];
 
 export interface DevicesResponseV2 {
-  /** The list of current devices for the account. */
   devices?: DeviceResponseV2[];
 }
 
@@ -506,8 +709,6 @@ export interface DrmUrls {
   licenseServerUrl: string;
 }
 
-export type EmptyResponse = object;
-
 export interface EntitleResponse {
   accountId?: string;
   entitleExposure?: boolean;
@@ -535,13 +736,22 @@ export interface EpgSearchHits {
   totalCount?: number;
 }
 
+export type EpgUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
+
 export interface Event {
   asset: Asset;
-  /** The id of the asset this program is for. */
   assetId: string;
   endTime: string;
   startTime: string;
 }
+
+export type EventDataResponse = Record<
+  "channelId" | "endTime" | "id" | "publicEndTime" | "publicStartTime" | "startTime",
+  string
+>;
 
 export interface EventList {
   items?: Event[];
@@ -559,6 +769,18 @@ export interface ExternalPaymentConfig {
 }
 
 export type ExternalReference = Record<"locator" | "type" | "value", string>;
+
+export type ExternalReferenceResponse = Record<"locator" | "type" | "value", string>;
+
+export type ExternalUrlAction = Action & {
+  localizedUrl?: Record<string, string>;
+  url?: string;
+};
+
+export type FavouritesUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
 
 export interface Filters {
   filters?: FiltersFilter[];
@@ -603,6 +825,11 @@ export interface GooglePlayPurchaseVerifyResponse {
 
 export type HtmlDocument = Record<"body" | "url", string>;
 
+export interface Iframe {
+  height?: number;
+  url?: string;
+}
+
 export interface Image {
   height: number;
   orientation: ImageOrientation;
@@ -619,6 +846,17 @@ export const ImageOrientation = {
   UNKNOWN: "UNKNOWN"
 } as const;
 export type ImageOrientation = (typeof ImageOrientation)[keyof typeof ImageOrientation];
+
+export interface ImageResponse {
+  caption?: string;
+  copyright?: string;
+  height?: number;
+  orientation?: ImageOrientation;
+  priority?: number;
+  type?: string;
+  url?: string;
+  width?: number;
+}
 
 export interface InitializePaymentResponse {
   /** If Stripe is enabled. */
@@ -643,30 +881,7 @@ export interface JsonAccount {
   userIds?: string[];
 }
 
-export interface JsonNode {
-  array?: boolean;
-  bigDecimal?: boolean;
-  bigInteger?: boolean;
-  binary?: boolean;
-  boolean?: boolean;
-  containerNode?: boolean;
-  double?: boolean;
-  empty?: boolean;
-  float?: boolean;
-  floatingPointNumber?: boolean;
-  int?: boolean;
-  integralNumber?: boolean;
-  long?: boolean;
-  missingNode?: boolean;
-  nodeType?: "ARRAY" | "BINARY" | "BOOLEAN" | "MISSING" | "NULL" | "NUMBER" | "OBJECT" | "POJO" | "STRING";
-  null?: boolean;
-  number?: boolean;
-  object?: boolean;
-  pojo?: boolean;
-  short?: boolean;
-  textual?: boolean;
-  valueNode?: boolean;
-}
+export type JsonNode = object;
 
 export interface LabelFilter {
   labelFilterId: string;
@@ -708,6 +923,13 @@ export type LicenseExpirationReason = (typeof LicenseExpirationReason)[keyof typ
 
 export type LinkedEntity = Record<"entityId" | "entityType" | "linkType", string>;
 
+export type LinkedEntityResponse = Record<"entityId" | "entityType" | "linkType", string>;
+
+export type LiveEventsUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
+
 /** Locale configuration */
 export interface LocaleConfig {
   /** Currencies */
@@ -719,6 +941,7 @@ export interface LocaleConfig {
 }
 
 export interface LocalizedData {
+  article?: string;
   description?: string;
   extendedDescription?: string;
   images?: Image[];
@@ -730,11 +953,29 @@ export interface LocalizedData {
   title?: string;
 }
 
+export interface LocalizedDataResponse {
+  description?: string;
+  extendedDescription?: string;
+  images?: ImageResponse[];
+  locale?: string;
+  longDescription?: string;
+  longFormDescription?: string;
+  seoDescription?: string;
+  seoTitle?: string;
+  shortDescription?: string;
+  sortingTitle?: string;
+  tinyDescription?: string;
+  title?: string;
+}
+
 export type LocalizedPersonData = Record<"bio" | "locale", string>;
+
+export type LocalizedPersonDataResponse = Record<"bio" | "locale", string>;
 
 export type LocalizedSeoData = Record<"locale" | "seoDescription" | "seoTitle", string>;
 
 export interface LocalizedTag {
+  article?: string;
   description?: string;
   images?: Image[];
   locale: string;
@@ -749,28 +990,39 @@ export interface Location {
 }
 
 export interface LoginResponse {
-  /** The id of the account in the CRM. */
+  /** The user's accountId. */
   accountId?: string;
-  /** The status of the account. */
+  /**
+   * Historical artifact. Always "OK"
+   * @deprecated
+   */
   accountStatus?: string;
-  /** is a child user */
+  /**
+   * use data in userProfile.
+   * @deprecated
+   */
   child?: boolean;
-  configReloadQueryParameter?: QueryParameter;
   /** The token of the underlying CRM to use if talking directly to the CRM. */
   crmToken?: string;
-  /** The time when the session expires */
+  /** When the session expires. */
   expirationDateTime: string;
   informationCollectionConsentGiven?: string;
   informationCollectionConsentRequiredDate?: string;
-  /** If true to many devices are logged in and this session can not be used to play. */
+  /** If true to many devices are logged in and this session can not be used to play. Normally this will not happen. */
   isOverDeviceLimit?: boolean;
-  /** user language */
+  /**
+   * use data in userProfile.
+   * @deprecated
+   */
   language?: string;
-  /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
+  /**
+   * use data in userProfile.
+   * @deprecated
+   */
   profileType?: string;
-  /** The session token to use for subsequent requests. */
+  /** The (bearer) session token to use in subsequent requests. */
   sessionToken: string;
-  /** The id of the user in the CRM. */
+  /** The user's userId. */
   userId?: string;
   userProfile?: UserProfile;
 }
@@ -789,6 +1041,14 @@ export interface MarkerPoint {
   type?: MarkerType;
 }
 
+export interface MarkerPointResponse {
+  localized?: SimpleLocalizedResponse[];
+  markerTime?: string;
+  markerTimeEnd?: string;
+  thumbnail?: boolean;
+  type?: string;
+}
+
 export const MarkerType = {
   CHAPTER: "CHAPTER",
   CREDITS: "CREDITS",
@@ -797,24 +1057,29 @@ export const MarkerType = {
 } as const;
 export type MarkerType = (typeof MarkerType)[keyof typeof MarkerType];
 
+export interface MaterialResponse {
+  adMarkers?: Marker[];
+  audioTracks?: string[];
+  defaultAudioTrack?: string;
+  duration?: string;
+  markerPoints?: MarkerPointResponse[];
+  materialType?: AssetMaterialType;
+  profile?: string[];
+  subtitles?: string[];
+  validFrom?: string;
+  validTo?: string;
+  version?: number;
+}
+
 export interface Media {
-  /** The DRM of the media. */
   drm?: string;
-  /** The duration of the media in milliseconds. */
   durationMillis?: number;
-  /** The streaming format of the media. */
   format?: string;
-  /** The height in pixels. */
   height?: number;
-  /** The id of the media. */
   mediaId?: string;
-  /** The name of the media. */
   name?: string;
-  /** The id of the EPG program this media is for. */
   programId?: string;
-  /** The status of the media. "enabled" if playable. */
   status?: string;
-  /** The width in pixels. */
   width?: number;
 }
 
@@ -842,6 +1107,25 @@ export const MediaFormatType = {
 } as const;
 export type MediaFormatType = (typeof MediaFormatType)[keyof typeof MediaFormatType];
 
+export interface MediaResponse {
+  bitrates?: number[];
+  changed?: string;
+  created?: string;
+  drm?: string;
+  duration?: number;
+  format?: string;
+  height?: number;
+  ingestionProfile?: string;
+  keyId?: string;
+  mediaId?: string;
+  mediaLocator?: string;
+  name?: string;
+  programId?: string;
+  status?: string;
+  subtitles?: SubtitleResponse[];
+  width?: number;
+}
+
 export interface Message {
   message?: string;
 }
@@ -856,13 +1140,12 @@ export interface OverlayWidget {
   url?: string;
 }
 
-export interface ParentalRating {
-  /** The two letter country code this rating is for. */
-  country?: string;
-  /** The rating, allowed values depends on the scheme. */
-  rating?: string;
-  /** The rating scheme, for instance MPAA. */
-  scheme?: string;
+export type ParentalRating = Record<"country" | "rating" | "scheme", string>;
+
+export type ParentalRatingResponse = Record<"country" | "rating" | "scheme", string>;
+
+export interface ParentalRatingsFilter {
+  ratings?: Record<string, string[]>;
 }
 
 export interface Participant {
@@ -938,12 +1221,22 @@ export interface Person {
   role?: string;
 }
 
+export interface PersonResponse {
+  dateOfBirth?: string;
+  dateOfDeath?: string;
+  function?: string;
+  localizedPersonData?: LocalizedPersonDataResponse[];
+  name?: string;
+  personId?: string;
+  role?: string;
+}
+
 export interface PinCodeResponse {
-  /** List of application specified grants */
+  /** List of application specified grants. */
   grants: string[];
-  /** When last modified */
+  /** When was the pin last modified. */
   modified: string;
-  /** Id of PIN */
+  /** the PIN's pincodeId. */
   pinId: string;
 }
 
@@ -978,20 +1271,46 @@ export interface PlayResponse {
   requestId?: string;
   sprites?: Sprites[];
   streamInfo?: StreamInfo;
+  subtitles?: Subtitle[];
   userId?: string;
 }
+
+export type Popularity = Record<"month" | "week", number>;
 
 export interface PreferencesListItem {
   id?: string;
   lastUpdated?: string;
-  /** A key value object */
-  metadata?: object;
+  metadata?: Record<string, string>;
   order?: number;
 }
 
 export interface PreferencesListResponse {
   items?: PreferencesListItem[];
   query?: string;
+}
+
+export interface PreferencesResponse {
+  message?: string;
+}
+
+export interface Presentation {
+  fallback?: PresentationItem;
+  localized?: Record<string, PresentationItem>;
+}
+
+export type PresentationFromAssetContent = Content & {
+  errorMessage?: string;
+  presentation?: Presentation;
+};
+
+export interface PresentationItem {
+  backgroundColor?: string;
+  body?: string;
+  iframe?: Iframe;
+  images?: Image[];
+  subTitle?: string;
+  title?: string;
+  trailerAssetId?: string;
 }
 
 export interface Product {
@@ -1066,30 +1385,28 @@ export interface Program {
   startTime: string;
 }
 
+export interface ProgramListEntryResponse {
+  catchupBlocked?: boolean;
+  channelId?: string;
+  endTime?: string;
+  programId?: string;
+  publicEndTime?: string;
+  publicStartTime?: string;
+  startTime?: string;
+}
+
 export interface ProgramResponse {
   asset: Asset;
-  /** The id of the asset this program is for. */
   assetId: string;
-  /**
-   * If this program is currently published as blackout. This means any publication contains blackout, not global
-   * blackout;
-   */
   blackout?: boolean;
-  /** If this asset is currently available as rough cut that is not expired. */
   catchup?: boolean;
-  /** If this asset is currently blocked for catchup. */
   catchupBlocked?: boolean;
-  /** The date the program was changed. */
   changed?: string;
-  /** The id of the channel this program is on. */
   channelId?: string;
-  /** The date the program was created. */
   created?: string;
   endTime: string;
-  /** The id of the program. */
   programId: string;
   startTime: string;
-  /** If this asset is currently available as VOD. */
   vodAvailable?: boolean;
 }
 
@@ -1107,6 +1424,20 @@ export interface Publication {
   toDate: string;
 }
 
+export interface PublicationResponse {
+  contractId?: string;
+  countries?: string[];
+  customData?: JsonNode;
+  devices?: Device[];
+  fromDate?: string;
+  products?: string[];
+  publicationDate?: string;
+  publicationId?: string;
+  rights?: Rights;
+  services?: string[];
+  toDate?: string;
+}
+
 export interface PurchaseResponse {
   apiStripePurchaseResponse?: StripePurchaseResponse;
   purchase?: StorePurchase;
@@ -1114,17 +1445,58 @@ export interface PurchaseResponse {
   purchaseId?: string;
 }
 
+/** @deprecated */
 export type QueryParameter = Record<"name" | "value", string>;
+
+export type RecentlyWatchedUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
 
 export interface RecommendedAssets {
   items?: Asset[];
 }
+
+export type RecommendedUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
 
 export interface RecommendedWatchNext {
   items: Asset[];
 }
 
 export type Result = Record<"type" | "value", string>;
+
+export interface Rights {
+  activation?: string;
+  airplayBlocked?: boolean;
+  amcDebugLogEnabled?: boolean;
+  analyticsEnabled?: boolean;
+  downloadBlocked?: boolean;
+  expiration?: string;
+  ffEnabled?: boolean;
+  fourGBlocked?: boolean;
+  fwEnabled?: boolean;
+  hdmiblocked?: boolean;
+  jailbrokenBlocked?: boolean;
+  locationEnabled?: boolean;
+  maxAds?: number;
+  maxBitrate?: number;
+  maxDownloadCount?: number;
+  maxFileSize?: number;
+  maxPlayPosition?: number;
+  maxResHeight?: number;
+  maxResWidth?: number;
+  minBitrate?: number;
+  minPlayPosition?: number;
+  playCount?: number;
+  rwEnabled?: boolean;
+  sessionShiftEnabled?: boolean;
+  streamingBlocked?: boolean;
+  threeGBlocked?: boolean;
+  wifiBlocked?: boolean;
+}
 
 export interface Search {
   asset: Asset;
@@ -1166,6 +1538,32 @@ export interface SeasonList {
   totalCount?: number;
 }
 
+export interface SeasonResponse {
+  availableDate?: string;
+  changed?: string;
+  created?: string;
+  customData?: JsonNode;
+  endYear?: number;
+  episodeCount?: number;
+  episodes?: AssetResponse[];
+  externalReferences?: ExternalReferenceResponse[];
+  linkedEntities?: LinkedEntityResponse[];
+  localizedData?: LocalizedDataResponse[];
+  originalTitle?: string;
+  originalTitleLanguage?: string;
+  parentalRatings?: ParentalRatingResponse[];
+  participants?: PersonResponse[];
+  productionCountries?: string[];
+  productionYear?: number;
+  publishedDate?: string;
+  season?: string;
+  seasonId?: string;
+  startYear?: number;
+  studio?: string;
+  tags?: TagResponse[];
+  tvShowId?: string;
+}
+
 /** Sentry configuaration */
 export interface SentryConfig {
   /** If Sentry is to be enabled */
@@ -1175,23 +1573,36 @@ export interface SentryConfig {
 }
 
 export interface SessionResponse {
-  /** The account ID. */
+  /** The user's accountId. */
   accountId?: string;
   configReloadQueryParameter?: QueryParameter;
-  /** The token within the crm. */
+  /** The token of the underlying CRM to use if talking directly to the CRM. */
   crmToken?: string;
-  /** If true this session is can only be used to list and log out other devices */
+  /** If true to many devices are logged in and this session can not be used to play. Normally this will not happen. */
   overTheDeviceLimit?: boolean;
-  /** The user / profile id. */
+  /** The user's userId. */
   userId?: string;
   userProfile?: UserProfile;
 }
+
+export type SimpleAction = Action;
 
 export interface SimpleLocalizedData {
   image?: Image;
   locale: string;
   title?: string;
 }
+
+export interface SimpleLocalizedResponse {
+  image?: ImageResponse;
+  locale?: string;
+  title?: string;
+}
+
+export type SingleAssetUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
 
 export interface Sprites {
   offsetInMs?: number;
@@ -1286,6 +1697,7 @@ export type StoreProductOfferingDiscount = {
     chronology?: {
       calendarType?: string;
       id?: string;
+      isoBased?: boolean;
     };
     days?: number;
     months?: number;
@@ -1295,6 +1707,7 @@ export type StoreProductOfferingDiscount = {
       duration?: {
         nano?: number;
         negative?: boolean;
+        positive?: boolean;
         seconds?: number;
         zero?: boolean;
       };
@@ -1490,6 +1903,10 @@ export interface StripeWalletAndPrice {
   recurring: boolean;
 }
 
+export type Subtitle = Record<"label" | "language" | "url", string>;
+
+export type SubtitleResponse = Record<"language" | "location" | "name", string>;
+
 export interface SubtitleTrackInfo {
   fileSize?: number;
   language?: string;
@@ -1531,11 +1948,24 @@ export interface Tag {
   type: string;
 }
 
+export type TagFeedUrl = ContentPreferencesUrl & {
+  authorized?: boolean;
+  fields?: string[];
+  url?: string;
+};
+
 export interface TagList {
   items: TagType[];
   pageNumber: number;
   pageSize: number;
   totalCount: number;
+}
+
+export interface TagResponse {
+  changed?: string;
+  created?: string;
+  tagValues?: TagValuesResponse[];
+  type?: string;
 }
 
 export interface TagSearch {
@@ -1559,8 +1989,17 @@ export interface TagType {
   tagId: string;
 }
 
+export type TagTypeUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
+
 export interface TagValues {
   tagId: string;
+}
+
+export interface TagValuesResponse {
+  tagId?: string;
 }
 
 export interface TimeResponse {
@@ -1596,158 +2035,169 @@ export interface TvShowInfo {
   localizedData?: LocalizedData[];
 }
 
+export type TvodUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
+
+export interface UPHAsset {
+  assetId?: string;
+  audioTracks?: string[];
+  changed?: string;
+  collections?: CollectionReference[];
+  created?: string;
+  customData?: JsonNode;
+  defaultAudioTrack?: string;
+  duration?: number;
+  episode?: string;
+  expires?: string;
+  externalReferences?: ExternalReferenceResponse[];
+  geoCountries?: string[];
+  linkedEntities?: LinkedEntityResponse[];
+  live?: boolean;
+  localized?: LocalizedDataResponse[];
+  markers?: Marker[];
+  materialType?: AssetMaterialType;
+  medias?: MediaResponse[];
+  originalTitle?: string;
+  originalTitleLanguage?: string;
+  parentalRatings?: ParentalRatingResponse[];
+  participants?: PersonResponse[];
+  popularityScores?: Record<string, string>;
+  productionCountries?: string[];
+  productionYear?: number;
+  publications?: Publication[];
+  rating?: number;
+  releaseDate?: string;
+  runtime?: number;
+  season?: string;
+  seasonId?: string;
+  seasons?: SeasonResponse[];
+  slugs?: string[];
+  spokenLanguages?: string[];
+  subtitles?: string[];
+  tags?: TagResponse[];
+  trackSizes?: TrackSizes;
+  tvShowId?: string;
+  type?: AssetType;
+}
+
 export interface UserAssetData {
   playHistory?: UserAssetPlayHistory;
 }
 
 export interface UserAssetPlayHistory {
-  /** The channel id if the asset was viewed as catchup or live. */
   channelId?: string;
-  /**
-   * Property is set to "FAILURE" if the data couldn't be received.
-   * If no problem this property is not set.
-   */
   errorMessage?: string;
-  /** Last viewed offset, offset in the last play of the asset. */
   lastViewedOffset?: number;
-  /** The program id if the asset was viewed as catchup or live. */
+  /** @deprecated */
+  lastViewedTime?: number;
   programId?: string;
 }
 
 export interface UserAttributeResponse {
-  /** id of the attribute */
+  /** attributeId */
   attributeId: string;
+  /** The attributes default value. */
   defaultValue?: object;
-  /** If type = "enum": The enums value set */
+  /** If type = "enum™": The enums value set. */
   enums?: UserAttributesEnumValue[];
-  /** Localized titles and descriptions */
+  /** Localized metadata. */
   localized: UserAttributesLocalizedMetadata[];
+  /** if type = "integer" or "real" and any range is specified: min and max values. */
   range?: UserAttributesRange;
-  /** If true user must provide value */
+  /** If true the user must provide a value, whicgh mayt be the default value. */
   requiredAtSignup: boolean;
-  /**
-   * Name of type
-   * "boolean":  value range null/undefined, false, true,
-   * "email": valid email address
-   * "string": any string
-   * "integer": integer number e.g 1
-   * "real": Real/decimal number e.g 1.1
-   */
+  /** boolean:  value range null/undefined, false, true, email: valid email address, string: any string, integer: integer number e.g 1, real: Real/decimal number e.g 1.1, enum: a value defined by enums. */
   type: string;
+  /** The value set by the user. */
   value?: object;
-  /** If true the attribute has been set, potentially with a null/undefined value, in which case the default value is used */
+  /** If true the attribute has been set, potentially with a null/undefined value, in which case the default value is used. */
   valueSet: boolean;
 }
 
+/** If type = "enum™": The enums value set. */
 export interface UserAttributesEnumValue {
-  /** To be used as value of the enum */
+  /** Used as value of the enum. */
   id?: string;
+  /** Localized metadata. */
   localized?: UserAttributesLocalizedMetadata[];
 }
 
-export interface UserAttributesLocalizedMetadata {
-  /** The attribute's or enum's description  in locale's language. */
-  description?: string;
-  /** Locale of title and description. */
-  locale?: string;
-  /** Title of attribute or enum in locale's language. */
-  title?: string;
-}
+/** Localized metadata. */
+export type UserAttributesLocalizedMetadata = Record<"description" | "locale" | "title", string>;
 
+/** if type = "integer" or "real" and any range is specified: min and max values. */
 export type UserAttributesRange = Record<"max" | "min", object>;
 
 export interface UserCapabilities {
-  /** True if user name is not equal to the user's email address and the user may change the email address using this API. */
   canChangeEmail: boolean;
-  /** True if the user can change password using this API. */
   canChangePassword: boolean;
-  /** True if user name equals the user's email address and the user may change this using this API; password required */
   canChangeUserNameAndEmail: boolean;
-  /** True if user can cancel account using this API. */
   canManageAccount: boolean;
-  /** True if user can manage devices using this API. */
   canManageDevices: boolean;
-  /** True if user can manage payment methods, such as credit cards using this API. */
   canManagePayments: boolean;
-  /** True if user can manage purchase, such as adding and cancelling subscriptions using this API. */
   canManagePurchases: boolean;
 }
 
 export interface UserDetailsResponse {
-  /** Potentially empty list of attributes */
   attributes: UserAttributeResponse[];
   capabilities: UserCapabilities;
-  /** If true the user is a child */
   child: boolean;
+  /** @deprecated */
   defaultLanguage: string;
-  /** Name used e.g. as email display name, null if not changed */
   displayName?: string;
-  /** email address if available */
   email?: string;
-  /** Set Language */
   language?: string;
-  /** A key value object */
-  metadata?: object;
-  /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
+  metadata?: Record<string, string>;
   profileType?: string;
-  /** username */
   username: string;
 }
 
 export interface UserPreferenceResponse {
-  /** Last time the preferences where changed. */
   lastUpdated?: string;
-  /** A key value object */
-  preferences?: object;
+  preferences?: Record<string, string>;
 }
 
 export interface UserProfile {
-  /** True if this user profile is the active user */
+  /** True if this user profile is the active user (the user fetching this info. */
   active?: boolean;
-  /**
-   * Potentially empty list of attributes
-   * EXPERIMENTAL May change
-   */
   attributes?: UserAttributeResponse[];
   capabilities?: UserCapabilities;
-  /** True if user is a child. */
-  child?: boolean;
-  /** Created at */
+  /** Created at. */
   created?: string;
   /** Display name (full name). */
   displayName?: string;
   /** Email address. */
   emailAddress?: string;
-  /** DEPRECATED True if the user must have an email address. Check User attribute primary-email-address instead. */
+  /**
+   * True if the user must have an email address. Check User attribute primary-email-address instead.
+   * @deprecated
+   */
   emailAddressRequired?: boolean;
-  /** preferred language. */
+  /** Language code of the user's preferred language */
   language?: string;
-  /** A key value object */
-  metadata?: object;
+  /** Application defined map String->String. Can be used for arbitrary application specific data */
+  metadata?: Record<string, string>;
   /** True if user is owner of the account. */
   owner?: boolean;
   /** Application defined value. Can be used e.g. to carry mapping to parental rating configuration. */
   profileType?: string;
-  /** UserId of profile. */
+  /** User Id. */
   userId?: string;
-  /** User name. */
+  /** User's (login) name. */
   username?: string;
 }
 
 export interface UserProfiles {
-  /** List of pin codes, which may or may not be related to profile management. */
   pinCodes?: PinCodeResponse[];
-  /** List user profiles. */
   profiles?: UserProfile[];
 }
 
-export interface UserSelfServiceCreateResponse {
+export interface UserSignupResponse {
   loginResponse?: LoginResponse;
-  /**
-   * If TRUE the user need to confirm creation bu following email/sms instructions
-   * If FALSE the account is good to go.
-   */
-  unConfirmed?: boolean;
+  /** If true the user need to confirm creation bu following email instructions. If false the account is good to go */
+  unConfirmed: boolean;
 }
 
 export interface VideoTrack {
@@ -1776,7 +2226,7 @@ export interface VouchersConfig {
 }
 
 export interface WatchedTvShowResponse {
-  asset?: Asset;
+  asset?: UPHAsset;
   lastViewedOffset?: number;
   startedWatching?: boolean;
 }

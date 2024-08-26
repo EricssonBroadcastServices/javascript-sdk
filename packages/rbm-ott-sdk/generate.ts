@@ -42,12 +42,6 @@ function patchSpec(data: string): string {
   );
   data = data.replaceAll(/\"\$ref\"\s*:\s*\"#\/components\/schemas\/Object\"/g, '"type" : "object"');
 
-  // Override duplicate asset schemas/interfaces that in turn duplicate the whole type tree
-  data = data.replaceAll(
-    /#\/components\/schemas\/(UPHAsset|AssetResponse|ApiContinueWatchingAsset)/g,
-    `${SCHEMA_PREFIX}Asset`
-  );
-
   for (let [oldName, newName] of Object.entries(renameTypes)) {
     data = data.replaceAll(`${SCHEMA_PREFIX}${oldName}`, `${SCHEMA_PREFIX}${newName}`);
   }
@@ -57,21 +51,6 @@ function patchSpec(data: string): string {
   for (let [oldName, newName] of Object.entries(renameTypes)) {
     spec.components.schemas[newName] = spec.components.schemas[oldName]
   }
-
-  // Fix incorrect return types that shouldn't be arrays:
-  fixFalseListSchema(
-    spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/userplayhistory/lastviewedoffset"].get.responses[
-      "200"
-    ]
-  );
-  fixFalseListSchema(
-    spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.responses["200"]
-  );
-
-  // Add missing return type ApiLoginResponse for oauthLogin
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/oauthLogin"].post.responses.default.content[
-    "application/json"
-  ] = { schema: { $ref: "#/components/schemas/ApiLoginResponse" } };
 
   /* Mark properties as non-optional */
   spec.components.schemas.ApiAssetList.required = ["items", "pageNumber", "pageSize", "totalCount"];
@@ -227,8 +206,9 @@ function patchSpec(data: string): string {
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/auth/anonymous"].post.operationId = "loginAnonymous"; // was "anonymousSessionV2" (inconsistent with the other login methods)
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].get.operationId = "getUserDetails"; // was "userDetailsGetV2" (Yoda)
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/details"].put.operationId = "updateUserDetails"; // was "userDetailsUpdateV2" (Yoda)
-  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}"].put.operationId =
-    "updateUserProfile"; // was "userProfileUpdate" (Yoda)
+  spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/user/profile/{userId}"].put.operationId = "updateUserProfile"; // was "userProfileUpdate" (Yoda)
+  spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/user/changeEmailAndUsername"].put.operationId = "changeEmailAndUsername"; // was "changeEmail_1"
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/recommend/user"].get.operationId = "getRecommendationsForUser"; // was "getUserRecommendations"
   spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next"].get.operationId =
     "getNextProgramForAsset"; // was "getNextProgramForAsset2", but there is no "getNextProgramForAsset(1)", and also the numbers should be "v1", "v2", "v3" etc corresponding to the url, not just "2"
   spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.operationId =
@@ -265,6 +245,26 @@ function patchSpec(data: string): string {
   delete spec.components.schemas.Channel;
   delete spec.components.schemas.DisplayName;
   delete spec.components.schemas.Icon;
+
+  Object.entries(spec.paths).forEach((path: any) => {
+    // Make sure {date} parameters have a description set (else it throws an error in ETA argToTmpl method)
+    if (path[0].includes('{date}')) {
+      Object.entries(path[1]).forEach((method: any) => {
+        method[1].parameters.forEach((param: any) => {
+          if (param.name == "date" && param.description == undefined) {
+            param.description = ""
+          }
+        });
+      });
+    }
+
+    // Delete deprecated endpoints
+    Object.entries(path[1]).forEach((method: any) => {
+      if (method[1].deprecated === true) {
+        delete spec.paths[path[0]][method[0]]
+      }
+    });
+  });
 
   // These used to be camel cased, but it was changed recently, which made the generated output service names inconsistent for us
   // Maybe it should be lowercased though, in which case we can just keep maintaining this patch
@@ -317,11 +317,6 @@ function patchSpec(data: string): string {
 
 function makeSchemafromProp(prop: any & { enum: string; type: string }) {
   return { enum: prop.enum, type: prop.type };
-}
-
-function fixFalseListSchema(response: any) {
-  const responseTypeSpec = Object.values(response.content)[0] as any;
-  responseTypeSpec.schema = responseTypeSpec.schema.items;
 }
 
 function formatTypeName(name: string) {
@@ -572,6 +567,7 @@ generateApi({
         // (`delete spec.paths[...].get`), or add it to the exceptions (`onFormatRouteName` hook)
         throw new Error(`Duplicate routes found after renaming: ${dupes}`);
       }
+      return apiConfig;
     }
   }
 })

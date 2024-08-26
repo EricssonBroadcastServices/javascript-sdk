@@ -11,10 +11,10 @@ import { SystemConfig } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @description paymentType. accountConfirmationRequired, if true, the user need to confirm the self service created user with token from mail/sms. allowAccessWithoutLogin, if true, the user may get limited access without being logged in. currencies, valid currencies. displayLocales, valid locales. informationCollectionConsentDate, date which teh user should hav give consent after. environment, PRESTAGE or PRODUCTION
- * @summary Get system configuration for bu.
+ * @summary Get system configuration for a business unit.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/systemConfig
- * @response `default` `SystemConfig` success
+ * @response `200` `SystemConfig` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getSystemConfig({
   headers,

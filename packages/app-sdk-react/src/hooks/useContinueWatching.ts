@@ -1,4 +1,4 @@
-import { getContinueWatchingTvShow, WatchedTvShowResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
+import { getEpisodeInProgress, WatchedTvShowResponse } from "@ericssonbroadcastservices/rbm-ott-sdk";
 import { useQuery } from "react-query";
 import { useRedBeeState } from "../RedBeeProvider";
 import { TApiHook } from "../types/type.apiHook";
@@ -15,7 +15,7 @@ export function useContinueWatching(tvshowid?: string): TApiHook<WatchedTvShowRe
       if (!tvshowid || !session?.isLoggedIn()) {
         return;
       }
-      return getContinueWatchingTvShow.call(serviceContext, {
+      return getEpisodeInProgress.call(serviceContext, {
         tvshowid,
         headers: { Authorization: `Bearer ${session.sessionToken}` }
       });
