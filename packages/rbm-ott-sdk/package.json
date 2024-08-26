@@ -8,8 +8,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "generate": "npx ts-node generate.ts",
-    "update-spec": "npx ts-node update-spec.ts"
+    "generate": "ts-node generate.ts",
+    "update-spec": "ts-node update-spec.ts"
   },
   "files": [
     "generated",

@@ -5,13 +5,13 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npx lerna run build",
-    "watch": "npx lerna run watch --parallel --stream",
-    "lerna:version": "npx lerna version --conventional-commits --no-changelog",
-    "publish": "npx is-ci && npx lerna publish -y --no-verify-access from-package",
-    "test": "npx lerna run test --stream",
-    "lint": "npx lerna run lint --parallel",
-    "format": "npx lerna run format --parallel",
+    "build": "lerna run build",
+    "watch": "lerna run watch --parallel --stream",
+    "lerna:version": "lerna version --conventional-commits --no-changelog",
+    "publish": "is-ci && lerna publish -y --no-verify-access from-package",
+    "test": "lerna run test --stream",
+    "lint": "lerna run lint --parallel",
+    "format": "lerna run format --parallel",
     "demo": "npm run demo -w @ericssonbroadcastservices/app-sdk-react"
   },
   "husky": {
