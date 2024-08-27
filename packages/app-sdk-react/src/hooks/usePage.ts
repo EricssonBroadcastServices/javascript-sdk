@@ -201,24 +201,24 @@ export function useResolvedSeeAllPage(pageId: string): TApiHook<ResolvedComponen
   return [data, somethingIsLoading, pageError || appError];
 }
 
-export function useGetcategoriesComponentNextPage(
-  categoriesComponent: IExposureWLCategoriesComponent,
+export function useGetCategoriesComponentNextPage(
+  categoriesComponent: IExposureWLCategoriesComponent | undefined,
   nextPageNumber: number
 ): TApiHook<TagList> {
   const appService = useAppService();
 
-  const url = new URL(categoriesComponent.contentUrl?.url, appService.context.baseUrl);
+  const url = new URL(categoriesComponent?.contentUrl?.url || "", appService.context.baseUrl);
   const params = new URLSearchParams(url.search);
   params.set("pageNumber", nextPageNumber.toString());
-  if (categoriesComponent.contentUrl?.url) {
+  if (categoriesComponent?.contentUrl?.url) {
     categoriesComponent.contentUrl.url = url.pathname + `?${params.toString()}`;
   }
   const { data, isLoading, error } = useQuery(
     [categoriesComponent],
     () => {
-      return appService.getCategoriesContent(categoriesComponent);
+      return categoriesComponent && appService.getCategoriesContent(categoriesComponent);
     },
-    { staleTime: 1000 * 60 * 10 }
+    { staleTime: 1000 * 60 * 10, enabled: !!categoriesComponent && !!categoriesComponent.contentUrl }
   );
 
   const errorResult = useAppError(error);
