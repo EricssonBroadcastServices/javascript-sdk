@@ -141,14 +141,14 @@ export function useResolvedParticipantPage(participantName: string): TApiHook<Re
   return [data || null, isLoading, useAppError(error)];
 }
 
-export function useResolvedSeeAllPage(pageId: string): TApiHook<ResolvedComponent<any>[]> {
+export function useResolvedSeeAllPage(assetId: string, pageId?: string): TApiHook<ResolvedComponent<any>[]> {
   const [tagList] = useTagList();
   const countryCode = useCountryCode();
   const appService = useAppService();
   const [config] = useConfig();
-  const [page, pageLoading, pageError] = usePage(WLConfig.getHomePageId(config) || "");
+  const [page, pageLoading, pageError] = usePage(pageId || WLConfig.getHomePageId(config) || "");
   const [userSession] = useUserSession();
-  const filterPage = page?.components.pageBody.filter(p => p.referenceId === pageId);
+  const filterPage = page?.components.pageBody.filter(p => p.referenceId === assetId);
   const results: UseQueryResult<ResolvedComponent>[] = useQueries(
     (filterPage || []).map(reference => {
       return {
@@ -182,7 +182,7 @@ export function useResolvedSeeAllPage(pageId: string): TApiHook<ResolvedComponen
       return null;
     }
     return results
-      .filter(r => r.data?.component && r.data.presentationParameters && r.data.component.id === pageId)
+      .filter(r => r.data?.component && r.data.presentationParameters && r.data.component.id === assetId)
       .map(r => r.data)
       ?.map(p => ({
         ...p,
