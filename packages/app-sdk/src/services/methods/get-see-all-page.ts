@@ -17,7 +17,12 @@ export async function getResolvedSeeAllPage<T extends keyof ComponentContentMap 
   const component = await getComponentByReference<ComponentComponentMap[T]>(context, { wlReference, countryCode });
   const newComponent = {
     ...component,
-    contentUrl: { ...component.contentUrl, url: component.contentUrl?.url?.replace?.(/pageSize=\d/, "pageSize=140") }
+    contentUrl: {
+      ...component.contentUrl,
+      url: component.contentUrl?.url
+        ?.replace?.(/pageSize=\d+/, "pageSize=200")
+        ?.replace?.(/pageNumber=\d+/, "pageNumber=1")
+    }
   };
   const componentContent = await getComponentContent<T>(context, { component: newComponent });
   return {
