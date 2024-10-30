@@ -62,7 +62,7 @@ export function useExpandedSearch({
         const tagHits = res.tagHits?.items;
         if (!tagHits || tagHits.length === 0) return res.assetHits?.items.map(a => a.asset) || [];
         const tagHitIds = tagHits.map(i => i.tag?.tagId);
-        const query = `tags.tagId:${tagHitIds.join(" OR ")}`;
+        const query = `tags.tagId:${tagHitIds.join(" OR tags.tagId:")}`;
         return getAssets.call(ctx, { allowedCountry: countryCode, query, pageSize: 100 }).then(tagAssets => {
           const assetHits = res.assetHits?.items.map(a => a.asset) || [];
           return [...assetHits, ...tagAssets.items].filter(
