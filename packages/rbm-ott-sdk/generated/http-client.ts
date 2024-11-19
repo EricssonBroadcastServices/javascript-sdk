@@ -14,7 +14,7 @@ export type ServiceContext = {
   baseUrl: string;
   customer: string;
   businessUnit: string;
-  errorFactory?: (response: Response) => Error;
+  errorFactory?: (response: Response) => Promise<Error> | Error;
 };
 
 export type requestArgs = {
