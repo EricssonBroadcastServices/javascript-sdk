@@ -7,6 +7,7 @@ import {
   login,
   loginFirebase,
   loginOauth,
+  loginOpenIdConnect,
   logout,
   validateSessionToken
 } from "@ericssonbroadcastservices/rbm-ott-sdk";
@@ -76,6 +77,35 @@ export function useFirebaseLogin(): TApiMutation<LoginFirebasePayload, LoginResp
     mutationKey: [deviceRegistration, serviceContext, setSession, language],
     mutationFn: (params: LoginFirebasePayload) => {
       return loginFirebase.call(serviceContext, { ...params, device: deviceRegistration, language });
+    }
+  });
+
+  return [mutation.mutate, mutation.data || null, mutation.isLoading, useAppError(mutation.error, "LOGIN")];
+}
+
+type LoginOidcPayload = {
+  code?: string;
+  internal?: { [key: string]: string };
+};
+
+export function useOidcLogin(): TApiMutation<LoginOidcPayload, LoginResponse> {
+  const { language } = useLanguage();
+  const { deviceRegistration, serviceContext } = useRedBeeState();
+  const setSession = useSetSession();
+
+  const mutation = useMutation({
+    onSuccess(data: LoginResponse) {
+      setSession(data);
+    },
+    mutationKey: [deviceRegistration, serviceContext, setSession, language],
+    mutationFn: ({ code, internal }: LoginOidcPayload) => {
+      return loginOpenIdConnect.call(serviceContext, {
+        code,
+        code_verifier: (internal || {})["code_verifier"],
+        redirect_uri: `${window.location.origin}/auth/handler`,
+        device: deviceRegistration,
+        language
+      });
     }
   });
 
