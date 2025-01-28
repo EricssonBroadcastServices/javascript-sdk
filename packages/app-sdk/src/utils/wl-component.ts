@@ -49,6 +49,11 @@ export function getImageByTagFromWLComponent(component: LocalizedWLComponent, ta
   return getImageByTagFromWLPresentation(component.presentation, tag, language);
 }
 
+export function getImageListFromWLComponent(component: LocalizedWLComponent, language: string) {
+  if (!component.presentation) return undefined;
+  return getImagesFromWLPresentation(component.presentation, language);
+}
+
 export function getDescriptionFromWLComponent(component: LocalizedWLComponent, language: string): string {
   const presentation = selectPresentation(component);
   if (!presentation) return "";
@@ -98,6 +103,7 @@ export function getTextComponentLexer(component: LocalizedWLComponent, language:
 export const WLComponentHelpers = {
   getTitle: getTitleFromWLComponent,
   getImageByTag: getImageByTagFromWLComponent,
+  getImageList: getImageListFromWLComponent,
   getDescription: getDescriptionFromWLComponent,
   getSubTitle: getSubTitleWLPresentation,
   getIframe: getIframeFromWLPresentation,

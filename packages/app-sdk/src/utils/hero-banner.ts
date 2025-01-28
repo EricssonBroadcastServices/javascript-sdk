@@ -39,6 +39,11 @@ export function getScaledHeroBannerImage(
   return fit(contentImage.url, fitOptions);
 }
 
+export function getHeroBannerImageList(item: IExposureWLHerobannerItem, language: string) {
+  return item.content.presentation && getImagesFromWLPresentation(item.content.presentation, language);
+}
+
 export const HeroBannerHelpers = {
-  getScaledImage: getScaledHeroBannerImage
+  getScaledImage: getScaledHeroBannerImage,
+  getImageList: getHeroBannerImageList
 };
