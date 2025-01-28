@@ -566,7 +566,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -575,7 +575,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "File not found": {
                     "description": "File not found",
@@ -616,6 +618,7 @@
           {
             "name": "assetType",
             "in": "query",
+            "description": "Any value of this parameter will be ignored if 'assetTypes' is also used.",
             "required": false,
             "schema": {
               "type": "string",
@@ -633,6 +636,32 @@
                 "EVENT",
                 "OTHER"
               ]
+            }
+          },
+          {
+            "name": "assetTypes",
+            "in": "query",
+            "description": "The parameter 'assetType' will be ignored when this parameter has values.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "MOVIE",
+                  "TV_SHOW",
+                  "EPISODE",
+                  "CLIP",
+                  "TV_CHANNEL",
+                  "AD",
+                  "LIVE_EVENT",
+                  "COLLECTION",
+                  "PODCAST",
+                  "PODCAST_EPISODE",
+                  "EVENT",
+                  "OTHER"
+                ]
+              }
             }
           },
           {
@@ -854,7 +883,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful.",
+            "description": "Successful",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -864,27 +893,31 @@
             }
           },
           "400": {
-            "description": "User error.",
+            "description": "User error",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/API Error message"
                 },
                 "examples": {
-                  "Invalid query.": {
-                    "description": "Invalid query.",
-                    "value": "{\"message\"=\"INVALID_QUERY\"}"
+                  "Invalid query": {
+                    "description": "Invalid query",
+                    "value": {
+                      "message": "INVALID_QUERY"
+                    }
                   },
-                  "Unknown business unit": {
-                    "description": "Business unit not found.",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                  "Result window too large": {
+                    "description": "Result window too large. The pageSize * pageNumber was larger than the max. Usually the product of the two cannot be larger than 20000.",
+                    "value": {
+                      "message": "RESULT_WINDOW_TOO_LARGE"
+                    }
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -893,7 +926,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -1030,7 +1065,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -1039,11 +1074,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Asset not found": {
                     "description": "Asset not found",
-                    "value": "{\"message\"=\"UNKNOWN_ASSET\"}"
+                    "value": {
+                      "message": "UNKNOWN_ASSET"
+                    }
                   }
                 }
               }
@@ -1225,7 +1264,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -1234,7 +1273,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -1288,7 +1329,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -1297,11 +1338,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "No next episode.": {
                     "description": "No next episode.",
-                    "value": "{\"message\"=\"NO_EPISODE_FOUND\"}"
+                    "value": {
+                      "message": "NO_EPISODE_FOUND"
+                    }
                   }
                 }
               }
@@ -1355,7 +1400,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -1364,11 +1409,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "No previous episode.": {
                     "description": "No previous episode.",
-                    "value": "{\"message\"=\"NO_EPISODE_FOUND\"}"
+                    "value": {
+                      "message": "NO_EPISODE_FOUND"
+                    }
                   }
                 }
               }
@@ -1509,7 +1558,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -1518,11 +1567,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Unknown season": {
                     "description": "Unknown season",
-                    "value": "{\"message\"=\"UNKNOWN_SEASON\"}"
+                    "value": {
+                      "message": "UNKNOWN_SEASON"
+                    }
                   }
                 }
               }
@@ -1636,7 +1689,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -1645,11 +1698,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Unknown season": {
                     "description": "Unknown season",
-                    "value": "{\"message\"=\"UNKNOWN_SEASON\"}"
+                    "value": {
+                      "message": "UNKNOWN_SEASON"
+                    }
                   }
                 }
               }
@@ -1784,7 +1841,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -1793,11 +1850,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Unknown season": {
                     "description": "Unknown season",
-                    "value": "{\"message\"=\"UNKNOWN_SEASON\"}"
+                    "value": {
+                      "message": "UNKNOWN_SEASON"
+                    }
                   }
                 }
               }
@@ -1872,7 +1933,7 @@
             "description": "Successful."
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -1881,19 +1942,27 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Business unit not found.",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Asset not found": {
                     "description": "Asset not found",
-                    "value": "{\"message\"=\"UNKNOWN_ASSET\"}"
+                    "value": {
+                      "message": "UNKNOWN_ASSET"
+                    }
                   },
                   "Invalid duration": {
                     "description": "The provided time is not a valid duration.",
-                    "value": "{\"message\"=\"INVALID_TIME_DURATION\"}"
+                    "value": {
+                      "message": "INVALID_TIME_DURATION"
+                    }
                   },
                   "Invalid wall time clock time": {
                     "description": "The provided time is not a valid wall clock time.",
-                    "value": "{\"message\"=\"INVALID_TIME_WALL_CLOCK\"}"
+                    "value": {
+                      "message": "INVALID_TIME_WALL_CLOCK"
+                    }
                   }
                 }
               }
@@ -1991,7 +2060,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -2000,11 +2069,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "No next entry found.": {
                     "description": "No next entry found.",
-                    "value": "{\"message\"=\"NO_ENTRY_FOUND\"}"
+                    "value": {
+                      "message": "NO_ENTRY_FOUND"
+                    }
                   }
                 }
               }
@@ -2102,7 +2175,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -2111,11 +2184,214 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "No previous entry found.": {
                     "description": "No previous entry found.",
-                    "value": "{\"message\"=\"NO_ENTRY_FOUND\"}"
+                    "value": {
+                      "message": "NO_ENTRY_FOUND"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/config/{configId}/component/{componentId}": {
+      "get": {
+        "tags": [
+          "asset"
+        ],
+        "summary": "Get asset list by componentId",
+        "operationId": "getAssetsByComponent",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "configId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "componentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "parentalRatings",
+            "in": "query",
+            "description": "The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "allowedCountry",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "products",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "onlyPublished",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "fieldSet",
+            "in": "query",
+            "description": "Field set to return.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "PARTIAL",
+              "enum": [
+                "NONE",
+                "PARTIAL",
+                "ALL"
+              ]
+            }
+          },
+          {
+            "name": "includeFields",
+            "in": "query",
+            "description": "Comma separated list of field names to include in response.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "excludeFields",
+            "in": "query",
+            "description": "Comma separated list of field names to exclude from response.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiAssetList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User error",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "Unknown business unit": {
+                    "description": "Business unit not found.",
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
+                  },
+                  "Result window too large": {
+                    "description": "Result window too large. The pageSize * pageNumber was larger than the max. Usually the product of the two cannot be larger than 20000.",
+                    "value": {
+                      "message": "RESULT_WINDOW_TOO_LARGE"
+                    }
+                  },
+                  "Unsupported component": {
+                    "description": "Not possible to create an asset list from component.",
+                    "value": {
+                      "message": "UNSUPPORTED_COMPONENT"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "Unknown business unit": {
+                    "description": "Unknown business unit",
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
+                  },
+                  "Component not found.": {
+                    "description": "Component not found.",
+                    "value": "{\"message\":\"\"COMPONENT_NOT_FOUND\"\"}"
                   }
                 }
               }
@@ -2180,7 +2456,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -2189,7 +2465,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -2508,7 +2786,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -2517,7 +2795,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -2582,7 +2862,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -2591,7 +2871,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -2825,11 +3107,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Unknown season": {
                     "description": "Unknown season",
-                    "value": "{\"message\"=\"UNKNOWN_SEASON\"}"
+                    "value": {
+                      "message": "UNKNOWN_SEASON"
+                    }
                   }
                 }
               }
@@ -3180,6 +3466,361 @@
         }
       }
     },
+    "/v1/customer/{customer}/businessunit/{businessUnit}/notifications/subscriptions/token/{token}": {
+      "get": {
+        "tags": [
+          "push notifications"
+        ],
+        "summary": "Get the topics a device is subscribed to.",
+        "operationId": "getTopicSubscriptions",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "push notifications"
+        ],
+        "summary": "Register device token as still active",
+        "operationId": "registerToken",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      }
+    },
+    "/v1/customer/{customer}/businessunit/{businessUnit}/notifications/subscriptions/token/{token}/topic/{topic}": {
+      "put": {
+        "tags": [
+          "push notifications"
+        ],
+        "summary": "Subscribe a device to a topic",
+        "operationId": "subscribeToTopic",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "topic",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "push notifications"
+        ],
+        "summary": "Unsubscribe a device from a topic",
+        "operationId": "unsubscribeFromTopic",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "topic",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      }
+    },
+    "/v1/customer/{customer}/businessunit/{businessUnit}/play/device": {
+      "get": {
+        "tags": [
+          "playback devices"
+        ],
+        "summary": "List devices",
+        "description": "List all devices where playback is currently allowed for the logged in account",
+        "operationId": "getDevices",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "description": "The business unit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Device"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      }
+    },
+    "/v1/customer/{customer}/businessunit/{businessUnit}/play/device/{deviceId}": {
+      "get": {
+        "tags": [
+          "playback devices"
+        ],
+        "summary": "Get device",
+        "description": "Get all the information about a single device for the logged in account",
+        "operationId": "getDevice",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "description": "The business unit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "The device id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "playback devices"
+        ],
+        "summary": "Delete device",
+        "description": "Remove a device from the list of allowed devices for the logged in account",
+        "operationId": "deleteDevice",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "description": "The business unit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "description": "The device id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
+      }
+    },
     "/v1/customer/{customer}/businessunit/{businessUnit}/preferences": {
       "get": {
         "tags": [
@@ -3234,7 +3875,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -3305,11 +3948,15 @@
                 "examples": {
                   "TOO_MANY_PREFERENCES": {
                     "description": "TOO_MANY_PREFERENCES",
-                    "value": "{\"message\"=\"TOO_MANY_PREFERENCES\"}"
+                    "value": {
+                      "message": "TOO_MANY_PREFERENCES"
+                    }
                   },
                   "TOO_LONG_PREFERENCES": {
                     "description": "TOO_LONG_PREFERENCES",
-                    "value": "{\"message\"=\"TOO_LONG_PREFERENCES\"}"
+                    "value": {
+                      "message": "TOO_LONG_PREFERENCES"
+                    }
                   }
                 }
               }
@@ -3325,7 +3972,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -3427,7 +4076,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "UNKNOWN_LIST": {
                     "description": "UNKNOWN_LIST",
@@ -3518,7 +4169,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "UNKNOWN_LIST": {
                     "description": "UNKNOWN_LIST",
@@ -3609,15 +4262,21 @@
                 "examples": {
                   "TOO_MANY_PREFERENCES": {
                     "description": "TOO_MANY_PREFERENCES",
-                    "value": "{\"message\"=\"TOO_MANY_PREFERENCES\"}"
+                    "value": {
+                      "message": "TOO_MANY_PREFERENCES"
+                    }
                   },
                   "TOO_LONG_PREFERENCES": {
                     "description": "TOO_LONG_PREFERENCES",
-                    "value": "{\"message\"=\"TOO_LONG_PREFERENCES\"}"
+                    "value": {
+                      "message": "TOO_LONG_PREFERENCES"
+                    }
                   },
                   "Asset not found": {
                     "description": "Asset not found",
-                    "value": "{\"message\"=\"UNKNOWN_ASSET\"}"
+                    "value": {
+                      "message": "UNKNOWN_ASSET"
+                    }
                   }
                 }
               }
@@ -3633,7 +4292,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "UNKNOWN_LIST": {
                     "description": "UNKNOWN_LIST",
@@ -3641,7 +4302,9 @@
                   },
                   "Asset not found": {
                     "description": "Asset not found",
-                    "value": "{\"message\"=\"UNKNOWN_ASSET\"}"
+                    "value": {
+                      "message": "UNKNOWN_ASSET"
+                    }
                   }
                 }
               }
@@ -3657,7 +4320,9 @@
                 "examples": {
                   "LIMIT_REACHED": {
                     "description": "LIMIT_REACHED",
-                    "value": "{\"message\"=\"LIMIT_REACHED\"}"
+                    "value": {
+                      "message": "LIMIT_REACHED"
+                    }
                   }
                 }
               }
@@ -3734,7 +4399,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "UNKNOWN_LIST": {
                     "description": "UNKNOWN_LIST",
@@ -3809,7 +4476,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "UNKNOWN_LIST": {
                     "description": "UNKNOWN_LIST",
@@ -4063,7 +4732,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "UNKNOWN_LIST": {
                     "description": "UNKNOWN_LIST",
@@ -4144,7 +4815,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "UNKNOWN_LIST": {
                     "description": "UNKNOWN_LIST",
@@ -4241,11 +4914,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Tag not found": {
                     "description": "Tag not found",
-                    "value": "{\"message\"=\"UNKNOWN_TAG\"}"
+                    "value": {
+                      "message": "UNKNOWN_TAG"
+                    }
                   }
                 }
               }
@@ -4308,11 +4985,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Tag not found": {
                     "description": "Tag not found",
-                    "value": "{\"message\"=\"UNKNOWN_TAG\"}"
+                    "value": {
+                      "message": "UNKNOWN_TAG"
+                    }
                   }
                 }
               }
@@ -4414,11 +5095,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Tag not found": {
                     "description": "Tag not found",
-                    "value": "{\"message\"=\"UNKNOWN_TAG\"}"
+                    "value": {
+                      "message": "UNKNOWN_TAG"
+                    }
                   }
                 }
               }
@@ -4812,7 +5497,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -4821,7 +5506,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "File not found": {
                     "description": "File not found",
@@ -5363,7 +6050,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -6156,7 +6845,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -6165,7 +6854,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "File not found": {
                     "description": "File not found",
@@ -6368,7 +7059,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -6598,7 +7291,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -7264,6 +7959,14 @@
                     "description": "CONCURRENT_STREAMS_LIMIT_REACHED",
                     "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED\"\n}"
                   },
+                  "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE": {
+                    "description": "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE\"\n}"
+                  },
+                  "TOO_MANY_DEVICES": {
+                    "description": "TOO_MANY_DEVICES",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"TOO_MANY_DEVICES\"\n}"
+                  },
                   "NOT_PUBLISHED": {
                     "description": "NOT_PUBLISHED",
                     "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_PUBLISHED\"\n}"
@@ -7782,6 +8485,14 @@
                     "description": "CONCURRENT_STREAMS_LIMIT_REACHED",
                     "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED\"\n}"
                   },
+                  "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE": {
+                    "description": "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE\"\n}"
+                  },
+                  "TOO_MANY_DEVICES": {
+                    "description": "TOO_MANY_DEVICES",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"TOO_MANY_DEVICES\"\n}"
+                  },
                   "NOT_PUBLISHED": {
                     "description": "NOT_PUBLISHED",
                     "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_PUBLISHED\"\n}"
@@ -8135,7 +8846,7 @@
             }
           },
           "400": {
-            "description": "User error.",
+            "description": "User error",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8144,14 +8855,16 @@
                 "examples": {
                   "Result window too large": {
                     "description": "Result window too large. The pageSize * pageNumber was larger than the max. Usually the product of the two cannot be larger than 20000.",
-                    "value": "{\"message\"=\"RESULT_WINDOW_TOO_LARGE\"}"
+                    "value": {
+                      "message": "RESULT_WINDOW_TOO_LARGE"
+                    }
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8160,7 +8873,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -8176,7 +8891,9 @@
                 "examples": {
                   "Date outside the EPG window": {
                     "description": "Date outside the EPG window",
-                    "value": "{\"message\"=\"DATE_REQUESTED_OUTSIDE_VALID_WINDOW\"}"
+                    "value": {
+                      "message": "DATE_REQUESTED_OUTSIDE_VALID_WINDOW"
+                    }
                   }
                 }
               }
@@ -8246,7 +8963,7 @@
             }
           },
           "400": {
-            "description": "User error.",
+            "description": "User error",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8255,14 +8972,16 @@
                 "examples": {
                   "Result window too large": {
                     "description": "Result window too large. The pageSize * pageNumber was larger than the max. Usually the product of the two cannot be larger than 20000.",
-                    "value": "{\"message\"=\"RESULT_WINDOW_TOO_LARGE\"}"
+                    "value": {
+                      "message": "RESULT_WINDOW_TOO_LARGE"
+                    }
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8271,7 +8990,9 @@
                 "examples": {
                   "Program not found": {
                     "description": "Program not found.",
-                    "value": "{\"message\"=\"UNKNOWN_PROGRAM\"}"
+                    "value": {
+                      "message": "UNKNOWN_PROGRAM"
+                    }
                   }
                 }
               }
@@ -8287,7 +9008,9 @@
                 "examples": {
                   "Date outside the EPG window": {
                     "description": "Requested date is outside the EPG window.",
-                    "value": "{\"message\"=\"DATE_REQUESTED_OUTSIDE_VALID_WINDOW\"}"
+                    "value": {
+                      "message": "DATE_REQUESTED_OUTSIDE_VALID_WINDOW"
+                    }
                   }
                 }
               }
@@ -8359,15 +9082,21 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Program not found": {
                     "description": "The program reference was not found.",
-                    "value": "{\"message\"=\"UNKNOWN_PROGRAM\"}"
+                    "value": {
+                      "message": "UNKNOWN_PROGRAM"
+                    }
                   },
                   "No next program.": {
                     "description": "No next program.",
-                    "value": "{\"message\"=\"NO_NEXT_PROGRAM\"}"
+                    "value": {
+                      "message": "NO_NEXT_PROGRAM"
+                    }
                   }
                 }
               }
@@ -8562,7 +9291,7 @@
             }
           },
           "400": {
-            "description": "User error.",
+            "description": "User error",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8571,14 +9300,16 @@
                 "examples": {
                   "Result window too large": {
                     "description": "Result window too large. The pageSize * pageNumber was larger than the max. Usually the product of the two cannot be larger than 20000.",
-                    "value": "{\"message\"=\"RESULT_WINDOW_TOO_LARGE\"}"
+                    "value": {
+                      "message": "RESULT_WINDOW_TOO_LARGE"
+                    }
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8587,7 +9318,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -8603,7 +9336,9 @@
                 "examples": {
                   "Date outside the EPG window": {
                     "description": "Requested date is outside the EPG window.",
-                    "value": "{\"message\"=\"DATE_REQUESTED_OUTSIDE_VALID_WINDOW\"}"
+                    "value": {
+                      "message": "DATE_REQUESTED_OUTSIDE_VALID_WINDOW"
+                    }
                   }
                 }
               }
@@ -8666,15 +9401,21 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Program not found": {
                     "description": "The program reference was not found.",
-                    "value": "{\"message\"=\"UNKNOWN_PROGRAM\"}"
+                    "value": {
+                      "message": "UNKNOWN_PROGRAM"
+                    }
                   },
                   "No next program.": {
                     "description": "No next program.",
-                    "value": "{\"message\"=\"NO_NEXT_PROGRAM\"}"
+                    "value": {
+                      "message": "NO_NEXT_PROGRAM"
+                    }
                   }
                 }
               }
@@ -8804,14 +9545,16 @@
                 "examples": {
                   "Result window too large": {
                     "description": "Result window too large. The pageSize * pageNumber was larger than the max. Usually the product of the two cannot be larger than 20000.",
-                    "value": "{\"message\"=\"RESULT_WINDOW_TOO_LARGE\"}"
+                    "value": {
+                      "message": "RESULT_WINDOW_TOO_LARGE"
+                    }
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8820,7 +9563,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -8836,7 +9581,9 @@
                 "examples": {
                   "Date outside the EPG window": {
                     "description": "Date outside the EPG window",
-                    "value": "{\"message\"=\"DATE_REQUESTED_OUTSIDE_VALID_WINDOW\"}"
+                    "value": {
+                      "message": "DATE_REQUESTED_OUTSIDE_VALID_WINDOW"
+                    }
                   }
                 }
               }
@@ -8971,7 +9718,7 @@
             }
           },
           "400": {
-            "description": "User error.",
+            "description": "User error",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8980,14 +9727,16 @@
                 "examples": {
                   "Result window too large": {
                     "description": "Result window too large. The pageSize * pageNumber was larger than the max. Usually the product of the two cannot be larger than 20000.",
-                    "value": "{\"message\"=\"RESULT_WINDOW_TOO_LARGE\"}"
+                    "value": {
+                      "message": "RESULT_WINDOW_TOO_LARGE"
+                    }
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -8996,7 +9745,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -11769,6 +12520,15 @@
             }
           },
           {
+            "name": "inlineComponents",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
             "name": "filters",
             "in": "query",
             "description": "Comma separated list of filters. I.e: \"type:value,type2:value2\"",
@@ -11799,7 +12559,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -11808,7 +12568,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "File not found": {
                     "description": "File not found",
@@ -11858,6 +12620,15 @@
             }
           },
           {
+            "name": "inlineComponents",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
             "name": "componentId",
             "in": "path",
             "required": true,
@@ -11895,7 +12666,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -11904,7 +12675,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "File not found": {
                     "description": "File not found",
@@ -12007,7 +12780,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -12016,7 +12789,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -12089,7 +12864,7 @@
             }
           },
           "404": {
-            "description": "Not found.",
+            "description": "Not found",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -12098,7 +12873,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   },
                   "Domain not found.": {
                     "description": "Domain not found.",
@@ -12351,7 +13128,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -12445,7 +13224,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -12715,7 +13496,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -12856,7 +13639,9 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
@@ -12944,317 +13729,15 @@
                 "examples": {
                   "Unknown business unit": {
                     "description": "Unknown business unit",
-                    "value": "{\"message\"=\"UNKNOWN_BUSINESS_UNIT\"}"
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
-    },
-    "/v3/customer/{customer}/businessunit/{businessUnit}/store/appstore/purchase/{purchaseId}/verify": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Verify a App Store purchase",
-        "description": "Verifies that the purchase was successful and makes entilement if so.",
-        "operationId": "verifyAppStorePurchase",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "purchaseId",
-            "in": "path",
-            "description": "The purchase id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiAppStorePurchaseVerifyRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiAppStorePurchaseVerifyResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiAppStorePurchaseVerifyResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer-key": []
-          }
-        ]
-      }
-    },
-    "/v3/customer/{customer}/businessunit/{businessUnit}/store/appstore/purchase/init/{productOfferingId}": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Initialize a App Store purchase",
-        "description": "Set up a purchase of specified Product Offering, using App Store. If the Product Offerings field productRequiresSelectAsset is true then a assetId must be provided.",
-        "operationId": "initializeAppStorePurchase",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "productOfferingId",
-            "in": "path",
-            "description": "Id of product offering to purchase",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiAppStorePurchaseInitializeRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiAppStorePurchaseInitializeResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiAppStorePurchaseInitializeResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer-key": []
-          }
-        ]
-      }
-    },
-    "/v3/customer/{customer}/businessunit/{businessUnit}/store/googleplay/purchase/{purchaseId}/verify": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Verify a Google Play purchase",
-        "description": "Verifies that the purchase was successful and makes entilement if so.",
-        "operationId": "verifyGooglePlayPurchase",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "purchaseId",
-            "in": "path",
-            "description": "The purchase id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiGooglePlayPurchaseVerifyRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiGooglePlayPurchaseVerifyResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiGooglePlayPurchaseVerifyResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer-key": []
-          }
-        ]
-      }
-    },
-    "/v3/customer/{customer}/businessunit/{businessUnit}/store/googleplay/purchase/init/{productOfferingId}": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Initialize a Google Play purchase",
-        "description": "Set up a purchase of specified Product Offering, using Google Play. If the Product Offerings field productRequiresSelectAsset is true then a assetId must be provided.",
-        "operationId": "initializeGooglePlayPurchase",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "productOfferingId",
-            "in": "path",
-            "description": "Id of product offering to purchase",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiGooglePlayPurchaseInitializeRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiGooglePlayPurchaseInitializeResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiGooglePlayPurchaseInitializeResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer-key": []
-          }
-        ]
       }
     },
     "/v3/customer/{customer}/businessunit/{businessUnit}/store/productoffering/country/{countryCode}": {
@@ -14564,57 +15047,6 @@
         },
         "description": "Apple app store configuration"
       },
-      "ApiAppStorePurchaseInitializeRequest": {
-        "type": "object",
-        "properties": {
-          "assetId": {
-            "type": "string",
-            "description": "Single asset id that the purchase will entitle. Requires that the product offering requires \"direct asset purchases\"."
-          }
-        }
-      },
-      "ApiAppStorePurchaseInitializeResponse": {
-        "type": "object",
-        "properties": {
-          "appAccountToken": {
-            "type": "string",
-            "description": "To used as appAccountToken",
-            "format": "uuid"
-          },
-          "purchaseId": {
-            "type": "string"
-          },
-          "transactionId": {
-            "type": "string"
-          }
-        }
-      },
-      "ApiAppStorePurchaseVerifyRequest": {
-        "required": [
-          "transaction"
-        ],
-        "type": "object",
-        "properties": {
-          "transaction": {
-            "type": "string",
-            "description": "As received in the App Store Purchase."
-          }
-        }
-      },
-      "ApiAppStorePurchaseVerifyResponse": {
-        "type": "object",
-        "properties": {
-          "transactionStatus": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "accepted",
-              "rejected",
-              "cancelled"
-            ]
-          }
-        }
-      },
       "ApiAsset": {
         "type": "object",
         "properties": {
@@ -14761,6 +15193,12 @@
             "type": "array",
             "items": {
               "type": "string"
+            }
+          },
+          "subtitleTracks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiSubtitleTrack"
             }
           },
           "tags": {
@@ -15531,6 +15969,9 @@
                     "$ref": "#/components/schemas/ApiContinueWatchingUrl"
                   },
                   {
+                    "$ref": "#/components/schemas/ApiCustomAssetQueryUrl"
+                  },
+                  {
                     "$ref": "#/components/schemas/ApiEpgUrl"
                   },
                   {
@@ -15572,6 +16013,12 @@
               },
               "components": {
                 "$ref": "#/components/schemas/Components"
+              },
+              "inlineComponents": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/ApiComponent"
+                }
               },
               "parameters": {
                 "type": "object",
@@ -15698,6 +16145,12 @@
           },
           "name": {
             "type": "string"
+          },
+          "inlineComponents": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ApiComponent"
+            }
           },
           "presentation": {
             "$ref": "#/components/schemas/ApiPresentation"
@@ -16166,6 +16619,25 @@
           }
         },
         "description": "Value is ignored"
+      },
+      "ApiCustomAssetQueryUrl": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiContentUrl"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "authorized": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
       },
       "ApiDeleteUsersSessionsRequest": {
         "required": [
@@ -16745,6 +17217,42 @@
           }
         ]
       },
+      "ApiFirebaseAppConfigs": {
+        "required": [
+          "android",
+          "ios",
+          "topics",
+          "vapidKey",
+          "web"
+        ],
+        "type": "object",
+        "properties": {
+          "ios": {
+            "type": "object",
+            "description": "IOS app config"
+          },
+          "android": {
+            "type": "object",
+            "description": "Android app config"
+          },
+          "web": {
+            "type": "object",
+            "description": "Web app config"
+          },
+          "vapidKey": {
+            "type": "string",
+            "description": "VAPID key used for web app"
+          },
+          "topics": {
+            "type": "array",
+            "description": "List of available subscription topics",
+            "items": {
+              "$ref": "#/components/schemas/ApiTopic"
+            }
+          }
+        },
+        "description": "Firebase App configurations"
+      },
       "ApiFirebaseAuthenticationRequest": {
         "required": [
           "device",
@@ -16862,60 +17370,6 @@
           }
         },
         "description": "Google play configuration"
-      },
-      "ApiGooglePlayPurchaseInitializeRequest": {
-        "type": "object",
-        "properties": {
-          "assetId": {
-            "type": "string",
-            "description": "Single asset id that the purchase will entitle. Requires that the product offering requires \"direct asset purchases\"."
-          }
-        }
-      },
-      "ApiGooglePlayPurchaseInitializeResponse": {
-        "type": "object",
-        "properties": {
-          "obfuscatedAccountId": {
-            "type": "string",
-            "description": "To used as obfuscatedAccountId"
-          },
-          "obfuscatedProfileId": {
-            "type": "string",
-            "description": "To used as obfuscatedProfileId"
-          },
-          "purchaseId": {
-            "type": "string"
-          },
-          "transactionId": {
-            "type": "string"
-          }
-        }
-      },
-      "ApiGooglePlayPurchaseVerifyRequest": {
-        "required": [
-          "purchaseToken"
-        ],
-        "type": "object",
-        "properties": {
-          "purchaseToken": {
-            "type": "string",
-            "description": "As received in the Google Play Purchase."
-          }
-        }
-      },
-      "ApiGooglePlayPurchaseVerifyResponse": {
-        "type": "object",
-        "properties": {
-          "transactionStatus": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "accepted",
-              "rejected",
-              "cancelled"
-            ]
-          }
-        }
       },
       "ApiHtmlDocument": {
         "type": "object",
@@ -17228,6 +17682,17 @@
             "items": {
               "$ref": "#/components/schemas/ApiImage"
             }
+          }
+        }
+      },
+      "ApiLocalizedTopicMetadata": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
           }
         }
       },
@@ -18651,14 +19116,6 @@
           }
         ]
       },
-      "ApiStoreAppStoreReference": {
-        "type": "object",
-        "properties": {
-          "productId": {
-            "type": "string"
-          }
-        }
-      },
       "ApiStoreDiscount": {
         "type": "object",
         "properties": {
@@ -18861,12 +19318,6 @@
           },
           "offeringPrice": {
             "$ref": "#/components/schemas/ApiStoreProductOfferingPrice"
-          },
-          "googlePlayReference": {
-            "$ref": "#/components/schemas/ApiStoreGooglePlayReference"
-          },
-          "appStoreReference": {
-            "$ref": "#/components/schemas/ApiStoreAppStoreReference"
           },
           "entitlementStart": {
             "type": "string",
@@ -19347,6 +19798,20 @@
         },
         "description": "One entry for each relevant wallet, such as \"apple\", \"google\""
       },
+      "ApiSubtitleTrack": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
       "ApiSubtitleTrackInfo": {
         "type": "object",
         "properties": {
@@ -19396,6 +19861,9 @@
           },
           "sentry": {
             "$ref": "#/components/schemas/ApiSentryConfig"
+          },
+          "firebaseApps": {
+            "$ref": "#/components/schemas/ApiFirebaseAppConfigs"
           }
         }
       },
@@ -19589,6 +20057,21 @@
             "type": "string"
           }
         }
+      },
+      "ApiTopic": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string"
+          },
+          "localizedMetadata": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ApiLocalizedTopicMetadata"
+            }
+          }
+        },
+        "description": "List of available subscription topics"
       },
       "ApiTrackInfo": {
         "type": "object",
@@ -20776,32 +21259,15 @@
       "Device": {
         "type": "object",
         "properties": {
-          "os": {
-            "type": "string"
-          },
-          "rights": {
-            "$ref": "#/components/schemas/Rights"
-          },
-          "model": {
-            "type": "string"
-          },
-          "osVersion": {
+          "id": {
             "type": "string"
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "WEB",
-              "MOBILE",
-              "TABLET",
-              "APPLE_TV",
-              "SMART_TV",
-              "CONSOLE",
-              "STB"
-            ]
-          },
-          "manufacturer": {
             "type": "string"
+          },
+          "lastUsed": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -20972,6 +21438,7 @@
               "LICENSE_EXPIRED",
               "NOT_AVAILABLE_IN_FORMAT",
               "CONCURRENT_STREAMS_LIMIT_REACHED",
+              "TOO_MANY_DEVICES",
               "NOT_ENABLED",
               "GAP_IN_EPG",
               "EPG_PLAY_MAX_HOURS",
@@ -21223,6 +21690,12 @@
           "width": {
             "type": "integer",
             "format": "int32"
+          },
+          "imageAlternativeId": {
+            "type": "string"
+          },
+          "imageAlternativeRule": {
+            "type": "string"
           }
         }
       },
@@ -21520,6 +21993,12 @@
               "type": "string"
             }
           },
+          "subtitleTracks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MaterialSubtitleTrackResponse"
+            }
+          },
           "defaultAudioTrack": {
             "type": "string"
           },
@@ -21564,6 +22043,20 @@
             "items": {
               "$ref": "#/components/schemas/Marker"
             }
+          }
+        }
+      },
+      "MaterialSubtitleTrackResponse": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
           }
         }
       },
@@ -23437,6 +23930,10 @@
       "description": "Server side storage and validation of application defined pin codes. Enforcement logic is done client side."
     },
     {
+      "name": "push notifications",
+      "description": "Handle push notifications settings for an account"
+    },
+    {
       "name": "anonymous login",
       "description": "Create an anonymous session."
     },
@@ -23475,6 +23972,10 @@
     {
       "name": "store",
       "description": "Manage purchases and payments."
+    },
+    {
+      "name": "playback devices",
+      "description": "Manage playback devices.\nDevices are added automatically when you do a play-call on a given device\nuntil the configured device limit is reached.\nIf no device limit is configured no devices will ever be added.\nDevice limits can be configured per OU, account plan or individual account with the latter overriding the former.\n"
     }
   ]
 }
