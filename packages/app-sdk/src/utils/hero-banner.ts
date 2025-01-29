@@ -40,7 +40,8 @@ export function getScaledHeroBannerImage(
 }
 
 export function getHeroBannerImageList(item: IExposureWLHerobannerItem, language: string) {
-  return item.content.presentation && getImagesFromWLPresentation(item.content.presentation, language);
+  if (!item.presentation) return undefined;
+  return getImagesFromWLPresentation(item.presentation, language);
 }
 
 export const HeroBannerHelpers = {
