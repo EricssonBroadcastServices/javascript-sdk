@@ -20,11 +20,14 @@ export function useHeroBannerItem(
     imageFormat
   });
 
+  const imageList = HeroBannerHelpers.getImageList(item, language);
+
   return {
     title: WLComponentHelpers.getTitle(item, language),
     description: WLComponentHelpers.getDescription(item, language),
     action: item.actions?.default,
     image,
+    imageList,
     trailerAssetId: WLComponentHelpers.getTrailerAssetId(item, language)
   };
 }

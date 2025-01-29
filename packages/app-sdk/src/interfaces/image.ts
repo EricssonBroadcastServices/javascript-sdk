@@ -17,4 +17,6 @@ export interface IImage {
   height?: number;
   width?: number;
   tags?: string[];
+  imageAlternativeId?: string;
+  imageAlternativeRule?: string;
 }
