@@ -7,61 +7,15 @@
  * ----------------------------------------------------------------
  */
 
-import { AccountDownload, AssetDownload, Download, DownloadInfo, DownloadVerified, Message } from "./data-contracts";
+import { AccountDownload, AssetDownload, Download, DownloadInfo, DownloadVerified } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
-
-/**
- * @description Unregister all downloads completed by an account.
- * @summary Unregister all downloads done by an account
- * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
- * @response `200` `Message` OK
- */
-export async function deleteDownloadsForAccount({
-  headers
-}: {
-  /** Optional headers */
-  headers?: HeadersInit;
-} = {}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "DELETE",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/downloads`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
-  }).then(response => response.json() as Promise<Message>);
-}
-
-/**
- * @description Unregister all downloads for a specific asset completed by an account.
- * @summary Unregister all downloads for an asset done by an account
- * @request DELETE:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
- * @response `200` `Message` OK
- */
-export async function deleteDownloadsForAsset({
-  assetId,
-  headers
-}: {
-  /** The asset ID */
-  assetId: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "DELETE",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/entitlement/${assetId}/downloads`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
-  }).then(response => response.json() as Promise<Message>);
-}
 
 /**
  * @description Initiate the download of an asset for offline play.
  * @summary Download Asset
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/download
- * @response `200` `Download` OK
+ * @response `200` `Download` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function download({
   assetId,
@@ -95,7 +49,8 @@ export async function download({
  * @description Register that a download of an asset has been completed.
  * @summary Register a completed download of an asset
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadcompleted
- * @response `200` `AssetDownload` OK
+ * @response `200` `AssetDownload` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function downloadCompleted({
   assetId,
@@ -120,7 +75,8 @@ export async function downloadCompleted({
  * @description Retrieve download information for a specific asset.
  * @summary Get download info
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadinfo
- * @response `200` `DownloadInfo` OK
+ * @response `200` `DownloadInfo` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function downloadInfo({
   assetId,
@@ -154,7 +110,8 @@ export async function downloadInfo({
  * @description Register that a downloaded asset's license has been renewed.
  * @summary Register license renewed for a downloaded asset
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadrenewed
- * @response `200` `AssetDownload` OK
+ * @response `200` `AssetDownload` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function downloadRenewed({
   assetId,
@@ -179,7 +136,8 @@ export async function downloadRenewed({
  * @description Verifies that an asset is still valid for offline play and get when publication ends.
  * @summary Verify a download
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloadverified
- * @response `200` `DownloadVerified` OK
+ * @response `200` `DownloadVerified` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function downloadVerified({
   assetId,
@@ -213,7 +171,8 @@ export async function downloadVerified({
  * @description Retrieve information about all downloads completed by an account.
  * @summary Get information about all downloads done by an account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/downloads
- * @response `200` `AccountDownload` OK
+ * @response `200` `AccountDownload` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function getDownloadsForAccount({
   headers
@@ -235,7 +194,8 @@ export async function getDownloadsForAccount({
  * @description Retrieve information about all downloads for a specific asset completed by an account.
  * @summary Get information for all downloads for an asset done by an account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/{assetId}/downloads
- * @response `200` `AssetDownload` OK
+ * @response `200` `AssetDownload` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function getDownloadsForAsset({
   assetId,
@@ -259,8 +219,6 @@ export async function getDownloadsForAsset({
 export class DownloadsService {
   // @ts-ignore
   constructor(private context: ServiceContext) {}
-  deleteDownloadsForAccount = deleteDownloadsForAccount;
-  deleteDownloadsForAsset = deleteDownloadsForAsset;
   download = download;
   downloadCompleted = downloadCompleted;
   downloadInfo = downloadInfo;

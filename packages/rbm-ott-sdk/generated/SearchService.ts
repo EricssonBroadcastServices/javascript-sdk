@@ -10,7 +10,6 @@
 import {
   AutocompleteItem,
   AutocompleteItem2,
-  EpgSearchHits,
   MultiSearchResponse,
   ParentalRatingsFilter,
   SearchList,
@@ -22,7 +21,7 @@ import { QueryParams, ServiceContext, request } from "./http-client";
  * @summary Does prefix autocomplete for a query.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/autocomplete/{query}
  * @response `200` `(AutocompleteItem)[]` Successful
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function autocomplete({
   query,
@@ -107,7 +106,7 @@ export async function autocompleteTagTitle({
  * @summary Gets spelling suggestions for a key.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/suggestions/{query}
  * @response `200` `(AutocompleteItem)[]` Successful
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getSuggestions({
   query,
@@ -134,7 +133,7 @@ export async function getSuggestions({
  * @summary Title search V1.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/query/{query}
  * @response `200` `SearchList` Successful
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function search({
   query,
@@ -183,7 +182,7 @@ export async function search({
  * @summary Title search V1.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/query/{query}
  * @response `200` `SearchList` Successful
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function searchPartial<T = any>({
   query,
@@ -336,112 +335,6 @@ export async function searchAssetsPartial<T = any>({
   return request({
     method: "GET",
     url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/asset/query/${query}`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx,
-    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
-  }).then(response => response.json() as Promise<T>);
-}
-
-/**
- * @summary Searches the epg for a query.
- * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/epg/{query}
- * @response `default` `EpgSearchHits` success
- */
-export async function searchEpg({
-  query,
-  headers,
-  ..._data
-}: {
-  /** The query to search for. */
-  query: string;
-  /** The millis to get from. */
-  from: number;
-  /** The millis to get to. */
-  to: number;
-  /** The locale to search in. */
-  locale?: string;
-  /** @default true */
-  onlyPublished?: boolean;
-  /**
-   * The page number.
-   * @default 1
-   */
-  pageNumber?: number;
-  /**
-   * The number of items to show per page
-   * @default 50
-   */
-  pageSize?: number;
-  service?: string;
-  /**
-   * The sort parameter in the format of first,-second. Defaults to sorting by
-   * relevance.
-   */
-  sort?: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "GET",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx,
-    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
-  }).then(response => response.json() as Promise<EpgSearchHits>);
-}
-
-/**
- * @summary Searches the epg for a query.
- * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/search/epg/{query}
- * @response `default` `EpgSearchHits` success
- */
-export async function searchEpgPartial<T = any>({
-  query,
-  headers,
-  ..._data
-}: {
-  /** The query to search for. */
-  query: string;
-  /** The millis to get from. */
-  from: number;
-  /** The millis to get to. */
-  to: number;
-  /** Comma separated list of fields to remove from the response. */
-  excludeFields?: string;
-  /** @default "PARTIAL" */
-  fieldSet?: "ALL" | "NONE" | "PARTIAL";
-  /** Comma separated list of fields to add to the response. */
-  includeFields?: string;
-  /** The locale to search in. */
-  locale?: string;
-  /** @default true */
-  onlyPublished?: boolean;
-  /**
-   * The page number.
-   * @default 1
-   */
-  pageNumber?: number;
-  /**
-   * The number of items to show per page
-   * @default 50
-   */
-  pageSize?: number;
-  service?: string;
-  /**
-   * The sort parameter in the format of first,-second. Defaults to sorting by
-   * relevance.
-   */
-  sort?: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "GET",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/search/epg/${query}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
@@ -873,8 +766,6 @@ export class SearchService {
   searchPartial = searchPartial;
   searchAssets = searchAssets;
   searchAssetsPartial = searchAssetsPartial;
-  searchEpg = searchEpg;
-  searchEpgPartial = searchEpgPartial;
   searchNoQuery = searchNoQuery;
   searchNoQueryPartial = searchNoQueryPartial;
   searchTags = searchTags;

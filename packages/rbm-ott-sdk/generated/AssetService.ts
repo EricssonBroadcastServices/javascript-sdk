@@ -14,7 +14,7 @@ import { QueryParams, ServiceContext, request } from "./http-client";
  * @summary Get an asset by asset id or slug.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}
  * @response `200` `Asset` Successful
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getAsset({
   assetId,
@@ -48,7 +48,7 @@ export async function getAsset({
  * @summary Get an asset by asset id or slug.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}
  * @response `200` `Asset` Successful
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getAssetPartial<T = any>({
   assetId,
@@ -91,9 +91,9 @@ export async function getAssetPartial<T = any>({
  * @description Main endpoint for listing/searching for assets. Make sure that calls to this endpoint are called with a limited set of parameter permutations to allow responses to be served from a cache.
  * @summary Lists assets.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset
- * @response `200` `AssetList` Successful.
- * @response `400` `APIErrorMessage` User error.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `200` `AssetList` Successful
+ * @response `400` `APIErrorMessage` User error
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getAssets({
   headers,
@@ -101,7 +101,23 @@ export async function getAssets({
 }: {
   allowedCountry?: string;
   assetIds?: string[];
+  /** Any value of this parameter will be ignored if 'assetTypes' is also used. */
   assetType?: AssetType;
+  /** The parameter 'assetType' will be ignored when this parameter has values. */
+  assetTypes?: (
+    | "MOVIE"
+    | "TV_SHOW"
+    | "EPISODE"
+    | "CLIP"
+    | "TV_CHANNEL"
+    | "AD"
+    | "LIVE_EVENT"
+    | "COLLECTION"
+    | "PODCAST"
+    | "PODCAST_EPISODE"
+    | "EVENT"
+    | "OTHER"
+  )[];
   deviceQuery?: string;
   deviceType?: DeviceType;
   includeTvShow?: boolean;
@@ -152,9 +168,9 @@ export async function getAssets({
  * @description Main endpoint for listing/searching for assets. Make sure that calls to this endpoint are called with a limited set of parameter permutations to allow responses to be served from a cache.
  * @summary Lists assets.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset
- * @response `200` `AssetList` Successful.
- * @response `400` `APIErrorMessage` User error.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `200` `AssetList` Successful
+ * @response `400` `APIErrorMessage` User error
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getAssetsPartial<T = any>({
   headers,
@@ -162,7 +178,23 @@ export async function getAssetsPartial<T = any>({
 }: {
   allowedCountry?: string;
   assetIds?: string[];
+  /** Any value of this parameter will be ignored if 'assetTypes' is also used. */
   assetType?: AssetType;
+  /** The parameter 'assetType' will be ignored when this parameter has values. */
+  assetTypes?: (
+    | "MOVIE"
+    | "TV_SHOW"
+    | "EPISODE"
+    | "CLIP"
+    | "TV_CHANNEL"
+    | "AD"
+    | "LIVE_EVENT"
+    | "COLLECTION"
+    | "PODCAST"
+    | "PODCAST_EPISODE"
+    | "EVENT"
+    | "OTHER"
+  )[];
   deviceQuery?: string;
   deviceType?: DeviceType;
   /** Comma separated list of field names to exclude from response. */
@@ -219,10 +251,111 @@ export async function getAssetsPartial<T = any>({
 }
 
 /**
+ * @summary Get asset list by componentId
+ * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/config/{configId}/component/{componentId}
+ * @response `200` `AssetList` Successful
+ * @response `400` `APIErrorMessage` User error
+ * @response `404` `APIErrorMessage` Not found
+ */
+export async function getAssetsByComponent({
+  configId,
+  componentId,
+  headers,
+  ..._data
+}: {
+  configId: string;
+  componentId: string;
+  allowedCountry?: string;
+  /** @default true */
+  onlyPublished?: boolean;
+  /**
+   * @default 1
+   * @min 1
+   */
+  pageNumber?: number;
+  /**
+   * @min 1
+   * @max 200
+   */
+  pageSize?: number;
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
+  parentalRatings?: string;
+  products?: string[];
+  service?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "GET",
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/config/${configId}/component/${componentId}`,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
+    ctx,
+    query: { fieldSet: "ALL", ..._data } as unknown as QueryParams
+  }).then(response => response.json() as Promise<AssetList>);
+}
+
+/**
+ * @summary Get asset list by componentId
+ * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/config/{configId}/component/{componentId}
+ * @response `200` `AssetList` Successful
+ * @response `400` `APIErrorMessage` User error
+ * @response `404` `APIErrorMessage` Not found
+ */
+export async function getAssetsByComponentPartial<T = any>({
+  configId,
+  componentId,
+  headers,
+  ..._data
+}: {
+  configId: string;
+  componentId: string;
+  allowedCountry?: string;
+  /** Comma separated list of field names to exclude from response. */
+  excludeFields?: string;
+  /**
+   * Field set to return.
+   * @default "PARTIAL"
+   */
+  fieldSet?: "ALL" | "NONE" | "PARTIAL";
+  /** Comma separated list of field names to include in response. */
+  includeFields?: string;
+  /** @default true */
+  onlyPublished?: boolean;
+  /**
+   * @default 1
+   * @min 1
+   */
+  pageNumber?: number;
+  /**
+   * @min 1
+   * @max 200
+   */
+  pageSize?: number;
+  /** The parental rating filter in the format of COUNTRY:RATING,COUNTRY:RATING2 */
+  parentalRatings?: string;
+  products?: string[];
+  service?: string;
+  /** Optional headers */
+  headers?: HeadersInit;
+}) {
+  // @ts-ignore
+  const ctx = (this.context || this) as ServiceContext;
+  return request({
+    method: "GET",
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/content/asset/config/${configId}/component/${componentId}`,
+    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
+    ctx,
+    query: { fieldSet: "PARTIAL", ..._data } as unknown as QueryParams
+  }).then(response => response.json() as Promise<T>);
+}
+
+/**
  * @summary Get the entries of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/collectionentries
  * @response `200` `AssetList` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getCollectionEntries({
   assetId,
@@ -264,7 +397,7 @@ export async function getCollectionEntries({
  * @summary Get the entries of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/collectionentries
  * @response `200` `AssetList` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getCollectionEntriesPartial<T = any>({
   assetId,
@@ -315,7 +448,7 @@ export async function getCollectionEntriesPartial<T = any>({
  * @summary Get episodes for a season.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season/{season}/episode
  * @response `200` `AssetList` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getEpisodes({
   assetId,
@@ -353,7 +486,7 @@ export async function getEpisodes({
  * @summary Get episodes for a season.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season/{season}/episode
  * @response `200` `AssetList` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getEpisodesPartial<T = any>({
   assetId,
@@ -400,7 +533,7 @@ export async function getEpisodesPartial<T = any>({
  * @summary Get the next entry of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{collectionId}/collectionentries/{referenceEntryId}/next
  * @response `200` `Asset` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getNextCollectionEntry({
   collectionId,
@@ -431,7 +564,7 @@ export async function getNextCollectionEntry({
  * @summary Get the next episode of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/next
  * @response `200` `Asset` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getNextEpisode({
   assetId,
@@ -455,7 +588,7 @@ export async function getNextEpisode({
  * @summary Get the previous entry of a collection.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{collectionId}/collectionentries/{referenceEntryId}/previous
  * @response `200` `Asset` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getPreviousCollectionEntry({
   collectionId,
@@ -486,7 +619,7 @@ export async function getPreviousCollectionEntry({
  * @summary Get the previous episode of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/previous
  * @response `200` `Asset` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getPreviousEpisode({
   assetId,
@@ -510,7 +643,7 @@ export async function getPreviousEpisode({
  * @summary Get a season of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season/{season}
  * @response `200` `Season` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getSeason({
   assetId,
@@ -541,7 +674,7 @@ export async function getSeason({
  * @summary Get a season of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season/{season}
  * @response `200` `Season` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getSeasonPartial<T = any>({
   assetId,
@@ -581,7 +714,7 @@ export async function getSeasonPartial<T = any>({
  * @summary Get seasons of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season
  * @response `200` `SeasonList` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getSeasonsForTvShow({
   assetId,
@@ -619,7 +752,7 @@ export async function getSeasonsForTvShow({
  * @summary Get seasons of a tv show.
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/content/asset/{assetId}/season
  * @response `200` `SeasonList` Successful.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getSeasonsForTvShowPartial<T = any>({
   assetId,
@@ -669,6 +802,8 @@ export class AssetService {
   getAssetPartial = getAssetPartial;
   getAssets = getAssets;
   getAssetsPartial = getAssetsPartial;
+  getAssetsByComponent = getAssetsByComponent;
+  getAssetsByComponentPartial = getAssetsByComponentPartial;
   getCollectionEntries = getCollectionEntries;
   getCollectionEntriesPartial = getCollectionEntriesPartial;
   getEpisodes = getEpisodes;

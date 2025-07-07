@@ -40,7 +40,7 @@ export async function confirmActivationCode({
  * @summary Consumes an activation code.
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/userActivation/consume
  * @response `200` `LoginResponse` Successful
- * @response `401` `LoginResponse` Code not yet confirmed. Try again after a few seconds
+ * @response `401` `APIErrorMessage` Code not yet confirmed or expired. Please confirm the code and try again after 5 seconds.
  */
 export async function consumeActivationCode({
   headers,

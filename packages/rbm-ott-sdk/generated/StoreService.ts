@@ -9,11 +9,7 @@
 
 import {
   AddPaymentMethodResponse,
-  AppStorePurchaseInitializeResponse,
-  AppStorePurchaseVerifyResponse,
   Asset,
-  GooglePlayPurchaseInitializeResponse,
-  GooglePlayPurchaseVerifyResponse,
   InitializePaymentResponse,
   JsonAccount,
   PaymentMethod,
@@ -311,32 +307,6 @@ export async function getOfferingsByCountry({
 }
 
 /**
- * @description This endpoint is to be only used if labels are used, which will be far from normal.
- * @summary Get product offerings available for this account's labels.
- * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/label/{labelFilterId}
- * @response `200` `StoreProductOfferings` success
- * @response `404` `void` LABEL_FILTER_NOT_FOUND The provided labelFilterId was not found
- */
-export async function getOfferingsByLabels({
-  labelFilterId,
-  headers
-}: {
-  /** The labelFilterId received with the Label Resource. */
-  labelFilterId: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/productoffering/label/${labelFilterId}`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
-  }).then(response => response.json() as Promise<StoreProductOfferings>);
-}
-
-/**
  * @summary Get product offerings available for the specific voucher code. EXPERIMENTAL
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/store/productofferings/voucher/{voucherCode}
  * @response `200` `StorePromotionProductOfferings` Successful
@@ -434,74 +404,6 @@ export async function initialize({
     ctx,
     body: _data
   }).then(response => response.json() as Promise<InitializePaymentResponse>);
-}
-
-/**
- * @description Set up a purchase of specified Product Offering, using App Store. If the Product Offerings field productRequiresSelectAsset is true then a assetId must be provided.
- * @summary Initialize a App Store purchase
- * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/store/appstore/purchase/init/{productOfferingId}
- * @response `200` `AppStorePurchaseInitializeResponse` Successful
- * @response `400` `AppStorePurchaseInitializeResponse` Bad request
- */
-export async function initializeAppStorePurchase({
-  productOfferingId,
-  headers,
-  ..._data
-}: {
-  /** Id of product offering to purchase */
-  productOfferingId: string;
-  /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
-  assetId?: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/init/${productOfferingId}`,
-    headers: new Headers({
-      accept: "application/json",
-      "content-type": "application/json",
-      ...Object.fromEntries(new Headers(headers))
-    }),
-    ctx,
-    body: _data
-  }).then(response => response.json() as Promise<AppStorePurchaseInitializeResponse>);
-}
-
-/**
- * @description Set up a purchase of specified Product Offering, using Google Play. If the Product Offerings field productRequiresSelectAsset is true then a assetId must be provided.
- * @summary Initialize a Google Play purchase
- * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/store/googleplay/purchase/init/{productOfferingId}
- * @response `200` `GooglePlayPurchaseInitializeResponse` Successful
- * @response `400` `GooglePlayPurchaseInitializeResponse` Bad request
- */
-export async function initializeGooglePlayPurchase({
-  productOfferingId,
-  headers,
-  ..._data
-}: {
-  /** Id of product offering to purchase */
-  productOfferingId: string;
-  /** Single asset id that the purchase will entitle. Requires that the product offering requires "direct asset purchases". */
-  assetId?: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/init/${productOfferingId}`,
-    headers: new Headers({
-      accept: "application/json",
-      "content-type": "application/json",
-      ...Object.fromEntries(new Headers(headers))
-    }),
-    ctx,
-    body: _data
-  }).then(response => response.json() as Promise<GooglePlayPurchaseInitializeResponse>);
 }
 
 /**
@@ -613,74 +515,6 @@ export async function updatePreferredPaymentMethod({
 }
 
 /**
- * @description Verifies that the purchase was successful and makes entilement if so.
- * @summary Verify a App Store purchase
- * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/store/appstore/purchase/{purchaseId}/verify
- * @response `200` `AppStorePurchaseVerifyResponse` Successful
- * @response `400` `AppStorePurchaseVerifyResponse` Bad request
- */
-export async function verifyAppStorePurchase({
-  purchaseId,
-  headers,
-  ..._data
-}: {
-  /** The purchase id */
-  purchaseId: string;
-  /** As received in the App Store Purchase. */
-  transaction: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/appstore/purchase/${purchaseId}/verify`,
-    headers: new Headers({
-      accept: "application/json",
-      "content-type": "application/json",
-      ...Object.fromEntries(new Headers(headers))
-    }),
-    ctx,
-    body: _data
-  }).then(response => response.json() as Promise<AppStorePurchaseVerifyResponse>);
-}
-
-/**
- * @description Verifies that the purchase was successful and makes entilement if so.
- * @summary Verify a Google Play purchase
- * @request POST:/v3/customer/{customer}/businessunit/{businessUnit}/store/googleplay/purchase/{purchaseId}/verify
- * @response `200` `GooglePlayPurchaseVerifyResponse` Successful
- * @response `400` `GooglePlayPurchaseVerifyResponse` Bad request
- */
-export async function verifyGooglePlayPurchase({
-  purchaseId,
-  headers,
-  ..._data
-}: {
-  /** The purchase id */
-  purchaseId: string;
-  /** As received in the Google Play Purchase. */
-  purchaseToken: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v3/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/store/googleplay/purchase/${purchaseId}/verify`,
-    headers: new Headers({
-      accept: "application/json",
-      "content-type": "application/json",
-      ...Object.fromEntries(new Headers(headers))
-    }),
-    ctx,
-    body: _data
-  }).then(response => response.json() as Promise<GooglePlayPurchaseVerifyResponse>);
-}
-
-/**
  * @description Verify a purchase of a productOffering if a "AUTHORIZED/REJECTED"-status is not given directly. E.g. a redirect flow, where the purchaser has to authenticate to the card issuer. Also, used to send additional data from the shopper if that's required.
  * @summary Verify a purchase of a productOffering
  * @request POST:/v2/customer/{customer}/businessunit/{businessUnit}/store/purchase/{purchaseId}/verify
@@ -720,17 +554,12 @@ export class StoreService {
   getOfferingPurchases = getOfferingPurchases;
   getOfferings = getOfferings;
   getOfferingsByCountry = getOfferingsByCountry;
-  getOfferingsByLabels = getOfferingsByLabels;
   getOfferingsByVoucher = getOfferingsByVoucher;
   getPurchaseTransactions = getPurchaseTransactions;
   getStoredPaymentMethods = getStoredPaymentMethods;
   initialize = initialize;
-  initializeAppStorePurchase = initializeAppStorePurchase;
-  initializeGooglePlayPurchase = initializeGooglePlayPurchase;
   purchaseProductOffering = purchaseProductOffering;
   updatePaymentMethod = updatePaymentMethod;
   updatePreferredPaymentMethod = updatePreferredPaymentMethod;
-  verifyAppStorePurchase = verifyAppStorePurchase;
-  verifyGooglePlayPurchase = verifyGooglePlayPurchase;
   verifyPayment = verifyPayment;
 }

@@ -77,9 +77,11 @@ export const AdClipCategory = {
 export type AdClipCategory = (typeof AdClipCategory)[keyof typeof AdClipCategory];
 
 export interface AdMarker {
+  adTag?: string;
   duration?: string;
   id?: string;
   offset?: number;
+  tagType?: string;
   type?: string;
 }
 
@@ -151,17 +153,6 @@ export interface AppStoreConfig {
   enabled: boolean;
 }
 
-export interface AppStorePurchaseInitializeResponse {
-  /** To used as appAccountToken */
-  appAccountToken?: string;
-  purchaseId?: string;
-  transactionId?: string;
-}
-
-export interface AppStorePurchaseVerifyResponse {
-  transactionStatus?: StoreTransactionStatus;
-}
-
 export interface Asset {
   assetFeatures?: SystemTag[];
   assetId: string;
@@ -175,9 +166,11 @@ export interface Asset {
   defaultAudioTrack?: string;
   duration: number;
   episode?: string;
+  episodeSortOrderAscending?: boolean;
   event?: Event;
   expires?: string;
   externalReferences: ExternalReference[];
+  firstRunDate?: string;
   linkedEntities: LinkedEntity[];
   live: boolean;
   localized: LocalizedData[];
@@ -205,6 +198,7 @@ export interface Asset {
   slugs: string[];
   spokenLanguages: string[];
   studio?: string;
+  subtitleTracks?: SubtitleTrack[];
   subtitles: string[];
   tags: Tag[];
   trackSizes?: TrackSizes;
@@ -262,9 +256,11 @@ export interface AssetResponse {
   defaultAudioTrack?: string;
   duration?: string;
   episode?: string;
+  episodeSortOrderAscending?: boolean;
   event?: EventDataResponse;
   expires?: string;
   externalReferences?: ExternalReferenceResponse[];
+  firstRunDate?: string;
   geoCountries?: string[];
   ingestFlow?: string;
   isLive?: boolean;
@@ -392,6 +388,7 @@ export interface ChangePasswordResponse {
 export interface ChannelAsset {
   asset: Asset;
   endTime: string;
+  programId?: string;
   startTime: string;
 }
 
@@ -433,6 +430,7 @@ export type Component = ComponentBase & {
     | AssetQueryUrl
     | ChannelEpgUrl
     | ContinueWatchingUrl
+    | CustomAssetQueryUrl
     | EpgUrl
     | FavouritesUrl
     | LiveEventsUrl
@@ -442,7 +440,9 @@ export type Component = ComponentBase & {
     | TagTypeUrl
     | TvodUrl;
   created?: string;
+  customParameters?: Record<string, string>;
   id?: string;
+  inlineComponents?: Record<string, Component>;
   name?: string;
   otherPresentations?: Record<string, Presentation>;
   parameters?: Record<string, string>;
@@ -482,8 +482,10 @@ export interface Config {
   changed?: string;
   components?: Record<string, (Component | ComponentReference)[]>;
   created?: string;
+  customParameters?: Record<string, string>;
   customer?: string;
   id?: string;
+  inlineComponents?: Record<string, Component>;
   name?: string;
   parameters?: Record<string, string>;
   presentation?: Presentation;
@@ -498,12 +500,6 @@ export interface ConfigFile {
   fileName?: string;
   systemConfig?: SystemConfig;
   version?: number;
-}
-
-export interface ConfigFilesResponse {
-  businessUnit?: string;
-  customer?: string;
-  fileNames?: string[];
 }
 
 export interface ConfirmAccountResponse {
@@ -596,6 +592,11 @@ export interface CreateSessionResponse {
   /** The session (bearer) token to use for subsequent requests. */
   sessionToken?: string;
 }
+
+export type CustomAssetQueryUrl = ContentUrl & {
+  authorized?: boolean;
+  url?: string;
+};
 
 export interface DRMLicense {
   "com.apple.fps"?: DrmUrls;
@@ -705,7 +706,7 @@ export type DownloadVerified = Record<
 >;
 
 export interface DrmUrls {
-  certificateUrl: string;
+  certificateUrl?: string;
   licenseServerUrl: string;
 }
 
@@ -727,14 +728,6 @@ export interface EntitleResponse {
 }
 
 export type EpgInfo = Record<"enabled" | "entitlementCheck", boolean>;
-
-export interface EpgSearchHits {
-  items?: ChannelEPGResponse[];
-  pageNumber?: number;
-  pageSize?: number;
-  suggestion?: string;
-  totalCount?: number;
-}
 
 export type EpgUrl = ContentUrl & {
   authorized?: boolean;
@@ -782,11 +775,19 @@ export type FavouritesUrl = ContentUrl & {
   url?: string;
 };
 
-export interface Filters {
-  filters?: FiltersFilter[];
+/** Firebase App configurations */
+export interface FirebaseAppConfigs {
+  /** Android app config */
+  android: object;
+  /** IOS app config */
+  ios: object;
+  /** List of available subscription topics */
+  topics: Topic[];
+  /** VAPID key used for web app */
+  vapidKey: string;
+  /** Web app config */
+  web: object;
 }
-
-export type FiltersFilter = Record<"type" | "value", string>;
 
 /** Frontend features configuration */
 export interface FrontendFeatures {
@@ -808,19 +809,6 @@ export interface FrontendFeatures {
 export interface GooglePlayConfig {
   /** Google play enabled */
   enabled: boolean;
-}
-
-export interface GooglePlayPurchaseInitializeResponse {
-  /** To used as obfuscatedAccountId */
-  obfuscatedAccountId?: string;
-  /** To used as obfuscatedProfileId */
-  obfuscatedProfileId?: string;
-  purchaseId?: string;
-  transactionId?: string;
-}
-
-export interface GooglePlayPurchaseVerifyResponse {
-  transactionStatus?: StoreTransactionStatus;
 }
 
 export type HtmlDocument = Record<"body" | "url", string>;
@@ -917,6 +905,7 @@ export const LicenseExpirationReason = {
   NOT_ENABLED: "NOT_ENABLED",
   NOT_ENTITLED: "NOT_ENTITLED",
   SUCCESS: "SUCCESS",
+  TOO_MANY_DEVICES: "TOO_MANY_DEVICES",
   VPN_BLOCKED: "VPN_BLOCKED"
 } as const;
 export type LicenseExpirationReason = (typeof LicenseExpirationReason)[keyof typeof LicenseExpirationReason];
@@ -981,6 +970,8 @@ export interface LocalizedTag {
   locale: string;
   title?: string;
 }
+
+export type LocalizedTopicMetadata = Record<"description" | "title", string>;
 
 export interface Location {
   /** ISO country code or null if unknown. */
@@ -1065,11 +1056,14 @@ export interface MaterialResponse {
   markerPoints?: MarkerPointResponse[];
   materialType?: AssetMaterialType;
   profile?: string[];
+  subtitleTracks?: MaterialSubtitleTrackResponse[];
   subtitles?: string[];
   validFrom?: string;
   validTo?: string;
   version?: number;
 }
+
+export type MaterialSubtitleTrackResponse = Record<"displayName" | "language" | "type", string>;
 
 export interface Media {
   drm?: string;
@@ -1124,10 +1118,6 @@ export interface MediaResponse {
   status?: string;
   subtitles?: SubtitleResponse[];
   width?: number;
-}
-
-export interface Message {
-  message?: string;
 }
 
 export interface MultiSearchResponse {
@@ -1308,6 +1298,8 @@ export interface PresentationItem {
   body?: string;
   iframe?: Iframe;
   images?: Image[];
+  seoDescription?: string;
+  seoTitle?: string;
   subTitle?: string;
   title?: string;
   trailerAssetId?: string;
@@ -1610,16 +1602,8 @@ export interface Sprites {
   width: number;
 }
 
-export interface StoreAppStoreReference {
-  productId: string;
-}
-
 export interface StoreDiscount {
   discountedOfferingPrice?: StoreProductOfferingPrice;
-}
-
-export interface StoreGooglePlayReference {
-  skuId: string;
 }
 
 export type StoreLocalizedMetaData = Record<"description" | "locale" | "name", string>;
@@ -1661,12 +1645,10 @@ export interface StoreProduct {
 
 export interface StoreProductOffering {
   accountProductId?: string;
-  appStoreReference?: StoreAppStoreReference;
   /** The one-time discounted price on a product offering */
   discount?: StoreProductOfferingDiscount;
   /** If present the time at which entitlement starts, if not present entitlement starts ar time of purchase, ISO 8601 Date and time */
   entitlementStart?: string | null;
-  googlePlayReference?: StoreGooglePlayReference;
   /**
    * Product Offering Id
    * @deprecated
@@ -1689,6 +1671,8 @@ export interface StoreProductOffering {
   rentalExpiryWindow?: string | null;
   /** Rental length, ISO 8601 Duration */
   rentalLength?: string;
+  /** Sorting key to order the offerings by */
+  sortKey?: string;
 }
 
 /** The one-time discounted price on a product offering */
@@ -1795,17 +1779,9 @@ export interface StoreTransaction {
   productOfferingId?: string;
   receiptUrl?: string;
   refunded: boolean;
-  status: StoreTransactionStatus;
+  status: "accepted" | "cancelled" | "pending" | "rejected";
   transactionId: string;
 }
-
-export const StoreTransactionStatus = {
-  ACCEPTED: "accepted",
-  CANCELLED: "cancelled",
-  PENDING: "pending",
-  REJECTED: "rejected"
-} as const;
-export type StoreTransactionStatus = (typeof StoreTransactionStatus)[keyof typeof StoreTransactionStatus];
 
 export interface StoreVat {
   /** If the VAT is part of the product offering price */
@@ -1907,6 +1883,8 @@ export type Subtitle = Record<"label" | "language" | "url", string>;
 
 export type SubtitleResponse = Record<"language" | "location" | "name", string>;
 
+export type SubtitleTrack = Record<"displayName" | "language" | "type", string>;
+
 export interface SubtitleTrackInfo {
   fileSize?: number;
   language?: string;
@@ -1917,6 +1895,8 @@ export interface SystemConfig {
   access: AccessConfig;
   /** Analytics reporting configuration */
   analytics: AnalyticsConfig;
+  /** Firebase App configurations */
+  firebaseApps?: FirebaseAppConfigs;
   /** Frontend features configuration */
   frontendFeatures: FrontendFeatures;
   /** Locale configuration */
@@ -2007,6 +1987,12 @@ export interface TimeResponse {
   iso8601: string;
   /** Time as Epoch milliseconds */
   epochMillis: number;
+}
+
+/** List of available subscription topics */
+export interface Topic {
+  localizedMetadata?: Record<string, LocalizedTopicMetadata>;
+  topic?: string;
 }
 
 export interface Track {

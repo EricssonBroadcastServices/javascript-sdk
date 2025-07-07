@@ -75,9 +75,14 @@ export async function getLastViewedOffsetList({
 }: {
   /**
    * Return all bookmarks for the account and not only the ones for current user. Default value false.
-   * @default "false"
+   * @default false
    */
-  account?: string;
+  account?: boolean;
+  /**
+   * Return all active bookmarks for the account, if the value is false results will include soft deleted bookmarks. Default value true.
+   * @default true
+   */
+  active?: boolean;
   /** The asset ids to filter by */
   assetIds?: string[];
   /**

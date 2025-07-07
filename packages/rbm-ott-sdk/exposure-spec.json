@@ -48,56 +48,6 @@
         }
       }
     },
-    "/v1/config/{fileId}/origin/{host}": {
-      "get": {
-        "tags": [
-          "customerconfig"
-        ],
-        "summary": "Gets a JSON configuration file.",
-        "description": "Uses the host parameter to figure out the business unit.",
-        "operationId": "getConfigFileCustomDomainInPath",
-        "parameters": [
-          {
-            "name": "fileId",
-            "in": "path",
-            "description": "The file to get.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "host",
-            "in": "path",
-            "description": "The host that will be mapped to a business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "paymentMethodPreview",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "success",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiConfigFile"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/customer/{customer}/asset/{assetId}/mrss": {
       "get": {
         "tags": [
@@ -164,11 +114,35 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/xml": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "NOT_AVAILABLE": {
+                    "description": "NOT_AVAILABLE",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
+                  },
+                  "NOT_ENTITLED": {
+                    "description": "NOT_ENTITLED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_ENTITLED\"\n}"
+                  },
+                  "UNKNOWN_ASSET": {
+                    "description": "UNKNOWN_ASSET",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_ASSET\"\n}"
+                  }
                 }
               }
             }
@@ -251,11 +225,35 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/xml": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "NOT_AVAILABLE": {
+                    "description": "NOT_AVAILABLE",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
+                  },
+                  "NOT_ENTITLED": {
+                    "description": "NOT_ENTITLED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_ENTITLED\"\n}"
+                  },
+                  "UNKNOWN_ASSET": {
+                    "description": "UNKNOWN_ASSET",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_ASSET\"\n}"
+                  }
                 }
               }
             }
@@ -2270,6 +2268,14 @@
             }
           },
           {
+            "name": "service",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "pageSize",
             "in": "query",
             "required": false,
@@ -2469,156 +2475,6 @@
                       "message": "UNKNOWN_BUSINESS_UNIT"
                     }
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/customer/{customer}/businessunit/{businessUnit}/content/search/epg/{query}": {
-      "get": {
-        "tags": [
-          "search"
-        ],
-        "summary": "Searches the epg for a query.",
-        "operationId": "searchEpg",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "query",
-            "in": "path",
-            "description": "The query to search for.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "from",
-            "in": "query",
-            "description": "The millis to get from.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "to",
-            "in": "query",
-            "description": "The millis to get to.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "locale",
-            "in": "query",
-            "description": "The locale to search in.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "The sort parameter in the format of first,-second. Defaults to sorting by\n                       relevance.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The number of items to show per page",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 50
-            }
-          },
-          {
-            "name": "pageNumber",
-            "in": "query",
-            "description": "The page number.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "fieldSet",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "default": "PARTIAL",
-              "enum": [
-                "NONE",
-                "PARTIAL",
-                "ALL"
-              ]
-            }
-          },
-          {
-            "name": "includeFields",
-            "in": "query",
-            "description": "Comma separated list of fields to add to the response.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "excludeFields",
-            "in": "query",
-            "description": "Comma separated list of fields to remove from the response.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "onlyPublished",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }
-          },
-          {
-            "name": "service",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "success",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiEpgSearchHits"
                 }
               }
             }
@@ -3220,144 +3076,6 @@
         }
       }
     },
-    "/v1/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/onnow": {
-      "get": {
-        "tags": [
-          "epg"
-        ],
-        "operationId": "onNow",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "channelId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiChannelEPGResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/customer/{customer}/businessunit/{businessUnit}/export/asset": {
-      "get": {
-        "tags": [
-          "xport"
-        ],
-        "summary": "Get all assets.",
-        "description": "This request is privileged and thus needs server to server authentication.",
-        "operationId": "exportAssets",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "assetType",
-            "in": "query",
-            "description": "The asset type to filter by.",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "MOVIE",
-                "TV_SHOW",
-                "EPISODE",
-                "CLIP",
-                "TV_CHANNEL",
-                "AD",
-                "LIVE_EVENT",
-                "COLLECTION",
-                "PODCAST",
-                "PODCAST_EPISODE",
-                "EVENT",
-                "OTHER"
-              ]
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The number of items to show per page",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1000
-            }
-          },
-          {
-            "name": "createdAfter",
-            "in": "query",
-            "description": "Created time (epoch millis) to start listing from.",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "EMP-Auth",
-            "in": "header",
-            "description": "The pre-shared API key.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiAssetListBulk"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/customer/{customer}/businessunit/{businessUnit}/location": {
       "get": {
         "tags": [
@@ -3454,7 +3172,17 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdRollConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
             "content": {
               "application/json": {
                 "schema": {
@@ -3698,13 +3426,33 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Device"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "NOT_FOUND": {
+                    "description": "NOT_FOUND",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"NOT_FOUND\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
                   }
                 }
               }
@@ -3757,11 +3505,31 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "NOT_FOUND": {
+                    "description": "NOT_FOUND",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"NOT_FOUND\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  }
                 }
               }
             }
@@ -3811,7 +3579,27 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "NOT_FOUND": {
+                    "description": "NOT_FOUND",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"NOT_FOUND\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4489,167 +4277,6 @@
             }
           }
         }
-      }
-    },
-    "/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}": {
-      "post": {
-        "tags": [
-          "preferences"
-        ],
-        "summary": "Adds an item to a list.",
-        "operationId": "addToList",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "list",
-            "in": "path",
-            "description": "The name of the list.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The list item id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiAssetListItemRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "success",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "NO_SESSION_TOKEN. If the session token is missing.<br>INVALID_SESSION_TOKEN. If the session token is provided but not valid.",
-            "content": {}
-          },
-          "403": {
-            "description": "TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences.<br>TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.",
-            "content": {}
-          },
-          "404": {
-            "description": "UNKNOWN_BUSINESS_UNIT. If the business unit is not found.<br>UNKNOWN_LIST. If the list is not configured.",
-            "content": {}
-          },
-          "409": {
-            "description": "LIMIT_REACHED. If the maximum number of items in the list have been reached.",
-            "content": {}
-          }
-        },
-        "x-codegen-request-body-name": "request",
-        "security": [
-          {
-            "bearer-key": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "preferences"
-        ],
-        "summary": "Deletes an item from a list.",
-        "operationId": "deleteFromList",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "list",
-            "in": "path",
-            "description": "The name of the list.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The id of the item",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "success",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "NO_SESSION_TOKEN. If the session token is missing.<br>INVALID_SESSION_TOKEN. If the session token is provided but not valid.",
-            "content": {}
-          },
-          "404": {
-            "description": "UNKNOWN_BUSINESS_UNIT. If the business unit is not found.<br>UNKNOWN_LIST. If the list is not configured.",
-            "content": {}
-          }
-        },
-        "security": [
-          {
-            "bearer-key": []
-          }
-        ]
       }
     },
     "/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{tagId}": {
@@ -5352,8 +4979,18 @@
             "description": "Return all bookmarks for the account and not only the ones for current user. Default value false.",
             "required": false,
             "schema": {
-              "type": "string",
-              "default": "false"
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "description": "Return all active bookmarks for the account, if the value is false results will include soft deleted bookmarks. Default value true.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
             }
           },
           {
@@ -5426,38 +5063,6 @@
             "bearer-key": []
           }
         ]
-      }
-    },
-    "/v1/customer/{customer}/config": {
-      "get": {
-        "tags": [
-          "customerconfig"
-        ],
-        "summary": "Lists existing configuration files on customer level.",
-        "operationId": "getConfigFilesCu",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "success",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiConfigFilesResponse"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/v1/customer/{customer}/config/{fileName}": {
@@ -5743,15 +5348,6 @@
                 "type": "string"
               }
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The authorization header in the format 'Bearer sessionToken'",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -5785,7 +5381,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
       }
     },
     "/v1/customer/{customerUnit}/businessunit/{businessUnit}/recommend/user": {
@@ -5851,15 +5452,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The authorization header in the format 'Bearer sessionToken'",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -5893,7 +5485,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer-key": []
+          }
+        ]
       }
     },
     "/v1/customer/{customerUnit}/businessunit/{businessUnit}/recommend/watchNext/{assetId}": {
@@ -7450,11 +7047,67 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Download"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "AVAILABLE_AFTER_USER_ACTION": {
+                    "description": "AVAILABLE_AFTER_USER_ACTION",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"AVAILABLE_AFTER_USER_ACTION\"\n}"
+                  },
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  },
+                  "BLOCKED": {
+                    "description": "BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"BLOCKED\"\n}"
+                  },
+                  "DOWNLOAD_NOT_ALLOWED": {
+                    "description": "DOWNLOAD_NOT_ALLOWED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"DOWNLOAD_NOT_ALLOWED\"\n}"
+                  },
+                  "GEO_BLOCKED": {
+                    "description": "GEO_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"GEO_BLOCKED\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  },
+                  "NOT_PUBLISHED": {
+                    "description": "NOT_PUBLISHED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_PUBLISHED\"\n}"
+                  },
+                  "NOT_AVAILABLE": {
+                    "description": "NOT_AVAILABLE",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
+                  },
+                  "NOT_ENTITLED": {
+                    "description": "NOT_ENTITLED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"UNKNOWN_ACCOUNT\"\n}"
+                  },
+                  "UNKNOWN_ASSET": {
+                    "description": "UNKNOWN_ASSET",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_ASSET\"\n}"
+                  },
+                  "VPN_BLOCKED": {
+                    "description": "VPN_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"VPN_BLOCKED\"\n}"
+                  }
                 }
               }
             }
@@ -7506,11 +7159,31 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AssetDownload"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  }
                 }
               }
             }
@@ -7581,11 +7254,67 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DownloadInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "AVAILABLE_AFTER_USER_ACTION": {
+                    "description": "AVAILABLE_AFTER_USER_ACTION",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"AVAILABLE_AFTER_USER_ACTION\"\n}"
+                  },
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  },
+                  "BLOCKED": {
+                    "description": "BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"BLOCKED\"\n}"
+                  },
+                  "DOWNLOAD_NOT_ALLOWED": {
+                    "description": "DOWNLOAD_NOT_ALLOWED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"DOWNLOAD_NOT_ALLOWED\"\n}"
+                  },
+                  "GEO_BLOCKED": {
+                    "description": "GEO_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"GEO_BLOCKED\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  },
+                  "NOT_PUBLISHED": {
+                    "description": "NOT_PUBLISHED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_PUBLISHED\"\n}"
+                  },
+                  "NOT_AVAILABLE": {
+                    "description": "NOT_AVAILABLE",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
+                  },
+                  "NOT_ENTITLED": {
+                    "description": "NOT_ENTITLED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"UNKNOWN_ACCOUNT\"\n}"
+                  },
+                  "UNKNOWN_ASSET": {
+                    "description": "UNKNOWN_ASSET",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_ASSET\"\n}"
+                  },
+                  "VPN_BLOCKED": {
+                    "description": "VPN_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"VPN_BLOCKED\"\n}"
+                  }
                 }
               }
             }
@@ -7637,11 +7366,31 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AssetDownload"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  }
                 }
               }
             }
@@ -7693,7 +7442,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -7701,57 +7450,23 @@
                 }
               }
             }
-          }
-        },
-        "security": [
-          {
-            "bearer-key": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "downloads"
-        ],
-        "summary": "Unregister all downloads for an asset done by an account",
-        "description": "Unregister all downloads for a specific asset completed by an account.",
-        "operationId": "deleteDownloadsForAsset",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer ID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "assetId",
-            "in": "path",
-            "description": "The asset ID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
+          "400": {
+            "description": "Failed",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  }
                 }
               }
             }
@@ -7822,11 +7537,67 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DownloadVerified"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "AVAILABLE_AFTER_USER_ACTION": {
+                    "description": "AVAILABLE_AFTER_USER_ACTION",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"AVAILABLE_AFTER_USER_ACTION\"\n}"
+                  },
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  },
+                  "BLOCKED": {
+                    "description": "BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"BLOCKED\"\n}"
+                  },
+                  "DOWNLOAD_NOT_ALLOWED": {
+                    "description": "DOWNLOAD_NOT_ALLOWED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"DOWNLOAD_NOT_ALLOWED\"\n}"
+                  },
+                  "GEO_BLOCKED": {
+                    "description": "GEO_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"GEO_BLOCKED\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  },
+                  "NOT_PUBLISHED": {
+                    "description": "NOT_PUBLISHED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_PUBLISHED\"\n}"
+                  },
+                  "NOT_AVAILABLE": {
+                    "description": "NOT_AVAILABLE",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
+                  },
+                  "NOT_ENTITLED": {
+                    "description": "NOT_ENTITLED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"UNKNOWN_ACCOUNT\"\n}"
+                  },
+                  "UNKNOWN_ASSET": {
+                    "description": "UNKNOWN_ASSET",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_ASSET\"\n}"
+                  },
+                  "VPN_BLOCKED": {
+                    "description": "VPN_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"VPN_BLOCKED\"\n}"
+                  }
                 }
               }
             }
@@ -7923,37 +7694,13 @@
                   "$ref": "#/components/schemas/API Error message"
                 },
                 "examples": {
-                  "INVALID_JSON": {
-                    "description": "INVALID_JSON",
-                    "value": "{\n  \"httpCode\" : 400,\n  \"message\" : \"INVALID_JSON\"\n}"
-                  },
-                  "JSON_DOES_NOT_FOLLOW_CONTRACT": {
-                    "description": "JSON_DOES_NOT_FOLLOW_CONTRACT",
-                    "value": "{\n  \"httpCode\" : 422,\n  \"message\" : \"JSON_DOES_NOT_FOLLOW_CONTRACT\"\n}"
-                  },
-                  "NO_SESSION_TOKEN": {
-                    "description": "NO_SESSION_TOKEN",
-                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"NO_SESSION_TOKEN\"\n}"
-                  },
-                  "INVALID_SESSION_TOKEN": {
-                    "description": "INVALID_SESSION_TOKEN",
-                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
-                  },
-                  "FORBIDDEN": {
-                    "description": "FORBIDDEN",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"FORBIDDEN\"\n}"
-                  },
-                  "NOT_AVAILABLE": {
-                    "description": "NOT_AVAILABLE",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
                   },
                   "BLOCKED": {
                     "description": "BLOCKED",
                     "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"BLOCKED\"\n}"
-                  },
-                  "GEO_BLOCKED": {
-                    "description": "GEO_BLOCKED",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"GEO_BLOCKED\"\n}"
                   },
                   "CONCURRENT_STREAMS_LIMIT_REACHED": {
                     "description": "CONCURRENT_STREAMS_LIMIT_REACHED",
@@ -7963,9 +7710,37 @@
                     "description": "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE",
                     "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE\"\n}"
                   },
-                  "TOO_MANY_DEVICES": {
-                    "description": "TOO_MANY_DEVICES",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"TOO_MANY_DEVICES\"\n}"
+                  "FORBIDDEN": {
+                    "description": "FORBIDDEN",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"FORBIDDEN\"\n}"
+                  },
+                  "GEO_BLOCKED": {
+                    "description": "GEO_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"GEO_BLOCKED\"\n}"
+                  },
+                  "INTERNAL_TIMEOUT": {
+                    "description": "INTERNAL_TIMEOUT",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"INTERNAL_TIMEOUT\"\n}"
+                  },
+                  "INVALID_JSON": {
+                    "description": "INVALID_JSON",
+                    "value": "{\n  \"httpCode\" : 400,\n  \"message\" : \"INVALID_JSON\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  },
+                  "JSON_DOES_NOT_FOLLOW_CONTRACT": {
+                    "description": "JSON_DOES_NOT_FOLLOW_CONTRACT",
+                    "value": "{\n  \"httpCode\" : 422,\n  \"message\" : \"JSON_DOES_NOT_FOLLOW_CONTRACT\"\n}"
+                  },
+                  "NO_SESSION_TOKEN": {
+                    "description": "NO_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"NO_SESSION_TOKEN\"\n}"
+                  },
+                  "NOT_AVAILABLE": {
+                    "description": "NOT_AVAILABLE",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
                   },
                   "NOT_PUBLISHED": {
                     "description": "NOT_PUBLISHED",
@@ -7975,6 +7750,10 @@
                     "description": "NOT_ENTITLED",
                     "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_ENTITLED\"\n}"
                   },
+                  "TOO_MANY_DEVICES": {
+                    "description": "TOO_MANY_DEVICES",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"TOO_MANY_DEVICES\"\n}"
+                  },
                   "UNKNOWN_BUSINESS_UNIT": {
                     "description": "UNKNOWN_BUSINESS_UNIT",
                     "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_BUSINESS_UNIT\"\n}"
@@ -7983,9 +7762,9 @@
                     "description": "UNKNOWN_ASSET",
                     "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_ASSET\"\n}"
                   },
-                  "INTERNAL_TIMEOUT": {
-                    "description": "INTERNAL_TIMEOUT",
-                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"INTERNAL_TIMEOUT\"\n}"
+                  "VPN_BLOCKED": {
+                    "description": "VPN_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"VPN_BLOCKED\"\n}"
                   }
                 }
               }
@@ -8417,9 +8196,53 @@
                   "$ref": "#/components/schemas/API Error message"
                 },
                 "examples": {
+                  "AVAILABLE_AFTER_USER_ACTION": {
+                    "description": "AVAILABLE_AFTER_USER_ACTION",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"AVAILABLE_AFTER_USER_ACTION\"\n}"
+                  },
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  },
+                  "BLOCKED": {
+                    "description": "BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"BLOCKED\"\n}"
+                  },
+                  "CONCURRENT_STREAMS_LIMIT_REACHED": {
+                    "description": "CONCURRENT_STREAMS_LIMIT_REACHED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED\"\n}"
+                  },
+                  "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE": {
+                    "description": "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE\"\n}"
+                  },
+                  "END_TIME_WITHOUT_START_TIME_IS_NOT_ALLOWED": {
+                    "description": "END_TIME_WITHOUT_START_TIME_IS_NOT_ALLOWED",
+                    "value": "{\n  \"httpCode\" : 400,\n  \"message\" : \"END_TIME_WITHOUT_START_TIME_IS_NOT_ALLOWED\"\n}"
+                  },
+                  "FORBIDDEN": {
+                    "description": "FORBIDDEN",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"FORBIDDEN\"\n}"
+                  },
+                  "GEO_BLOCKED": {
+                    "description": "GEO_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"GEO_BLOCKED\"\n}"
+                  },
+                  "INTERNAL_TIMEOUT": {
+                    "description": "INTERNAL_TIMEOUT",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"INTERNAL_TIMEOUT\"\n}"
+                  },
+                  "INVALID_ADOBE_AUTH": {
+                    "description": "INVALID_ADOBE_AUTH",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_ADOBE_AUTH\"\n}"
+                  },
                   "INVALID_JSON": {
                     "description": "INVALID_JSON",
                     "value": "{\n  \"httpCode\" : 400,\n  \"message\" : \"INVALID_JSON\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
                   },
                   "INVALID_START_TIME": {
                     "description": "INVALID_START_TIME",
@@ -8429,9 +8252,25 @@
                     "description": "INVALID_END_TIME",
                     "value": "{\n  \"httpCode\" : 400,\n  \"message\" : \"INVALID_END_TIME\"\n}"
                   },
-                  "END_TIME_WITHOUT_START_TIME_IS_NOT_ALLOWED": {
-                    "description": "END_TIME_WITHOUT_START_TIME_IS_NOT_ALLOWED",
-                    "value": "{\n  \"httpCode\" : 400,\n  \"message\" : \"END_TIME_WITHOUT_START_TIME_IS_NOT_ALLOWED\"\n}"
+                  "JSON_DOES_NOT_FOLLOW_CONTRACT": {
+                    "description": "JSON_DOES_NOT_FOLLOW_CONTRACT",
+                    "value": "{\n  \"httpCode\" : 422,\n  \"message\" : \"JSON_DOES_NOT_FOLLOW_CONTRACT\"\n}"
+                  },
+                  "NO_SESSION_TOKEN": {
+                    "description": "NO_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"NO_SESSION_TOKEN\"\n}"
+                  },
+                  "NOT_AVAILABLE": {
+                    "description": "NOT_AVAILABLE",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
+                  },
+                  "NOT_PUBLISHED": {
+                    "description": "NOT_PUBLISHED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_PUBLISHED\"\n}"
+                  },
+                  "NOT_ENTITLED": {
+                    "description": "NOT_ENTITLED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_ENTITLED\"\n}"
                   },
                   "START_TIME_MUST_BE_BEFORE_END_TIME": {
                     "description": "START_TIME_MUST_BE_BEFORE_END_TIME",
@@ -8453,57 +8292,9 @@
                     "description": "START_END_TIME_DURATION_TOO_LONG",
                     "value": "{\n  \"httpCode\" : 400,\n  \"message\" : \"START_END_TIME_DURATION_TOO_LONG\"\n}"
                   },
-                  "JSON_DOES_NOT_FOLLOW_CONTRACT": {
-                    "description": "JSON_DOES_NOT_FOLLOW_CONTRACT",
-                    "value": "{\n  \"httpCode\" : 422,\n  \"message\" : \"JSON_DOES_NOT_FOLLOW_CONTRACT\"\n}"
-                  },
-                  "NO_SESSION_TOKEN": {
-                    "description": "NO_SESSION_TOKEN",
-                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"NO_SESSION_TOKEN\"\n}"
-                  },
-                  "INVALID_SESSION_TOKEN": {
-                    "description": "INVALID_SESSION_TOKEN",
-                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
-                  },
-                  "FORBIDDEN": {
-                    "description": "FORBIDDEN",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"FORBIDDEN\"\n}"
-                  },
-                  "NOT_AVAILABLE": {
-                    "description": "NOT_AVAILABLE",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_AVAILABLE\"\n}"
-                  },
-                  "BLOCKED": {
-                    "description": "BLOCKED",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"BLOCKED\"\n}"
-                  },
-                  "GEO_BLOCKED": {
-                    "description": "GEO_BLOCKED",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"GEO_BLOCKED\"\n}"
-                  },
-                  "CONCURRENT_STREAMS_LIMIT_REACHED": {
-                    "description": "CONCURRENT_STREAMS_LIMIT_REACHED",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED\"\n}"
-                  },
-                  "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE": {
-                    "description": "CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"CONCURRENT_STREAMS_LIMIT_REACHED_ON_DEVICE\"\n}"
-                  },
                   "TOO_MANY_DEVICES": {
                     "description": "TOO_MANY_DEVICES",
                     "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"TOO_MANY_DEVICES\"\n}"
-                  },
-                  "NOT_PUBLISHED": {
-                    "description": "NOT_PUBLISHED",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_PUBLISHED\"\n}"
-                  },
-                  "NOT_ENTITLED": {
-                    "description": "NOT_ENTITLED",
-                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"NOT_ENTITLED\"\n}"
-                  },
-                  "INVALID_ADOBE_AUTH": {
-                    "description": "INVALID_ADOBE_AUTH",
-                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_ADOBE_AUTH\"\n}"
                   },
                   "UNKNOWN_BUSINESS_UNIT": {
                     "description": "UNKNOWN_BUSINESS_UNIT",
@@ -8513,9 +8304,9 @@
                     "description": "UNKNOWN_ASSET",
                     "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"UNKNOWN_ASSET\"\n}"
                   },
-                  "INTERNAL_TIMEOUT": {
-                    "description": "INTERNAL_TIMEOUT",
-                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"INTERNAL_TIMEOUT\"\n}"
+                  "VPN_BLOCKED": {
+                    "description": "VPN_BLOCKED",
+                    "value": "{\n  \"httpCode\" : 403,\n  \"message\" : \"VPN_BLOCKED\"\n}"
                   }
                 }
               }
@@ -8577,11 +8368,35 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AccountProducts"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "INTERNAL_SERVER_ERROR": {
+                    "description": "INTERNAL_SERVER_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"INTERNAL_SERVER_ERROR\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  },
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  }
                 }
               }
             }
@@ -8628,11 +8443,35 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AvailabilityKeys"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "INTERNAL_SERVER_ERROR": {
+                    "description": "INTERNAL_SERVER_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"INTERNAL_SERVER_ERROR\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  },
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  }
                 }
               }
             }
@@ -8670,7 +8509,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -8678,48 +8517,23 @@
                 }
               }
             }
-          }
-        },
-        "security": [
-          {
-            "bearer-key": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "downloads"
-        ],
-        "summary": "Unregister all downloads done by an account",
-        "description": "Unregister all downloads completed by an account.",
-        "operationId": "deleteDownloadsForAccount",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer ID",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
+          "400": {
+            "description": "Failed",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "BACKEND_ERROR": {
+                    "description": "BACKEND_ERROR",
+                    "value": "{\n  \"httpCode\" : 500,\n  \"message\" : \"BACKEND_ERROR\"\n}"
+                  },
+                  "INVALID_SESSION_TOKEN": {
+                    "description": "INVALID_SESSION_TOKEN",
+                    "value": "{\n  \"httpCode\" : 401,\n  \"message\" : \"INVALID_SESSION_TOKEN\"\n}"
+                  }
                 }
               }
             }
@@ -9162,11 +8976,27 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful",
             "content": {
               "application/xml": {
                 "schema": {
                   "$ref": "#/components/schemas/Tv"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "DISABLED_BUSINESS_UNIT_MSG": {
+                    "description": "DISABLED_BUSINESS_UNIT_MSG",
+                    "value": "{\n  \"httpCode\" : 404,\n  \"message\" : \"DISABLED_BUSINESS_UNIT_MSG\"\n}"
+                  }
                 }
               }
             }
@@ -10358,61 +10188,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/v2/customer/{customer}/businessunit/{businessUnit}/store/productoffering/label/{labelFilterId}": {
-      "get": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Get product offerings available for this account's labels.",
-        "description": "This endpoint is to be only used if labels are used, which will be far from normal.",
-        "operationId": "getOfferingsByLabels",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "description": "The customer.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "labelFilterId",
-            "in": "path",
-            "description": "The labelFilterId received with the Label Resource.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiStoreProductOfferings"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "LABEL_FILTER_NOT_FOUND The provided labelFilterId was not found",
-            "content": {}
           }
         }
       }
@@ -11801,11 +11576,11 @@
             }
           },
           "401": {
-            "description": "Code not yet confirmed. Try again after a few seconds",
+            "description": "Code not yet confirmed or expired. Please confirm the code and try again after 5 seconds.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiLoginResponse"
+                  "$ref": "#/components/schemas/API Error message"
                 }
               }
             }
@@ -11813,19 +11588,16 @@
         }
       }
     },
-    "/v2/customer/{customerUnit}/businessunit/{businessUnit}/epg/{channelId}/date/{date}": {
-      "get": {
+    "/v2/license/customer/{customer}/businessunit/{businessUnit}/fairplay": {
+      "post": {
         "tags": [
-          "epg"
+          "license-controller-v-2"
         ],
-        "summary": "Gets epg data for a specific channel.",
-        "description": "<p>\n Programs sorted ascending on startTime by default.\n <p>",
-        "operationId": "getEpgForChannelV2",
+        "operationId": "fairplay",
         "parameters": [
           {
-            "name": "customerUnit",
+            "name": "customer",
             "in": "path",
-            "description": "The customer.",
             "required": true,
             "schema": {
               "type": "string"
@@ -11834,114 +11606,70 @@
           {
             "name": "businessUnit",
             "in": "path",
-            "description": "The business unit.",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "channelId",
-            "in": "path",
-            "description": "The id of the channel to get EPG for. Slugs supported.",
+            "name": "contentId",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "date",
-            "in": "path",
-            "description": "The date (YYYY-MM-DD)",
+            "name": "ls_session",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "daysBackward",
+            "name": "keyId",
             "in": "query",
-            "description": "Days back compared to midnight of the date to get EPG for.",
+            "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
+              "type": "string"
             }
           },
           {
-            "name": "daysForward",
+            "name": "license",
             "in": "query",
-            "description": "Days forward compared to midnight of the date to get EPG for.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The number of items to show per page",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 50
-            }
-          },
-          {
-            "name": "pageNumber",
-            "in": "query",
-            "description": "The page number.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "startDateSort",
-            "in": "query",
-            "description": "The sort order.",
+            "required": true,
             "schema": {
               "type": "string",
-              "default": "ASC",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "format": "byte"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "success",
+            "description": "OK",
             "content": {
-              "application/json;charset=utf-8": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiChannelEPGResponse"
+                  "type": "string",
+                  "format": "byte"
                 }
               }
             }
-          },
-          "422": {
-            "description": "DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.",
-            "content": {}
           }
         }
       }
     },
-    "/v2/customer/{customerUnit}/businessunit/{businessUnit}/epg/{channelId}/program/{programId}": {
-      "get": {
+    "/v2/license/customer/{customer}/businessunit/{businessUnit}/playready": {
+      "post": {
         "tags": [
-          "epg"
+          "license-controller-v-2"
         ],
-        "summary": "Gets a specific program for a channel by id.",
-        "operationId": "getProgramV2",
+        "operationId": "playready",
         "parameters": [
           {
-            "name": "customerUnit",
+            "name": "customer",
             "in": "path",
-            "description": "The customer unit.",
             "required": true,
             "schema": {
               "type": "string"
@@ -11950,183 +11678,45 @@
           {
             "name": "businessUnit",
             "in": "path",
-            "description": "The business unit.",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "channelId",
-            "in": "path",
-            "description": "The id of the channel.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "programId",
-            "in": "path",
-            "description": "The id of the program.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "service",
+            "name": "contentId",
             "in": "query",
+            "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "ls_session",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "license",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "byte"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "success",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiProgramResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "UNKNOWN_PROGRAM. If the program cannot be found.",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/v2/customer/{customerUnit}/businessunit/{businessUnit}/epg/{channelId}/program/{programId}/next": {
-      "get": {
-        "tags": [
-          "epg"
-        ],
-        "summary": "Gets next program for a specific program for a channel.",
-        "operationId": "getNextProgramv2",
-        "parameters": [
-          {
-            "name": "customerUnit",
-            "in": "path",
-            "description": "The customer unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "channelId",
-            "in": "path",
-            "description": "The id of the channel.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "programId",
-            "in": "path",
-            "description": "The id of the program.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "success",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiProgramResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "PROGRAM_NOT_FOUND. If the program cannot be found.<br>NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/v2/customer/{customerUnit}/businessunit/{businessUnit}/epg/{channelId}/xmltv": {
-      "get": {
-        "tags": [
-          "epg"
-        ],
-        "summary": "Gets epg data for a specific channel in XML TV format.",
-        "description": "<p>",
-        "operationId": "getXmlTvEpgForChannel",
-        "parameters": [
-          {
-            "name": "customerUnit",
-            "in": "path",
-            "description": "The customer.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "channelId",
-            "in": "path",
-            "description": "The id of the channel to get EPG for. Slugs supported.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "daysBackward",
-            "in": "query",
-            "description": "Days back compared to midnight of the date to get EPG for.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "daysForward",
-            "in": "query",
-            "description": "Days forward compared to midnight of the date to get EPG for.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiChannelEPGResponse"
+                  "type": "string",
+                  "format": "byte"
                 }
               }
             }
@@ -12134,19 +11724,16 @@
         }
       }
     },
-    "/v2/customer/{customerUnit}/businessunit/{businessUnit}/epg/{channelIds}/date/{date}": {
-      "get": {
+    "/v2/license/customer/{customer}/businessunit/{businessUnit}/widevine": {
+      "post": {
         "tags": [
-          "epg"
+          "license-controller-v-2"
         ],
-        "summary": "Gets epg data for a specific set of channels.",
-        "description": "<p>\n Programs sorted ascending on startTime by default.",
-        "operationId": "getEpgForChannelsV2",
+        "operationId": "widevine",
         "parameters": [
           {
-            "name": "customerUnit",
+            "name": "customer",
             "in": "path",
-            "description": "The customer.",
             "required": true,
             "schema": {
               "type": "string"
@@ -12155,136 +11742,62 @@
           {
             "name": "businessUnit",
             "in": "path",
-            "description": "The business unit.",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "channelIds",
-            "in": "path",
-            "description": "The comma separated list of the ids the channels to get EPG for.",
+            "name": "contentId",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "date",
-            "in": "path",
-            "description": "The date (YYYY-MM-DD)",
+            "name": "ls_session",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "daysBackward",
+            "name": "license",
             "in": "query",
-            "description": "Days back compared to midnight of the date to get EPG for.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "daysForward",
-            "in": "query",
-            "description": "Days forward compared to midnight of the date to get EPG for.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The number of items to show per page",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 50
-            }
-          },
-          {
-            "name": "pageNumber",
-            "in": "query",
-            "description": "The page number.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "startDateSort",
-            "in": "query",
-            "description": "The sort order.",
+            "required": true,
             "schema": {
               "type": "string",
-              "default": "ASC",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "format": "byte"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "success",
+            "description": "OK",
             "content": {
-              "application/json;charset=utf-8": {
+              "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApiChannelEPGResponse"
-                  }
+                  "type": "string",
+                  "format": "byte"
                 }
               }
             }
-          },
-          "422": {
-            "description": "DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.",
-            "content": {}
           }
         }
       }
     },
-    "/v2/customer/{customerUnit}/businessunit/{businessUnit}/epg/asset/{assetId}/next": {
+    "/v2/license/fairplay/certificate": {
       "get": {
         "tags": [
-          "epg"
+          "license-controller-v-2"
         ],
-        "summary": "Gets next program for a specific asset.",
-        "description": "If the asset has been showed multiple times there is a unspecified logic to select one program.",
-        "operationId": "getNextProgramForAsset2",
+        "operationId": "fairplayCertificate",
         "parameters": [
           {
-            "name": "customerUnit",
-            "in": "path",
-            "description": "The customer unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "assetId",
-            "in": "path",
-            "description": "The asset id",
+            "name": "hash",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
@@ -12293,133 +11806,15 @@
         ],
         "responses": {
           "200": {
-            "description": "success",
+            "description": "OK",
             "content": {
-              "application/json;charset=utf-8": {
+              "application/x-x509-ca-cert": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiProgramResponse"
+                  "type": "string",
+                  "format": "byte"
                 }
               }
             }
-          },
-          "404": {
-            "description": "PROGRAM_NOT_FOUND. If the program cannot be found.<br>NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/v2/customer/{customerUnit}/businessunit/{businessUnit}/epg/date/{date}": {
-      "get": {
-        "tags": [
-          "epg"
-        ],
-        "summary": "Gets epg data for all channels.",
-        "description": "<p>\n This endpoint finds all published programs and partitions them in channel buckets. Only channels has programs\n in the page that has been requested will have a bucket.\n <p>\n Programs sorted ascending on startTime by default.",
-        "operationId": "getEpgV2",
-        "parameters": [
-          {
-            "name": "customerUnit",
-            "in": "path",
-            "description": "The customer.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "description": "The business unit.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "date",
-            "in": "path",
-            "description": "The date (YYYY-MM-DD)",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "daysBackward",
-            "in": "query",
-            "description": "Days back compared to midnight of the date to get EPG for.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "daysForward",
-            "in": "query",
-            "description": "Days forward compared to midnight of the date to get EPG for.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "The number of items to show per page",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 50
-            }
-          },
-          {
-            "name": "pageNumber",
-            "in": "query",
-            "description": "The page number. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "startDateSort",
-            "in": "query",
-            "description": "The sort order. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.",
-            "schema": {
-              "type": "string",
-              "default": "ASC",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "success",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApiChannelEPGResponse"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Result window is too large. If the pageSize * pageNumber is greater than 10000.",
-            "content": {}
-          },
-          "422": {
-            "description": "DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.",
-            "content": {}
           }
         }
       }
@@ -12694,12 +12089,13 @@
         }
       }
     },
-    "/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/file/{folder}/{fileName}": {
+    "/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/config/{configId}/theme/{themeId}": {
       "get": {
         "tags": [
           "clientconfig"
         ],
-        "operationId": "getFile",
+        "summary": "Get theme.",
+        "operationId": "getWLThemeV2",
         "parameters": [
           {
             "name": "customer",
@@ -12718,7 +12114,7 @@
             }
           },
           {
-            "name": "folder",
+            "name": "configId",
             "in": "path",
             "required": true,
             "schema": {
@@ -12726,7 +12122,7 @@
             }
           },
           {
-            "name": "fileName",
+            "name": "themeId",
             "in": "path",
             "required": true,
             "schema": {
@@ -12735,9 +12131,40 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": "success",
-            "content": {}
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/API Error message"
+                },
+                "examples": {
+                  "Unknown business unit": {
+                    "description": "Unknown business unit",
+                    "value": {
+                      "message": "UNKNOWN_BUSINESS_UNIT"
+                    }
+                  },
+                  "Configuration not found": {
+                    "description": "Configuration not found",
+                    "value": "{\"message\"=\"Not found\"}"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -12793,6 +12220,60 @@
                       "message": "UNKNOWN_BUSINESS_UNIT"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/whitelabel/customer/{customer}/businessunit/{businessUnit}/translations/{language}/{configId}": {
+      "get": {
+        "tags": [
+          "custom-translation-controller"
+        ],
+        "operationId": "getTranslationTemplate",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessUnit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "configId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
                 }
               }
             }
@@ -13231,90 +12712,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}": {
-      "get": {
-        "tags": [
-          "search"
-        ],
-        "operationId": "searchParticipantsV3",
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "businessUnit",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "query",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 50
-            }
-          },
-          {
-            "name": "pageNumber",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "fieldSet",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "NONE",
-                "PARTIAL",
-                "ALL"
-              ]
-            }
-          },
-          {
-            "name": "includeFields",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "excludeFields",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "success",
-            "content": {}
           }
         }
       }
@@ -14614,6 +14011,12 @@
           },
           "duration": {
             "type": "string"
+          },
+          "tagType": {
+            "type": "string"
+          },
+          "adTag": {
+            "type": "string"
           }
         }
       },
@@ -14762,43 +14165,6 @@
           }
         }
       },
-      "AnalyticsBatch": {
-        "required": [
-          "DispatchTime"
-        ],
-        "type": "object",
-        "properties": {
-          "AccountId": {
-            "type": "string"
-          },
-          "BusinessUnit": {
-            "type": "string"
-          },
-          "ClientIp": {
-            "type": "string"
-          },
-          "ClockOffset": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "Customer": {
-            "type": "string"
-          },
-          "DispatchTime": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "Payload": {
-            "type": "string"
-          },
-          "SessionId": {
-            "type": "string"
-          },
-          "UserId": {
-            "type": "string"
-          }
-        }
-      },
       "API Error message": {
         "type": "object",
         "properties": {
@@ -14902,22 +14268,6 @@
         "properties": {
           "activationCode": {
             "type": "string"
-          },
-          "device": {
-            "$ref": "#/components/schemas/ApiDeviceRegistration"
-          }
-        }
-      },
-      "ApiActivationRequestV2": {
-        "required": [
-          "activationCode",
-          "device"
-        ],
-        "type": "object",
-        "properties": {
-          "activationCode": {
-            "type": "string",
-            "description": "6 characters drawn from set 123456789ABCDEF as received from create end-point."
           },
           "device": {
             "$ref": "#/components/schemas/ApiDeviceRegistration"
@@ -15303,6 +14653,13 @@
             "items": {
               "$ref": "#/components/schemas/ApiSystemTag"
             }
+          },
+          "firstRunDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "episodeSortOrderAscending": {
+            "type": "boolean"
           }
         }
       },
@@ -15346,29 +14703,6 @@
             "format": "int32"
           },
           "totalCount": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "ApiAssetListBulk": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiAsset"
-            }
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "lastCreatedEpochMillis": {
             "type": "integer",
             "format": "int64"
           }
@@ -15624,69 +14958,6 @@
           }
         }
       },
-      "ApiBookkeeperAccount": {
-        "type": "object",
-        "properties": {
-          "accountId": {
-            "type": "string"
-          },
-          "assets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiBookkeeperAsset"
-            }
-          }
-        }
-      },
-      "ApiBookkeeperAsset": {
-        "type": "object",
-        "properties": {
-          "assetId": {
-            "type": "string"
-          },
-          "downloadCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "downloads": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiBookkeeperDownload"
-            }
-          },
-          "changed": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "ApiBookkeeperDownload": {
-        "type": "object",
-        "properties": {
-          "time": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "type": {
-            "type": "string"
-          },
-          "clientIp": {
-            "type": "string"
-          },
-          "deviceId": {
-            "type": "string"
-          },
-          "deviceType": {
-            "type": "string"
-          },
-          "deviceModelId": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          }
-        }
-      },
       "ApiCardSummary": {
         "type": "object",
         "properties": {
@@ -15712,17 +14983,6 @@
           }
         },
         "description": "Summary of card details"
-      },
-      "ApiCencConfigurationResponse": {
-        "type": "object",
-        "properties": {
-          "com.microsoft.playready": {
-            "type": "string"
-          },
-          "com.widevine.alpha": {
-            "type": "string"
-          }
-        }
       },
       "ApiChangeEmailAndUserNameV3": {
         "required": [
@@ -15835,6 +15095,9 @@
           "endTime": {
             "type": "string",
             "format": "date-time"
+          },
+          "programId": {
+            "type": "string"
           }
         }
       },
@@ -16025,6 +15288,12 @@
                 "additionalProperties": {
                   "type": "string"
                 }
+              },
+              "customParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -16177,6 +15446,12 @@
               "type": "string"
             }
           },
+          "customParameters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
           "theme": {
             "type": "object",
             "additionalProperties": {
@@ -16212,31 +15487,6 @@
           }
         }
       },
-      "ApiConfigFilesResponse": {
-        "type": "object",
-        "properties": {
-          "businessUnit": {
-            "type": "string"
-          },
-          "customer": {
-            "type": "string"
-          },
-          "fileNames": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "ApiConfirmAccountData": {
-        "type": "object",
-        "properties": {
-          "deviceRegistration": {
-            "$ref": "#/components/schemas/ApiDeviceRegistration"
-          }
-        }
-      },
       "ApiConfirmAccountResponse": {
         "type": "object",
         "properties": {
@@ -16256,23 +15506,6 @@
           }
         },
         "description": "Consent management"
-      },
-      "ApiConsentManagement-Didomi": {
-        "type": "object",
-        "properties": {
-          "apiKey": {
-            "type": "string"
-          },
-          "noticeId": {
-            "type": "string"
-          },
-          "tvNoticeId": {
-            "type": "string"
-          },
-          "appNoticeId": {
-            "type": "string"
-          }
-        }
       },
       "ApiContent": {
         "required": [
@@ -16779,225 +16012,6 @@
           }
         }
       },
-      "ApiDownloadInfoResponse": {
-        "type": "object",
-        "properties": {
-          "assetId": {
-            "type": "string"
-          },
-          "accountId": {
-            "type": "string"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "publicationId": {
-            "type": "string"
-          },
-          "publicationEnd": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "durationInMs": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "requestId": {
-            "type": "string"
-          },
-          "audios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Track"
-            }
-          },
-          "videos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VideoTrack"
-            }
-          },
-          "subtitles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Track"
-            }
-          },
-          "downloadCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "maxDownloadCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "ApiDownloadResponse": {
-        "type": "object",
-        "properties": {
-          "assetId": {
-            "type": "string"
-          },
-          "accountId": {
-            "type": "string"
-          },
-          "requestId": {
-            "type": "string"
-          },
-          "formats": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MediaFormatDownload"
-            }
-          },
-          "playSessionId": {
-            "type": "string"
-          },
-          "playToken": {
-            "type": "string"
-          },
-          "playTokenExpiration": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "playTokenExpirationReason": {
-            "type": "string"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "publicationId": {
-            "type": "string"
-          },
-          "publicationEnd": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "durationInMs": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "materialId": {
-            "type": "string"
-          },
-          "materialVersion": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "downloadCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "maxDownloadCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cdn": {
-            "$ref": "#/components/schemas/CDN"
-          },
-          "analytics": {
-            "$ref": "#/components/schemas/Analytics"
-          }
-        }
-      },
-      "ApiEDRMConfigurationResponse": {
-        "type": "object",
-        "properties": {
-          "adParameter": {
-            "type": "string",
-            "description": "The ad parameter to use."
-          },
-          "ownerId": {
-            "type": "string",
-            "description": "The id of the owner of the media."
-          },
-          "requestUrl": {
-            "type": "string",
-            "description": "The url of the server to use."
-          },
-          "userToken": {
-            "type": "string",
-            "description": "The user token."
-          }
-        }
-      },
-      "ApiEntitlementResponse": {
-        "type": "object",
-        "properties": {
-          "assetId": {
-            "type": "string",
-            "description": "The ID of the asset for TVOD."
-          },
-          "externalAssetId": {
-            "type": "string",
-            "description": "The external ID of the asset for TVOD."
-          },
-          "orderId": {
-            "type": "string",
-            "description": "The id of the order this entitlement is part of."
-          },
-          "packageId": {
-            "type": "string",
-            "description": "The id of the package."
-          },
-          "paymentDone": {
-            "type": "boolean",
-            "description": "The flag to show if payment is done."
-          },
-          "productId": {
-            "type": "string",
-            "description": "The id of the product."
-          },
-          "type": {
-            "type": "string",
-            "description": "The type of the entitlement.",
-            "enum": [
-              "FVOD",
-              "SVOD",
-              "TVOD",
-              "AVOD",
-              "INTERNAL"
-            ]
-          },
-          "validFrom": {
-            "type": "string",
-            "description": "The start date of the validity of the entitlement.",
-            "format": "date-time"
-          },
-          "validTo": {
-            "type": "string",
-            "description": "The end date of the validity of the entitlement.",
-            "format": "date-time"
-          }
-        }
-      },
-      "ApiEpgSearchHits": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiChannelEPGResponse"
-            }
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "suggestion": {
-            "type": "string"
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
       "ApiEpgUrl": {
         "type": "object",
         "allOf": [
@@ -17056,27 +16070,6 @@
           "totalCount": {
             "type": "integer",
             "format": "int64"
-          }
-        }
-      },
-      "ApiExchangeTokenRequest": {
-        "required": [
-          "crmToken",
-          "device",
-          "deviceId"
-        ],
-        "type": "object",
-        "properties": {
-          "device": {
-            "$ref": "#/components/schemas/ApiDevice"
-          },
-          "deviceId": {
-            "type": "string",
-            "description": "The device id."
-          },
-          "crmToken": {
-            "type": "string",
-            "description": "The CRM token to exchange."
           }
         }
       },
@@ -17156,45 +16149,6 @@
             "type": "string",
             "description": "When the session should expire.",
             "format": "date-time"
-          }
-        }
-      },
-      "ApiFacebookLoginRequest": {
-        "required": [
-          "accessToken",
-          "device",
-          "deviceId"
-        ],
-        "type": "object",
-        "properties": {
-          "device": {
-            "$ref": "#/components/schemas/ApiDevice"
-          },
-          "deviceId": {
-            "type": "string",
-            "description": "The device id."
-          },
-          "rememberMe": {
-            "type": "boolean",
-            "description": "If the session should have a longer lifetime."
-          },
-          "accessToken": {
-            "type": "string",
-            "description": "Facebook access token (oauth2)."
-          }
-        }
-      },
-      "ApiFairplayConfigurationResponse": {
-        "type": "object",
-        "properties": {
-          "certificateUrl": {
-            "type": "string"
-          },
-          "licenseAcquisitionUrl": {
-            "type": "string"
-          },
-          "secondaryMediaLocator": {
-            "type": "string"
           }
         }
       },
@@ -17435,33 +16389,6 @@
           }
         }
       },
-      "ApiIsEntitledResponse": {
-        "type": "object",
-        "properties": {
-          "paymentDone": {
-            "type": "boolean",
-            "description": "The status of the payment."
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the entitlement.",
-            "enum": [
-              "SUCCESS",
-              "NOT_ENTITLED",
-              "GEO_BLOCKED",
-              "DOWNLOAD_BLOCKED",
-              "DEVICE_BLOCKED",
-              "LICENSE_EXPIRED",
-              "NOT_AVAILABLE_IN_FORMAT",
-              "CONCURRENT_STREAMS_LIMIT_REACHED",
-              "NOT_ENABLED",
-              "GAP_IN_EPG",
-              "EPG_PLAY_MAX_HOURS",
-              "ANONYMOUS_IP_BLOCKED"
-            ]
-          }
-        }
-      },
       "ApiLabelFilter": {
         "required": [
           "labelFilterId"
@@ -17470,17 +16397,6 @@
         "properties": {
           "labelFilterId": {
             "type": "string"
-          }
-        }
-      },
-      "ApiLastViewedAssetList": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiAsset"
-            }
           }
         }
       },
@@ -17712,40 +16628,6 @@
           }
         }
       },
-      "ApiLoginRequest": {
-        "required": [
-          "device",
-          "deviceId",
-          "password",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "device": {
-            "$ref": "#/components/schemas/ApiDevice"
-          },
-          "deviceId": {
-            "type": "string",
-            "description": "The device id."
-          },
-          "rememberMe": {
-            "type": "boolean",
-            "description": "If the session should have a longer lifetime."
-          },
-          "password": {
-            "type": "string",
-            "description": "The password of the user."
-          },
-          "username": {
-            "type": "string",
-            "description": "The username to login."
-          },
-          "informationCollectionConsentGivenNow": {
-            "type": "boolean",
-            "description": "TRUE: Consent to collect personal information is given.\n FALSE or null: consent is not given now. This may be fine if consent already is given."
-          }
-        }
-      },
       "ApiLoginRequestV1": {
         "required": [
           "device",
@@ -17924,36 +16806,6 @@
           "language": {
             "type": "string",
             "description": "The user's preferred language. Only used at first login when creating the user."
-          }
-        }
-      },
-      "ApiOAuthLoginRequest": {
-        "required": [
-          "accessToken",
-          "device",
-          "deviceId",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "device": {
-            "$ref": "#/components/schemas/ApiDevice"
-          },
-          "deviceId": {
-            "type": "string",
-            "description": "The device id."
-          },
-          "rememberMe": {
-            "type": "boolean",
-            "description": "If the session should have a longer lifetime."
-          },
-          "accessToken": {
-            "type": "string",
-            "description": "OAuth access token (oauth2)."
-          },
-          "type": {
-            "type": "string",
-            "description": "The OAuth provider type."
           }
         }
       },
@@ -18244,174 +17096,6 @@
           "inClear": {
             "type": "string",
             "description": "PIN in clear text."
-          }
-        }
-      },
-      "ApiPlayRequest": {
-        "required": [
-          "drm",
-          "format"
-        ],
-        "type": "object",
-        "properties": {
-          "drm": {
-            "type": "string",
-            "description": "The requested DRM. The token will be adapted according to this parameter.",
-            "enum": [
-              "PLAYREADY",
-              "EDRM",
-              "EDRM_FAIRPLAY",
-              "CENC",
-              "UNENCRYPTED",
-              "FAIRPLAY"
-            ]
-          },
-          "format": {
-            "type": "string",
-            "description": "The requested format. The server will make sure that the asset is available in this format.",
-            "enum": [
-              "DASH",
-              "SMOOTHSTREAMING",
-              "HLS",
-              "MP4",
-              "SYNDICATED",
-              "MP3",
-              "AAC"
-            ]
-          }
-        }
-      },
-      "ApiPlayResponse": {
-        "type": "object",
-        "properties": {
-          "airplayBlocked": {
-            "type": "boolean",
-            "description": "If airplay is blocked"
-          },
-          "cencConfig": {
-            "$ref": "#/components/schemas/ApiCencConfigurationResponse"
-          },
-          "edrmConfig": {
-            "$ref": "#/components/schemas/ApiEDRMConfigurationResponse"
-          },
-          "entitlementType": {
-            "type": "string",
-            "description": "The type of entitlement that granted access to this play.",
-            "enum": [
-              "TVOD",
-              "SVOD",
-              "FVOD",
-              "AVOD"
-            ]
-          },
-          "fairplayConfig": {
-            "$ref": "#/components/schemas/ApiFairplayConfigurationResponse"
-          },
-          "widevineConfig": {
-            "$ref": "#/components/schemas/ApiWidevineConfigurationResponse"
-          },
-          "ffEnabled": {
-            "type": "boolean",
-            "description": "If fast forward is enabled"
-          },
-          "lastViewedOffset": {
-            "type": "integer",
-            "description": "Last viewed offset",
-            "format": "int64"
-          },
-          "lastViewedTime": {
-            "type": "integer",
-            "description": "Last viewed time",
-            "format": "int64"
-          },
-          "licenseActivation": {
-            "type": "string",
-            "description": "The datetime of activation of the drm license.",
-            "format": "date-time"
-          },
-          "licenseExpiration": {
-            "type": "string",
-            "description": "The datetime of expiration of the drm license.",
-            "format": "date-time"
-          },
-          "licenseExpirationReason": {
-            "type": "string",
-            "description": "The reason of expiration of the drm license.",
-            "enum": [
-              "SUCCESS",
-              "NOT_ENTITLED",
-              "GEO_BLOCKED",
-              "DOWNLOAD_BLOCKED",
-              "DEVICE_BLOCKED",
-              "LICENSE_EXPIRED",
-              "NOT_AVAILABLE_IN_FORMAT",
-              "CONCURRENT_STREAMS_LIMIT_REACHED",
-              "NOT_ENABLED",
-              "GAP_IN_EPG",
-              "EPG_PLAY_MAX_HOURS",
-              "ANONYMOUS_IP_BLOCKED"
-            ]
-          },
-          "live": {
-            "type": "boolean",
-            "description": "If this is a live entitlement."
-          },
-          "liveTime": {
-            "type": "integer",
-            "description": "Live time",
-            "format": "int64"
-          },
-          "maxBitrate": {
-            "type": "integer",
-            "description": "Max bitrate to use",
-            "format": "int32"
-          },
-          "maxResHeight": {
-            "type": "integer",
-            "description": "Max height resolution",
-            "format": "int32"
-          },
-          "mdnRequestRouterUrl": {
-            "type": "string",
-            "description": "MDN Request Router Url"
-          },
-          "mediaLocator": {
-            "type": "string",
-            "description": "The information needed to locate the media. FOR EDRM this will be the media uid, for other formats it's the URL\n of the media."
-          },
-          "adMediaLocator": {
-            "type": "string",
-            "description": "Media locator to used for add servers SDKs"
-          },
-          "minBitrate": {
-            "type": "integer",
-            "description": "Min bitrate to use",
-            "format": "int32"
-          },
-          "playSessionId": {
-            "type": "string",
-            "description": "Unique id of this playback session, all analytics events for this session should be reported on with this id"
-          },
-          "playToken": {
-            "type": "string",
-            "description": "Play token to use for either PlayReady or MRR.\n Will be empty if the status is not SUCCESS."
-          },
-          "playTokenExpiration": {
-            "type": "string",
-            "description": "The expiration of the the play token. The player needs to be initialized and done the play call before this.",
-            "format": "date-time"
-          },
-          "productId": {
-            "type": "string",
-            "description": "Identity of the product that permitted playback of the asset"
-          },
-          "rwEnabled": {
-            "type": "boolean",
-            "description": "If rewind is enabled"
-          },
-          "timeshiftEnabled": {
-            "type": "boolean",
-            "description": "If timeshift is disabled"
           }
         }
       },
@@ -18773,9 +17457,6 @@
           }
         }
       },
-      "ApiPurchaseVerificationRequest": {
-        "type": "object"
-      },
       "ApiQueryParameter": {
         "type": "object",
         "properties": {
@@ -19124,14 +17805,6 @@
           }
         }
       },
-      "ApiStoreGooglePlayReference": {
-        "type": "object",
-        "properties": {
-          "skuId": {
-            "type": "string"
-          }
-        }
-      },
       "ApiStoreLocalizedMetaData": {
         "type": "object",
         "properties": {
@@ -19344,6 +18017,10 @@
               "type": "string",
               "description": "If present, this is a list of stripe payment method types that are allowed with this offering"
             }
+          },
+          "sortKey": {
+            "type": "string",
+            "description": "Sorting key to order the offerings by"
           },
           "id": {
             "type": "string",
@@ -20556,18 +19233,6 @@
           }
         }
       },
-      "ApiUserSelfServiceCreateResponse": {
-        "type": "object",
-        "properties": {
-          "unConfirmed": {
-            "type": "boolean",
-            "description": "If TRUE the user need to confirm creation bu following email/sms instructions\n If FALSE the account is good to go."
-          },
-          "loginResponse": {
-            "$ref": "#/components/schemas/ApiLoginResponse"
-          }
-        }
-      },
       "ApiUserSignupConfirm": {
         "type": "object",
         "properties": {
@@ -20625,30 +19290,6 @@
           }
         }
       },
-      "ApiVerifiedResponse": {
-        "type": "object",
-        "properties": {
-          "assetId": {
-            "type": "string"
-          },
-          "accountId": {
-            "type": "string"
-          },
-          "requestId": {
-            "type": "string"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "publicationId": {
-            "type": "string"
-          },
-          "publicationEnd": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "ApiVideoTrackInfo": {
         "type": "object",
         "properties": {
@@ -20677,14 +19318,6 @@
           }
         },
         "description": "Vouchers configuration"
-      },
-      "ApiWidevineConfigurationResponse": {
-        "type": "object",
-        "properties": {
-          "certificateUrl": {
-            "type": "string"
-          }
-        }
       },
       "AssetDownload": {
         "type": "object",
@@ -20954,6 +19587,13 @@
             "items": {
               "$ref": "#/components/schemas/PublicationResponse"
             }
+          },
+          "firstRunDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "episodeSortOrderAscending": {
+            "type": "boolean"
           }
         }
       },
@@ -21467,9 +20107,6 @@
           }
         }
       },
-      "EmptyResponse": {
-        "type": "object"
-      },
       "EntitleResponse": {
         "type": "object",
         "properties": {
@@ -21603,28 +20240,6 @@
             "type": "string"
           },
           "locator": {
-            "type": "string"
-          }
-        }
-      },
-      "Filters": {
-        "type": "object",
-        "properties": {
-          "filters": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Filters-Filter"
-            }
-          }
-        }
-      },
-      "Filters-Filter": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string"
-          },
-          "value": {
             "type": "string"
           }
         }
@@ -22093,29 +20708,6 @@
           }
         }
       },
-      "MediaFormatDownload": {
-        "type": "object",
-        "properties": {
-          "drm": {
-            "$ref": "#/components/schemas/DRMLicense"
-          },
-          "format": {
-            "type": "string",
-            "enum": [
-              "DASH",
-              "SMOOTHSTREAMING",
-              "HLS",
-              "MP4",
-              "SYNDICATED",
-              "MP3",
-              "AAC"
-            ]
-          },
-          "mediaLocator": {
-            "type": "string"
-          }
-        }
-      },
       "MediaFormatEntitle": {
         "type": "object",
         "properties": {
@@ -22195,14 +20787,6 @@
           "changed": {
             "type": "string",
             "format": "date-time"
-          }
-        }
-      },
-      "Message": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
           }
         }
       },
@@ -22469,6 +21053,12 @@
             "type": "string"
           },
           "subTitle": {
+            "type": "string"
+          },
+          "seoTitle": {
+            "type": "string"
+          },
+          "seoDescription": {
             "type": "string"
           },
           "body": {
@@ -23570,30 +22160,6 @@
           "name": "tv"
         }
       },
-      "UpdatePaymentMethodRequest": {
-        "type": "object",
-        "properties": {
-          "expiryMonth": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "expiryYear": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "paymentMethodId": {
-            "type": "string"
-          }
-        }
-      },
-      "UpdatePrederredPaymentMethodRequest": {
-        "type": "object",
-        "properties": {
-          "paymentMethodId": {
-            "type": "string"
-          }
-        }
-      },
       "UPHAsset": {
         "type": "object",
         "properties": {
@@ -23792,27 +22358,6 @@
             "items": {
               "type": "string"
             }
-          }
-        }
-      },
-      "ValidateCredentialsRequest": {
-        "required": [
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "password": {
-            "type": "string",
-            "description": "The password to verify if it's the correct one."
-          }
-        }
-      },
-      "ValidateCredentialsResponse": {
-        "type": "object",
-        "properties": {
-          "valid": {
-            "type": "boolean",
-            "description": "If the password was valid or not."
           }
         }
       },

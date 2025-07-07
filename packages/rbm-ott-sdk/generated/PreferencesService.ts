@@ -16,24 +16,19 @@ import {
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @summary Adds an item to a list.
- * @request POST:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}
- * @response `200` `string` success
- * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
- * @response `403` `void` TOO_MANY_PREFERENCES. If the body exceed the configured max number of preferences. TOO_LONG_PREFERENCES. If any item in the body is longer than the max configured length.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
- * @response `409` `void` LIMIT_REACHED. If the maximum number of items in the list have been reached.
+ * @summary Add a tag to a list.
+ * @request POST:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{tagId}
+ * @response `200` `PreferencesResponse` Successful
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function addTagToPreferencesList({
   list,
-  id,
+  tagId,
   headers,
   ..._data
 }: {
-  /** The name of the list. */
   list: string;
-  /** The list item id */
-  id: string;
+  tagId: string;
   metadata?: Record<string, string>;
   order?: number;
   /** Optional headers */
@@ -43,7 +38,7 @@ export async function addTagToPreferencesList({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "POST",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
+    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${tagId}`,
     headers: new Headers({
       accept: "application/json",
       "content-type": "application/json",
@@ -51,7 +46,7 @@ export async function addTagToPreferencesList({
     }),
     ctx,
     body: _data
-  }).then(response => response.json() as Promise<string>);
+  }).then(response => response.json() as Promise<PreferencesResponse>);
 }
 
 /**
@@ -80,40 +75,6 @@ export async function addToAssetList({
   return request({
     method: "POST",
     url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/asset/${assetId}`,
-    headers: new Headers({
-      accept: "application/json",
-      "content-type": "application/json",
-      ...Object.fromEntries(new Headers(headers))
-    }),
-    ctx,
-    body: _data
-  }).then(response => response.json() as Promise<PreferencesResponse>);
-}
-
-/**
- * @summary Add a tag to a list.
- * @request POST:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{tagId}
- * @response `200` `PreferencesResponse` Successful
- * @response `404` `APIErrorMessage` Not found.
- */
-export async function addToTagList({
-  list,
-  tagId,
-  headers,
-  ..._data
-}: {
-  list: string;
-  tagId: string;
-  metadata?: Record<string, string>;
-  order?: number;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "POST",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${tagId}`,
     headers: new Headers({
       accept: "application/json",
       "content-type": "application/json",
@@ -156,7 +117,7 @@ export async function deleteFromAssetList({
  * @response `200` `PreferencesResponse` Successful
  * @response `404` `APIErrorMessage` Not found.
  */
-export async function deleteFromTagList({
+export async function deleteTagFromPreferencesList({
   list,
   tagId,
   headers
@@ -174,35 +135,6 @@ export async function deleteFromTagList({
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx
   }).then(response => response.json() as Promise<PreferencesResponse>);
-}
-
-/**
- * @summary Deletes an item from a list.
- * @request DELETE:/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}
- * @response `200` `string` success
- * @response `401` `void` NO_SESSION_TOKEN. If the session token is missing. INVALID_SESSION_TOKEN. If the session token is provided but not valid.
- * @response `404` `void` UNKNOWN_BUSINESS_UNIT. If the business unit is not found. UNKNOWN_LIST. If the list is not configured.
- */
-export async function deleteTagFromPreferencesList({
-  list,
-  id,
-  headers
-}: {
-  /** The name of the list. */
-  list: string;
-  /** The id of the item */
-  id: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "DELETE",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/preferences/list/${list}/tag/${id}`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
-  }).then(response => response.json() as Promise<string>);
 }
 
 /**
@@ -344,9 +276,7 @@ export class PreferencesService {
   constructor(private context: ServiceContext) {}
   addTagToPreferencesList = addTagToPreferencesList;
   addToAssetList = addToAssetList;
-  addToTagList = addToTagList;
   deleteFromAssetList = deleteFromAssetList;
-  deleteFromTagList = deleteFromTagList;
   deleteTagFromPreferencesList = deleteTagFromPreferencesList;
   getAssetList = getAssetList;
   getFromAssetList = getFromAssetList;

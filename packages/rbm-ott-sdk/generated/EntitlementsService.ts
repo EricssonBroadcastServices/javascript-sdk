@@ -14,7 +14,8 @@ import { QueryParams, ServiceContext, request } from "./http-client";
  * @description Returns two lists: 'entitled' and 'notEntitled' products for a given organization unit. The 'entitled' list contains products the account has access to, while the 'notEntitled' list contains products the account has no access to.
  * @summary Get account products for a given organization unit
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/accountproduct
- * @response `200` `AccountProducts` OK
+ * @response `200` `AccountProducts` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function accountProducts({
   headers,
@@ -40,7 +41,8 @@ export async function accountProducts({
  * @description This endpoint retrieves availability keys for a given account.
  * @summary Get availability keys for a given account
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/entitlement/availabilitykey
- * @response `200` `AvailabilityKeys` OK
+ * @response `200` `AvailabilityKeys` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function availabilityKeys({
   headers,

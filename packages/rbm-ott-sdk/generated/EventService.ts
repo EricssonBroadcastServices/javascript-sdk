@@ -14,8 +14,8 @@ import { QueryParams, ServiceContext, request } from "./http-client";
  * @summary Get events.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/event/date/{date}
  * @response `200` `EventList` Successful.
- * @response `400` `APIErrorMessage` User error.
- * @response `404` `APIErrorMessage` Not found.
+ * @response `400` `APIErrorMessage` User error
+ * @response `404` `APIErrorMessage` Not found
  */
 export async function getEvents({
   date,

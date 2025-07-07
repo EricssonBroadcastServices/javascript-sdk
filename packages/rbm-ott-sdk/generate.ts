@@ -80,8 +80,6 @@ function patchSpec(data: string): string {
     "type"
   ];
   spec.components.schemas.ApiProgram.required = ["endTime", "startTime"];
-  spec.components.schemas.ApiStoreAppStoreReference.required = ["productId"];
-  spec.components.schemas.ApiStoreGooglePlayReference.required = ["skuId"];
   spec.components.schemas.ApiPublication.required = [
     "toDate",
     "publicationId",
@@ -161,12 +159,8 @@ function patchSpec(data: string): string {
   spec.components.schemas.ApiStripePaymentMethodsAndPrice.required = ["methodTypes"];
   spec.components.schemas.ApiStripeWalletAndPrice.required = ["name", "price", "recurring"];
   spec.components.schemas.Sprites.required = ["width"];
-  spec.components.schemas.ApiMarkerPoint.required = [
-    "offset",
-  ];
-  spec.components.schemas.DrmUrls.required = [
-    "certificateUrl", "licenseServerUrl"
-  ];
+  spec.components.schemas.ApiMarkerPoint.required = ["offset"];
+  spec.components.schemas.DrmUrls.required = ["licenseServerUrl"];
   spec.components.schemas.MediaFormat.required = ["format"];
   // Add known enum types (instead of strings)
   spec.components.schemas.PaymentProvider = {
@@ -213,10 +207,10 @@ function patchSpec(data: string): string {
     "getNextProgramForAsset"; // was "getNextProgramForAsset2", but there is no "getNextProgramForAsset(1)", and also the numbers should be "v1", "v2", "v3" etc corresponding to the url, not just "2"
   spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag"].get.operationId =
     "getTagsFromPreferencesList"; // was "getList" (vague)
-  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"].post.operationId =
+  spec.paths["/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{tagId}"].post.operationId =
     "addTagToPreferencesList"; // was "addToList" (vague)
   spec.paths[
-    "/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{id}"
+    "/v1/customer/{customer}/businessunit/{businessUnit}/preferences/list/{list}/tag/{tagId}"
   ].delete.operationId = "deleteTagFromPreferencesList"; // was "deleteFromList" (vague)
   // fix misnamed params
   spec.paths[
@@ -234,7 +228,6 @@ function patchSpec(data: string): string {
 
   // Ignore problematic endpoints
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/config/{fileName}"].get; // name-clashes, duplicate,experimantal and unused
-  delete spec.paths["/v3/customer/{customer}/businessunit/{businessUnit}/content/search/participant/query/{query}"].get; // does this even work? (always returns "Unknown error" 500 and is void return type)
   delete spec.paths["/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/xmltv"].get; // returns xml, but declared as application/json, probably not meant to be part of this SDK
 
   // Delete problematic unused types (cashes with other types or fails to get detected as unused by the generator)
@@ -293,9 +286,6 @@ function patchSpec(data: string): string {
   // Copy enum types from props into schemas
   // The reason for this is that multiple props have the same enum types instead of referencing them.
   // Our script will de-duplicate these later on, but it needs a schema for this.
-  spec.components.schemas.StoreTransactionStatus = makeSchemafromProp(
-    spec.components.schemas.ApiAppStorePurchaseVerifyResponse.properties.transactionStatus
-  );
   spec.components.schemas.AssetMaterialType = makeSchemafromProp(
     spec.components.schemas.ApiAsset.properties.materialType
   );

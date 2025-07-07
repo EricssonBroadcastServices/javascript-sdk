@@ -14,7 +14,8 @@ import { QueryParams, ServiceContext, request } from "./http-client";
  * @description Retrieve AdRoll configuration for a specific business unit.
  * @summary Get AdRoll configuration
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/mrss/adrolls
- * @response `200` `AdRollConfig` OK
+ * @response `200` `AdRollConfig` Successful
+ * @response `400` `AdRollConfig` Failed
  */
 export async function getAdRollConfig({
   headers,
@@ -42,7 +43,8 @@ export async function getAdRollConfig({
  * @description Retrieve MRSS for a specific business unit with optional parameters.
  * @summary Get MRSS for a specific business unit
  * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/asset/{assetId}/mrss
- * @response `200` `string` OK
+ * @response `200` `string` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function getMRssForBu({
   assetId,
@@ -77,7 +79,8 @@ export async function getMRssForBu({
  * @description Retrieve MRSS for a customer with optional parameters.
  * @summary Get MRSS for a customer
  * @request GET:/v1/customer/{customer}/asset/{assetId}/mrss
- * @response `200` `string` OK
+ * @response `200` `string` Successful
+ * @response `400` `APIErrorMessage` Failed
  */
 export async function getMRssForCu({
   assetId,

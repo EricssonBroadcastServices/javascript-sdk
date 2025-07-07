@@ -11,12 +11,13 @@ import { ChannelEPGResponse, ProgramResponse } from "./data-contracts";
 import { QueryParams, ServiceContext, request } from "./http-client";
 
 /**
- * @description This endpoint finds all published programs and partitions them in channel buckets. Only channels has programs in the page that has been requested will have a bucket. Programs sorted ascending on startTime by default.
- * @summary Gets epg data for all channels.
+ * @description This endpoint finds all published programs and partitions them in channel buckets. Only channels has programs in the page that has been requested will have a bucket.
+ * @summary Get epg data for all channels.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/date/{date}
- * @response `200` `(ChannelEPGResponse)[]` success
- * @response `400` `void` Result window is too large. If the pageSize * pageNumber is greater than 10000.
- * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
+ * @response `200` `(ChannelEPGResponse)[]` Successful.
+ * @response `400` `APIErrorMessage` User error.
+ * @response `404` `APIErrorMessage` Not found
+ * @response `422` `APIErrorMessage` Invalid request.
  */
 export async function getEpg({
   date,
@@ -28,27 +29,29 @@ export async function getEpg({
   /**
    * Days back compared to midnight of the date to get EPG for.
    * @default 0
+   * @min 0
+   * @max 30
    */
   daysBackward?: number;
   /**
    * Days forward compared to midnight of the date to get EPG for.
    * @default 0
+   * @min 0
+   * @max 30
    */
   daysForward?: number;
   /**
-   * The page number. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
+   * @max 10000
    */
   pageSize?: number;
-  /**
-   * The sort order. Note that pageNumber * pageSize cannot exceed 10000 or an error will occur.
-   * @default "ASC"
-   */
+  /** @default "ASC" */
   startDateSort?: "ASC" | "DESC";
   /** Optional headers */
   headers?: HeadersInit;
@@ -65,11 +68,13 @@ export async function getEpg({
 }
 
 /**
- * @description Programs sorted ascending on startTime by default.
- * @summary Gets epg data for a specific channel.
+ * @description Slugs supported.
+ * @summary Get epg data for a channel.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/date/{date}
- * @response `200` `ChannelEPGResponse` success
- * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
+ * @response `200` `ChannelEPGResponse` Successful.
+ * @response `400` `APIErrorMessage` User error
+ * @response `404` `APIErrorMessage` Not found
+ * @response `422` `APIErrorMessage` Invalid request.
  */
 export async function getEpgForChannel({
   channelId,
@@ -77,34 +82,32 @@ export async function getEpgForChannel({
   headers,
   ..._data
 }: {
-  /** The id of the channel to get EPG for. Slugs supported. */
   channelId: string;
-  /** The date */
-  date: Date;
+  date: string;
   /**
-   * Days back compared to midnight of the date to get EPG for.
    * @default 0
+   * @min 0
+   * @max 30
    */
   daysBackward?: number;
   /**
-   * Days forward compared to midnight of the date to get EPG for.
    * @default 0
+   * @min 0
+   * @max 30
    */
   daysForward?: number;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
+   * @max 10000
    */
   pageSize?: number;
-  /**
-   * The sort order.
-   * @default "ASC"
-   */
+  /** @default "ASC" */
   startDateSort?: "ASC" | "DESC";
   /** Optional headers */
   headers?: HeadersInit;
@@ -113,7 +116,7 @@ export async function getEpgForChannel({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date.toISOString().substring(0, 10)}`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/date/${date}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
@@ -121,11 +124,12 @@ export async function getEpgForChannel({
 }
 
 /**
- * @description Programs sorted ascending on startTime by default.
- * @summary Gets epg data for a specific set of channels.
+ * @summary Get epg data for set of channels.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelIds}/date/{date}
- * @response `200` `(ChannelEPGResponse)[]` success
- * @response `422` `void` DATE_REQUESTED_OUTSIDE_VALID_WINDOW. If the date requested is outside the valid EPG window.
+ * @response `200` `(ChannelEPGResponse)[]` Successful.
+ * @response `400` `APIErrorMessage` User error
+ * @response `404` `APIErrorMessage` Not found
+ * @response `422` `APIErrorMessage` Invalid request.
  */
 export async function getEpgForChannels({
   channelIds,
@@ -133,34 +137,33 @@ export async function getEpgForChannels({
   headers,
   ..._data
 }: {
-  /** The comma separated list of the ids the channels to get EPG for. */
+  /** Comma separated list of channel ids */
   channelIds: string;
-  /** The date */
-  date: Date;
+  date: string;
   /**
-   * Days back compared to midnight of the date to get EPG for.
    * @default 0
+   * @min 0
+   * @max 30
    */
   daysBackward?: number;
   /**
-   * Days forward compared to midnight of the date to get EPG for.
    * @default 0
+   * @min 0
+   * @max 30
    */
   daysForward?: number;
   /**
-   * The page number.
    * @default 1
+   * @min 1
    */
   pageNumber?: number;
   /**
-   * The number of items to show per page
    * @default 50
+   * @min 1
+   * @max 10000
    */
   pageSize?: number;
-  /**
-   * The sort order.
-   * @default "ASC"
-   */
+  /** @default "ASC" */
   startDateSort?: "ASC" | "DESC";
   /** Optional headers */
   headers?: HeadersInit;
@@ -169,7 +172,7 @@ export async function getEpgForChannels({
   const ctx = (this.context || this) as ServiceContext;
   return request({
     method: "GET",
-    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date.toISOString().substring(0, 10)}`,
+    url: `${ctx.baseUrl}/v2/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelIds}/date/${date}`,
     headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
     ctx,
     query: _data as unknown as QueryParams
@@ -177,19 +180,18 @@ export async function getEpgForChannels({
 }
 
 /**
- * @summary Gets next program for a specific program for a channel.
+ * @description ...on the same channel relative to a program
+ * @summary Get the next program.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/program/{programId}/next
- * @response `200` `ProgramResponse` success
- * @response `404` `void` PROGRAM_NOT_FOUND. If the program cannot be found. NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.
+ * @response `200` `ProgramResponse` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getNextProgram({
   channelId,
   programId,
   headers
 }: {
-  /** The id of the channel. */
   channelId: string;
-  /** The id of the program. */
   programId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -205,17 +207,15 @@ export async function getNextProgram({
 }
 
 /**
- * @description If the asset has been showed multiple times there is a unspecified logic to select one program.
- * @summary Gets next program for a specific asset.
+ * @summary Get the next program relative to asset.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/asset/{assetId}/next
- * @response `200` `ProgramResponse` success
- * @response `404` `void` PROGRAM_NOT_FOUND. If the program cannot be found. NEXT_PROGRAM_NOT_FOUND. If the next program cannot be found.
+ * @response `200` `ProgramResponse` Successful.
+ * @response `404` `APIErrorMessage` Not found.
  */
 export async function getNextProgramForAsset({
   assetId,
   headers
 }: {
-  /** The asset id */
   assetId: string;
   /** Optional headers */
   headers?: HeadersInit;
@@ -231,10 +231,12 @@ export async function getNextProgramForAsset({
 }
 
 /**
- * @summary Gets a specific program for a channel by id.
+ * @summary Get a program by id.
  * @request GET:/v2/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/program/{programId}
- * @response `200` `ProgramResponse` success
- * @response `404` `void` UNKNOWN_PROGRAM. If the program cannot be found.
+ * @response `200` `ProgramResponse` Successful.
+ * @response `400` `APIErrorMessage` User error
+ * @response `404` `APIErrorMessage` Not found
+ * @response `422` `APIErrorMessage` Invalid request.
  */
 export async function getProgram({
   channelId,
@@ -242,9 +244,7 @@ export async function getProgram({
   headers,
   ..._data
 }: {
-  /** The id of the channel. */
   channelId: string;
-  /** The id of the program. */
   programId: string;
   service?: string;
   /** Optional headers */
@@ -261,28 +261,6 @@ export async function getProgram({
   }).then(response => response.json() as Promise<ProgramResponse>);
 }
 
-/**
- * @request GET:/v1/customer/{customer}/businessunit/{businessUnit}/epg/{channelId}/onnow
- * @response `200` `ChannelEPGResponse` OK
- */
-export async function onNow({
-  channelId,
-  headers
-}: {
-  channelId: string;
-  /** Optional headers */
-  headers?: HeadersInit;
-}) {
-  // @ts-ignore
-  const ctx = (this.context || this) as ServiceContext;
-  return request({
-    method: "GET",
-    url: `${ctx.baseUrl}/v1/customer/${ctx.customer}/businessunit/${ctx.businessUnit}/epg/${channelId}/onnow`,
-    headers: new Headers({ accept: "application/json", ...Object.fromEntries(new Headers(headers)) }),
-    ctx
-  }).then(response => response.json() as Promise<ChannelEPGResponse>);
-}
-
 export class EpgService {
   // @ts-ignore
   constructor(private context: ServiceContext) {}
@@ -292,5 +270,4 @@ export class EpgService {
   getNextProgram = getNextProgram;
   getNextProgramForAsset = getNextProgramForAsset;
   getProgram = getProgram;
-  onNow = onNow;
 }
