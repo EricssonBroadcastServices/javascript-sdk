@@ -15,6 +15,7 @@ export interface IConfigParameters {
   googleTagManagerId?: string;
   copyright?: string;
   copyrightLink?: string;
+  shareOptions?: string;
 }
 
 export interface IWLTheme {
