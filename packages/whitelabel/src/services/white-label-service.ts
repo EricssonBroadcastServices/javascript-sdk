@@ -89,8 +89,16 @@ export class WhiteLabelService extends BaseService {
     locale && queryString.append("locale", locale);
     return this.get(`/api/internal/customer/${customer}/businessunit/${businessUnit}/tags?${queryString.toString()}`);
   }
-  public getTranslations(locale: string) {
-    return this.get(`/api/internal/translations/${locale}`);
+  public getTranslations({
+    customer,
+    businessUnit,
+    locale
+  }: {
+    customer: string;
+    businessUnit: string;
+    locale: string;
+  }) {
+    return this.get(`/api/internal/customer/${customer}/businessunit/${businessUnit}/translations/${locale}/sandwich`);
   }
   public getPage({
     customer,

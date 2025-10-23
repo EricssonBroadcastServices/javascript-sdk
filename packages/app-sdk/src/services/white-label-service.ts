@@ -17,7 +17,6 @@ import {
   ResolvedComponent
 } from "../interfaces/component-content";
 
-import { get } from "../utils/http";
 import { Translations } from "../utils/wl-translations";
 import { Feature, isFeatureEnabled } from "../utils/legacy-features";
 import { EssentialAppData } from "../interfaces/essential-app-data";
@@ -60,7 +59,8 @@ import {
   GetGeneratedOthersHaveWatchedOptions,
   GetGeneratedSeasonCarouselOptions,
   getParticipantPage,
-  getResolvedSeeAllPage
+  getResolvedSeeAllPage,
+  getCustomTranslationController
 } from "./methods";
 
 export interface WhiteLabelServiceContext extends ServiceContext {
@@ -147,9 +147,7 @@ export class WhiteLabelService {
   }
 
   public getTranslations(locale: string) {
-    return get({ url: `${this.context.baseUrl}/api/internal/translations/${locale}` }).then(
-      data => new Translations(data)
-    );
+    return getCustomTranslationController(this.context, locale);
   }
 
   public async getPushNextContentData(args: GetPushNextContentDataOptions): Promise<PushNextContent> {

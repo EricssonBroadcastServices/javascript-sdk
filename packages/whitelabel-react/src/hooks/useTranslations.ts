@@ -4,15 +4,19 @@ import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { QueryKeys } from "../util/react-query";
 import { TApiHook } from "../types/type.apiHook";
 import { useWLApi } from "./useApi";
+import { useRedBeeState } from "../RedBeeProvider";
 
 export function useTranslations(): TApiHook<Translations> {
   const wlApi = useWLApi();
+  const { customer, businessUnit } = useRedBeeState();
   const locale = useSelectedLanguage();
   const { data, isLoading, error } = useQuery(
     [QueryKeys.TRANSLATIONS, locale],
     () => {
       if (!locale) return;
-      return wlApi.getTranslations(locale).then(translations => new Translations(translations));
+      return wlApi
+        .getTranslations({ customer, businessUnit, locale })
+        .then(translations => new Translations(translations));
     },
     { staleTime: 1000 * 60 * 60 }
   );
