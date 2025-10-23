@@ -24,3 +24,4 @@ export * from "./get-see-all-page";
 export * from "./get-participants-carousel";
 export * from "./get-participants-page";
 export * from "./get-essential-app-data-by-origin";
+export * from "./get-custom-translation-controller";
