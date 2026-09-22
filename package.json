@@ -4,6 +4,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "overrides": {
+    "handlebars": "^4.7.9"
+  },
   "scripts": {
     "build": "lerna run build",
     "watch": "lerna run watch --parallel --stream",
