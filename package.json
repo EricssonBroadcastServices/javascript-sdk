@@ -11,7 +11,8 @@
     "glob@10": "10.5.0",
     "flatted": "^3.4.2",
     "websocket-driver": "0.7.5",
-    "tar": "7.5.22"
+    "tar": "7.5.22",
+    "tough-cookie": "4.1.4"
   },
   "scripts": {
     "build": "lerna run build",
