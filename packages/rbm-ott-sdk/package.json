@@ -22,7 +22,7 @@
   "author": "Albin Larsson <albin.larsson@eyevinn.se>",
   "license": "MIT",
   "devDependencies": {
-    "swagger-typescript-api": "^13.0.3",
+    "swagger-typescript-api": "^13.13.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
