@@ -49,4 +49,5 @@ export interface IExposureWLConfig {
   parameters: IConfigParameters;
   theme: IWLTheme;
   systemConfig: ISystemConfig;
+  bitmovinPlayerKey?: string;
 }

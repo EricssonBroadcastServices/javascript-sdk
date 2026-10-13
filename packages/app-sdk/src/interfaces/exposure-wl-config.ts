@@ -55,4 +55,5 @@ export interface IExposureWLConfig {
    * @deprecated the system config should be fetched separately
    */
   systemConfig: any;
+  bitmovinPlayerKey?: string;
 }
