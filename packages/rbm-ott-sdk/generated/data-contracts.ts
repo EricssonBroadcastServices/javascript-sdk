@@ -489,7 +489,6 @@ export interface Config {
   presentation?: Presentation;
   systemConfig?: SystemConfig;
   theme?: Record<string, string>;
-  bitmovinPlayerKey?: string;
 }
 
 export interface ConfigFile {

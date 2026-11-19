@@ -16,6 +16,7 @@ export interface IConfigParameters {
   copyright?: string;
   copyrightLink?: string;
   shareOptions?: string;
+  bitmovinPlayerKey?: string;
 }
 
 export interface IWLTheme {
@@ -55,5 +56,4 @@ export interface IExposureWLConfig {
    * @deprecated the system config should be fetched separately
    */
   systemConfig: any;
-  bitmovinPlayerKey?: string;
 }
